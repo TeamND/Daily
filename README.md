@@ -1,3 +1,3 @@
-# RecordYourHealth
+# Daily
 
 ***Team ND***
