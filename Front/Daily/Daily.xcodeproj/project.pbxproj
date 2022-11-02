@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F637807B29109B0800356212 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F637807A29109B0800356212 /* UserInfo.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC937290F5894005EAF28 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC936290F5894005EAF28 /* LoginView.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F637807A29109B0800356212 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC936290F5894005EAF28 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -33,6 +35,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F637807929109AF000356212 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F637807A29109B0800356212 /* UserInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		F6396025290F8A7F007088FF /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -45,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				F6BEC933290F5894005EAF28 /* Daily */,
+				F637807929109AF000356212 /* Model */,
 				F6BEC932290F5894005EAF28 /* Products */,
 				F6396025290F8A7F007088FF /* View */,
 			);
@@ -148,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6BEC937290F5894005EAF28 /* LoginView.swift in Sources */,
+				F637807B29109B0800356212 /* UserInfo.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
