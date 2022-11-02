@@ -210,3 +210,10 @@ $RECYCLE.BIN/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,objective-c,swift,xcode
+
+
+# node_module
+Back/node_modules/
+
+# webserver setting
+ServerSetting/
