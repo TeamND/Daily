@@ -214,3 +214,6 @@ $RECYCLE.BIN/
 
 # node_module
 Back/node_modules/
+
+# webserver setting
+ServerSetting/

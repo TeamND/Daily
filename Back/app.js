@@ -43,3 +43,7 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+app.listen(PORT, () => {
+  console.log(`http server listen on ${PORT}`);
+});
