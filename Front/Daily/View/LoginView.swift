@@ -13,18 +13,19 @@ struct LoginView: View {
     var body: some View {
         VStack {
             Image(systemName: "d.circle.fill")
-                .renderingMode(.original)
                 .resizable()
+                .renderingMode(.template)
                 .aspectRatio(contentMode: .fit)
-                .padding(40)
+                .frame(width: 280, height: 280)
                 .foregroundColor(.mint)
+                .padding([.bottom], 40)
             TextField("ID", text: $id)
                 .font(.system(size: 20, weight: .bold))
-                .padding(5)
+                .padding(4)
                 .background(.teal)
             TextField("PW", text: $pw)
                 .font(.system(size: 20, weight: .bold))
-                .padding(5)
+                .padding(4)
                 .background(.teal)
             HStack {
                 Button {
@@ -43,7 +44,7 @@ struct LoginView: View {
                     .underline()
             }
         }
-        .padding(5)
+        .padding(8)
     }
 }
 
@@ -52,5 +53,3 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
     }
 }
-
-
