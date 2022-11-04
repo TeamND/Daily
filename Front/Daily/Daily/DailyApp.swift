@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct DailyApp: App {
+    @State var isDoneLoading: Bool = false
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if isDoneLoading { LoginView() }
+            else { InitView(isDoneLoading: $isDoneLoading) }
         }
     }
 }
