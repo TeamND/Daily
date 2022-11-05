@@ -11,14 +11,7 @@ struct LoginView: View {
     @State var id: String = ""
     @State var pw: String = ""
     var body: some View {
-        VStack {
-            Image(systemName: "d.circle.fill")
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 280, height: 280)
-                .foregroundColor(.mint)
-                .padding([.bottom], 40)
+        VStack(alignment: .leading) {
             TextField("ID", text: $id)
                 .font(.system(size: 20, weight: .bold))
                 .padding(4)
@@ -27,14 +20,23 @@ struct LoginView: View {
                 .font(.system(size: 20, weight: .bold))
                 .padding(4)
                 .background(.teal)
+            Button {
+                print("toggle auto login")
+            } label: {
+                Image(systemName: "square")
+                Text("자동 로그인")
+                    .foregroundColor(.black)
+            }
+            Button {
+                print("do login")
+            } label: {
+                Text("로그인")
+                    .foregroundColor(.white)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(4)
+            .background(.mint)
             HStack {
-                Button {
-                    print("test")
-                } label: {
-                    Image(systemName: "square")
-                    Text("자동 로그인")
-                        .foregroundColor(.black)
-                }
                 Spacer()
                 Text("비밀번호 찾기")
                     .foregroundColor(.gray)
