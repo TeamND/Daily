@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct InitView: View {
-    @Binding var isDoneLoading: Bool
+    @Binding var isLoading: Bool
     var body: some View {
         Image(systemName: "d.circle.fill")
             .resizable()
@@ -22,7 +22,7 @@ struct InitView: View {
                 do {
                     // 임시 타이머
                     Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { timer in
-                        isDoneLoading = true
+                        isLoading = false
                     }
                 }
             }
@@ -31,6 +31,6 @@ struct InitView: View {
 
 struct InitView_Previews: PreviewProvider {
     static var previews: some View {
-        InitView(isDoneLoading: .constant(false))
+        InitView(isLoading: .constant(true))
     }
 }
