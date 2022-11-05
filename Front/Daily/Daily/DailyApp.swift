@@ -16,7 +16,7 @@ struct DailyApp: App {
             if isLoading { InitView(isLoading: $isLoading) }
             else {
                 if isLogin { MainView() }
-                else { LoginView() }
+                else { LoginView(isLogin: $isLogin) }
             }
         }
     }

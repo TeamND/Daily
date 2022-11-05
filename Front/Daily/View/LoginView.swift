@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State var id: String = ""
     @State var pw: String = ""
+    @Binding var isLogin: Bool
     var body: some View {
         VStack(alignment: .leading) {
             TextField("ID", text: $id)
@@ -29,6 +30,7 @@ struct LoginView: View {
             }
             Button {
                 print("do login")
+                isLogin = true
             } label: {
                 Text("로그인")
                     .foregroundColor(.white)
@@ -52,6 +54,6 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(isLogin: .constant(false))
     }
 }
