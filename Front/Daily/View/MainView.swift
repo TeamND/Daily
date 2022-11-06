@@ -10,24 +10,22 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         TabView {
-              Text("The First Tab")
+            CalendarTab()
                 .tabItem {
-                  Image(systemName: "calendar")
-                  Text("Calendar")
+                    Image(systemName: "calendar")
+                    Text("Calendar")
                 }
-              Text("Another Tab")
+            RecordTab()
                 .tabItem {
-                  Image(systemName: "checklist")
-                  Text("Record")
+                    Image(systemName: "checklist")
+                    Text("Record")
                 }
-              Text("The Last Tab")
+            SettingTab()
                 .tabItem {
-                  Image(systemName: "dial.high")
-                  Text("Setting")
+                    Image(systemName: "dial.high")
+                    Text("Setting")
                 }
-//                .badge(10)
-            }
-            .font(.headline)
+        }
     }
 }
 

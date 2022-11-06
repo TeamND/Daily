@@ -14,6 +14,9 @@
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
 		F6C0F7F129125AF500984457 /* InitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F029125AF500984457 /* InitView.swift */; };
 		F6C0F7F3291682F200984457 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F2291682F200984457 /* MainView.swift */; };
+		F6C0F7F52917979A00984457 /* CalendarTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F42917979A00984457 /* CalendarTab.swift */; };
+		F6C0F7F72917981C00984457 /* RecordTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F62917981C00984457 /* RecordTab.swift */; };
+		F6C0F7F92917982800984457 /* SettingTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F82917982800984457 /* SettingTab.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F6C0F7F029125AF500984457 /* InitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitView.swift; sourceTree = "<group>"; };
 		F6C0F7F2291682F200984457 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		F6C0F7F42917979A00984457 /* CalendarTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTab.swift; sourceTree = "<group>"; };
+		F6C0F7F62917981C00984457 /* RecordTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTab.swift; sourceTree = "<group>"; };
+		F6C0F7F82917982800984457 /* SettingTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTab.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,9 @@
 				F6BEC936290F5894005EAF28 /* LoginView.swift */,
 				F6C0F7F029125AF500984457 /* InitView.swift */,
 				F6C0F7F2291682F200984457 /* MainView.swift */,
+				F6C0F7F42917979A00984457 /* CalendarTab.swift */,
+				F6C0F7F62917981C00984457 /* RecordTab.swift */,
+				F6C0F7F82917982800984457 /* SettingTab.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -164,7 +173,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6C0F7F92917982800984457 /* SettingTab.swift in Sources */,
+				F6C0F7F72917981C00984457 /* RecordTab.swift in Sources */,
 				F6C0F7F129125AF500984457 /* InitView.swift in Sources */,
+				F6C0F7F52917979A00984457 /* CalendarTab.swift in Sources */,
 				F6BEC937290F5894005EAF28 /* LoginView.swift in Sources */,
 				F637807B29109B0800356212 /* UserInfo.swift in Sources */,
 				F6C0F7F3291682F200984457 /* MainView.swift in Sources */,
