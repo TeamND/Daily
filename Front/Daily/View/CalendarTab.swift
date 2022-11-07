@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct CalendarTab: View {
+    @State var isActice: Bool = true
     var body: some View {
-        Text("Calendar Tab")
+        NavigationView {
+            Calendar_Year(isActive: $isActice)
+        }
     }
+    
 }
 
 struct CalendarTab_Previews: PreviewProvider {
