@@ -17,6 +17,9 @@
 		F6C0F7F52917979A00984457 /* CalendarTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F42917979A00984457 /* CalendarTab.swift */; };
 		F6C0F7F72917981C00984457 /* RecordTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F62917981C00984457 /* RecordTab.swift */; };
 		F6C0F7F92917982800984457 /* SettingTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7F82917982800984457 /* SettingTab.swift */; };
+		F6C0F7FB2917DDB600984457 /* Calendar_Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FA2917DDB600984457 /* Calendar_Year.swift */; };
+		F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FC2917DDFD00984457 /* Calendar_Month.swift */; };
+		F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		F6C0F7F42917979A00984457 /* CalendarTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTab.swift; sourceTree = "<group>"; };
 		F6C0F7F62917981C00984457 /* RecordTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTab.swift; sourceTree = "<group>"; };
 		F6C0F7F82917982800984457 /* SettingTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTab.swift; sourceTree = "<group>"; };
+		F6C0F7FA2917DDB600984457 /* Calendar_Year.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_Year.swift; sourceTree = "<group>"; };
+		F6C0F7FC2917DDFD00984457 /* Calendar_Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_Month.swift; sourceTree = "<group>"; };
+		F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar_Week&Day.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,9 @@
 				F6C0F7F42917979A00984457 /* CalendarTab.swift */,
 				F6C0F7F62917981C00984457 /* RecordTab.swift */,
 				F6C0F7F82917982800984457 /* SettingTab.swift */,
+				F6C0F7FA2917DDB600984457 /* Calendar_Year.swift */,
+				F6C0F7FC2917DDFD00984457 /* Calendar_Month.swift */,
+				F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,11 +184,14 @@
 			files = (
 				F6C0F7F92917982800984457 /* SettingTab.swift in Sources */,
 				F6C0F7F72917981C00984457 /* RecordTab.swift in Sources */,
+				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6C0F7F129125AF500984457 /* InitView.swift in Sources */,
+				F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */,
 				F6C0F7F52917979A00984457 /* CalendarTab.swift in Sources */,
 				F6BEC937290F5894005EAF28 /* LoginView.swift in Sources */,
 				F637807B29109B0800356212 /* UserInfo.swift in Sources */,
 				F6C0F7F3291682F200984457 /* MainView.swift in Sources */,
+				F6C0F7FB2917DDB600984457 /* Calendar_Year.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,7 +331,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
@@ -357,7 +369,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
