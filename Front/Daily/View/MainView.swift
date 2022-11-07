@@ -12,20 +12,18 @@ struct MainView: View {
         TabView {
             CalendarTab()
                 .tabItem {
-                    Image(systemName: "calendar")
-                    Text("Calendar")
+                    Label("Calendar", systemImage: "calendar")
                 }
             RecordTab()
                 .tabItem {
-                    Image(systemName: "checklist")
-                    Text("Record")
+                    Label("Record", systemImage: "checklist")
                 }
             SettingTab()
                 .tabItem {
-                    Image(systemName: "dial.high")
-                    Text("Setting")
+                    Label("Setting", systemImage: "dial.high")
                 }
         }
+        .accentColor(.mint)
     }
 }
 
