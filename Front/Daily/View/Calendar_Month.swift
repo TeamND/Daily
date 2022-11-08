@@ -14,19 +14,8 @@ struct Calendar_Month: View {
                 Text("Month Calendar")
             }
         }
-        .navigationBarTitle("10 월", displayMode: .inline)
-        .navigationBarItems(
-            trailing: Button {
-                print("add")
-            } label: {
-                VStack {
-                    Spacer()
-                    Image(systemName: "plus")
-                    Text("add")
-                        .font(.system(size: 12))
-                }
-            }
-        )
+        .navigationBarTitle("\(today, formatter: Mformat)", displayMode: .inline)
+        .navigationBarItems(trailing: AddGoalButton())
     }
 }
 

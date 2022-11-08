@@ -12,19 +12,8 @@ struct Calendar_Week_Day: View {
         VStack {
             Text("Week&Year Calender")
         }
-        .navigationBarTitle("10/26", displayMode: .inline)
-        .navigationBarItems(
-            trailing: Button {
-                print("add")
-            } label: {
-                VStack {
-                    Spacer()
-                    Image(systemName: "plus")
-                    Text("add")
-                        .font(.system(size: 12))
-                }
-            }
-        )
+        .navigationBarTitle("\(today, formatter: Mdformat)", displayMode: .inline)
+        .navigationBarItems(trailing: AddGoalButton())
     }
 }
 

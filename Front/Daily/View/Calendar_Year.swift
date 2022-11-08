@@ -15,19 +15,8 @@ struct Calendar_Year: View {
                 Text("Year Calender")
             }
         }
-        .navigationBarTitle("2022 년", displayMode: .inline)
-        .navigationBarItems(
-            trailing: Button {
-                print("add")
-            } label: {
-                VStack {
-                    Spacer()
-                    Image(systemName: "plus")
-                    Text("add")
-                        .font(.system(size: 12))
-                }
-            }
-        )
+        .navigationBarTitle("\(today, formatter: YYYYformat)", displayMode: .inline)
+        .navigationBarItems(trailing: AddGoalButton())
     }
 }
 

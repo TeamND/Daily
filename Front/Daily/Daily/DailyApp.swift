@@ -14,10 +14,8 @@ struct DailyApp: App {
     var body: some Scene {
         WindowGroup {
             if isLoading { InitView(isLoading: $isLoading) }
-            else {
-                if isLogin { MainView() }
-                else { LoginView(isLogin: $isLogin) }
-            }
+            else if isLogin { MainView() }
+            else { LoginView(isLogin: $isLogin) }
         }
     }
 }
