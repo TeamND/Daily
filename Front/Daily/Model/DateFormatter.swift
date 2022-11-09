@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-var today: Date = Date()
-
 let YYYYMdformat: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "YYYY년 M월 d일"
@@ -27,8 +25,8 @@ let Mformat: DateFormatter = {
     return formatter
 }()
 
-let Mdformat: DateFormatter = {
+let dformat: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateFormat = "M월 d일"
+    formatter.dateFormat = "d일"
     return formatter
 }()

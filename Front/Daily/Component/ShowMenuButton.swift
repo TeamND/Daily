@@ -1,30 +1,30 @@
 //
-//  AddGoalButton.swift
+//  ShowMenuButton.swift
 //  Daily
 //
-//  Created by 최승용 on 2022/11/07.
+//  Created by 최승용 on 2022/11/08.
 //
 
 import SwiftUI
 
-struct AddGoalButton: View {
+struct ShowMenuButton: View {
     var body: some View {
         Button {
-            print("add")
+            print("menu")
         } label: {
             VStack {
                 Spacer()
-                Image(systemName: "plus")
-                Text("add")
+                Image(systemName: "slider.horizontal.3")
+                Text("menu")
                     .font(.system(size: 12))
             }
         }
     }
 }
 
-struct AddGoalButton_Previews: PreviewProvider {
+struct ShowMenuButton_Previews: PreviewProvider {
     static var previews: some View {
-        AddGoalButton()
+        ShowMenuButton()
             .previewLayout(.fixed(width: 40, height: 40))
     }
 }

@@ -8,20 +8,13 @@
 import SwiftUI
 
 struct MainView: View {
+    @State var calendar: Calendar = Calendar(state: "Month", today: Date())
     var body: some View {
-        TabView {
-            CalendarTab()
-                .tabItem {
-                    Label("Calendar", systemImage: "calendar")
-                }
-            RecordTab()
-                .tabItem {
-                    Label("Record", systemImage: "checklist")
-                }
-            SettingTab()
-                .tabItem {
-                    Label("Setting", systemImage: "dial.high")
-                }
+        VStack {
+            MainHeader(calendar: $calendar)
+                .frame(maxWidth: .infinity, maxHeight: 40)
+            MainCalendar(calendar: $calendar)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .accentColor(.mint)
     }

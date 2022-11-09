@@ -5,7 +5,7 @@
 //  Created by 최승용 on 2022/11/01.
 //
 
-import Foundation
+//import Foundation
 import SwiftUI
 
 struct UserInfo: Identifiable {

@@ -10,10 +10,8 @@ import SwiftUI
 struct Calendar_Week_Day: View {
     var body: some View {
         VStack {
-            Text("Week&Year Calender")
+            Text("Week&Day Calender")
         }
-        .navigationBarTitle("\(today, formatter: Mdformat)", displayMode: .inline)
-        .navigationBarItems(trailing: AddGoalButton())
     }
 }
 

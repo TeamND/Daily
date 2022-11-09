@@ -10,12 +10,8 @@ import SwiftUI
 struct Calendar_Month: View {
     var body: some View {
         VStack {
-            NavigationLink(destination: Calendar_Week_Day()) {
-                Text("Month Calendar")
-            }
+            Text("Month Calendar")
         }
-        .navigationBarTitle("\(today, formatter: Mformat)", displayMode: .inline)
-        .navigationBarItems(trailing: AddGoalButton())
     }
 }
 

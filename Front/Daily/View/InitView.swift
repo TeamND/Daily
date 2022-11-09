@@ -21,7 +21,7 @@ struct InitView: View {
             .task {
                 do {
                     // 임시 타이머
-                    Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { timer in
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                         isLoading = false
                     }
                 }

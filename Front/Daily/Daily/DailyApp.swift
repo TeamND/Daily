@@ -10,12 +10,10 @@ import SwiftUI
 @main
 struct DailyApp: App {
     @State var isLoading: Bool = true
-    @State var isLogin: Bool = true
     var body: some Scene {
         WindowGroup {
             if isLoading { InitView(isLoading: $isLoading) }
-            else if isLogin { MainView() }
-            else { LoginView(isLogin: $isLogin) }
+            else         { MainView() }
         }
     }
 }
