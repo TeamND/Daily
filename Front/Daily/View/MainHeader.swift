@@ -12,10 +12,8 @@ struct MainHeader: View {
     var body: some View {
         HStack {
             HStack {
-                if calendar.naviLabel != "" { Image(systemName: "chevron.left") }
-                Text(calendar.naviLabel)
+                if calendar.naviLabel != "" { GoPrevButton(naviLabel: $calendar.naviLabel) }
             }
-            .foregroundColor(.accentColor)
             .frame(width: 150, alignment: .leading)
             Spacer()
             Text(calendar.naviTitle)
