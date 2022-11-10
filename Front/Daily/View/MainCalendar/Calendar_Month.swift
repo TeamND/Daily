@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct Calendar_Month: View {
+    @Binding var weeks: [String]
     var body: some View {
         VStack {
-            Text("Month Calendar")
+            SevenHStack(weeks: $weeks)
+                .frame(maxWidth: .infinity, maxHeight: 50)
+            CustomDivider(color: .black, height: 2, hPadding: 12)
+            MonthCalendar()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
 
 struct Calendar_Month_Previews: PreviewProvider {
     static var previews: some View {
-        Calendar_Month()
+        Calendar_Month(weeks: .constant(kWeeks[0]))
     }
 }
