@@ -10,16 +10,20 @@ import SwiftUI
 struct MonthCalendar: View {
     var body: some View {
         VStack {
-            ForEach (0..<6) { row in
+            ForEach (0..<6) { rowIndex in
                 HStack {
-                    ForEach (0..<7) { num in
-                        Spacer()
+                    ForEach (0..<7) { colIndex in
+                        let isToday = rowIndex == 1 && colIndex == 1
                         DayOnMonth()
-                            .padding([.top, .bottom], 4)
+                            .padding([.leading, .bottom, .trailing], 4)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(.green, lineWidth: 2)
+                                    .opacity(isToday ? 1 : 0)
+                            }
                     }
-                    Spacer()
                 }
-                if row < 5 { CustomDivider(hPadding:8) }
+                if rowIndex < 5 { CustomDivider(hPadding:8) }
             }
             Spacer()
         }

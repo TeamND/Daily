@@ -14,8 +14,8 @@ struct SevenHStack: View {
             ForEach (weeks, id: \.self) { week in
                 Spacer()
                 Text(week)
+                Spacer()
             }
-            Spacer()
         }
     }
 }
