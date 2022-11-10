@@ -217,3 +217,5 @@ Back/node_modules/
 
 # webserver setting
 ServerSetting/
+
+Back/package-lock.json
