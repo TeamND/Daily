@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MainHeader: View {
-    @Binding var calendar: Calendar
+    @StateObject var calendar: Calendar
     var body: some View {
         HStack {
             HStack {
-                if calendar.naviLabel != "" { GoPrevButton(naviLabel: $calendar.naviLabel) }
+                if calendar.naviLabel != "" { GoPrevButton(calendar: calendar) }
             }
             .frame(width: 150, alignment: .leading)
             Spacer()
@@ -34,7 +34,7 @@ struct MainHeader: View {
 
 struct MainHeader_Previews: PreviewProvider {
     static var previews: some View {
-        MainHeader(calendar: .constant(Calendar.sample[1]))
+        MainHeader(calendar: Calendar.sample[1])
             .previewLayout(.fixed(width: 500, height: 40))
     }
 }

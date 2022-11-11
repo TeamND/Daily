@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var calendar: Calendar = Calendar(state: "Month", today: Date())
+    @State private var calendar: Calendar = Calendar(state: "Month", today: Date())
     var body: some View {
         VStack {
-            MainHeader(calendar: $calendar)
+            MainHeader(calendar: calendar)
                 .frame(maxWidth: .infinity, maxHeight: 40)
-            MainCalendar(calendar: $calendar)
+            MainCalendar(calendar: calendar)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .accentColor(.mint)

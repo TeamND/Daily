@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct MainCalendar: View {
-    @Binding var calendar: Calendar
-//    @StateObject var userInfo: UserInfo = UserInfo()
+    @StateObject var calendar: Calendar
     @State var weeks: [String] = kWeeks[0]
     var body: some View {
         switch calendar.state {
         case "Year":
-            Calendar_Year()
+            Calendar_Year(calendar: calendar)
         case "Month":
             Calendar_Month(weeks: $weeks)
         default:
@@ -25,6 +24,6 @@ struct MainCalendar: View {
 
 struct MainCalendar_Previews: PreviewProvider {
     static var previews: some View {
-        MainCalendar(calendar: .constant(Calendar.sample[1]))
+        MainCalendar(calendar: Calendar.sample[1])
     }
 }

@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct Calendar_Year: View {
+    @StateObject var calendar: Calendar
     var body: some View {
         VStack {
-            Text("Year Calender")
+            Button {
+                calendar.state = "Month"
+            } label: {
+                Text("Year Calender")
+            }
         }
     }
 }
 
 struct Calendar_Year_Previews: PreviewProvider {
     static var previews: some View {
-        Calendar_Year()
+        Calendar_Year(calendar: Calendar.sample[0])
     }
 }

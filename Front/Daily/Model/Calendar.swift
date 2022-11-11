@@ -8,30 +8,34 @@
 import Foundation
 
 class Calendar: ObservableObject {
-    var state: String
-    var today: Date
-    
-    var naviLabel: String
-    var naviTitle: String
-    
-    init(state: String, today: Date) {
-        self.state = state
-        self.today = today
-
-        switch state {
-        case "Year":
-            self.naviLabel = ""
-            self.naviTitle = YYYYformat.string(from: today)
-        case "Month":
-            self.naviLabel = YYYYformat.string(from: today)
-            self.naviTitle = Mformat.string(from: today)
-        case "Week&Day":
-            self.naviLabel = Mformat.string(from: today)
-            self.naviTitle = dformat.string(from: today)
-        default:
-            self.naviLabel = ""
-            self.naviTitle = ""
+    @Published var state: String {
+        didSet {
+            switch state {
+            case "Year":
+                self.naviLabel = ""
+                self.naviTitle = YYYYformat.string(from: today)
+            case "Month":
+                self.naviLabel = YYYYformat.string(from: today)
+                self.naviTitle = Mformat.string(from: today)
+            case "Week&Day":
+                self.naviLabel = Mformat.string(from: today)
+                self.naviTitle = dformat.string(from: today)
+            default:
+                self.naviLabel = ""
+                self.naviTitle = ""
+            }
         }
+    }
+    var today: Date
+
+    var naviLabel: String = ""
+    var naviTitle: String = ""
+
+    init(state: String, today: Date) {
+        self.state = ""
+        self.today = today
+        
+        self.state = state
     }
 }
 

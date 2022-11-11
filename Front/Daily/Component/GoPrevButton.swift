@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct GoPrevButton: View {
-    @Binding var naviLabel: String
+    @StateObject var calendar: Calendar
     var body: some View {
         Button {
-            print("prev")
+            switch calendar.state {
+            case "Month":
+                calendar.state = "Year"
+            case "Week&Day":
+                calendar.state = "Month"
+            default:
+                break
+            }
         } label: {
-            Label(naviLabel, systemImage: "chevron.left")
+            Label(calendar.naviLabel, systemImage: "chevron.left")
         }
     }
 }
 
-struct GoPrevButton_Previews: PreviewProvider {
-    static var previews: some View {
-        GoPrevButton(naviLabel: .constant("2022 년"))
-            .previewLayout(.fixed(width: 150, height: 40))
-    }
-}
+//struct GoPrevButton_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GoPrevButton(calendar: .constant(Calendar.sample[1]))
+//            .previewLayout(.fixed(width: 150, height: 40))
+//    }
+//}
