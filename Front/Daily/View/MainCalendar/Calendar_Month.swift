@@ -11,7 +11,7 @@ struct Calendar_Month: View {
     @Binding var weeks: [String]
     var body: some View {
         VStack {
-            SevenHStack(weeks: $weeks)
+            WeeklyIndicator(weeks: $weeks)
                 .frame(maxWidth: .infinity, maxHeight: 30)
             CustomDivider(color: .black, height: 2, hPadding: 12)
             MonthCalendar()

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SevenHStack: View {
+struct WeeklyIndicator: View {
     @Binding var weeks: [String]
     var body: some View {
         HStack {
@@ -22,6 +22,6 @@ struct SevenHStack: View {
 
 struct SevenHStack_Previews: PreviewProvider {
     static var previews: some View {
-        SevenHStack(weeks: .constant(kWeeks[0]))
+        WeeklyIndicator(weeks: .constant(kWeeks[0]))
     }
 }
