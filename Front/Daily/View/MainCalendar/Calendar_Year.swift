@@ -22,6 +22,6 @@ struct Calendar_Year: View {
 
 struct Calendar_Year_Previews: PreviewProvider {
     static var previews: some View {
-        Calendar_Year(calendar: Calendar.sample[0])
+        Calendar_Year(calendar: Calendar())
     }
 }

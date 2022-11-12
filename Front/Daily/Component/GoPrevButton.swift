@@ -25,9 +25,9 @@ struct GoPrevButton: View {
     }
 }
 
-//struct GoPrevButton_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GoPrevButton(calendar: .constant(Calendar.sample[1]))
-//            .previewLayout(.fixed(width: 150, height: 40))
-//    }
-//}
+struct GoPrevButton_Previews: PreviewProvider {
+    static var previews: some View {
+        GoPrevButton(calendar: Calendar())
+            .previewLayout(.fixed(width: 150, height: 40))
+    }
+}

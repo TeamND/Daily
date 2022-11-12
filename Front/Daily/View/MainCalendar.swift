@@ -24,6 +24,6 @@ struct MainCalendar: View {
 
 struct MainCalendar_Previews: PreviewProvider {
     static var previews: some View {
-        MainCalendar(calendar: Calendar.sample[1])
+        MainCalendar(calendar: Calendar())
     }
 }

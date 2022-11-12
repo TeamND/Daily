@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var calendar: Calendar = Calendar(state: "Month", today: Date())
+    @State private var calendar: Calendar = Calendar()
     var body: some View {
         VStack {
             MainHeader(calendar: calendar)

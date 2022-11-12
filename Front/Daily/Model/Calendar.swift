@@ -8,41 +8,46 @@
 import Foundation
 
 class Calendar: ObservableObject {
-    @Published var state: String {
-        didSet {
-            switch state {
-            case "Year":
-                self.naviLabel = ""
-                self.naviTitle = YYYYformat.string(from: today)
-            case "Month":
-                self.naviLabel = YYYYformat.string(from: today)
-                self.naviTitle = Mformat.string(from: today)
-            case "Week&Day":
-                self.naviLabel = Mformat.string(from: today)
-                self.naviTitle = dformat.string(from: today)
+    @Published private var _state: String = "Month"
+    var state: String {
+        get {
+            return _state
+        }
+        set(newVal) {
+            switch newVal {
+            case "Year", "Month", "WeeK&Day":
+                _state = newVal
             default:
-                self.naviLabel = ""
-                self.naviTitle = ""
+                print("catch error in set state")
             }
         }
     }
-    var today: Date
+    var today: Date = Date()
 
-    var naviLabel: String = ""
-    var naviTitle: String = ""
-
-    init(state: String, today: Date) {
-        self.state = ""
-        self.today = today
-        
-        self.state = state
+    var naviLabel: String {
+        get {
+            switch _state {
+            case "Month":
+                return YYYYformat.string(from: today)
+            case "Week&Day":
+                return Mformat.string(from: today)
+            default:
+                return ""
+            }
+        }
     }
-}
-
-extension Calendar {
-    static let sample: [Calendar] = [
-        Calendar(state: "Year", today: Date()),
-        Calendar(state: "Month", today: Date()),
-        Calendar(state: "Week&Day", today: Date())
-    ]
+    var naviTitle: String {
+        get {
+            switch _state {
+            case "Year":
+                return YYYYformat.string(from: today)
+            case "Month":
+                return Mformat.string(from: today)
+            case "Week&Day":
+                return dformat.string(from: today)
+            default:
+                return ""
+            }
+        }
+    }
 }

@@ -34,7 +34,7 @@ struct MainHeader: View {
 
 struct MainHeader_Previews: PreviewProvider {
     static var previews: some View {
-        MainHeader(calendar: Calendar.sample[1])
+        MainHeader(calendar: Calendar())
             .previewLayout(.fixed(width: 500, height: 40))
     }
 }
