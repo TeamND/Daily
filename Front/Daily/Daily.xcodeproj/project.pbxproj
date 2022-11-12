@@ -26,7 +26,6 @@
 		F6C0F819291C873200984457 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F818291C873200984457 /* Week.swift */; };
 		F6C0F81B291C885D00984457 /* WeeklyIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81A291C885D00984457 /* WeeklyIndicator.swift */; };
 		F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81C291CBC1500984457 /* UserInfo.swift */; };
-		F6C0F81F291CC5C000984457 /* MonthCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81E291CC5C000984457 /* MonthCalendar.swift */; };
 		F6C0F821291CCCEA00984457 /* DayOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F820291CCCEA00984457 /* DayOnMonth.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +51,6 @@
 		F6C0F818291C873200984457 /* Week.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
 		F6C0F81A291C885D00984457 /* WeeklyIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyIndicator.swift; sourceTree = "<group>"; };
 		F6C0F81C291CBC1500984457 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		F6C0F81E291CC5C000984457 /* MonthCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCalendar.swift; sourceTree = "<group>"; };
 		F6C0F820291CCCEA00984457 /* DayOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOnMonth.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,7 +134,6 @@
 				F6C0F810291B9B9800984457 /* GoPrevButton.swift */,
 				F6C0F812291BFC9300984457 /* CustomDivider.swift */,
 				F6C0F81A291C885D00984457 /* WeeklyIndicator.swift */,
-				F6C0F81E291CC5C000984457 /* MonthCalendar.swift */,
 				F6C0F820291CCCEA00984457 /* DayOnMonth.swift */,
 			);
 			path = Component;
@@ -228,7 +225,6 @@
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6C0F809291A50B300984457 /* ShowMenuButton.swift in Sources */,
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
-				F6C0F81F291CC5C000984457 /* MonthCalendar.swift in Sources */,
 				F6C0F7F129125AF500984457 /* InitView.swift in Sources */,
 				F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
