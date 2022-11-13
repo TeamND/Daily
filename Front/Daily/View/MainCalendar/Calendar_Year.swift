@@ -16,6 +16,17 @@ struct Calendar_Year: View {
             } label: {
                 Text("Year Calender")
             }
+            VStack {
+                ForEach (0..<4) { rowIndex in
+                    HStack {
+                        ForEach (0..<3) { colIndex in
+                            Text("\(colIndex+1+(rowIndex*3))월")
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }

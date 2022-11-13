@@ -20,7 +20,7 @@ struct Calendar_Month: View {
                         ForEach (0..<7) { colIndex in
                             let isToday = rowIndex == 1 && colIndex == 1
                             DayOnMonth()
-                                .padding([.leading, .bottom, .trailing], 4)
+                                .padding(4)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 5)
                                         .stroke(.green, lineWidth: 2)
@@ -32,7 +32,7 @@ struct Calendar_Month: View {
                 }
                 Spacer()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity)
         }
     }
 }
