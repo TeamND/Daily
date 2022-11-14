@@ -15,9 +15,9 @@ struct MainCalendar: View {
         case "Year":
             Calendar_Year(calendar: calendar)
         case "Month":
-            Calendar_Month(calendar: calendar, weeks: $weeks)
+            Calendar_Month(calendar: calendar)
         default:
-            Calendar_Week_Day()
+            Calendar_Week_Day(calendar: calendar)
         }
     }
 }
