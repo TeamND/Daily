@@ -15,7 +15,7 @@ class Calendar: ObservableObject {
         }
         set(newVal) {
             switch newVal {
-            case "Year", "Month", "WeeK&Day":
+            case "Year", "Month", "Week&Day":
                 _state = newVal
             default:
                 print("catch error in set state")

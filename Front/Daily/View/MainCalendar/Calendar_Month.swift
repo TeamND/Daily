@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Calendar_Month: View {
+    @StateObject var calendar: Calendar
     @Binding var weeks: [String]
     var body: some View {
         VStack {
@@ -19,7 +20,7 @@ struct Calendar_Month: View {
                     HStack {
                         ForEach (0..<7) { colIndex in
                             let isToday = rowIndex == 1 && colIndex == 1
-                            DayOnMonth()
+                            DayOnMonth(calendar: calendar)
                                 .padding(4)
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 5)
@@ -39,6 +40,6 @@ struct Calendar_Month: View {
 
 struct Calendar_Month_Previews: PreviewProvider {
     static var previews: some View {
-        Calendar_Month(weeks: .constant(kWeeks[0]))
+        Calendar_Month(calendar: Calendar(), weeks: .constant(kWeeks[0]))
     }
 }

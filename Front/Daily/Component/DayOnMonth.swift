@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DayOnMonth: View {
+    @StateObject var calendar: Calendar
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ZStack {
@@ -29,12 +30,15 @@ struct DayOnMonth: View {
             }
             .font(.system(size: 12, weight: .bold))
         }
+        .onTapGesture {
+            calendar.state = "Week&Day"
+        }
     }
 }
 
 struct DayOnMonth_Previews: PreviewProvider {
     static var previews: some View {
-        DayOnMonth()
+        DayOnMonth(calendar: Calendar())
             .previewLayout(.fixed(width: 40, height: 80))
             .accentColor(.mint)
     }

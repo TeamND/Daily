@@ -10,24 +10,18 @@ import SwiftUI
 struct Calendar_Year: View {
     @StateObject var calendar: Calendar
     var body: some View {
-        VStack {
-            Button {
-                calendar.state = "Month"
-            } label: {
-                Text("Year Calender")
-            }
-            VStack {
-                ForEach (0..<4) { rowIndex in
-                    HStack {
-                        ForEach (0..<3) { colIndex in
-                            Text("\(colIndex+1+(rowIndex*3))월")
-                        }
+        VStack(spacing: 0) {
+            ForEach (0..<4) { rowIndex in
+                HStack(spacing: 0) {
+                    ForEach (0..<3) { colIndex in
+                        let monthIndex = (rowIndex * 3) + colIndex
+                        MonthOnYear(calendar: calendar, monthIndex: monthIndex)
                     }
-                    Spacer()
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Spacer()
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
