@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Calendar_Week_Day: View {
     @StateObject var calendar: Calendar
-    var goalList: [String] = ["1", "2", "3"]
+    var goalList: [Goal] = [Goal(), Goal()]
     var body: some View {
         VStack {
             HStack {
@@ -34,9 +34,9 @@ struct Calendar_Week_Day: View {
             CustomDivider(color: .black, height: 2, hPadding: 12)
             ScrollView {
                 LazyVStack {
-                    ForEach (goalList, id: \.self) { goal in
-                        Goal(goal: goal)
-                            .frame(height: 40)
+                    ForEach (goalList) { goal in
+                        GoalOnList(goal: goal)
+                            .frame(height: 50)
                     }
                     Spacer()
                 }
