@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Calendar_Week_Day: View {
     @StateObject var calendar: Calendar
-    var goalList: [Goal] = [Goal(), Goal()]
+    @State var goalList: [Goal] = [Goal(), Goal()]
     var body: some View {
         VStack {
             HStack {

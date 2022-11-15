@@ -8,57 +8,24 @@
 import SwiftUI
 
 struct GoalOnList: View {
-    var goal: Goal
+    @StateObject var goal: Goal
     var body: some View {
         ZStack {
-            HStack {
+            HStack(spacing: 12) {
                 Image(systemName: goal.symbol)
                 Text(goal.content)
                 Spacer()
-                Button {
-                    print("test")
-                } label: {
-                    switch goal.type {
-                    case "check":
-                        Label("성공", systemImage: "checkmark.circle.fill")
-                    case "count":
-                        Label("더하기", systemImage: "plus.circle.fill")
-                    case "timer":
-                        Label("시작", systemImage: "play.circle.fill")
-                    default:
-                        Text("")
-                    }
-                }
+                RecordButton(goal: goal)
             }
             .padding(12)
-            if goal.type == "count" {
+            if goal.type != "check" {
                 VStack {
                     Spacer()
-                    ZStack {
-                        HStack(spacing: 2) {
-                            ForEach(0 ..< goal.recordCount, id: \.self) { index in
-                                Rectangle()
-                                    .fill(.mint)
-                            }
-                            ForEach(goal.recordCount ..< goal.goalCount, id: \.self) { index in
-                                Rectangle()
-                                    .fill(.mint.opacity(0.2))
-                            }
-                        }
-                        HStack {
-                            Text(String(goal.recordCount))
-                            Spacer()
-                            Text(String(goal.goalCount))
-                        }
-                        .font(.system(size: 6, weight: .bold))
-                        .padding([.leading, .trailing], 12)
-                    }
-                    .frame(height: 8)
+                    ProgressView(value: Double(goal.recordCount), total: Double(goal.goalCount))
+                        .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
-                .padding(1)
-            }
-            if goal.type == "timer" {
-                
+                .padding([.top, .bottom], 4)
+                .padding([.leading, .trailing], 12)
             }
         }
 //        .background(.green.opacity(0.3))
