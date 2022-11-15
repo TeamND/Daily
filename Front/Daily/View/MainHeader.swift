@@ -9,32 +9,33 @@ import SwiftUI
 
 struct MainHeader: View {
     @StateObject var calendar: Calendar
+    @StateObject var popupInfo: PopupInfo
     var body: some View {
         HStack {
             HStack {
                 if calendar.naviLabel != "" { GoPrevButton(calendar: calendar) }
             }
-            .frame(width: 150, alignment: .leading)
+            .frame(width: 120, alignment: .leading)
             Spacer()
             Text(calendar.naviTitle)
                 .frame(maxWidth: .infinity)
             Spacer()
             HStack {
-                AddGoalButton()
+                AddGoalButton(popupInfo: popupInfo)
                     .frame(width: 40)
-                ShowMenuButton()
+                ShowMenuButton(popupInfo: popupInfo)
                     .frame(width: 40)
             }
-            .frame(width: 150, alignment: .trailing)
+            .frame(width: 120, alignment: .trailing)
         }
-        .font(.headline)
+        .font(.system(size: 20, weight: .bold))
         .padding(8)
     }
 }
 
 struct MainHeader_Previews: PreviewProvider {
     static var previews: some View {
-        MainHeader(calendar: Calendar())
+        MainHeader(calendar: Calendar(), popupInfo: PopupInfo())
             .previewLayout(.fixed(width: 500, height: 40))
     }
 }

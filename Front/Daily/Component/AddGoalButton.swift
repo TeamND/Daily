@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct AddGoalButton: View {
+    @StateObject var popupInfo: PopupInfo
     var body: some View {
         Button {
-            print("add")
+            popupInfo.showPopup(isPopup: true)
         } label: {
             VStack {
                 Spacer()
@@ -24,7 +25,7 @@ struct AddGoalButton: View {
 
 struct AddGoalButton_Previews: PreviewProvider {
     static var previews: some View {
-        AddGoalButton()
+        AddGoalButton(popupInfo: PopupInfo())
             .previewLayout(.fixed(width: 40, height: 40))
     }
 }

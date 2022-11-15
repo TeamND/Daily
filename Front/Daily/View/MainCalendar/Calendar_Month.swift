@@ -35,7 +35,7 @@ struct Calendar_Month: View {
                                 }
                         }
                     }
-                    if rowIndex < 5 { CustomDivider(hPadding:8) }
+                    if rowIndex < 5 { CustomDivider(hPadding: 20) }
                 }
                 Spacer()
             }

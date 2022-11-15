@@ -11,6 +11,8 @@ struct Calendar_Year: View {
     @StateObject var calendar: Calendar
     var body: some View {
         VStack(spacing: 0) {
+            CustomDivider(color: .black, height: 2)
+                .padding(12)
             ForEach (0..<4) { rowIndex in
                 HStack(spacing: 0) {
                     ForEach (0..<3) { colIndex in

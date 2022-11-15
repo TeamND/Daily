@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ShowMenuButton: View {
+    @StateObject var popupInfo: PopupInfo
     var body: some View {
         Button {
-            print("menu")
+            popupInfo.showPopup(isPopup: false)
         } label: {
             VStack {
                 Spacer()
@@ -24,7 +25,7 @@ struct ShowMenuButton: View {
 
 struct ShowMenuButton_Previews: PreviewProvider {
     static var previews: some View {
-        ShowMenuButton()
+        ShowMenuButton(popupInfo: PopupInfo())
             .previewLayout(.fixed(width: 40, height: 40))
     }
 }

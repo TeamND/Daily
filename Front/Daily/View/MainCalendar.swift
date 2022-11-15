@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainCalendar: View {
     @StateObject var calendar: Calendar
-    @State var weeks: [String] = kWeeks[0]
     var body: some View {
         switch calendar.state {
         case "Year":
