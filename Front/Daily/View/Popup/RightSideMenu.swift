@@ -53,7 +53,7 @@ struct RightSideMenu: View {
                                 Spacer()
                                 Button {
                                 } label: {
-                                    Text("On    ")
+                                    Text("On")
                                     Image(systemName: "chevron.right")
                                 }
                             }

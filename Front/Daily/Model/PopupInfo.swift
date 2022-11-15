@@ -9,7 +9,7 @@ import Foundation
 
 class PopupInfo: ObservableObject {
     @Published var showPopup: Bool = false
-    @Published var showMenu: Bool = true
+    @Published var showMenu: Bool = false
 }
 
 extension PopupInfo {
