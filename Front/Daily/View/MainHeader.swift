@@ -15,7 +15,7 @@ struct MainHeader: View {
             HStack {
                 if calendar.naviLabel != "" { GoPrevButton(calendar: calendar) }
             }
-            .frame(width: 120, alignment: .leading)
+            .frame(width: UIScreen.main.bounds.size.width / 3, alignment: .leading)
             Spacer()
             Text(calendar.naviTitle)
                 .frame(maxWidth: .infinity)
@@ -26,7 +26,7 @@ struct MainHeader: View {
                 ShowMenuButton(popupInfo: popupInfo)
                     .frame(width: 40)
             }
-            .frame(width: 120, alignment: .trailing)
+            .frame(width: UIScreen.main.bounds.size.width / 3, alignment: .trailing)
         }
         .font(.system(size: 20, weight: .bold))
         .padding(8)
