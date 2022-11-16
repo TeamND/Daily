@@ -18,6 +18,7 @@ struct MainView: View {
                 MainCalendar(calendar: calendar)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            PopupDim(popupInfo: popupInfo)
             AddGoalPopup(popupInfo: popupInfo)
             RightSideMenu(popupInfo: popupInfo)
         }

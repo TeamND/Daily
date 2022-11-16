@@ -10,28 +10,25 @@ import SwiftUI
 struct AddGoalPopup: View {
     @StateObject var popupInfo: PopupInfo
     var body: some View {
-        if popupInfo.showPopup {
-            VStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .foregroundColor(.white)
-                    VStack {
-                        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                        Button {
-                            popupInfo.closePopup(isPopup: true)
-                        } label: {
-                            Text("Dismiss Button")
-                        }
+        VStack {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(.white)
+                VStack {
+                    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+                    Button {
+                        popupInfo.closePopup(isPopup: true)
+                    } label: {
+                        Text("Dismiss Button")
                     }
+                    Spacer()
                 }
-                .frame(width: 300, height: 700)
+                .padding(20)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(.black.opacity(0.4))
-            .onTapGesture {
-                popupInfo.closePopup(isPopup: true)
-            }
+            .frame(width: 300, height: 700)
         }
+        .offset(y: popupInfo.showPopup ? 0 : UIScreen.main.bounds.size.height)
+        .animation(.easeOut(duration: 0.5), value: popupInfo.showPopup)
     }
 }
 
