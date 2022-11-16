@@ -25,10 +25,13 @@ struct AddGoalPopup: View {
                 }
                 .padding(20)
             }
-            .frame(width: 300, height: 700)
+            .frame(
+                width: UIScreen.main.bounds.size.width - 50,
+                height: UIScreen.main.bounds.size.height - 150
+            )
         }
         .offset(y: popupInfo.showPopup ? 0 : UIScreen.main.bounds.size.height)
-        .animation(.easeOut(duration: 0.5), value: popupInfo.showPopup)
+        .animation(.easeOut(duration: 0.4), value: popupInfo.showPopup)
     }
 }
 

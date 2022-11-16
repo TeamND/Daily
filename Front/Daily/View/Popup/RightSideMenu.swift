@@ -62,7 +62,10 @@ struct RightSideMenu: View {
                 }
                 .padding(12)
             }
-            .frame(maxWidth: 300, maxHeight: .infinity)
+            .frame(
+                maxWidth: UIScreen.main.bounds.size.width - 100,
+                maxHeight: .infinity
+            )
         }
         .offset(x: popupInfo.showMenu ? 0 : UIScreen.main.bounds.size.width)
         .animation(.easeOut(duration: 0.4), value: popupInfo.showMenu)
