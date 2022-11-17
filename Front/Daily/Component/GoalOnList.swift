@@ -12,7 +12,7 @@ struct GoalOnList: View {
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
-                Image(systemName: goal.symbol)
+                Image(systemName: goal.afterSymbol)
                 Text(goal.content)
                 Spacer()
                 RecordButton(goal: goal)

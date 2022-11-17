@@ -14,13 +14,14 @@ struct AddGoalPopup: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(.white)
-                VStack {
-                    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                    Button {
-                        popupInfo.closePopup(isPopup: true)
-                    } label: {
-                        Text("Dismiss Button")
-                    }
+                VStack(alignment: .leading, spacing: 12) {
+                    GoalPrimeElementSetting()
+                    Divider()
+                    GoalDateOrRepeatSetting()
+                    Divider()
+                    GoalCountOrTimeSetting()
+                    Divider()
+                    ClosePopupHStack(popupInfo: popupInfo)
                     Spacer()
                 }
                 .padding(20)
@@ -30,8 +31,8 @@ struct AddGoalPopup: View {
                 height: UIScreen.main.bounds.size.height - 150
             )
         }
-        .offset(y: popupInfo.showPopup ? 0 : UIScreen.main.bounds.size.height)
-        .animation(.easeOut(duration: 0.4), value: popupInfo.showPopup)
+        .scaleEffect(popupInfo.showPopup ? 1 : 0, anchor: .topTrailing)
+        .animation(.easeOut(duration: 0.2), value: popupInfo.showPopup)
     }
 }
 

@@ -10,7 +10,8 @@ import Foundation
 class Goal: ObservableObject, Identifiable {
     @Published var id: UUID = UUID()
     @Published var type: String = "count"   // check, count, timer
-    @Published var symbol: String = "dumbbell.fill"
+    @Published var beforeSymbol: String = "dumbbell"
+    @Published var afterSymbol: String = "dumbbell.fill"
     @Published var content: String = "6시 기상"
     @Published var isSuccess: Bool = false
     @Published var recordCount: Int = 2
