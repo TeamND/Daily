@@ -31,7 +31,8 @@ struct AddGoalPopup: View {
                 height: UIScreen.main.bounds.size.height - 150
             )
         }
-        .scaleEffect(popupInfo.showPopup ? 1 : 0, anchor: .topTrailing)
+        .opacity(popupInfo.showPopup ? 1.0 : 0.0)
+        .scaleEffect(popupInfo.showPopup ? 1 : 0.1, anchor: .topTrailing)
         .animation(.easeOut(duration: 0.2), value: popupInfo.showPopup)
     }
 }
