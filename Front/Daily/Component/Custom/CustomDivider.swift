@@ -21,7 +21,7 @@ struct CustomDivider: View {
         Rectangle()
             .fill(color)
             .frame(height: height)
-            .padding([.leading, .trailing], hPadding)
+            .padding(.horizontal, hPadding)
     }
 }
 

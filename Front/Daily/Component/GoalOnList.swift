@@ -16,16 +16,18 @@ struct GoalOnList: View {
                 Text(goal.content)
                 Spacer()
                 RecordButton(goal: goal)
+                    .frame(maxHeight: .infinity)
+                    .foregroundColor(.mint)
             }
-            .padding(12)
+            .padding(.horizontal, 12)
             if goal.type != "check" {
                 VStack {
                     Spacer()
                     ProgressView(value: Double(goal.recordCount), total: Double(goal.goalCount))
                         .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
-                .padding([.top, .bottom], 4)
-                .padding([.leading, .trailing], 12)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 12)
             }
         }
 //        .background(.green.opacity(0.3))
@@ -33,7 +35,6 @@ struct GoalOnList: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
         }
-        .padding(24)
     }
 }
 

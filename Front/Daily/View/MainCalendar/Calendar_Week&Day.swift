@@ -32,16 +32,26 @@ struct Calendar_Week_Day: View {
             }
             .frame(maxWidth: .infinity, maxHeight: 30)
             CustomDivider(color: .black, height: 2, hPadding: 12)
-            ScrollView {
-                LazyVStack {
-                    ForEach (goalList) { goal in
-                        GoalOnList(goal: goal)
-                            .frame(height: 50)
-                    }
-                    Spacer()
+            List {
+                ForEach (goalList) { goal in
+                    GoalOnList(goal: goal)
+                        .swipeActions(allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                print("delete")
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            Button() {
+                                print("modify")
+                            } label: {
+                                Label("Modify", systemImage: "pencil")
+                            }
+                            .tint(.orange)
+                        }
+                        .frame(height:50)
                 }
-                .frame(maxWidth: .infinity)
             }
+            .listStyle(PlainListStyle())
         }
     }
 }

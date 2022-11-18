@@ -12,7 +12,6 @@ struct RecordButton: View {
     var body: some View {
         if goal.isSuccess {
             Label("완료", systemImage: "hand.thumbsup.circle")
-                .foregroundColor(.mint)
         } else {
             Button {
                 switch goal.type {
