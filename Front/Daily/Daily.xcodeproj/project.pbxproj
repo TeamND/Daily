@@ -40,6 +40,7 @@
 		F6D062422925B6A800B825EF /* GoalPrimeElementSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062412925B6A800B825EF /* GoalPrimeElementSetting.swift */; };
 		F6D062442925B71500B825EF /* GoalDateOrRepeatSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062432925B71500B825EF /* GoalDateOrRepeatSetting.swift */; };
 		F6D062462925B77A00B825EF /* GoalCountOrTimeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062452925B77A00B825EF /* GoalCountOrTimeSetting.swift */; };
+		F6D0624B2927B58B00B825EF /* Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0624A2927B58B00B825EF /* Times.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		F6D062412925B6A800B825EF /* GoalPrimeElementSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalPrimeElementSetting.swift; sourceTree = "<group>"; };
 		F6D062432925B71500B825EF /* GoalDateOrRepeatSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDateOrRepeatSetting.swift; sourceTree = "<group>"; };
 		F6D062452925B77A00B825EF /* GoalCountOrTimeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCountOrTimeSetting.swift; sourceTree = "<group>"; };
+		F6D0624A2927B58B00B825EF /* Times.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Times.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				F6C2F21F2921FAE70006BFC7 /* Month.swift */,
 				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
 				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
+				F6D0624A2927B58B00B825EF /* Times.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				F6C0F809291A50B300984457 /* ShowMenuButton.swift in Sources */,
 				F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */,
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
+				F6D0624B2927B58B00B825EF /* Times.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
 				F6D062442925B71500B825EF /* GoalDateOrRepeatSetting.swift in Sources */,
 				F6D062402925B45100B825EF /* ClosePopupHStack.swift in Sources */,

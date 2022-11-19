@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct GoalCountOrTimeSetting: View {
-    @State var countOrTime: String = "횟수"
+    @State var countOrTime: String = "횟수" {
+        didSet {
+            count = 1
+            timeIndex = 2
+        }
+    }
+    @State var count: Int = 1
+    @State var timeIndex: Int = 2
     var body: some View {
-        Text("수행 횟수 & 시간 선택")
+        Text("횟수 or 시간 설정")
             .font(.system(size: 20, weight: .bold))
         HStack {
             Picker("", selection: $countOrTime) {
@@ -28,15 +35,15 @@ struct GoalCountOrTimeSetting: View {
             HStack {
                 Spacer()
                 Button {
-                    print("minus")
+                    if count > 1 { count -= 1 }
                 } label: {
                     Image(systemName: "minus.circle")
                 }
                 Spacer()
-                Text("1")
+                Text(String(count))
                 Spacer()
                 Button {
-                    print("plus")
+                    if count < 10 { count += 1}
                 } label: {
                     Image(systemName: "plus.circle")
                 }
@@ -46,15 +53,15 @@ struct GoalCountOrTimeSetting: View {
             HStack {
                 Spacer()
                 Button {
-                    print("down")
+                    if timeIndex > 0 { timeIndex -= 1 }
                 } label: {
                     Image(systemName: "chevron.down.circle")
                 }
                 Spacer()
-                Text("5분")
+                Text(times[timeIndex])
                 Spacer()
                 Button {
-                    print("up")
+                    if timeIndex < 9 { timeIndex += 1 }
                 } label: {
                     Image(systemName: "chevron.up.circle")
                 }

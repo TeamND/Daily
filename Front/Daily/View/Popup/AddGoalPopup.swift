@@ -17,9 +17,9 @@ struct AddGoalPopup: View {
                 VStack(alignment: .leading, spacing: 12) {
                     GoalPrimeElementSetting()
                     Divider()
-                    GoalDateOrRepeatSetting()
-                    Divider()
                     GoalCountOrTimeSetting()
+                    Divider()
+                    GoalDateOrRepeatSetting()
                     Divider()
                     ClosePopupHStack(popupInfo: popupInfo)
                     Spacer()

@@ -10,7 +10,7 @@ import SwiftUI
 struct GoalDateOrRepeatSetting: View {
     @State var dateOrRepeat: String = "날짜"
     var body: some View {
-        Text("수행 일자 선택")
+        Text("날짜 or 반복 설정")
             .font(.system(size: 20, weight: .bold))
         HStack {
             Picker("", selection: $dateOrRepeat) {

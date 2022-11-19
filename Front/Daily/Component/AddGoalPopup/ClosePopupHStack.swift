@@ -16,23 +16,17 @@ struct ClosePopupHStack: View {
                 popupInfo.closePopup(isPopup: true)
             } label: {
                 Text("취소")
-                    .padding([.top, .bottom], 4)
-                    .padding([.leading, .trailing], 8)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 4)
-                            .stroke()
-                    }
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 8)
+                    .background(RoundedRectangle(cornerRadius: 4).stroke())
             }
             Button {
                 popupInfo.closePopup(isPopup: true)
             } label: {
                 Text("저장")
-                    .padding([.top, .bottom], 4)
-                    .padding([.leading, .trailing], 8)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 4)
-                            .stroke()
-                    }
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 8)
+                    .background(RoundedRectangle(cornerRadius: 4).stroke())
             }
         }
         .foregroundColor(.black)
