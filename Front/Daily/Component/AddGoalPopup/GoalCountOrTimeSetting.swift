@@ -8,19 +8,12 @@
 import SwiftUI
 
 struct GoalCountOrTimeSetting: View {
-    @State var countOrTime: String = "횟수" {
-        didSet {
-            count = 1
-            timeIndex = 2
-        }
-    }
-    @State var count: Int = 1
-    @State var timeIndex: Int = 2
+    @StateObject var goal: Goal
     var body: some View {
         Text("횟수 or 시간 설정")
             .font(.system(size: 20, weight: .bold))
         HStack {
-            Picker("", selection: $countOrTime) {
+            Picker("", selection: $goal.countOrTime) {
                 ForEach(["횟수", "시간"], id: \.self) {
                     Text($0)
                 }
@@ -30,20 +23,20 @@ struct GoalCountOrTimeSetting: View {
             .cornerRadius(15)
         }
         .font(.system(size: 16))
-        switch countOrTime {
+        switch goal.countOrTime {
         case "횟수":
             HStack {
                 Spacer()
                 Button {
-                    if count > 1 { count -= 1 }
+                    if goal.goalCount > 1 { goal.goalCount -= 1 }
                 } label: {
                     Image(systemName: "minus.circle")
                 }
                 Spacer()
-                Text(String(count))
+                Text(String(goal.goalCount))
                 Spacer()
                 Button {
-                    if count < 10 { count += 1}
+                    if goal.goalCount < 10 { goal.goalCount += 1}
                 } label: {
                     Image(systemName: "plus.circle")
                 }
@@ -53,15 +46,15 @@ struct GoalCountOrTimeSetting: View {
             HStack {
                 Spacer()
                 Button {
-                    if timeIndex > 0 { timeIndex -= 1 }
+                    if goal.goalTimeIndex > 0 { goal.goalTimeIndex -= 1 }
                 } label: {
                     Image(systemName: "chevron.down.circle")
                 }
                 Spacer()
-                Text(times[timeIndex])
+                Text(times[goal.goalTimeIndex])
                 Spacer()
                 Button {
-                    if timeIndex < 9 { timeIndex += 1 }
+                    if goal.goalTimeIndex < 9 { goal.goalTimeIndex += 1 }
                 } label: {
                     Image(systemName: "chevron.up.circle")
                 }
@@ -75,6 +68,6 @@ struct GoalCountOrTimeSetting: View {
 
 struct GoalCountOrTimeSetting_Previews: PreviewProvider {
     static var previews: some View {
-        GoalCountOrTimeSetting()
+        GoalCountOrTimeSetting(goal: Goal())
     }
 }

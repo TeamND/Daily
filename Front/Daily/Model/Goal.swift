@@ -14,9 +14,10 @@ class Goal: ObservableObject, Identifiable {
     @Published var afterSymbol: String = "dumbbell.fill"
     @Published var content: String = "6시 기상"
     @Published var isSuccess: Bool = false
+    @Published var countOrTime: String = "횟수"   // 횟수, 시간
     @Published var recordCount: Int = 2
     @Published var goalCount: Int = 5
     @Published var isStart: Bool = false
     @Published var recordTime: String = "1:00:05"
-    @Published var goalTime: String = "2:00:00"
+    @Published var goalTimeIndex: Int = 3
 }
