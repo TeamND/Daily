@@ -14,18 +14,11 @@ struct ShowMenuButton: View {
             popupInfo.showPopup(isPopup: false)
         } label: {
             VStack {
-                Spacer()
                 Image(systemName: "slider.horizontal.3")
                 Text("menu")
                     .font(.system(size: 12))
             }
+            .padding(8)
         }
-    }
-}
-
-struct ShowMenuButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ShowMenuButton(popupInfo: PopupInfo())
-            .previewLayout(.fixed(width: 40, height: 40))
     }
 }

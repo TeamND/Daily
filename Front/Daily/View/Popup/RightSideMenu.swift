@@ -71,9 +71,3 @@ struct RightSideMenu: View {
         .animation(.easeOut(duration: 0.4), value: popupInfo.showMenu)
     }
 }
-
-struct RightSideMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        RightSideMenu(popupInfo: PopupInfo())
-    }
-}

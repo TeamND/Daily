@@ -19,9 +19,3 @@ struct WeekIndicator: View {
         }
     }
 }
-
-struct WeekIndicator_Previews: PreviewProvider {
-    static var previews: some View {
-        WeekIndicator()
-    }
-}

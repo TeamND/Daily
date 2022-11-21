@@ -24,7 +24,7 @@ struct MonthOnYear: View {
                         ZStack {
                             Image(systemName: "circle.fill")
                                 .font(.system(size: 12))
-                                .foregroundColor(.accentColor.opacity(0.4))
+                                .foregroundColor(.mint.opacity(0.4))
                             Text("1")
                                 .font(.system(size: 6, weight: .bold))
                         }
@@ -33,14 +33,5 @@ struct MonthOnYear: View {
             }
         }
         .padding(12)
-        .onTapGesture {
-            calendar.state = "Month"
-        }
-    }
-}
-
-struct MonthOnYear_Previews: PreviewProvider {
-    static var previews: some View {
-        MonthOnYear(calendar: Calendar(), monthIndex: 1)
     }
 }

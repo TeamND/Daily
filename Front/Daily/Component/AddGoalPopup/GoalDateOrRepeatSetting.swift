@@ -37,9 +37,3 @@ struct GoalDateOrRepeatSetting: View {
         }
     }
 }
-
-struct GoalDateOrRepeatSetting_Previews: PreviewProvider {
-    static var previews: some View {
-        GoalDateOrRepeatSetting()
-    }
-}

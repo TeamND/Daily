@@ -12,15 +12,12 @@ struct MainView: View {
     @State private var popupInfo: PopupInfo = PopupInfo()
     var body: some View {
         ZStack {
-            VStack {
-                MainHeader(calendar: calendar, popupInfo: popupInfo)
-                    .frame(maxWidth: .infinity, maxHeight: 40)
+            NavigationView {
                 MainCalendar(calendar: calendar)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .navigationBarTitleDisplayMode(.inline)
             }
-            PopupDim(popupInfo: popupInfo)
-            AddGoalPopup(popupInfo: popupInfo)
-            RightSideMenu(popupInfo: popupInfo)
+            MainHeader(popupInfo: popupInfo)
+            Popup(popupInfo: popupInfo)
         }
         .accentColor(.mint)
     }

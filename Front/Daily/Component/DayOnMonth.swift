@@ -14,7 +14,7 @@ struct DayOnMonth: View {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: 24))
-                    .foregroundColor(.accentColor.opacity(0.4))
+                    .foregroundColor(.mint.opacity(0.4))
                 Text("1")
                     .font(.system(size: 12, weight: .bold))
             }
@@ -30,16 +30,5 @@ struct DayOnMonth: View {
             }
             .font(.system(size: 12, weight: .bold))
         }
-        .onTapGesture {
-            calendar.state = "Week&Day"
-        }
-    }
-}
-
-struct DayOnMonth_Previews: PreviewProvider {
-    static var previews: some View {
-        DayOnMonth(calendar: Calendar())
-            .previewLayout(.fixed(width: 40, height: 80))
-            .accentColor(.mint)
     }
 }

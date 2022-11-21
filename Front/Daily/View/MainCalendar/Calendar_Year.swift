@@ -17,18 +17,18 @@ struct Calendar_Year: View {
                 HStack(spacing: 0) {
                     ForEach (0..<3) { colIndex in
                         let monthIndex = (rowIndex * 3) + colIndex
-                        MonthOnYear(calendar: calendar, monthIndex: monthIndex)
+                        NavigationLink {
+                            Calendar_Month(calendar: calendar)
+                                .navigationBarTitle(Mformat.string(from: Date()))
+                        } label: {
+                            MonthOnYear(calendar: calendar, monthIndex: monthIndex)
+                                .accentColor(.black)
+                        }
                     }
                 }
             }
             Spacer()
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-struct Calendar_Year_Previews: PreviewProvider {
-    static var previews: some View {
-        Calendar_Year(calendar: Calendar())
     }
 }

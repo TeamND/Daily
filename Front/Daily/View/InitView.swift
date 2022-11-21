@@ -28,9 +28,3 @@ struct InitView: View {
             }
     }
 }
-
-struct InitView_Previews: PreviewProvider {
-    static var previews: some View {
-        InitView(isLoading: .constant(true))
-    }
-}

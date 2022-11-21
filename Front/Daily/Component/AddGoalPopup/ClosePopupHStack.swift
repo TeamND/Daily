@@ -32,9 +32,3 @@ struct ClosePopupHStack: View {
         .foregroundColor(.black)
     }
 }
-
-struct ClosePopupHStack_Previews: PreviewProvider {
-    static var previews: some View {
-        ClosePopupHStack(popupInfo: PopupInfo())
-    }
-}

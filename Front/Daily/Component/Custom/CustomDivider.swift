@@ -24,9 +24,3 @@ struct CustomDivider: View {
             .padding(.horizontal, hPadding)
     }
 }
-
-struct CustomDivider_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomDivider()
-    }
-}

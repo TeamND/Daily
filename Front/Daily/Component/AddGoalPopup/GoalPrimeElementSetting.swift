@@ -30,9 +30,3 @@ struct GoalPrimeElementSetting: View {
         .font(.system(size: 16))
     }
 }
-
-struct GoalPrimeElementSetting_Previews: PreviewProvider {
-    static var previews: some View {
-        GoalPrimeElementSetting()
-    }
-}

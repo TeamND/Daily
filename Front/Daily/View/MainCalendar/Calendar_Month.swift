@@ -23,17 +23,12 @@ struct Calendar_Month: View {
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
-                    HStack {
-                        ForEach (0..<7) { colIndex in
-                            let isToday = rowIndex == 1 && colIndex == 1
-                            DayOnMonth(calendar: calendar)
-                                .padding(4)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(.green, lineWidth: 2)
-                                        .opacity(isToday ? 1 : 0)
-                                }
-                        }
+                    NavigationLink {
+                        Calendar_Week_Day(calendar: calendar)
+                            .navigationBarTitle(dformat.string(from: Date()))
+                    } label: {
+                        WeekOnMonth(calendar: calendar, rowIndex: rowIndex)
+                            .accentColor(.black)
                     }
                     if rowIndex < 5 { CustomDivider(hPadding: 20) }
                 }
@@ -41,11 +36,5 @@ struct Calendar_Month: View {
             }
             .frame(maxWidth: .infinity)
         }
-    }
-}
-
-struct Calendar_Month_Previews: PreviewProvider {
-    static var previews: some View {
-        Calendar_Month(calendar: Calendar())
     }
 }

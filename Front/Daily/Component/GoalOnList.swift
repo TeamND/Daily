@@ -30,17 +30,9 @@ struct GoalOnList: View {
                 .padding(.horizontal, 12)
             }
         }
-//        .background(.green.opacity(0.3))
         .overlay {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
         }
-    }
-}
-
-struct Goal_Previews: PreviewProvider {
-    static var previews: some View {
-        GoalOnList(goal: Goal())
-            .previewLayout(.fixed(width: 500, height: 50))
     }
 }

@@ -37,9 +37,3 @@ struct AddGoalPopup: View {
         .animation(.easeOut(duration: 0.2), value: popupInfo.showPopup)
     }
 }
-
-struct AddGoalPopup_Previews: PreviewProvider {
-    static var previews: some View {
-        AddGoalPopup(popupInfo: PopupInfo())
-    }
-}

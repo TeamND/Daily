@@ -23,7 +23,7 @@ struct Calendar_Week_Day: View {
                             .padding([.top, .bottom], -2)
                         Image(systemName: "circle.fill")
                             .font(.system(size: 32))
-                            .foregroundColor(.accentColor.opacity(0.4))
+                            .foregroundColor(.mint.opacity(0.4))
                         Text(week)
                             .font(.system(size: 16, weight: .bold))
                     }
@@ -51,13 +51,7 @@ struct Calendar_Week_Day: View {
                         .frame(height:50)
                 }
             }
-            .listStyle(PlainListStyle())
+            .listStyle(.plain)
         }
-    }
-}
-
-struct Calendar_Week_Day_Previews: PreviewProvider {
-    static var previews: some View {
-        Calendar_Week_Day(calendar: Calendar())
     }
 }

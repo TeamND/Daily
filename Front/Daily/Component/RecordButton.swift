@@ -41,9 +41,3 @@ struct RecordButton: View {
         }
     }
 }
-
-struct RecordButton_Previews: PreviewProvider {
-    static var previews: some View {
-        RecordButton(goal: Goal())
-    }
-}

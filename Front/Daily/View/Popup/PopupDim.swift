@@ -22,9 +22,3 @@ struct PopupDim: View {
             .animation(.easeOut, value: showDim)
     }
 }
-
-struct PopupDim_Previews: PreviewProvider {
-    static var previews: some View {
-        PopupDim(popupInfo: PopupInfo())
-    }
-}

@@ -65,9 +65,3 @@ struct GoalCountOrTimeSetting: View {
         }
     }
 }
-
-struct GoalCountOrTimeSetting_Previews: PreviewProvider {
-    static var previews: some View {
-        GoalCountOrTimeSetting(goal: Goal())
-    }
-}
