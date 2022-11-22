@@ -23,18 +23,26 @@ struct Calendar_Month: View {
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
-                    NavigationLink {
-                        Calendar_Week_Day(calendar: calendar)
-                            .navigationBarTitle(dformat.string(from: Date()))
+                    Button {
+                        calendar.setState(state: "Week&Day")
                     } label: {
-                        WeekOnMonth(calendar: calendar, rowIndex: rowIndex)
+                        WeekOnMonth(rowIndex: rowIndex)
                             .accentColor(.black)
                     }
                     if rowIndex < 5 { CustomDivider(hPadding: 20) }
                 }
                 Spacer()
             }
-            .frame(maxWidth: .infinity)
+            
+            NavigationLink(
+                destination: Calendar_Week_Day()
+                    .navigationBarTitle(dformat.string(from: Date())),
+                isActive: $calendar.showWeekDay,
+                label: { EmptyView() }
+            )
+        }
+        .onAppear {
+            calendar.setState(state: "Month")
         }
     }
 }

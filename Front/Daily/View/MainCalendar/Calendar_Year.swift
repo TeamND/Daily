@@ -17,18 +17,25 @@ struct Calendar_Year: View {
                 HStack(spacing: 0) {
                     ForEach (0..<3) { colIndex in
                         let monthIndex = (rowIndex * 3) + colIndex
-                        NavigationLink {
-                            Calendar_Month(calendar: calendar)
-                                .navigationBarTitle(Mformat.string(from: Date()))
+                        Button {
+                            calendar.setState(state: "Month")
                         } label: {
-                            MonthOnYear(calendar: calendar, monthIndex: monthIndex)
+                            MonthOnYear(monthIndex: monthIndex)
                                 .accentColor(.black)
                         }
                     }
                 }
             }
+            NavigationLink(
+                destination: Calendar_Month(calendar: calendar)
+                    .navigationBarTitle(Mformat.string(from: Date())),
+                isActive: $calendar.showMonth,
+                label: { EmptyView() }
+            )
             Spacer()
         }
-        .frame(maxWidth: .infinity)
+        .onAppear {
+            calendar.setState(state: "Year")
+        }
     }
 }

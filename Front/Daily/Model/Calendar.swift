@@ -8,18 +8,23 @@
 import Foundation
 
 class Calendar: ObservableObject {
-    @Published private var _state: String = "Year"
-    var state: String {
-        get {
-            return _state
-        }
-        set(newVal) {
-            switch newVal {
-            case "Year", "Month", "Week&Day":
-                _state = newVal
-            default:
-                print("catch error in set state")
-            }
+    @Published var showMonth: Bool = false
+    @Published var showWeekDay: Bool = false
+    
+    func setState(state: String = "Month") {
+        switch state {
+        case "Year":
+            self.showMonth = false
+            self.showWeekDay = false
+        case "Month":
+            self.showMonth = true
+            self.showWeekDay = false
+        case "Week&Day":
+            self.showMonth = true
+            self.showWeekDay = true
+        default:
+            print("error")
+            print("state is \(state)")
         }
     }
 }

@@ -12,10 +12,7 @@ struct MainView: View {
     @State private var popupInfo: PopupInfo = PopupInfo()
     var body: some View {
         ZStack {
-            NavigationView {
-                MainCalendar(calendar: calendar)
-                    .navigationBarTitleDisplayMode(.inline)
-            }
+            MainCalendar(calendar: calendar)
             MainHeader(popupInfo: popupInfo)
             Popup(popupInfo: popupInfo)
         }

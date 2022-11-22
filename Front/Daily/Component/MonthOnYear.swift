@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MonthOnYear: View {
-    @StateObject var calendar: Calendar
     var monthIndex: Int
     var body: some View {
         VStack {

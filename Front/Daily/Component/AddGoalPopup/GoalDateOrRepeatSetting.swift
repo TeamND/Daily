@@ -27,7 +27,7 @@ struct GoalDateOrRepeatSetting: View {
         case "날짜":
             HStack {
                 ForEach(0..<2, id: \.self) {    // 이번 달, 다음 달
-                    MonthOnYear(calendar: Calendar(), monthIndex: $0)
+                    MonthOnYear(monthIndex: $0)
                 }
             }
         case "반복":

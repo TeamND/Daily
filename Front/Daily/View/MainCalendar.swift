@@ -10,7 +10,11 @@ import SwiftUI
 struct MainCalendar: View {
     @StateObject var calendar: Calendar
     var body: some View {
-        Calendar_Year(calendar: calendar)
-            .navigationBarTitle(YYYYformat.string(from: Date()))
+        NavigationView {
+            Calendar_Year(calendar: calendar)
+                .navigationBarTitle(YYYYformat.string(from: Date()))
+                .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
