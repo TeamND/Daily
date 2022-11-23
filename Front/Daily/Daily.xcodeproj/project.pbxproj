@@ -165,15 +165,11 @@
 		F6C0F8032919042B00984457 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				F6D06252292F56AD00B825EF /* Goal */,
+				F6D06251292F567900B825EF /* MainCalendar */,
 				F6D062472925B7EE00B825EF /* AddGoalPopup */,
 				F6D062492925B84B00B825EF /* Custom */,
-				F6C0F820291CCCEA00984457 /* DayOnMonth.swift */,
-				F6C2F22129221C410006BFC7 /* GoalOnList.swift */,
 				F6D062482925B83700B825EF /* MainHeader */,
-				F6C2F21D2921F9AD0006BFC7 /* MonthOnYear.swift */,
-				F636CC682923287300879E1F /* RecordButton.swift */,
-				F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */,
-				F6D0624D292DF0F200B825EF /* WeekOnMonth.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -224,6 +220,26 @@
 				F6C0F812291BFC9300984457 /* CustomDivider.swift */,
 			);
 			path = Custom;
+			sourceTree = "<group>";
+		};
+		F6D06251292F567900B825EF /* MainCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */,
+				F6C0F820291CCCEA00984457 /* DayOnMonth.swift */,
+				F6C2F21D2921F9AD0006BFC7 /* MonthOnYear.swift */,
+				F6D0624D292DF0F200B825EF /* WeekOnMonth.swift */,
+			);
+			path = MainCalendar;
+			sourceTree = "<group>";
+		};
+		F6D06252292F56AD00B825EF /* Goal */ = {
+			isa = PBXGroup;
+			children = (
+				F636CC682923287300879E1F /* RecordButton.swift */,
+				F6C2F22129221C410006BFC7 /* GoalOnList.swift */,
+			);
+			path = Goal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
