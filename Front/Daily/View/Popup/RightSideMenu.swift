@@ -9,6 +9,11 @@ import SwiftUI
 
 struct RightSideMenu: View {
     @StateObject var popupInfo: PopupInfo
+    @State var menuList: [Menu] = [
+        Menu(isSelected: false, title: "일주일 시작요일", selectedOption: "일요일"),
+        Menu(isSelected: false, title: "수행 일자 선택 방식", selectedOption: "날짜"),
+        Menu(isSelected: false, title: "알림 설정", selectedOption: "On")
+    ]
     var body: some View {
         HStack {
             Spacer()
@@ -16,51 +21,28 @@ struct RightSideMenu: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(.white)
                     .edgesIgnoringSafeArea(.all)
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 0) {
                     HStack {
                         Spacer()
                         Button {
                             popupInfo.closePopup(isPopup: false)
                         } label: {
                             Label("닫기", systemImage: "x.circle")
+                                .padding(12)
                         }
                     }
                     Text("기본 값 설정")
                         .font(.subheadline)
-                    CustomDivider(color: .gray, height: 1)
-                    VStack(spacing: 8) {
-                        HStack {
-                            Text("일주일 시작요일")
-                            Spacer()
-                            Button {
-                            } label: {
-                                Text("일요일")
-                                Image(systemName: "chevron.right")
-                            }
-                        }
-                        HStack {
-                            Text("수행 일자 선택 방식")
-                            Spacer()
-                            Button {
-                            } label: {
-                                Text("날짜")
-                                Image(systemName: "chevron.right")
-                            }
-                        }
-                        HStack {
-                            Text("알림 설정")
-                            Spacer()
-                            Button {
-                            } label: {
-                                Text("On")
-                                Image(systemName: "chevron.right")
-                            }
+                        .padding()
+                    CustomDivider(color: .gray, height: 1, hPadding: 12)
+                    List {
+                        ForEach (menuList) { menu in
+                            MenuOnList(menu: menu)
+                                .font(.caption)
                         }
                     }
-                    .font(.caption)
-                    Spacer()
+                    .listStyle(.plain)
                 }
-                .padding(12)
             }
             .frame(
                 maxWidth: UIScreen.main.bounds.size.width - 100,
