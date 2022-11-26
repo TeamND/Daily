@@ -44,6 +44,7 @@
 		F6D06250292E02CA00B825EF /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0624F292E02CA00B825EF /* Popup.swift */; };
 		F6D062552930BFC800B825EF /* MenuOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062542930BFC800B825EF /* MenuOnList.swift */; };
 		F6D062572930BFFF00B825EF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062562930BFFF00B825EF /* Menu.swift */; };
+		F6D062592937281800B825EF /* MenuDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062582937281800B825EF /* MenuDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		F6D0624F292E02CA00B825EF /* Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		F6D062542930BFC800B825EF /* MenuOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOnList.swift; sourceTree = "<group>"; };
 		F6D062562930BFFF00B825EF /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		F6D062582937281800B825EF /* MenuDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				F6D062542930BFC800B825EF /* MenuOnList.swift */,
+				F6D062582937281800B825EF /* MenuDetail.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				F6C0F80B291A562300984457 /* MainCalendar.swift in Sources */,
 				F6C0F8012919007500984457 /* DateFormatter.swift in Sources */,
 				F6C0F819291C873200984457 /* Week.swift in Sources */,
+				F6D062592937281800B825EF /* MenuDetail.swift in Sources */,
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6C0F809291A50B300984457 /* ShowMenuButton.swift in Sources */,

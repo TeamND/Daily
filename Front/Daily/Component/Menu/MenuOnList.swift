@@ -15,13 +15,11 @@ struct MenuOnList: View {
                 Rectangle()
                     .frame(height: 30)
                     .opacity(0)
-                VStack {
-                    WeekIndicator()
-                }
-                .frame(height: menu.isSelected ? 70 : 0)
-                .opacity(menu.isSelected ? 1.0 : 0.0)
-                .scaleEffect(menu.isSelected ? 1 : 0.3, anchor: .top)
-                .animation(.default, value: menu.isSelected)
+                MenuDetail(menu: menu)
+                    .frame(height: menu.isSelected ? 70 : 0)
+                    .opacity(menu.isSelected ? 1.0 : 0.0)
+                    .scaleEffect(menu.isSelected ? 1 : 0.3, anchor: .top)
+                    .animation(.default, value: menu.isSelected)
             }
             .frame(height: menu.isSelected ? 100 : 30)
             HStack {
