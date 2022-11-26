@@ -175,7 +175,7 @@
 				F6D06251292F567900B825EF /* MainCalendar */,
 				F6D062472925B7EE00B825EF /* AddGoalPopup */,
 				F6D062492925B84B00B825EF /* Custom */,
-				F6D062482925B83700B825EF /* MainHeader */,
+				F6D062482925B83700B825EF /* Popup */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -211,13 +211,13 @@
 			path = AddGoalPopup;
 			sourceTree = "<group>";
 		};
-		F6D062482925B83700B825EF /* MainHeader */ = {
+		F6D062482925B83700B825EF /* Popup */ = {
 			isa = PBXGroup;
 			children = (
 				F6C0F8042919044100984457 /* AddGoalButton.swift */,
 				F6C0F808291A50B300984457 /* ShowMenuButton.swift */,
 			);
-			path = MainHeader;
+			path = Popup;
 			sourceTree = "<group>";
 		};
 		F6D062492925B84B00B825EF /* Custom */ = {
