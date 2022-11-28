@@ -12,6 +12,7 @@ class Menu: ObservableObject, Identifiable {
     @Published var isSelected: Bool
     @Published var title: String
     @Published var selectedOption: String
+    @Published var options: [[String]] = [["일요일", "월요일"], ["날짜", "요일"], ["On", "Off"]]
     
     init(isSelected: Bool, title: String, selectedOption: String) {
         self.isSelected = isSelected

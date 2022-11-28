@@ -10,6 +10,17 @@ import SwiftUI
 struct MenuDetail: View {
     @StateObject var menu: Menu
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Picker("", selection: $menu.selectedOption) {
+                ForEach(menu.options[0], id: \.self) { option in
+                    Text(option)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(2)
+            .cornerRadius(15)
+            .padding(-8)
+        }
+        .font(.system(size: 16))
     }
 }
