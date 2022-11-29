@@ -25,11 +25,7 @@ struct GoalDateOrRepeatSetting: View {
         .font(.system(size: 16))
         switch dateOrRepeat {
         case "날짜":
-            HStack {
-                ForEach(0..<2, id: \.self) {    // 이번 달, 다음 달
-                    MonthOnYear(monthIndex: $0)
-                }
-            }
+            MonthOnYear(monthIndex: 10, fontSize: 16)
         case "반복":
             WeekIndicator()
         default:
