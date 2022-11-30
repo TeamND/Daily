@@ -121,12 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				F6C0F7F029125AF500984457 /* InitView.swift */,
-				F6C0F80C291A569900984457 /* MainCalendar */,
-				F6C0F80A291A562300984457 /* MainCalendar.swift */,
-				F6C0F806291A501400984457 /* MainHeader.swift */,
 				F6C0F7F2291682F200984457 /* MainView.swift */,
-				F6D06234292346D800B825EF /* Popup */,
-				F6D0624F292E02CA00B825EF /* Popup.swift */,
+				F6D0625B2937425700B825EF /* MainView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -172,12 +168,9 @@
 		F6C0F8032919042B00984457 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				F6D062532930BFBE00B825EF /* Menu */,
 				F6D06252292F56AD00B825EF /* Goal */,
-				F6D06251292F567900B825EF /* MainCalendar */,
-				F6D062472925B7EE00B825EF /* AddGoalPopup */,
+				F6D06251292F567900B825EF /* Calendar */,
 				F6D062492925B84B00B825EF /* Custom */,
-				F6D062482925B83700B825EF /* Popup */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -195,9 +188,11 @@
 		F6D06234292346D800B825EF /* Popup */ = {
 			isa = PBXGroup;
 			children = (
-				F6D06235292346EE00B825EF /* AddGoalPopup.swift */,
-				F6D062392923566400B825EF /* RightSideMenu.swift */,
 				F6D0623B2924700C00B825EF /* PopupDim.swift */,
+				F6D06235292346EE00B825EF /* AddGoalPopup.swift */,
+				F6D062472925B7EE00B825EF /* AddGoalPopup */,
+				F6D062392923566400B825EF /* RightSideMenu.swift */,
+				F6D062532930BFBE00B825EF /* RightSideMenu */,
 			);
 			path = Popup;
 			sourceTree = "<group>";
@@ -213,15 +208,6 @@
 			path = AddGoalPopup;
 			sourceTree = "<group>";
 		};
-		F6D062482925B83700B825EF /* Popup */ = {
-			isa = PBXGroup;
-			children = (
-				F6C0F8042919044100984457 /* AddGoalButton.swift */,
-				F6C0F808291A50B300984457 /* ShowMenuButton.swift */,
-			);
-			path = Popup;
-			sourceTree = "<group>";
-		};
 		F6D062492925B84B00B825EF /* Custom */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,7 +216,7 @@
 			path = Custom;
 			sourceTree = "<group>";
 		};
-		F6D06251292F567900B825EF /* MainCalendar */ = {
+		F6D06251292F567900B825EF /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
 				F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */,
@@ -238,7 +224,7 @@
 				F6C2F21D2921F9AD0006BFC7 /* MonthOnYear.swift */,
 				F6D0624D292DF0F200B825EF /* WeekOnMonth.swift */,
 			);
-			path = MainCalendar;
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		F6D06252292F56AD00B825EF /* Goal */ = {
@@ -250,13 +236,43 @@
 			path = Goal;
 			sourceTree = "<group>";
 		};
-		F6D062532930BFBE00B825EF /* Menu */ = {
+		F6D062532930BFBE00B825EF /* RightSideMenu */ = {
 			isa = PBXGroup;
 			children = (
 				F6D062542930BFC800B825EF /* MenuOnList.swift */,
+				F6D0625D2937437F00B825EF /* MenuOnList */,
+			);
+			path = RightSideMenu;
+			sourceTree = "<group>";
+		};
+		F6D0625B2937425700B825EF /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				F6C0F80A291A562300984457 /* MainCalendar.swift */,
+				F6C0F80C291A569900984457 /* MainCalendar */,
+				F6C0F806291A501400984457 /* MainHeader.swift */,
+				F6D0625C2937429A00B825EF /* MainHeader */,
+				F6D0624F292E02CA00B825EF /* Popup.swift */,
+				F6D06234292346D800B825EF /* Popup */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		F6D0625C2937429A00B825EF /* MainHeader */ = {
+			isa = PBXGroup;
+			children = (
+				F6C0F8042919044100984457 /* AddGoalButton.swift */,
+				F6C0F808291A50B300984457 /* ShowMenuButton.swift */,
+			);
+			path = MainHeader;
+			sourceTree = "<group>";
+		};
+		F6D0625D2937437F00B825EF /* MenuOnList */ = {
+			isa = PBXGroup;
+			children = (
 				F6D062582937281800B825EF /* MenuDetail.swift */,
 			);
-			path = Menu;
+			path = MenuOnList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
