@@ -23,12 +23,7 @@ struct Calendar_Month: View {
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
-                    Button {
-                        calendar.setState(state: "Week&Day")
-                    } label: {
-                        WeekOnMonth(rowIndex: rowIndex)
-                            .accentColor(.black)
-                    }
+                    WeekOnMonth(calendar: calendar, rowIndex: rowIndex)
                     if rowIndex < 5 { CustomDivider(hPadding: 20) }
                 }
                 Spacer()
