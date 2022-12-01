@@ -27,7 +27,7 @@ struct GoalDateOrRepeatSetting: View {
         case "날짜":
             MonthOnYear(monthIndex: 10, fontSize: 16)
         case "반복":
-            WeekIndicator()
+            WeekIndicator(tapPurpose: "select")
         default:
             Text("")
         }

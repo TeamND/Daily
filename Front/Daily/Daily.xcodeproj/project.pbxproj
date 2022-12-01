@@ -216,9 +216,9 @@
 			isa = PBXGroup;
 			children = (
 				F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */,
-				F6C0F820291CCCEA00984457 /* DayOnMonth.swift */,
 				F6C2F21D2921F9AD0006BFC7 /* MonthOnYear.swift */,
 				F6D0624D292DF0F200B825EF /* WeekOnMonth.swift */,
+				F6C0F820291CCCEA00984457 /* DayOnMonth.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";

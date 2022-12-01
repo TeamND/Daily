@@ -11,15 +11,7 @@ struct Calendar_Month: View {
     @StateObject var calendar: Calendar
     var body: some View {
         VStack {
-            HStack {
-                ForEach (kWeeks[0], id: \.self) { week in
-                    Spacer()
-                    Text(week)
-                        .font(.system(size: 16, weight: .bold))
-                    Spacer()
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: 30)
+            WeekIndicator()
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
