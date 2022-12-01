@@ -104,15 +104,10 @@
 		F637807929109AF000356212 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F6C0F80E291A585B00984457 /* Calendar.swift */,
 				F6C0F8002919007500984457 /* DateFormatter.swift */,
-				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
 				F6C2F21F2921FAE70006BFC7 /* Month.swift */,
-				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
 				F6D0624A2927B58B00B825EF /* Times.swift */,
-				F6C0F81C291CBC1500984457 /* UserInfo.swift */,
 				F6C0F818291C873200984457 /* Week.swift */,
-				F6D062562930BFFF00B825EF /* Menu.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -130,11 +125,12 @@
 		F6BEC928290F5894005EAF28 = {
 			isa = PBXGroup;
 			children = (
-				F6C0F8032919042B00984457 /* Component */,
 				F6BEC933290F5894005EAF28 /* Daily */,
-				F637807929109AF000356212 /* Model */,
-				F6BEC932290F5894005EAF28 /* Products */,
 				F6396025290F8A7F007088FF /* View */,
+				F6C0F8032919042B00984457 /* Component */,
+				F637807929109AF000356212 /* Model */,
+				F6D0625E293819A400B825EF /* ViewModel */,
+				F6BEC932290F5894005EAF28 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -273,6 +269,18 @@
 				F6D062582937281800B825EF /* MenuDetail.swift */,
 			);
 			path = MenuOnList;
+			sourceTree = "<group>";
+		};
+		F6D0625E293819A400B825EF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F6C0F80E291A585B00984457 /* Calendar.swift */,
+				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
+				F6D062562930BFFF00B825EF /* Menu.swift */,
+				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
+				F6C0F81C291CBC1500984457 /* UserInfo.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

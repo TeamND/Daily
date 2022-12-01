@@ -8,7 +8,7 @@
 import Foundation
 
 class Calendar: ObservableObject {
-    @Published var showMonth: Bool = true
+    @Published var showMonth: Bool = false
     @Published var showWeekDay: Bool = false
     
     func setState(state: String = "Month") {
