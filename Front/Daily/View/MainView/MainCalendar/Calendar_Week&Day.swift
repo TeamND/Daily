@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Calendar_Week_Day: View {
-    @State var goalList: [Goal] = [Goal(), Goal()]
     var body: some View {
         VStack {
             WeekIndicator(todayIndex: 2, archievements: [0.2, 0.4, 0.8, 0.4, 0.6, 0.4, 0], tapPurpose: "change")
@@ -18,11 +17,13 @@ struct Calendar_Week_Day: View {
                     GoalOnList(goal: goal)
                         .swipeActions(allowsFullSwipe: true) {
                             Button(role: .destructive) {
+//                                goal.delete()
                                 print("delete")
                             } label: {
                                 Label("Delete", systemImage: "trash")
                             }
                             Button() {
+//                                goal.modify()
                                 print("modify")
                             } label: {
                                 Label("Modify", systemImage: "pencil")

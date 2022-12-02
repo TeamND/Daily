@@ -45,6 +45,7 @@
 		F6D062552930BFC800B825EF /* MenuOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062542930BFC800B825EF /* MenuOnList.swift */; };
 		F6D062572930BFFF00B825EF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062562930BFFF00B825EF /* Menu.swift */; };
 		F6D062592937281800B825EF /* MenuDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062582937281800B825EF /* MenuDetail.swift */; };
+		F6D0626229388B4600B825EF /* GoalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0626129388B4600B825EF /* GoalList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		F6D062542930BFC800B825EF /* MenuOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOnList.swift; sourceTree = "<group>"; };
 		F6D062562930BFFF00B825EF /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		F6D062582937281800B825EF /* MenuDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetail.swift; sourceTree = "<group>"; };
+		F6D0626129388B4600B825EF /* GoalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,10 +198,10 @@
 		F6D062472925B7EE00B825EF /* AddGoalPopup */ = {
 			isa = PBXGroup;
 			children = (
-				F6D0623F2925B45100B825EF /* ClosePopupHStack.swift */,
+				F6D062412925B6A800B825EF /* GoalPrimeElementSetting.swift */,
 				F6D062452925B77A00B825EF /* GoalCountOrTimeSetting.swift */,
 				F6D062432925B71500B825EF /* GoalDateOrRepeatSetting.swift */,
-				F6D062412925B6A800B825EF /* GoalPrimeElementSetting.swift */,
+				F6D0623F2925B45100B825EF /* ClosePopupHStack.swift */,
 			);
 			path = AddGoalPopup;
 			sourceTree = "<group>";
@@ -276,6 +278,7 @@
 			children = (
 				F6C0F80E291A585B00984457 /* Calendar.swift */,
 				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
+				F6D0626129388B4600B825EF /* GoalList.swift */,
 				F6D062562930BFFF00B825EF /* Menu.swift */,
 				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
 				F6C0F81C291CBC1500984457 /* UserInfo.swift */,
@@ -389,6 +392,7 @@
 				F6C0F8052919044100984457 /* AddGoalButton.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
 				F6C0F821291CCCEA00984457 /* DayOnMonth.swift in Sources */,
+				F6D0626229388B4600B825EF /* GoalList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
