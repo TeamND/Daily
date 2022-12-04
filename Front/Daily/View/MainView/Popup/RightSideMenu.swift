@@ -10,9 +10,9 @@ import SwiftUI
 struct RightSideMenu: View {
     @StateObject var popupInfo: PopupInfo
     @State var menuList: [Menu] = [
-        Menu(isSelected: false, title: "일주일 시작요일", selectedOption: "일요일"),
-        Menu(isSelected: false, title: "수행 일자 선택 방식", selectedOption: "날짜"),
-        Menu(isSelected: false, title: "알림 설정", selectedOption: "On")
+        Menu(isSelected: false, title: "언어", selectedOption: "한국어"),
+        Menu(isSelected: false, title: "일주일 시작 요일", selectedOption: "일요일"),
+        Menu(isSelected: false, title: "목표 수행일 선택 방식", selectedOption: "날짜")
     ]
     var body: some View {
         HStack {
@@ -36,8 +36,8 @@ struct RightSideMenu: View {
                         .padding()
                     CustomDivider(color: .gray, height: 1, hPadding: 12)
                     List {
-                        ForEach (menuList) { menu in
-                            MenuOnList(menu: menu)
+                        ForEach (menuList.indices, id: \.self) { index in
+                            MenuOnList(menu: menuList[index], index: index)
                                 .font(.caption)
                         }
                     }

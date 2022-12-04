@@ -9,13 +9,14 @@ import SwiftUI
 
 struct MenuOnList: View {
     @StateObject var menu: Menu
+    let index: Int
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 0) {
                 Rectangle()
                     .frame(height: 30)
                     .opacity(0)
-                MenuDetail(menu: menu)
+                MenuDetail(menu: menu, index: index)
                     .frame(height: menu.isSelected ? 70 : 0)
                     .opacity(menu.isSelected ? 1.0 : 0.0)
                     .scaleEffect(menu.isSelected ? 1 : 0.3, anchor: .top)
