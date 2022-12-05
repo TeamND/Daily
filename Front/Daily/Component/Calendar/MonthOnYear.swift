@@ -11,12 +11,9 @@ struct MonthOnYear: View {
     var monthIndex: Int
     var fontSize: CGFloat = 6
     var body: some View {
-        VStack {
-            HStack {
+        VStack(alignment: .leading) {
                 Text(kMonths[monthIndex])
                     .font(.system(size: 20, weight: .bold))
-                Spacer()
-            }
             .padding(4)
             ForEach (0..<6) { rowIndex in
                 HStack(spacing: 1) {
