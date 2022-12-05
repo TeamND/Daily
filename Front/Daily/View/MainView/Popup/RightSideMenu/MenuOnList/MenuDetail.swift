@@ -9,10 +9,11 @@ import SwiftUI
 
 struct MenuDetail: View {
     @StateObject var menu: Menu
+    let index: Int
     var body: some View {
         HStack {
             Picker("", selection: $menu.selectedOption) {
-                ForEach(menu.options[0], id: \.self) { option in
+                ForEach(menu.options[index], id: \.self) { option in
                     Text(option)
                 }
             }
