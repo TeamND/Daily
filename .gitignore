@@ -219,3 +219,15 @@ Back/node_modules/
 ServerSetting/
 
 Back/package-lock.json
+
+# python cache
+Back/__pycache__/
+Back/Api/__pycache__/
+*.py[cod]
+*.pyc
+
+# virtual env
+Back/venv/
+
+#db set
+Back/config.py
