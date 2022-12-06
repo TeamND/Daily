@@ -18,8 +18,12 @@ struct RightSideMenu: View {
         HStack {
             Spacer()
             ZStack {
-                RoundedRectangle(cornerRadius: 12)
+                Rectangle()
                     .fill(.white)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(.white, lineWidth: 12)
+                    }
                     .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
