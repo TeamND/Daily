@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeekOnMonth: View {
-    @StateObject var calendar: Calendar
+    @StateObject var calendar: MyCalendar
     let rowIndex: Int
     var body: some View {
         HStack {

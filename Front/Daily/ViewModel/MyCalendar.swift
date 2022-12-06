@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Calendar: ObservableObject {
+class MyCalendar: ObservableObject {
     @Published var showMonth: Bool
     @Published var showWeekDay: Bool
     

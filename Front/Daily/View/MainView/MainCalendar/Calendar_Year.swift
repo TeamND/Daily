@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Year: View {
-    @StateObject var calendar: Calendar
+    @StateObject var calendar: MyCalendar
     var body: some View {
         VStack(spacing: 0) {
             CustomDivider(color: .black, height: 2)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Month: View {
-    @StateObject var calendar: Calendar
+    @StateObject var calendar: MyCalendar
     var body: some View {
         VStack {
             WeekIndicator()
