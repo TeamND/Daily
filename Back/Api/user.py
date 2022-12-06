@@ -44,14 +44,19 @@ class Set(Resource):
         result = User.query.filter(User.uid == response['uid']).first()
     
         if result:
-            for k,v in response.items():
-                setattr(result, k, v)
-            db.session.commit()
-            return {
-                'code': '00',
-                'message': '수정에 성공했습니다.'
-            }
-            
+            try:
+                for k,v in response.items():
+                    setattr(result, k, v)
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '수정에 성공했습니다.'
+                }
+            except:
+                return {
+                    'code': '99',
+                    'message': '확인되지않은 이유로 수정에 실패했습니다.'
+                }
         else: 
            return {
                 'code': '99',
