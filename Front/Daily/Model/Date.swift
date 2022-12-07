@@ -20,39 +20,48 @@ extension Date {
          return Calendar.current.component(.day, from: self)
     }
     
-    public func startOfMonth() -> Date {
+    public var getYear: String {
         let df = DateFormatter()
-        df.locale = Locale(identifier: "ko_KR")
-        
-        print(self)
-        print(df.string(from: self))
-        
-        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
+        df.dateFormat = "YYYY년"
+        return df.string(from: self)
     }
     
+    public var getMonth: String {
+        let df = DateFormatter()
+        df.dateFormat = "M월"
+        return df.string(from: self)
+    }
     
-    public var monthName: String {
-        let nameFormatter = DateFormatter()
-        nameFormatter.dateFormat = "MMMM" // format January, February, March, ...
-        return nameFormatter.string(from: self)
+    public var getDay: String {
+        let df = DateFormatter()
+        df.dateFormat = "d일"
+        return df.string(from: self)
+    }
+    
+    public func getDOW() -> String {
+        let df = DateFormatter()
+        df.dateFormat = "EEEEEE"
+        df.locale = Locale(identifier:"ko_KR")
+        return df.string(from: self)
+    }
+    
+    public func startDayOfMonth() -> Date {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        return cal.startOfDay(for: cal.date(from: cal.dateComponents([.year, .month], from: self))!)
     }
 }
 
-//extension Date {
-//
-//    func startOfMonth() -> Date {
-////        let df = DateFormatter()
-////        df.locale = Locale(identifier: "ko_KR")
-//        print(NSCalendar.current.date(from: NSCalendar.current.dateComponents([.year, .month], from: self))!)
-////        print(
-////            NSCalendar.current.date(byAdding: DateComponents(day: 1), to:
-////            NSCalendar.current.date(from: NSCalendar.current.dateComponents([.year, .month], from: self))!
-////            )
-////        )
-//        return NSCalendar.current.date(from: NSCalendar.current.dateComponents([.year, .month], from: NSCalendar.current.startOfDay(for: self)))!
-//    }
-//
-//    func endOfMonth() -> Date {
-//        return NSCalendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startOfMonth())!
-//    }
-//}
+
+extension String {
+    func toDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
+    }
+}
