@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Year: View {
-    @StateObject var calendar: Calendar
+    @StateObject var calendar: MyCalendar
     var body: some View {
         VStack(spacing: 0) {
             CustomDivider(color: .black, height: 2)
@@ -28,7 +28,7 @@ struct Calendar_Year: View {
             }
             NavigationLink(
                 destination: Calendar_Month(calendar: calendar)
-                    .navigationBarTitle(Mformat.string(from: Date())),
+                    .navigationBarTitle(Date().getMonth),
                 isActive: $calendar.showMonth,
                 label: { EmptyView() }
             )
