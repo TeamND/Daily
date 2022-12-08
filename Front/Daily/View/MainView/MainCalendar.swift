@@ -12,7 +12,7 @@ struct MainCalendar: View {
     var body: some View {
         NavigationView {
             Calendar_Year(calendar: calendar)
-                .navigationBarTitle(YYYYformat.string(from: Date()))
+                .navigationBarTitle(Date().getYear)
                 .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())

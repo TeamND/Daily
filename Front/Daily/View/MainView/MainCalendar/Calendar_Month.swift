@@ -23,7 +23,7 @@ struct Calendar_Month: View {
             
             NavigationLink(
                 destination: Calendar_Week_Day()
-                    .navigationBarTitle(dformat.string(from: Date())),
+                    .navigationBarTitle(Date().getDay),
                 isActive: $calendar.showWeekDay,
                 label: { EmptyView() }
             )

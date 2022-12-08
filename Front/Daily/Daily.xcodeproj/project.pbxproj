@@ -20,7 +20,6 @@
 		F6C0F7FB2917DDB600984457 /* Calendar_Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FA2917DDB600984457 /* Calendar_Year.swift */; };
 		F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FC2917DDFD00984457 /* Calendar_Month.swift */; };
 		F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */; };
-		F6C0F8012919007500984457 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F8002919007500984457 /* DateFormatter.swift */; };
 		F6C0F8052919044100984457 /* AddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F8042919044100984457 /* AddGoalButton.swift */; };
 		F6C0F807291A501400984457 /* MainHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F806291A501400984457 /* MainHeader.swift */; };
 		F6C0F809291A50B300984457 /* ShowMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F808291A50B300984457 /* ShowMenuButton.swift */; };
@@ -68,7 +67,6 @@
 		F6C0F7FA2917DDB600984457 /* Calendar_Year.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_Year.swift; sourceTree = "<group>"; };
 		F6C0F7FC2917DDFD00984457 /* Calendar_Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar_Month.swift; sourceTree = "<group>"; };
 		F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar_Week&Day.swift"; sourceTree = "<group>"; };
-		F6C0F8002919007500984457 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		F6C0F8042919044100984457 /* AddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalButton.swift; sourceTree = "<group>"; };
 		F6C0F806291A501400984457 /* MainHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeader.swift; sourceTree = "<group>"; };
 		F6C0F808291A50B300984457 /* ShowMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMenuButton.swift; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 		F637807929109AF000356212 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F6C0F8002919007500984457 /* DateFormatter.swift */,
 				F6C2F21F2921FAE70006BFC7 /* Month.swift */,
 				F6D0624A2927B58B00B825EF /* Times.swift */,
 				F6C0F818291C873200984457 /* Week.swift */,
@@ -378,7 +375,6 @@
 			files = (
 				F62E884B293DBA740010FEE2 /* TestLabel.swift in Sources */,
 				F6C0F80B291A562300984457 /* MainCalendar.swift in Sources */,
-				F6C0F8012919007500984457 /* DateFormatter.swift in Sources */,
 				F6C0F819291C873200984457 /* Week.swift in Sources */,
 				F6D062592937281800B825EF /* MenuDetail.swift in Sources */,
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,

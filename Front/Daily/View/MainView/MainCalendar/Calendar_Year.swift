@@ -28,7 +28,7 @@ struct Calendar_Year: View {
             }
             NavigationLink(
                 destination: Calendar_Month(calendar: calendar)
-                    .navigationBarTitle(Mformat.string(from: Date())),
+                    .navigationBarTitle(Date().getMonth),
                 isActive: $calendar.showMonth,
                 label: { EmptyView() }
             )
