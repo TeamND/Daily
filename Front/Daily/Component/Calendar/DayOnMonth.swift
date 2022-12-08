@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct DayOnMonth: View {
+    let rowIndex: Int
+    let colIndex: Int
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: 24))
                     .foregroundColor(.mint.opacity(0.4))
-                Text("1")
+                Text("\(rowIndex * 7 + colIndex)")
                     .font(.system(size: 12, weight: .bold))
             }
             VStack(spacing: 8) {

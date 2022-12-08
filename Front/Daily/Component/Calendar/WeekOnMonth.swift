@@ -13,16 +13,16 @@ struct WeekOnMonth: View {
     var body: some View {
         HStack {
             ForEach (0..<7) { colIndex in
-                let isToday = rowIndex == 1 && colIndex == 1
                 Button {
+                    calendar.day = rowIndex * 7 + colIndex
                     calendar.setState(state: "Week&Day")
                 } label: {
-                    DayOnMonth()
+                    DayOnMonth(rowIndex: rowIndex, colIndex: colIndex)
                         .padding(4)
                         .overlay {
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(.green, lineWidth: 2)
-                                .opacity(isToday ? 1 : 0)
+                                .opacity(calendar.isToday(rowIndex: rowIndex, colIndex: colIndex) ? 1 : 0)
                         }
                         .accentColor(.black)
                 }

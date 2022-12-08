@@ -20,36 +20,36 @@ extension Date {
          return Calendar.current.component(.day, from: self)
     }
     
-    public var getYear: String {
-        let df = DateFormatter()
-        df.dateFormat = "YYYY년"
-        return df.string(from: self)
-    }
-    
-    public var getMonth: String {
-        let df = DateFormatter()
-        df.dateFormat = "M월"
-        return df.string(from: self)
-    }
-    
-    public var getDay: String {
-        let df = DateFormatter()
-        df.dateFormat = "d일"
-        return df.string(from: self)
-    }
-    
-    public func getDOW() -> String {
-        let df = DateFormatter()
-        df.dateFormat = "EEEEEE"
-        df.locale = Locale(identifier:"ko_KR")
-        return df.string(from: self)
-    }
-    
-    public func startDayOfMonth() -> Date {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        return cal.startOfDay(for: cal.date(from: cal.dateComponents([.year, .month], from: self))!)
-    }
+//    public var getYear: String {
+//        let df = DateFormatter()
+//        df.dateFormat = "YYYY년"
+//        return df.string(from: self)
+//    }
+//
+//    public var getMonth: String {
+//        let df = DateFormatter()
+//        df.dateFormat = "M월"
+//        return df.string(from: self)
+//    }
+//
+//    public var getDay: String {
+//        let df = DateFormatter()
+//        df.dateFormat = "d일"
+//        return df.string(from: self)
+//    }
+//
+//    public func getDOW() -> String {
+//        let df = DateFormatter()
+//        df.dateFormat = "EEEEEE"
+//        df.locale = Locale(identifier:"ko_KR")
+//        return df.string(from: self)
+//    }
+//
+//    public func startDayOfMonth() -> Date {
+//        var cal = Calendar.current
+//        cal.timeZone = TimeZone(identifier: "UTC")!
+//        return cal.startOfDay(for: cal.date(from: cal.dateComponents([.year, .month], from: self))!)
+//    }
 }
 
 

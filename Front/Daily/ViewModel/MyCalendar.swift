@@ -10,10 +10,17 @@ import Foundation
 class MyCalendar: ObservableObject {
     @Published var showMonth: Bool
     @Published var showWeekDay: Bool
+    @Published var year: Int
+    @Published var month: Int
+    @Published var day: Int
     
     init() {
         self.showMonth = true
         self.showWeekDay = false
+        
+        self.year = Date().year
+        self.month = Date().month
+        self.day = Date().day
     }
     
     func setState(state: String = "Month") {
@@ -31,5 +38,13 @@ class MyCalendar: ObservableObject {
             print("error")
             print("state is \(state)")
         }
+    }
+    
+    func isToday(rowIndex: Int, colIndex: Int) -> Bool {
+        let today = Date()
+        if today.year == self.year && today.month == self.month {
+            return today.day == rowIndex * 7 + colIndex
+        }
+        return false
     }
 }

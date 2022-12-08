@@ -18,6 +18,7 @@ struct Calendar_Year: View {
                     ForEach (0..<3) { colIndex in
                         let monthIndex = (rowIndex * 3) + colIndex
                         Button {
+                            calendar.month = monthIndex + 1
                             calendar.setState(state: "Month")
                         } label: {
                             MonthOnYear(monthIndex: monthIndex)
@@ -28,7 +29,7 @@ struct Calendar_Year: View {
             }
             NavigationLink(
                 destination: Calendar_Month(calendar: calendar)
-                    .navigationBarTitle(Date().getMonth),
+                    .navigationBarTitle("\(calendar.month)월"),
                 isActive: $calendar.showMonth,
                 label: { EmptyView() }
             )
