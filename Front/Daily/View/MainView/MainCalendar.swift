@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MainCalendar: View {
-    @StateObject var calendar: Calendar
+    @StateObject var calendar: MyCalendar
     var body: some View {
         NavigationView {
             Calendar_Year(calendar: calendar)
-                .navigationBarTitle(YYYYformat.string(from: Date()))
+                .navigationBarTitle(String(calendar.year) + "년")
                 .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())

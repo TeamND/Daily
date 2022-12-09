@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var calendar: Calendar = Calendar()
+    @State private var calendar: MyCalendar = MyCalendar()
     @State private var popupInfo: PopupInfo = PopupInfo()
     var body: some View {
         ZStack {
