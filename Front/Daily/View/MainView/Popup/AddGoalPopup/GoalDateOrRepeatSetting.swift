@@ -25,7 +25,8 @@ struct GoalDateOrRepeatSetting: View {
         .font(.system(size: 16))
         switch dateOrRepeat {
         case "날짜":
-            MonthOnYear(monthIndex: 10, fontSize: 16, isTapSelect: true)
+            let calendar: MyCalendar = MyCalendar()
+            MonthOnYear(calendar: calendar, month: calendar.month, fontSize: 16, isTapSelect: true)
         case "반복":
             WeekIndicator(tapPurpose: "select")
         default:

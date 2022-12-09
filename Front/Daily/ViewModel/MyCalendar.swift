@@ -13,11 +13,9 @@ class MyCalendar: ObservableObject {
     @Published var year: Int
     @Published var month: Int
     @Published var day: Int
-    var startDayIndex: Int = 0
-    var lengthOfMonth: Int = 31
     
     init() {
-        self.showMonth = true
+        self.showMonth = false
         self.showWeekDay = false
         
         self.year = Date().year
@@ -31,8 +29,6 @@ class MyCalendar: ObservableObject {
             self.showMonth = false
             self.showWeekDay = false
         case "Month":
-            self.startDayIndex = "\(String(self.year))-\(String(format: "%02d", self.month))-01".toDate()!.startDayIndex()
-            self.lengthOfMonth = "\(String(self.year))-\(String(format: "%02d", self.month))-01".toDate()!.lastDayOfMonth().day
             self.showMonth = true
             self.showWeekDay = false
         case "Week&Day":
@@ -50,5 +46,17 @@ class MyCalendar: ObservableObject {
             return today.day == day
         }
         return false
+    }
+    
+    func startDayIndex(year: Int = 0, month: Int = 0) -> Int {
+        let yearStr = String(format: "%4d", year == 0 ? self.year : year)
+        let monthStr = String(format: "%2d", month == 0 ? self.month : month)
+        return "\(yearStr)-\(monthStr)-01".toDate()!.startDayIndex()
+    }
+    
+    func lengthOfMonth(year: Int = 0, month: Int = 0) -> Int {
+        let yearStr = String(format: "%4d", year == 0 ? self.year : year)
+        let monthStr = String(format: "%2d", month == 0 ? self.month : month)
+        return "\(yearStr)-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
 }

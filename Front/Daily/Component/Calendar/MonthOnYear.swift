@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MonthOnYear: View {
+    @StateObject var calendar: MyCalendar
     @State var archievements: [[Double]] = [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -16,18 +17,19 @@ struct MonthOnYear: View {
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0]
     ]
-    var monthIndex: Int
+    var month: Int
     var fontSize: CGFloat = 6
     var isTapSelect: Bool = false
     var body: some View {
         VStack(alignment: .leading) {
-                Text(kMonths[monthIndex])
-                    .font(.system(size: 20, weight: .bold))
-            .padding(4)
+            Text(kMonths[month - 1])
+                .font(.system(size: 20, weight: .bold))
+                .padding(4)
             ForEach (0..<6) { rowIndex in
                 HStack(spacing: 1) {
                     ForEach (0..<7) { colIndex in
                         ZStack {
+                            let day: Int = rowIndex * 7 + colIndex - calendar.startDayIndex(year: calendar.year, month: month) + 1
                             Image(systemName: "circle.fill")
                                 .font(.system(size: fontSize * 2))
                                 .foregroundColor(.mint.opacity(archievements[rowIndex][colIndex]))
@@ -39,13 +41,25 @@ struct MonthOnYear: View {
                                         archievements[rowIndex][colIndex] = 0
                                     }
                                 } label: {
-                                    Text("1")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: fontSize, weight: .bold))
+                                    if 1 <= day && day <= calendar.lengthOfMonth(year: calendar.year, month: month) {
+                                        Text("\(day)")
+                                            .foregroundColor(.black)
+                                            .font(.system(size: fontSize, weight: .bold))
+                                    } else {
+                                        Text("1")
+                                            .font(.system(size: fontSize, weight: .bold))
+                                            .opacity(0)
+                                    }
                                 }
                             } else {
-                                Text("1")
-                                    .font(.system(size: fontSize, weight: .bold))
+                                if 1 <= day && day <= calendar.lengthOfMonth() {
+                                    Text("\(day)")
+                                        .font(.system(size: fontSize, weight: .bold))
+                                } else {
+                                    Text("1")
+                                        .font(.system(size: fontSize, weight: .bold))
+                                        .opacity(0)
+                                }
                             }
                         }
                     }

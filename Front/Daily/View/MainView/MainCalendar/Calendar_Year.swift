@@ -16,12 +16,12 @@ struct Calendar_Year: View {
             ForEach (0..<4) { rowIndex in
                 HStack(spacing: 0) {
                     ForEach (0..<3) { colIndex in
-                        let monthIndex = (rowIndex * 3) + colIndex
+                        let month = (rowIndex * 3) + colIndex + 1
                         Button {
-                            calendar.month = monthIndex + 1
+                            calendar.month = month
                             calendar.setState(state: "Month")
                         } label: {
-                            MonthOnYear(monthIndex: monthIndex)
+                            MonthOnYear(calendar: calendar, month: month)
                                 .accentColor(.black)
                         }
                     }

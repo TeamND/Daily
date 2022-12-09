@@ -13,8 +13,8 @@ struct WeekOnMonth: View {
     var body: some View {
         HStack {
             ForEach (0..<7) { colIndex in
-                let day: Int = rowIndex * 7 + colIndex - calendar.startDayIndex + 1
-                if 1 <= day && day <= calendar.lengthOfMonth {
+                let day: Int = rowIndex * 7 + colIndex - calendar.startDayIndex() + 1
+                if 1 <= day && day <= calendar.lengthOfMonth() {
                     Button {
                         calendar.day = day
                         calendar.setState(state: "Week&Day")
