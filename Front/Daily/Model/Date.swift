@@ -37,19 +37,39 @@ extension Date {
 //        df.dateFormat = "d일"
 //        return df.string(from: self)
 //    }
-//
-//    public func getDOW() -> String {
-//        let df = DateFormatter()
-//        df.dateFormat = "EEEEEE"
-//        df.locale = Locale(identifier:"ko_KR")
-//        return df.string(from: self)
-//    }
-//
-//    public func startDayOfMonth() -> Date {
-//        var cal = Calendar.current
-//        cal.timeZone = TimeZone(identifier: "UTC")!
-//        return cal.startOfDay(for: cal.date(from: cal.dateComponents([.year, .month], from: self))!)
-//    }
+
+    public func getDOW() -> String {
+        let df = DateFormatter()
+        df.dateFormat = "EEEEEE"
+        df.locale = Locale(identifier:"ko_KR")
+        return df.string(from: self)
+    }
+
+    public func startDayIndex() -> Int {
+        let weeks = kWeeks[0]   // 임시 데이터
+        for i in weeks.indices {
+            if weeks[i] == self.getDOW() { return i }
+        }
+        return 0
+    }
+    
+    public func startDayOfMonth() -> Date {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        return cal.startOfDay(for: cal.date(from: cal.dateComponents([.year, .month], from: self))!)
+    }
+    
+    public func startDayOfNextMonth() -> Date {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        return cal.date(byAdding: .month, value: +1, to: self.startDayOfMonth())!
+    }
+    
+    public func lastDayOfMonth() -> Date {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        return cal.date(byAdding: .day, value: -1, to: self.startDayOfNextMonth())!
+    }
 }
 
 

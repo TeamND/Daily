@@ -16,7 +16,8 @@ struct Calendar_Month: View {
             VStack {
                 ForEach (0..<6) { rowIndex in
                     WeekOnMonth(calendar: calendar, rowIndex: rowIndex)
-                    if rowIndex < 5 { CustomDivider(hPadding: 20) }
+                    let isShowDivider: Bool = rowIndex < (calendar.lengthOfMonth + calendar.startDayIndex - 1) / 7
+                    if isShowDivider { CustomDivider(hPadding: 20) }
                 }
                 Spacer()
             }

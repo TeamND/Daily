@@ -13,6 +13,8 @@ class MyCalendar: ObservableObject {
     @Published var year: Int
     @Published var month: Int
     @Published var day: Int
+    var startDayIndex: Int = 0
+    var lengthOfMonth: Int = 31
     
     init() {
         self.showMonth = true
@@ -29,6 +31,8 @@ class MyCalendar: ObservableObject {
             self.showMonth = false
             self.showWeekDay = false
         case "Month":
+            self.startDayIndex = "\(String(self.year))-\(String(format: "%02d", self.month))-01".toDate()!.startDayIndex()
+            self.lengthOfMonth = "\(String(self.year))-\(String(format: "%02d", self.month))-01".toDate()!.lastDayOfMonth().day
             self.showMonth = true
             self.showWeekDay = false
         case "Week&Day":
@@ -40,10 +44,10 @@ class MyCalendar: ObservableObject {
         }
     }
     
-    func isToday(rowIndex: Int, colIndex: Int) -> Bool {
+    func isToday(day: Int) -> Bool {
         let today = Date()
         if today.year == self.year && today.month == self.month {
-            return today.day == rowIndex * 7 + colIndex
+            return today.day == day
         }
         return false
     }
