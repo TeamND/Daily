@@ -10,14 +10,18 @@ import SwiftUI
 struct WeekOnMonth: View {
     @StateObject var calendar: MyCalendar
     let rowIndex: Int
+    let startDayIndex: Int
+    let lengthOfMonth: Int
     var body: some View {
         HStack {
             ForEach (0..<7) { colIndex in
-                let day: Int = rowIndex * 7 + colIndex - calendar.startDayIndex() + 1
-                if 1 <= day && day <= calendar.lengthOfMonth() {
+                let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
+                if 1 <= day && day <= lengthOfMonth {
                     Button {
-                        calendar.day = day
-                        calendar.setState(state: "Week&Day")
+                        withAnimation {
+                            calendar.day = day
+                            calendar.state = "Week&Day"
+                        }
                     } label: {
                         DayOnMonth(day: day)
                             .padding(4)

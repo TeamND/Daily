@@ -10,11 +10,8 @@ import SwiftUI
 struct MainCalendar: View {
     @StateObject var calendar: MyCalendar
     var body: some View {
-        NavigationView {
-            Calendar_Year(calendar: calendar)
-                .navigationBarTitle(String(calendar.year) + "년")
-                .navigationBarTitleDisplayMode(.inline)
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
+        if calendar.state == "Year" { Calendar_Year(calendar: calendar) }
+        if calendar.state == "Month" { Calendar_Month(calendar: calendar) }
+        if calendar.state == "Week&Day" { Calendar_Week_Day() }
     }
 }
