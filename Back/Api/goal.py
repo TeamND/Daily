@@ -44,9 +44,13 @@ class GoalRUD(Resource):
             except:
                     return {
                     'code': '99',
-                    'message': '조회실패'
+                    'message': '알수없는 이유로 추가에 실패했습니다'
                 }
-
+        else:
+            return {
+                'code': '99',
+                'message': '조회실패'
+            }
     def put(self):
         return {'put'}
     def delete(self):
