@@ -1,5 +1,5 @@
 import flask_sqlalchemy
-
+import datetime
 db = flask_sqlalchemy.SQLAlchemy()
 
 class User(db.Model):
@@ -16,12 +16,12 @@ class Goal(db.Model):
     user_uid = db.Column(db.Integer)
     content = db.Column(db.String(100))
     symbol = db.Column(db.String(100), default='운동')
-    start_date = db.Column(db.DateTime, server_default=db.func.now())
-    end_date = db.Column(db.DateTime)
+    start_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     cycle_type = db.Column(db.String(100), default='date')
     cycle_date = db.Column(db.String(100), default='0')
     type = db.Column(db.String(100), default='check')
-    goal_count = db.Column(db.Integer)
+    goal_count = db.Column(db.Integer, default=1)
     goal_time = db.Column(db.String(100), default='1M')
     
     def __repr__(self):
@@ -38,4 +38,4 @@ class Record(db.Model):
     goal_count = db.Column(db.Integer)
     record_time = db.Column(db.DateTime)
     goal_time = db.Column(db.String(100), default='1M')
-    start_time = db.Column(db.DateTime, server_default=db.func.now())
+    start_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)

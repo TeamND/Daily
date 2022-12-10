@@ -7,20 +7,19 @@ goal = Namespace('goal')
 @goal.route('/',methods=['POST'])
 class GoalCreate(Resource):
     def post(self):
-        response = request.form
+    
         try:
-            for k,v in response.items():
-                goal = setattr(Goal, k, v)
-            db.session.add(goal)
+            query = Goal(**request.form)
+            db.session.add(query)
             db.session.commit()
             return {
                 'code': '00',
-                'message': '수정에 성공했습니다.'
+                'message': '추가에 성공했습니다.'
             }
-        except:
+        except Exception as e:
             return {
                 'code': '99',
-                'message': '확인되지않은 이유로 추가에 실패했습니다.'
+                'message': e
             }
     
 @goal.route('/<int:uid>')
@@ -41,17 +40,52 @@ class GoalRUD(Resource):
                     'data': data
                 }
                 
-            except:
-                    return {
+            except Exception as e:
+                return {
                     'code': '99',
-                    'message': '알수없는 이유로 추가에 실패했습니다'
+                    'message': e
                 }
         else:
             return {
                 'code': '99',
                 'message': '조회실패'
             }
-    def put(self):
-        return {'put'}
-    def delete(self):
-        return {'delete'}
+            
+    def put(self,uid):
+        request_data = request.args
+        result = db.session.get(Goal,uid)
+        
+        if result:
+            try:
+                for k,v in request_data.items():
+                    setattr(result, k, v)
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '수정에 성공했습니다.'
+                }
+            except Exception as e:
+                return {
+                    'code': '99',
+                    'message': e
+                }
+        else: 
+           return {
+                'code': '99',
+                'message': '조회된 데이터가 없습니다.'
+            }
+            
+    def delete(self,uid):
+        
+        try:
+            db.session.delete(Goal,uid)
+            db.session.commit()
+            return {
+                'code': '00',
+                'message': '삭제에 성공했습니다.'
+            }
+        except Exception as e:
+            return {
+                'code': '99',
+                'message': e
+            }

@@ -40,12 +40,12 @@ class Info(Resource):
 @user.route('/set',methods=['POST'])
 class Set(Resource):
     def post(self):
-        response = request.form
-        result = User.query.filter(User.uid == response['uid']).first()
+        request_data = request.form
+        result = User.query.filter(User.uid == request_data['uid']).first()
     
         if result:
             try:
-                for k,v in response.items():
+                for k,v in request_data.items():
                     setattr(result, k, v)
                 db.session.commit()
                 return {
