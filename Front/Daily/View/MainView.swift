@@ -12,8 +12,11 @@ struct MainView: View {
     @State private var popupInfo: PopupInfo = PopupInfo()
     var body: some View {
         ZStack {
-            MainCalendar(calendar: calendar)
-            MainHeader(popupInfo: popupInfo)
+            VStack(spacing: 0) {
+                MainHeader(calendar: calendar, popupInfo: popupInfo)
+                    .frame(height: 40)
+                MainCalendar(calendar: calendar)
+            }
             Popup(popupInfo: popupInfo)
         }
         .accentColor(.mint)

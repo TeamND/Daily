@@ -21,6 +21,8 @@ struct MonthOnYear: View {
     var fontSize: CGFloat = 6
     var isTapSelect: Bool = false
     var body: some View {
+        let startDayIndex = calendar.startDayIndex(year: calendar.year, month: month)
+        let lengthOfMonth = calendar.lengthOfMonth(year: calendar.year, month: month)
         VStack(alignment: .leading) {
             Text(kMonths[month - 1])
                 .font(.system(size: 20, weight: .bold))
@@ -29,7 +31,7 @@ struct MonthOnYear: View {
                 HStack(spacing: 1) {
                     ForEach (0..<7) { colIndex in
                         ZStack {
-                            let day: Int = rowIndex * 7 + colIndex - calendar.startDayIndex(year: calendar.year, month: month) + 1
+                            let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                             Image(systemName: "circle.fill")
                                 .font(.system(size: fontSize * 2))
                                 .foregroundColor(.mint.opacity(archievements[rowIndex][colIndex]))
@@ -41,7 +43,7 @@ struct MonthOnYear: View {
                                         archievements[rowIndex][colIndex] = 0
                                     }
                                 } label: {
-                                    if 1 <= day && day <= calendar.lengthOfMonth(year: calendar.year, month: month) {
+                                    if 1 <= day && day <= lengthOfMonth {
                                         Text("\(day)")
                                             .foregroundColor(.black)
                                             .font(.system(size: fontSize, weight: .bold))
@@ -52,7 +54,7 @@ struct MonthOnYear: View {
                                     }
                                 }
                             } else {
-                                if 1 <= day && day <= calendar.lengthOfMonth() {
+                                if 1 <= day && day <= lengthOfMonth {
                                     Text("\(day)")
                                         .font(.system(size: fontSize, weight: .bold))
                                 } else {
