@@ -11,12 +11,15 @@ class MyCalendar: ObservableObject {
     @Published var state: String = "Month"
     @Published var year: Int
     @Published var month: Int
-    @Published var day: Int
+    @Published var startDay: Int
+    @Published var dayIndex: Int
+    
     
     init() {
         self.year = Date().year
         self.month = Date().month
-        self.day = Date().day
+        self.startDay = Date().day
+        self.dayIndex = 0
     }
     
     func isToday(day: Int) -> Bool {

@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct Calendar_Week_Day: View {
+    @StateObject var calendar: MyCalendar
     var body: some View {
         VStack {
-            WeekIndicator(todayIndex: 2, archievements: [0.2, 0.4, 0.8, 0.4, 0.6, 0.4, 0], tapPurpose: "change")
+            WeekIndicator(
+                calendar: calendar,
+                archievements: [0, 0, 0, 0, 0, 0, 0],
+                tapPurpose: "change"
+            )
             CustomDivider(color: .black, height: 2, hPadding: 12)
             List {
                 ForEach (goalList) { goal in

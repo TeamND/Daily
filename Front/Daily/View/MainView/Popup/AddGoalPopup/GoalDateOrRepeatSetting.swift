@@ -23,12 +23,12 @@ struct GoalDateOrRepeatSetting: View {
             .cornerRadius(15)
         }
         .font(.system(size: 16))
+        let calendar: MyCalendar = MyCalendar()
         switch dateOrRepeat {
         case "날짜":
-            let calendar: MyCalendar = MyCalendar()
             MonthOnYear(calendar: calendar, month: calendar.month, fontSize: 16, isTapSelect: true)
         case "반복":
-            WeekIndicator(tapPurpose: "select")
+            WeekIndicator(calendar: calendar, tapPurpose: "select")
         default:
             Text("")
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeekIndicator: View {
-    @State var todayIndex: Int = -1
+    @StateObject var calendar: MyCalendar
     @State var archievements: [Double] = [0, 0, 0, 0, 0, 0, 0]
     var tapPurpose: String = ""
     var body: some View {
@@ -16,10 +16,10 @@ struct WeekIndicator: View {
             ForEach (kWeeks[0].indices, id: \.self) { index in
                 Spacer()
                 ZStack {
-                    let isToday = index == todayIndex
+                    let isToday = index == calendar.dayIndex
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.green, lineWidth: 2)
-                        .opacity(isToday ? 1 : 0)
+                        .opacity(isToday && tapPurpose == "change" ? 1 : 0)
                     Image(systemName: "circle.fill")
                         .font(.system(size: 32))
                         .foregroundColor(.mint.opacity(archievements[index]))
@@ -30,9 +30,7 @@ struct WeekIndicator: View {
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        if index != todayIndex {
-                            todayIndex = index
-                        }
+                        calendar.dayIndex = index
                     case "select":
                         if archievements[index] == 0 { archievements[index] = 0.4 }
                         else                         { archievements[index] = 0 }
