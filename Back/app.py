@@ -1,12 +1,20 @@
 from flask import Flask
 from flask_restx import Resource, Api
-from Api.user import user
-from Api.goal import goal
 from config import uri
 from model import db
+from Controller.user import user
+from Controller.goal import goal
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(
+            app,
+            version='Beta',
+            title="Daily's API Server",
+            description="Daily's API Server!",
+            terms_url="/",
+            contact="e3hope93@gmail.com",
+            license="MIT"
+)
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()

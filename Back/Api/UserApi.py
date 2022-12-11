@@ -2,11 +2,8 @@ from flask import request
 from flask_restx import Resource, Api, Namespace
 from model import db,User
 
-user = Namespace('user')
-
-@user.route('/info/<string:phone_uid>')
-class Info(Resource):
-    def get(self,phone_uid):
+class UserApi(Resource):
+    def Info(phone_uid):
         result = User.query.filter(User.phone_uid == phone_uid).first()
         
         if result:
@@ -20,12 +17,12 @@ class Info(Resource):
                         'set_language': result.set_language,
                         'set_dateorrepeat': result.set_dateorrepeat
                     }
-                }
-            except:
+                }, 00
+            except Exception as e:
                  return {
                     'code': '99',
-                    'message': '조회실패'
-                }
+                    'message': e
+                }, 99
             
         else:
             user = User(phone_uid=phone_uid)
@@ -35,31 +32,28 @@ class Info(Resource):
             return {
                 'code': '00',
                 'message': '입력성공'
-            }
+            }, 00
 
-@user.route('/set',methods=['POST'])
-class Set(Resource):
-    def post(self):
-        request_data = request.form
-        result = User.query.filter(User.uid == request_data['uid']).first()
+    def Set(data):
+        result = User.query.filter(User.uid == data['uid']).first()
     
         if result:
             try:
-                for k,v in request_data.items():
+                for k,v in data.items():
                     setattr(result, k, v)
                 db.session.commit()
                 return {
                     'code': '00',
                     'message': '수정에 성공했습니다.'
-                }
-            except:
+                }, 00
+            except Exception as e:
                 return {
                     'code': '99',
-                    'message': '확인되지않은 이유로 수정에 실패했습니다.'
-                }
+                    'message': e
+                }, 99
         else: 
            return {
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
-            }
+            }, 99
         
