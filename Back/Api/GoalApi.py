@@ -2,29 +2,27 @@ from flask import request
 from flask_restx import Resource, Api, Namespace
 from model import db,Goal
 
-goal = Namespace('goal')
-
-@goal.route('/',methods=['POST'])
-class GoalCreate(Resource):
-    def post(self):
+class GoalApi(Resource):
+    
+    # 생성
+    def Create(data):
     
         try:
-            query = Goal(**request.form)
+            query = Goal(**data)
             db.session.add(query)
             db.session.commit()
             return {
                 'code': '00',
                 'message': '추가에 성공했습니다.'
-            }
+            }, 00
         except Exception as e:
             return {
                 'code': '99',
                 'message': e
-            }
-    
-@goal.route('/<int:uid>')
-class GoalRUD(Resource):
-    def get(self,uid):
+            }, 99
+
+    # 조회
+    def Read(uid):
         result = db.session.get(Goal,uid)
         
         if result:
@@ -38,44 +36,46 @@ class GoalRUD(Resource):
                     'code': '00',
                     'message': '조회성공',
                     'data': data
-                }
+                }, 00
                 
             except Exception as e:
                 return {
                     'code': '99',
                     'message': e
-                }
+                }, 99
         else:
             return {
                 'code': '99',
                 'message': '조회실패'
-            }
-            
-    def put(self,uid):
-        request_data = request.args
+            }, 99
+
+    # 수정
+    def Update(uid,data):
+        
         result = db.session.get(Goal,uid)
         
         if result:
             try:
-                for k,v in request_data.items():
+                for k,v in data.items():
                     setattr(result, k, v)
                 db.session.commit()
                 return {
                     'code': '00',
                     'message': '수정에 성공했습니다.'
-                }
+                }, 00
             except Exception as e:
                 return {
                     'code': '99',
                     'message': e
-                }
+                }, 99
         else: 
            return {
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
-            }
-            
-    def delete(self,uid):
+            }, 99
+                       
+    # 삭제
+    def Delete(uid):
         
         try:
             db.session.delete(Goal,uid)
@@ -83,9 +83,9 @@ class GoalRUD(Resource):
             return {
                 'code': '00',
                 'message': '삭제에 성공했습니다.'
-            }
+            }, 00
         except Exception as e:
             return {
                 'code': '99',
                 'message': e
-            }
+            }, 99
