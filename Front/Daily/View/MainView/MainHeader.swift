@@ -53,7 +53,7 @@ struct MainHeader: View {
                         .matchedGeometryEffect(id: "Month", in: NS)
                 }
                 if calendar.state == "Week&Day" {
-                    Text("\(calendar.startDay + calendar.dayIndex)일")
+                    Text("\(calendar.day)일")
                         .font(.system(size: 20, weight: .bold))
                         .matchedGeometryEffect(id: "Week&Day", in: NS)
                 }

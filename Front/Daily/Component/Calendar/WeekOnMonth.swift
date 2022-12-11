@@ -19,8 +19,7 @@ struct WeekOnMonth: View {
                 if 1 <= day && day <= lengthOfMonth {
                     Button {
                         withAnimation {
-//                            calendar.day = day
-                            calendar.startDay = day - colIndex
+                            calendar.day = day
                             calendar.dayIndex = colIndex
                             calendar.state = "Week&Day"
                         }

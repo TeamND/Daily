@@ -18,7 +18,7 @@ struct WeekIndicator: View {
                 ZStack {
                     let isToday = index == calendar.dayIndex
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(.green, lineWidth: 2)
+                        .stroke(.gray, lineWidth: 2)
                         .opacity(isToday && tapPurpose == "change" ? 1 : 0)
                     Image(systemName: "circle.fill")
                         .font(.system(size: 32))
@@ -30,7 +30,7 @@ struct WeekIndicator: View {
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        calendar.dayIndex = index
+                        calendar.changeDay(dayIndex: index)
                     case "select":
                         if archievements[index] == 0 { archievements[index] = 0.4 }
                         else                         { archievements[index] = 0 }
