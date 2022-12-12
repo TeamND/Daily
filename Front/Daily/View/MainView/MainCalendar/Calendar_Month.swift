@@ -24,5 +24,16 @@ struct Calendar_Month: View {
                 Spacer()
             }
         }
+        .onAppear {
+            request("http://115.68.248.159:5001/user/info/test123", "GET") { (success, data) in
+                print(data)
+            }
+
+            // or
+
+//            request("http://localhost:5000/test/post", "POST", ["key": "hello!"]) { (success, data) in
+//              print(data)
+//            }
+        }
     }
 }
