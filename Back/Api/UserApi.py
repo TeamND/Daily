@@ -25,14 +25,24 @@ class UserApi(Resource):
                 }, 99
             
         else:
-            user = User(phone_uid=phone_uid)
-            db.session.add(user)
-            db.session.commit()
-            
-            return {
-                'code': '00',
-                'message': '입력성공'
-            }, 00
+            try:
+                user = User(phone_uid=phone_uid)
+                db.session.add(user)
+                db.session.commit()
+                result = User.query.filter(User.phone_uid == phone_uid).first()
+                
+                return {
+                    'code': '00',
+                    'message': '입력성공',
+                    'data': {
+                            'uid': result.uid,
+                            'set_startday': result.set_startday,
+                            'set_language': result.set_language,
+                            'set_dateorrepeat': result.set_dateorrepeat
+                    }
+                }, 00
+            except Exception as e:
+                print (e)
 
     def Set(data):
         result = User.query.filter(User.uid == data['uid']).first()
