@@ -9,7 +9,7 @@ class UserApi(Resource):
         
         if result:
             try:
-                return json.dump({
+                return json.dumps({
                     'code': '00',
                     'message': '조회성공',
                     'data': {
@@ -20,7 +20,7 @@ class UserApi(Resource):
                     }
                 }), 00
             except Exception as e:
-                 return json.dump({
+                 return json.dumps({
                     'code': '99',
                     'message': e
                 }), 99
@@ -32,7 +32,7 @@ class UserApi(Resource):
                 db.session.commit()
                 result = User.query.filter(User.phone_uid == phone_uid).first()
                 
-                return json.dump({
+                return json.dumps({
                     'code': '00',
                     'message': '입력성공',
                     'data': {
@@ -43,7 +43,7 @@ class UserApi(Resource):
                     }
                 }), 00
             except Exception as e:
-                return json.dump({
+                return json.dumps({
                     'code': '99',
                     'message': e
                 }), 99
@@ -56,17 +56,17 @@ class UserApi(Resource):
                 for k,v in data.items():
                     setattr(result, k, v)
                 db.session.commit()
-                return json.dump({
+                return json.dumps({
                     'code': '00',
                     'message': '수정에 성공했습니다.'
                 }), 00
             except Exception as e:
-                return json.dump({
+                return json.dumps({
                     'code': '99',
                     'message': e
                 }), 99
         else: 
-           return json.dump({
+           return json.dumps({
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
             }), 99

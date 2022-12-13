@@ -12,12 +12,12 @@ class GoalApi(Resource):
             query = Goal(**data)
             db.session.add(query)
             db.session.commit()
-            return json.dump({
+            return json.dumps({
                 'code': '00',
                 'message': '추가에 성공했습니다.'
             }), 00
         except Exception as e:
-            return json.dump({
+            return json.dumps({
                 'code': '99',
                 'message': e
             }), 99
@@ -33,19 +33,19 @@ class GoalApi(Resource):
             data['end_date'] = str(data['end_date'])
             
             try:
-                return json.dump({
+                return json.dumps({
                     'code': '00',
                     'message': '조회성공',
                     'data': data
                 }), 00
                 
             except Exception as e:
-                return json.dump({
+                return json.dumps({
                     'code': '99',
                     'message': e
                 }), 99
         else:
-            return json.dump({
+            return json.dumps({
                 'code': '99',
                 'message': '조회실패'
             }), 99
@@ -60,17 +60,17 @@ class GoalApi(Resource):
                 for k,v in data.items():
                     setattr(result, k, v)
                 db.session.commit()
-                return json.dump({
+                return json.dumps({
                     'code': '00',
                     'message': '수정에 성공했습니다.'
                 }), 00
             except Exception as e:
-                return json.dump({
+                return json.dumps({
                     'code': '99',
                     'message': e
                 }), 99
         else: 
-           return json.dump({
+           return json.dumps({
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
             }), 99
@@ -81,12 +81,12 @@ class GoalApi(Resource):
         try:
             db.session.delete(Goal,uid)
             db.session.commit()
-            return json.dump({
+            return json.dumps({
                 'code': '00',
                 'message': '삭제에 성공했습니다.'
             }), 00
         except Exception as e:
-            return json.dump({
+            return json.dumps({
                 'code': '99',
                 'message': e
             }), 99
