@@ -12,15 +12,15 @@ class GoalApi(Resource):
             query = Goal(**data)
             db.session.add(query)
             db.session.commit()
-            return json.dumps({
+            return {
                 'code': '00',
                 'message': '추가에 성공했습니다.'
-            }), 00
+            }, 00
         except Exception as e:
-            return json.dumps({
+            return {
                 'code': '99',
                 'message': e
-            }), 99
+            }, 99
 
     # 조회
     def Read(uid):
@@ -33,22 +33,22 @@ class GoalApi(Resource):
             data['end_date'] = str(data['end_date'])
             
             try:
-                return json.dumps({
+                return {
                     'code': '00',
                     'message': '조회성공',
                     'data': data
-                }), 00
+                }, 00
                 
             except Exception as e:
-                return json.dumps({
+                return {
                     'code': '99',
                     'message': e
-                }), 99
+                }, 99
         else:
-            return json.dumps({
+            return {
                 'code': '99',
                 'message': '조회실패'
-            }), 99
+            }, 99
 
     # 수정
     def Update(uid,data):
@@ -60,20 +60,20 @@ class GoalApi(Resource):
                 for k,v in data.items():
                     setattr(result, k, v)
                 db.session.commit()
-                return json.dumps({
+                return {
                     'code': '00',
                     'message': '수정에 성공했습니다.'
-                }), 00
+                }, 00
             except Exception as e:
-                return json.dumps({
+                return {
                     'code': '99',
                     'message': e
-                }), 99
+                }, 99
         else: 
-           return json.dumps({
+           return {
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
-            }), 99
+            }, 99
                        
     # 삭제
     def Delete(uid):
@@ -81,12 +81,12 @@ class GoalApi(Resource):
         try:
             db.session.delete(Goal,uid)
             db.session.commit()
-            return json.dumps({
+            return {
                 'code': '00',
                 'message': '삭제에 성공했습니다.'
-            }), 00
+            }, 00
         except Exception as e:
-            return json.dumps({
+            return js({
                 'code': '99',
                 'message': e
             }), 99
