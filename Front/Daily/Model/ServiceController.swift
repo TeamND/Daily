@@ -49,7 +49,21 @@ func requestGet(url: String, completionHandler: @escaping (Bool, Any) -> Void) {
             return
         }
         
-        completionHandler(true, output)
+        DispatchQueue.main.async() {
+            do {
+                let object = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+                guard let jsonObject = object else { return }
+                print(object)
+                print(jsonObject)
+                print(jsonObject[data])
+                guard let myData = jsonObject["data"] else { return }
+                print(myData)
+            } catch let e as NSError {
+                print("An error has occured while parsing JSON Obejt : \(e.localizedDescription)")
+            }
+        }
+        
+        completionHandler(true, output.data)
     }.resume()
 }
 
