@@ -13,7 +13,7 @@ struct WeekIndicator: View {
     var tapPurpose: String = ""
     var body: some View {
         HStack {
-            ForEach (kWeeks[0].indices, id: \.self) { index in
+            ForEach (weeks().indices, id: \.self) { index in
                 Spacer()
                 ZStack {
                     let isToday = index == calendar.dayIndex
@@ -24,7 +24,7 @@ struct WeekIndicator: View {
                         .font(.system(size: 32))
                         .foregroundColor(.mint.opacity(archievements[index]))
                         .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
-                    Text(kWeeks[0][index])
+                    Text(weeks()[index])
                         .font(.system(size: 16, weight: .bold))
                 }
                 .onTapGesture {

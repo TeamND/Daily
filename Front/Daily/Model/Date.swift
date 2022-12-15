@@ -46,9 +46,8 @@ extension Date {
     }
 
     public func startDayIndex() -> Int {
-        let weeks = kWeeks[0]   // 임시 데이터
-        for i in weeks.indices {
-            if weeks[i] == self.getDOW() { return i }
+        for i in weeks().indices {
+            if weeks()[i] == self.getDOW() { return i }
         }
         return 0
     }
