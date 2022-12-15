@@ -24,20 +24,5 @@ struct Calendar_Month: View {
                 Spacer()
             }
         }
-        .onAppear {
-            request("http://115.68.248.159:5001/user/info/test123", "GET") { (success, data) in
-                let uid = data["uid"]!
-                let set_startday = data["set_startday"]!
-                let set_language = data["set_language"]!
-                let set_dateorrepeat = data["set_dateorrepeat"]!
-                print("uid is \(uid)\nset_startday is \(set_startday)\nset_language is \(set_language)\nset_dateorrepeat is \(set_dateorrepeat)")
-            }
-
-            // or
-
-//            request("http://localhost:5000/test/post", "POST", ["key": "hello!"]) { (success, data) in
-//              print(data)
-//            }
-        }
     }
 }

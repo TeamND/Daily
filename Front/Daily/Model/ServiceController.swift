@@ -7,79 +7,14 @@
 
 import UIKit
 
-func requestGet(url: String, completionHandler: @escaping (Bool, NSDictionary) -> Void) {
-    guard let url = URL(string: url) else {
-        print("Error: cannot create URL")
-        return
+private let serverUrl: String = "http://115.68.248.159:5001/"
+
+func getUserInfo(userID: String, completionHandler: @escaping (Bool, NSDictionary) -> Void) {
+    requestGet(url: "\(serverUrl)user/info/\(userID)") { (success, data) in
+        completionHandler(success, data)
     }
-    
-    var request = URLRequest(url: url)
-    request.httpMethod = "GET"
-    
-    URLSession.shared.dataTask(with: request) { data, response, error in
-        guard error == nil else {
-            print("Error: error calling GET")
-            print(error!)
-            return
-        }
-        guard let data = data else {
-            print("Error: Did not receive data")
-            return
-        }
-        
-        DispatchQueue.main.async() {
-            do {
-                let object = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                guard let jsonObject = object else { return }
-                guard let returnData = jsonObject["data"] as? NSDictionary else { return }
-                
-                completionHandler(true, returnData)
-            } catch let e as NSError {
-                print("An error has occured while parsing JSON Obejt : \(e.localizedDescription)")
-            }
-        }
-    }.resume()
 }
 
-func requestPost(url: String, method: String, param: [String: Any], completionHandler: @escaping (Bool, NSDictionary) -> Void) {
-    let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
-    
-    guard let url = URL(string: url) else {
-        print("Error: cannot create URL")
-        return
-    }
-    
-    var request = URLRequest(url: url)
-    request.httpMethod = method
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.httpBody = sendData
-    
-    URLSession.shared.dataTask(with: request) { (data, response, error) in
-        guard error == nil else {
-            print("Error: error calling GET")
-            print(error!)
-            return
-        }
-        guard let data = data else {
-            print("Error: Did not receive data")
-            return
-        }
-        
-        DispatchQueue.main.async() {
-            do {
-                let object = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
-                guard let jsonObject = object else { return }
-                guard let returnData = jsonObject["data"] as? NSDictionary else { return }
-                
-                completionHandler(true, returnData)
-            } catch let e as NSError {
-                print("An error has occured while parsing JSON Obejt : \(e.localizedDescription)")
-            }
-        }
-    }.resume()
-}
-
-/* 메소드별 동작 분리 */
 func request(_ url: String, _ method: String, _ param: [String: Any]? = nil, completionHandler: @escaping (Bool, NSDictionary) -> Void) {
     if method == "GET" {
         requestGet(url: url) { (success, data) in

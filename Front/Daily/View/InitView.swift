@@ -20,9 +20,17 @@ struct InitView: View {
             .padding([.bottom], 40)
             .task {
                 do {
+                    getUserInfo(userID: "test123") { (success, data) in
+                        guard let uid = data["uid"]! as? Int else { return }
+                        guard let set_startday = data["set_startday"]! as? Int else { return }
+                        guard let set_language = data["set_language"]! as? String else { return }
+                        guard let set_dateorrepeat = data["set_dateorrepeat"]! as? String else { return }
+                        userInfo = UserInfo(uid: uid, set_startday: set_startday, set_language: set_language, set_dateorrepeat: set_dateorrepeat)
+                    }
                     // 임시 타이머
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-                        isLoading = false
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                        if userInfo.uid > 0 { isLoading = false }
+                        else { print("An error has occured while getUserInfo") }
                     }
                 }
             }
