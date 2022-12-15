@@ -28,7 +28,7 @@ struct InitView: View {
                         userInfo = UserInfo(uid: uid, set_startday: set_startday, set_language: set_language, set_dateorrepeat: set_dateorrepeat)
                     }
                     // 임시 타이머
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                         if userInfo.uid > 0 { isLoading = false }
                         else { print("An error has occured while getUserInfo") }
                     }
