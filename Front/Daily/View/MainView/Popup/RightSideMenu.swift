@@ -10,9 +10,9 @@ import SwiftUI
 struct RightSideMenu: View {
     @StateObject var popupInfo: PopupInfo
     @State var menuList: [Menu] = [
-        Menu(isSelected: false, title: "언어", selectedOption: "한국어"),
-        Menu(isSelected: false, title: "일주일 시작 요일", selectedOption: "일요일"),
-        Menu(isSelected: false, title: "목표 수행일 선택 방식", selectedOption: "날짜")
+        Menu(id: "set_language", isSelected: false, title: "언어", option: userInfo.set_language == "korea" ? "한국어" : "영어"),
+        Menu(id: "set_startday", isSelected: false, title: "일주일 시작 요일", option: userInfo.set_startday == 0 ? "일요일" : "월요일"),
+        Menu(id: "set_dateorrepeat", isSelected: false, title: "목표 수행일 선택 방식", option: userInfo.set_dateorrepeat == "date" ? "날짜" : "요일")
     ]
     var body: some View {
         HStack {

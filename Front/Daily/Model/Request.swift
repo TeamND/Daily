@@ -41,7 +41,7 @@ func requestGet(url: String, completionHandler: @escaping (Bool, NSDictionary) -
     }.resume()
 }
 
-func requestPost(url: String, method: String, param: [String: Any], completionHandler: @escaping (Bool, NSDictionary) -> Void) {
+func requestPost(url: String, param: [String: Any], completionHandler: @escaping (Bool, NSDictionary) -> Void) {
     let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
     
     guard let url = URL(string: url) else {
@@ -50,7 +50,7 @@ func requestPost(url: String, method: String, param: [String: Any], completionHa
     }
     
     var request = URLRequest(url: url)
-    request.httpMethod = method
+    request.httpMethod = "POST"
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     request.httpBody = sendData
     

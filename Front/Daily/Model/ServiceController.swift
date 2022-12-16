@@ -15,15 +15,8 @@ func getUserInfo(userID: String, completionHandler: @escaping (Bool, NSDictionar
     }
 }
 
-func request(_ url: String, _ method: String, _ param: [String: Any]? = nil, completionHandler: @escaping (Bool, NSDictionary) -> Void) {
-    if method == "GET" {
-        requestGet(url: url) { (success, data) in
-            completionHandler(success, data)
-        }
-    }
-    else {
-        requestPost(url: url, method: method, param: param!) { (success, data) in
-            completionHandler(success, data)
-        }
+func setUserInfo(userID: String, param: [String: Any], completionHandler: @escaping (Bool, NSDictionary) -> Void) {
+    requestPost(url: "\(serverUrl)user/set", param: param) { (success, data) in
+        completionHandler(success, data)
     }
 }
