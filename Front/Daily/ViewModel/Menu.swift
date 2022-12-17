@@ -19,8 +19,11 @@ class Menu: ObservableObject, Identifiable {
         set(newVal) {
             switch (id) {
             case "set_language":
-                if newVal == "한국어" { print("korea") }
-                else { print("english") }
+                if newVal == "한국어" {
+                    setUserInfo(param: ["uid": userInfo.uid, "set_language": "korea"])
+                } else {
+                    setUserInfo(param: ["uid": userInfo.uid, "set_language": "english"])
+                }
             case "set_startday":
                 if newVal == "일요일" { print("0") }
                 else { print("1") }

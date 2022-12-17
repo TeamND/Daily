@@ -9,14 +9,12 @@ import UIKit
 
 private let serverUrl: String = "http://115.68.248.159:5001/"
 
-func getUserInfo(userID: String, completionHandler: @escaping (Bool, NSDictionary) -> Void) {
+func getUserInfo(userID: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
     requestGet(url: "\(serverUrl)user/info/\(userID)") { (success, data) in
         completionHandler(success, data)
     }
 }
 
-func setUserInfo(userID: String, param: [String: Any], completionHandler: @escaping (Bool, NSDictionary) -> Void) {
-    requestPost(url: "\(serverUrl)user/set", param: param) { (success, data) in
-        completionHandler(success, data)
-    }
+func setUserInfo(param: [String: Any]) {
+    requestPost(url: "\(serverUrl)user/set", param: param)
 }
