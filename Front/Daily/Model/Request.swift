@@ -28,7 +28,7 @@ func requestPost(url: String, param: [String: Any]) {
         switch response.result {
         case .success:
             if let data = try! response.result.get() as? [String: Any] {
-                print(data)
+//                print(data)
             }
         case .failure(let error):
             print("Error: \(error)")

@@ -21,15 +21,27 @@ class Menu: ObservableObject, Identifiable {
             case "set_language":
                 if newVal == "한국어" {
                     setUserInfo(param: ["uid": userInfo.uid, "set_language": "korea"])
+                    userInfo.set_language = "korea"
                 } else {
                     setUserInfo(param: ["uid": userInfo.uid, "set_language": "english"])
+                    userInfo.set_language = "english"
                 }
             case "set_startday":
-                if newVal == "일요일" { print("0") }
-                else { print("1") }
+                if newVal == "일요일" {
+                    setUserInfo(param: ["uid": userInfo.uid, "set_startday": 0])
+                    userInfo.set_startday = 0
+                } else {
+                    setUserInfo(param: ["uid": userInfo.uid, "set_startday": 1])
+                    userInfo.set_startday = 1
+                }
             case "set_dateorrepeat":
-                if newVal == "날짜" { print("date") }
-                else { print("repeat") }
+                if newVal == "날짜" {
+                    setUserInfo(param: ["uid": userInfo.uid, "set_dateorrepeat": "date"])
+                    userInfo.set_dateorrepeat = "date"
+                } else {
+                    setUserInfo(param: ["uid": userInfo.uid, "set_dateorrepeat": "repeat"])
+                    userInfo.set_dateorrepeat = "repeat"
+                }
             default:
                 break
             }
