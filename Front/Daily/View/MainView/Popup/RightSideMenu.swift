@@ -36,13 +36,13 @@ struct RightSideMenu: View {
                         }
                     }
                     Text("기본 값 설정")
-                        .font(.subheadline)
+                        .font(.system(size: 16, weight: .bold))
                         .padding()
                     CustomDivider(color: .gray, height: 1, hPadding: 12)
                     List {
                         ForEach (menuList.indices, id: \.self) { index in
                             MenuOnList(menu: menuList[index], index: index)
-                                .font(.caption)
+                                .font(.system(size: 12))
                         }
                     }
                     .listStyle(.plain)
