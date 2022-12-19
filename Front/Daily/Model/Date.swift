@@ -40,14 +40,14 @@ extension Date {
 
     public func getKoreaDOW() -> String {
         let df = DateFormatter()
-        df.dateFormat = "EEEEEE"
+        df.dateFormat = "EEE"
         df.locale = Locale(identifier:"ko_KR")
         return df.string(from: self)
     }
     
     public func getEnglishDOW() -> String {
         let df = DateFormatter()
-        df.dateFormat = "EEEEEE"
+        df.dateFormat = "EEE"
         df.locale = Locale(identifier:"en_KR")
         return df.string(from: self)
     }

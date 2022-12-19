@@ -109,7 +109,7 @@ class UserInfo: ObservableObject{
         let yearStr = String(format: "%4d", year == 0 ? self.currentYear : year)
         let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
         let startDay = "\(yearStr)-\(monthStr)-01".toDate()!
-        let DOW = self.language == "korea" ? startDay.getKoreaDOW() : startDay.getEnglishDOW()
+        let DOW = self.language == "한국어" ? startDay.getKoreaDOW() : startDay.getEnglishDOW()
         for i in self.weeks.indices {
             if self.weeks[i] == DOW { return i }
         }
