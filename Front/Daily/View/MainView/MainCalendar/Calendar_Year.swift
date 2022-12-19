@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Year: View {
-    @StateObject var calendar: MyCalendar
+    @StateObject var userInfo: UserInfo
     var body: some View {
         VStack(spacing: 0) {
             CustomDivider(color: .black, height: 2)
@@ -19,11 +19,11 @@ struct Calendar_Year: View {
                         let month = (rowIndex * 3) + colIndex + 1
                         Button {
                             withAnimation {
-                                calendar.month = month
-                                calendar.state = "Month"
+                                userInfo.currentMonth = month
+                                userInfo.currentState = "month"
                             }
                         } label: {
-                            MonthOnYear(calendar: calendar, month: month)
+                            MonthOnYear(userInfo: userInfo, month: month)
                                 .accentColor(.black)
                         }
                     }

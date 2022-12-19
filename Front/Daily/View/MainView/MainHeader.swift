@@ -8,54 +8,54 @@
 import SwiftUI
 
 struct MainHeader: View {
-    @StateObject var calendar: MyCalendar
+    @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
     @Namespace var NS
     var body: some View {
         ZStack {
             HStack {
-                if calendar.state == "Month" {
+                if userInfo.currentState == "month" {
                     Button {
                         withAnimation {
-                            calendar.state = "Year"
+                            userInfo.currentState = "year"
                         }
                     } label: {
-                        Label("\(String(calendar.year))년", systemImage: "chevron.left")
+                        Label("\(String(userInfo.currentYear))년", systemImage: "chevron.left")
                             .font(.system(size: 16, weight: .bold))
                     }
                     .padding(8)
                     .matchedGeometryEffect(id: "Year", in: NS)
                 }
-                if calendar.state == "Week&Day" {
+                if userInfo.currentState == "week" {
                     Button {
                         withAnimation {
-                            calendar.state = "Month"
+                            userInfo.currentState = "month"
                         }
                     } label: {
-                        Label("\(calendar.month)월", systemImage: "chevron.left")
+                        Label("\(userInfo.currentMonth)월", systemImage: "chevron.left")
                             .font(.system(size: 16, weight: .bold))
                     }
                     .padding(8)
-                    .matchedGeometryEffect(id: "Month", in: NS)
+                    .matchedGeometryEffect(id: "month", in: NS)
                 }
                 Spacer()
             }
             HStack {
                 Spacer()
-                if calendar.state == "Year" {
-                    Text("\(String(calendar.year))년")
+                if userInfo.currentState == "year" {
+                    Text("\(String(userInfo.currentYear))년")
                         .font(.system(size: 20, weight: .bold))
-                        .matchedGeometryEffect(id: "Year", in: NS)
+                        .matchedGeometryEffect(id: "year", in: NS)
                 }
-                if calendar.state == "Month" {
-                    Text("\(calendar.month)월")
+                if userInfo.currentState == "month" {
+                    Text("\(userInfo.currentMonth)월")
                         .font(.system(size: 20, weight: .bold))
-                        .matchedGeometryEffect(id: "Month", in: NS)
+                        .matchedGeometryEffect(id: "month", in: NS)
                 }
-                if calendar.state == "Week&Day" {
-                    Text("\(calendar.day)일")
+                if userInfo.currentState == "week" {
+                    Text("\(userInfo.currentDay)일")
                         .font(.system(size: 20, weight: .bold))
-                        .matchedGeometryEffect(id: "Week&Day", in: NS)
+                        .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Spacer()
             }

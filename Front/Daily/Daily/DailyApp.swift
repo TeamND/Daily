@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct DailyApp: App {
     @State var isLoading: Bool = true
+    @State var userInfo: UserInfo = UserInfo(uid: -1, set_startday: 0, set_language: "korea", set_dateorrepeat: "date", set_calendarstate: "month")
     var body: some Scene {
         WindowGroup {
-            if isLoading { InitView(isLoading: $isLoading) }
-            else         { MainView() }
+            if isLoading { InitView(userInfo: userInfo, isLoading: $isLoading) }
+            else         { MainView(userInfo: userInfo) }
         }
     }
 }

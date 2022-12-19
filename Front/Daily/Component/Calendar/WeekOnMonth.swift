@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WeekOnMonth: View {
-    @StateObject var calendar: MyCalendar
+    @StateObject var userInfo: UserInfo
     let rowIndex: Int
     let startDayIndex: Int
     let lengthOfMonth: Int
@@ -19,9 +19,9 @@ struct WeekOnMonth: View {
                 if 1 <= day && day <= lengthOfMonth {
                     Button {
                         withAnimation {
-                            calendar.day = day
-                            calendar.dayIndex = colIndex
-                            calendar.state = "Week&Day"
+                            userInfo.currentDay = day
+                            userInfo.dayIndex = colIndex
+                            userInfo.currentState = "week"
                         }
                     } label: {
                         DayOnMonth(day: day)
@@ -29,7 +29,7 @@ struct WeekOnMonth: View {
                             .overlay {
                                 RoundedRectangle(cornerRadius: 5)
                                     .stroke(.green, lineWidth: 2)
-                                    .opacity(calendar.isToday(day: day) ? 1 : 0)
+                                    .opacity(userInfo.isToday(day: day) ? 1 : 0)
                             }
                             .accentColor(.black)
                     }

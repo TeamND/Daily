@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 
 struct InitView: View {
+    @StateObject var userInfo: UserInfo
     @Binding var isLoading: Bool
     var body: some View {
         VStack(spacing: 40) {
@@ -19,11 +20,11 @@ struct InitView: View {
                 .task {
                     do {
                         getUserInfo(userID: "test123") { (success, data) in
-                            guard let uid = data["uid"]! as? Int else { return }
-                            guard let set_startday = data["set_startday"]! as? Int else { return }
-                            guard let set_language = data["set_language"]! as? String else { return }
-                            guard let set_dateorrepeat = data["set_dateorrepeat"]! as? String else { return }
-                            userInfo = UserInfo(uid: uid, set_startday: set_startday, set_language: set_language, set_dateorrepeat: set_dateorrepeat)
+                            userInfo.uid = data["uid"] as! Int
+                            userInfo.set_startday = data["set_startday"] as! Int
+                            userInfo.set_language = data["set_language"] as! String
+                            userInfo.set_dateorrepeat = data["set_dateorrepeat"] as! String
+                            userInfo.set_calendarstate = data["set_calendarstate"] as! String
                         }
                         // 임시 타이머
                         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
@@ -35,12 +36,5 @@ struct InitView: View {
             Text("Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!")
                 .font(.headline)
         }
-    }
-}
-
-
-struct InitView_Previews: PreviewProvider {
-    static var previews: some View {
-        InitView(isLoading: .constant(true))
     }
 }

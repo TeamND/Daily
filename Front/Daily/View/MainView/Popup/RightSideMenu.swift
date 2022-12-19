@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct RightSideMenu: View {
+    @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
-    @State var menuList: [Menu] = [
-        Menu(id: "set_language", isSelected: false, title: "언어", option: userInfo.set_language == "korea" ? "한국어" : "영어"),
-        Menu(id: "set_startday", isSelected: false, title: "일주일 시작 요일", option: userInfo.set_startday == 0 ? "일요일" : "월요일"),
-        Menu(id: "set_dateorrepeat", isSelected: false, title: "목표 수행일 선택 방식", option: userInfo.set_dateorrepeat == "date" ? "날짜" : "반복")
-    ]
     var body: some View {
         HStack {
             Spacer()
@@ -40,8 +36,9 @@ struct RightSideMenu: View {
                         .padding()
                     CustomDivider(color: .gray, height: 1, hPadding: 12)
                     List {
-                        ForEach (menuList.indices, id: \.self) { index in
-                            MenuOnList(menu: menuList[index], index: index)
+                        let menus: [String] = ["언어", "일주일 시작 요일", "목표 수행일 선택 방식", "기본 달력"]
+                        ForEach (menus, id: \.self) { menu in
+                            MenuOnList(userInfo: userInfo, menu: menu)
                                 .font(.system(size: 12))
                         }
                     }

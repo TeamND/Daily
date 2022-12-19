@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct Calendar_Week_Day: View {
-    @StateObject var calendar: MyCalendar
+    @StateObject var userInfo: UserInfo
     var body: some View {
         VStack {
             WeekIndicator(
-                calendar: calendar,
+                userInfo: userInfo,
                 archievements: [0, 0, 0, 0, 0, 0, 0],
                 tapPurpose: "change"
             )

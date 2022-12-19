@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var calendar: MyCalendar = MyCalendar()
+    @StateObject var userInfo: UserInfo
     @State private var popupInfo: PopupInfo = PopupInfo()
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                MainHeader(calendar: calendar, popupInfo: popupInfo)
+                MainHeader(userInfo: userInfo, popupInfo: popupInfo)
                     .frame(height: 40)
-                MainCalendar(calendar: calendar)
+                MainCalendar(userInfo: userInfo)
             }
-            Popup(popupInfo: popupInfo)
+            Popup(userInfo: userInfo, popupInfo: popupInfo)
         }
         .accentColor(.mint)
     }
@@ -25,6 +25,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(userInfo: UserInfo(uid: 5, set_startday: 0, set_language: "korea", set_dateorrepeat: "date", set_calendarstate: "month"))
     }
 }

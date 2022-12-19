@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct Popup: View {
+    @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
     var body: some View {
         PopupDim(popupInfo: popupInfo)
-        AddGoalPopup(popupInfo: popupInfo)
-        RightSideMenu(popupInfo: popupInfo)
+        AddGoalPopup(userInfo: userInfo, popupInfo: popupInfo)
+        RightSideMenu(userInfo: userInfo, popupInfo: popupInfo)
     }
 }

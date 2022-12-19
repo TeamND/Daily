@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GoalDateOrRepeatSetting: View {
+    @StateObject var userInfo: UserInfo
     @State var dateOrRepeat: String = "날짜"
     var body: some View {
         Text("날짜 or 반복 설정")
@@ -23,12 +24,11 @@ struct GoalDateOrRepeatSetting: View {
             .cornerRadius(15)
         }
         .font(.system(size: 16))
-        let calendar: MyCalendar = MyCalendar()
         switch dateOrRepeat {
         case "날짜":
-            MonthOnYear(calendar: calendar, month: calendar.month, fontSize: 16, isTapSelect: true)
+            MonthOnYear(userInfo: userInfo, month: userInfo.currentMonth, fontSize: 16, isTapSelect: true)
         case "반복":
-            WeekIndicator(calendar: calendar, tapPurpose: "select")
+            WeekIndicator(userInfo: userInfo, tapPurpose: "select")
         default:
             Text("")
         }

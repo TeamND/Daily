@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MonthOnYear: View {
-    @StateObject var calendar: MyCalendar
+    @StateObject var userInfo: UserInfo
     @State var archievements: [[Double]] = [
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -21,8 +21,8 @@ struct MonthOnYear: View {
     var fontSize: CGFloat = 6
     var isTapSelect: Bool = false
     var body: some View {
-        let startDayIndex = calendar.startDayIndex(year: calendar.year, month: month)
-        let lengthOfMonth = calendar.lengthOfMonth(year: calendar.year, month: month)
+        let startDayIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
+        let lengthOfMonth = userInfo.lengthOfMonth(year: userInfo.currentYear, month: month)
         VStack(alignment: .leading) {
             Text(kMonths[month - 1])
                 .font(.system(size: 20, weight: .bold))

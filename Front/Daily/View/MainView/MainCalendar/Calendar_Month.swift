@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct Calendar_Month: View {
-    @StateObject var calendar: MyCalendar
+    @StateObject var userInfo: UserInfo
     var body: some View {
-        let startDayIndex = calendar.startDayIndex()
-        let lengthOfMonth = calendar.lengthOfMonth()
+        let startDayIndex = userInfo.startDayIndex()
+        let lengthOfMonth = userInfo.lengthOfMonth()
         let dividerIndex = (lengthOfMonth + startDayIndex - 1) / 7
         VStack {
-            WeekIndicator(calendar: calendar)
+            WeekIndicator(userInfo: userInfo)
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
-                    WeekOnMonth(calendar: calendar, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
+                    WeekOnMonth(userInfo: userInfo, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
                     if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
                 }
                 Spacer()

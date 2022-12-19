@@ -38,18 +38,18 @@ extension Date {
 //        return df.string(from: self)
 //    }
 
-    public func getDOW() -> String {
+    public func getKoreaDOW() -> String {
         let df = DateFormatter()
         df.dateFormat = "EEEEEE"
         df.locale = Locale(identifier:"ko_KR")
         return df.string(from: self)
     }
-
-    public func startDayIndex() -> Int {
-        for i in weeks().indices {
-            if weeks()[i] == self.getDOW() { return i }
-        }
-        return 0
+    
+    public func getEnglishDOW() -> String {
+        let df = DateFormatter()
+        df.dateFormat = "EEEEEE"
+        df.locale = Locale(identifier:"en_KR")
+        return df.string(from: self)
     }
     
     public func startDayOfMonth() -> Date {

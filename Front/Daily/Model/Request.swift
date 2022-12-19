@@ -9,7 +9,6 @@ import UIKit
 import Alamofire
 
 func requestGet(url: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
-    
     AF.request(url).responseJSON() { response in
         switch response.result {
         case .success:
