@@ -10,38 +10,41 @@ class GoalApi(Resource):
     def Create(data):
         try:
             # 목포 추가
-            # goal_data = data.copy()
-            # goal_data.pop('date')
-            # goal_query = Goal(**data)
-            # db.session.add(goal_query)
-            # db.session.commit()
-            # db.session.refresh(goal_query)
+            goal_query = Goal(**data)
+            db.session.add(goal_query)
+            db.session.commit()
+            db.session.refresh(goal_query)
             
-            # 날짜 반복계산
+            # 타입이 반복일 경우
             date_list = []
             if data['start_date'] and data['cycle_type'] == 'repeat':
-                if data['end_date']:
+                
+                # 종료날이 없는경우 30일
+                date_diff = (datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days if data['end_date'] else 30
                     
-                    # date string index
-                    days = ['월', '화', '수', '목', '금', '토', '일']
-                    startday_index = datetime.date.weekday(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d'))
-                    
-                    for i in range((datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days + startday_index):
-                        for cycle in list(map(lambda x:days.index(x), data['cycle_date'].split(','))):
-                            if i % 7 == int(cycle):
-                                date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
-            print(date_list)
-                        
-            # 기록추가
-            # date_list = data['cycle_date'].split(',')
-            # for date in date_list:
-            #     db.session.add(Record(goal_uid = goal_query.uid, date = date))
-            # db.session.commit()
+                # 변수할당
+                days = ['월', '화', '수', '목', '금', '토', '일']
+                startday_index = datetime.date.weekday(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d'))
+                
+                # 반복요일 계산
+                for i in range(date_diff + startday_index):
+                    for cycle in list(map(lambda x:days.index(x), data['cycle_date'].split(','))):
+                        if i % 7 == int(cycle):
+                            date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
             
-            # return {
-            #     'code': '00',
-            #     'message': '추가에 성공했습니다.'
-            # }, 00
+            # 반복이 아닌경우
+            else:
+                date_list = data['cycle_date'].split(',')
+            
+            # 데이터 입력    
+            for date in date_list:
+                db.session.add(Record(goal_uid = goal_query.uid, date = date))
+            db.session.commit()
+            
+            return {
+                'code': '00',
+                'message': '추가에 성공했습니다.'
+            }, 00
         except Exception as e:
             return {
                 'code': '99',
