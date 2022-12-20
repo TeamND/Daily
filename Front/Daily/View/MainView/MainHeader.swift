@@ -24,7 +24,7 @@ struct MainHeader: View {
                             .font(.system(size: 16, weight: .bold))
                     }
                     .padding(8)
-                    .matchedGeometryEffect(id: "Year", in: NS)
+                    .matchedGeometryEffect(id: "year", in: NS)
                 }
                 if userInfo.currentState == "week" {
                     Button {
