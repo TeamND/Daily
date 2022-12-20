@@ -20,7 +20,7 @@ class GoalApi(Resource):
             if data['start_date'] and data['cycle_type'] == 'repeat':
                 
                 # 종료날이 없는경우 30일
-                date_diff = (datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days if data['end_date'] else 30
+                date_diff = 30 if 'end_date' not in data else (datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days  
                     
                 # 변수할당
                 days = ['월', '화', '수', '목', '금', '토', '일']
