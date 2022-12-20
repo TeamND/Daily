@@ -1,17 +1,46 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace
-from model import db,Goal
+from model import db,Goal,Record
+import datetime
 import json
 
 class GoalApi(Resource):
-    
+   
     # 생성
     def Create(data):
-    
         try:
-            query = Goal(**data)
-            db.session.add(query)
+            # 목포 추가
+            goal_query = Goal(**data)
+            db.session.add(goal_query)
             db.session.commit()
+            db.session.refresh(goal_query)
+            
+            # 타입이 반복일 경우
+            date_list = []
+            if data['start_date'] and data['cycle_type'] == 'repeat':
+                
+                # 종료날이 없는경우 30일
+                date_diff = 30 if 'end_date' not in data else (datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days  
+                    
+                # 변수할당
+                days = ['월', '화', '수', '목', '금', '토', '일']
+                startday_index = datetime.date.weekday(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d'))
+                
+                # 반복요일 계산
+                for i in range(date_diff + startday_index):
+                    for cycle in list(map(lambda x:days.index(x), data['cycle_date'].split(','))):
+                        if i % 7 == int(cycle):
+                            date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
+            
+            # 반복이 아닌경우
+            else:
+                date_list = data['cycle_date'].split(',')
+            
+            # 데이터 입력    
+            for date in date_list:
+                db.session.add(Record(goal_uid = goal_query.uid, date = date))
+            db.session.commit()
+            
             return {
                 'code': '00',
                 'message': '추가에 성공했습니다.'
@@ -86,7 +115,7 @@ class GoalApi(Resource):
                 'message': '삭제에 성공했습니다.'
             }, 00
         except Exception as e:
-            return js({
+            return {
                 'code': '99',
                 'message': e
-            }), 99
+            }, 99
