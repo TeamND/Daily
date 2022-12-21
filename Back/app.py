@@ -2,8 +2,9 @@ from flask import Flask
 from flask_restx import Resource, Api
 from config import uri
 from model import db
-from Controller.user import user
-from Controller.goal import goal
+from Controller.UserController import user
+from Controller.GoalController import goal
+from Controller.CalendarController import calendar
 
 app = Flask(__name__)
 api = Api(
@@ -23,6 +24,7 @@ db.create_all()
 
 api.add_namespace(user, '/user')
 api.add_namespace(goal, '/goal')
+api.add_namespace(calendar, '/calendar')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)

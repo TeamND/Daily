@@ -38,7 +38,8 @@ class GoalApi(Resource):
             
             # 데이터 입력    
             for date in date_list:
-                db.session.add(Record(goal_uid = goal_query.uid, date = date))
+                order = db.session.query(Record).filter_by(goal_uid=goal_query.uid, date=date).count()
+                db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
             db.session.commit()
             
             return {
@@ -81,7 +82,6 @@ class GoalApi(Resource):
 
     # 수정
     def Update(uid,data):
-        
         result = db.session.get(Goal,uid)
         
         if result:
@@ -119,3 +119,49 @@ class GoalApi(Resource):
                 'code': '99',
                 'message': e
             }, 99
+            
+    # 달성
+    def Achieve(uid,data):
+        result = db.session.get(Record,uid)
+        
+        if result:
+            try:
+                
+                # join
+                join = db.session.query(Record,Goal)\
+                        .filter(Record.goal_uid==Goal.uid, Record.uid==uid).first()
+                
+                # check, count
+                if 'record_count' in data:
+                    result.record_count += int(data['record_count'])
+                    rating = join.Record.record_count/join.Goal.goal_count
+                    if rating == 1:
+                        result.issuccess = True
+                                    
+                # timer
+                elif 'record_time' in data:
+                    result.record_time = data['record_time']
+                    times = int(result.goal_time[:-1]) if result.goal_time[-1:] == 'M' else int(result.goal_time[:-1]) * 60
+                    if datetime.datetime.strptime(data['record_time'],'%Y-%m-%d %H:%M:%S') <= (result.start_time + datetime.timedelta(minutes=times)):
+                        result.issuccess = True
+                        
+                db.session.commit()  
+                
+                return {
+                    'code': '00',
+                    'message': '목표달성을 업데이트했습니다.',
+                    'data': { 'issuccess': result.issuccess }
+                }, 00
+            except Exception as e:
+                return {
+                    'code': '99',
+                    'message': e
+                }, 99
+        else: 
+           return {
+                'code': '99',
+                'message': '조회된 데이터가 없습니다.'
+            }, 99
+           
+    def start_time():
+        print('g')
