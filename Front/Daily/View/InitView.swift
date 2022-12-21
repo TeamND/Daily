@@ -19,7 +19,7 @@ struct InitView: View {
                 .foregroundColor(.mint)
                 .task {
                     do {
-                        getUserInfo(userID: "test123") { (success, data) in
+                        getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { (success, data) in
                             userInfo.uid = data["uid"] as! Int
                             userInfo.set_startday = data["set_startday"] as! Int
                             userInfo.set_language = data["set_language"] as! String
