@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GoalPrimeElementSetting: View {
-    @State var goal: Goal = Goal()
+    @StateObject var goal: Goal
     var body: some View {
         Text("기본 설정")
             .font(.system(size: 20, weight: .bold))

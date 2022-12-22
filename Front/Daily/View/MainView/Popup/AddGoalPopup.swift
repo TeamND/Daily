@@ -17,7 +17,7 @@ struct AddGoalPopup: View {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(.white)
                 VStack(alignment: .leading, spacing: 12) {
-                    GoalPrimeElementSetting()
+                    GoalPrimeElementSetting(goal: goal)
                     Divider()
                     GoalCountOrTimeSetting(goal: goal)
                     Divider()
