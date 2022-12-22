@@ -16,7 +16,8 @@ class UserApi(Resource):
                         'uid': result.uid,
                         'set_startday': result.set_startday,
                         'set_language': result.set_language,
-                        'set_dateorrepeat': result.set_dateorrepeat
+                        'set_dateorrepeat': result.set_dateorrepeat,
+                        'set_calendarsstate': result.set_calendarsstate
                     }
                 }, 00
             except Exception as e:
@@ -39,7 +40,8 @@ class UserApi(Resource):
                             'uid': result.uid,
                             'set_startday': result.set_startday,
                             'set_language': result.set_language,
-                            'set_dateorrepeat': result.set_dateorrepeat
+                            'set_dateorrepeat': result.set_dateorrepeat,
+                            'set_calendarsstate': result.set_calendarsstate
                     }
                 }, 00
             except Exception as e:
