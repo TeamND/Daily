@@ -9,7 +9,7 @@ class User(db.Model):
     set_startday = db.Column(db.Integer, default=0)
     set_language = db.Column(db.String(100), default='korea')
     set_dateorrepeat = db.Column(db.String(100), default='date')
-    set_calendarsstatet = db.Column(db.String(100), default='month')
+    set_calendarstate = db.Column(db.String(100), default='month')
     
 class Goal(db.Model):
     __tablename__ = 'goal'
