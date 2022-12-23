@@ -72,6 +72,10 @@ class UserInfo: ObservableObject{
                 setUserInfo(param: ["uid": self.uid, "set_calendarstate": "week"])
                 self.set_calendarstate = "week"
             }
+            self.currentState = self.set_calendarstate
+            self.currentYear = Date().year
+            self.currentMonth = Date().month
+            self.currentDay = Date().day
         }
     }
     

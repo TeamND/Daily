@@ -25,6 +25,8 @@ struct InitView: View {
                             userInfo.set_language = data["set_language"] as! String
                             userInfo.set_dateorrepeat = data["set_dateorrepeat"] as! String
                             userInfo.set_calendarstate = data["set_calendarstate"] as! String
+                            
+                            userInfo.currentState = userInfo.set_calendarstate
                         }
                         // 임시 타이머
                         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
