@@ -30,8 +30,7 @@ struct WeekIndicator: View {
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        print("change")
-//                        userInfo.changeDay(dayIndex: index)
+                        userInfo.changeDay(DOWIndex: index)
                     case "select":
                         if archievements[index] == 0 { archievements[index] = 0.4 }
                         else                         { archievements[index] = 0 }

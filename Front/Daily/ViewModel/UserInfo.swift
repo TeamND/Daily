@@ -83,13 +83,25 @@ class UserInfo: ObservableObject{
     @Published var currentYear: Int = Date().year
     @Published var currentMonth: Int = Date().month
     @Published var currentDay: Int = Date().day
-    var currentDOW: String {
+    var currentDate: Date {
         get {
             let yearStr = String(format: "%4d", self.currentYear)
             let monthStr = String(format: "%2d", self.currentMonth)
             let dayStr = String(format: "%2d", self.currentDay)
-            let day = "\(yearStr)-\(monthStr)-\(dayStr)".toDate()!
-            return day.getDOW(language: self.language)
+            return "\(yearStr)-\(monthStr)-\(dayStr)".toDate()!
+        }
+    }
+    var currentDOW: String {
+        get {
+            return self.currentDate.getDOW(language: self.language)
+        }
+    }
+    var DOWIndex: Int {
+        get {
+            for i in self.weeks.indices {
+                if self.weeks[i] == self.currentDOW { return i }
+            }
+            return 0
         }
     }
     
@@ -101,21 +113,15 @@ class UserInfo: ObservableObject{
         return false
     }
     
-//    func changeDay(dayIndex: Int) {
-//        let yearStr = String(format: "%4d", self.currentYear)
-//        let monthStr = String(format: "%2d", self.currentMonth)
-//        let dayStr = String(format: "%2d", self.currentDay)
-//        let today = "\(yearStr)-\(monthStr)-\(dayStr)".toDate()!
-//
-//        var cal = Calendar.current
-//        cal.timeZone = TimeZone(identifier: "UTC")!
-//        let changedDay = cal.date(byAdding: .day, value: dayIndex - self.dayIndex, to: today)!
-//
-//        self.currentYear = changedDay.year
-//        self.currentMonth = changedDay.month
-//        self.currentDay = changedDay.day
-//        self.dayIndex = dayIndex
-//    }
+    func changeDay(DOWIndex: Int) {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let changedDay = cal.date(byAdding: .day, value: DOWIndex - self.DOWIndex, to: self.currentDate)!
+
+        self.currentYear = changedDay.year
+        self.currentMonth = changedDay.month
+        self.currentDay = changedDay.day
+    }
     
     func startDayIndex(year: Int = 0, month: Int = 0) -> Int {
         let yearStr = String(format: "%4d", year == 0 ? self.currentYear : year)
