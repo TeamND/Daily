@@ -37,6 +37,10 @@ extension Date {
 //        df.dateFormat = "d일"
 //        return df.string(from: self)
 //    }
+    
+    public func getDOW(language: String) -> String {
+        return language == "한국어" ? self.getKoreaDOW() : self.getEnglishDOW()
+    }
 
     public func getKoreaDOW() -> String {
         let df = DateFormatter()

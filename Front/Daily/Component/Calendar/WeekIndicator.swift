@@ -16,7 +16,7 @@ struct WeekIndicator: View {
             ForEach (userInfo.weeks.indices, id: \.self) { index in
                 Spacer()
                 ZStack {
-                    let isToday = index == userInfo.dayIndex
+                    let isToday = userInfo.weeks[index] == userInfo.currentDOW
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 2)
                         .opacity(isToday && tapPurpose == "change" ? 1 : 0)
@@ -30,7 +30,8 @@ struct WeekIndicator: View {
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        userInfo.changeDay(dayIndex: index)
+                        print("change")
+//                        userInfo.changeDay(dayIndex: index)
                     case "select":
                         if archievements[index] == 0 { archievements[index] = 0.4 }
                         else                         { archievements[index] = 0 }

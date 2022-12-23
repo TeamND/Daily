@@ -20,7 +20,6 @@ struct WeekOnMonth: View {
                     Button {
                         withAnimation {
                             userInfo.currentDay = day
-                            userInfo.dayIndex = colIndex
                             userInfo.currentState = "week"
                         }
                     } label: {
