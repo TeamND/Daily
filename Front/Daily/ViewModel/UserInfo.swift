@@ -79,6 +79,7 @@ class UserInfo: ObservableObject{
         }
     }
     
+    // about current calendar
     @Published var currentState: String = "month"
     @Published var currentYear: Int = Date().year
     @Published var currentMonth: Int = Date().month
