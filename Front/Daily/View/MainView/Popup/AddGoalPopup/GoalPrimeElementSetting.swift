@@ -18,9 +18,9 @@ struct GoalPrimeElementSetting: View {
                 print("symbol")
             } label: {
                 Image(systemName: goal.beforeSymbol)
+            }
             Image(systemName: "arrow.forward")
                 .font(.system(size: 8, weight: .bold))
-            }
             Button {
                 print("symbol")
             } label: {
