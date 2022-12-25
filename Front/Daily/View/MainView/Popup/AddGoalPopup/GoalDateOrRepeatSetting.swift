@@ -9,6 +9,8 @@ import SwiftUI
 
 struct GoalDateOrRepeatSetting: View {
     @StateObject var userInfo: UserInfo
+    @State var startDate: Date = Date()
+    @State var endDate: Date = Date()
     var body: some View {
         Text("날짜 or 반복 설정")
             .font(.system(size: 20, weight: .bold))
@@ -28,6 +30,8 @@ struct GoalDateOrRepeatSetting: View {
             MonthOnYear(userInfo: userInfo, month: Date().month, fontSize: 16, isTapSelect: true)
         case "반복":
             WeekIndicator(userInfo: userInfo, tapPurpose: "select")
+            DatePicker("시작일:", selection: $startDate, in: Date()..., displayedComponents: .date)
+            DatePicker("종료일:", selection: $endDate, in: Date()..., displayedComponents: .date)
         default:
             Text("")
         }
