@@ -24,7 +24,7 @@ struct MonthOnYear: View {
         let startDayIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
         let lengthOfMonth = userInfo.lengthOfMonth(year: userInfo.currentYear, month: month)
         VStack(alignment: .leading) {
-            Text(kMonths[month - 1])
+            Text(userInfo.months[month - 1])
                 .font(.system(size: 20, weight: .bold))
                 .padding(4)
             ForEach (0..<6) { rowIndex in

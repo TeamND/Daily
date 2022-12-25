@@ -27,7 +27,6 @@
 		F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81C291CBC1500984457 /* UserInfo.swift */; };
 		F6C0F821291CCCEA00984457 /* DayOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F820291CCCEA00984457 /* DayOnMonth.swift */; };
 		F6C2F21E2921F9AD0006BFC7 /* MonthOnYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F21D2921F9AD0006BFC7 /* MonthOnYear.swift */; };
-		F6C2F2202921FAE70006BFC7 /* Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F21F2921FAE70006BFC7 /* Month.swift */; };
 		F6C2F22229221C410006BFC7 /* GoalOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22129221C410006BFC7 /* GoalOnList.swift */; };
 		F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22329221EAC0006BFC7 /* Goal.swift */; };
 		F6D06236292346EE00B825EF /* AddGoalPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D06235292346EE00B825EF /* AddGoalPopup.swift */; };
@@ -68,7 +67,6 @@
 		F6C0F81C291CBC1500984457 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		F6C0F820291CCCEA00984457 /* DayOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOnMonth.swift; sourceTree = "<group>"; };
 		F6C2F21D2921F9AD0006BFC7 /* MonthOnYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthOnYear.swift; sourceTree = "<group>"; };
-		F6C2F21F2921FAE70006BFC7 /* Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Month.swift; sourceTree = "<group>"; };
 		F6C2F22129221C410006BFC7 /* GoalOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalOnList.swift; sourceTree = "<group>"; };
 		F6C2F22329221EAC0006BFC7 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		F6D06235292346EE00B825EF /* AddGoalPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalPopup.swift; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				F64EE8862952F9620098C785 /* Constant.swift */,
-				F6C2F21F2921FAE70006BFC7 /* Month.swift */,
 				F6D0624A2927B58B00B825EF /* Times.swift */,
 				F62E884F29405D560010FEE2 /* Date.swift */,
 				F6A85CD4294701D20034CEFC /* ServiceController.swift */,
@@ -354,7 +351,6 @@
 				F6C0F7F129125AF500984457 /* InitView.swift in Sources */,
 				F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */,
 				F6C2F22229221C410006BFC7 /* GoalOnList.swift in Sources */,
-				F6C2F2202921FAE70006BFC7 /* Month.swift in Sources */,
 				F6D062462925B77A00B825EF /* GoalCountOrTimeSetting.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6C0F807291A501400984457 /* MainHeader.swift in Sources */,
