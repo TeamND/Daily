@@ -34,3 +34,12 @@ class CalendarMonth(Resource):
     def get(self,uid):
         data = request.args
         return CalendarApi.Month(uid,data)
+    
+@calendar.route('/year/<int:uid>')
+class CalendarYear(Resource):
+    
+    @calendar.doc(responses={00: 'Success'})
+    @calendar.doc(responses={99: 'Failed'})
+    def get(self,uid):
+        data = request.args
+        return CalendarApi.Year(uid,data)
