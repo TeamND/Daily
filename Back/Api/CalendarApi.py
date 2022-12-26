@@ -37,7 +37,7 @@ class CalendarApi(Resource):
             
             return {
                 'code': '00',
-                'message': '목표달성을 업데이트했습니다.',
+                'message': '조회에 성공했습니다.',
                 'data': result
             }, 00
         except Exception as e:
@@ -51,31 +51,33 @@ class CalendarApi(Resource):
             date = data['date'] if 'date' in data else datetime.datetime.today()
             
             # join
-            join = db.session.query(func.to_char(Record.date, 'YYYY-mm-dd'),Record.issuccess, func.count(Record.issuccess))\
+            join = db.session.query(func.to_char(Record.date, 'mm'), func.to_char(Record.date, 'dd'), Record.issuccess, func.count(Record.issuccess))\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4])\
                     .group_by(Record.date,Record.issuccess).order_by(Record.date).all()
             
-            print(join)
-            
-            # 데이터 가공
             result = {}
             for k in join:
                 
+                # 달 할당
+                if k[0] not in result:
+                    result[k[0]] = {}
+                    continue
+                
                 # 목표가 성공 실패 둘다 있는경우
-                if k[0] in result:
-                    result[k[0]] = round(k[2] / (k[2] + temp), 2)
+                if k[1] in result[k[0]]:
+                    result[k[0]][k[1]] = round(k[3] / (k[3] + temp), 2)
                 
                 # 목표가 성공 실패중 한가지인 경우
                 else:
-                    if result is True:
-                        result[k[0]] = 1
+                    if k[2] is True:
+                        result[k[0]][k[1]] = 1
                     else:
-                        result[k[0]] = 0
-                        temp = k[2]
-           
+                        result[k[0]][k[1]] = 0
+                        temp = k[3]
+                        
             return {
                 'code': '00',
-                'message': '목표달성을 업데이트했습니다.',
+                'message': '조회에 성공했습니다.',
                 'data': result
             }, 00
         except Exception as e:
