@@ -84,6 +84,38 @@ class UserInfo: ObservableObject{
     @Published var currentYear: Int = Date().year
     @Published var currentMonth: Int = Date().month
     @Published var currentDay: Int = Date().day
+    var currentYearLabel: String {
+        get {
+            if self.language == "korea" {
+                return "\(String(self.currentYear))년"
+            } else {
+                return "in \(String(self.currentYear))"
+            }
+        }
+    }
+    var currentMonthLabel: String {
+        get {
+            return self.months[self.currentMonth - 1]
+        }
+    }
+    var currentDayLabel: String {
+        get {
+            if self.language == "korea" {
+                return "\(self.currentDay)일"
+            } else {
+                switch self.currentDay {
+                case 1, 21, 31:
+                    return "\(self.currentDay)st"
+                case 2, 22:
+                    return "\(self.currentDay)nd"
+                case 3, 23:
+                    return "\(self.currentDay)rd"
+                default:
+                    return "\(self.currentDay)th"
+                }
+            }
+        }
+    }
     var currentDate: Date {
         get {
             let yearStr = String(format: "%4d", self.currentYear)
@@ -105,7 +137,9 @@ class UserInfo: ObservableObject{
             return 0
         }
     }
-    
+}
+
+extension UserInfo {
     func isToday(day: Int) -> Bool {
         let today = Date()
         if today.year == self.currentYear && today.month == self.currentMonth {
@@ -118,7 +152,7 @@ class UserInfo: ObservableObject{
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         let changedDay = cal.date(byAdding: .day, value: DOWIndex - self.DOWIndex, to: self.currentDate)!
-
+        
         self.currentYear = changedDay.year
         self.currentMonth = changedDay.month
         self.currentDay = changedDay.day
@@ -139,7 +173,9 @@ class UserInfo: ObservableObject{
         let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
         return "\(yearStr)-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
-    
+}
+
+extension UserInfo {
     var weeks: [String] {
         get {
             if self.set_language == "korea" {

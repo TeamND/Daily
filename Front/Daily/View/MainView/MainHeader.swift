@@ -20,7 +20,7 @@ struct MainHeader: View {
                             userInfo.currentState = "year"
                         }
                     } label: {
-                        Label("\(String(userInfo.currentYear))년", systemImage: "chevron.left")
+                        Label(userInfo.currentYearLabel, systemImage: "chevron.left")
                             .font(.system(size: 16, weight: .bold))
                     }
                     .padding(8)
@@ -32,7 +32,7 @@ struct MainHeader: View {
                             userInfo.currentState = "month"
                         }
                     } label: {
-                        Label("\(userInfo.currentMonth)월", systemImage: "chevron.left")
+                        Label(userInfo.currentMonthLabel, systemImage: "chevron.left")
                             .font(.system(size: 16, weight: .bold))
                     }
                     .padding(8)
@@ -43,17 +43,17 @@ struct MainHeader: View {
             HStack {
                 Spacer()
                 if userInfo.currentState == "year" {
-                    Text("\(String(userInfo.currentYear))년")
+                    Text(userInfo.currentYearLabel)
                         .font(.system(size: 20, weight: .bold))
                         .matchedGeometryEffect(id: "year", in: NS)
                 }
                 if userInfo.currentState == "month" {
-                    Text("\(userInfo.currentMonth)월")
+                    Text(userInfo.currentMonthLabel)
                         .font(.system(size: 20, weight: .bold))
                         .matchedGeometryEffect(id: "month", in: NS)
                 }
                 if userInfo.currentState == "week" {
-                    Text("\(userInfo.currentDay)일")
+                    Text(userInfo.currentDayLabel)
                         .font(.system(size: 20, weight: .bold))
                         .matchedGeometryEffect(id: "week", in: NS)
                 }
