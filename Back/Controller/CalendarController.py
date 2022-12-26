@@ -17,31 +17,29 @@ model = calendar.model('기록', strict=True, model={
     'start_time': fields.String(title='시작 시간'),
 })
 
-@calendar.route('/',methods=['POST'])
-class CalendarCreate(Resource):
-    
-    @calendar.doc(params={'user_uid': '사용자 고유번호'})
-    @calendar.doc(params={'content': '목표 내용'})
+@calendar.route('/day/<int:uid>')
+class CalendarWeek(Resource):
+
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
-    def post(self):
-        data = request.form
-        return CalendarApi.Create(data)
+    def get(self,uid):
+        data = request.args
+        return CalendarApi.Week(uid,data)
     
-@calendar.route('/<int:uid>')
-class CalendarRUD(Resource):
+@calendar.route('/month/<int:uid>')
+class CalendarMonth(Resource):
     
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
     def get(self,uid):
-        return CalendarApi.Read(uid)
+        data = request.args
+        return CalendarApi.Month(uid,data)
+    
+@calendar.route('/year/<int:uid>')
+class CalendarYear(Resource):
     
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
-    def put(self,uid):
-        return CalendarApi.Update(uid,request.args)
-    
-    @calendar.doc(responses={00: 'Success'})
-    @calendar.doc(responses={99: 'Failed'})    
-    def delete(self,uid):
-        return CalendarApi.Delete(uid)
+    def get(self,uid):
+        data = request.args
+        return CalendarApi.Year(uid,data)

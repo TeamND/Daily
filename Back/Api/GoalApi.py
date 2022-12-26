@@ -119,6 +119,31 @@ class GoalApi(Resource):
                 'code': '99',
                 'message': e
             }, 99
+    
+    # 목표 타이머 시작      
+    def Start(uid):
+        result = db.session.get(Record,uid)
+        
+        if result:
+            try:
+                
+                result.start_time=datetime.datetime.now()
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '목표시간 설정에 성공했습니다.'
+                }, 00
+                
+            except Exception as e:
+                return {
+                    'code': '99',
+                    'message': e
+                }, 99
+        else: 
+           return {
+                'code': '99',
+                'message': '조회된 데이터가 없습니다.'
+            }, 99
             
     # 달성
     def Achieve(uid,data):
@@ -162,6 +187,3 @@ class GoalApi(Resource):
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
             }, 99
-           
-    def start_time():
-        print('g')

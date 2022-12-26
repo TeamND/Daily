@@ -50,6 +50,14 @@ class GoalRUD(Resource):
         return GoalApi.Delete(uid)
     
 @goal.route('/achive/<int:record_uid>')
+class GoalStart(Resource):
+    
+    @goal.doc(responses={00: 'Success'})
+    @goal.doc(responses={99: 'Failed'})  
+    def put(self,record_uid):
+        return GoalApi.Start(record_uid)    
+
+@goal.route('/achive/<int:record_uid>')
 class GoalAchive(Resource):
     
     @goal.doc(responses={00: 'Success'})
