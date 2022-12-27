@@ -10,12 +10,12 @@ goal = Namespace(
 model = goal.model('목표', strict=True, model={
     'user_uid': fields.Integer(title='사용자 고유번호', required=True),
     'content': fields.String(title='내용', required=True),
-    'symbol': fields.String(title='심볼', default='운동', required=True),
-    'start_date': fields.String(title='글 카테고리', default='잡담', required=True),
-    'end_date': fields.String(title='글 제목', default='title', required=True),
-    'cycle_type': fields.String(title='날짜/반복 선택', default='date', required=True),
+    'symbol': fields.String(title='심볼', default='운동'),
+    'start_date': fields.String(title='글 카테고리', default='시작일'),
+    'end_date': fields.String(title='글 제목', default='시작일 + 30일'),
+    'cycle_type': fields.String(title='날짜/반복 선택', default='date'),
     'cycle_date': fields.String(title='날짜/반복 일'),
-    'type': fields.String(title='횟수/시간 선택', default='check', required=True),
+    'type': fields.String(title='횟수/시간 선택', default='check'),
     'goal_count': fields.String(title='목표 횟수', default='1'),
     'goal_time': fields.String(title='목표 시간', default='1M'),
 })
@@ -23,11 +23,11 @@ model = goal.model('목표', strict=True, model={
 @goal.route('/',methods=['POST'])
 
 class GoalCreate(Resource):
-    @goal.doc(params={'user_uid': '사용자 고유번호'})
-    @goal.doc(params={'content': '목표 내용'})
+    @goal.expect(model)
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})
     def post(self):
+        '''목표를 추가한다.'''
         data = request.form
         return GoalApi.Create(data)
     
@@ -37,24 +37,28 @@ class GoalRUD(Resource):
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})
     def get(self,uid):
+        '''목표를 조회한다.'''
         return GoalApi.Read(uid)
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})
     def put(self,uid):
+        '''목표를 수정한다.'''
         return GoalApi.Update(uid,request.args)
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})    
     def delete(self,uid):
+        '''목표를 삭제한다.'''
         return GoalApi.Delete(uid)
     
-@goal.route('/achive/<int:record_uid>')
+@goal.route('/start/<int:record_uid>')
 class GoalStart(Resource):
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
+        '''목표의 타이머를 시작한다.'''
         return GoalApi.Start(record_uid)    
 
 @goal.route('/achive/<int:record_uid>')
@@ -63,4 +67,5 @@ class GoalAchive(Resource):
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
+        '''목표의 달성을 추가한다.'''
         return GoalApi.Achieve(record_uid,request.args)

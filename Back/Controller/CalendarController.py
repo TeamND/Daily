@@ -23,6 +23,7 @@ class CalendarWeek(Resource):
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
     def get(self,uid):
+        '''달력을 주단위로 조회한다.'''
         data = request.args
         return CalendarApi.Week(uid,data)
     
@@ -32,6 +33,7 @@ class CalendarMonth(Resource):
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
     def get(self,uid):
+        '''달력을 월단위로 조회한다.'''
         data = request.args
         return CalendarApi.Month(uid,data)
     
@@ -41,5 +43,6 @@ class CalendarYear(Resource):
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
     def get(self,uid):
+        '''달력을 년단위로 조회한다.'''
         data = request.args
         return CalendarApi.Year(uid,data)
