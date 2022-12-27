@@ -27,9 +27,11 @@ struct GoalDateOrRepeatSetting: View {
         .font(.system(size: 16))
         switch userInfo.dateOrRepeat {
         case "날짜":
-            MonthOnYear(userInfo: userInfo, month: Date().month, fontSize: 16, isTapSelect: true)
+//            MonthOnYear(userInfo: userInfo, month: Date().month, fontSize: 16, isTapSelect: true)
+            Text("month calendar for date pick")
         case "반복":
-            WeekIndicator(userInfo: userInfo, tapPurpose: "select")
+//            WeekIndicator(userInfo: userInfo, tapPurpose: "select")
+            Text("week indicator for date pick")
             DatePicker("시작일:", selection: $startDate, in: Date()..., displayedComponents: .date)
             DatePicker("종료일:", selection: $endDate, in: Date()..., displayedComponents: .date)
         default:
