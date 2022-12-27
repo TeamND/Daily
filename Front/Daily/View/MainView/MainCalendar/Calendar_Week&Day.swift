@@ -40,5 +40,15 @@ struct Calendar_Week_Day: View {
             }
             .listStyle(.plain)
         }
+        .onAppear {
+            // getCalendarDay
+            print("calendar week&day appear")
+            print(userInfo.currentDay)
+        }
+        .onChange(of: userInfo.currentDay) { day in
+            // getCalendarDay
+            print("calendar week&day change")
+            print(day)
+        }
     }
 }

@@ -18,3 +18,9 @@ func getUserInfo(userID: String, completionHandler: @escaping (Bool, [String: An
 func setUserInfo(param: [String: Any]) {
     requestPost(url: "\(serverUrl)user/set", param: param)
 }
+
+func getCalendarYear(userID: String, year: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
+    requestGet(url: "\(serverUrl)calendar/year/\(userID)?date=\(year)") { (success, data) in
+        completionHandler(success, data)
+    }
+}

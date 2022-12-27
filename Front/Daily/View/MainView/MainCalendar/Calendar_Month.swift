@@ -24,5 +24,15 @@ struct Calendar_Month: View {
                 Spacer()
             }
         }
+        .onAppear {
+            // getCalendarMonth
+            print("calendar month appear")
+            print(userInfo.currentMonth)
+        }
+        .onChange(of: userInfo.currentMonth) { month in
+            // getCalendarMonth
+            print("calendar month change")
+            print(month)
+        }
     }
 }

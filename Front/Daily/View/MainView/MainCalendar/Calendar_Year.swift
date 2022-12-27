@@ -31,5 +31,19 @@ struct Calendar_Year: View {
             }
             Spacer()
         }
+        .onAppear {
+            getCalendarYear(userID: "2", year: String(userInfo.currentYear)) { (success, data) in
+                print(data)
+            }
+            print("calendar year appear")
+            print(userInfo.currentYear)
+        }
+        .onChange(of: userInfo.currentYear) { year in
+            getCalendarYear(userID: String(userInfo.uid), year: String(year)) { (success, data) in
+                print(data)
+            }
+            print("calendar year change")
+            print(year)
+        }
     }
 }

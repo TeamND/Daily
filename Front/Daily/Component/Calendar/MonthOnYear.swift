@@ -69,5 +69,9 @@ struct MonthOnYear: View {
             }
         }
         .padding(12)
+        .onAppear {
+            print("month on year")
+            print(month)
+        }
     }
 }
