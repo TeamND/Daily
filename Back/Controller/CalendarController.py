@@ -1,5 +1,5 @@
 from flask import request
-from flask_restx import Resource, Api, Namespace, fields
+from flask_restx import Resource, Api, Namespace, fields, reqparse
 from Api.CalendarApi import CalendarApi
 
 calendar = Namespace(
@@ -17,32 +17,55 @@ model = calendar.model('기록', strict=True, model={
     'start_time': fields.String(title='시작 시간'),
 })
 
-@calendar.route('/day/<int:uid>')
-class CalendarWeek(Resource):
+day_column = reqparse.RequestParser()
+day_column.add_argument('date', type=str, default='2022-12-25', help='날짜')
 
+@calendar.route('/day/<int:user_uid>')
+class CalendarDay(Resource):
+    @calendar.doc(params={'user_uid': '사용자 고유번호'})
+    @calendar.expect(day_column)
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
-    def get(self,uid):
+    def get(self,user_uid):
+        '''달력을 일단위로 조회한다.'''
+        data = request.args
+        return CalendarApi.Day(user_uid,data)
+
+@calendar.route('/week/<int:user_uid>')
+class CalendarWeek(Resource):
+    @calendar.doc(params={'user_uid': '사용자 고유번호'})
+    @calendar.expect(day_column)
+    @calendar.doc(responses={00: 'Success'})
+    @calendar.doc(responses={99: 'Failed'})
+    def get(self,user_uid):
         '''달력을 주단위로 조회한다.'''
         data = request.args
-        return CalendarApi.Week(uid,data)
+        return CalendarApi.Week(user_uid,data)
     
-@calendar.route('/month/<int:uid>')
+month_column = reqparse.RequestParser()
+month_column.add_argument('date', type=str, default='2022-12', help='날짜')
+
+@calendar.route('/month/<int:user_uid>')
 class CalendarMonth(Resource):
-    
+    @calendar.doc(params={'user_uid': '사용자 고유번호'})
+    @calendar.expect(month_column)
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
-    def get(self,uid):
+    def get(self,user_uid):
         '''달력을 월단위로 조회한다.'''
         data = request.args
-        return CalendarApi.Month(uid,data)
+        return CalendarApi.Month(user_uid,data)
     
-@calendar.route('/year/<int:uid>')
+year_column = reqparse.RequestParser()
+year_column.add_argument('date', type=str, default='2022', help='날짜')
+    
+@calendar.route('/year/<int:user_uid>')
 class CalendarYear(Resource):
-    
+    @calendar.doc(params={'user_uid': '사용자 고유번호'})
+    @calendar.expect(year_column)
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
-    def get(self,uid):
+    def get(self,user_uid):
         '''달력을 년단위로 조회한다.'''
         data = request.args
-        return CalendarApi.Year(uid,data)
+        return CalendarApi.Year(user_uid,data)
