@@ -33,6 +33,7 @@ class CalendarDay(Resource):
 
 @calendar.route('/week/<int:user_uid>')
 class CalendarWeek(Resource):
+    @calendar.doc(params={'user_uid': '사용자 고유번호'})
     @calendar.expect(day_column)
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})
