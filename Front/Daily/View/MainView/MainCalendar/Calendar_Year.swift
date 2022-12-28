@@ -34,6 +34,8 @@ struct Calendar_Year: View {
         .onAppear {
             getCalendarYear(userID: "2", year: String(userInfo.currentYear)) { (success, data) in
                 print(data)
+//                let test = data["11"] as! [String: Any]
+//                print(test)
             }
             print("calendar year appear")
             print(userInfo.currentYear)
