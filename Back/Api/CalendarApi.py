@@ -6,12 +6,15 @@ import datetime
 import json
 
 class CalendarApi(Resource):
+    def Day():
+        print('h')
+    
     def Week():
         print('h')
         
     def Month(uid,data):
         try:
-            date = data['date'] if 'date' in data else datetime.datetime.today()
+            date = data['date'] if data.get('date',0,type=int) else datetime.datetime.now().strftime('%Y-%m')
             
             # join
             join = db.session.query(func.to_char(Record.date, 'YYYY-mm-dd'), Goal.symbol, Record.issuccess)\
@@ -48,7 +51,7 @@ class CalendarApi(Resource):
         
     def Year(uid,data):
         try:
-            date = data['date'] if 'date' in data else datetime.datetime.today()
+            date = data['date'] if data.get('date',0,type=int) else datetime.datetime.now().strftime('%Y')
             
             # join
             join = db.session.query(func.to_char(Record.date, 'mm'), func.to_char(Record.date, 'dd'), Record.issuccess, func.count(Record.issuccess))\
