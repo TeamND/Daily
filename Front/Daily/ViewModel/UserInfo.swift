@@ -86,7 +86,7 @@ class UserInfo: ObservableObject{
     @Published var currentDay: Int = Date().day
     var currentYearLabel: String {
         get {
-            if self.language == "korea" {
+            if self.set_language == "korea" {
                 return "\(String(self.currentYear))년"
             } else {
                 return "in \(String(self.currentYear))"
@@ -100,7 +100,7 @@ class UserInfo: ObservableObject{
     }
     var currentDayLabel: String {
         get {
-            if self.language == "korea" {
+            if self.set_language == "korea" {
                 return "\(self.currentDay)일"
             } else {
                 switch self.currentDay {
