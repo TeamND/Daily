@@ -7,41 +7,29 @@ import json
 
 class CalendarApi(Resource):
     def Day(uid,data):
-        # try:
+        try:
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')
             
             # join
-            join = db.session.query(func.to_char(Record.date, 'YYYY-mm-dd'), Goal.symbol, Record.issuccess)\
-                        .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4], extract('month', Record.date) == date[5:7], extract('day', Record.date) == date[8:10])\
+            join = db.session.query(Goal.uid, Goal.content, Goal.symbol, Goal.type, Goal.cycle_type, Goal.cycle_date, Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, Record.issuccess)\
+                        .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
                         .order_by(Record.date,Record.order).all()
             
-            # # 데이터 가공
-            # result = {}
-            # for k in join:
-                
-            #     if k[1] not in result:
-            #         count = 0
-            #         issuccess = 0
-            #         result[k[0]][k[1]] = {'symbol':[{k[1]:k[2]}]}
-            #     else:
-            #         result[k[0]][k[1]]['symbol'].append({k[1]:k[2]})
-                
-            #     count += 1
-            #     if k[3] is True:
-            #         issuccess += 1
-                    
-            #     result[k[0]][k[1]]['rating'] = round(issuccess/count,2)
+            # 데이터 가공
+            result = []
+            for k in join:
+                result.append(json.loads(json.dumps(k._mapping,default=str)))
 
-            # return {
-            #     'code': '00',
-            #     'message': '조회에 성공했습니다.',
-            #     'data': result
-            # }, 00
-        # except Exception as e:
-        #     return {
-        #         'code': '99',
-        #         'message': e
-        #     }, 99
+            return {
+                'code': '00',
+                'message': '조회에 성공했습니다.',
+                'data': result
+            }, 00
+        except Exception as e:
+            return {
+                'code': '99',
+                'message': e
+            }, 99
         
     def Week(uid,data):
         try:
