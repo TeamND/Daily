@@ -9,14 +9,7 @@ import SwiftUI
 
 struct MonthOnYear: View {
     @StateObject var userInfo: UserInfo
-    @State var archievements: [[Double]] = [
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0]
-    ]
+    @Binding var archievements: [Double]
     var month: Int
     var fontSize: CGFloat = 6
     var isTapSelect: Bool = false
@@ -34,13 +27,13 @@ struct MonthOnYear: View {
                             let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                             Image(systemName: "circle.fill")
                                 .font(.system(size: fontSize * 2))
-                                .foregroundColor(.mint.opacity(archievements[rowIndex][colIndex]))
+                                .foregroundColor(.mint.opacity(archievements[rowIndex * 7 + colIndex]))
                             if isTapSelect {
                                 Button {
-                                    if archievements[rowIndex][colIndex] == 0 {
-                                        archievements[rowIndex][colIndex] = 0.4
+                                    if archievements[rowIndex * 7 + colIndex] == 0 {
+                                        archievements[rowIndex * 7 + colIndex] = 0.4
                                     } else {
-                                        archievements[rowIndex][colIndex] = 0
+                                        archievements[rowIndex * 7 + colIndex] = 0
                                     }
                                 } label: {
                                     if 1 <= day && day <= lengthOfMonth {
@@ -69,9 +62,5 @@ struct MonthOnYear: View {
             }
         }
         .padding(12)
-        .onAppear {
-            print("month on year")
-            print(month)
-        }
     }
 }

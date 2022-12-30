@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Calendar_Year: View {
     @StateObject var userInfo: UserInfo
+    @State var allArchievements: [[Double]] = Array(repeating: Array(repeating: 0, count: 42), count: 12)
     var body: some View {
         VStack(spacing: 0) {
             CustomDivider(color: .black, height: 2)
@@ -23,7 +24,7 @@ struct Calendar_Year: View {
                                 userInfo.currentState = "month"
                             }
                         } label: {
-                            MonthOnYear(userInfo: userInfo, month: month)
+                            MonthOnYear(userInfo: userInfo, archievements: $allArchievements[month-1], month: month)
                                 .accentColor(.black)
                         }
                     }
@@ -32,17 +33,37 @@ struct Calendar_Year: View {
             Spacer()
         }
         .onAppear {
-            getCalendarYear(userID: "2", year: String(userInfo.currentYear)) { (success, data) in
-                print(data)
-//                let test = data["11"] as! [String: Any]
-//                print(test)
+            getCalendarYear(userID: String(userInfo.uid), year: String(userInfo.currentYear)) { (success, data) in
+                for month in 1...12 {
+                    let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
+                    allArchievements[month-1] = []
+                    let startIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
+                    for row in 0..<6 {
+                        for col in 0..<7 {
+                            let day = row * 7 + col + 1 - startIndex
+                            if row * 7 + col < startIndex { allArchievements[month-1].append(0) }
+                            else { allArchievements[month-1].append(archievements[String(format: "%02d", day)] as? Double ?? 0) }
+                        }
+                    }
+                }
             }
             print("calendar year appear")
             print(userInfo.currentYear)
         }
         .onChange(of: userInfo.currentYear) { year in
-            getCalendarYear(userID: String(userInfo.uid), year: String(year)) { (success, data) in
-                print(data)
+            getCalendarYear(userID: String(userInfo.uid), year: String(userInfo.currentYear)) { (success, data) in
+                for month in 1...12 {
+                    let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
+                    allArchievements[month-1] = []
+                    let startIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
+                    for row in 0..<6 {
+                        for col in 0..<7 {
+                            let day = row * 7 + col + 1 - startIndex
+                            if row * 7 + col < startIndex { allArchievements[month-1].append(0) }
+                            else { allArchievements[month-1].append(archievements[String(format: "%02d", day)] as? Double ?? 0) }
+                        }
+                    }
+                }
             }
             print("calendar year change")
             print(year)
