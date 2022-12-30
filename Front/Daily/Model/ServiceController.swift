@@ -24,3 +24,9 @@ func getCalendarYear(userID: String, year: String, completionHandler: @escaping 
         completionHandler(success, data)
     }
 }
+
+func getCalendarMonth(userID: String, month: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
+    requestGet(url: "\(serverUrl)calendar/month/\(userID)?date=\(month)") { (success, data) in
+        completionHandler(success, data)
+    }
+}
