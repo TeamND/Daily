@@ -14,8 +14,8 @@ struct MonthOnYear: View {
     var fontSize: CGFloat = 6
     var isTapSelect: Bool = false
     var body: some View {
-        let startDayIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
-        let lengthOfMonth = userInfo.lengthOfMonth(year: userInfo.currentYear, month: month)
+        let startDayIndex = userInfo.startDayIndex(month: month)
+        let lengthOfMonth = userInfo.lengthOfMonth(month: month)
         VStack(alignment: .leading) {
             Text(userInfo.months[month - 1])
                 .font(.system(size: 20, weight: .bold))

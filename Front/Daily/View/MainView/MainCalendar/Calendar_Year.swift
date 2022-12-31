@@ -38,7 +38,7 @@ struct Calendar_Year: View {
                 for month in 1...12 {
                     let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
                     allArchievements[month-1] = []
-                    let startIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
+                    let startIndex = userInfo.startDayIndex(month: month)
                     for row in 0..<6 {
                         for col in 0..<7 {
                             let day = row * 7 + col + 1 - startIndex
@@ -55,7 +55,7 @@ struct Calendar_Year: View {
                 for month in 1...12 {
                     let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
                     allArchievements[month-1] = []
-                    let startIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
+                    let startIndex = userInfo.startDayIndex(month: month)
                     for row in 0..<6 {
                         for col in 0..<7 {
                             let day = row * 7 + col + 1 - startIndex

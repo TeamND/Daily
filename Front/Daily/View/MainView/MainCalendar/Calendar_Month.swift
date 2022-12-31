@@ -25,6 +25,7 @@ struct Calendar_Month: View {
             }
         }
         .onAppear {
+            print("calendar month(\(userInfo.currentMonth)) appear")
 //            getCalendarMonth(
 //                userID: String(userInfo.uid),
 //                month: "\(String(userInfo.currentYear))-\(String(format: "%02d", userInfo.currentMonth))"
@@ -33,10 +34,20 @@ struct Calendar_Month: View {
                 month: "2022-12"
             ) { (success, data) in
                 print(data)
+                let dayFour = data["04"] as! [String: Any]
+                print("dayFour is \(dayFour)")
+                let dayFourRating = dayFour["rating"] as! Double
+                let dayFourSymbolArray = dayFour["symbol"] as! NSArray
+                print("dayFourRating is \(dayFourRating)")
+                print("dayFourSymbolArray is \(dayFourSymbolArray)")
+                for symbol in dayFourSymbolArray {
+                    let test = symbol as! [String: Bool]
+                    print(test)
+                }
 //                for month in 1...12 {
 //                    let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
 //                    allArchievements[month-1] = []
-//                    let startIndex = userInfo.startDayIndex(year: userInfo.currentYear, month: month)
+//                    let startIndex = userInfo.startDayIndex(month: month)
 //                    for row in 0..<6 {
 //                        for col in 0..<7 {
 //                            let day = row * 7 + col + 1 - startIndex
@@ -46,13 +57,10 @@ struct Calendar_Month: View {
 //                    }
 //                }
             }
-            print("calendar month appear")
-            print(userInfo.currentMonth)
         }
         .onChange(of: userInfo.currentMonth) { month in
+            print("calendar month(\(month)) change")
             // getCalendarMonth
-            print("calendar month change")
-            print(month)
         }
     }
 }

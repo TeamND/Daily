@@ -158,8 +158,8 @@ extension UserInfo {
         self.currentDay = changedDay.day
     }
     
-    func startDayIndex(year: Int = 0, month: Int = 0) -> Int {
-        let yearStr = String(format: "%4d", year == 0 ? self.currentYear : year)
+    func startDayIndex(month: Int = 0) -> Int {
+        let yearStr = String(format: "%4d", self.currentYear)
         let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
         let startDay = "\(yearStr)-\(monthStr)-01".toDate()!
         for i in self.weeks.indices {
@@ -168,8 +168,8 @@ extension UserInfo {
         return 0
     }
     
-    func lengthOfMonth(year: Int = 0, month: Int = 0) -> Int {
-        let yearStr = String(format: "%4d", year == 0 ? self.currentYear : year)
+    func lengthOfMonth(month: Int = 0) -> Int {
+        let yearStr = String(format: "%4d", self.currentYear)
         let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
         return "\(yearStr)-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
