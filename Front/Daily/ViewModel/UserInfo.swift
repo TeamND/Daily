@@ -116,12 +116,24 @@ class UserInfo: ObservableObject{
             }
         }
     }
+    var currentYearStr: String {
+        get {
+            return String(format: "%4d", self.currentYear)
+        }
+    }
+    var currentMonthStr: String {
+        get {
+            return String(format: "%2d", self.currentMonth)
+        }
+    }
+    var currentDayStr: String {
+        get {
+            return String(format: "%2d", self.currentDay)
+        }
+    }
     var currentDate: Date {
         get {
-            let yearStr = String(format: "%4d", self.currentYear)
-            let monthStr = String(format: "%2d", self.currentMonth)
-            let dayStr = String(format: "%2d", self.currentDay)
-            return "\(yearStr)-\(monthStr)-\(dayStr)".toDate()!
+            return "\(self.currentYearStr)-\(self.currentMonthStr)-\(self.currentDayStr)".toDate()!
         }
     }
     var currentDOW: String {
@@ -159,9 +171,8 @@ extension UserInfo {
     }
     
     func startDayIndex(month: Int = 0) -> Int {
-        let yearStr = String(format: "%4d", self.currentYear)
         let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
-        let startDay = "\(yearStr)-\(monthStr)-01".toDate()!
+        let startDay = "\(self.currentYearStr)-\(monthStr)-01".toDate()!
         for i in self.weeks.indices {
             if self.weeks[i] == startDay.getDOW(language: self.language) { return i }
         }
@@ -169,9 +180,8 @@ extension UserInfo {
     }
     
     func lengthOfMonth(month: Int = 0) -> Int {
-        let yearStr = String(format: "%4d", self.currentYear)
         let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
-        return "\(yearStr)-\(monthStr)-01".toDate()!.lastDayOfMonth().day
+        return "\(self.currentYearStr)-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
 }
 
