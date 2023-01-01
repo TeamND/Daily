@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Calendar_Month: View {
     @StateObject var userInfo: UserInfo
+    @State var days: [[String: Any]] = Array(repeating: ["0": []], count: 42)
     var body: some View {
         let startDayIndex = userInfo.startDayIndex()
         let lengthOfMonth = userInfo.lengthOfMonth()
@@ -28,7 +29,7 @@ struct Calendar_Month: View {
             print("calendar month(\(userInfo.currentMonth)) appear")
 //            getCalendarMonth(
 //                userID: String(userInfo.uid),
-//                month: "\(String(userInfo.currentYear))-\(String(format: "%02d", userInfo.currentMonth))"
+//                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
             getCalendarMonth(
                 userID: "2",
                 month: "2022-12"

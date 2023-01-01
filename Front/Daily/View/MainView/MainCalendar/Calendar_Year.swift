@@ -34,7 +34,7 @@ struct Calendar_Year: View {
         }
         .onAppear {
             print("calendar year(\(userInfo.currentYear)) appear")
-            getCalendarYear(userID: String(userInfo.uid), year: String(userInfo.currentYear)) { (success, data) in
+            getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (success, data) in
                 for month in 1...12 {
                     let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
                     allArchievements[month-1] = []
@@ -51,7 +51,7 @@ struct Calendar_Year: View {
         }
         .onChange(of: userInfo.currentYear) { year in
             print("calendar year(\(year)) change")
-            getCalendarYear(userID: String(userInfo.uid), year: String(userInfo.currentYear)) { (success, data) in
+            getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (success, data) in
                 for month in 1...12 {
                     let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
                     allArchievements[month-1] = []
