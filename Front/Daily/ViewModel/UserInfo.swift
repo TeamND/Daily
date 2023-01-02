@@ -118,17 +118,17 @@ class UserInfo: ObservableObject{
     }
     var currentYearStr: String {
         get {
-            return String(format: "%4d", self.currentYear)
+            return String(format: "%04d", self.currentYear)
         }
     }
     var currentMonthStr: String {
         get {
-            return String(format: "%2d", self.currentMonth)
+            return String(format: "%02d", self.currentMonth)
         }
     }
     var currentDayStr: String {
         get {
-            return String(format: "%2d", self.currentDay)
+            return String(format: "%02d", self.currentDay)
         }
     }
     var currentDate: Date {
@@ -171,7 +171,7 @@ extension UserInfo {
     }
     
     func startDayIndex(month: Int = 0) -> Int {
-        let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
+        let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
         let startDay = "\(self.currentYearStr)-\(monthStr)-01".toDate()!
         for i in self.weeks.indices {
             if self.weeks[i] == startDay.getDOW(language: self.language) { return i }
@@ -180,7 +180,7 @@ extension UserInfo {
     }
     
     func lengthOfMonth(month: Int = 0) -> Int {
-        let monthStr = String(format: "%2d", month == 0 ? self.currentMonth : month)
+        let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
         return "\(self.currentYearStr)-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
 }

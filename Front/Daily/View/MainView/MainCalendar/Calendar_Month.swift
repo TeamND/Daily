@@ -34,6 +34,14 @@ struct Calendar_Month: View {
                 userID: "2",
                 month: "2022-12"
             ) { (success, data) in
+                days = []
+                let startIndex = userInfo.startDayIndex()
+                for i in 0..<42 {
+                    if i < startIndex { days.append(["0": []]) }
+                    else {
+                        let day = String(format: "%02d", i - startIndex)
+                    }
+                }
                 print(data)
                 let dayFour = data["04"] as! [String: Any]
                 print("dayFour is \(dayFour)")
