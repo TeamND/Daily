@@ -9,12 +9,14 @@ import SwiftUI
 
 struct DayOnMonth: View {
     let day: Int
+    @Binding var dayObject: [String: Any]
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: 24))
-                    .foregroundColor(.mint.opacity(0.4))
+//                    .foregroundColor(.mint.opacity(0.2))
+                    .foregroundColor(.mint.opacity(dayObject["rating"] as? Double ?? 0))
                 Text("\(day)")
                     .font(.system(size: 12, weight: .bold))
             }
@@ -29,6 +31,9 @@ struct DayOnMonth: View {
                 }
             }
             .font(.system(size: 12, weight: .bold))
+        }
+        .onAppear {
+            print("day is \(day), dayObject is \(dayObject)")
         }
     }
 }

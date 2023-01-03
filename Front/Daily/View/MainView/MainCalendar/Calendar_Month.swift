@@ -19,7 +19,7 @@ struct Calendar_Month: View {
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
-                    WeekOnMonth(userInfo: userInfo, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
+                    WeekOnMonth(userInfo: userInfo, days: $days, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
                     if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
                 }
                 Spacer()
@@ -35,35 +35,27 @@ struct Calendar_Month: View {
                 month: "2022-12"
             ) { (success, data) in
                 days = []
-                let startIndex = userInfo.startDayIndex()
+                let startDayIndex = userInfo.startDayIndex()
+                let lengthOfMonth = userInfo.lengthOfMonth()
                 for i in 0..<42 {
-                    if i < startIndex { days.append(["0": []]) }
+                    if i < startDayIndex || i > startDayIndex + lengthOfMonth - 1 { days.append(["0": []]) }
                     else {
-                        let day = String(format: "%02d", i - startIndex)
+                        let day = String(format: "%02d", i - startDayIndex + 1)
+                        days.append([day: data[day] as? [String: Any] ?? []])
                     }
                 }
-                print(data)
-                let dayFour = data["04"] as! [String: Any]
-                print("dayFour is \(dayFour)")
-                let dayFourRating = dayFour["rating"] as! Double
-                let dayFourSymbolArray = dayFour["symbol"] as! NSArray
-                print("dayFourRating is \(dayFourRating)")
-                print("dayFourSymbolArray is \(dayFourSymbolArray)")
-                for symbol in dayFourSymbolArray {
-                    let test = symbol as! [String: Bool]
-                    print(test)
-                }
-//                for month in 1...12 {
-//                    let archievements = data[String(format: "%02d", month)] as? [String: Any] ?? ["0": 0]
-//                    allArchievements[month-1] = []
-//                    let startIndex = userInfo.startDayIndex(month: month)
-//                    for row in 0..<6 {
-//                        for col in 0..<7 {
-//                            let day = row * 7 + col + 1 - startIndex
-//                            if row * 7 + col < startIndex { allArchievements[month-1].append(0) }
-//                            else { allArchievements[month-1].append(archievements[String(format: "%02d", day)] as? Double ?? 0) }
-//                        }
-//                    }
+                
+                
+//                print(data)
+//                let dayFour = data["04"] as! [String: Any]
+//                print("dayFour is \(dayFour)")
+//                let dayFourRating = dayFour["rating"] as! Double
+//                let dayFourSymbolArray = dayFour["symbol"] as! NSArray
+//                print("dayFourRating is \(dayFourRating)")
+//                print("dayFourSymbolArray is \(dayFourSymbolArray)")
+//                for symbol in dayFourSymbolArray {
+//                    let test = symbol as! [String: Bool]
+//                    print(test)
 //                }
             }
         }

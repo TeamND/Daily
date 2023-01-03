@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeekOnMonth: View {
     @StateObject var userInfo: UserInfo
+    @Binding var days: [[String: Any]]
     let rowIndex: Int
     let startDayIndex: Int
     let lengthOfMonth: Int
@@ -23,7 +24,7 @@ struct WeekOnMonth: View {
                             userInfo.currentState = "week"
                         }
                     } label: {
-                        DayOnMonth(day: day)
+                        DayOnMonth(day: day, dayObject: $days[day + startDayIndex - 1])
                             .padding(4)
                             .overlay {
                                 RoundedRectangle(cornerRadius: 5)
@@ -33,7 +34,7 @@ struct WeekOnMonth: View {
                             .accentColor(.black)
                     }
                 } else {
-                    DayOnMonth(day: day)
+                    DayOnMonth(day: 0, dayObject: $days[day + startDayIndex - 1])
                         .padding(4)
                         .opacity(0)
                 }
