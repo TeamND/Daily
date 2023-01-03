@@ -53,19 +53,19 @@ class GoalRUD(Resource):
         return GoalApi.Delete(uid)
     
 @goal.route('/timer/<int:record_uid>')
-class GoalStart(Resource):
+class GoalTimer(Resource):
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 타이머를 시작한다.'''
-        return GoalApi.Start(record_uid)    
+        return GoalApi.Timer(record_uid)    
 
 @goal.route('/count/<int:record_uid>')
-class GoalAchive(Resource):
+class GoalCount(Resource):
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 달성을 추가한다.'''
-        return GoalApi.Achieve(record_uid,request.args)
+        return GoalApi.Count(record_uid,request.args)

@@ -121,7 +121,7 @@ class GoalApi(Resource):
             }, 99
     
     # 목표 타이머 시작      
-    def Start(uid):
+    def Timer(uid):
         result = db.session.get(Record,uid)
         
         if result:
@@ -146,42 +146,32 @@ class GoalApi(Resource):
             }, 99
             
     # 달성
-    def Achieve(uid,data):
+    def Count(uid,data):
         result = db.session.get(Record,uid)
         
         if result:
-            try:
+            # try:
                 
                 # join
-                join = db.session.query(Record,Goal)\
+                join = db.session.query(Record.record_count,Goal.goal_count)\
                         .filter(Record.goal_uid==Goal.uid, Record.uid==uid).first()
                 
-                # check, count
-                if 'record_count' in data:
-                    result.record_count += int(data['record_count'])
-                    rating = join.Record.record_count/join.Goal.goal_count
-                    if rating == 1:
-                        result.issuccess = True
+                if int(data['record_count']) != join.goal_count:
+                    result.record_count += 1
                                     
-                # timer
-                elif 'record_time' in data:
-                    result.record_time = data['record_time']
-                    times = int(result.goal_time[:-1]) if result.goal_time[-1:] == 'M' else int(result.goal_time[:-1]) * 60
-                    if datetime.datetime.strptime(data['record_time'],'%Y-%m-%d %H:%M:%S') <= (result.start_time + datetime.timedelta(minutes=times)):
-                        result.issuccess = True
-                        
+                print(result.record_count)
                 db.session.commit()  
                 
                 return {
                     'code': '00',
                     'message': '목표달성을 업데이트했습니다.',
-                    'data': { 'issuccess': result.issuccess }
+                    'data': { 'record_count': result.record_count }
                 }, 00
-            except Exception as e:
-                return {
-                    'code': '99',
-                    'message': e
-                }, 99
+            # except Exception as e:
+            #     return {
+            #         'code': '99',
+            #         'message': e
+            #     }, 99
         else: 
            return {
                 'code': '99',
