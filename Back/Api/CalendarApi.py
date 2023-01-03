@@ -82,7 +82,7 @@ class CalendarApi(Resource):
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m')
             
             # join
-            join = db.session.query(func.to_char(Record.date, 'mm'), func.to_char(Record.date, 'dd'), Goal.symbol, Record.issuccess)\
+            join = db.session.query(func.to_char(Record.date, 'dd'), Goal.symbol, Record.issuccess)\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4], extract('month', Record.date) == date[5:7])\
                     .order_by(Record.date,Record.order).all()
             
@@ -90,22 +90,18 @@ class CalendarApi(Resource):
             result = {}
             for k in join:
                 
-                # 달 할당
                 if k[0] not in result:
-                    result[k[0]] = {}
-                
-                if k[1] not in result[k[0]]:
                     count = 0
                     issuccess = 0
-                    result[k[0]][k[1]] = {'symbol':[{k[2]:k[3]}]}
+                    result[k[0]] = {'symbol':[{k[1]:k[2]}]}
                 else:
-                    result[k[0]][k[1]]['symbol'].append({k[2]:k[3]})
+                    result[k[0]]['symbol'].append({k[1]:k[2]})
                 
                 count += 1
-                if k[3] is True:
+                if k[2] is True:
                     issuccess += 1
                     
-                result[k[0]][k[1]]['rating'] = round(issuccess/count,2)
+                result[k[0]]['rating'] = round(issuccess/count,2)
 
             return {
                 'code': '00',
