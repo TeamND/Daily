@@ -11,12 +11,13 @@ struct DayOnMonth: View {
     let day: Int
     @Binding var dayObject: [String: Any]
     var body: some View {
+        let ratingSymbol = dayObject[String(format: "%02d", day)] as? [String: Any] ?? ["": []]
+        let symbols = ratingSymbol["symbol"] as? Array ?? []
         VStack(alignment: .leading, spacing: 8) {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: 24))
-//                    .foregroundColor(.mint.opacity(0.2))
-                    .foregroundColor(.mint.opacity(dayObject["rating"] as? Double ?? 0))
+                    .foregroundColor(.mint.opacity(ratingSymbol["rating"] as? Double ?? 0))
                 Text("\(day)")
                     .font(.system(size: 12, weight: .bold))
             }
@@ -31,9 +32,15 @@ struct DayOnMonth: View {
                 }
             }
             .font(.system(size: 12, weight: .bold))
-        }
-        .onAppear {
-            print("day is \(day), dayObject is \(dayObject)")
+//            Button {
+//                for symbol in symbols {
+//                    let test = symbol as! [String: Bool]
+//                    print(test)
+//                    print(test["여행"])
+//                }
+//            } label: {
+//                Text("test")
+//            }
         }
     }
 }

@@ -44,19 +44,6 @@ struct Calendar_Month: View {
                         days.append([day: data[day] as? [String: Any] ?? []])
                     }
                 }
-                
-                
-//                print(data)
-//                let dayFour = data["04"] as! [String: Any]
-//                print("dayFour is \(dayFour)")
-//                let dayFourRating = dayFour["rating"] as! Double
-//                let dayFourSymbolArray = dayFour["symbol"] as! NSArray
-//                print("dayFourRating is \(dayFourRating)")
-//                print("dayFourSymbolArray is \(dayFourSymbolArray)")
-//                for symbol in dayFourSymbolArray {
-//                    let test = symbol as! [String: Bool]
-//                    print(test)
-//                }
             }
         }
         .onChange(of: userInfo.currentMonth) { month in
