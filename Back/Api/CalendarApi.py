@@ -11,9 +11,9 @@ class CalendarApi(Resource):
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')
             
             # join
-            join = db.session.query(Goal.uid, Goal.content, Goal.symbol, Goal.type, Goal.cycle_type, Goal.cycle_date, Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, Record.issuccess)\
+            join = db.session.query(Record.uid, Record.goal_uid, Goal.content, Goal.symbol, Goal.type, Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, Record.start_time, Record.issuccess)\
                         .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
-                        .order_by(Record.date,Record.order).all()
+                        .order_by(Record.order).all()
             
             # 데이터 가공
             result = []
