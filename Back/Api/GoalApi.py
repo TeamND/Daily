@@ -139,7 +139,8 @@ class GoalApi(Resource):
                 db.session.commit()
                 return {
                     'code': '00',
-                    'message': '목표시간 설정에 성공했습니다.'
+                    'message': '목표시간 설정에 성공했습니다.',
+                    'data': { 'record_time':result.record_time }
                 }, 00
                 
             except Exception as e:
