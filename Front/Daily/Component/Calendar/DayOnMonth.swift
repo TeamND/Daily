@@ -11,8 +11,9 @@ struct DayOnMonth: View {
     let day: Int
     @Binding var dayObject: [String: Any]
     var body: some View {
-        let ratingSymbol = dayObject[String(format: "%02d", day)] as? [String: Any] ?? ["": []]
-        let symbols = ratingSymbol["symbol"] as? Array ?? []
+        let ratingSymbol = dayObject[String(format: "%02d", day)] as? [String: Any]
+                            ?? ["ration": 0, "symbol": Array(repeating: ["imageName": "", "isSuccess": false], count: 4)]
+        let symbols: Array<[String: Any]> = ratingSymbol["symbol"] as! Array<[String: Any]>
         VStack(alignment: .leading, spacing: 8) {
             ZStack {
                 Image(systemName: "circle.fill")
@@ -23,24 +24,27 @@ struct DayOnMonth: View {
             }
             VStack(spacing: 8) {
                 HStack(spacing: 2) {
-                    Image(systemName: "dumbbell.fill")
-                    Image(systemName: "highlighter")
+                    ForEach(symbols.indices, id: \.self) { symbolIndex in
+                        if 0 <= symbolIndex && symbolIndex < 2 {
+                            let symbolImageName = symbols[symbolIndex]["imageName"] as! String
+                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0.2) }
+                            else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
+                            else { Image(systemName: "dumbbell") }
+                        }
+                    }
                 }
                 HStack(spacing: 2) {
-                    Image(systemName: "highlighter")
-                    Image(systemName: "dumbbell.fill")
+                    ForEach(symbols.indices, id: \.self) { symbolIndex in
+                        if 2 <= symbolIndex && symbolIndex < 4 {
+                            let symbolImageName = symbols[symbolIndex]["imageName"] as! String
+                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0.2) }
+                            else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
+                            else { Image(systemName: "dumbbell") }
+                        }
+                    }
                 }
             }
             .font(.system(size: 12, weight: .bold))
-//            Button {
-//                for symbol in symbols {
-//                    let test = symbol as! [String: Bool]
-//                    print(test)
-//                    print(test["여행"])
-//                }
-//            } label: {
-//                Text("test")
-//            }
         }
     }
 }
