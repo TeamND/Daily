@@ -27,7 +27,7 @@ struct DayOnMonth: View {
                     ForEach(symbols.indices, id: \.self) { symbolIndex in
                         if 0 <= symbolIndex && symbolIndex < 2 {
                             let symbolImageName = symbols[symbolIndex]["imageName"] as! String
-                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0.2) }
+                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0) }
                             else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
                             else { Image(systemName: "dumbbell") }
                         }
@@ -37,7 +37,7 @@ struct DayOnMonth: View {
                     ForEach(symbols.indices, id: \.self) { symbolIndex in
                         if 2 <= symbolIndex && symbolIndex < 4 {
                             let symbolImageName = symbols[symbolIndex]["imageName"] as! String
-                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0.2) }
+                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0) }
                             else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
                             else { Image(systemName: "dumbbell") }
                         }

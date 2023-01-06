@@ -27,12 +27,9 @@ struct Calendar_Month: View {
         }
         .onAppear {
             print("calendar month(\(userInfo.currentMonth)) appear")
-//            getCalendarMonth(
-//                userID: String(userInfo.uid),
-//                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
             getCalendarMonth(
-                userID: "2",
-                month: "2022-12"
+                userID: String(userInfo.uid),
+                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
             ) { (success, data) in
                 days = []
                 let startDayIndex = userInfo.startDayIndex()
@@ -48,7 +45,21 @@ struct Calendar_Month: View {
         }
         .onChange(of: userInfo.currentMonth) { month in
             print("calendar month(\(month)) change")
-            // getCalendarMonth
+            getCalendarMonth(
+                userID: String(userInfo.uid),
+                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
+            ) { (success, data) in
+                days = []
+                let startDayIndex = userInfo.startDayIndex()
+                let lengthOfMonth = userInfo.lengthOfMonth()
+                for i in 0..<42 {
+                    if i < startDayIndex || i > startDayIndex + lengthOfMonth - 1 { days.append(["0": []]) }
+                    else {
+                        let day = String(format: "%02d", i - startDayIndex + 1)
+                        days.append([day: data[day] as? [String: Any] ?? []])
+                    }
+                }
+            }
         }
     }
 }
