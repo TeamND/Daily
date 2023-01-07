@@ -42,6 +42,13 @@ struct MainHeader: View {
             }
             HStack {
                 Spacer()
+                Button {
+                    if userInfo.currentState == "year" { userInfo.currentYear -= 1 }
+                    if userInfo.currentState == "month" { userInfo.currentMonth -= 1 }
+                    if userInfo.currentState == "week" { userInfo.currentDay -= 7 }
+                } label: {
+                    Text("<")
+                }
                 if userInfo.currentState == "year" {
                     Text(userInfo.currentYearLabel)
                         .font(.system(size: 20, weight: .bold))
@@ -56,6 +63,13 @@ struct MainHeader: View {
                     Text(userInfo.currentDayLabel)
                         .font(.system(size: 20, weight: .bold))
                         .matchedGeometryEffect(id: "week", in: NS)
+                }
+                Button {
+                    if userInfo.currentState == "year" { userInfo.currentYear += 1 }
+                    if userInfo.currentState == "month" { userInfo.currentMonth += 1 }
+                    if userInfo.currentState == "week" { userInfo.currentDay += 7 }
+                } label: {
+                    Text(">")
                 }
                 Spacer()
             }
