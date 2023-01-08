@@ -121,17 +121,26 @@ class GoalApi(Resource):
             }, 99
     
     # 목표 타이머 시작      
-    def Start(uid):
+    def Timer(uid,data):
         result = db.session.get(Record,uid)
         
         if result:
             try:
+                # 처음 저장하는 경우
+                if data['isstart'] == 'True':
+                    result.start_time = data['time']
+                        
+                # 중간에 멈춘경우 record 저장        
+                else:
+                    diff = datetime.datetime.strptime(data['time'],'%Y-%m-%d %H:%M:%S') - result.start_time
+                    result.record_time += diff.seconds
+                    result.start_time = None
                 
-                result.start_time=datetime.datetime.now()
                 db.session.commit()
                 return {
                     'code': '00',
-                    'message': '목표시간 설정에 성공했습니다.'
+                    'message': '목표시간 설정에 성공했습니다.',
+                    'data': { 'record_time':result.record_time }
                 }, 00
                 
             except Exception as e:
@@ -146,36 +155,28 @@ class GoalApi(Resource):
             }, 99
             
     # 달성
-    def Achieve(uid,data):
+    def Count(uid,data):
         result = db.session.get(Record,uid)
         
         if result:
             try:
-                
+                    
                 # join
-                join = db.session.query(Record,Goal)\
+                join = db.session.query(Record.record_count,Goal.goal_count)\
                         .filter(Record.goal_uid==Goal.uid, Record.uid==uid).first()
                 
-                # check, count
-                if 'record_count' in data:
-                    result.record_count += int(data['record_count'])
-                    rating = join.Record.record_count/join.Goal.goal_count
-                    if rating == 1:
-                        result.issuccess = True
+                if int(data['record_count']) != join.goal_count:
+                    result.record_count += 1
                                     
-                # timer
-                elif 'record_time' in data:
-                    result.record_time = data['record_time']
-                    times = int(result.goal_time[:-1]) if result.goal_time[-1:] == 'M' else int(result.goal_time[:-1]) * 60
-                    if datetime.datetime.strptime(data['record_time'],'%Y-%m-%d %H:%M:%S') <= (result.start_time + datetime.timedelta(minutes=times)):
-                        result.issuccess = True
-                        
+                if result.record_count == join.goal_count:
+                    result.issuccess = True
+                    
                 db.session.commit()  
                 
                 return {
                     'code': '00',
                     'message': '목표달성을 업데이트했습니다.',
-                    'data': { 'issuccess': result.issuccess }
+                    'data': { 'record_count': result.record_count }
                 }, 00
             except Exception as e:
                 return {

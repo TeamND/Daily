@@ -37,10 +37,8 @@ class Record(db.Model):
     order = db.Column(db.Integer)
     issuccess = db.Column(db.Boolean, default=False)
     record_count = db.Column(db.Integer)
-    goal_count = db.Column(db.Integer)
-    record_time = db.Column(db.DateTime)
-    goal_time = db.Column(db.String(100), default='1M')
-    start_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    record_time = db.Column(db.Integer)
+    start_time = db.Column(db.DateTime)
     
     def __repr__(self):
         return f"Record('{self.uid}', '{self.goal_uid}', '{self.date}', '{self.order}', '{self.issuccess}', '{self.record_count}', '{self.goal_count}', '{self.record_time}', '{self.goal_time}', '{self.start_time}')"
