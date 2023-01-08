@@ -47,7 +47,7 @@ struct MainHeader: View {
                     if userInfo.currentState == "month" { userInfo.currentMonth -= 1 }
                     if userInfo.currentState == "week" { userInfo.currentDay -= 7 }
                 } label: {
-                    Text("<")
+                    Image(systemName: "chevron.left")
                 }
                 if userInfo.currentState == "year" {
                     Text(userInfo.currentYearLabel)
@@ -69,7 +69,7 @@ struct MainHeader: View {
                     if userInfo.currentState == "month" { userInfo.currentMonth += 1 }
                     if userInfo.currentState == "week" { userInfo.currentDay += 7 }
                 } label: {
-                    Text(">")
+                    Image(systemName: "chevron.right")
                 }
                 Spacer()
             }
