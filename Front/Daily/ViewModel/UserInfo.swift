@@ -160,6 +160,50 @@ extension UserInfo {
         return false
     }
     
+    func changeCalendar(direction: String) {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        var changedDay = Date()
+        switch (direction) {
+        case "prev":
+            switch (self.currentState) {
+            case "year":
+                changedDay = cal.date(byAdding: .year, value: -1, to: self.currentDate)!
+                break
+            case "month":
+                changedDay = cal.date(byAdding: .month, value: -1, to: self.currentDate)!
+                break
+            case "week":
+                changedDay = cal.date(byAdding: .day, value: -7, to: self.currentDate)!
+                break
+            default:
+                print("changeClendar currentState error")
+            }
+            break
+        case "next":
+            switch (self.currentState) {
+            case "year":
+                changedDay = cal.date(byAdding: .year, value: +1, to: self.currentDate)!
+                break
+            case "month":
+                changedDay = cal.date(byAdding: .month, value: +1, to: self.currentDate)!
+                break
+            case "week":
+                changedDay = cal.date(byAdding: .day, value: +7, to: self.currentDate)!
+                break
+            default:
+                print("changeClendar currentState error")
+            }
+            break
+        default:
+            print("changeCalendar direction param error")
+        }
+        
+        self.currentYear = changedDay.year
+        self.currentMonth = changedDay.month
+        self.currentDay = changedDay.day
+    }
+    
     func changeDay(DOWIndex: Int) {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!

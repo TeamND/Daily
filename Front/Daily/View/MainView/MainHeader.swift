@@ -43,9 +43,7 @@ struct MainHeader: View {
             HStack {
                 Spacer()
                 Button {
-                    if userInfo.currentState == "year" { userInfo.currentYear -= 1 }
-                    if userInfo.currentState == "month" { userInfo.currentMonth -= 1 }
-                    if userInfo.currentState == "week" { userInfo.currentDay -= 7 }
+                    userInfo.changeCalendar(direction: "prev")
                 } label: {
                     Image(systemName: "chevron.left")
                 }
@@ -65,9 +63,7 @@ struct MainHeader: View {
                         .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Button {
-                    if userInfo.currentState == "year" { userInfo.currentYear += 1 }
-                    if userInfo.currentState == "month" { userInfo.currentMonth += 1 }
-                    if userInfo.currentState == "week" { userInfo.currentDay += 7 }
+                    userInfo.changeCalendar(direction: "next")
                 } label: {
                     Image(systemName: "chevron.right")
                 }
