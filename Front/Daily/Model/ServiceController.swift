@@ -30,3 +30,9 @@ func getCalendarMonth(userID: String, month: String, completionHandler: @escapin
         completionHandler(success, data)
     }
 }
+
+func getCalendarWeek(userID: String, startDay: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
+    requestGet(url: "\(serverUrl)calendar/week/\(userID)?date=\(startDay)") { (success, data) in
+        completionHandler(success, data)
+    }
+}
