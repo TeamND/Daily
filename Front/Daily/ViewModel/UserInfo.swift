@@ -164,39 +164,19 @@ extension UserInfo {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         var changedDay = Date()
-        switch (direction) {
-        case "prev":
-            switch (self.currentState) {
-            case "year":
-                changedDay = cal.date(byAdding: .year, value: -1, to: self.currentDate)!
-                break
-            case "month":
-                changedDay = cal.date(byAdding: .month, value: -1, to: self.currentDate)!
-                break
-            case "week":
-                changedDay = cal.date(byAdding: .day, value: -7, to: self.currentDate)!
-                break
-            default:
-                print("changeClendar currentState error")
-            }
+        let value = direction == "prev" ? -1 : +1
+        switch (self.currentState) {
+        case "year":
+            changedDay = cal.date(byAdding: .year, value: value, to: self.currentDate)!
             break
-        case "next":
-            switch (self.currentState) {
-            case "year":
-                changedDay = cal.date(byAdding: .year, value: +1, to: self.currentDate)!
-                break
-            case "month":
-                changedDay = cal.date(byAdding: .month, value: +1, to: self.currentDate)!
-                break
-            case "week":
-                changedDay = cal.date(byAdding: .day, value: +7, to: self.currentDate)!
-                break
-            default:
-                print("changeClendar currentState error")
-            }
+        case "month":
+            changedDay = cal.date(byAdding: .month, value: value, to: self.currentDate)!
+            break
+        case "week":
+            changedDay = cal.date(byAdding: .day, value: value, to: self.currentDate)!
             break
         default:
-            print("changeCalendar direction param error")
+            print("changeClendar currentState error")
         }
         
         self.currentYear = changedDay.year
