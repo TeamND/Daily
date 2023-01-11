@@ -9,11 +9,12 @@ import SwiftUI
 
 struct Calendar_Week_Day: View {
     @StateObject var userInfo: UserInfo
+    @State var archievements: [Double] = Array(repeating: 0.0, count: 7)
     var body: some View {
         VStack {
             WeekIndicator(
                 userInfo: userInfo,
-                archievements: [0, 0, 0, 0, 0, 0, 0],
+                archievements: $archievements,
                 tapPurpose: "change"
             )
             CustomDivider(color: .black, height: 2, hPadding: 12)
@@ -42,8 +43,14 @@ struct Calendar_Week_Day: View {
         }
         .onAppear {
             // getCalendarDay
-            print("calendar week&day appear")
-            print(userInfo.currentDay)
+            print("calendar week&day(\(userInfo.currentDay)) appear")
+            getCalendarWeek(
+//                userID: String(userInfo.uid),
+//                startDay: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(String(userInfo.currentDay-userInfo.DOWIndex))"
+                userID: "2", startDay: "2022-12-03"
+            ) { (success, data) in
+                archievements = data["rating"] as! [Double]
+            }
         }
         .onChange(of: userInfo.currentDay) { day in
             // getCalendarDay

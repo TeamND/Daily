@@ -15,7 +15,7 @@ struct Calendar_Month: View {
         let lengthOfMonth = userInfo.lengthOfMonth()
         let dividerIndex = (lengthOfMonth + startDayIndex - 1) / 7
         VStack {
-            WeekIndicator(userInfo: userInfo)
+            WeekIndicator(userInfo: userInfo, archievements: .constant([0, 0, 0, 0, 0, 0, 0]))
             CustomDivider(color: .black, height: 2, hPadding: 12)
             VStack {
                 ForEach (0..<6) { rowIndex in
