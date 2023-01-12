@@ -42,20 +42,22 @@ struct Calendar_Week_Day: View {
             .listStyle(.plain)
         }
         .onAppear {
-            // getCalendarDay
             print("calendar week&day(\(userInfo.currentDay)) appear")
             getCalendarWeek(
-//                userID: String(userInfo.uid),
-//                startDay: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(String(userInfo.currentDay-userInfo.DOWIndex))"
-                userID: "2", startDay: "2022-12-03"
+                userID: String(userInfo.uid),
+                startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
             ) { (success, data) in
                 archievements = data["rating"] as! [Double]
             }
         }
         .onChange(of: userInfo.currentDay) { day in
-            // getCalendarDay
-            print("calendar week&day change")
-            print(day)
+            print("calendar week&day(\(day)) change")
+            getCalendarWeek(
+                userID: String(userInfo.uid),
+                startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
+            ) { (success, data) in
+                archievements = data["rating"] as! [Double]
+            }
         }
     }
 }

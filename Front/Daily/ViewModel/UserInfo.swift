@@ -194,6 +194,14 @@ extension UserInfo {
         self.currentDay = changedDay.day
     }
     
+    func calcStartDay(value: Int) -> String {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let changedDay = cal.date(byAdding: .day, value: value, to: self.currentDate)!
+        
+        return "\(String(format: "%04d", changedDay.year))-\(String(format: "%02d", changedDay.month))-\(String(format: "%02d", changedDay.day))"
+    }
+    
     func startDayIndex(month: Int = 0) -> Int {
         let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
         let startDay = "\(self.currentYearStr)-\(monthStr)-01".toDate()!
