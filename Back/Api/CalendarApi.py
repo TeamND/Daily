@@ -93,9 +93,9 @@ class CalendarApi(Resource):
                 if k[0] not in result:
                     count = 0
                     issuccess = 0
-                    result[k[0]] = {'symbol':[{k[1]:k[2]}]}
+                    result[k[0]] = {'symbol':[{"imageName":k[1],"isSuccess":k[2]}]}
                 else:
-                    result[k[0]]['symbol'].append({k[1]:k[2]})
+                    result[k[0]]['symbol'].append({"imageName":k[1],"isSuccess":k[2]})
                 
                 count += 1
                 if k[2] is True:
