@@ -42,7 +42,6 @@
 		F6D0624E292DF0F200B825EF /* WeekOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0624D292DF0F200B825EF /* WeekOnMonth.swift */; };
 		F6D06250292E02CA00B825EF /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0624F292E02CA00B825EF /* Popup.swift */; };
 		F6D062552930BFC800B825EF /* MenuOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062542930BFC800B825EF /* MenuOnList.swift */; };
-		F6D0626229388B4600B825EF /* GoalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0626129388B4600B825EF /* GoalList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,7 +81,6 @@
 		F6D0624D292DF0F200B825EF /* WeekOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOnMonth.swift; sourceTree = "<group>"; };
 		F6D0624F292E02CA00B825EF /* Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		F6D062542930BFC800B825EF /* MenuOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOnList.swift; sourceTree = "<group>"; };
-		F6D0626129388B4600B825EF /* GoalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,7 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
-				F6D0626129388B4600B825EF /* GoalList.swift */,
 				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
 				F6C0F81C291CBC1500984457 /* UserInfo.swift */,
 			);
@@ -368,7 +365,6 @@
 				F6C2F21E2921F9AD0006BFC7 /* MonthOnYear.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
 				F6C0F821291CCCEA00984457 /* DayOnMonth.swift in Sources */,
-				F6D0626229388B4600B825EF /* GoalList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
