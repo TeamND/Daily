@@ -35,6 +35,14 @@ struct DayOnMonth: View {
                 }
                 HStack(spacing: 2) {
                     ForEach(symbols.indices, id: \.self) { symbolIndex in
+                        if symbols.count > 4 && symbolIndex == 3 {
+                            Button {
+                                print("show symbols popup")
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
+                            .frame(width: 20)
+                        } else
                         if 2 <= symbolIndex && symbolIndex < 4 {
                             let symbolImageName = symbols[symbolIndex]["imageName"] as! String
                             if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0) }
