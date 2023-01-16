@@ -20,30 +20,26 @@ struct Calendar_Week_Day: View {
             )
             CustomDivider(color: .black, height: 2, hPadding: 12)
             List {
-                ForEach (goals.indices) { goalIndex in
+                ForEach (goals.indices, id: \.self) { goalIndex in
                     let goal: [String: Any] = goals[goalIndex]
-                    let text = goal["symbol"] as! String
-                    Text(text)
+                    GoalOnList(goal: goal)
+                        .swipeActions(allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+//                                goal.delete()
+                                print("delete")
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            Button() {
+//                                goal.modify()
+                                print("modify")
+                            } label: {
+                                Label("Modify", systemImage: "pencil")
+                            }
+                            .tint(.orange)
+                        }
+                        .frame(height:50)
                 }
-//                ForEach (goalList) { goal in
-//                    GoalOnList(goal: goal)
-//                        .swipeActions(allowsFullSwipe: true) {
-//                            Button(role: .destructive) {
-////                                goal.delete()
-//                                print("delete")
-//                            } label: {
-//                                Label("Delete", systemImage: "trash")
-//                            }
-//                            Button() {
-////                                goal.modify()
-//                                print("modify")
-//                            } label: {
-//                                Label("Modify", systemImage: "pencil")
-//                            }
-//                            .tint(.orange)
-//                        }
-//                        .frame(height:50)
-//                }
             }
             .listStyle(.plain)
         }
@@ -55,18 +51,11 @@ struct Calendar_Week_Day: View {
             ) { (success, data) in
                 archievements = data["rating"] as! [Double]
             }
-//            getCalendarDay(
-//                userID: String(userInfo.uid),
-//                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
             getCalendarDay(
-                userID: "2",
-                day: "2022-12-04"
+                userID: String(userInfo.uid),
+                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
             ) { (success, data) in
-                print(data)
-                let test: Array<[String: Any]> = data["goalList"] as! Array<[String: Any]>
-                print(test)
-                print(test[0])
-                goals = test
+                goals = data["goalList"] as! Array<[String: Any]>
             }
         }
         .onChange(of: userInfo.currentDay) { day in
@@ -76,6 +65,12 @@ struct Calendar_Week_Day: View {
                 startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
             ) { (success, data) in
                 archievements = data["rating"] as! [Double]
+            }
+            getCalendarDay(
+                userID: String(userInfo.uid),
+                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
+            ) { (success, data) in
+                goals = data["goalList"] as! Array<[String: Any]>
             }
         }
     }
