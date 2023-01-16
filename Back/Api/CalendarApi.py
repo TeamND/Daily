@@ -82,7 +82,7 @@ class CalendarApi(Resource):
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m')
             
             # join
-            join = db.session.query(func.to_char(Record.date, 'dd'), Goal.symbol, Record.issuccess)\
+            join = db.session.query(func.to_char(Record.date, 'dd'), Record.uid, Goal.symbol, Record.issuccess)\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4], extract('month', Record.date) == date[5:7])\
                     .order_by(Record.date,Record.order).all()
             
@@ -93,9 +93,9 @@ class CalendarApi(Resource):
                 if k[0] not in result:
                     count = 0
                     issuccess = 0
-                    result[k[0]] = {'symbol':[{"imageName":k[1],"isSuccess":k[2]}]}
+                    result[k[0]] = {'symbol':[{"uid":k[1],"imageName":k[2],"isSuccess":k[3]}]}
                 else:
-                    result[k[0]]['symbol'].append({"imageName":k[1],"isSuccess":k[2]})
+                    result[k[0]]['symbol'].append({"uid":k[1],"imageName":k[2],"isSuccess":k[3]})
                 
                 count += 1
                 if k[2] is True:
