@@ -69,7 +69,7 @@ class CalendarApi(Resource):
             return {
                 'code': '00',
                 'message': '조회에 성공했습니다.',
-                'data': result
+                'data': {"rating": result}
             }, 00
         except Exception as e:
             return {
