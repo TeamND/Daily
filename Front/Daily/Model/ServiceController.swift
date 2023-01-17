@@ -36,3 +36,9 @@ func getCalendarWeek(userID: String, startDay: String, completionHandler: @escap
         completionHandler(success, data)
     }
 }
+
+func getCalendarDay(userID: String, day: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
+    requestGet(url: "\(serverUrl)calendar/day/\(userID)?date=\(day)") { (success, data) in
+        completionHandler(success, data)
+    }
+}

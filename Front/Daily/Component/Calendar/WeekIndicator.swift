@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeekIndicator: View {
     @StateObject var userInfo: UserInfo
-    @State var archievements: [Double] = [0, 0, 0, 0, 0, 0, 0]
+    @Binding var archievements: [Double]
     var tapPurpose: String = ""
     var body: some View {
         HStack {
