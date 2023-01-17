@@ -7,29 +7,29 @@ import json
 
 class CalendarApi(Resource):
     def Day(uid,data):
-        try:
+        # try:
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')
             
             # join
-            join = db.session.query(Record.uid, Record.goal_uid, Goal.content, Goal.symbol, Goal.type, Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, Record.start_time, Record.issuccess)\
+            join = db.session.query(Record.uid, Record.goal_uid, Goal.content, Goal.symbol, Goal.type, Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, func.to_char(Record.start_time, 'YYYY-mm-dd HH:MM:ss').label('start_time'), Record.issuccess)\
                         .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
                         .order_by(Record.order).all()
             
             # 데이터 가공
             result = []
             for k in join:
-                result.append(json.loads(json.dumps(k._mapping,default=str)))
-
+                result.append(json.loads(json.dumps(k._mapping,default=dict)))
+            
             return {
                 'code': '00',
                 'message': '조회에 성공했습니다.',
                 'data': {"goalList": result}
             }, 00
-        except Exception as e:
-            return {
-                'code': '99',
-                'message': e
-            }, 99
+        # except Exception as e:
+        #     return {
+        #         'code': '99',
+        #         'message': e
+        #     }, 99
         
     def Week(uid,data):
         try:
