@@ -12,7 +12,9 @@ struct GoalOnList: View {
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
-                Image(systemName: goal.afterSymbol)
+//                Image(systemName: goal.symbol)
+                if goal.symbol == "운동" { Image(systemName: "dumbbell.fill") }
+                else { Image(systemName: "dumbbell") }
                 Text(goal.content)
                 Spacer()
                 RecordButton(goal: goal)
@@ -23,7 +25,8 @@ struct GoalOnList: View {
             if goal.type != "check" {
                 VStack {
                     Spacer()
-                    ProgressView(value: Double(goal.recordCount), total: Double(goal.goalCount))
+//                    ProgressView(value: Double(goal.record_count), total: Double(goal.goal_count))
+                    ProgressView(value: Double(0), total: Double(goal.goal_count))
                         .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
                 .padding(.vertical, 4)
