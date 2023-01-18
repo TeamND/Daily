@@ -17,14 +17,16 @@ struct GoalPrimeElementSetting: View {
             Button {
                 print("symbol")
             } label: {
-                Image(systemName: goal.beforeSymbol)
+//                Image(systemName: goal.beforeSymbol)
+                Image(systemName: "dumbbell")
             }
             Image(systemName: "arrow.forward")
                 .font(.system(size: 8, weight: .bold))
             Button {
                 print("symbol")
             } label: {
-                Image(systemName: goal.afterSymbol)
+//                Image(systemName: goal.afterSymbol)
+                Image(systemName: "dumbbell.fill")
             }
         }
         .font(.system(size: 16))

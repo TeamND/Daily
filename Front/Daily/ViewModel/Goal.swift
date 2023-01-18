@@ -17,7 +17,7 @@ class Goal: ObservableObject {
     @Published var end_date: String
     @Published var cycle_type: String
     @Published var cycle_date: String
-    @Published var goal_time: String
+    @Published var goal_time: Int
     @Published var goal_count: Int
     
     init() {
@@ -30,12 +30,12 @@ class Goal: ObservableObject {
         self.end_date = ""
         self.cycle_type = ""
         self.cycle_date = ""
-        self.goal_time = ""
+        self.goal_time = 0
         self.goal_count = 0
     }
 
     init(uid: Int, user_uid: Int, content: String, type: String, symbol: String,
-         start_date: String, end_date: String, cycle_type: String, cycle_date: String, goal_time: String, goal_count: Int) {
+         start_date: String, end_date: String, cycle_type: String, cycle_date: String, goal_time: Int, goal_count: Int) {
         self.uid = uid
         self.user_uid = user_uid
         self.content = content
@@ -47,5 +47,24 @@ class Goal: ObservableObject {
         self.cycle_date = cycle_date
         self.goal_time = goal_time
         self.goal_count = goal_count
+    }
+}
+
+extension Goal {
+    var countOrTime: String {
+        get {
+            if self.type == "check" { return "횟수" }
+            else                    { return "시간" }
+        }
+        set(newValue) {
+            if newValue == "횟수" { self.type = "check" }
+            else                 { self.type = "timer" }
+        }
+    }
+    var isSuccess: Bool {
+        get {
+            if goal_count > 0 { return true }
+            else { return false }
+        }
     }
 }

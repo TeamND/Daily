@@ -8,32 +8,34 @@
 import SwiftUI
 
 struct RecordButton: View {
-    @StateObject var goal: Goal
+    @StateObject var record: Record
     var body: some View {
-        if goal.isSuccess {
+        if record.issuccess {
             Label("완료", systemImage: "hand.thumbsup.circle")
         } else {
             Button {
-                switch goal.type {
+                switch record.type {
                 case "check":
-                    goal.isSuccess.toggle()
+                    record.issuccess.toggle()
                 case "count":
-                    if goal.recordCount <  goal.goalCount { goal.recordCount += 1 }
-                    if goal.recordCount == goal.goalCount { goal.isSuccess = true }
+                    if record.record_count <  record.goal_count { record.record_count += 1 }
+                    if record.record_count == record.goal_count { record.issuccess = true }
                 case "timer":
-                    goal.isStart.toggle()
+                    print("timer record button press")
+//                    record.itart.toggle()
                 default:
                     print("catch error is record button")
                 }
             } label: {
-                switch goal.type {
+                switch record.type {
                 case "check":
                     Label("성공", systemImage: "checkmark.circle")
                 case "count":
                     Label("추가", systemImage: "plus.circle")
                 case "timer":
-                    if goal.isStart { Label("중지", systemImage: "pause.circle") }
-                    else            { Label("시작", systemImage: "play.circle") }
+                    Text("timer")
+//                    if record.isStart { Label("중지", systemImage: "pause.circle") }
+//                    else              { Label("시작", systemImage: "play.circle") }
                 default:
                     Text("")
                 }

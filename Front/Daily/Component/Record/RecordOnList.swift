@@ -8,25 +8,25 @@
 import SwiftUI
 
 struct GoalOnList: View {
-    @StateObject var goal: Goal
+    @StateObject var record: Record
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
-//                Image(systemName: goal.symbol)
-                if goal.symbol == "운동" { Image(systemName: "dumbbell.fill") }
+//                Image(systemName: record.symbol)
+                if record.symbol == "운동" { Image(systemName: "dumbbell.fill") }
                 else { Image(systemName: "dumbbell") }
-                Text(goal.content)
+                Text(record.content)
                 Spacer()
-                RecordButton(goal: goal)
+                RecordButton(record: record)
                     .frame(maxHeight: .infinity)
                     .foregroundColor(.mint)
             }
             .padding(.horizontal, 12)
-            if goal.type != "check" {
+            if record.type != "check" {
                 VStack {
                     Spacer()
-//                    ProgressView(value: Double(goal.record_count), total: Double(goal.goal_count))
-                    ProgressView(value: Double(0), total: Double(goal.goal_count))
+//                    ProgressView(value: Double(record.record_count), total: Double(record.goal_count))
+                    ProgressView(value: Double(0), total: Double(record.goal_count))
                         .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
                 .padding(.vertical, 4)
