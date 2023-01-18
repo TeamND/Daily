@@ -10,10 +10,7 @@ import SwiftUI
 struct Calendar_Week_Day: View {
     @StateObject var userInfo: UserInfo
     @State var archievements: [Double] = Array(repeating: 0.0, count: 7)
-    @State var goals: Array<[String: Any]> = [[
-        "uid": 0, "user_uid": 0, "content": "", "type": "", "symbol": "",
-        "start_date": "", "end_date": "", "cycle_type": "", "cycle_date": "", "goal_time": "", "goal_count": 0
-    ]]
+    @State var goals: Array<[String: Any]> = []
     var body: some View {
         VStack {
             WeekIndicator(

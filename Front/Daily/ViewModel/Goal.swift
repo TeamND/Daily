@@ -19,6 +19,20 @@ class Goal: ObservableObject {
     @Published var cycle_date: String
     @Published var goal_time: String
     @Published var goal_count: Int
+    
+    init() {
+        self.uid = 0
+        self.user_uid = 0
+        self.content = ""
+        self.type = ""
+        self.symbol = ""
+        self.start_date = ""
+        self.end_date = ""
+        self.cycle_type = ""
+        self.cycle_date = ""
+        self.goal_time = ""
+        self.goal_count = 0
+    }
 
     init(uid: Int, user_uid: Int, content: String, type: String, symbol: String,
          start_date: String, end_date: String, cycle_type: String, cycle_date: String, goal_time: String, goal_count: Int) {
