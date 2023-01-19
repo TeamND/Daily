@@ -35,16 +35,14 @@ struct Calendar_Week_Day: View {
                         issuccess: record["issuccess"] as! Bool,
                         start_time: record["start_time"] as! String
                     )
-                    GoalOnList(record: recordObject)
+                    RecordOnList(record: recordObject)
                         .swipeActions(allowsFullSwipe: true) {
                             Button(role: .destructive) {
-//                                goal.delete()
                                 print("delete")
                             } label: {
                                 Label("Delete", systemImage: "trash")
                             }
                             Button() {
-//                                goal.modify()
                                 print("modify")
                             } label: {
                                 Label("Modify", systemImage: "pencil")

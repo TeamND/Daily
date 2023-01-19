@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GoalOnList: View {
+struct RecordOnList: View {
     @StateObject var record: Record
     var body: some View {
         ZStack {
@@ -25,8 +25,7 @@ struct GoalOnList: View {
             if record.type != "check" {
                 VStack {
                     Spacer()
-//                    ProgressView(value: Double(record.record_count), total: Double(record.goal_count))
-                    ProgressView(value: Double(0), total: Double(record.goal_count))
+                    ProgressView(value: Double(record.record_count), total: Double(record.goal_count))
                         .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
                 .padding(.vertical, 4)
