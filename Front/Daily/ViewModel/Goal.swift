@@ -30,8 +30,8 @@ class Goal: ObservableObject {
         self.end_date = ""
         self.cycle_type = ""
         self.cycle_date = ""
-        self.goal_time = 0
-        self.goal_count = 0
+        self.goal_time = 300
+        self.goal_count = 1
     }
 
     init(uid: Int, user_uid: Int, content: String, type: String, symbol: String,
@@ -61,10 +61,13 @@ extension Goal {
             else                 { self.type = "timer" }
         }
     }
-    var isSuccess: Bool {
+    var goalTimeIndex: Int {
         get {
-            if goal_count > 0 { return true }
-            else { return false }
+            for i in seconds.indices {
+                if seconds[i] == self.goal_time { return i }
+            }
+            return 0
         }
+        set(newValue) { self.goal_time = seconds[newValue] }
     }
 }

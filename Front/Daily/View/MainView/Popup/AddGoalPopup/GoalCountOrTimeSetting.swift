@@ -23,45 +23,45 @@ struct GoalCountOrTimeSetting: View {
             .cornerRadius(15)
         }
         .font(.system(size: 16))
-//        switch goal.countOrTime {
-//        case "횟수":
-//            HStack {
-//                Spacer()
-//                Button {
-//                    if goal.goalCount > 1 { goal.goalCount -= 1 }
-//                } label: {
-//                    Image(systemName: "minus.circle")
-//                }
-//                Spacer()
-//                Text(String(goal.goalCount))
-//                Spacer()
-//                Button {
-//                    if goal.goalCount < 10 { goal.goalCount += 1}
-//                } label: {
-//                    Image(systemName: "plus.circle")
-//                }
-//                Spacer()
-//            }
-//        case "시간":
-//            HStack {
-//                Spacer()
-//                Button {
-//                    if goal.goalTimeIndex > 0 { goal.goalTimeIndex -= 1 }
-//                } label: {
-//                    Image(systemName: "chevron.down.circle")
-//                }
-//                Spacer()
-//                Text(times[goal.goalTimeIndex])
-//                Spacer()
-//                Button {
-//                    if goal.goalTimeIndex < 9 { goal.goalTimeIndex += 1 }
-//                } label: {
-//                    Image(systemName: "chevron.up.circle")
-//                }
-//                Spacer()
-//            }
-//        default:
-//            Text("")
-//        }
+        switch goal.countOrTime {
+        case "횟수":
+            HStack {
+                Spacer()
+                Button {
+                    if goal.goal_count > 1 { goal.goal_count -= 1 }
+                } label: {
+                    Image(systemName: "minus.circle")
+                }
+                Spacer()
+                Text(String(goal.goal_count))
+                Spacer()
+                Button {
+                    if goal.goal_count < 10 { goal.goal_count += 1}
+                } label: {
+                    Image(systemName: "plus.circle")
+                }
+                Spacer()
+            }
+        case "시간":
+            HStack {
+                Spacer()
+                Button {
+                    if goal.goalTimeIndex > 0 { goal.goalTimeIndex -= 1 }
+                } label: {
+                    Image(systemName: "chevron.down.circle")
+                }
+                Spacer()
+                Text(times[goal.goalTimeIndex])
+                Spacer()
+                Button {
+                    if goal.goalTimeIndex < 9 { goal.goalTimeIndex += 1 }
+                } label: {
+                    Image(systemName: "chevron.up.circle")
+                }
+                Spacer()
+            }
+        default:
+            Text("")
+        }
     }
 }
