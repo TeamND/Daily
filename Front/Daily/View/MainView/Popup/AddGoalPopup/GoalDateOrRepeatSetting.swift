@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct GoalDateOrRepeatSetting: View {
+    @StateObject var goal: Goal
     @StateObject var userInfo: UserInfo
     @State var startDate: Date = Date()
-    @State var endDate: Date = Date()
+    @State var endDate: Date = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
     var body: some View {
         Text("날짜 or 반복 설정")
             .font(.system(size: 20, weight: .bold))
