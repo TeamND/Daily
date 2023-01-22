@@ -23,7 +23,7 @@ struct AddGoalPopup: View {
                     Divider()
                     GoalDateOrRepeatSetting(goal: goal, userInfo: userInfo)
                     Divider()
-                    ClosePopupHStack(goal: goal, popupInfo: popupInfo)
+                    ClosePopupHStack(goal: goal, userInfo: userInfo, popupInfo: popupInfo)
                     Spacer()
                 }
                 .padding(20)

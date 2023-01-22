@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ClosePopupHStack: View {
     @StateObject var goal: Goal
+    @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
     var body: some View {
         HStack(spacing: 16) {
@@ -22,7 +23,7 @@ struct ClosePopupHStack: View {
                     .background(RoundedRectangle(cornerRadius: 4).stroke())
             }
             Button {
-                goal.add()
+                goal.add(user_uid: userInfo.uid)
                 print("add")
                 popupInfo.closePopup(isPopup: true)
             } label: {

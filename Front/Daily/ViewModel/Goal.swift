@@ -73,9 +73,9 @@ extension Goal {
 }
 
 extension Goal {
-    func add() {
+    func add(user_uid: Int) {
         let requestData: [String: Any] = [
-            "user_uid": 12,
+            "user_uid": user_uid,
             "content": "goal add API test content",
             "symbol": "운동",
             "start_date": "2023-02-12",
