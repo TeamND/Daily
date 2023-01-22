@@ -22,7 +22,7 @@ struct ClosePopupHStack: View {
                     .background(RoundedRectangle(cornerRadius: 4).stroke())
             }
             Button {
-//                goal.add()
+                goal.add()
                 print("add")
                 popupInfo.closePopup(isPopup: true)
             } label: {

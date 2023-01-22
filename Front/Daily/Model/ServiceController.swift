@@ -9,6 +9,7 @@ import UIKit
 
 private let serverUrl: String = "http://115.68.248.159:5001/"
 
+// userInfo
 func getUserInfo(userID: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
     requestGet(url: "\(serverUrl)user/info/\(userID)") { (success, data) in
         completionHandler(success, data)
@@ -19,6 +20,7 @@ func setUserInfo(param: [String: Any]) {
     requestPost(url: "\(serverUrl)user/set", param: param)
 }
 
+// calendar
 func getCalendarYear(userID: String, year: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
     requestGet(url: "\(serverUrl)calendar/year/\(userID)?date=\(year)") { (success, data) in
         completionHandler(success, data)
@@ -41,4 +43,10 @@ func getCalendarDay(userID: String, day: String, completionHandler: @escaping (B
     requestGet(url: "\(serverUrl)calendar/day/\(userID)?date=\(day)") { (success, data) in
         completionHandler(success, data)
     }
+}
+
+// goal
+func addGoal(param: [String: Any]) {
+    print("addGoal is called")
+    requestPost(url: "\(serverUrl)goal/", param: param)
 }

@@ -24,11 +24,11 @@ class Goal: ObservableObject {
         self.uid = 0
         self.user_uid = 0
         self.content = ""
-        self.type = ""
-        self.symbol = ""
+        self.type = "check"
+        self.symbol = "운동"
         self.start_date = ""
         self.end_date = ""
-        self.cycle_type = ""
+        self.cycle_type = ""    // date or repeat from userInfo
         self.cycle_date = ""
         self.goal_time = 300
         self.goal_count = 1
@@ -69,5 +69,24 @@ extension Goal {
             return 0
         }
         set(newValue) { self.goal_time = seconds[newValue] }
+    }
+}
+
+extension Goal {
+    func add() {
+        let requestData: [String: Any] = [
+            "user_uid": 12,
+            "content": "goal add API test content",
+            "symbol": "운동",
+            "start_date": "2023-02-12",
+            "end_date": "2023-03-20",
+            "cycle_type": "repeat",
+            "cycle_date": "월,수,금,일",
+            "type": "check",
+            "goal_count": 1,
+            "goal_time": 300
+        ]
+        
+        addGoal(param: requestData)
     }
 }
