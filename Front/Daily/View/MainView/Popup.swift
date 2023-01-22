@@ -12,7 +12,7 @@ struct Popup: View {
     @StateObject var popupInfo: PopupInfo
     var body: some View {
         PopupDim(popupInfo: popupInfo)
-        AddGoalPopup(userInfo: userInfo, popupInfo: popupInfo)
+        AddGoalPopup(userInfo: userInfo, popupInfo: popupInfo, user_uid: userInfo.uid, dateOrRepeat: userInfo.set_dateorrepeat)
         RightSideMenu(userInfo: userInfo, popupInfo: popupInfo)
     }
 }
