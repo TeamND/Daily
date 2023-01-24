@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct AddGoalPopup: View {
-    @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
-    let user_uid: Int
-    let dateOrRepeat: String
-    @StateObject var goal: Goal = Goal()
+    @StateObject var goal: Goal
     var body: some View {
         VStack {
             ZStack {
@@ -23,9 +20,9 @@ struct AddGoalPopup: View {
                     Divider()
                     GoalCountOrTimeSetting(goal: goal)
                     Divider()
-                    GoalDateOrRepeatSetting(goal: goal, userInfo: userInfo)
+                    GoalDateOrRepeatSetting(goal: goal)
                     Divider()
-                    ClosePopupHStack(goal: goal, popupInfo: popupInfo, user_uid: user_uid)
+                    ClosePopupHStack(goal: goal, popupInfo: popupInfo)
                     Spacer()
                 }
                 .padding(20)

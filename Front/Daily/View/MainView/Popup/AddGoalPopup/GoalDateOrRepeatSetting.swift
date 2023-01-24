@@ -9,14 +9,13 @@ import SwiftUI
 
 struct GoalDateOrRepeatSetting: View {
     @StateObject var goal: Goal
-    @StateObject var userInfo: UserInfo
     @State var startDate: Date = Date()
     @State var endDate: Date = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
     var body: some View {
         Text("날짜 or 반복 설정")
             .font(.system(size: 20, weight: .bold))
         HStack {
-            Picker("", selection: $userInfo.dateOrRepeat) {
+            Picker("", selection: $goal.dateOrRepeat) {
                 ForEach(["날짜", "반복"], id: \.self) {
                     Text($0)
                 }
@@ -26,7 +25,7 @@ struct GoalDateOrRepeatSetting: View {
             .cornerRadius(15)
         }
         .font(.system(size: 16))
-        switch userInfo.dateOrRepeat {
+        switch goal.dateOrRepeat {
         case "날짜":
 //            MonthOnYear(userInfo: userInfo, month: Date().month, fontSize: 16, isTapSelect: true)
             Text("month calendar for date pick")

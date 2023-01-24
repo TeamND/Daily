@@ -20,15 +20,15 @@ class Goal: ObservableObject {
     @Published var goal_time: Int
     @Published var goal_count: Int
     
-    init() {
+    init(user_uid: Int, cycle_type: String) {
         self.uid = 0
-        self.user_uid = 0
+        self.user_uid = user_uid
         self.content = ""
         self.type = "check"
         self.symbol = "운동"
         self.start_date = ""
         self.end_date = ""
-        self.cycle_type = ""    // date or repeat from userInfo
+        self.cycle_type = cycle_type
         self.cycle_date = ""
         self.goal_time = 300
         self.goal_count = 1
@@ -59,6 +59,16 @@ extension Goal {
         set(newValue) {
             if newValue == "횟수" { self.type = "check" }
             else                 { self.type = "timer" }
+        }
+    }
+    var dateOrRepeat: String {
+        get {
+            if self.cycle_type == "date" { return "날짜" }
+            else                         { return "반복" }
+        }
+        set(newValue) {
+            if newValue == "날짜" { self.cycle_type = "date" }
+            else                 { self.cycle_type = "repeat" }
         }
     }
     var goalTimeIndex: Int {
