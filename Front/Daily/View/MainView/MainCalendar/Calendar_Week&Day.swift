@@ -18,7 +18,7 @@ struct Calendar_Week_Day: View {
                 archievements: $archievements,
                 tapPurpose: "change"
             )
-            CustomDivider(color: .black, height: 2, hPadding: 12)
+            CustomDivider(color: .primary, height: 2, hPadding: 12)
             List {
                 ForEach (records.indices, id: \.self) { recordIndex in
                     let record: [String: Any] = records[recordIndex]

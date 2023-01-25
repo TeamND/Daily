@@ -19,6 +19,7 @@ struct MonthOnYear: View {
         VStack(alignment: .leading) {
             Text(userInfo.months[month - 1])
                 .font(.system(size: 20, weight: .bold))
+                .foregroundColor(.primary)
                 .padding(4)
             ForEach (0..<6) { rowIndex in
                 HStack(spacing: 1) {
@@ -38,8 +39,8 @@ struct MonthOnYear: View {
                                 } label: {
                                     if 1 <= day && day <= lengthOfMonth {
                                         Text("\(day)")
-                                            .foregroundColor(.black)
                                             .font(.system(size: fontSize, weight: .bold))
+                                            .foregroundColor(.primary)
                                     } else {
                                         Text("1")
                                             .font(.system(size: fontSize, weight: .bold))
@@ -50,6 +51,7 @@ struct MonthOnYear: View {
                                 if 1 <= day && day <= lengthOfMonth {
                                     Text("\(day)")
                                         .font(.system(size: fontSize, weight: .bold))
+                                        .foregroundColor(.primary)
                                 } else {
                                     Text("1")
                                         .font(.system(size: fontSize, weight: .bold))

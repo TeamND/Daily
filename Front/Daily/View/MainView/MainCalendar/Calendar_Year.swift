@@ -12,7 +12,7 @@ struct Calendar_Year: View {
     @State var allArchievements: [[Double]] = Array(repeating: Array(repeating: 0, count: 42), count: 12)
     var body: some View {
         VStack(spacing: 0) {
-            CustomDivider(color: .black, height: 2)
+            CustomDivider(color: .primary, height: 2)
                 .padding(12)
             ForEach (0..<4) { rowIndex in
                 HStack(spacing: 0) {
@@ -25,7 +25,6 @@ struct Calendar_Year: View {
                             }
                         } label: {
                             MonthOnYear(userInfo: userInfo, archievements: $allArchievements[month-1], month: month)
-                                .accentColor(.black)
                         }
                     }
                 }

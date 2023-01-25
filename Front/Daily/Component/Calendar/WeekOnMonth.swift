@@ -31,7 +31,6 @@ struct WeekOnMonth: View {
                                     .stroke(.green, lineWidth: 2)
                                     .opacity(userInfo.isToday(day: day) ? 1 : 0)
                             }
-                            .accentColor(.black)
                     }
                 } else {
                     DayOnMonth(day: 0, dayObject: $days[day + startDayIndex - 1])
