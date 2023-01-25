@@ -108,7 +108,8 @@ class GoalApi(Resource):
     def Delete(uid):
         
         try:
-            db.session.delete(Goal,uid)
+            delete = db.session.get(Goal,uid)
+            db.session.delete(delete)
             db.session.commit()
             return {
                 'code': '00',

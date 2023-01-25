@@ -23,7 +23,7 @@ class Goal(db.Model):
     cycle_date = db.Column(db.String(100), default='0')
     type = db.Column(db.String(100), default='check')
     goal_count = db.Column(db.Integer, default=1)
-    goal_time = db.Column(db.String(100), default='1M')
+    goal_time = db.Column(db.Integer, default=60)
     record = db.relationship('Record', backref='goal', lazy=True) 
     
     def __repr__(self):
