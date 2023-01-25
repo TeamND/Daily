@@ -12,7 +12,7 @@ struct PopupDim: View {
     var body: some View {
         let showDim = popupInfo.showMenu || popupInfo.showPopup
         Rectangle()
-            .fill(.black.opacity(0.4))
+            .fill(.primary.opacity(0.4))
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {
                 let isPopup: Bool = popupInfo.showPopup

@@ -15,10 +15,10 @@ struct RightSideMenu: View {
             Spacer()
             ZStack {
                 Rectangle()
-                    .fill(.white)
+                    .fill(.background)
                     .overlay {
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(.white, lineWidth: 12)
+                            .stroke(.background, lineWidth: 12)
                     }
                     .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading, spacing: 0) {
