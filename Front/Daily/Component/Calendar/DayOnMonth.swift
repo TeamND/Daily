@@ -21,6 +21,7 @@ struct DayOnMonth: View {
                     .foregroundColor(.mint.opacity(ratingSymbol["rating"] as? Double ?? 0))
                 Text("\(day)")
                     .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.primary)
             }
             VStack(spacing: 8) {
                 HStack(spacing: 2) {
@@ -53,6 +54,7 @@ struct DayOnMonth: View {
                 }
             }
             .font(.system(size: 12, weight: .bold))
+            .foregroundColor(.primary)
         }
     }
 }
