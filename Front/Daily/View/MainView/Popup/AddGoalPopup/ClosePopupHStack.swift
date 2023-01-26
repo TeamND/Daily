@@ -17,9 +17,10 @@ struct ClosePopupHStack: View {
                 popupInfo.closePopup(isPopup: true)
             } label: {
                 Text("취소")
+                    .foregroundColor(.primary)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 8)
-                    .background(RoundedRectangle(cornerRadius: 4).stroke())
+                    .background(RoundedRectangle(cornerRadius: 4).stroke().foregroundColor(.primary))
             }
             Button {
                 goal.add(user_uid: goal.user_uid)
@@ -27,9 +28,10 @@ struct ClosePopupHStack: View {
                 popupInfo.closePopup(isPopup: true)
             } label: {
                 Text("저장")
+                    .foregroundColor(.primary)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 8)
-                    .background(RoundedRectangle(cornerRadius: 4).stroke())
+                    .background(RoundedRectangle(cornerRadius: 4).stroke().foregroundColor(.primary))
             }
         }
         .foregroundColor(.black)
