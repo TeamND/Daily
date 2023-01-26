@@ -83,6 +83,18 @@ extension Goal {
 }
 
 extension Goal {
+    func reset(cycle_type: String) {
+        self.uid = 0
+        self.content = ""
+        self.type = "check"
+        self.symbol = "운동"
+        self.start_date = ""
+        self.end_date = ""
+        self.cycle_type = cycle_type
+        self.cycle_date = ""
+        self.goal_time = 300
+        self.goal_count = 1
+    }
     func add(user_uid: Int) {
         let requestData: [String: Any] = [
             "user_uid": user_uid,
