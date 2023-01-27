@@ -33,7 +33,9 @@ struct GoalDateOrRepeatSetting: View {
 //            WeekIndicator(userInfo: userInfo, tapPurpose: "select")
             Text("week indicator for date pick")
             DatePicker("시작일:", selection: $startDate, in: Date()..., displayedComponents: .date)
+                .onAppear { goal.start_date = startDate.toString() }
             DatePicker("종료일:", selection: $endDate, in: Date()..., displayedComponents: .date)
+                .onAppear { goal.end_date = endDate.toString() }
         default:
             Text("")
         }

@@ -75,6 +75,14 @@ extension Date {
     }
 }
 
+extension Date {
+    func toString() -> String {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return df.string(from: self)
+    }
+}
+
 
 extension String {
     func toDate() -> Date? {
