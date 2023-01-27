@@ -25,8 +25,7 @@ struct ClosePopupHStack: View {
                     .background(RoundedRectangle(cornerRadius: 4).stroke().foregroundColor(.primary))
             }
             Button {
-                goal.add(user_uid: goal.user_uid)
-                print("add")
+                goal.add(goal: goal)
                 popupInfo.closePopup(isPopup: true)
             } label: {
                 Text("저장")

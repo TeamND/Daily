@@ -95,18 +95,18 @@ extension Goal {
         self.goal_time = 300
         self.goal_count = 1
     }
-    func add(user_uid: Int) {
+    func add(goal: Goal) {
         let requestData: [String: Any] = [
-            "user_uid": user_uid,
-            "content": "goal add API test content",
-            "symbol": "운동",
-            "start_date": "2023-02-12",
-            "end_date": "2023-03-20",
-            "cycle_type": "repeat",
-            "cycle_date": "월,수,금,일",
-            "type": "check",
-            "goal_count": 1,
-            "goal_time": 300
+            "user_uid": goal.user_uid,
+            "content": goal.content,
+            "symbol": goal.symbol,
+            "start_date": goal.start_date,
+            "end_date": goal.end_date,
+            "cycle_type": goal.cycle_type,
+            "cycle_date": goal.cycle_date,
+            "type": goal.type,
+            "goal_count": goal.goal_count,
+            "goal_time": goal.goal_time
         ]
         
         addGoal(param: requestData)
