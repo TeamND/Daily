@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct GoalDateOrRepeatSetting: View {
+    @StateObject var userInfo: UserInfo
     @StateObject var goal: Goal
     @State var startDate: Date = Date()
     @State var endDate: Date = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
+    @State var archievements: [Double] = Array(repeating: 0, count: 42)
+    //    goal.cycle_date
     var body: some View {
         Text("날짜 or 반복 설정")
             .font(.system(size: 20, weight: .bold))
@@ -27,8 +30,11 @@ struct GoalDateOrRepeatSetting: View {
         .font(.system(size: 16))
         switch goal.dateOrRepeat {
         case "날짜":
-//            MonthOnYear(userInfo: userInfo, month: Date().month, fontSize: 16, isTapSelect: true)
-            Text("month calendar for date pick")
+            HStack {
+                MonthOnYear(userInfo: userInfo, archievements: $archievements, month: Date().month, fontSize: 8, isTapSelect: true)
+                MonthOnYear(userInfo: userInfo, archievements: $archievements, month: Date().month+1, fontSize: 8, isTapSelect: true)
+            }
+            Text("\(archievements[4])")
         case "반복":
 //            WeekIndicator(userInfo: userInfo, tapPurpose: "select")
             Text("week indicator for date pick")

@@ -21,7 +21,7 @@ struct AddGoalPopup: View {
                     Divider()
                     GoalCountOrTimeSetting(goal: goal)
                     Divider()
-                    GoalDateOrRepeatSetting(goal: goal)
+                    GoalDateOrRepeatSetting(userInfo: userInfo, goal: goal)
                     Divider()
                     ClosePopupHStack(userInfo: userInfo, popupInfo: popupInfo, goal: goal)
                     Spacer()
