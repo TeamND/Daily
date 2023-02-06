@@ -15,7 +15,7 @@ class Goal(db.Model):
     __tablename__ = 'goal'
     uid = db.Column(db.Integer, primary_key=True)
     user_uid = db.Column(db.Integer, db.ForeignKey('user.uid'))
-    content = db.Column(db.String(100))
+    content = db.Column(db.String(100), default='')
     symbol = db.Column(db.String(100), default='운동')
     start_date = db.Column(db.DateTime)
     end_date = db.Column(db.DateTime)

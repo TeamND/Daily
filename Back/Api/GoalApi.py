@@ -17,11 +17,12 @@ class GoalApi(Resource):
             
             # 타입이 반복일 경우
             date_list = []
-            if data['start_date'] and data['cycle_type'] == 'repeat':
+            
+            if 'start_date' in data and data['cycle_type'] == 'repeat':
                 
                 # 종료날이 없는경우 30일
                 date_diff = 30 if 'end_date' not in data else (datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days  
-                    
+
                 # 변수할당
                 days = ['월', '화', '수', '목', '금', '토', '일']
                 startday_index = datetime.date.weekday(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d'))
@@ -41,7 +42,7 @@ class GoalApi(Resource):
                 order = db.session.query(Record).filter_by(goal_uid=goal_query.uid, date=date).count()
                 db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
             db.session.commit()
-            
+    
             return {
                 'code': '00',
                 'message': '추가에 성공했습니다.'
@@ -108,13 +109,19 @@ class GoalApi(Resource):
     def Delete(uid):
         
         try:
-            delete = db.session.get(Goal,uid)
-            db.session.delete(delete)
-            db.session.commit()
-            return {
-                'code': '00',
-                'message': '삭제에 성공했습니다.'
-            }, 00
+            result = db.session.get(Goal,uid)
+            if result:
+                db.session.delete(result)
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '삭제에 성공했습니다.'
+                }, 00
+            else:
+                return {
+                    'code': '99',
+                    'message': '조회된 데이터가 없습니다.'
+                }, 99
         except Exception as e:
             return {
                 'code': '99',
