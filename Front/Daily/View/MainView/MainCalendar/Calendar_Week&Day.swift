@@ -10,7 +10,7 @@ import SwiftUI
 struct Calendar_Week_Day: View {
     @StateObject var userInfo: UserInfo
     @State var archievements: [Double] = Array(repeating: 0.0, count: 7)
-    @State var goals: Array<[String: Any]> = []
+    @State var records: Array<[String: Any]> = []
     var body: some View {
         VStack {
             WeekIndicator(
@@ -20,31 +20,29 @@ struct Calendar_Week_Day: View {
             )
             CustomDivider(color: .black, height: 2, hPadding: 12)
             List {
-                ForEach (goals.indices, id: \.self) { goalIndex in
-                    let goal: [String: Any] = goals[goalIndex]
-                    let goalObject: Goal = Goal(
-                        uid: goal["uid"] as! Int,
-                        user_uid: goal["user_uid"] as? Int ?? 0,
-                        content: goal["content"] as? String ?? "",
-                        type: goal["type"] as! String,
-                        symbol: goal["symbol"] as! String,
-                        start_date: goal["start_date"] as? String ?? "",
-                        end_date: goal["end_date"] as? String ?? "",
-                        cycle_type: goal["cycle_type"] as? String ?? "",
-                        cycle_date: goal["cycle_date"] as? String ?? "",
-                        goal_time: goal["goal_time"] as! String,
-                        goal_count: goal["goal_count"] as! Int
+                ForEach (records.indices, id: \.self) { recordIndex in
+                    let record: [String: Any] = records[recordIndex]
+                    let recordObject: Record = Record(
+                        uid: record["uid"] as! Int,
+                        goal_uid: record["goal_uid"] as! Int,
+                        content: record["content"] as! String,
+                        type: record["type"] as! String,
+                        symbol: record["symbol"] as! String,
+                        goal_time: record["goal_time"] as! Int,
+                        goal_count: record["goal_count"] as! Int,
+                        record_time: record["record_time"] as! Int,
+                        record_count: record["record_count"] as! Int,
+                        issuccess: record["issuccess"] as! Bool,
+                        start_time: record["start_time"] as! String
                     )
-                    GoalOnList(goal: goalObject)
+                    RecordOnList(record: recordObject)
                         .swipeActions(allowsFullSwipe: true) {
                             Button(role: .destructive) {
-//                                goal.delete()
                                 print("delete")
                             } label: {
                                 Label("Delete", systemImage: "trash")
                             }
                             Button() {
-//                                goal.modify()
                                 print("modify")
                             } label: {
                                 Label("Modify", systemImage: "pencil")
@@ -64,15 +62,11 @@ struct Calendar_Week_Day: View {
             ) { (success, data) in
                 archievements = data["rating"] as! [Double]
             }
-//            getCalendarDay(
-//                userID: String(userInfo.uid),
-//                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
             getCalendarDay(
-                userID: "2",
-                day: "2022-12-04"
+                userID: String(userInfo.uid),
+                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
             ) { (success, data) in
-                goals = data["goalList"] as! Array<[String: Any]>
-                print(goals)
+                records = data["goalList"] as! Array<[String: Any]>
             }
         }
         .onChange(of: userInfo.currentDay) { day in
@@ -83,14 +77,11 @@ struct Calendar_Week_Day: View {
             ) { (success, data) in
                 archievements = data["rating"] as! [Double]
             }
-//            getCalendarDay(
-//                userID: String(userInfo.uid),
-//                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
             getCalendarDay(
-                userID: "2",
-                day: "2022-12-04"
+                userID: String(userInfo.uid),
+                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
             ) { (success, data) in
-                goals = data["goalList"] as! Array<[String: Any]>
+                records = data["goalList"] as! Array<[String: Any]>
             }
         }
     }

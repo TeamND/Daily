@@ -28,15 +28,15 @@ struct GoalCountOrTimeSetting: View {
             HStack {
                 Spacer()
                 Button {
-                    if goal.goalCount > 1 { goal.goalCount -= 1 }
+                    if goal.goal_count > 1 { goal.goal_count -= 1 }
                 } label: {
                     Image(systemName: "minus.circle")
                 }
                 Spacer()
-                Text(String(goal.goalCount))
+                Text(String(goal.goal_count))
                 Spacer()
                 Button {
-                    if goal.goalCount < 10 { goal.goalCount += 1}
+                    if goal.goal_count < 10 { goal.goal_count += 1}
                 } label: {
                     Image(systemName: "plus.circle")
                 }
