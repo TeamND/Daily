@@ -7,7 +7,7 @@ import json
 
 class CalendarApi(Resource):
     def Day(uid,data):
-        # try:
+        try:
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')
             
             # join
@@ -25,11 +25,11 @@ class CalendarApi(Resource):
                 'message': '조회에 성공했습니다.',
                 'data': {"goalList": result}
             }, 00
-        # except Exception as e:
-        #     return {
-        #         'code': '99',
-        #         'message': e
-        #     }, 99
+        except Exception as e:
+            return {
+                'code': '99',
+                'message': e
+            }, 99
         
     def Week(uid,data):
         try:
