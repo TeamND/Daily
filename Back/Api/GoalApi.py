@@ -29,7 +29,7 @@ class GoalApi(Resource):
                 
                 # 반복요일 계산
                 for i in range(date_diff + startday_index):
-                    for cycle in list(map(lambda x:days.index(x), data['cycle_date'].split(','))):
+                    for cycle in list(map(lambda x:days.index(x), list(data['cycle_date']))):
                         if i % 7 == int(cycle):
                             date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
             
