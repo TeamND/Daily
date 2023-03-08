@@ -1,3 +1,4 @@
+from sqlalchemy.dialects.postgresql import ARRAY
 import flask_sqlalchemy
 import datetime
 db = flask_sqlalchemy.SQLAlchemy()
@@ -20,7 +21,7 @@ class Goal(db.Model):
     start_date = db.Column(db.DateTime)
     end_date = db.Column(db.DateTime)
     cycle_type = db.Column(db.String(100), default='date')
-    cycle_date = db.Column(db.String(100), default='0')
+    cycle_date = db.Column(ARRAY(db.String(100)), default='{}')
     type = db.Column(db.String(100), default='check')
     goal_count = db.Column(db.Integer, default=1)
     goal_time = db.Column(db.Integer, default=60)
