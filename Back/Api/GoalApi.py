@@ -8,7 +8,8 @@ class GoalApi(Resource):
    
     # 생성
     def Create(data):
-        try:
+
+        # try:
             # 목포 추가
             goal_query = Goal(**data)
             db.session.add(goal_query)
@@ -29,7 +30,7 @@ class GoalApi(Resource):
                 
                 # 반복요일 계산
                 for i in range(date_diff + startday_index):
-                    for cycle in list(map(lambda x:days.index(x), list(data['cycle_date']))):
+                    for cycle in list(map(lambda x:days.index(x), data['cycle_date'])):
                         if i % 7 == int(cycle):
                             date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
             
@@ -47,11 +48,11 @@ class GoalApi(Resource):
                 'code': '00',
                 'message': '추가에 성공했습니다.'
             }, 00
-        except Exception as e:
-            return {
-                'code': '99',
-                'message': e
-            }, 99
+        # except Exception as e:
+        #     return {
+        #         'code': '99',
+        #         'message': e
+        #     }, 99
 
     # 조회
     def Read(uid):
