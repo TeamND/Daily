@@ -2,11 +2,14 @@ from flask import request
 from flask_restx import Resource, Api, Namespace
 from model import db,User
 import json
-
+import hashlib
 class UserApi(Resource):
     def Info(phone_uid):
+
+        # 해시
+        phone_uid = hashlib.sha256(phone_uid.encode()).hexdigest()
         result = User.query.filter(User.phone_uid == phone_uid).first()
-        
+
         if result:
             try:
                 return {
@@ -28,6 +31,7 @@ class UserApi(Resource):
             
         else:
             try:
+                print(phone_uid)
                 user = User(phone_uid=phone_uid)
                 db.session.add(user)
                 db.session.commit()
