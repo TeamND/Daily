@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restx import Resource, Api
-# from config import uri
+from config import uri
 from model import db
 from Controller.UserController import user
 from Controller.GoalController import goal
