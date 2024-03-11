@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DebugView: View {
-    @StateObject var userInfo: UserInfo = UserInfo(uid: -1, set_startday: 0, set_language: "korea", set_dateorrepeat: "date", set_calendarstate: "month")
+    @StateObject var userInfo: UserInfo = UserInfo()
     @State var tagIndex = 0
     
     var body: some View {

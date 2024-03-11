@@ -14,12 +14,15 @@ struct RecordView: View {
     var body: some View {
         VStack {
             Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)")
-            Spacer()
             TextField(
                 "",
                 text: $testText,
-                prompt: Text("test")
+                prompt: Text("데드리프트 120kg 10reps 3set")
             )
+            .padding()
+            .background(Color.gray.opacity(0.3))
+            .cornerRadius(5.0)
+            .padding()
         }
     }
 }
