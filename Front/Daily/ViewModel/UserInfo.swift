@@ -14,6 +14,14 @@ class UserInfo: ObservableObject{
     @Published var set_dateorrepeat: String
     @Published var set_calendarstate: String
     
+    init() {
+        self.uid = 0
+        self.set_startday = 0
+        self.set_language = "korea"
+        self.set_dateorrepeat = "date"
+        self.set_calendarstate = "month"
+    }
+    
     init(uid: Int, set_startday: Int, set_language: String, set_dateorrepeat: String, set_calendarstate: String) {
         self.uid = uid
         self.set_startday = set_startday

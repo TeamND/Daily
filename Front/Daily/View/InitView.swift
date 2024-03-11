@@ -16,7 +16,7 @@ struct InitView: View {
             Image(systemName: "d.circle.fill")
                 .resizable()
                 .frame(width: 280, height: 280)
-                .foregroundColor(.mint)
+                .foregroundColor(Color("CustomColor"))
                 .task {
                     do {
                         getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { (success, data) in

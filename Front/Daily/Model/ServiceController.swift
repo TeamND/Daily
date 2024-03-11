@@ -7,7 +7,7 @@
 
 import UIKit
 
-private let serverUrl: String = "http://115.68.248.159:5001/"
+private let serverUrl: String = "http://10.52.254.112:10002/"
 
 // userInfo
 func getUserInfo(userID: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
