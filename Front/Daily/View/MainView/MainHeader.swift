@@ -70,7 +70,21 @@ struct MainHeader: View {
                 }
                 Spacer()
             }
-            if isDebugMode {} else {
+            if isDebugMode {
+                HStack(spacing: 0) {
+                    Spacer()
+                    Button {
+                        print("추가탭으로 이동")
+                    } label: {
+                        VStack {
+                            Image(systemName: "plus")
+                            Text("add")
+                                .font(.system(size: 12))
+                        }
+                    }
+                    .padding(8)
+                }
+            } else {
                 HStack(spacing: 0) {
                     Spacer()
                     Button {
