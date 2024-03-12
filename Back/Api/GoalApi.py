@@ -36,7 +36,7 @@ class GoalApi(Resource):
             
             # 반복이 아닌경우
             else:
-                date_list = data['cycle_date'].split(',')
+                date_list = data['cycle_date']
             
             # 데이터 입력    
             for date in date_list:
