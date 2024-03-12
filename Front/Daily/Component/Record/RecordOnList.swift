@@ -13,8 +13,13 @@ struct RecordOnList: View {
         ZStack {
             HStack(spacing: 12) {
 //                Image(systemName: record.symbol)
-                if record.symbol == "운동" { Image(systemName: "dumbbell.fill") }
-                else { Image(systemName: "dumbbell") }
+                if record.symbol == "운동" {
+                    if record.issuccess {
+                        Image(systemName: "dumbbell.fill")
+                    } else {
+                        Image(systemName: "dumbbell")
+                    }
+                } else { Image(systemName: "pencil") }
                 Text(record.content)
                 Spacer()
                 RecordButton(record: record)
