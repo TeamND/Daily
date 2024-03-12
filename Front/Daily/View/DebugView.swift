@@ -9,17 +9,17 @@ import SwiftUI
 
 struct DebugView: View {
     @StateObject var userInfo: UserInfo = UserInfo()
-    @State var tagIndex = 0
+    @StateObject var tabViewModel: TabViewModel = TabViewModel()
     
     var body: some View {
-        TabView (selection: $tagIndex) {
-            CalendarView(userInfo: userInfo)
+        TabView (selection: $tabViewModel.tagIndex) {
+            CalendarView(userInfo: userInfo, tabViewModel: tabViewModel)
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Calendar")
                 }
                 .tag(0)
-            RecordView(userInfo: userInfo)
+            RecordView(userInfo: userInfo, tabViewModel: tabViewModel)
                 .tabItem {
                     Image(systemName: "pencil")
                     Text("Record")

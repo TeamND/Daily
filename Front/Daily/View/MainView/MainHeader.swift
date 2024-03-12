@@ -10,6 +10,7 @@ import SwiftUI
 struct MainHeader: View {
     @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
+    @ObservedObject var tabViewModel: TabViewModel = TabViewModel()
     var isDebugMode: Bool = false
     @Namespace var NS
     var body: some View {
@@ -74,7 +75,7 @@ struct MainHeader: View {
                 HStack(spacing: 0) {
                     Spacer()
                     Button {
-                        print("추가탭으로 이동")
+                        tabViewModel.setTagIndex(tagIndex: 1)
                     } label: {
                         VStack {
                             Image(systemName: "plus")

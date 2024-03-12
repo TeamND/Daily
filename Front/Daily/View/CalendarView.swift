@@ -9,11 +9,12 @@ import SwiftUI
 
 struct CalendarView: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var tabViewModel: TabViewModel
     @State private var popupInfo: PopupInfo = PopupInfo()
     
     var body: some View {
         VStack(spacing: 0) {
-            MainHeader(userInfo: userInfo, popupInfo: popupInfo, isDebugMode: true)
+            MainHeader(userInfo: userInfo, popupInfo: popupInfo, tabViewModel: tabViewModel, isDebugMode: true)
                 .frame(height: 40)
             if userInfo.currentState == "year" { Calendar_Year(userInfo: userInfo) }
             if userInfo.currentState == "month" { Calendar_Month(userInfo: userInfo) }
@@ -23,5 +24,5 @@ struct CalendarView: View {
 }
 
 #Preview {
-    CalendarView(userInfo: UserInfo())
+    CalendarView(userInfo: UserInfo(), tabViewModel: TabViewModel())
 }

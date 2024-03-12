@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecordView: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var tabViewModel: TabViewModel
     @State var testText: String = ""
     
     var body: some View {
@@ -28,5 +29,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(userInfo: UserInfo())
+    RecordView(userInfo: UserInfo(), tabViewModel: TabViewModel())
 }
