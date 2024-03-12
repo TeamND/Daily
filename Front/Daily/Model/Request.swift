@@ -13,7 +13,11 @@ func requestGet(url: String, completionHandler: @escaping (Bool, [String: Any]) 
         switch response.result {
         case .success:
             if let data = try! response.result.get() as? [String: Any] {
-                completionHandler(true, data["data"] as! [String : Any])
+                if ((data["data"] as? [String: Any]) != nil) {
+                    completionHandler(true, data["data"] as! [String : Any])
+                } else {
+                    print("data[\"data\"] is \(data["data"])")
+                }
             }
         case .failure(let error):
             print("Error: \(error)")
