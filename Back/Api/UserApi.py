@@ -31,7 +31,6 @@ class UserApi(Resource):
             
         else:
             try:
-                print(phone_uid)
                 user = User(phone_uid=phone_uid)
                 db.session.add(user)
                 db.session.commit()
@@ -49,6 +48,7 @@ class UserApi(Resource):
                     }
                 }, 00
             except Exception as e:
+                db.session.rollback()
                 return {
                     'code': '99',
                     'message': e
@@ -67,6 +67,7 @@ class UserApi(Resource):
                     'message': '수정에 성공했습니다.'
                 }, 00
             except Exception as e:
+                db.session.rollback()
                 return {
                     'code': '99',
                     'message': e

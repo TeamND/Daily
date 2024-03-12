@@ -9,7 +9,7 @@ class GoalApi(Resource):
     # 생성
     def Create(data):
 
-        # try:
+        try:
             # 목포 추가
             goal_query = Goal(**data)
             db.session.add(goal_query)
@@ -48,11 +48,12 @@ class GoalApi(Resource):
                 'code': '00',
                 'message': '추가에 성공했습니다.'
             }, 00
-        # except Exception as e:
-        #     return {
-        #         'code': '99',
-        #         'message': e
-        #     }, 99
+        except Exception as e:
+            db.session.rollback()
+            return {
+                'code': '99',
+                'message': e
+            }, 99
 
     # 조회
     def Read(uid):
@@ -96,6 +97,7 @@ class GoalApi(Resource):
                     'message': '수정에 성공했습니다.'
                 }, 00
             except Exception as e:
+                db.session.rollback()
                 return {
                     'code': '99',
                     'message': e
@@ -124,6 +126,7 @@ class GoalApi(Resource):
                     'message': '조회된 데이터가 없습니다.'
                 }, 99
         except Exception as e:
+            db.session.rollback()
             return {
                 'code': '99',
                 'message': e
@@ -153,6 +156,7 @@ class GoalApi(Resource):
                 }, 00
                 
             except Exception as e:
+                db.session.rollback()
                 return {
                     'code': '99',
                     'message': e
@@ -188,6 +192,7 @@ class GoalApi(Resource):
                     'data': { 'record_count': result.record_count }
                 }, 00
             except Exception as e:
+                db.session.rollback()
                 return {
                     'code': '99',
                     'message': e
