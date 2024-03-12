@@ -10,7 +10,7 @@ import SwiftUI
 struct RecordView: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var tabViewModel: TabViewModel
-    @State var testText: String = ""
+    @State var content: String = ""
     
     var body: some View {
         VStack {
@@ -18,7 +18,7 @@ struct RecordView: View {
             
             TextField(
                 "",
-                text: $testText,
+                text: $content,
                 prompt: Text("deadlift 120kg 10reps 3set")
             )
             .padding()
@@ -29,14 +29,14 @@ struct RecordView: View {
             HStack {
                 Spacer()
                 Button {
-                    testText = ""
+                    content = ""
                 } label: {
                     Text("Erase")
                 }
                 
                 Button {
                     let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                    let goal = Goal(user_uid: userInfo.uid, content: testText, start_date: currentDate, end_date: currentDate)
+                    let goal = Goal(user_uid: userInfo.uid, content: content, start_date: currentDate, end_date: currentDate)
                     addGoal(goal: goal)
                 } label: {
                     Text("Add")

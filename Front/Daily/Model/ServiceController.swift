@@ -47,7 +47,6 @@ func getCalendarDay(userID: String, day: String, completionHandler: @escaping (B
 
 // goal
 func addGoal(goal: Goal) {
-    print("addGoal is called")
     let requestData: [String: Any] = [
         "user_uid": goal.user_uid,
         "content": goal.content,
