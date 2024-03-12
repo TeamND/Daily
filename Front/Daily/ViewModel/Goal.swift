@@ -43,7 +43,7 @@ class Goal: ObservableObject {
         self.start_date = start_date
         self.end_date = end_date
         self.cycle_type = "date"
-        self.cycle_date = ""
+        self.cycle_date = start_date    // 임시처리
         self.goal_time = 300
         self.goal_count = 1
     }
