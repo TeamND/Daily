@@ -34,16 +34,16 @@ class Goal: ObservableObject {
         self.goal_count = 1
     }
     
-    init(user_uid: Int, content: String, start_date: String, end_date: String) {
+    init(user_uid: Int, content: String, cycle_date: String) {
         self.uid = 0
         self.user_uid = user_uid
         self.content = content
         self.type = "check"
         self.symbol = "운동"
-        self.start_date = start_date
-        self.end_date = end_date
+        self.start_date = cycle_date
+        self.end_date = cycle_date
         self.cycle_type = "date"
-        self.cycle_date = start_date    // 임시처리
+        self.cycle_date = cycle_date
         self.goal_time = 300
         self.goal_count = 1
     }
