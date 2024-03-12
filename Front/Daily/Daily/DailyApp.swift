@@ -15,8 +15,10 @@ struct DailyApp: App {
     @State var isDebugMode: Bool = true
     var body: some Scene {
         WindowGroup {
-            if isDebugMode { DebugView() }
-            else {
+            if isDebugMode {
+                if isLoading { InitView(userInfo: userInfo, isLoading: $isLoading) }
+                else         { DebugView() }
+            } else {
                 if isLoading { InitView(userInfo: userInfo, isLoading: $isLoading) }
                 else         { MainView(userInfo: userInfo) }
             }
