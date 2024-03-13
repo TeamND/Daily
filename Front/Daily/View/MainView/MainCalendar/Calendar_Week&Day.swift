@@ -62,11 +62,18 @@ struct Calendar_Week_Day: View {
             ) { (success, data) in
                 archievements = data["rating"] as! [Double]
             }
-            getCalendarDay(
+//            getCalendarDay(
+//                userID: String(userInfo.uid),
+//                day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
+//            ) { (success, data) in
+//                records = data["goalList"] as! Array<[String: Any]>
+//            }
+            let networkManager = NetworkManager()
+            networkManager.getCalendarDay2(
                 userID: String(userInfo.uid),
                 day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
-            ) { (success, data) in
-                records = data["goalList"] as! Array<[String: Any]>
+            ) { (data) in
+                print("end data is \(data)")
             }
         }
         .onChange(of: userInfo.currentDay) { day in
