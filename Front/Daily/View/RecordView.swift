@@ -36,7 +36,7 @@ struct RecordView: View {
                 
                 Button {
                     let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                    let goal = Goal(user_uid: userInfo.uid, content: content, cycle_date: currentDate)
+                    let goal = Goal(user_uid: userInfo.uid, content: content, cycle_date: [currentDate])
                     addGoal(goal: goal)
                     // 아래 동작은 API통신이 성공하였을 때만 실행하도록 추후 수정
                     content = ""
