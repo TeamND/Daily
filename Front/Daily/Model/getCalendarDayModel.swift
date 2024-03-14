@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HTTPResponseModel: Codable {
+struct getCalendarDayModel: Codable {
     let code: String
     let message: String
     let data: getCalendarDayData
