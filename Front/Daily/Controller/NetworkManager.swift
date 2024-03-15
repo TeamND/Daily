@@ -44,10 +44,16 @@ private let serverUrl: String = "http://34.22.71.88:5000/"
 //        completionHandler(success, data)
 //    }
 //}
-
+func getCalendarWeek2(userID: String, startDay: String, complete: @escaping (getCalendarWeekModel) -> Void) {
+    HTTPManager.requestGET(url: "\(serverUrl)calendar/week/\(userID)?date=\(startDay)") { data in
+        guard let data: getCalendarWeekModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 func getCalendarDay2(userID: String, day: String, complete: @escaping (getCalendarDayModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/day/\(userID)?date=\(day)") { data in
-        print("start data is \(data)")
         guard let data: getCalendarDayModel = JSONConverter.decodeJson(data: data) else {
             return
         }
@@ -71,3 +77,8 @@ func getCalendarDay2(userID: String, day: String, complete: @escaping (getCalend
 //    ]
 //    requestPost(url: "\(serverUrl)goal/", param: requestData)
 //}
+
+// record
+func setRecordIsSuccess(isSuccess: Bool) {
+    print("\(isSuccess)")
+}

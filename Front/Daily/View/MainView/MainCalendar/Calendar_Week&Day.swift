@@ -45,12 +45,11 @@ struct Calendar_Week_Day: View {
             }
         }
         .onAppear {
-            print("calendar week&day(\(userInfo.currentDay)) appear")
-            getCalendarWeek(
+            getCalendarWeek2(
                 userID: String(userInfo.uid),
                 startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
-            ) { (success, data) in
-                archievements = data["rating"] as! [Double]
+            ) { (data) in
+                archievements = data.data.rating
             }
             getCalendarDay2(
                 userID: String(userInfo.uid),
@@ -60,12 +59,11 @@ struct Calendar_Week_Day: View {
             }
         }
         .onChange(of: userInfo.currentDay) { day in
-            print("calendar week&day(\(day)) change")
-            getCalendarWeek(
+            getCalendarWeek2(
                 userID: String(userInfo.uid),
                 startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
-            ) { (success, data) in
-                archievements = data["rating"] as! [Double]
+            ) { (data) in
+                archievements = data.data.rating
             }
             getCalendarDay2(
                 userID: String(userInfo.uid),

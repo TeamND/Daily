@@ -16,7 +16,8 @@ struct RecordButton: View {
             Button {
                 switch record.type {
                 case "check":
-                    print("record.isSuccess.toggle()")
+                    print("record.issuccess is \(record.issuccess)")
+                    setRecordIsSuccess(isSuccess: !record.issuccess)
 //                    record.issuccess.toggle()
                 case "count":
                     print("미구현")
