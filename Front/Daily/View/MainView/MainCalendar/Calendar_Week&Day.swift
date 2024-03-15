@@ -19,26 +19,30 @@ struct Calendar_Week_Day: View {
                 tapPurpose: "change"
             )
             CustomDivider(color: .primary, height: 2, hPadding: 12)
-            List {
-                ForEach ($records, id:\.self.uid) { record in
-                    RecordOnList(record: record)
-                        .swipeActions(allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                print("delete")
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+            if records.count > 0 {
+                List {
+                    ForEach ($records, id:\.self.uid) { record in
+                        RecordOnList(record: record)
+                            .swipeActions(allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    print("delete")
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                                Button() {
+                                    print("modify")
+                                } label: {
+                                    Label("Modify", systemImage: "pencil")
+                                }
+                                .tint(.orange)
                             }
-                            Button() {
-                                print("modify")
-                            } label: {
-                                Label("Modify", systemImage: "pencil")
-                            }
-                            .tint(.orange)
-                        }
-                        .frame(height: 50)
+                            .frame(height: 50)
+                    }
                 }
+                .listStyle(.plain)
+            } else {
+                NoRecord()
             }
-            .listStyle(.plain)
         }
         .onAppear {
             print("calendar week&day(\(userInfo.currentDay)) appear")
