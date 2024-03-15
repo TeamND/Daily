@@ -19,12 +19,26 @@ struct InitView: View {
                 .foregroundColor(Color("CustomColor"))
                 .task {
                     do {
-                        getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { (success, data) in
-                            userInfo.uid = data["uid"] as! Int
-                            userInfo.set_startday = data["set_startday"] as! Int
-                            userInfo.set_language = data["set_language"] as! String
-                            userInfo.set_dateorrepeat = data["set_dateorrepeat"] as! String
-                            userInfo.set_calendarstate = data["set_calendarstate"] as! String
+//                        getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { (success, data) in
+//                            userInfo.uid = data["uid"] as! Int
+//                            userInfo.set_startday = data["set_startday"] as! Int
+//                            userInfo.set_language = data["set_language"] as! String
+//                            userInfo.set_dateorrepeat = data["set_dateorrepeat"] as! String
+//                            userInfo.set_calendarstate = data["set_calendarstate"] as! String
+//                            
+//                            userInfo.currentState = userInfo.set_calendarstate
+//                        }
+//                        // 임시 타이머
+//                        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+//                            if userInfo.uid > 0 { isLoading = false }
+//                            else { print("An error has occured while getUserInfo") }
+//                        }
+                        getUserInfo2(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
+                            userInfo.uid = data.data.uid
+                            userInfo.set_startday = data.data.set_startday
+                            userInfo.set_language = data.data.set_language
+                            userInfo.set_dateorrepeat = data.data.set_dateorrepeat
+                            userInfo.set_calendarstate = data.data.set_calendarstate
                             
                             userInfo.currentState = userInfo.set_calendarstate
                         }

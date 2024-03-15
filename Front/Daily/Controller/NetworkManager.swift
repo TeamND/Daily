@@ -19,6 +19,14 @@ private let serverUrl: String = "http://34.22.71.88:5000/"
 //func setUserInfo(param: [String: Any]) {
 //    requestPost(url: "\(serverUrl)user/set", param: param)
 //}
+func getUserInfo2(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
+    HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)") { data in
+        guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 
 // calendar
 //func getCalendarYear(userID: String, year: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
