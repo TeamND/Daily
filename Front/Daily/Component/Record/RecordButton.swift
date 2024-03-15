@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecordButton: View {
-    @StateObject var record: Record
+    @Binding var record: RecordModel
     var body: some View {
         if record.issuccess {
             Label("완료", systemImage: "hand.thumbsup.circle")
@@ -16,10 +16,12 @@ struct RecordButton: View {
             Button {
                 switch record.type {
                 case "check":
-                    record.issuccess.toggle()
+                    print("record.isSuccess.toggle()")
+//                    record.issuccess.toggle()
                 case "count":
-                    if record.record_count <  record.goal_count { record.record_count += 1 }
-                    if record.record_count == record.goal_count { record.issuccess = true }
+                    print("미구현")
+//                    if record.record_count <  record.goal_count { record.record_count += 1 }
+//                    if record.record_count == record.goal_count { record.issuccess = true }
                 case "timer":
                     print("timer record button press")
 //                    record.itart.toggle()

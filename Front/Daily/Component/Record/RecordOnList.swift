@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecordOnList: View {
-    @StateObject var record: Record
+    @Binding var record: RecordModel
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
@@ -22,7 +22,7 @@ struct RecordOnList: View {
                 } else { Image(systemName: "pencil") }
                 Text(record.content)
                 Spacer()
-                RecordButton(record: record)
+                RecordButton(record: $record)
                     .frame(maxHeight: .infinity)
                     .foregroundColor(.mint)
             }
