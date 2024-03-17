@@ -195,7 +195,10 @@ class GoalApi(Resource):
                 return {
                     'code': '00',
                     'message': '목표달성을 업데이트했습니다.',
-                    'data': { 'record_count': result.record_count }
+                    'data': { 
+                        'record_count': result.record_count,
+                        'issuccess': result.issuccess 
+                    }
                 }, 00
             except Exception as e:
                 db.session.rollback()
