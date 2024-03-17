@@ -36,7 +36,7 @@ class GoalApi(Resource):
             
             # 반복이 아닌경우
             else:
-                date_list = data['cycle_date'].split(',')
+                date_list = data['cycle_date']
             
             # 데이터 입력    
             for date in date_list:
@@ -178,8 +178,14 @@ class GoalApi(Resource):
                 join = db.session.query(Record.record_count,Goal.goal_count)\
                         .filter(Record.goal_uid==Goal.uid, Record.uid==uid).first()
                 
-                if int(data['record_count']) != join.goal_count:
+                if join.record_count >= join.goal_count:
                     result.record_count += 1
+                
+                else:
+                     return {
+                        'code': '99',
+                        'message': '더이상 목표달성을 추가할 수 없습니다.'
+                    }, 99
                                     
                 if result.record_count == join.goal_count:
                     result.issuccess = True

@@ -14,7 +14,7 @@ model = goal.model('목표', strict=True, model={
     'start_date': fields.String(title='시작일', default='시작일'),
     'end_date': fields.String(title='종료일'),
     'cycle_type': fields.String(title='날짜/반복 선택', default='date'),
-    'cycle_date': fields.String(title='날짜/반복 일'),
+    'cycle_date': fields.List(fields.String(), title='날짜/반복 일'),
     'type': fields.String(title='횟수/시간 선택', default='check'),
     'goal_count': fields.String(title='목표 횟수', default='1'),
     'goal_time': fields.String(title='목표 시간', default='1M'),
