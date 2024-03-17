@@ -85,8 +85,15 @@ func getCalendarDay2(userID: String, day: String, complete: @escaping (getCalend
 //    ]
 //    requestPost(url: "\(serverUrl)goal/", param: requestData)
 //}
-
-// record
-func setRecordIsSuccess(isSuccess: Bool) {
-    print("\(isSuccess)")
+func increaseCount(recordUID: String, complete: @escaping (increaseCountModel) -> Void) {
+    HTTPManager.requestPUT(url: "\(serverUrl)goal/count/\(recordUID)", encodingData: Data()) { data in
+        guard let data: increaseCountModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ErrorModel = JSONConverter.decodeJson(data: data) else {
+                return
+            }
+            print("data decoding error data is. \(data)")
+            return
+        }
+        complete(data)
+    }
 }

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RecordButton: View {
+    @StateObject var userInfo: UserInfo
     @Binding var record: RecordModel
+    @Binding var archievements: [Double]
     var body: some View {
         if record.issuccess {
             Label("완료", systemImage: "hand.thumbsup.circle")
@@ -17,7 +19,17 @@ struct RecordButton: View {
                 switch record.type {
                 case "check":
                     print("record.issuccess is \(record.issuccess)")
-                    setRecordIsSuccess(isSuccess: !record.issuccess)
+                    increaseCount(recordUID: String(record.uid)) { (data) in
+                        record.record_count = data.data.record_count
+                        record.issuccess = data.data.issuccess
+                        // 임시 사용, 추후 observable 하게 수정 필요
+                        getCalendarWeek2(
+                            userID: String(userInfo.uid),
+                            startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
+                        ) { (data) in
+                            archievements = data.data.rating
+                        }
+                    }
 //                    record.issuccess.toggle()
                 case "count":
                     print("미구현")

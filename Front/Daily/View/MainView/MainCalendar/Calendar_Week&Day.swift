@@ -22,7 +22,7 @@ struct Calendar_Week_Day: View {
             if records.count > 0 {
                 List {
                     ForEach ($records, id:\.self.uid) { record in
-                        RecordOnList(record: record)
+                        RecordOnList(userInfo: userInfo, record: record, archievements: $archievements)
                             .swipeActions(allowsFullSwipe: true) {
                                 Button(role: .destructive) {
                                     print("delete")
