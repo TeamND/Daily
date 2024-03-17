@@ -78,7 +78,7 @@ class CalendarApi(Resource):
             }, 99
         
     def Month(uid,data):
-        # try:
+        try:
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m')
             
             # join
@@ -113,11 +113,11 @@ class CalendarApi(Resource):
                 'message': '조회에 성공했습니다.',
                 'data': result
             }, 00
-        # except Exception as e:
-        #     return {
-        #         'code': '99',
-        #         'message': e
-        #     }, 99
+        except Exception as e:
+            return {
+                'code': '99',
+                'message': e
+            }, 99
         
     def Year(uid,data):
         try:
