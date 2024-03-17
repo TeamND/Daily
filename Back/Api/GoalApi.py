@@ -178,7 +178,7 @@ class GoalApi(Resource):
                 join = db.session.query(Record.record_count,Goal.goal_count)\
                         .filter(Record.goal_uid==Goal.uid, Record.uid==uid).first()
                 
-                if join.record_count >= join.goal_count:
+                if join.record_count < join.goal_count:
                     result.record_count += 1
                 
                 else:
