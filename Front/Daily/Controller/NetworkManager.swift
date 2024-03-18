@@ -52,6 +52,14 @@ func getUserInfo2(userID: String, complete: @escaping (getUserInfoModel) -> Void
 //        completionHandler(success, data)
 //    }
 //}
+func getCalendarMonth2(userID: String, month: String, complete: @escaping (getCalendarMonthModel) -> Void) {
+    HTTPManager.requestGET(url: "\(serverUrl)calendar/month/\(userID)?date=\(month)") { data in
+        guard let data: getCalendarMonthModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 func getCalendarWeek2(userID: String, startDay: String, complete: @escaping (getCalendarWeekModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/week/\(userID)?date=\(startDay)") { data in
         guard let data: getCalendarWeekModel = JSONConverter.decodeJson(data: data) else {

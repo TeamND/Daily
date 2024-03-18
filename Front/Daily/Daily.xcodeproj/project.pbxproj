@@ -48,6 +48,7 @@
 		F6CC15AC2BA459EA00689A02 /* getUserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15AB2BA459EA00689A02 /* getUserInfoModel.swift */; };
 		F6CC15AE2BA68CB600689A02 /* increaseCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15AD2BA68CB600689A02 /* increaseCountModel.swift */; };
 		F6CC15B02BA6906600689A02 /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15AF2BA6906600689A02 /* ErrorModel.swift */; };
+		F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15B12BA8307E00689A02 /* getCalendarMonthModel.swift */; };
 		F6D06236292346EE00B825EF /* AddGoalPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D06235292346EE00B825EF /* AddGoalPopup.swift */; };
 		F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0623729234C2E00B825EF /* PopupInfo.swift */; };
 		F6D0623A2923566400B825EF /* RightSideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062392923566400B825EF /* RightSideMenu.swift */; };
@@ -107,6 +108,7 @@
 		F6CC15AB2BA459EA00689A02 /* getUserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getUserInfoModel.swift; sourceTree = "<group>"; };
 		F6CC15AD2BA68CB600689A02 /* increaseCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = increaseCountModel.swift; sourceTree = "<group>"; };
 		F6CC15AF2BA6906600689A02 /* ErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
+		F6CC15B12BA8307E00689A02 /* getCalendarMonthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCalendarMonthModel.swift; sourceTree = "<group>"; };
 		F6D06235292346EE00B825EF /* AddGoalPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalPopup.swift; sourceTree = "<group>"; };
 		F6D0623729234C2E00B825EF /* PopupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupInfo.swift; sourceTree = "<group>"; };
 		F6D062392923566400B825EF /* RightSideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightSideMenu.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				F6CC15972BA188E200689A02 /* RecordModel.swift */,
 				F6CC15A32BA1E69700689A02 /* getCalendarDayModel.swift */,
 				F6CC15A72BA4566900689A02 /* getCalendarWeekModel.swift */,
+				F6CC15B12BA8307E00689A02 /* getCalendarMonthModel.swift */,
 				F6CC15AD2BA68CB600689A02 /* increaseCountModel.swift */,
 			);
 			path = Model;
@@ -463,6 +466,7 @@
 				F6CC15922B9C91E200689A02 /* AppInfoView.swift in Sources */,
 				F6CC15AA2BA4598700689A02 /* UserInfoModel.swift in Sources */,
 				F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */,
+				F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */,
 				F6CC158C2B9C90F300689A02 /* DebugView.swift in Sources */,
 				F6C2F21E2921F9AD0006BFC7 /* MonthOnYear.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
