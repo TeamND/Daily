@@ -87,22 +87,28 @@ class CalendarApi(Resource):
                     .order_by(Record.date,Record.order).all()
             
             # 데이터 가공
-            result = {}
+            temp = {}
             for k in join:
                 
-                if k[0] not in result:
+                if k[0] not in temp:
                     count = 0
                     issuccess = 0
-                    result[k[0]] = {'symbol':[{"imageName":k[1],"isSuccess":k[2]}]}
+                    temp[k[0]] = {'symbol':[{"imageName":k[1],"isSuccess":k[2]}]}
                 else:
-                    result[k[0]]['symbol'].append({"imageName":k[1],"isSuccess":k[2]})
+                    temp[k[0]]['symbol'].append({"imageName":k[1],"isSuccess":k[2]})
                 
                 count += 1
                 if k[2] is True:
                     issuccess += 1
                     
-                result[k[0]]['rating'] = round(issuccess/count,2)
-            
+                temp[k[0]]['rating'] = round(issuccess/count,2)
+
+            # 31일까지 채우기
+            result = {str(x).zfill(2): {'symbol':[],'rating':0} for x in range(1,32)}
+            for day in result:
+                if temp.get(day):
+                    result[day] = temp[day]
+
             # 4칸 채우기
             for k,v in result.items():
                 while len(v['symbol']) < 4:
