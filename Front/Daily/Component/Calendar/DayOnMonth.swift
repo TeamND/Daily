@@ -27,10 +27,7 @@ struct DayOnMonth: View {
                 HStack(spacing: 2) {
                     ForEach(symbols.indices, id: \.self) { symbolIndex in
                         if 0 <= symbolIndex && symbolIndex < 2 {
-                            let symbolImageName = symbols[symbolIndex]["imageName"] as! String
-                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0) }
-                            else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
-                            else { Image(systemName: "dumbbell") }
+                            SymbolOnMonth(symbol: symbols[symbolIndex])
                         }
                     }
                 }
@@ -43,12 +40,8 @@ struct DayOnMonth: View {
                                 Image(systemName: "ellipsis")
                             }
                             .frame(width: 20)
-                        } else
-                        if 2 <= symbolIndex && symbolIndex < 4 {
-                            let symbolImageName = symbols[symbolIndex]["imageName"] as! String
-                            if symbolImageName == "" { Image(systemName: "dumbbell").opacity(0) }
-                            else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
-                            else { Image(systemName: "dumbbell") }
+                        } else if 2 <= symbolIndex && symbolIndex < 4 {
+                            SymbolOnMonth(symbol: symbols[symbolIndex])
                         }
                     }
                 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct Calendar_Week_Day: View {
     @StateObject var userInfo: UserInfo
     @State var archievements: [Double] = Array(repeating: 0.0, count: 7)
-    @State var records: Array<[String: Any]> = []
+    @State var records: [RecordModel] = []
     var body: some View {
         VStack {
             WeekIndicator(
@@ -19,69 +19,57 @@ struct Calendar_Week_Day: View {
                 tapPurpose: "change"
             )
             CustomDivider(color: .primary, height: 2, hPadding: 12)
-            List {
-                ForEach (records.indices, id: \.self) { recordIndex in
-                    let record: [String: Any] = records[recordIndex]
-                    let recordObject: Record = Record(
-                        uid: record["uid"] as! Int,
-                        goal_uid: record["goal_uid"] as! Int,
-                        content: record["content"] as! String,
-                        type: record["type"] as! String,
-                        symbol: record["symbol"] as! String,
-                        goal_time: record["goal_time"] as! Int,
-                        goal_count: record["goal_count"] as! Int,
-                        record_time: record["record_time"] as! Int,
-                        record_count: record["record_count"] as! Int,
-                        issuccess: record["issuccess"] as! Bool,
-                        start_time: record["start_time"] as! String
-                    )
-                    RecordOnList(record: recordObject)
-                        .swipeActions(allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                print("delete")
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+            if records.count > 0 {
+                List {
+                    ForEach ($records, id:\.self.uid) { record in
+                        RecordOnList(userInfo: userInfo, record: record, archievements: $archievements)
+                            .swipeActions(allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    print("delete")
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                                Button() {
+                                    print("modify")
+                                } label: {
+                                    Label("Modify", systemImage: "pencil")
+                                }
+                                .tint(.orange)
                             }
-                            Button() {
-                                print("modify")
-                            } label: {
-                                Label("Modify", systemImage: "pencil")
-                            }
-                            .tint(.orange)
-                        }
-                        .frame(height:50)
+                            .frame(height: 50)
+                    }
                 }
+                .listStyle(.plain)
+            } else {
+                NoRecord()
             }
-            .listStyle(.plain)
         }
         .onAppear {
-            print("calendar week&day(\(userInfo.currentDay)) appear")
-            getCalendarWeek(
+            getCalendarWeek2(
                 userID: String(userInfo.uid),
                 startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
-            ) { (success, data) in
-                archievements = data["rating"] as! [Double]
+            ) { (data) in
+                archievements = data.data.rating
             }
-            getCalendarDay(
+            getCalendarDay2(
                 userID: String(userInfo.uid),
                 day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
-            ) { (success, data) in
-                records = data["goalList"] as! Array<[String: Any]>
+            ) { (data) in
+                records = data.data.goalList
             }
         }
         .onChange(of: userInfo.currentDay) { day in
-            print("calendar week&day(\(day)) change")
-            getCalendarWeek(
+            getCalendarWeek2(
                 userID: String(userInfo.uid),
                 startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
-            ) { (success, data) in
-                archievements = data["rating"] as! [Double]
+            ) { (data) in
+                archievements = data.data.rating
             }
-            getCalendarDay(
+            getCalendarDay2(
                 userID: String(userInfo.uid),
                 day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)"
-            ) { (success, data) in
-                records = data["goalList"] as! Array<[String: Any]>
+            ) { (data) in
+                records = data.data.goalList
             }
         }
     }

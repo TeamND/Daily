@@ -16,9 +16,37 @@ class Goal: ObservableObject {
     @Published var start_date: String
     @Published var end_date: String
     @Published var cycle_type: String
-    @Published var cycle_date: String
+    @Published var cycle_date: [String]
     @Published var goal_time: Int
     @Published var goal_count: Int
+    
+    init() {
+        self.uid = 0
+        self.user_uid = 0
+        self.content = ""
+        self.type = "check"
+        self.symbol = "운동"
+        self.start_date = ""
+        self.end_date = ""
+        self.cycle_type = "date"
+        self.cycle_date = []
+        self.goal_time = 300
+        self.goal_count = 1
+    }
+    
+    init(user_uid: Int, content: String, cycle_date: [String]) {
+        self.uid = 0
+        self.user_uid = user_uid
+        self.content = content
+        self.type = "check"
+        self.symbol = "운동"
+        self.start_date = cycle_date[0]
+        self.end_date = cycle_date[cycle_date.count - 1]
+        self.cycle_type = "date"
+        self.cycle_date = cycle_date
+        self.goal_time = 300
+        self.goal_count = 1
+    }
     
     init(user_uid: Int, cycle_type: String) {
         self.uid = 0
@@ -29,13 +57,13 @@ class Goal: ObservableObject {
         self.start_date = ""
         self.end_date = ""
         self.cycle_type = cycle_type
-        self.cycle_date = ""
+        self.cycle_date = []
         self.goal_time = 300
         self.goal_count = 1
     }
 
     init(uid: Int, user_uid: Int, content: String, type: String, symbol: String,
-         start_date: String, end_date: String, cycle_type: String, cycle_date: String, goal_time: Int, goal_count: Int) {
+         start_date: String, end_date: String, cycle_type: String, cycle_date: [String], goal_time: Int, goal_count: Int) {
         self.uid = uid
         self.user_uid = user_uid
         self.content = content
@@ -91,24 +119,8 @@ extension Goal {
         self.start_date = ""
         self.end_date = ""
         self.cycle_type = cycle_type
-        self.cycle_date = ""
+        self.cycle_date = []
         self.goal_time = 300
         self.goal_count = 1
-    }
-    func add(goal: Goal) {
-        let requestData: [String: Any] = [
-            "user_uid": goal.user_uid,
-            "content": goal.content,
-            "symbol": goal.symbol,
-            "start_date": goal.start_date,
-            "end_date": goal.end_date,
-            "cycle_type": goal.cycle_type,
-            "cycle_date": goal.cycle_date,
-            "type": goal.type,
-            "goal_count": goal.goal_count,
-            "goal_time": goal.goal_time
-        ]
-        
-        addGoal(param: requestData)
     }
 }

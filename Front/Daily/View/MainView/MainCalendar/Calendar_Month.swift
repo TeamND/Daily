@@ -42,6 +42,13 @@ struct Calendar_Month: View {
                     }
                 }
             }
+            // 데이터 타입 수정 이후 추후 적용
+//            getCalendarMonth2(
+//                userID: String(userInfo.uid),
+//                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
+//            ) { (data) in
+//                print("data is \(data)")
+//            }
         }
         .onChange(of: userInfo.currentMonth) { month in
             print("calendar month(\(month)) change")
