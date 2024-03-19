@@ -10,6 +10,7 @@ import SwiftUI
 struct Calendar_Month: View {
     @StateObject var userInfo: UserInfo
     @State var days: [[String: Any]] = Array(repeating: ["0": []], count: 42)
+//    @State var days2: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
     var body: some View {
         let startDayIndex = userInfo.startDayIndex()
         let lengthOfMonth = userInfo.lengthOfMonth()
@@ -42,12 +43,21 @@ struct Calendar_Month: View {
                     }
                 }
             }
-            // 데이터 타입 수정 이후 추후 적용
+            // calendar.month 수정 이후 추후 적용
 //            getCalendarMonth2(
 //                userID: String(userInfo.uid),
 //                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
 //            ) { (data) in
-//                print("data is \(data)")
+//                days2 = []
+//                let startDayIndex = userInfo.startDayIndex()
+//                let lengthOfMonth = userInfo.lengthOfMonth()
+//                for i in 0..<42 {
+//                    if i < startDayIndex || i > startDayIndex + lengthOfMonth - 1 { days2.append(dayOnMonthModel()) }
+//                    else {
+//                        let day = String(format: "%02d", i - startDayIndex + 1)
+//                        days2.append(data.data.one)
+//                    }
+//                }
 //            }
         }
         .onChange(of: userInfo.currentMonth) { month in
