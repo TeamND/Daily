@@ -84,7 +84,7 @@ class CalendarApi(Resource):
             # join
             join = db.session.query(func.to_char(Record.date, 'dd'), Goal.symbol, Record.issuccess)\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4], extract('month', Record.date) == date[5:7])\
-                    .order_by(Record.date,Record.order).all()
+                    .order_by(Record.date,Record.order,Record.goal_uid).all()
             
             # 데이터 가공
             temp = {}
