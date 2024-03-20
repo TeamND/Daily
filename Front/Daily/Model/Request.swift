@@ -13,7 +13,7 @@ func requestGet(url: String, completionHandler: @escaping (Bool, [String: Any]) 
         switch response.result {
         case .success:
             if let data = try! response.result.get() as? [String: Any] {
-                print("get request is success### data is \(data)")
+//                print("get request is success### data is \(data)")
                 if ((data["data"] as? [String: Any]) != nil) {
                     completionHandler(true, data["data"] as! [String : Any])
                 } else {

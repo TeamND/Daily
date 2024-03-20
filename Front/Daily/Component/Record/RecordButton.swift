@@ -18,7 +18,6 @@ struct RecordButton: View {
             Button {
                 switch record.type {
                 case "check":
-                    print("record.issuccess is \(record.issuccess)")
                     increaseCount(recordUID: String(record.uid)) { (data) in
                         record.record_count = data.data.record_count
                         record.issuccess = data.data.issuccess

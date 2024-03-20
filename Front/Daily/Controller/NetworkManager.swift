@@ -55,7 +55,7 @@ func getUserInfo2(userID: String, complete: @escaping (getUserInfoModel) -> Void
 func getCalendarMonth2(userID: String, month: String, complete: @escaping (getCalendarMonthModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/month/\(userID)?date=\(month)") { data in
         guard let data: getCalendarMonthModel = JSONConverter.decodeJson(data: data) else {
-            guard let data: ErrorModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
                 return
             }
             print("data decoding error data is. \(data)")
@@ -97,10 +97,21 @@ func getCalendarDay2(userID: String, day: String, complete: @escaping (getCalend
 //    ]
 //    requestPost(url: "\(serverUrl)goal/", param: requestData)
 //}
+func addGoal2(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
+        return
+    }
+    HTTPManager.requestPOST(url: "\(serverUrl)goal/", encodingData: encodingData) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 func increaseCount(recordUID: String, complete: @escaping (increaseCountModel) -> Void) {
     HTTPManager.requestPUT(url: "\(serverUrl)goal/count/\(recordUID)", encodingData: Data()) { data in
         guard let data: increaseCountModel = JSONConverter.decodeJson(data: data) else {
-            guard let data: ErrorModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
                 return
             }
             print("data decoding error data is. \(data)")

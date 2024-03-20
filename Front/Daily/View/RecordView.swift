@@ -38,9 +38,16 @@ struct RecordView: View {
                     let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
                     let goal = Goal(user_uid: userInfo.uid, content: content, cycle_date: [currentDate])
                     addGoal(goal: goal)
-                    // 아래 동작은 API통신이 성공하였을 때만 실행하도록 추후 수정
                     content = ""
                     tabViewModel.setTagIndex(tagIndex: 0)
+                    // socket error 수정 필요, 추후 적용
+//                    let goalModel = GoalModel(user_uid: userInfo.uid, content: content, symbol: "운동", cycle_date: [currentDate])
+//                    addGoal2(goal: goalModel) { data in
+//                        if data.code == "00" {
+//                            content = ""
+//                            tabViewModel.setTagIndex(tagIndex: 0)
+//                        }
+//                    }
                 } label: {
                     Text("Add")
                 }

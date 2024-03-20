@@ -1,5 +1,5 @@
 //
-//  HTTPResponseModel.swift
+//  getCalendarDayModel.swift
 //  Daily
 //
 //  Created by 최승용 on 3/13/24.
