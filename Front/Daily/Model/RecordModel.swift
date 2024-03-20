@@ -9,7 +9,7 @@ import Foundation
 
 struct RecordModel: Codable {
     let uid: Int
-    let goal_uid: Int
+    var goal_uid: Int
     let content: String
     let type: String
     let symbol: String

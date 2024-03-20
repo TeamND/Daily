@@ -25,16 +25,19 @@ struct Calendar_Week_Day: View {
                         RecordOnList(userInfo: userInfo, record: record, archievements: $archievements)
                             .swipeActions(allowsFullSwipe: true) {
                                 Button(role: .destructive) {
-                                    print("delete")
+                                    deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
+                                        if data.code == "00" { print("\(record.goal_uid) delete success") }
+                                        else                 { print("\(record.goal_uid) delete fail@@@") }
+                                    }
                                 } label: {
                                     Label("Delete", systemImage: "trash")
                                 }
-                                Button() {
-                                    print("modify")
-                                } label: {
-                                    Label("Modify", systemImage: "pencil")
-                                }
-                                .tint(.orange)
+//                                Button() {
+//                                    print("modify")
+//                                } label: {
+//                                    Label("Modify", systemImage: "pencil")
+//                                }
+//                                .tint(.orange)
                             }
                             .frame(height: 50)
                     }

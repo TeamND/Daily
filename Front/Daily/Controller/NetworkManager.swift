@@ -120,3 +120,11 @@ func increaseCount(recordUID: String, complete: @escaping (increaseCountModel) -
         complete(data)
     }
 }
+func deleteGoal(goalUID: String, complete: @escaping (ResponseModel) -> Void) {
+    HTTPManager.requestDELETE(url: "\(serverUrl)goal/\(goalUID)", encodingData: Data()) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
