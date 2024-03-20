@@ -14,17 +14,14 @@ struct SymbolOnMonth: View {
         let symbolImageName = symbol["imageName"] as! String
         let isSuccess = symbol["isSuccess"] as! Bool
         
-        switch (symbolImageName) {
-        case "운동":
-            if isSuccess {
-                Image(systemName: "dumbbell.fill")
-            } else {
-                Image(systemName: "dumbbell")
-            }
-        default:
+        if symbolImageName == "" {
             Image(systemName: "dumbbell").opacity(0)
+        } else {
+            if isSuccess {
+                Image(systemName: "\(symbolImageName.toSymbol().rawValue).fill")
+            } else {
+                Image(systemName: "\(symbolImageName.toSymbol().rawValue)")
+            }
         }
-//        else if symbolImageName == "운동" { Image(systemName: "dumbbell.fill") }
-//        else { Image(systemName: "dumbbell") }
     }
 }

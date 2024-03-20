@@ -51,6 +51,9 @@
 		F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15B12BA8307E00689A02 /* getCalendarMonthModel.swift */; };
 		F6CC15B62BA8377000689A02 /* SymbolOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15B52BA8377000689A02 /* SymbolOnMonth.swift */; };
 		F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15B72BA96BDE00689A02 /* GoalModel.swift */; };
+		F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15BA2BAABC0500689A02 /* Symbol.swift */; };
+		F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */; };
+		F6CC15C02BAACAC300689A02 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15BF2BAACAC300689A02 /* String.swift */; };
 		F6D06236292346EE00B825EF /* AddGoalPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D06235292346EE00B825EF /* AddGoalPopup.swift */; };
 		F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0623729234C2E00B825EF /* PopupInfo.swift */; };
 		F6D0623A2923566400B825EF /* RightSideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D062392923566400B825EF /* RightSideMenu.swift */; };
@@ -113,6 +116,9 @@
 		F6CC15B12BA8307E00689A02 /* getCalendarMonthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCalendarMonthModel.swift; sourceTree = "<group>"; };
 		F6CC15B52BA8377000689A02 /* SymbolOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolOnMonth.swift; sourceTree = "<group>"; };
 		F6CC15B72BA96BDE00689A02 /* GoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalModel.swift; sourceTree = "<group>"; };
+		F6CC15BA2BAABC0500689A02 /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolSheet.swift; sourceTree = "<group>"; };
+		F6CC15BF2BAACAC300689A02 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		F6D06235292346EE00B825EF /* AddGoalPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalPopup.swift; sourceTree = "<group>"; };
 		F6D0623729234C2E00B825EF /* PopupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupInfo.swift; sourceTree = "<group>"; };
 		F6D062392923566400B825EF /* RightSideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightSideMenu.swift; sourceTree = "<group>"; };
@@ -186,6 +192,7 @@
 		F6BEC928290F5894005EAF28 = {
 			isa = PBXGroup;
 			children = (
+				F6CC15B92BAABBF600689A02 /* Enums */,
 				F6CC159C2BA1DFB900689A02 /* Controller */,
 				F6CC15992BA192A900689A02 /* Extensions */,
 				F6BEC933290F5894005EAF28 /* Daily */,
@@ -228,6 +235,7 @@
 		F6C0F8032919042B00984457 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				F6CC15BC2BAAC46000689A02 /* Sheet */,
 				F672992F29B761A300E392BD /* Popup */,
 				F6D06252292F56AD00B825EF /* Record */,
 				F6D06251292F567900B825EF /* Calendar */,
@@ -250,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				F6CC159A2BA192C300689A02 /* JsonDecodeExtension.swift */,
+				F6CC15BF2BAACAC300689A02 /* String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -262,6 +271,22 @@
 				F6CC15A12BA1E39A00689A02 /* NetworkManager.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		F6CC15B92BAABBF600689A02 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				F6CC15BA2BAABC0500689A02 /* Symbol.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		F6CC15BC2BAAC46000689A02 /* Sheet */ = {
+			isa = PBXGroup;
+			children = (
+				F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */,
+			);
+			path = Sheet;
 			sourceTree = "<group>";
 		};
 		F6D06234292346D800B825EF /* Popup */ = {
@@ -425,16 +450,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6CC15C02BAACAC300689A02 /* String.swift in Sources */,
 				F6CC15B02BA6906600689A02 /* ResponseModel.swift in Sources */,
 				F6C0F80B291A562300984457 /* MainCalendar.swift in Sources */,
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6CC15B62BA8377000689A02 /* SymbolOnMonth.swift in Sources */,
 				F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */,
+				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
 				F6D06250292E02CA00B825EF /* Popup.swift in Sources */,
 				F6D0624B2927B58B00B825EF /* Times.swift in Sources */,
+				F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */,
 				F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */,
 				F62E885029405D560010FEE2 /* Date.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
@@ -618,7 +646,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
@@ -659,7 +687,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;

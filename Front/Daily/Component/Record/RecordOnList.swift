@@ -15,13 +15,13 @@ struct RecordOnList: View {
         ZStack {
             HStack(spacing: 12) {
 //                Image(systemName: record.symbol)
-                if record.symbol == "운동" {
+//                if record.symbol == "운동" {
                     if record.issuccess {
-                        Image(systemName: "dumbbell.fill")
+                        Image(systemName: "\(record.symbol.toSymbol().rawValue).fill")
                     } else {
-                        Image(systemName: "dumbbell")
+                        Image(systemName: "\(record.symbol.toSymbol().rawValue)")
                     }
-                } else { Image(systemName: "pencil") }
+//                } else { Image(systemName: "pencil") }
                 Text(record.content)
                 Spacer()
                 RecordButton(userInfo: userInfo, record: $record, archievements: $archievements)
