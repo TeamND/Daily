@@ -40,10 +40,11 @@ class GoalApi(Resource):
             
             # 데이터 입력    
             for date in date_list:
-                order = db.session.query(Record).filter_by(goal_uid=goal_query.uid, date=date).count()
+                user_goal = db.session.query(Goal).filter_by(user_uid=goal_query.user_uid)
+                order = user_goal.join(Record, Goal.uid == Record.goal_uid).count()
                 db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
             db.session.commit()
-    
+
             return {
                 'code': '00',
                 'message': '추가에 성공했습니다.'
