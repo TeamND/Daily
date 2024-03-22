@@ -25,7 +25,6 @@ struct RecordOnList: View {
                     .frame(maxHeight: .infinity)
                     .foregroundColor(.mint)
             }
-            .padding(.horizontal, 12)
             if record.type != "check" {
                 VStack {
                     Spacer()
@@ -33,7 +32,6 @@ struct RecordOnList: View {
                         .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
                 .padding(.vertical, 4)
-                .padding(.horizontal, 12)
             }
         }
     }
