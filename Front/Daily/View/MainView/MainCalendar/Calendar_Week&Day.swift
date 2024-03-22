@@ -39,10 +39,11 @@ struct Calendar_Week_Day: View {
 //                                }
 //                                .tint(.orange)
                             }
-                            .frame(height: 50)
+                            .frame(minHeight: 40)
                     }
                 }
                 .listStyle(.plain)
+                .listRowSeparator(.hidden)
             } else {
                 NoRecord()
             }

@@ -14,14 +14,11 @@ struct RecordOnList: View {
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
-//                Image(systemName: record.symbol)
-//                if record.symbol == "운동" {
-                    if record.issuccess {
-                        Image(systemName: "\(record.symbol.toSymbol().rawValue).fill")
-                    } else {
-                        Image(systemName: "\(record.symbol.toSymbol().rawValue)")
-                    }
-//                } else { Image(systemName: "pencil") }
+                if record.issuccess {
+                    Image(systemName: "\(record.symbol.toSymbol().rawValue).fill")
+                } else {
+                    Image(systemName: "\(record.symbol.toSymbol().rawValue)")
+                }
                 Text(record.content)
                 Spacer()
                 RecordButton(userInfo: userInfo, record: $record, archievements: $archievements)
@@ -38,10 +35,6 @@ struct RecordOnList: View {
                 .padding(.vertical, 4)
                 .padding(.horizontal, 12)
             }
-        }
-        .overlay {
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(.green, lineWidth: 2)
         }
     }
 }
