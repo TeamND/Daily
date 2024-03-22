@@ -46,6 +46,7 @@ struct DayOnMonth: View {
                     }
                 }
             }
+            .frame(width: CGFloat.screenWidth / 10, height: CGFloat.screenHeight / 20)
             .font(.system(size: 12, weight: .bold))
             .foregroundColor(.primary)
         }
