@@ -14,10 +14,14 @@ struct SymbolOnMonth: View {
         let symbolImageName = symbol["imageName"] as! String
         let isSuccess = symbol["isSuccess"] as! Bool
         
-        if isSuccess {
-            Image(systemName: "\(symbolImageName.toSymbol().rawValue).fill")
+        if symbolImageName == "" {
+            Image(systemName: "checkmark.circle").opacity(0)
         } else {
-            Image(systemName: "\(symbolImageName.toSymbol().rawValue)")
+            if isSuccess {
+                Image(systemName: "\(symbolImageName.toSymbol().rawValue).fill")
+            } else {
+                Image(systemName: "\(symbolImageName.toSymbol().rawValue)")
+            }
         }
     }
 }

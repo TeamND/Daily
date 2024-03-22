@@ -14,7 +14,7 @@ struct WeekOnMonth: View {
     let startDayIndex: Int
     let lengthOfMonth: Int
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach (0..<7) { colIndex in
                 let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                 if 1 <= day && day <= lengthOfMonth {
@@ -24,17 +24,10 @@ struct WeekOnMonth: View {
                             userInfo.currentState = "week"
                         }
                     } label: {
-                        DayOnMonth(day: day, dayObject: $days[day + startDayIndex - 1])
-                            .padding(4)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(.green, lineWidth: 2)
-                                    .opacity(userInfo.isToday(day: day) ? 1 : 0)
-                            }
+                        DayOnMonth(userInfo: userInfo, day: day, dayObject: $days[day + startDayIndex - 1])
                     }
                 } else {
-                    DayOnMonth(day: 0, dayObject: $days[day + startDayIndex - 1])
-                        .padding(4)
+                    DayOnMonth(userInfo: userInfo, day: 0, dayObject: $days[day + startDayIndex - 1])
                         .opacity(0)
                 }
             }

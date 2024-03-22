@@ -13,6 +13,10 @@ import SwiftUI
 extension CGFloat {
     static let screenWidth = UIScreen.main.bounds.width
     static let screenHeight = UIScreen.main.bounds.height
+    
+    // calendar
+    static let dayOnMonthWidth = screenWidth / 7
+    static let dayOnMonthHeight = screenHeight / 10
 }
 
 // MARK: - Frame Modifier

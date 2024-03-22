@@ -18,7 +18,7 @@ struct Calendar_Month: View {
         VStack {
             WeekIndicator(userInfo: userInfo, archievements: .constant([0, 0, 0, 0, 0, 0, 0]))
             CustomDivider(color: .primary, height: 2, hPadding: 12)
-            VStack {
+            VStack(spacing: 0) {
                 ForEach (0..<6) { rowIndex in
                     WeekOnMonth(userInfo: userInfo, days: $days, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
                     if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
