@@ -8,7 +8,6 @@
 import Foundation
 
 enum Symbol: String, CaseIterable {
-    case 빈값 = ""
     case 체크 = "checkmark.circle"
     case 운동 = "dumbbell"
     case 런닝 = "figure.run.circle"
@@ -39,8 +38,6 @@ enum Symbol: String, CaseIterable {
             return "커플"
         case .모임:
             return "모임"
-        default:
-            return ""
         }
     }
 }

@@ -15,9 +15,9 @@ struct RecordOnList: View {
         ZStack {
             HStack(spacing: 12) {
                 if record.issuccess {
-                    Image(systemName: "\(record.symbol.toSymbol().rawValue).fill")
+                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle").fill")
                 } else {
-                    Image(systemName: "\(record.symbol.toSymbol().rawValue)")
+                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d,circle")")
                 }
                 Text(record.content)
                 Spacer()

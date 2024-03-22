@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    func toSymbol() -> Symbol {
+    func toSymbol() -> Symbol? {
         switch self {
         case "체크":
             return .체크
@@ -29,7 +29,7 @@ extension String {
         case "모임":
             return .모임
         default:
-            return .빈값
+            return nil
         }
     }
 }
