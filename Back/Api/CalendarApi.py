@@ -103,17 +103,23 @@ class CalendarApi(Resource):
                     
                 temp[k[0]]['rating'] = round(issuccess/count,2)
 
-            # 31일까지 채우기
-            result = {str(x).zfill(2): {'symbol':[],'rating':0} for x in range(1,32)}
-            for day in result:
-                if temp.get(day):
-                    result[day] = temp[day]
-
             # 4칸 채우기
-            for k,v in result.items():
+            for k,v in temp.items():
                 while len(v['symbol']) < 4:
                     v['symbol'].append({"imageName": "", "isSuccess": False})
 
+            # front 모델링으로 인한 list 변환
+            result = []
+            for x in range(1,32):
+                day = str(x).zfill(2)
+                if temp.get(day):
+                    result.append(temp[day])
+                else:
+                    symbol = []
+                    for i in range(4):
+                        symbol.append({"imageName": "", "isSuccess": False})
+                    result.append({'symbol':symbol,'rating':0})
+                    
             return {
                 'code': '00',
                 'message': '조회에 성공했습니다.',
@@ -154,7 +160,7 @@ class CalendarApi(Resource):
                         temp = k[3]
 
             res = []
-            
+
             # front 모델링으로 인한 list 변환
             for month in range(1,13):
                 month = str(month).zfill(2)
