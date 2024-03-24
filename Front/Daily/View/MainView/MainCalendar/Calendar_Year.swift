@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Year: View {
-    @StateObject var userInfo: UserInfo
+    @ObservedObject var userInfo: UserInfo
     @State var allArchievements: [[Double]] = Array(repeating: Array(repeating: 0, count: 42), count: 12)
     var body: some View {
         VStack(spacing: 0) {

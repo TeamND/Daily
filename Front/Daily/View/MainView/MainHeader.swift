@@ -11,10 +11,10 @@ struct MainHeader: View {
     @StateObject var userInfo: UserInfo
     @StateObject var popupInfo: PopupInfo
     @ObservedObject var tabViewModel: TabViewModel = TabViewModel()
-    var isDebugMode: Bool = false
     @Namespace var NS
     var body: some View {
         ZStack {
+            // leading
             HStack {
                 if userInfo.currentState == "month" {
                     Button {
@@ -42,6 +42,7 @@ struct MainHeader: View {
                 }
                 Spacer()
             }
+            // center
             HStack {
                 Spacer()
                 Button {
@@ -71,45 +72,43 @@ struct MainHeader: View {
                 }
                 Spacer()
             }
-            if isDebugMode {
-                HStack(spacing: 0) {
-                    Spacer()
-                    Button {
-                        tabViewModel.setTagIndex(tagIndex: 1)
-                    } label: {
-                        VStack {
-                            Image(systemName: "plus")
-                            Text("add")
-                                .font(.system(size: 12))
-                        }
+            // trailing
+            HStack(spacing: 0) {
+                Spacer()
+                Button {
+                    tabViewModel.setTagIndex(tagIndex: 1)
+                } label: {
+                    VStack {
+                        Image(systemName: "plus")
+                        Text("add")
+                            .font(.system(size: 12))
                     }
-                    .padding(8)
                 }
-            } else {
-                HStack(spacing: 0) {
-                    Spacer()
-                    Button {
-                        popupInfo.showPopup(isPopup: true)
-                    } label: {
-                        VStack {
-                            Image(systemName: "plus")
-                            Text("add")
-                                .font(.system(size: 12))
-                        }
-                    }
-                    .padding(8)
-                    Button {
-                        popupInfo.showPopup(isPopup: false)
-                    } label: {
-                        VStack {
-                            Image(systemName: "slider.horizontal.3")
-                            Text("menu")
-                                .font(.system(size: 12))
-                        }
-                    }
-                    .padding(8)
-                }
+                .padding(8)
             }
+//            HStack(spacing: 0) {
+//                Spacer()
+//                Button {
+//                    popupInfo.showPopup(isPopup: true)
+//                } label: {
+//                    VStack {
+//                        Image(systemName: "plus")
+//                        Text("add")
+//                            .font(.system(size: 12))
+//                    }
+//                }
+//                .padding(8)
+//                Button {
+//                    popupInfo.showPopup(isPopup: false)
+//                } label: {
+//                    VStack {
+//                        Image(systemName: "slider.horizontal.3")
+//                        Text("menu")
+//                            .font(.system(size: 12))
+//                    }
+//                }
+//                .padding(8)
+//            }
         }
     }
 }

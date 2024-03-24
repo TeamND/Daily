@@ -16,9 +16,7 @@ struct CalendarView: View {
         VStack(spacing: 0) {
             MainHeader(userInfo: userInfo, popupInfo: popupInfo, tabViewModel: tabViewModel, isDebugMode: true)
                 .frame(height: 40)
-            if userInfo.currentState == "year" { Calendar_Year(userInfo: userInfo) }
-            if userInfo.currentState == "month" { Calendar_Month(userInfo: userInfo) }
-            if userInfo.currentState == "week" { Calendar_Week_Day(userInfo: userInfo, tabViewModel: tabViewModel) }
+            MainCalendar(userInfo: userInfo, tabViewModel: tabViewModel)
         }
     }
 }

@@ -2,29 +2,40 @@
 //  MainView.swift
 //  Daily
 //
-//  Created by 최승용 on 2022/11/05.
+//  Created by 최승용 on 3/9/24.
 //
 
 import SwiftUI
 
 struct MainView: View {
-    @StateObject var userInfo: UserInfo
-    @State private var popupInfo: PopupInfo = PopupInfo()
+    @ObservedObject var userInfo: UserInfo
+    @StateObject var tabViewModel: TabViewModel = TabViewModel()
+    
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                MainHeader(userInfo: userInfo, popupInfo: popupInfo)
-                    .frame(height: 40)
-                MainCalendar(userInfo: userInfo)
-            }
-            Popup(userInfo: userInfo, popupInfo: popupInfo)
+        TabView (selection: $tabViewModel.tagIndex) {
+            CalendarView(userInfo: userInfo, tabViewModel: tabViewModel)
+                .tabItem {
+                    Image(systemName: "calendar")
+                    Text("Calendar")
+                }
+                .tag(0)
+            RecordView(userInfo: userInfo, tabViewModel: tabViewModel)
+                .tabItem {
+                    Image(systemName: "pencil")
+                    Text("Record")
+                }
+                .tag(1)
+            AppInfoView()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("AppInfo")
+                }
+                .tag(2)
         }
-        .accentColor(.mint)
+        .accentColor(Color("CustomColor"))
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView(userInfo: UserInfo(uid: 5, set_startday: 0, set_language: "korea", set_dateorrepeat: "date", set_calendarstate: "month"))
-    }
+#Preview {
+    MainView(userInfo: UserInfo())
 }

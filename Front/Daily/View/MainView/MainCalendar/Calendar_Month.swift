@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Month: View {
-    @StateObject var userInfo: UserInfo
+    @ObservedObject var userInfo: UserInfo
     @State var days: [[String: Any]] = Array(repeating: ["0": []], count: 42)
 //    @State var days2: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
     var body: some View {

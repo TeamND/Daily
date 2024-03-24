@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct Calendar_Week_Day: View {
-    @StateObject var userInfo: UserInfo
-    @StateObject var tabViewModel: TabViewModel
+    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var tabViewModel: TabViewModel
     @State var archievements: [Double] = Array(repeating: 0.0, count: 7)
     @State var records: [RecordModel] = []
     var body: some View {
