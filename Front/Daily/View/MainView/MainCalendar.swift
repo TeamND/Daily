@@ -10,8 +10,9 @@ import SwiftUI
 struct MainCalendar: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var tabViewModel: TabViewModel
+    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     var body: some View {
-        if userInfo.currentState == "year" { Calendar_Year(userInfo: userInfo) }
+        if userInfo.currentState == "year" { Calendar_Year(userInfo: userInfo, calendarViewModel: calendarViewModel) }
         if userInfo.currentState == "month" { Calendar_Month(userInfo: userInfo) }
         if userInfo.currentState == "week" { Calendar_Week_Day(userInfo: userInfo, tabViewModel: tabViewModel) }
     }

@@ -52,6 +52,18 @@ func getUserInfo2(userID: String, complete: @escaping (getUserInfoModel) -> Void
 //        completionHandler(success, data)
 //    }
 //}
+func getCalendarYear2(userID: String, year: String, complete: @escaping (getCalendarYearModel) -> Void) {
+    HTTPManager.requestGET(url: "\(serverUrl)calendar/year/\(userID)?date=\(year)") { data in
+        guard let data: getCalendarYearModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+                return
+            }
+            print("data decoding error data is. \(data)")
+            return
+        }
+        complete(data)
+    }
+}
 func getCalendarMonth2(userID: String, month: String, complete: @escaping (getCalendarMonthModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/month/\(userID)?date=\(month)") { data in
         guard let data: getCalendarMonthModel = JSONConverter.decodeJson(data: data) else {
