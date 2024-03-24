@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct Calendar_Week_Day: View {
-    @StateObject var userInfo: UserInfo
+    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var tabViewModel: TabViewModel
     @State var archievements: [Double] = Array(repeating: 0.0, count: 7)
     @State var records: [RecordModel] = []
     var body: some View {
@@ -25,23 +26,27 @@ struct Calendar_Week_Day: View {
                         RecordOnList(userInfo: userInfo, record: record, archievements: $archievements)
                             .swipeActions(allowsFullSwipe: true) {
                                 Button(role: .destructive) {
-                                    print("delete")
+                                    deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
+                                        if data.code == "00" { print("\(record.goal_uid) delete success") }
+                                        else                 { print("\(record.goal_uid) delete fail@@@") }
+                                    }
                                 } label: {
                                     Label("Delete", systemImage: "trash")
                                 }
-                                Button() {
-                                    print("modify")
-                                } label: {
-                                    Label("Modify", systemImage: "pencil")
-                                }
-                                .tint(.orange)
+//                                Button() {
+//                                    print("modify")
+//                                } label: {
+//                                    Label("Modify", systemImage: "pencil")
+//                                }
+//                                .tint(.orange)
                             }
-                            .frame(height: 50)
+                            .frame(minHeight: 40)
                     }
                 }
                 .listStyle(.plain)
+                .listRowSeparator(.hidden)
             } else {
-                NoRecord()
+                NoRecord(tabViewModel: tabViewModel)
             }
         }
         .onAppear {

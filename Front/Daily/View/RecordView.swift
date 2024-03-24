@@ -10,11 +10,31 @@ import SwiftUI
 struct RecordView: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var tabViewModel: TabViewModel
+    @State var symbol: Symbol = .체크
+    @State var isShowSymbolSheet: Bool = false
     @State var content: String = ""
     
     var body: some View {
         VStack {
             Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)")
+            Spacer()
+            HStack {
+                Image(systemName: "\(symbol.rawValue)")
+                    .padding()
+                Image(systemName: "chevron.right")
+                Image(systemName: "\(symbol.rawValue).fill")
+                    .padding()
+                Spacer()
+            }
+            .onTapGesture {
+                isShowSymbolSheet = true
+            }
+            .sheet(isPresented: $isShowSymbolSheet) {
+                SymbolSheet(symbol: $symbol)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            }
+            .frame(height: 40)
             
             TextField(
                 "",
@@ -24,30 +44,41 @@ struct RecordView: View {
             .padding()
             .background(Color.gray.opacity(0.3))
             .cornerRadius(5.0)
-            .padding()
             
             HStack {
                 Spacer()
                 Button {
+                    symbol = .체크
                     content = ""
                 } label: {
-                    Text("Erase")
+                    Text("Reset")
                 }
                 
                 Button {
                     let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                    let goal = Goal(user_uid: userInfo.uid, content: content, cycle_date: [currentDate])
+                    let goal = Goal(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
                     addGoal(goal: goal)
-                    // 아래 동작은 API통신이 성공하였을 때만 실행하도록 추후 수정
+                    symbol = .체크
                     content = ""
                     tabViewModel.setTagIndex(tagIndex: 0)
+                    // socket error 수정 필요, 추후 적용
+//                    let goalModel = GoalModel(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
+//                    addGoal2(goal: goalModel) { data in
+//                        if data.code == "00" {
+//                            symbol = .체크
+//                            content = ""
+//                            tabViewModel.setTagIndex(tagIndex: 0)
+//                        }
+//                    }
                 } label: {
                     Text("Add")
                 }
             }
-            .padding(.horizontal)
             .buttonStyle(.borderedProminent)
+            
+            Spacer()
         }
+        .padding()
     }
 }
 

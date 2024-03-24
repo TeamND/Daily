@@ -8,13 +8,18 @@
 import SwiftUI
 
 struct NoRecord: View {
+    @StateObject var tabViewModel: TabViewModel
+    
     var body: some View {
-        Spacer()
-        Text("No Record")
-        Spacer()
+        VStack {
+            Spacer()
+            Text("No Record")
+            Button {
+                tabViewModel.setTagIndex(tagIndex: 1)
+            } label: {
+                Text("Go to add Goal")
+            }
+            Spacer()
+        }
     }
-}
-
-#Preview {
-    NoRecord()
 }

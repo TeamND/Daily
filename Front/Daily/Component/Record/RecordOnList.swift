@@ -14,21 +14,17 @@ struct RecordOnList: View {
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
-//                Image(systemName: record.symbol)
-                if record.symbol == "운동" {
-                    if record.issuccess {
-                        Image(systemName: "dumbbell.fill")
-                    } else {
-                        Image(systemName: "dumbbell")
-                    }
-                } else { Image(systemName: "pencil") }
+                if record.issuccess {
+                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle").fill")
+                } else {
+                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d,circle")")
+                }
                 Text(record.content)
                 Spacer()
                 RecordButton(userInfo: userInfo, record: $record, archievements: $archievements)
                     .frame(maxHeight: .infinity)
                     .foregroundColor(.mint)
             }
-            .padding(.horizontal, 12)
             if record.type != "check" {
                 VStack {
                     Spacer()
@@ -36,12 +32,7 @@ struct RecordOnList: View {
                         .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
                 }
                 .padding(.vertical, 4)
-                .padding(.horizontal, 12)
             }
-        }
-        .overlay {
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(.green, lineWidth: 2)
         }
     }
 }

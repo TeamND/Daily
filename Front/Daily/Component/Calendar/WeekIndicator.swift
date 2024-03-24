@@ -12,9 +12,8 @@ struct WeekIndicator: View {
     @Binding var archievements: [Double]
     var tapPurpose: String = ""
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach (userInfo.weeks.indices, id: \.self) { index in
-                Spacer()
                 ZStack {
                     let isToday = userInfo.weeks[index] == userInfo.currentDOW
                     RoundedRectangle(cornerRadius: 5)
@@ -38,7 +37,7 @@ struct WeekIndicator: View {
                         break
                     }
                 }
-                Spacer()
+                .frame(width: CGFloat.dayOnMonthWidth)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: 40)

@@ -25,7 +25,7 @@ class Goal: ObservableObject {
         self.user_uid = 0
         self.content = ""
         self.type = "check"
-        self.symbol = "운동"
+        self.symbol = "체크"
         self.start_date = ""
         self.end_date = ""
         self.cycle_type = "date"
@@ -34,12 +34,12 @@ class Goal: ObservableObject {
         self.goal_count = 1
     }
     
-    init(user_uid: Int, content: String, cycle_date: [String]) {
+    init(user_uid: Int, content: String, symbol: String, cycle_date: [String]) {
         self.uid = 0
         self.user_uid = user_uid
         self.content = content
         self.type = "check"
-        self.symbol = "운동"
+        self.symbol = symbol
         self.start_date = cycle_date[0]
         self.end_date = cycle_date[cycle_date.count - 1]
         self.cycle_type = "date"
@@ -53,7 +53,7 @@ class Goal: ObservableObject {
         self.user_uid = user_uid
         self.content = ""
         self.type = "check"
-        self.symbol = "운동"
+        self.symbol = "체크"
         self.start_date = ""
         self.end_date = ""
         self.cycle_type = cycle_type
@@ -115,7 +115,7 @@ extension Goal {
         self.uid = 0
         self.content = ""
         self.type = "check"
-        self.symbol = "운동"
+        self.symbol = "체크"
         self.start_date = ""
         self.end_date = ""
         self.cycle_type = cycle_type
