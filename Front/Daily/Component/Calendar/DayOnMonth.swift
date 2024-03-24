@@ -2,7 +2,7 @@
 //  DayOnMonth.swift
 //  Daily
 //
-//  Created by 최승용 on 2022/11/10.
+//  Created by 최승용 on 3/24/24.
 //
 
 import SwiftUI
@@ -10,16 +10,14 @@ import SwiftUI
 struct DayOnMonth: View {
     @StateObject var userInfo: UserInfo
     let day: Int
-    @Binding var dayObject: [String: Any]
+    let dayOnMonth: dayOnMonthModel
     var body: some View {
-        let ratingSymbol = dayObject[String(format: "%02d", day)] as? [String: Any]
-                            ?? ["ration": 0, "symbol": Array(repeating: ["imageName": "", "isSuccess": false], count: 4)]
-        let symbols: Array<[String: Any]> = ratingSymbol["symbol"] as! Array<[String: Any]>
+        let symbols = dayOnMonth.symbol
         VStack(alignment: .leading) {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: 24))
-                    .foregroundColor(.mint.opacity(ratingSymbol["rating"] as? Double ?? 0))
+                    .foregroundColor(.mint.opacity(dayOnMonth.rating))
                 Text("\(day)")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.primary)

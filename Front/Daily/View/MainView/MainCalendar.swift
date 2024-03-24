@@ -13,7 +13,7 @@ struct MainCalendar: View {
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     var body: some View {
         if userInfo.currentState == "year" { Calendar_Year(userInfo: userInfo, calendarViewModel: calendarViewModel) }
-        if userInfo.currentState == "month" { Calendar_Month(userInfo: userInfo) }
+        if userInfo.currentState == "month" { Calendar_Month(userInfo: userInfo, calendarViewModel: calendarViewModel) }
         if userInfo.currentState == "week" { Calendar_Week_Day(userInfo: userInfo, tabViewModel: tabViewModel) }
     }
 }

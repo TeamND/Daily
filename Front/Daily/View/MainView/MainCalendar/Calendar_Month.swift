@@ -9,8 +9,7 @@ import SwiftUI
 
 struct Calendar_Month: View {
     @ObservedObject var userInfo: UserInfo
-    @State var days: [[String: Any]] = Array(repeating: ["0": []], count: 42)
-//    @State var days2: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
+    @ObservedObject var calendarViewModel: CalendarViewModel
     var body: some View {
         let startDayIndex = userInfo.startDayIndex()
         let lengthOfMonth = userInfo.lengthOfMonth()
@@ -20,62 +19,20 @@ struct Calendar_Month: View {
             CustomDivider(color: .primary, height: 2, hPadding: 12)
             VStack(spacing: 0) {
                 ForEach (0..<6) { rowIndex in
-                    WeekOnMonth(userInfo: userInfo, days: $days, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
+                    WeekOnMonth(userInfo: userInfo, calendarViewModel: calendarViewModel, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth)
                     if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
                 }
                 Spacer()
             }
         }
         .onAppear {
-            print("calendar month(\(userInfo.currentMonth)) appear")
-            getCalendarMonth(
-                userID: String(userInfo.uid),
-                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
-            ) { (success, data) in
-                days = []
-                let startDayIndex = userInfo.startDayIndex()
-                let lengthOfMonth = userInfo.lengthOfMonth()
-                for i in 0..<42 {
-                    if i < startDayIndex || i > startDayIndex + lengthOfMonth - 1 { days.append(["0": []]) }
-                    else {
-                        let day = String(format: "%02d", i - startDayIndex + 1)
-                        days.append([day: data[day] as? [String: Any] ?? []])
-                    }
-                }
+            getCalendarMonth2(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in
+                calendarViewModel.setDaysOnmonth(daysOnMonth: data.data)
             }
-            // calendar.month 수정 이후 추후 적용
-//            getCalendarMonth2(
-//                userID: String(userInfo.uid),
-//                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
-//            ) { (data) in
-//                days2 = []
-//                let startDayIndex = userInfo.startDayIndex()
-//                let lengthOfMonth = userInfo.lengthOfMonth()
-//                for i in 0..<42 {
-//                    if i < startDayIndex || i > startDayIndex + lengthOfMonth - 1 { days2.append(dayOnMonthModel()) }
-//                    else {
-//                        let day = String(format: "%02d", i - startDayIndex + 1)
-//                        days2.append(data.data.one)
-//                    }
-//                }
-//            }
         }
         .onChange(of: userInfo.currentMonth) { month in
-            print("calendar month(\(month)) change")
-            getCalendarMonth(
-                userID: String(userInfo.uid),
-                month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)"
-            ) { (success, data) in
-                days = []
-                let startDayIndex = userInfo.startDayIndex()
-                let lengthOfMonth = userInfo.lengthOfMonth()
-                for i in 0..<42 {
-                    if i < startDayIndex || i > startDayIndex + lengthOfMonth - 1 { days.append(["0": []]) }
-                    else {
-                        let day = String(format: "%02d", i - startDayIndex + 1)
-                        days.append([day: data[day] as? [String: Any] ?? []])
-                    }
-                }
+            getCalendarMonth2(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in
+                calendarViewModel.setDaysOnmonth(daysOnMonth: data.data)
             }
         }
     }
