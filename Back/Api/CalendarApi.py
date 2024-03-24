@@ -152,11 +152,25 @@ class CalendarApi(Resource):
                     else:
                         result[k[0]][k[1]] = 0
                         temp = k[3]
-                        
+
+            res = []
+            
+            # front 모델링으로 인한 list 변환
+            for month in range(1,13):
+                month = str(month).zfill(2)
+                if result.get(month):
+                    m = []
+                    for day in range(1,32):
+                        day = str(day).zfill(2)
+                        m.append(result[month][day] if result[month].get(day) else 0)
+                else:
+                    m = [0 for x in range(1,32)]
+                res.append(m)
+
             return {
                 'code': '00',
                 'message': '조회에 성공했습니다.',
-                'data': result
+                'data': res
             }, 00
         except Exception as e:
             return {
