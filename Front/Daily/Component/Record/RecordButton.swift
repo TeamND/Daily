@@ -19,14 +19,13 @@ struct RecordButton: View {
                 switch record.type {
                 case "check":
                     increaseCount(recordUID: String(record.uid)) { (data) in
-                        record.record_count = data.data.record_count
-                        record.issuccess = data.data.issuccess
-                        // 임시 사용, 추후 observable 하게 수정 필요
-                        getCalendarWeek2(
-                            userID: String(userInfo.uid),
-                            startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)
-                        ) { (data) in
-                            archievements = data.data.rating
+                        if data.code == "00" {
+                            record.record_count = data.data.record_count
+                            record.issuccess = data.data.issuccess
+                            // 임시 사용, 추후 observable 하게 수정 필요
+                            getCalendarWeek2(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+                                archievements = data.data.rating
+                            }
                         }
                     }
 //                    record.issuccess.toggle()
