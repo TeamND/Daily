@@ -28,6 +28,9 @@
 		F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81C291CBC1500984457 /* UserInfo.swift */; };
 		F6C2F22229221C410006BFC7 /* RecordOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22129221C410006BFC7 /* RecordOnList.swift */; };
 		F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22329221EAC0006BFC7 /* Goal.swift */; };
+		F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B02F2BB424B300C578C1 /* AppInfo.swift */; };
+		F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */; };
+		F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */; };
 		F6CC158C2B9C90F300689A02 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158B2B9C90F300689A02 /* MainView.swift */; };
 		F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158D2B9C91D200689A02 /* CalendarView.swift */; };
 		F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158F2B9C91DA00689A02 /* RecordView.swift */; };
@@ -94,6 +97,9 @@
 		F6C0F81C291CBC1500984457 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		F6C2F22129221C410006BFC7 /* RecordOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordOnList.swift; sourceTree = "<group>"; };
 		F6C2F22329221EAC0006BFC7 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		F6C6B02F2BB424B300C578C1 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoLabel.swift; sourceTree = "<group>"; };
+		F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoContent.swift; sourceTree = "<group>"; };
 		F6CC158B2B9C90F300689A02 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F6CC158D2B9C91D200689A02 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		F6CC158F2B9C91DA00689A02 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
@@ -243,6 +249,7 @@
 				F672992F29B761A300E392BD /* Popup */,
 				F6D06252292F56AD00B825EF /* Record */,
 				F6D06251292F567900B825EF /* Calendar */,
+				F6C6B02E2BB424A000C578C1 /* AppInfo */,
 				F6D062492925B84B00B825EF /* Custom */,
 			);
 			path = Component;
@@ -256,6 +263,16 @@
 				F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */,
 			);
 			path = MainCalendar;
+			sourceTree = "<group>";
+		};
+		F6C6B02E2BB424A000C578C1 /* AppInfo */ = {
+			isa = PBXGroup;
+			children = (
+				F6C6B02F2BB424B300C578C1 /* AppInfo.swift */,
+				F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */,
+				F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */,
+			);
+			path = AppInfo;
 			sourceTree = "<group>";
 		};
 		F6CC15992BA192A900689A02 /* Extensions */ = {
@@ -497,10 +514,13 @@
 				F6D0623C2924700C00B825EF /* PopupDim.swift in Sources */,
 				F64EB8D7294AAEC6005DCAC9 /* Request.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
+				F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */,
 				F6D06236292346EE00B825EF /* AddGoalPopup.swift in Sources */,
+				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F6D062422925B6A800B825EF /* GoalPrimeElementSetting.swift in Sources */,
 				F6CC159B2BA192C300689A02 /* JsonDecodeExtension.swift in Sources */,
 				F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */,
+				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
 				F6A85CD5294701D20034CEFC /* ServiceController.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6CC15952BA0100900689A02 /* TabViewModel.swift in Sources */,
