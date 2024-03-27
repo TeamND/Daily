@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeekIndicator: View {
     @StateObject var userInfo: UserInfo
-    @Binding var archievements: [Double]
+    @StateObject var calendarViewModel: CalendarViewModel
     var tapPurpose: String = ""
     var body: some View {
         HStack(spacing: 0) {
@@ -21,7 +21,7 @@ struct WeekIndicator: View {
                         .opacity(isToday && tapPurpose == "change" ? 1 : 0)
                     Image(systemName: "circle.fill")
                         .font(.system(size: 32))
-                        .foregroundColor(.mint.opacity(archievements[index]))
+                        .foregroundColor(.mint.opacity(calendarViewModel.getDayOfRatingOnWeek(dayIndex: index)))
                         .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
                     Text(userInfo.weeks[index])
                         .font(.system(size: 16, weight: .bold))
@@ -31,8 +31,11 @@ struct WeekIndicator: View {
                     case "change":
                         userInfo.changeDay(DOWIndex: index)
                     case "select":
-                        if archievements[index] == 0 { archievements[index] = 0.4 }
-                        else                         { archievements[index] = 0 }
+                        if calendarViewModel.getDayOfRatingOnWeek(dayIndex: index) == 0 {
+                            calendarViewModel.setDayOfRatingOnWeek(dayIndex: index, dayOfRating: 0.4)
+                        } else {
+                            calendarViewModel.setDayOfRatingOnWeek(dayIndex: index, dayOfRating: 0)
+                        }
                     default:
                         break
                     }

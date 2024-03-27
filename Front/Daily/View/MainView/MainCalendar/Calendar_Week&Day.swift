@@ -13,12 +13,12 @@ struct Calendar_Week_Day: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     var body: some View {
         VStack {
-            WeekIndicator(userInfo: userInfo, archievements: $calendarViewModel.ratingOnWeek, tapPurpose: "change")
+            WeekIndicator(userInfo: userInfo, calendarViewModel: calendarViewModel, tapPurpose: "change")
             CustomDivider(color: .primary, height: 2, hPadding: 12)
             if calendarViewModel.recordsOnWeek.count > 0 {
                 List {
                     ForEach ($calendarViewModel.recordsOnWeek, id:\.self.uid) { record in
-                        RecordOnList(userInfo: userInfo, record: record, archievements: $calendarViewModel.ratingOnWeek)
+                        RecordOnList(userInfo: userInfo, calendarViewModel: calendarViewModel, record: record)
                             .swipeActions(allowsFullSwipe: true) {
                                 Button(role: .destructive) {
                                     deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in

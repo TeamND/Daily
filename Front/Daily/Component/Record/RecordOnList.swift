@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RecordOnList: View {
     @StateObject var userInfo: UserInfo
+    @StateObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
-    @Binding var archievements: [Double]
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
@@ -21,7 +21,7 @@ struct RecordOnList: View {
                 }
                 Text(record.content)
                 Spacer()
-                RecordButton(userInfo: userInfo, record: $record, archievements: $archievements)
+                RecordButton(userInfo: userInfo, calendarViewModel: calendarViewModel, record: $record)
                     .frame(maxHeight: .infinity)
                     .foregroundColor(.mint)
             }

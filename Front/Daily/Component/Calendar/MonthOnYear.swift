@@ -28,7 +28,7 @@ struct MonthOnYear: View {
                             if 1 <= day && day <= lengthOfMonth {
                                 Image(systemName: "circle.fill")
                                     .font(.system(size: fontSize * 2))
-                                    .foregroundColor(.mint.opacity(calendarViewModel.ratingOnYear[month-1][day-1]))
+                                    .foregroundColor(.mint.opacity(calendarViewModel.getDayOfRatingOnYear(monthIndex: month-1, dayIndex: day-1)))
                                 Text("\(day)")
                                     .font(.system(size: fontSize, weight: .bold))
                                     .foregroundColor(.primary)
