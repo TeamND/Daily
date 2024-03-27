@@ -23,13 +23,13 @@ struct RecordOnList: View {
                 Spacer()
                 RecordButton(userInfo: userInfo, calendarViewModel: calendarViewModel, record: $record)
                     .frame(maxHeight: .infinity)
-                    .foregroundColor(.mint)
+                    .foregroundColor(Color("CustomColor"))
             }
             if record.type != "check" {
                 VStack {
                     Spacer()
                     ProgressView(value: Double(record.record_count), total: Double(record.goal_count))
-                        .progressViewStyle(LinearProgressViewStyle(tint: .mint.opacity(0.8)))
+                        .progressViewStyle(LinearProgressViewStyle(tint: Color("CustomColor").opacity(0.8)))
                 }
                 .padding(.vertical, 4)
             }

@@ -21,7 +21,7 @@ struct WeekIndicator: View {
                         .opacity(isToday && tapPurpose == "change" ? 1 : 0)
                     Image(systemName: "circle.fill")
                         .font(.system(size: 32))
-                        .foregroundColor(.mint.opacity(calendarViewModel.getDayOfRatingOnWeek(dayIndex: index)))
+                        .foregroundColor(Color("CustomColor").opacity(calendarViewModel.getDayOfRatingOnWeek(dayIndex: index)))
                         .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
                     Text(userInfo.weeks[index])
                         .font(.system(size: 16, weight: .bold))
