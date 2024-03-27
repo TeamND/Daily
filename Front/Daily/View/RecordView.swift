@@ -10,29 +10,46 @@ import SwiftUI
 struct RecordView: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var tabViewModel: TabViewModel
+    @State var date: Date = Date()
     @State var symbol: Symbol = .체크
+    @State var isShowCalendarSheet: Bool = false
     @State var isShowSymbolSheet: Bool = false
     @State var content: String = ""
     
     var body: some View {
         VStack {
-            Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)")
-            Spacer()
             HStack {
-                Image(systemName: "\(symbol.rawValue)")
-                    .padding()
-                Image(systemName: "chevron.right")
-                Image(systemName: "\(symbol.rawValue).fill")
-                    .padding()
+                Group {
+                    Label {
+                        Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
+                    } icon: {
+                        Image(systemName: "calendar")
+                    }
+                }
+                .onTapGesture {
+                    isShowCalendarSheet = true
+                }
+                .sheet(isPresented: $isShowCalendarSheet) {
+                    CalendarSheet(userInfo: userInfo, date: $date)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                }
                 Spacer()
-            }
-            .onTapGesture {
-                isShowSymbolSheet = true
-            }
-            .sheet(isPresented: $isShowSymbolSheet) {
-                SymbolSheet(symbol: $symbol)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
+                Group {
+                    Image(systemName: "\(symbol.rawValue)")
+                        .padding()
+                    Image(systemName: "chevron.right")
+                    Image(systemName: "\(symbol.rawValue).fill")
+                        .padding()
+                }
+                .onTapGesture {
+                    isShowSymbolSheet = true
+                }
+                .sheet(isPresented: $isShowSymbolSheet) {
+                    SymbolSheet(symbol: $symbol)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                }
             }
             .frame(height: 40)
             
@@ -75,8 +92,6 @@ struct RecordView: View {
                 }
             }
             .buttonStyle(.borderedProminent)
-            
-            Spacer()
         }
         .padding()
     }

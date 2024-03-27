@@ -31,6 +31,7 @@
 		F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B02F2BB424B300C578C1 /* AppInfo.swift */; };
 		F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */; };
 		F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */; };
+		F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */; };
 		F6CC158C2B9C90F300689A02 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158B2B9C90F300689A02 /* MainView.swift */; };
 		F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158D2B9C91D200689A02 /* CalendarView.swift */; };
 		F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158F2B9C91DA00689A02 /* RecordView.swift */; };
@@ -100,6 +101,7 @@
 		F6C6B02F2BB424B300C578C1 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoLabel.swift; sourceTree = "<group>"; };
 		F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoContent.swift; sourceTree = "<group>"; };
+		F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheet.swift; sourceTree = "<group>"; };
 		F6CC158B2B9C90F300689A02 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F6CC158D2B9C91D200689A02 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		F6CC158F2B9C91DA00689A02 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
@@ -202,10 +204,10 @@
 		F6BEC928290F5894005EAF28 = {
 			isa = PBXGroup;
 			children = (
+				F6BEC933290F5894005EAF28 /* Daily */,
 				F6CC15B92BAABBF600689A02 /* Enums */,
 				F6CC159C2BA1DFB900689A02 /* Controller */,
 				F6CC15992BA192A900689A02 /* Extensions */,
-				F6BEC933290F5894005EAF28 /* Daily */,
 				F6396025290F8A7F007088FF /* View */,
 				F6C0F8032919042B00984457 /* Component */,
 				F637807929109AF000356212 /* Model */,
@@ -307,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */,
+				F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */,
 			);
 			path = Sheet;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */,
+				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
