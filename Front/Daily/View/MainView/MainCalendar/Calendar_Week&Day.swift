@@ -26,6 +26,9 @@ struct Calendar_Week_Day: View {
                                             getCalendarWeek2(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
                                                 calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
                                             }
+                                            getCalendarDay2(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+                                                calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
+                                            }
                                         } else { print("\(record.goal_uid) delete fail@@@") }
                                     }
                                 } label: {

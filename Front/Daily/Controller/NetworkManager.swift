@@ -113,10 +113,12 @@ func addGoal2(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
     guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
         return
     }
-    HTTPManager.requestPOST(url: "\(serverUrl)goal/", encodingData: encodingData) { data in
+    print("encodingData is \(encodingData)")
+    HTTPManager.requestPOST(url: "\(serverUrl)goal", encodingData: encodingData) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }
+        print("response is \(data)")
         complete(data)
     }
 }

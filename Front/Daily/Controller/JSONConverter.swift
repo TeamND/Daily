@@ -21,6 +21,8 @@ final class JSONConverter {
     static func encodeJson<T: Codable>(param: T) -> Data? {
         do {
             let result = try JSONEncoder().encode(param)
+            print("param is \(param)")
+            print("result is \(result)")
             return result
         } catch {
             print(error)
