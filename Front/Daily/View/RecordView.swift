@@ -67,6 +67,10 @@ struct RecordView: View {
                 Button {
                     symbol = .체크
                     content = ""
+                    date = Date()
+                    userInfo.currentYear = date.year
+                    userInfo.currentMonth = date.month
+                    userInfo.currentDay = date.day
                 } label: {
                     Text("Reset")
                 }
