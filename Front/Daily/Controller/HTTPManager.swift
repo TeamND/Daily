@@ -49,25 +49,10 @@ final class HTTPManager {
 //        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 //        urlRequest.setValue("\(encodingData.count)", forHTTPHeaderField: "Content-Length")
         
-        print("urlRequest is \(urlRequest)")
-        print("httpMethod is \(urlRequest.httpMethod!)")
-        print("httpBody is \(urlRequest.httpBody!)")
-        print("httpBody of string is \(String(data: urlRequest.httpBody!, encoding: .utf8)!)")
-//        print("value is \(urlRequest.value(forHTTPHeaderField: "Content-Type")!)")
-//        print("value is \(urlRequest.value(forHTTPHeaderField: "Content-Length")!)")
-        
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-            print("first data is \(data)")
             guard let data = data else { return }
             guard let response = urlResponse as? HTTPURLResponse else { return }
             complete(data)
         }.resume()
-//        URLSession.shared.upload(for: urlRequest, from: encodingData) { data, urlResponse, error in
-//            print("first data is \(data)")
-//            guard let data = data else { return }
-//            guard let response = urlResponse as? HTTPURLResponse else { return }
-//            complete(data)
-//        }
-        
     }
 }

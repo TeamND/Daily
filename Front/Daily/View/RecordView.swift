@@ -73,20 +73,14 @@ struct RecordView: View {
                 
                 Button {
                     let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                    let goal = Goal(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
-                    addGoal(goal: goal)
-                    symbol = .체크
-                    content = ""
-                    tabViewModel.setTagIndex(tagIndex: 0)
-                    // socket error 수정 필요, 추후 적용
-//                    let goalModel = GoalModel(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
-//                    addGoal2(goal: goalModel) { data in
-//                        if data.code == "00" {
-//                            symbol = .체크
-//                            content = ""
-//                            tabViewModel.setTagIndex(tagIndex: 0)
-//                        }
-//                    }
+                    let goalModel = GoalModel(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
+                    addGoal2(goal: goalModel) { data in
+                        if data.code == "00" {
+                            symbol = .체크
+                            content = ""
+                            tabViewModel.setTagIndex(tagIndex: 0)
+                        }
+                    }
                 } label: {
                     Text("Add")
                 }

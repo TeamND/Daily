@@ -10,15 +10,6 @@ import Foundation
 private let serverUrl: String = "http://34.22.71.88:5000/"
 
 // userInfo
-//func getUserInfo(userID: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
-//    requestGet(url: "\(serverUrl)user/info/\(userID)") { (success, data) in
-//        completionHandler(success, data)
-//    }
-//}
-//
-//func setUserInfo(param: [String: Any]) {
-//    requestPost(url: "\(serverUrl)user/set", param: param)
-//}
 func getUserInfo2(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)") { data in
         guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
@@ -29,29 +20,6 @@ func getUserInfo2(userID: String, complete: @escaping (getUserInfoModel) -> Void
 }
 
 // calendar
-//func getCalendarYear(userID: String, year: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
-//    requestGet(url: "\(serverUrl)calendar/year/\(userID)?date=\(year)") { (success, data) in
-//        completionHandler(success, data)
-//    }
-//}
-//
-//func getCalendarMonth(userID: String, month: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
-//    requestGet(url: "\(serverUrl)calendar/month/\(userID)?date=\(month)") { (success, data) in
-//        completionHandler(success, data)
-//    }
-//}
-//
-//func getCalendarWeek(userID: String, startDay: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
-//    requestGet(url: "\(serverUrl)calendar/week/\(userID)?date=\(startDay)") { (success, data) in
-//        completionHandler(success, data)
-//    }
-//}
-//
-//func getCalendarDay(userID: String, day: String, completionHandler: @escaping (Bool, [String: Any]) -> Void) {
-//    requestGet(url: "\(serverUrl)calendar/day/\(userID)?date=\(day)") { (success, data) in
-//        completionHandler(success, data)
-//    }
-//}
 func getCalendarYear2(userID: String, year: String, complete: @escaping (getCalendarYearModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/year/\(userID)?date=\(year)") { data in
         guard let data: getCalendarYearModel = JSONConverter.decodeJson(data: data) else {
@@ -94,21 +62,6 @@ func getCalendarDay2(userID: String, day: String, complete: @escaping (getCalend
 }
 
 // goal
-//func addGoal(goal: Goal) {
-//    let requestData: [String: Any] = [
-//        "user_uid": goal.user_uid,
-//        "content": goal.content,
-//        "symbol": goal.symbol,
-//        "start_date": goal.start_date,
-//        "end_date": goal.end_date,
-//        "cycle_type": goal.cycle_type,
-//        "cycle_date": goal.cycle_date,
-//        "type": goal.type,
-//        "goal_count": goal.goal_count,
-//        "goal_time": goal.goal_time
-//    ]
-//    requestPost(url: "\(serverUrl)goal/", param: requestData)
-//}
 func addGoal2(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
     guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
         return
