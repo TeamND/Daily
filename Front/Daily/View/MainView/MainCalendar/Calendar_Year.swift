@@ -32,12 +32,12 @@ struct Calendar_Year: View {
             Spacer()
         }
         .onAppear {
-            getCalendarYear2(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in
+            getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in
                 calendarViewModel.setRatingOnYear(ratingOnYear: data.data)
             }
         }
         .onChange(of: userInfo.currentYear) { year in
-            getCalendarYear2(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in
+            getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in
                 calendarViewModel.setRatingOnYear(ratingOnYear: data.data)
             }
         }

@@ -23,10 +23,10 @@ struct Calendar_Week_Day: View {
                                 Button(role: .destructive) {
                                     deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
                                         if data.code == "00" {
-                                            getCalendarWeek2(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+                                            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
                                                 calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
                                             }
-                                            getCalendarDay2(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+                                            getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
                                                 calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
                                             }
                                         } else { print("\(record.goal_uid) delete fail@@@") }
@@ -51,18 +51,18 @@ struct Calendar_Week_Day: View {
             }
         }
         .onAppear {
-            getCalendarWeek2(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
                 calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
             }
-            getCalendarDay2(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+            getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
                 calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
             }
         }
         .onChange(of: userInfo.currentDay) { day in
-            getCalendarWeek2(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
                 calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
             }
-            getCalendarDay2(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+            getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
                 calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
             }
         }

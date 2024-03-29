@@ -9,12 +9,9 @@
 /* Begin PBXBuildFile section */
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
-		F64EB8D7294AAEC6005DCAC9 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EB8D6294AAEC6005DCAC9 /* Request.swift */; };
-		F64EE885295055430098C785 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F64EE884295055430098C785 /* Alamofire */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F68B31972986694A000791F3 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B31962986694A000791F3 /* Record.swift */; };
-		F6A85CD5294701D20034CEFC /* ServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A85CD4294701D20034CEFC /* ServiceController.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -38,7 +35,6 @@
 		F6CC15922B9C91E200689A02 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15912B9C91E200689A02 /* AppInfoView.swift */; };
 		F6CC15952BA0100900689A02 /* TabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15942BA0100900689A02 /* TabViewModel.swift */; };
 		F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15972BA188E200689A02 /* RecordModel.swift */; };
-		F6CC159B2BA192C300689A02 /* JsonDecodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC159A2BA192C300689A02 /* JsonDecodeExtension.swift */; };
 		F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC159D2BA1E01200689A02 /* HTTPManager.swift */; };
 		F6CC15A02BA1E1CA00689A02 /* JSONConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC159F2BA1E1CA00689A02 /* JSONConverter.swift */; };
 		F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15A12BA1E39A00689A02 /* NetworkManager.swift */; };
@@ -78,11 +74,9 @@
 /* Begin PBXFileReference section */
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
-		F64EB8D6294AAEC6005DCAC9 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F68B31962986694A000791F3 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
-		F6A85CD4294701D20034CEFC /* ServiceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceController.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -109,7 +103,6 @@
 		F6CC15932B9F460F00689A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F6CC15942BA0100900689A02 /* TabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewModel.swift; sourceTree = "<group>"; };
 		F6CC15972BA188E200689A02 /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
-		F6CC159A2BA192C300689A02 /* JsonDecodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecodeExtension.swift; sourceTree = "<group>"; };
 		F6CC159D2BA1E01200689A02 /* HTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 		F6CC159F2BA1E1CA00689A02 /* JSONConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConverter.swift; sourceTree = "<group>"; };
 		F6CC15A12BA1E39A00689A02 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -151,7 +144,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F64EE885295055430098C785 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,8 +156,6 @@
 				F64EE8862952F9620098C785 /* Constant.swift */,
 				F6D0624A2927B58B00B825EF /* Times.swift */,
 				F62E884F29405D560010FEE2 /* Date.swift */,
-				F6A85CD4294701D20034CEFC /* ServiceController.swift */,
-				F64EB8D6294AAEC6005DCAC9 /* Request.swift */,
 				F6CC15AF2BA6906600689A02 /* ResponseModel.swift */,
 				F6CC15A92BA4598700689A02 /* UserInfoModel.swift */,
 				F6CC15AB2BA459EA00689A02 /* getUserInfoModel.swift */,
@@ -280,7 +270,6 @@
 		F6CC15992BA192A900689A02 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F6CC159A2BA192C300689A02 /* JsonDecodeExtension.swift */,
 				F6CC15C12BAD5ACA00689A02 /* FrameExtension.swift */,
 				F6CC15BF2BAACAC300689A02 /* String.swift */,
 			);
@@ -417,7 +406,6 @@
 			);
 			name = Daily;
 			packageProductDependencies = (
-				F64EE884295055430098C785 /* Alamofire */,
 			);
 			productName = Daily;
 			productReference = F6BEC931290F5894005EAF28 /* Daily.app */;
@@ -448,7 +436,6 @@
 			);
 			mainGroup = F6BEC928290F5894005EAF28;
 			packageReferences = (
-				F64EE883295055430098C785 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = F6BEC932290F5894005EAF28 /* Products */;
 			projectDirPath = "";
@@ -516,16 +503,13 @@
 				F68B31972986694A000791F3 /* Record.swift in Sources */,
 				F6C0F807291A501400984457 /* MainHeader.swift in Sources */,
 				F6D0623C2924700C00B825EF /* PopupDim.swift in Sources */,
-				F64EB8D7294AAEC6005DCAC9 /* Request.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
 				F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */,
 				F6D06236292346EE00B825EF /* AddGoalPopup.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F6D062422925B6A800B825EF /* GoalPrimeElementSetting.swift in Sources */,
-				F6CC159B2BA192C300689A02 /* JsonDecodeExtension.swift in Sources */,
 				F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */,
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
-				F6A85CD5294701D20034CEFC /* ServiceController.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6CC15952BA0100900689A02 /* TabViewModel.swift in Sources */,
 				F6D062552930BFC800B825EF /* MenuOnList.swift in Sources */,
@@ -762,25 +746,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		F64EE883295055430098C785 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		F64EE884295055430098C785 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F64EE883295055430098C785 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6BEC929290F5894005EAF28 /* Project object */;
 }

@@ -78,7 +78,7 @@ struct RecordView: View {
                 Button {
                     let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
                     let goalModel = GoalModel(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
-                    addGoal2(goal: goalModel) { data in
+                    addGoal(goal: goalModel) { data in
                         if data.code == "00" {
                             symbol = .체크
                             content = ""

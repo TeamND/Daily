@@ -19,7 +19,7 @@ struct InitView: View {
                 .foregroundColor(Color("CustomColor"))
                 .task {
                     do {
-                        getUserInfo2(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
+                        getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
                             DispatchQueue.main.async {
                                 userInfo.uid = data.data.uid
                                 userInfo.set_startday = data.data.set_startday

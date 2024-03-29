@@ -26,12 +26,12 @@ struct Calendar_Month: View {
             }
         }
         .onAppear {
-            getCalendarMonth2(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in
+            getCalendarMonth(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in
                 calendarViewModel.setDaysOnmonth(daysOnMonth: data.data)
             }
         }
         .onChange(of: userInfo.currentMonth) { month in
-            getCalendarMonth2(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in
+            getCalendarMonth(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in
                 calendarViewModel.setDaysOnmonth(daysOnMonth: data.data)
             }
         }
