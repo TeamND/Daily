@@ -33,24 +33,7 @@ struct MainView: View {
                 .tag(2)
         }
         .accentColor(Color("CustomColor"))
-        .gesture(
-            DragGesture().onEnded { value in
-                if value.translation.width > 100 {
-                    if tabViewModel.tagIndex == 0 && value.startLocation.x > 30 {
-                        userInfo.changeCalendar(direction: "prev")
-                    } else {
-                        tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+2)%3)
-                    }
-                }
-                if value.translation.width < -100 {
-                    if tabViewModel.tagIndex == 0 && value.startLocation.x < CGFloat.screenWidth-30 {
-                        userInfo.changeCalendar(direction: "next")
-                    } else {
-                        tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+1)%3)
-                    }
-                }
-            }
-        )
+        .mainViewGesture(userInfo: userInfo, tabViewModel: tabViewModel)
     }
 }
 
