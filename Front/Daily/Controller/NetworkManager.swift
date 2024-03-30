@@ -14,6 +14,10 @@ private let serverUrl: String = "http://34.22.71.88:5000/"
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)") { data in
         guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+                return
+            }
+            print("data decoding error data is. \(data)")
             return
         }
         complete(data)
@@ -48,6 +52,10 @@ func getCalendarMonth(userID: String, month: String, complete: @escaping (getCal
 func getCalendarWeek(userID: String, startDay: String, complete: @escaping (getCalendarWeekModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/week/\(userID)?date=\(startDay)") { data in
         guard let data: getCalendarWeekModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+                return
+            }
+            print("data decoding error data is. \(data)")
             return
         }
         complete(data)
@@ -56,6 +64,10 @@ func getCalendarWeek(userID: String, startDay: String, complete: @escaping (getC
 func getCalendarDay(userID: String, day: String, complete: @escaping (getCalendarDayModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/day/\(userID)?date=\(day)") { data in
         guard let data: getCalendarDayModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+                return
+            }
+            print("data decoding error data is. \(data)")
             return
         }
         complete(data)
