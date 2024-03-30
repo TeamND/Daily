@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct DailyApp: App {
-    @Environment(\.scenePhase) var scenePhase
     @State var isLoading: Bool = true
     @StateObject var userInfo: UserInfo = UserInfo(uid: -1, set_startday: 0, set_language: "korea", set_dateorrepeat: "date", set_calendarstate: "month")
     var body: some Scene {

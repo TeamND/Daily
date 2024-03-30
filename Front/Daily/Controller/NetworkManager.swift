@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 private let serverUrl: String = "http://34.22.71.88:5000/"
 
-// userInfo
+// MARK: - userInfo
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)") { data in
         guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
@@ -19,7 +20,7 @@ func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void)
     }
 }
 
-// calendar
+// MARK: - calendar
 func getCalendarYear(userID: String, year: String, complete: @escaping (getCalendarYearModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/year/\(userID)?date=\(year)") { data in
         guard let data: getCalendarYearModel = JSONConverter.decodeJson(data: data) else {
@@ -61,17 +62,15 @@ func getCalendarDay(userID: String, day: String, complete: @escaping (getCalenda
     }
 }
 
-// goal
+// MARK: - goal
 func addGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
     guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
         return
     }
-    print("encodingData is \(encodingData)")
     HTTPManager.requestPOST(url: "\(serverUrl)goal", encodingData: encodingData) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }
-        print("response is \(data)")
         complete(data)
     }
 }
@@ -93,5 +92,14 @@ func deleteGoal(goalUID: String, complete: @escaping (ResponseModel) -> Void) {
             return
         }
         complete(data)
+    }
+}
+
+// MARK: - handle error
+
+func terminateApp() {
+    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        exit(0)
     }
 }
