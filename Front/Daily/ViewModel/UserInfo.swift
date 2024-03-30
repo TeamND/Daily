@@ -34,10 +34,10 @@ class UserInfo: ObservableObject{
         get { return self.weeks[0] }
         set(newValue) {
             if newValue == "일" || newValue == "Sun" {
-                setUserInfo(param: ["uid": self.uid, "set_startday": 0])
+//                setUserInfo(param: ["uid": self.uid, "set_startday": 0])
                 self.set_startday = 0
             } else {
-                setUserInfo(param: ["uid": self.uid, "set_startday": 1])
+//                setUserInfo(param: ["uid": self.uid, "set_startday": 1])
                 self.set_startday = 1
             }
         }
@@ -46,10 +46,10 @@ class UserInfo: ObservableObject{
         get { return self.set_language == "korea" ? "한국어" : "영어" }
         set(newValue) {
             if newValue == "한국어" {
-                setUserInfo(param: ["uid": self.uid, "set_language": "korea"])
+//                setUserInfo(param: ["uid": self.uid, "set_language": "korea"])
                 self.set_language = "korea"
             } else {
-                setUserInfo(param: ["uid": self.uid, "set_language": "english"])
+//                setUserInfo(param: ["uid": self.uid, "set_language": "english"])
                 self.set_language = "english"
             }
         }
@@ -58,10 +58,10 @@ class UserInfo: ObservableObject{
         get { return self.set_dateorrepeat == "date" ? "날짜" : "반복" }
         set(newValue) {
             if newValue == "날짜" {
-                setUserInfo(param: ["uid": self.uid, "set_dateorrepeat": "date"])
+//                setUserInfo(param: ["uid": self.uid, "set_dateorrepeat": "date"])
                 self.set_dateorrepeat = "date"
             } else {
-                setUserInfo(param: ["uid": self.uid, "set_dateorrepeat": "repeat"])
+//                setUserInfo(param: ["uid": self.uid, "set_dateorrepeat": "repeat"])
                 self.set_dateorrepeat = "repeat"
             }
         }
@@ -71,13 +71,13 @@ class UserInfo: ObservableObject{
         get { return self.set_calendarstate == "year" ? "년" : self.set_calendarstate == "month" ? "월" : "주" }
         set(newValue) {
             if newValue == "년" {
-                setUserInfo(param: ["uid": self.uid, "set_calendarstate": "year"])
+//                setUserInfo(param: ["uid": self.uid, "set_calendarstate": "year"])
                 self.set_calendarstate = "year"
             } else if newValue == "월" {
-                setUserInfo(param: ["uid": self.uid, "set_calendarstate": "month"])
+//                setUserInfo(param: ["uid": self.uid, "set_calendarstate": "month"])
                 self.set_calendarstate = "month"
             } else {
-                setUserInfo(param: ["uid": self.uid, "set_calendarstate": "week"])
+//                setUserInfo(param: ["uid": self.uid, "set_calendarstate": "week"])
                 self.set_calendarstate = "week"
             }
             self.currentState = self.set_calendarstate
