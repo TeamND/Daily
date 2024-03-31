@@ -120,4 +120,32 @@ extension View {
             }
         )
     }
+    func recordListGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, goalUID: String) -> some View {
+        self.highPriorityGesture(
+            DragGesture().onEnded { value in
+                // 좌 -> 우
+                if value.translation.width > 100 {
+                    print("modify")
+                }
+                // 우 -> 좌
+                if value.translation.width < -100 {
+                    // full swipe
+                    if (value.translation.width < -(CGFloat.screenWidth * 3 / 4)) {
+                        deleteGoal(goalUID: goalUID) { data in
+                            if data.code == "00" {
+                                getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+                                    calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
+                                }
+                                getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+                                    calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
+                                }
+                            } else { print("\(goalUID) delete fail@@@") }
+                        }
+                    } else {
+                        print("delete")
+                    }
+                }
+            }
+        )
+    }
 }

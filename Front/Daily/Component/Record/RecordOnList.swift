@@ -34,5 +34,11 @@ struct RecordOnList: View {
                 .padding(.vertical, 4)
             }
         }
+        .padding(.horizontal, 5)
+        .frame(height: 60)
+        .background {
+            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+        }
+        .padding(.horizontal, 5)
     }
 }

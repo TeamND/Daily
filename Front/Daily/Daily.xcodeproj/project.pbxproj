@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -349,8 +351,9 @@
 		F6D06252292F56AD00B825EF /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				F636CC682923287300879E1F /* RecordButton.swift */,
+				F61ADFE12BB941D300C35948 /* RecordList.swift */,
 				F6C2F22129221C410006BFC7 /* RecordOnList.swift */,
+				F636CC682923287300879E1F /* RecordButton.swift */,
 				F6CC15A52BA4511F00689A02 /* NoRecord.swift */,
 			);
 			path = Record;
@@ -510,6 +513,7 @@
 				F6D062422925B6A800B825EF /* GoalPrimeElementSetting.swift in Sources */,
 				F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */,
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
+				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6CC15952BA0100900689A02 /* TabViewModel.swift in Sources */,
 				F6D062552930BFC800B825EF /* MenuOnList.swift in Sources */,
