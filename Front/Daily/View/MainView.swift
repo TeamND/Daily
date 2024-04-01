@@ -33,7 +33,7 @@ struct MainView: View {
                 .tag(2)
         }
         .accentColor(Color("CustomColor"))
-        .mainViewGesture(userInfo: userInfo, tabViewModel: tabViewModel)
+        .mainViewDragGesture(userInfo: userInfo, tabViewModel: tabViewModel)
     }
 }
 

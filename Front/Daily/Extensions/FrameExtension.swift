@@ -62,7 +62,7 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewGesture(userInfo: UserInfo, tabViewModel: TabViewModel) -> some View {
+    func mainViewDragGesture(userInfo: UserInfo, tabViewModel: TabViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 세로 제스처가 우선순위가 높음
@@ -115,34 +115,6 @@ extension View {
                         } else {
                             tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+1)%3)
                         }
-                    }
-                }
-            }
-        )
-    }
-    func recordListGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, goalUID: String) -> some View {
-        self.highPriorityGesture(
-            DragGesture().onEnded { value in
-                // 좌 -> 우
-                if value.translation.width > 100 {
-                    print("modify")
-                }
-                // 우 -> 좌
-                if value.translation.width < -100 {
-                    // full swipe
-                    if (value.translation.width < -(CGFloat.screenWidth * 3 / 4)) {
-                        deleteGoal(goalUID: goalUID) { data in
-                            if data.code == "00" {
-                                getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
-                                    calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
-                                }
-                                getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
-                                    calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
-                                }
-                            } else { print("\(goalUID) delete fail@@@") }
-                        }
-                    } else {
-                        print("delete")
                     }
                 }
             }
