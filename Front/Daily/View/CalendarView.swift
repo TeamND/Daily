@@ -17,7 +17,7 @@ struct CalendarView: View {
         VStack(spacing: 0) {
             MainHeader(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel, popupInfo: popupInfo)
                 .frame(height: 40)
-            MainCalendar(userInfo: userInfo, tabViewModel: tabViewModel)
+            MainCalendar(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
         }
     }
 }

@@ -24,10 +24,10 @@ struct WeekOnMonth: View {
                             userInfo.currentState = "week"
                         }
                     } label: {
-                        DayOnMonth(userInfo: userInfo, day: day, dayOnMonth: calendarViewModel.daysOnMonth[day-1])
+                        DayOnMonth(userInfo: userInfo, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
                     }
                 } else {
-                    DayOnMonth(userInfo: userInfo, day: 0, dayOnMonth: calendarViewModel.daysOnMonth[0])
+                    DayOnMonth(userInfo: userInfo, day: 0, dayOnMonth: dayOnMonthModel())
                         .opacity(0)
                 }
             }

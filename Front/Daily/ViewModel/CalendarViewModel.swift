@@ -26,6 +26,9 @@ class CalendarViewModel: ObservableObject {
     // MARK: - month
     @Published var daysOnMonth: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
     
+    func getDaysOnMonth(dayIndex: Int) -> dayOnMonthModel {
+        return self.daysOnMonth[dayIndex]
+    }
     func setDaysOnMonth(daysOnMonth: [dayOnMonthModel]) {
         DispatchQueue.main.async {
             self.daysOnMonth = daysOnMonth

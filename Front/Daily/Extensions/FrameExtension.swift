@@ -103,6 +103,8 @@ extension View {
                     // 좌 -> 우
                     if value.translation.width > 100 {
                         if tabViewModel.tagIndex == 0 && value.startLocation.x > 30 {
+                            calendarViewModel.resetRatingOnYear()
+                            calendarViewModel.resetDaysOnMonth()
                             userInfo.changeCalendar(direction: "prev")
                         } else {
                             tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+2)%3)
@@ -111,6 +113,8 @@ extension View {
                     // 우 -> 좌
                     if value.translation.width < -100 {
                         if tabViewModel.tagIndex == 0 && value.startLocation.x < CGFloat.screenWidth-30 {
+                            calendarViewModel.resetRatingOnYear()
+                            calendarViewModel.resetDaysOnMonth()
                             userInfo.changeCalendar(direction: "next")
                         } else {
                             tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+1)%3)
