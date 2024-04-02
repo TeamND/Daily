@@ -9,12 +9,13 @@ import SwiftUI
 
 struct CalendarView: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var tabViewModel: TabViewModel
     @State private var popupInfo: PopupInfo = PopupInfo()
     
     var body: some View {
         VStack(spacing: 0) {
-            MainHeader(userInfo: userInfo, popupInfo: popupInfo, tabViewModel: tabViewModel)
+            MainHeader(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel, popupInfo: popupInfo)
                 .frame(height: 40)
             MainCalendar(userInfo: userInfo, tabViewModel: tabViewModel)
         }
@@ -22,5 +23,5 @@ struct CalendarView: View {
 }
 
 #Preview {
-    CalendarView(userInfo: UserInfo(), tabViewModel: TabViewModel())
+    CalendarView(userInfo: UserInfo(), calendarViewModel: CalendarViewModel(), tabViewModel: TabViewModel())
 }

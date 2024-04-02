@@ -19,14 +19,20 @@ class CalendarViewModel: ObservableObject {
             self.ratingOnYear = ratingOnYear
         }
     }
+    func resetRatingOnYear() {
+        setRatingOnYear(ratingOnYear: Array(repeating: Array(repeating: 0, count: 31), count: 12))
+    }
     
     // MARK: - month
     @Published var daysOnMonth: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
     
-    func setDaysOnmonth(daysOnMonth: [dayOnMonthModel]) {
+    func setDaysOnMonth(daysOnMonth: [dayOnMonthModel]) {
         DispatchQueue.main.async {
             self.daysOnMonth = daysOnMonth
         }
+    }
+    func resetDaysOnMonth() {
+        setDaysOnMonth(daysOnMonth: Array(repeating: dayOnMonthModel(), count: 42))
     }
     
     // MARK: - week

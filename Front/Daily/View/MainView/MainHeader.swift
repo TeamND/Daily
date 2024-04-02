@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct MainHeader: View {
-    @StateObject var userInfo: UserInfo
+    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var tabViewModel: TabViewModel
     @StateObject var popupInfo: PopupInfo
-    @ObservedObject var tabViewModel: TabViewModel = TabViewModel()
     @Namespace var NS
     var body: some View {
         ZStack {

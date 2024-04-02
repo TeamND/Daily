@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var userInfo: UserInfo
+    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     @StateObject var tabViewModel: TabViewModel = TabViewModel()
     
     var body: some View {
         TabView (selection: $tabViewModel.tagIndex) {
-            CalendarView(userInfo: userInfo, tabViewModel: tabViewModel)
+            CalendarView(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Calendar")
@@ -33,7 +34,7 @@ struct MainView: View {
                 .tag(2)
         }
         .accentColor(Color("CustomColor"))
-        .mainViewDragGesture(userInfo: userInfo, tabViewModel: tabViewModel)
+        .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
     }
 }
 

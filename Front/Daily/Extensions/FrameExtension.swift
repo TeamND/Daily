@@ -62,7 +62,7 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(userInfo: UserInfo, tabViewModel: TabViewModel) -> some View {
+    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, tabViewModel: TabViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 세로 제스처가 우선순위가 높음
