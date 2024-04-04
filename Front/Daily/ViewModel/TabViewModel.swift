@@ -10,6 +10,9 @@ import Foundation
 class TabViewModel: ObservableObject {
     @Published var tagIndex: Int = 0
     
+    func getTagIndex() -> Int {
+        return self.tagIndex
+    }
     func setTagIndex(tagIndex: Int) {
         self.tagIndex = tagIndex
     }

@@ -69,7 +69,7 @@ extension View {
                 if abs(value.translation.height) > 100 {
                     // 상 -> 하
                     if value.translation.height > 100 {
-                        if tabViewModel.tagIndex == 0 {
+                        if tabViewModel.getTagIndex() == 0 {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "year"
@@ -84,7 +84,7 @@ extension View {
                     }
                     // 하 -> 상
                     if value.translation.height < -100 {
-                        if tabViewModel.tagIndex == 0 {
+                        if tabViewModel.getTagIndex() == 0 {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "week"
@@ -102,22 +102,22 @@ extension View {
                 else {
                     // 좌 -> 우
                     if value.translation.width > 100 {
-                        if tabViewModel.tagIndex == 0 && value.startLocation.x > 30 {
+                        if tabViewModel.getTagIndex() == 0 && value.startLocation.x > 30 {
                             calendarViewModel.resetRatingOnYear()
                             calendarViewModel.resetDaysOnMonth()
                             userInfo.changeCalendar(direction: "prev")
                         } else {
-                            tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+2)%3)
+                            tabViewModel.setTagIndex(tagIndex: (tabViewModel.getTagIndex()+2)%3)
                         }
                     }
                     // 우 -> 좌
                     if value.translation.width < -100 {
-                        if tabViewModel.tagIndex == 0 && value.startLocation.x < CGFloat.screenWidth-30 {
+                        if tabViewModel.getTagIndex() == 0 && value.startLocation.x < CGFloat.screenWidth-30 {
                             calendarViewModel.resetRatingOnYear()
                             calendarViewModel.resetDaysOnMonth()
                             userInfo.changeCalendar(direction: "next")
                         } else {
-                            tabViewModel.setTagIndex(tagIndex: (tabViewModel.tagIndex+1)%3)
+                            tabViewModel.setTagIndex(tagIndex: (tabViewModel.getTagIndex()+1)%3)
                         }
                     }
                 }
