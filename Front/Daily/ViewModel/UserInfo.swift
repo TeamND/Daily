@@ -186,13 +186,13 @@ extension UserInfo {
             changedDay = cal.date(byAdding: .day, value: value, to: self.currentDate)!
             break
         default:
-            print("changeClendar currentState error")
+            print("changeCalendar currentState error")
         }
         
         DispatchQueue.main.async {
             self.currentYear = changedDay.year
-            self.currentMonth = changedDay.month
-            self.currentDay = changedDay.day
+            self.currentMonth = self.currentState == "year" ? 1 : changedDay.month
+            self.currentDay = self.currentState == "week" ? changedDay.day : 1
         }
     }
     
