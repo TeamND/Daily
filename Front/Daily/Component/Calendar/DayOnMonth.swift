@@ -35,11 +35,13 @@ struct DayOnMonth: View {
                 HStack(spacing: 0) {
                     ForEach(symbols.indices, id: \.self) { symbolIndex in
                         if symbols.count > 4 && symbolIndex == 3 {
-                            Button {
-                                print("show symbols popup")
-                            } label: {
-                                Image(systemName: "ellipsis")
-                            }
+                            // 추후 심볼 팝업 추가
+//                            Button {
+//                                print("show symbols popup")
+//                            } label: {
+//                                Image(systemName: "ellipsis")
+//                            }
+                            Image(systemName: "ellipsis")
                             .frame(maxWidth: .infinity)
                         } else if 2 <= symbolIndex && symbolIndex < 4 {
                             SymbolOnMonth(symbol: symbols[symbolIndex])

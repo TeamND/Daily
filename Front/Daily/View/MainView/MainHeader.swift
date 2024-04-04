@@ -81,7 +81,7 @@ struct MainHeader: View {
                 } label: {
                     VStack {
                         Image(systemName: "plus")
-                        Text("add")
+                        Text("Add")
                             .font(.system(size: 12))
                     }
                 }
