@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     @StateObject var tabViewModel: TabViewModel = TabViewModel()
     
@@ -39,5 +40,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(userInfo: UserInfo())
+    MainView(userInfo: UserInfo(), userInfoViewModel: UserInfoViewModel())
 }

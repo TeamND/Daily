@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
+		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
+		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
 				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
 				F68B31962986694A000791F3 /* Record.swift */,
+				F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */,
 				F6CC15942BA0100900689A02 /* TabViewModel.swift */,
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
 			);
@@ -497,6 +500,7 @@
 				F6DF64B22BAFCDB500A17B9E /* MonthOnYear.swift in Sources */,
 				F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */,
 				F6CC15A42BA1E69700689A02 /* getCalendarDayModel.swift in Sources */,
+				F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */,
 				F6C2F22229221C410006BFC7 /* RecordOnList.swift in Sources */,
 				F6DF64B82BAFDCB800A17B9E /* SymbolOnMonth.swift in Sources */,
 				F6D062462925B77A00B825EF /* GoalCountOrTimeSetting.swift in Sources */,

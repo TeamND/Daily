@@ -8,9 +8,17 @@
 import Foundation
 
 struct UserInfoModel: Codable {
-    let uid: Int
-    let set_startday: Int
-    let set_language: String
-    let set_dateorrepeat: String
-    let set_calendarstate: String
+    var uid: Int
+    var set_startday: Int
+    var set_language: String
+    var set_dateorrepeat: String
+    var set_calendarstate: String
+    
+    init() {
+        self.uid = 0
+        self.set_startday = 0
+        self.set_language = "korea"
+        self.set_dateorrepeat = "date"
+        self.set_calendarstate = "month"
+    }
 }

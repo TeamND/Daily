@@ -10,6 +10,7 @@ import Combine
 
 struct InitView: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @Binding var isLoading: Bool
     @State var isShowTerminateAlert: Bool = false
     var body: some View {
@@ -24,6 +25,7 @@ struct InitView: View {
         .onAppear {
             getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
                 if data.code == "00" {
+                    userInfoViewModel.setUserInfo(userInfo: data.data)
                     DispatchQueue.main.async {
                         userInfo.uid = data.data.uid
                         userInfo.set_startday = data.data.set_startday
