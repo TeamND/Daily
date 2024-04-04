@@ -47,9 +47,7 @@ struct MainHeader: View {
             HStack {
                 Spacer()
                 Button {
-                    calendarViewModel.resetRatingOnYear()
-                    calendarViewModel.resetDaysOnMonth()
-                    userInfo.changeCalendar(direction: "prev")
+                    userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
@@ -69,9 +67,7 @@ struct MainHeader: View {
                         .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Button {
-                    calendarViewModel.resetRatingOnYear()
-                    calendarViewModel.resetDaysOnMonth()
-                    userInfo.changeCalendar(direction: "next")
+                    userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
                 } label: {
                     Image(systemName: "chevron.right")
                 }

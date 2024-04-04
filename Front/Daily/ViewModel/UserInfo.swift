@@ -168,16 +168,18 @@ extension UserInfo {
         return false
     }
     
-    func changeCalendar(direction: String) {
+    func changeCalendar(direction: String, calendarViewModel: CalendarViewModel) {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         var changedDay = Date()
         let value = direction == "prev" ? -1 : +1
         switch (self.currentState) {
         case "year":
+            calendarViewModel.resetRatingOnYear()
             changedDay = cal.date(byAdding: .year, value: value, to: self.currentDate)!
             break
         case "month":
+            calendarViewModel.resetDaysOnMonth()
             changedDay = cal.date(byAdding: .month, value: value, to: self.currentDate)!
             break
         case "week":
@@ -187,9 +189,11 @@ extension UserInfo {
             print("changeClendar currentState error")
         }
         
-        self.currentYear = changedDay.year
-        self.currentMonth = changedDay.month
-        self.currentDay = changedDay.day
+        DispatchQueue.main.async {
+            self.currentYear = changedDay.year
+            self.currentMonth = changedDay.month
+            self.currentDay = changedDay.day
+        }
     }
     
     func changeDay(DOWIndex: Int) {

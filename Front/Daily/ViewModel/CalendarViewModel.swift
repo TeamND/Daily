@@ -20,7 +20,7 @@ class CalendarViewModel: ObservableObject {
         }
     }
     func resetRatingOnYear() {
-        setRatingOnYear(ratingOnYear: Array(repeating: Array(repeating: 0, count: 31), count: 12))
+        self.setRatingOnYear(ratingOnYear: Array(repeating: Array(repeating: 0, count: 31), count: 12))
     }
     
     // MARK: - month
@@ -35,7 +35,7 @@ class CalendarViewModel: ObservableObject {
         }
     }
     func resetDaysOnMonth() {
-        setDaysOnMonth(daysOnMonth: Array(repeating: dayOnMonthModel(), count: 42))
+        self.setDaysOnMonth(daysOnMonth: Array(repeating: dayOnMonthModel(), count: 42))
     }
     
     // MARK: - week

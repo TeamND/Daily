@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CalendarView: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var tabViewModel: TabViewModel
     @State private var popupInfo: PopupInfo = PopupInfo()
@@ -23,5 +24,5 @@ struct CalendarView: View {
 }
 
 #Preview {
-    CalendarView(userInfo: UserInfo(), calendarViewModel: CalendarViewModel(), tabViewModel: TabViewModel())
+    CalendarView(userInfo: UserInfo(), userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel(), tabViewModel: TabViewModel())
 }

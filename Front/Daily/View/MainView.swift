@@ -15,7 +15,7 @@ struct MainView: View {
     
     var body: some View {
         TabView (selection: $tabViewModel.tagIndex) {
-            CalendarView(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
+            CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Calendar")
