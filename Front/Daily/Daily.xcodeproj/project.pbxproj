@@ -35,7 +35,7 @@
 		F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158D2B9C91D200689A02 /* CalendarView.swift */; };
 		F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158F2B9C91DA00689A02 /* RecordView.swift */; };
 		F6CC15922B9C91E200689A02 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15912B9C91E200689A02 /* AppInfoView.swift */; };
-		F6CC15952BA0100900689A02 /* TabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15942BA0100900689A02 /* TabViewModel.swift */; };
+		F6CC15952BA0100900689A02 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15942BA0100900689A02 /* NavigationViewModel.swift */; };
 		F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15972BA188E200689A02 /* RecordModel.swift */; };
 		F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC159D2BA1E01200689A02 /* HTTPManager.swift */; };
 		F6CC15A02BA1E1CA00689A02 /* JSONConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC159F2BA1E1CA00689A02 /* JSONConverter.swift */; };
@@ -105,7 +105,7 @@
 		F6CC158F2B9C91DA00689A02 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
 		F6CC15912B9C91E200689A02 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		F6CC15932B9F460F00689A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		F6CC15942BA0100900689A02 /* TabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewModel.swift; sourceTree = "<group>"; };
+		F6CC15942BA0100900689A02 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
 		F6CC15972BA188E200689A02 /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
 		F6CC159D2BA1E01200689A02 /* HTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 		F6CC159F2BA1E1CA00689A02 /* JSONConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConverter.swift; sourceTree = "<group>"; };
@@ -389,7 +389,7 @@
 				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
 				F68B31962986694A000791F3 /* Record.swift */,
 				F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */,
-				F6CC15942BA0100900689A02 /* TabViewModel.swift */,
+				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
 			);
 			path = ViewModel;
@@ -519,7 +519,7 @@
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
 				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
-				F6CC15952BA0100900689A02 /* TabViewModel.swift in Sources */,
+				F6CC15952BA0100900689A02 /* NavigationViewModel.swift in Sources */,
 				F6D062552930BFC800B825EF /* MenuOnList.swift in Sources */,
 				F6CC15AC2BA459EA00689A02 /* getUserInfoModel.swift in Sources */,
 				F6D0623A2923566400B825EF /* RightSideMenu.swift in Sources */,

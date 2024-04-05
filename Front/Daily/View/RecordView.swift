@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct RecordView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var userInfo: UserInfo
-    @ObservedObject var tabViewModel: TabViewModel
+    @ObservedObject var navigationViewModel: NavigationViewModel
+    @State var goalModel: GoalModel = GoalModel()
+    @State var isModifyRecord: Bool = false
     @State var date: Date = Date()
     @State var symbol: Symbol = .체크
     @State var isShowCalendarSheet: Bool = false
     @State var isShowSymbolSheet: Bool = false
-    @State var content: String = ""
+    @State var isShowContentLengthAlert: Bool = false
     
     var body: some View {
         VStack {
@@ -55,8 +58,8 @@ struct RecordView: View {
             
             TextField(
                 "",
-                text: $content,
-                prompt: Text("deadlift 120kg 10reps 3set")
+                text: $goalModel.content,
+                prompt: Text("아침 7시 기상")
             )
             .padding()
             .background(Color.gray.opacity(0.3))
@@ -64,37 +67,82 @@ struct RecordView: View {
             
             HStack {
                 Spacer()
-                Button {
-                    symbol = .체크
-                    content = ""
-                    date = Date()
-                    userInfo.currentYear = date.year
-                    userInfo.currentMonth = date.month
-                    userInfo.currentDay = date.day
-                } label: {
-                    Text("Reset")
-                }
-                
-                Button {
-                    let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                    let goalModel = GoalModel(user_uid: userInfo.uid, content: content, symbol: symbol.toString(), cycle_date: [currentDate])
-                    addGoal(goal: goalModel) { data in
-                        if data.code == "00" {
-                            symbol = .체크
-                            content = ""
-                            tabViewModel.setTagIndex(tagIndex: 0)
-                        }
+                if isModifyRecord {
+                    // Cancel Button
+                    Button {
+                        self.presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Cancel")
                     }
-                } label: {
-                    Text("Add")
+                    
+                    // Modify Button
+                    Button {
+                        if goalModel.content.count < 2 {
+                            isShowContentLengthAlert = true
+                        } else {
+                            print("modify")
+                        }
+                    } label: {
+                        Text("Modify")
+                    }
+                } else {
+                    // Reset Button
+                    Button {
+                        symbol = .체크
+                        goalModel.content = ""
+                        date = Date()
+                        userInfo.currentYear = date.year
+                        userInfo.currentMonth = date.month
+                        userInfo.currentDay = date.day
+                    } label: {
+                        Text("Reset")
+                    }
+                    
+                    // Add Button
+                    Button {
+                        if goalModel.content.count < 2 {
+                            isShowContentLengthAlert = true
+                        } else {
+                            let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
+                            goalModel.user_uid = userInfo.uid
+                            goalModel.symbol = symbol.toString()
+                            goalModel.start_date = currentDate
+                            goalModel.end_date = currentDate
+                            goalModel.cycle_date = [currentDate]
+                            addGoal(goal: goalModel) { data in
+                                if data.code == "00" {
+                                    symbol = .체크
+                                    goalModel.content = ""
+                                    navigationViewModel.setTagIndex(tagIndex: 0)
+                                }
+                            }
+                        }
+                    } label: {
+                        Text("Add")
+                    }
                 }
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
+        .alert(isPresented: $isShowContentLengthAlert, content: {
+            Alert(
+                title: Text("목표의 길이가 너무 짧습니다."),
+                message: Text("최소 2글자 이상의 목표를 설정해주세요."),
+                dismissButton: .default(
+                    Text("확인")
+                )
+            )
+        })
+        .onAppear {
+            if goalModel.uid >= 0 {
+                symbol = goalModel.symbol.toSymbol() ?? .체크
+                isModifyRecord = true
+            }
+        }
     }
 }
 
 #Preview {
-    RecordView(userInfo: UserInfo(), tabViewModel: TabViewModel())
+    RecordView(userInfo: UserInfo(), navigationViewModel: NavigationViewModel())
 }

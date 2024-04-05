@@ -191,7 +191,7 @@ extension UserInfo {
         
         DispatchQueue.main.async {
             self.currentYear = changedDay.year
-            self.currentMonth = self.currentState == "year" ? 1 : changedDay.month
+            self.currentMonth = changedDay.month
             self.currentDay = self.currentState == "week" ? changedDay.day : 1
         }
     }

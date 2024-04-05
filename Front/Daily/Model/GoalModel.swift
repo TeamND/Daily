@@ -8,8 +8,8 @@
 import Foundation
 
 struct GoalModel: Codable {
-    var uid: Int = 0
-    var user_uid: Int = 0
+    var uid: Int = -1
+    var user_uid: Int = -1
     var content: String = ""
     var symbol: String = ""
     var type: String = "check"
@@ -20,12 +20,21 @@ struct GoalModel: Codable {
     var goal_time: Int = 300
     var goal_count: Int = 1
     
-    init(user_uid: Int, content: String, symbol: String, cycle_date: [String]) {
-        self.user_uid = user_uid
-        self.content = content
-        self.symbol = symbol
-        self.start_date = cycle_date[0]
-        self.end_date = cycle_date[cycle_date.count - 1]
-        self.cycle_date = cycle_date
+    init() {}
+    init(recordModel: RecordModel) {
+        self.uid = recordModel.goal_uid
+        self.content = recordModel.content
+        self.symbol = recordModel.symbol
+        self.type = recordModel.type
+        self.goal_time = recordModel.goal_time
+        self.goal_count = recordModel.goal_count
     }
+//    init(user_uid: Int, content: String, symbol: String, cycle_date: [String]) {
+//        self.user_uid = user_uid
+//        self.content = content
+//        self.symbol = symbol
+//        self.start_date = cycle_date[0]
+//        self.end_date = cycle_date[cycle_date.count - 1]
+//        self.cycle_date = cycle_date
+//    }
 }

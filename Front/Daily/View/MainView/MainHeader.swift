@@ -10,7 +10,7 @@ import SwiftUI
 struct MainHeader: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var tabViewModel: TabViewModel
+    @ObservedObject var navigationViewModel: NavigationViewModel
     @StateObject var popupInfo: PopupInfo
     @Namespace var NS
     var body: some View {
@@ -77,7 +77,7 @@ struct MainHeader: View {
             HStack(spacing: 0) {
                 Spacer()
                 Button {
-                    tabViewModel.setTagIndex(tagIndex: 1)
+                    navigationViewModel.setTagIndex(tagIndex: 1)
                 } label: {
                     VStack {
                         Image(systemName: "plus")

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecordList: View {
     @ObservedObject var userInfo: UserInfo
+    @ObservedObject var navigationViewModel: NavigationViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
@@ -16,7 +17,11 @@ struct RecordList: View {
             ForEach ($calendarViewModel.recordsOnWeek, id:\.self.uid) { record in
                 RecordOnList(userInfo: userInfo, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
-                        // 추후 수정 버튼 추가
+                        Button {
+                            navigationViewModel.setIsMidfyRecord(isModifyRecord: true)
+                        } label: {
+                            Label("Modify goal", systemImage: "pencil")
+                        }
                         Button {
                             deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
                                 if data.code == "00" {
@@ -31,6 +36,10 @@ struct RecordList: View {
                         } label: {
                             Label("Delete goal", systemImage: "trash")
                         }
+                    }
+                    .foregroundStyle(.primary)
+                    .navigationDestination(isPresented: $navigationViewModel.isModifyRecord) {
+                        RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel, goalModel: GoalModel(recordModel: record.wrappedValue))
                     }
             }
         }

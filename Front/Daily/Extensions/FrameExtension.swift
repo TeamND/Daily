@@ -62,14 +62,14 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, tabViewModel: TabViewModel) -> some View {
+    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 세로 제스처가 우선순위가 높음
                 if abs(value.translation.height) > 100 {
                     // 상 -> 하
                     if value.translation.height > 100 {
-                        if tabViewModel.getTagIndex() == 0 {
+                        if navigationViewModel.getTagIndex() == 0 {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "year"
@@ -84,7 +84,7 @@ extension View {
                     }
                     // 하 -> 상
                     if value.translation.height < -100 {
-                        if tabViewModel.getTagIndex() == 0 {
+                        if navigationViewModel.getTagIndex() == 0 {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "week"
@@ -102,18 +102,18 @@ extension View {
                 else {
                     // 좌 -> 우
                     if value.translation.width > 100 {
-                        if tabViewModel.getTagIndex() == 0 && value.startLocation.x > 30 {
+                        if navigationViewModel.getTagIndex() == 0 && value.startLocation.x > 30 {
                             userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
                         } else {
-                            tabViewModel.setTagIndex(tagIndex: (tabViewModel.getTagIndex()+2)%3)
+                            navigationViewModel.setTagIndex(tagIndex: (navigationViewModel.getTagIndex()+2)%3)
                         }
                     }
                     // 우 -> 좌
                     if value.translation.width < -100 {
-                        if tabViewModel.getTagIndex() == 0 && value.startLocation.x < CGFloat.screenWidth-30 {
+                        if navigationViewModel.getTagIndex() == 0 && value.startLocation.x < CGFloat.screenWidth-30 {
                             userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
                         } else {
-                            tabViewModel.setTagIndex(tagIndex: (tabViewModel.getTagIndex()+1)%3)
+                            navigationViewModel.setTagIndex(tagIndex: (navigationViewModel.getTagIndex()+1)%3)
                         }
                     }
                 }

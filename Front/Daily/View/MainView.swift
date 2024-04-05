@@ -11,31 +11,33 @@ struct MainView: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
-    @StateObject var tabViewModel: TabViewModel = TabViewModel()
+    @StateObject var navigationViewModel: NavigationViewModel = NavigationViewModel()
     
     var body: some View {
-        TabView (selection: $tabViewModel.tagIndex) {
-            CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("Calendar")
-                }
-                .tag(0)
-            RecordView(userInfo: userInfo, tabViewModel: tabViewModel)
-                .tabItem {
-                    Image(systemName: "pencil")
-                    Text("Record")
-                }
-                .tag(1)
-            AppInfoView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("AppInfo")
-                }
-                .tag(2)
+        NavigationStack {
+            TabView (selection: $navigationViewModel.tagIndex) {
+                CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                    .tabItem {
+                        Image(systemName: "calendar")
+                        Text("Calendar")
+                    }
+                    .tag(0)
+                RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    .tabItem {
+                        Image(systemName: "pencil")
+                        Text("Record")
+                    }
+                    .tag(1)
+                AppInfoView()
+                    .tabItem {
+                        Image(systemName: "gear")
+                        Text("AppInfo")
+                    }
+                    .tag(2)
+            }
+            .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
         }
-        .accentColor(Color("CustomColor"))
-        .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, tabViewModel: tabViewModel)
+        .tint(Color("CustomColor"))
     }
 }
 
