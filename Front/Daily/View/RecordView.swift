@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecordView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var navigationViewModel: NavigationViewModel
     @State var goalModel: GoalModel = GoalModel()
@@ -62,7 +62,7 @@ struct RecordView: View {
                 prompt: Text("아침 7시 기상")
             )
             .padding()
-            .background(Color.gray.opacity(0.3))
+            .background(Color("BackgroundColor"))
             .cornerRadius(5.0)
             
             HStack {
@@ -70,7 +70,7 @@ struct RecordView: View {
                 if isModifyRecord {
                     // Cancel Button
                     Button {
-                        self.presentationMode.wrappedValue.dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("Cancel")
                     }
@@ -81,6 +81,20 @@ struct RecordView: View {
                             isShowContentLengthAlert = true
                         } else {
                             print("modify")
+                            DispatchQueue.main.async {
+                                let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
+                                goalModel.user_uid = userInfo.uid
+                                goalModel.symbol = symbol.toString()
+                                goalModel.start_date = currentDate
+                                goalModel.end_date = currentDate
+                                goalModel.cycle_date = [currentDate]
+                                modifyGoal(goal: goalModel) { data in
+                                    print(data)
+                                    if data.code == "00" {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                }
+                            }
                         }
                     } label: {
                         Text("Modify")

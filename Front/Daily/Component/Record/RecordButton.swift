@@ -20,10 +20,12 @@ struct RecordButton: View {
                 case "check":
                     increaseCount(recordUID: String(record.uid)) { (data) in
                         if data.code == "00" {
-                            record.record_count = data.data.record_count
-                            record.issuccess = data.data.issuccess
-                            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
-                                calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
+                            DispatchQueue.main.async {
+                                record.record_count = data.data.record_count
+                                record.issuccess = data.data.issuccess
+                                getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+                                    calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
+                                }
                             }
                         }
                     }

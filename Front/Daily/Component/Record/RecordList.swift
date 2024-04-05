@@ -17,8 +17,8 @@ struct RecordList: View {
             ForEach ($calendarViewModel.recordsOnWeek, id:\.self.uid) { record in
                 RecordOnList(userInfo: userInfo, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
-                        Button {
-                            navigationViewModel.setIsMidfyRecord(isModifyRecord: true)
+                        NavigationLink {
+                            RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel, goalModel: GoalModel(recordModel: record.wrappedValue))
                         } label: {
                             Label("Modify goal", systemImage: "pencil")
                         }
@@ -38,9 +38,6 @@ struct RecordList: View {
                         }
                     }
                     .foregroundStyle(.primary)
-                    .navigationDestination(isPresented: $navigationViewModel.isModifyRecord) {
-                        RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel, goalModel: GoalModel(recordModel: record.wrappedValue))
-                    }
             }
         }
     }

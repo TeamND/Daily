@@ -106,6 +106,17 @@ func deleteGoal(goalUID: String, complete: @escaping (ResponseModel) -> Void) {
         complete(data)
     }
 }
+func modifyGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
+        return
+    }
+    HTTPManager.requestPUT(url: "\(serverUrl)goal/\(goal.uid)", encodingData: encodingData) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 
 // MARK: - handle error
 

@@ -19,13 +19,4 @@ class NavigationViewModel: ObservableObject {
             self.tagIndex = tagIndex
         }
     }
-    
-    // MARK: - about RecordView
-    @Published var isModifyRecord: Bool = false
-    
-    func setIsMidfyRecord(isModifyRecord: Bool) {
-        DispatchQueue.main.async {
-            self.isModifyRecord = isModifyRecord
-        }
-    }
 }
