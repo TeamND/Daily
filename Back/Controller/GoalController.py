@@ -52,7 +52,10 @@ class GoalRUD(Resource):
     @goal.doc(responses={99: 'Failed'})
     def put(self,uid):
         '''목표를 수정한다.'''
-        return GoalApi.Update(uid,request.args)
+        data = request.args.copy()
+        if'cycle_date' in data and data['cycle_date']:
+            data['cycle_date'] = eval(data['cycle_date'])
+        return GoalApi.Update(uid,data)
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})    
