@@ -6,6 +6,54 @@ import datetime
 import json
 
 class CalendarApi(Resource):
+    def Update(uid,data):
+        result = db.session.get(Record,uid)
+        
+        if result:
+            try:
+                for k,v in data.items():
+                    setattr(result, k, v)
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '수정에 성공했습니다.'
+                }, 00
+            except Exception as e:
+                db.session.rollback()
+                return {
+                    'code': '99',
+                    'message': e
+                }, 99
+        else: 
+           return {
+                'code': '99',
+                'message': '조회된 데이터가 없습니다.'
+            }, 99
+                       
+    # 삭제
+    def Delete(uid):
+        try:
+            result = db.session.get(Record,uid)
+            if result:
+                db.session.delete(result)
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '삭제에 성공했습니다.'
+                }, 00
+            else:
+                return {
+                    'code': '99',
+                    'message': '조회된 데이터가 없습니다.'
+                }, 99
+        except Exception as e:
+            db.session.rollback()
+            return {
+                'code': '99',
+                'message': e
+            }, 99
+        
+
     def Day(uid,data):
         try:
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')

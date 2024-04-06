@@ -29,7 +29,6 @@ class GoalCreate(Resource):
     def post(self):
         '''목표를 추가한다.'''
         data_list = request.form.copy()
-        cycle_date = []
         for data in data_list:
             data = eval(data)
             data.pop('uid')

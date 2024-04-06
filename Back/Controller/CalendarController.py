@@ -20,6 +20,21 @@ model = calendar.model('기록', strict=True, model={
 day_column = reqparse.RequestParser()
 day_column.add_argument('date', type=str, default='2022-12-25', help='날짜')
 
+@calendar.route('/<int:uid>')
+class CalendarUD(Resource):
+    @calendar.doc(responses={00: 'Success'})
+    @calendar.doc(responses={99: 'Failed'})
+    def put(self,uid):
+        '''기록을 수정한다.'''
+        return CalendarApi.Update(uid,request.args)
+    
+    @calendar.doc(responses={00: 'Success'})
+    @calendar.doc(responses={99: 'Failed'})    
+    def delete(self,uid):
+        '''기록을 삭제한다.'''
+        return CalendarApi.Delete(uid)
+
+
 @calendar.route('/day/<int:user_uid>')
 class CalendarDay(Resource):
     @calendar.doc(params={'user_uid': '사용자 고유번호'})
