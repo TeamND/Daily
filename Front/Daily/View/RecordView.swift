@@ -22,20 +22,22 @@ struct RecordView: View {
     var body: some View {
         VStack {
             HStack {
-                Group {
-                    Label {
-                        Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
-                    } icon: {
-                        Image(systemName: "calendar")
+                if !isModifyRecord {
+                    Group {
+                        Label {
+                            Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
+                        } icon: {
+                            Image(systemName: "calendar")
+                        }
                     }
-                }
-                .onTapGesture {
-                    isShowCalendarSheet = true
-                }
-                .sheet(isPresented: $isShowCalendarSheet) {
-                    CalendarSheet(userInfo: userInfo, date: $date)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.visible)
+                    .onTapGesture {
+                        isShowCalendarSheet = true
+                    }
+                    .sheet(isPresented: $isShowCalendarSheet) {
+                        CalendarSheet(userInfo: userInfo, date: $date)
+                            .presentationDetents([.medium])
+                            .presentationDragIndicator(.visible)
+                    }
                 }
                 Spacer()
                 Group {
@@ -81,9 +83,10 @@ struct RecordView: View {
                             isShowContentLengthAlert = true
                         } else {
                             DispatchQueue.main.async {
-                                let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
                                 goalModel.user_uid = userInfo.uid
                                 goalModel.symbol = symbol.toString()
+                                // date 관련 변수들 추후 삭제
+                                let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
                                 goalModel.start_date = currentDate
                                 goalModel.end_date = currentDate
                                 goalModel.cycle_date = [currentDate]
