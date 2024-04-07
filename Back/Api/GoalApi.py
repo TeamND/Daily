@@ -5,10 +5,8 @@ import datetime
 import json
 
 class GoalApi(Resource):
-   
     # 생성
     def Create(data):
-
         try:
             # 목포 추가
             goal_query = Goal(**data)
@@ -111,7 +109,6 @@ class GoalApi(Resource):
                        
     # 삭제
     def Delete(uid):
-        
         try:
             result = db.session.get(Goal,uid)
             if result:

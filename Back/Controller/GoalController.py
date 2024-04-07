@@ -28,14 +28,15 @@ class GoalCreate(Resource):
     @goal.doc(responses={99: 'Failed'})
     def post(self):
         '''목표를 추가한다.'''
-        data = request.form.copy()
-        cycle_date = []
-        
-        if 'cycle_date[]' in data:
-            cycle_date = request.form.getlist('cycle_date[]')
-            data.pop('cycle_date[]')
+        data_list = request.form.copy()
+        for data in data_list:
+            data = eval(data)
+            data.pop('uid')
+            #if 'cycle_date[]' in data:
+            #    cycle_date = request.form.getlist('cycle_date[]')
+            #    data.pop('cycle_date[]')
             
-        data.add('cycle_date',cycle_date)
+            #data['cycle_date'] = cycle_date
         return GoalApi.Create(data)
     
 @goal.route('/<int:uid>')
@@ -51,7 +52,10 @@ class GoalRUD(Resource):
     @goal.doc(responses={99: 'Failed'})
     def put(self,uid):
         '''목표를 수정한다.'''
-        return GoalApi.Update(uid,request.args)
+        data = request.args.copy()
+        if'cycle_date' in data and data['cycle_date']:
+            data['cycle_date'] = eval(data['cycle_date'])
+        return GoalApi.Update(uid,data)
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})    
