@@ -11,12 +11,19 @@ struct RecordList: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var navigationViewModel: NavigationViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @State var date: Date = Date()
+    @State var isShowCalendarSheet: Bool = false
     
     var body: some View {
         VStack {
             ForEach ($calendarViewModel.recordsOnWeek, id:\.self.uid) { record in
                 RecordOnList(userInfo: userInfo, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
+                        Button {
+                            isShowCalendarSheet = true
+                        } label: {
+                            Label("Modify date of record", systemImage: "calendar")
+                        }
                         NavigationLink {
                             RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel, goalModel: GoalModel(recordModel: record.wrappedValue))
                         } label: {
@@ -36,6 +43,11 @@ struct RecordList: View {
                         } label: {
                             Label("Delete goal", systemImage: "trash")
                         }
+                    }
+                    .sheet(isPresented: $isShowCalendarSheet) {
+                        CalendarSheet(userInfo: userInfo, date: $date, recordUID: record.wrappedValue.uid)
+                            .presentationDetents([.medium])
+                            .presentationDragIndicator(.visible)
                     }
                     .foregroundStyle(.primary)
             }

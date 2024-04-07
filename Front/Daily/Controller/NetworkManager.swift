@@ -117,6 +117,19 @@ func modifyGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
         complete(data)
     }
 }
+
+// MARK: - record
+func modifyRecord(recordUID: String, modifyRecordModel: modifyRecordModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordModel) else {
+        return
+    }
+    HTTPManager.requestPUT(url: "\(serverUrl)calendar/\(recordUID)", encodingData: encodingData) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 // MARK: - handle error
 
 func terminateApp() {

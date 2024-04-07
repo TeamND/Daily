@@ -10,6 +10,7 @@
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFF42BC125D000C35948 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFF32BC125D000C35948 /* PopupView.swift */; };
+		F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */; };
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
@@ -78,6 +79,7 @@
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFF32BC125D000C35948 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordModel.swift; sourceTree = "<group>"; };
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				F6CC15A92BA4598700689A02 /* UserInfoModel.swift */,
 				F6CC15AB2BA459EA00689A02 /* getUserInfoModel.swift */,
 				F6CC15972BA188E200689A02 /* RecordModel.swift */,
+				F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */,
 				F6CC15A32BA1E69700689A02 /* getCalendarDayModel.swift */,
 				F6CC15A72BA4566900689A02 /* getCalendarWeekModel.swift */,
 				F6CC15B12BA8307E00689A02 /* getCalendarMonthModel.swift */,
@@ -482,6 +485,7 @@
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
+				F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */,
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
 				F6D06250292E02CA00B825EF /* Popup.swift in Sources */,
 				F6D0624B2927B58B00B825EF /* Times.swift in Sources */,
