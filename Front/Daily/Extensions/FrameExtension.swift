@@ -120,4 +120,13 @@ extension View {
             }
         )
     }
+    
+    // MARK: - Custom Popup
+    
+//    func popup(isPresented: Binding<Bool>) -> some View {
+//        if isPresented.wrappedValue {
+//            return PopupView
+//        }
+//        return self
+//    }
 }

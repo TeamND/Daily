@@ -80,7 +80,6 @@ struct RecordView: View {
                         if goalModel.content.count < 2 {
                             isShowContentLengthAlert = true
                         } else {
-                            print("modify")
                             DispatchQueue.main.async {
                                 let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
                                 goalModel.user_uid = userInfo.uid
@@ -89,9 +88,10 @@ struct RecordView: View {
                                 goalModel.end_date = currentDate
                                 goalModel.cycle_date = [currentDate]
                                 modifyGoal(goal: goalModel) { data in
-                                    print(data)
                                     if data.code == "00" {
-                                        self.presentationMode.wrappedValue.dismiss()
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
                                     }
                                 }
                             }

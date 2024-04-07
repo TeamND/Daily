@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct DayOnMonth: View {
-    @StateObject var userInfo: UserInfo
+    @ObservedObject var userInfo: UserInfo
     let day: Int
     let dayOnMonth: dayOnMonthModel
+    @State var isShowSymbolPopup: Bool = false
     var body: some View {
         let symbols = dayOnMonth.symbol
         VStack(alignment: .leading) {
@@ -37,12 +38,13 @@ struct DayOnMonth: View {
                         if symbols.count > 4 && symbolIndex == 3 {
                             // 추후 심볼 팝업 추가
 //                            Button {
-//                                print("show symbols popup")
+//                                isShowSymbolPopup = true
 //                            } label: {
 //                                Image(systemName: "ellipsis")
 //                            }
                             Image(systemName: "ellipsis")
                             .frame(maxWidth: .infinity)
+//                            .popup(isPresented: $isShowSymbolPopup)
                         } else if 2 <= symbolIndex && symbolIndex < 4 {
                             SymbolOnMonth(symbol: symbols[symbolIndex])
                                 .frame(maxWidth: .infinity)

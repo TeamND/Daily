@@ -1,5 +1,5 @@
 //
-//  String.swift
+//  StringExtension.swift
 //  Daily
 //
 //  Created by 최승용 on 3/20/24.

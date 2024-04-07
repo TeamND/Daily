@@ -117,7 +117,6 @@ func modifyGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
         complete(data)
     }
 }
-
 // MARK: - handle error
 
 func terminateApp() {
