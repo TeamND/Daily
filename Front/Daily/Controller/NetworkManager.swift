@@ -106,11 +106,11 @@ func deleteGoal(goalUID: String, complete: @escaping (ResponseModel) -> Void) {
         complete(data)
     }
 }
-func modifyGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
-    guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
+func modifyGoal(modifyGoalModel: modifyGoalModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyGoalModel) else {
         return
     }
-    HTTPManager.requestPUT(url: "\(serverUrl)goal/\(goal.uid)", encodingData: encodingData) { data in
+    HTTPManager.requestPUT(url: "\(serverUrl)goal/\(modifyGoalModel.uid)", encodingData: encodingData) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }
@@ -119,11 +119,11 @@ func modifyGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
 }
 
 // MARK: - record
-func modifyRecord(recordUID: String, modifyRecordModel: modifyRecordModel, complete: @escaping (ResponseModel) -> Void) {
+func modifyRecord(modifyRecordModel: modifyRecordModel, complete: @escaping (ResponseModel) -> Void) {
     guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordModel) else {
         return
     }
-    HTTPManager.requestPUT(url: "\(serverUrl)calendar/\(recordUID)", encodingData: encodingData) { data in
+    HTTPManager.requestPUT(url: "\(serverUrl)calendar/\(modifyRecordModel.uid)", encodingData: encodingData) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }

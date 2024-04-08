@@ -17,8 +17,9 @@ final class HTTPManager {
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else { return }
-            guard urlResponse is HTTPURLResponse else { return }
-            complete(data)
+            if urlResponse is HTTPURLResponse {
+                complete(data)
+            } else { return }
         }.resume()
     }
     
@@ -51,8 +52,9 @@ final class HTTPManager {
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else { return }
-            guard urlResponse is HTTPURLResponse else { return }
-            complete(data)
+            if urlResponse is HTTPURLResponse {
+                complete(data)
+            } else { return }
         }.resume()
     }
 }

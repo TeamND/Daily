@@ -8,9 +8,11 @@
 import Foundation
 
 struct modifyRecordModel: Codable {
+    let uid: Int
     let date: String
     
-    init (date: String) {
+    init (uid: Int, date: String) {
+        self.uid = uid
         self.date = date
     }
 }

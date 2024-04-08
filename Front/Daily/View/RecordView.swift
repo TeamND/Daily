@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct RecordView: View {
-    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var navigationViewModel: NavigationViewModel
     @State var goalModel: GoalModel = GoalModel()
-    @State var isModifyRecord: Bool = false
     @State var date: Date = Date()
-    @State var symbol: Symbol = .체크
     @State var isShowCalendarSheet: Bool = false
     @State var isShowSymbolSheet: Bool = false
     @State var isShowContentLengthAlert: Bool = false
@@ -22,36 +19,34 @@ struct RecordView: View {
     var body: some View {
         VStack {
             HStack {
-                if !isModifyRecord {
-                    Group {
-                        Label {
-                            Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
-                        } icon: {
-                            Image(systemName: "calendar")
-                        }
+                Group {
+                    Label {
+                        Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
+                    } icon: {
+                        Image(systemName: "calendar")
                     }
-                    .onTapGesture {
-                        isShowCalendarSheet = true
-                    }
-                    .sheet(isPresented: $isShowCalendarSheet) {
-                        CalendarSheet(userInfo: userInfo, date: $date)
-                            .presentationDetents([.medium])
-                            .presentationDragIndicator(.visible)
-                    }
+                }
+                .onTapGesture {
+                    isShowCalendarSheet = true
+                }
+                .sheet(isPresented: $isShowCalendarSheet) {
+                    CalendarSheet(userInfo: userInfo, date: $date)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
                 }
                 Spacer()
                 Group {
-                    Image(systemName: "\(symbol.rawValue)")
+                    Image(systemName: "\(goalModel.symbol.toSymbol()!.rawValue)")
                         .padding()
                     Image(systemName: "chevron.right")
-                    Image(systemName: "\(symbol.rawValue).fill")
+                    Image(systemName: "\(goalModel.symbol.toSymbol()!.rawValue).fill")
                         .padding()
                 }
                 .onTapGesture {
                     isShowSymbolSheet = true
                 }
                 .sheet(isPresented: $isShowSymbolSheet) {
-                    SymbolSheet(symbol: $symbol)
+                    SymbolSheet(symbol: $goalModel.symbol)
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                 }
@@ -69,74 +64,35 @@ struct RecordView: View {
             
             HStack {
                 Spacer()
-                if isModifyRecord {
-                    // Cancel Button
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("Cancel")
-                    }
-                    
-                    // Modify Button
-                    Button {
-                        if goalModel.content.count < 2 {
-                            isShowContentLengthAlert = true
-                        } else {
-                            DispatchQueue.main.async {
-                                goalModel.user_uid = userInfo.uid
-                                goalModel.symbol = symbol.toString()
-                                // date 관련 변수들 추후 삭제
-                                let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                                goalModel.start_date = currentDate
-                                goalModel.end_date = currentDate
-                                goalModel.cycle_date = [currentDate]
-                                modifyGoal(goal: goalModel) { data in
-                                    if data.code == "00" {
-                                        DispatchQueue.main.async {
-                                            self.presentationMode.wrappedValue.dismiss()
-                                        }
-                                    }
-                                }
+                Button {
+                    goalModel.symbol = "체크"
+                    goalModel.content = ""
+                    date = Date()
+                    userInfo.currentYear = date.year
+                    userInfo.currentMonth = date.month
+                    userInfo.currentDay = date.day
+                } label: {
+                    Text("Reset")
+                }
+                Button {
+                    if goalModel.content.count < 2 {
+                        isShowContentLengthAlert = true
+                    } else {
+                        let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
+                        goalModel.user_uid = userInfo.uid
+                        goalModel.start_date = currentDate
+                        goalModel.end_date = currentDate
+                        goalModel.cycle_date = [currentDate]
+                        addGoal(goal: goalModel) { data in
+                            if data.code == "00" {
+                                goalModel.symbol = "체크"
+                                goalModel.content = ""
+                                navigationViewModel.setTagIndex(tagIndex: 0)
                             }
                         }
-                    } label: {
-                        Text("Modify")
                     }
-                } else {
-                    // Reset Button
-                    Button {
-                        symbol = .체크
-                        goalModel.content = ""
-                        date = Date()
-                        userInfo.currentYear = date.year
-                        userInfo.currentMonth = date.month
-                        userInfo.currentDay = date.day
-                    } label: {
-                        Text("Reset")
-                    }
-                    
-                    // Add Button
-                    Button {
-                        if goalModel.content.count < 2 {
-                            isShowContentLengthAlert = true
-                        } else {
-                            let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                            goalModel.user_uid = userInfo.uid
-                            goalModel.symbol = symbol.toString()
-                            goalModel.start_date = currentDate
-                            goalModel.end_date = currentDate
-                            goalModel.cycle_date = [currentDate]
-                            addGoal(goal: goalModel) { data in
-                                if data.code == "00" {
-                                    symbol = .체크
-                                    goalModel.content = ""
-                                    navigationViewModel.setTagIndex(tagIndex: 0)
-                                }
-                            }
-                        }
-                    } label: {
-                        Text("Add")
-                    }
+                } label: {
+                    Text("Add")
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -151,12 +107,6 @@ struct RecordView: View {
                 )
             )
         })
-        .onAppear {
-            if goalModel.uid >= 0 {
-                symbol = goalModel.symbol.toSymbol() ?? .체크
-                isModifyRecord = true
-            }
-        }
     }
 }
 

@@ -11,7 +11,7 @@ struct GoalModel: Codable {
     var uid: Int = -1
     var user_uid: Int = -1
     var content: String = ""
-    var symbol: String = ""
+    var symbol: String = "체크"
     var type: String = "check"
     var start_date: String = ""
     var end_date: String = ""

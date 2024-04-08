@@ -25,7 +25,7 @@ struct RecordList: View {
                             Label("Modify date of record", systemImage: "calendar")
                         }
                         NavigationLink {
-                            RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel, goalModel: GoalModel(recordModel: record.wrappedValue))
+                            ModifyView(userInfo: userInfo, navigationViewModel: navigationViewModel, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
                         } label: {
                             Label("Modify goal", systemImage: "pencil")
                         }

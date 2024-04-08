@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SymbolSheet: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var symbol: Symbol
+    @Binding var symbol: String
     var body: some View {
         List {
             ForEach(Symbol.allCases, id: \.self) { symbol in
@@ -21,7 +21,7 @@ struct SymbolSheet: View {
                         .padding()
                     Spacer()
                     Button {
-                        self.symbol = symbol
+                        self.symbol = symbol.toString()
                         presentationMode.wrappedValue.dismiss()
                     } label: { }
                 }
