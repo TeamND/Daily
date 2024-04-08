@@ -1,5 +1,5 @@
 //
-//  ModifyView.swift
+//  ModifyGoalView.swift
 //  Daily
 //
 //  Created by 최승용 on 4/8/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ModifyView: View {
+struct ModifyGoalView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var navigationViewModel: NavigationViewModel

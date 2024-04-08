@@ -10,8 +10,9 @@
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */; };
-		F61ADFFB2BC41BD400C35948 /* ModifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFA2BC41BD400C35948 /* ModifyView.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
+		F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0042BC42EA100C35948 /* ModifyDateView.swift */; };
+		F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */; };
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
@@ -70,8 +71,9 @@
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordModel.swift; sourceTree = "<group>"; };
-		F61ADFFA2BC41BD400C35948 /* ModifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyView.swift; sourceTree = "<group>"; };
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
+		F61AE0042BC42EA100C35948 /* ModifyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyDateView.swift; path = Model/ModifyDateView.swift; sourceTree = SOURCE_ROOT; };
+		F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyGoalView.swift; path = Model/ModifyGoalView.swift; sourceTree = SOURCE_ROOT; };
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -191,7 +193,8 @@
 		F61AE0032BC42D5300C35948 /* CalendarView */ = {
 			isa = PBXGroup;
 			children = (
-				F61ADFFA2BC41BD400C35948 /* ModifyView.swift */,
+				F61AE0042BC42EA100C35948 /* ModifyDateView.swift */,
+				F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */,
 			);
 			path = CalendarView;
 			sourceTree = "<group>";
@@ -470,9 +473,10 @@
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
 				F6D0624B2927B58B00B825EF /* Times.swift in Sources */,
 				F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */,
-				F61ADFFB2BC41BD400C35948 /* ModifyView.swift in Sources */,
 				F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */,
+				F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */,
 				F62E885029405D560010FEE2 /* Date.swift in Sources */,
+				F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,
 				F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */,
