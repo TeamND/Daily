@@ -1,5 +1,5 @@
 //
-//  MainHeader.swift
+//  CalendarHeader.swift
 //  Daily
 //
 //  Created by 최승용 on 2022/11/08.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainHeader: View {
+struct CalendarHeader: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var navigationViewModel: NavigationViewModel

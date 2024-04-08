@@ -19,4 +19,18 @@ struct RecordModel: Codable {
     var record_count: Int
     var issuccess: Bool
     let start_time: String
+    
+    init() {
+        self.uid = -1
+        self.goal_uid = -1
+        self.content = ""
+        self.type = "check"
+        self.symbol = "체크"
+        self.goal_time = 0
+        self.goal_count = 0
+        self.record_time = 0
+        self.record_count = 0
+        self.issuccess = false
+        self.start_time = ""
+    }
 }

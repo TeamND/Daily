@@ -45,7 +45,7 @@ struct RecordList: View {
                         }
                     }
                     .sheet(isPresented: $isShowCalendarSheet) {
-                        CalendarSheet(userInfo: userInfo, date: $date, recordUID: record.wrappedValue.uid)
+                        CalendarSheet(userInfo: userInfo, date: $date, record: record.wrappedValue)
                             .presentationDetents([.medium])
                             .presentationDragIndicator(.visible)
                     }
