@@ -12,6 +12,7 @@ struct RecordView: View {
     @ObservedObject var navigationViewModel: NavigationViewModel
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
+    @State var beforeDate: Date = Date()
     @State var isShowCalendarSheet: Bool = false
     @State var isShowSymbolSheet: Bool = false
     @State var isShowContentLengthAlert: Bool = false
@@ -67,12 +68,12 @@ struct RecordView: View {
                 Button {
                     goalModel.symbol = "체크"
                     goalModel.content = ""
-                    date = Date()
+                    date = beforeDate
                     userInfo.currentYear = date.year
                     userInfo.currentMonth = date.month
                     userInfo.currentDay = date.day
                 } label: {
-                    Text("Reset")
+                    Text("초기화")
                 }
                 Button {
                     if goalModel.content.count < 2 {
@@ -92,7 +93,7 @@ struct RecordView: View {
                         }
                     }
                 } label: {
-                    Text("Add")
+                    Text("추가")
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -107,6 +108,10 @@ struct RecordView: View {
                 )
             )
         })
+        .onAppear {
+            date = Calendar.current.date(from: DateComponents(year: userInfo.currentYear, month: userInfo.currentMonth, day: userInfo.currentDay))!
+            beforeDate = date
+        }
     }
 }
 

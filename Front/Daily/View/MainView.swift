@@ -19,23 +19,25 @@ struct MainView: View {
                 CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
                     .tabItem {
                         Image(systemName: "calendar")
-                        Text("Calendar")
+                        Text("목표 확인")
                     }
                     .tag(0)
                 RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
                     .tabItem {
                         Image(systemName: "pencil")
-                        Text("Record")
+                        Text("목표 추가")
                     }
                     .tag(1)
                 AppInfoView()
                     .tabItem {
                         Image(systemName: "gear")
-                        Text("AppInfo")
+                        Text("어플 정보")
                     }
                     .tag(2)
             }
             .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+            .navigationBarTitle("이전")
+            .navigationBarHidden(true)
         }
         .tint(Color("CustomColor"))
     }

@@ -81,7 +81,7 @@ struct CalendarHeader: View {
                 } label: {
                     VStack {
                         Image(systemName: "plus")
-                        Text("Add")
+                        Text("추가")
                             .font(.system(size: 12))
                     }
                 }

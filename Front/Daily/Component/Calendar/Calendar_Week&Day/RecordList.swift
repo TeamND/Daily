@@ -18,14 +18,14 @@ struct RecordList: View {
                 RecordOnList(userInfo: userInfo, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
                         NavigationLink {
-                            ModifyDateView(userInfo: userInfo, record: record.wrappedValue)
+                            ModifyDateView(userInfo: userInfo, record: record)
                         } label: {
-                            Label("Modify date of record", systemImage: "calendar")
+                            Label("날짜 변경", systemImage: "calendar")
                         }
                         NavigationLink {
-                            ModifyGoalView(userInfo: userInfo, navigationViewModel: navigationViewModel, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                            ModifyGoalView(userInfo: userInfo, navigationViewModel: navigationViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
                         } label: {
-                            Label("Modify goal", systemImage: "pencil")
+                            Label("목표 수정", systemImage: "pencil")
                         }
                         Button {
                             deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
@@ -39,7 +39,7 @@ struct RecordList: View {
                                 } else { print("\(record.goal_uid) delete fail@@@") }
                             }
                         } label: {
-                            Label("Delete goal", systemImage: "trash")
+                            Label("목표 삭제", systemImage: "trash")
                         }
                     }
                     .foregroundStyle(.primary)

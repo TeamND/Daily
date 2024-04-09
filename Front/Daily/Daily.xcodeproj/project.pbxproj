@@ -13,6 +13,7 @@
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
 		F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0042BC42EA100C35948 /* ModifyDateView.swift */; };
 		F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */; };
+		F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0092BC5450B00C35948 /* BeforeRecord.swift */; };
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
@@ -74,6 +75,7 @@
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
 		F61AE0042BC42EA100C35948 /* ModifyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyDateView.swift; path = Model/ModifyDateView.swift; sourceTree = SOURCE_ROOT; };
 		F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyGoalView.swift; path = Model/ModifyGoalView.swift; sourceTree = SOURCE_ROOT; };
+		F61AE0092BC5450B00C35948 /* BeforeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeRecord.swift; sourceTree = "<group>"; };
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -199,6 +201,14 @@
 			path = CalendarView;
 			sourceTree = "<group>";
 		};
+		F61AE0082BC544D000C35948 /* Modify */ = {
+			isa = PBXGroup;
+			children = (
+				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
+			);
+			path = Modify;
+			sourceTree = "<group>";
+		};
 		F637807929109AF000356212 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +298,7 @@
 			children = (
 				F672992F29B761A300E392BD /* Popup */,
 				F6D06251292F567900B825EF /* Calendar */,
+				F61AE0082BC544D000C35948 /* Modify */,
 				F6D06252292F56AD00B825EF /* Record */,
 				F6C6B02E2BB424A000C578C1 /* AppInfo */,
 				F6D062492925B84B00B825EF /* Custom */,
@@ -424,11 +435,12 @@
 			};
 			buildConfigurationList = F6BEC92C290F5894005EAF28 /* Build configuration list for PBXProject "Daily" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = F6BEC928290F5894005EAF28;
 			packageReferences = (
@@ -467,6 +479,7 @@
 				F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */,
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */,
+				F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */,
