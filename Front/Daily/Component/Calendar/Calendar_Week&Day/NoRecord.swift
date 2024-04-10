@@ -13,11 +13,11 @@ struct NoRecord: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("No Record")
+            Text(noRecordText)
             Button {
                 navigationViewModel.setTagIndex(tagIndex: 1)
             } label: {
-                Text("Go to add Goal")
+                Text(goRecordViewText)
             }
             Spacer()
         }

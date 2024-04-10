@@ -15,7 +15,6 @@ struct ModifyGoalView: View {
     @State var modifyGoalModel: modifyGoalModel
     @State var beforeSymbol: String = "체크"
     @State var beforeContent: String = ""
-    @State var isShowSymbolSheet: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     var body: some View {
         VStack {
@@ -25,32 +24,11 @@ struct ModifyGoalView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Group {
-                        Image(systemName: "\(modifyGoalModel.symbol.toSymbol()!.rawValue)")
-                            .padding()
-                        Image(systemName: "chevron.right")
-                        Image(systemName: "\(modifyGoalModel.symbol.toSymbol()!.rawValue).fill")
-                            .padding()
-                    }
-                    .onTapGesture {
-                        isShowSymbolSheet = true
-                    }
-                    .sheet(isPresented: $isShowSymbolSheet) {
-                        SymbolSheet(symbol: $modifyGoalModel.symbol)
-                            .presentationDetents([.medium])
-                            .presentationDragIndicator(.visible)
-                    }
+                    SymbolPickerGroup(symbol: $modifyGoalModel.symbol)
                 }
                 .frame(height: 40)
                 
-                TextField(
-                    "",
-                    text: $modifyGoalModel.content,
-                    prompt: Text("아침 7시 기상")
-                )
-                .padding()
-                .background(Color("BackgroundColor"))
-                .cornerRadius(5.0)
+                ContentTextField(content: $modifyGoalModel.content)
                 
                 HStack {
                     Spacer()

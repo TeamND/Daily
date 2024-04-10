@@ -121,7 +121,7 @@ extension View {
         )
     }
     
-    // MARK: - Custom Popup
+// MARK: - Custom Popup
     
 //    func popup(isPresented: Binding<Bool>) -> some View {
 //        if isPresented.wrappedValue {
@@ -129,4 +129,11 @@ extension View {
 //        }
 //        return self
 //    }
+}
+
+// MARK: - Keyboard
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }

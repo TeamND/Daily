@@ -13,55 +13,18 @@ struct RecordView: View {
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
-    @State var isShowCalendarSheet: Bool = false
-    @State var isShowSymbolSheet: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     
     var body: some View {
         VStack {
             HStack {
-                Group {
-                    Label {
-                        Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
-                    } icon: {
-                        Image(systemName: "calendar")
-                    }
-                }
-                .onTapGesture {
-                    isShowCalendarSheet = true
-                }
-                .sheet(isPresented: $isShowCalendarSheet) {
-                    CalendarSheet(userInfo: userInfo, date: $date)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.visible)
-                }
+                DatePickerGroup(userInfo: userInfo, date: $date)
                 Spacer()
-                Group {
-                    Image(systemName: "\(goalModel.symbol.toSymbol()!.rawValue)")
-                        .padding()
-                    Image(systemName: "chevron.right")
-                    Image(systemName: "\(goalModel.symbol.toSymbol()!.rawValue).fill")
-                        .padding()
-                }
-                .onTapGesture {
-                    isShowSymbolSheet = true
-                }
-                .sheet(isPresented: $isShowSymbolSheet) {
-                    SymbolSheet(symbol: $goalModel.symbol)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.visible)
-                }
+                SymbolPickerGroup(symbol: $goalModel.symbol)
             }
             .frame(height: 40)
             
-            TextField(
-                "",
-                text: $goalModel.content,
-                prompt: Text("아침 7시 기상")
-            )
-            .padding()
-            .background(Color("BackgroundColor"))
-            .cornerRadius(5.0)
+            ContentTextField(content: $goalModel.content)
             
             HStack {
                 Spacer()

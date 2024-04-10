@@ -17,6 +17,9 @@
 		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
+		F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */; };
+		F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */; };
+		F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F68B31972986694A000791F3 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B31962986694A000791F3 /* Record.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
@@ -79,6 +82,9 @@
 		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextField.swift; sourceTree = "<group>"; };
+		F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerGroup.swift; sourceTree = "<group>"; };
+		F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPickerGroup.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F68B31962986694A000791F3 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -378,6 +384,9 @@
 		F6D06252292F56AD00B825EF /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */,
+				F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */,
+				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -482,6 +491,7 @@
 				F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
+				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
 				F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */,
 				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
 				F6D0624B2927B58B00B825EF /* Times.swift in Sources */,
@@ -502,11 +512,13 @@
 				F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */,
 				F6DF64B22BAFCDB500A17B9E /* MonthOnYear.swift in Sources */,
 				F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */,
+				F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */,
 				F6CC15A42BA1E69700689A02 /* getCalendarDayModel.swift in Sources */,
 				F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */,
 				F6C2F22229221C410006BFC7 /* RecordOnList.swift in Sources */,
 				F6DF64B82BAFDCB800A17B9E /* SymbolOnMonth.swift in Sources */,
 				F6CC15C22BAD5ACA00689A02 /* FrameExtension.swift in Sources */,
+				F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
 				F68B31972986694A000791F3 /* Record.swift in Sources */,
