@@ -192,7 +192,13 @@ extension UserInfo {
         DispatchQueue.main.async {
             self.currentYear = changedDay.year
             self.currentMonth = changedDay.month
-            self.currentDay = self.currentState == "week" ? changedDay.day : 1
+            if self.currentState == "week" {
+                self.currentDay = changedDay.day
+            } else if self.currentState == "month" && changedDay.month == Date().month {
+                self.currentDay = Date().day
+            } else {
+                self.currentDay = 1
+            }
         }
     }
     
