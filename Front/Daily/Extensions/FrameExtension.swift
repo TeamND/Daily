@@ -68,9 +68,7 @@ extension View {
                 // 좌 -> 우
                 if value.translation.width > 100 {
                     if navigationViewModel.getTagIndex() == 0 {
-                        if value.startLocation.x > 30 {
-                            userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
-                        } else {
+                        if value.startLocation.x < 30 && userInfo.currentState != "year" {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "year"
@@ -81,6 +79,8 @@ extension View {
                                     userInfo.currentState = "month"
                                 }
                             }
+                        } else {
+                            userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
                         }
                     }
                 }
