@@ -60,8 +60,8 @@ struct ModifyGoalView: View {
             .padding()
             .alert(isPresented: $isShowContentLengthAlert, content: {
                 Alert(
-                    title: Text("목표의 길이가 너무 짧습니다."),
-                    message: Text("최소 2글자 이상의 목표를 설정해주세요."),
+                    title: Text(contentLengthAlertTitleText),
+                    message: Text(contentLengthAlertMessageText),
                     dismissButton: .default(
                         Text("확인")
                     )
