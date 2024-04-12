@@ -16,7 +16,7 @@ struct BeforeRecord: View {
                 if record.issuccess {
                     Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle").fill")
                 } else {
-                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d,circle")")
+                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle")")
                 }
                 Text(record.content)
                 Spacer()

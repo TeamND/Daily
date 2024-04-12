@@ -168,11 +168,11 @@ extension UserInfo {
         return false
     }
     
-    func changeCalendar(direction: String, calendarViewModel: CalendarViewModel) {
+    func changeCalendar(direction: String, calendarViewModel: CalendarViewModel, amount: Int = 1) {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         var changedDay = Date()
-        let value = direction == "prev" ? -1 : +1
+        let value = direction == "prev" ? -amount : +amount
         switch (self.currentState) {
         case "year":
             calendarViewModel.resetRatingOnYear()

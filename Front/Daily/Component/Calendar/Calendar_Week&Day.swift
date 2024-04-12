@@ -55,7 +55,7 @@ struct Calendar_Week_Day: View {
 //                .listStyle(.plain)
 //                .listRowSeparator(.hidden)
             } else {
-                NoRecord(navigationViewModel: navigationViewModel)
+                NoRecord(userInfo: userInfo, navigationViewModel: navigationViewModel)
             }
         }
         .onAppear {

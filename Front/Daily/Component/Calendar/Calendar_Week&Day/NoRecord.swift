@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct NoRecord: View {
-    @StateObject var navigationViewModel: NavigationViewModel
+    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var navigationViewModel: NavigationViewModel
     
     var body: some View {
         VStack {
             Spacer()
             Text(noRecordText)
-            Button {
-                navigationViewModel.setTagIndex(tagIndex: 1)
+            NavigationLink {
+                RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
             } label: {
                 Text(goRecordViewText)
             }

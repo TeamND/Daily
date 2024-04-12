@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct RecordOnList: View {
-    @StateObject var userInfo: UserInfo
-    @StateObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
     var body: some View {
         ZStack {
@@ -17,7 +17,7 @@ struct RecordOnList: View {
                 if record.issuccess {
                     Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle").fill")
                 } else {
-                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d,circle")")
+                    Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle")")
                 }
                 Text(record.content)
                 Spacer()

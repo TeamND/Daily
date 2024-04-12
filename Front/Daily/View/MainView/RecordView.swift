@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecordView: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var navigationViewModel: NavigationViewModel
     @State var goalModel: GoalModel = GoalModel()
@@ -51,7 +52,13 @@ struct RecordView: View {
                             if data.code == "00" {
                                 goalModel.symbol = "체크"
                                 goalModel.content = ""
-                                navigationViewModel.setTagIndex(tagIndex: 0)
+                                if navigationViewModel.getTagIndex() == 0 {
+                                    DispatchQueue.main.async {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                } else {
+                                    navigationViewModel.setTagIndex(tagIndex: 0)
+                                }
                             }
                         }
                     }

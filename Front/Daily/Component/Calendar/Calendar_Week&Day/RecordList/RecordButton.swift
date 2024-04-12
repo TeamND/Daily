@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct RecordButton: View {
-    @StateObject var userInfo: UserInfo
-    @StateObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
     var body: some View {
         if record.issuccess {

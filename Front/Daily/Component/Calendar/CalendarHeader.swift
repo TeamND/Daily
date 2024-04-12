@@ -52,19 +52,52 @@ struct CalendarHeader: View {
                     Image(systemName: "chevron.left")
                 }
                 if userInfo.currentState == "year" {
-                    Text(userInfo.currentYearLabel)
-                        .font(.system(size: 20, weight: .bold))
-                        .matchedGeometryEffect(id: "year", in: NS)
+                    Menu {
+                        ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
+                            Button {
+                                userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: year - userInfo.currentYear)
+                            } label: {
+                                Text(String(year))
+                            }
+                        }
+                    } label: {
+                        Text(userInfo.currentYearLabel)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.primary)
+                    }
+                    .matchedGeometryEffect(id: "year", in: NS)
                 }
                 if userInfo.currentState == "month" {
-                    Text(userInfo.currentMonthLabel)
-                        .font(.system(size: 20, weight: .bold))
-                        .matchedGeometryEffect(id: "month", in: NS)
+                    Menu {
+                        ForEach(1 ... 12, id:\.self) { month in
+                            Button {
+                                userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: month - userInfo.currentMonth)
+                            } label: {
+                                Text(String(month))
+                            }
+                        }
+                    } label: {
+                        Text(userInfo.currentMonthLabel)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.primary)
+                    }
+                    .matchedGeometryEffect(id: "month", in: NS)
                 }
                 if userInfo.currentState == "week" {
-                    Text(userInfo.currentDayLabel)
-                        .font(.system(size: 20, weight: .bold))
-                        .matchedGeometryEffect(id: "week", in: NS)
+                    Menu {
+                        ForEach(1 ... userInfo.lengthOfMonth(), id:\.self) { day in
+                            Button {
+                                userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: day - userInfo.currentDay)
+                            } label: {
+                                Text(String(day))
+                            }
+                        }
+                    } label: {
+                        Text(userInfo.currentDayLabel)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.primary)
+                    }
+                    .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Button {
                     userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
@@ -76,8 +109,8 @@ struct CalendarHeader: View {
             // trailing
             HStack(spacing: 0) {
                 Spacer()
-                Button {
-                    navigationViewModel.setTagIndex(tagIndex: 1)
+                NavigationLink {
+                    RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
                 } label: {
                     VStack {
                         Image(systemName: "plus")
