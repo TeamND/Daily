@@ -16,6 +16,7 @@ struct AppInfo: View {
                 AppInfoContent(name: "Version", content: Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String)
 //                AppInfoContent(name: "Notion", linkLabel: "Go to Warehouse TIL", linkDestination: "notion.so/seungyooooong/Warehouse-5f82fe5b62814bb7b8482377b70ec4c3")
                 AppInfoContent(name: "Github", linkLabel: "Go to Repository", linkDestination: "github.com/TeamND/Daily")
+                AppInfoContent(name: "Support", linkLabel: "Go to Manual", linkDestination: "https://seungyooooong.notion.site/Daily-44127143818b4a8f8d9e864d992b549f?pvs=4")
             } label: {
                 AppInfoLabel(labelText: "Application", labelImage: "apps.iphone")
             }
