@@ -57,7 +57,7 @@ struct CalendarHeader: View {
                             Button {
                                 userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: year - userInfo.currentYear)
                             } label: {
-                                Text(String(year))
+                                Text("\(String(year)) 년")
                             }
                         }
                     } label: {
@@ -73,7 +73,7 @@ struct CalendarHeader: View {
                             Button {
                                 userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: month - userInfo.currentMonth)
                             } label: {
-                                Text(String(month))
+                                Text("\(String(month)) 월")
                             }
                         }
                     } label: {
@@ -89,7 +89,7 @@ struct CalendarHeader: View {
                             Button {
                                 userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: day - userInfo.currentDay)
                             } label: {
-                                Text(String(day))
+                                Text("\(String(day)) 일")
                             }
                         }
                     } label: {

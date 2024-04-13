@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 struct InitView: View {
     @ObservedObject var userInfo: UserInfo
@@ -28,7 +27,6 @@ struct InitView: View {
                     userInfoViewModel.setUserInfo(userInfo: data.data)
                     DispatchQueue.main.async {
                         userInfo.uid = data.data.uid
-                        userInfo.uid = 39   // 임시
                         userInfo.set_startday = data.data.set_startday
                         userInfo.set_language = data.data.set_language
                         userInfo.set_dateorrepeat = data.data.set_dateorrepeat
