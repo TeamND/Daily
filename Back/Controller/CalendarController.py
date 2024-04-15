@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace, fields, reqparse
 from Api.CalendarApi import CalendarApi
+import json
 
 calendar = Namespace(
     name="Calendar",
@@ -26,7 +27,10 @@ class CalendarUD(Resource):
     @calendar.doc(responses={99: 'Failed'})
     def put(self,uid):
         '''기록을 수정한다.'''
-        return CalendarApi.Update(uid,request.args)
+        data = request.get_data()
+        data = data.decode('UTF-8')
+        data = json.loads(data)
+        return CalendarApi.Update(uid,data)
     
     @calendar.doc(responses={00: 'Success'})
     @calendar.doc(responses={99: 'Failed'})    
