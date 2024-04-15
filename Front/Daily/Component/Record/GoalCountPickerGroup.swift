@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GoalCountPickerGroup: View {
     @Binding var count: Int
+    @Binding var isShowAlert: Bool
     @Binding var isShowCountRangeAlert: Bool
     
     var body: some View {
@@ -18,6 +19,7 @@ struct GoalCountPickerGroup: View {
                 if count > 2 {
                     count -= 1
                 } else {
+                    isShowAlert = true
                     isShowCountRangeAlert = true
                 }
             } label: {
@@ -28,6 +30,7 @@ struct GoalCountPickerGroup: View {
                 if count < 10 {
                     count += 1
                 } else {
+                    isShowAlert = true
                     isShowCountRangeAlert = true
                 }
             } label: {
@@ -35,14 +38,5 @@ struct GoalCountPickerGroup: View {
             }
         }
         .buttonStyle(.plain)
-        .alert(isPresented: $isShowCountRangeAlert, content: {
-            Alert(
-                title: Text(countRangeAlertTitleText),
-                message: Text(countRangeAlertMessageText),
-                dismissButton: .default(
-                    Text("확인")
-                )
-            )
-        })
     }
 }

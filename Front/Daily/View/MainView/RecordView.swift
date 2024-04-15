@@ -14,6 +14,7 @@ struct RecordView: View {
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
+    @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
     
@@ -32,7 +33,7 @@ struct RecordView: View {
             
             HStack {
                 if goalModel.type == "count" {
-                    GoalCountPickerGroup(count: $goalModel.goal_count, isShowCountRangeAlert: $isShowCountRangeAlert)
+                    GoalCountPickerGroup(count: $goalModel.goal_count, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
                 }
                 Spacer()
                 Button {
@@ -47,7 +48,10 @@ struct RecordView: View {
                     Text("초기화")
                 }
                 Button {
+                    print(goalModel.content)
+                    print(goalModel.content.count)
                     if goalModel.content.count < 2 {
+                        isShowAlert = true
                         isShowContentLengthAlert = true
                     } else {
                         let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
@@ -78,23 +82,28 @@ struct RecordView: View {
             Spacer()
         }
         .padding()
-        .alert(isPresented: $isShowContentLengthAlert, content: {
-            Alert(
-                title: Text(contentLengthAlertTitleText),
-                message: Text(contentLengthAlertMessageText),
-                dismissButton: .default(
-                    Text("확인")
+        .alert(isPresented: $isShowAlert, content: {
+            if self.isShowContentLengthAlert {
+                Alert(
+                    title: Text(contentLengthAlertTitleText),
+                    message: Text(contentLengthAlertMessageText),
+                    dismissButton: .default(
+                        Text("확인"), action: {
+                            self.isShowContentLengthAlert = false
+                        }
+                    )
                 )
-            )
-        })
-        .alert(isPresented: $isShowCountRangeAlert, content: {
-            Alert(
-                title: Text(countRangeAlertTitleText),
-                message: Text(countRangeAlertMessageText),
-                dismissButton: .default(
-                    Text("확인")
+            } else {
+                Alert(
+                    title: Text(countRangeAlertTitleText),
+                    message: Text(countRangeAlertMessageText),
+                    dismissButton: .default(
+                        Text("확인"), action: {
+                            self.isShowCountRangeAlert = false
+                        }
+                    )
                 )
-            )
+            }
         })
         .onAppear {
             date = Calendar.current.date(from: DateComponents(year: userInfo.currentYear, month: userInfo.currentMonth, day: userInfo.currentDay))!
