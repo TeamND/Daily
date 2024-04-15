@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ContentTextField: View {
     @Binding var content: String
+    @Binding var type: String
     
     var body: some View {
         TextField(
             "",
             text: $content,
-            prompt: Text(contentOfGoalHintText)
+            prompt: Text(contentOfGoalHintText(type: type))
         )
         .padding()
         .background(Color("BackgroundColor"))

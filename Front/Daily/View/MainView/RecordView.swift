@@ -15,9 +15,12 @@ struct RecordView: View {
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
     @State var isShowContentLengthAlert: Bool = false
+    @State var isShowCountRangeAlert: Bool = false
     
     var body: some View {
         VStack {
+            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count)
+            Spacer()
             HStack {
                 DatePickerGroup(userInfo: userInfo, date: $date)
                 Spacer()
@@ -25,13 +28,17 @@ struct RecordView: View {
             }
             .frame(height: 40)
             
-            ContentTextField(content: $goalModel.content)
+            ContentTextField(content: $goalModel.content, type: $goalModel.type)
             
             HStack {
+                if goalModel.type == "count" {
+                    GoalCountPickerGroup(count: $goalModel.goal_count, isShowCountRangeAlert: $isShowCountRangeAlert)
+                }
                 Spacer()
                 Button {
                     goalModel.symbol = "체크"
                     goalModel.content = ""
+                    goalModel.type = "check"
                     date = beforeDate
                     userInfo.currentYear = date.year
                     userInfo.currentMonth = date.month
@@ -52,6 +59,7 @@ struct RecordView: View {
                             if data.code == "00" {
                                 goalModel.symbol = "체크"
                                 goalModel.content = ""
+                                goalModel.type = "check"
                                 if navigationViewModel.getTagIndex() == 0 {
                                     DispatchQueue.main.async {
                                         self.presentationMode.wrappedValue.dismiss()
@@ -67,12 +75,22 @@ struct RecordView: View {
                 }
             }
             .buttonStyle(.borderedProminent)
+            Spacer()
         }
         .padding()
         .alert(isPresented: $isShowContentLengthAlert, content: {
             Alert(
                 title: Text(contentLengthAlertTitleText),
                 message: Text(contentLengthAlertMessageText),
+                dismissButton: .default(
+                    Text("확인")
+                )
+            )
+        })
+        .alert(isPresented: $isShowCountRangeAlert, content: {
+            Alert(
+                title: Text(countRangeAlertTitleText),
+                message: Text(countRangeAlertMessageText),
                 dismissButton: .default(
                     Text("확인")
                 )

@@ -17,7 +17,7 @@ struct RecordButton: View {
         } else {
             Button {
                 switch record.type {
-                case "check":
+                case "check", "count":
                     increaseCount(recordUID: String(record.uid)) { (data) in
                         if data.code == "00" {
                             DispatchQueue.main.async {
@@ -29,10 +29,6 @@ struct RecordButton: View {
                             }
                         }
                     }
-                case "count":
-                    print("미구현")
-//                    if record.record_count <  record.goal_count { record.record_count += 1 }
-//                    if record.record_count == record.goal_count { record.issuccess = true }
                 case "timer":
                     print("timer record button press")
 //                    record.itart.toggle()

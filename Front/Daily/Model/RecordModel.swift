@@ -11,7 +11,7 @@ struct RecordModel: Codable {
     let uid: Int
     var goal_uid: Int
     let content: String
-    let type: String
+    var type: String
     let symbol: String
     let goal_time: Int
     let goal_count: Int

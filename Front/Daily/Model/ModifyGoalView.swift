@@ -28,7 +28,7 @@ struct ModifyGoalView: View {
                 }
                 .frame(height: 40)
                 
-                ContentTextField(content: $modifyGoalModel.content)
+                ContentTextField(content: $modifyGoalModel.content, type: $record.type)
                 
                 HStack {
                     Spacer()

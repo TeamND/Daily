@@ -31,7 +31,7 @@ struct RecordOnList: View {
                     ProgressView(value: Double(record.record_count), total: Double(record.goal_count))
                         .progressViewStyle(LinearProgressViewStyle(tint: Color("CustomColor").opacity(0.8)))
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, 6)
             }
         }
         .padding(.horizontal, 5)
