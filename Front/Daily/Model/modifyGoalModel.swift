@@ -11,12 +11,14 @@ struct modifyGoalModel: Codable {
     let uid: Int
     var content: String = ""
     var symbol: String = ""
-    let issuccess: Bool
+    var type: String = "check"
+    var goal_count: Int = 1
     
     init (record: RecordModel) {
         self.uid = record.goal_uid
         self.content = record.content
         self.symbol = record.symbol
-        self.issuccess = record.issuccess
+        self.type = record.type
+        self.goal_count = record.goal_count
     }
 }

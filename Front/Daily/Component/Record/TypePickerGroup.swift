@@ -18,7 +18,7 @@ struct TypePickerGroup: View {
                     type = "check"
                     count = 1
                 } label: {
-                    Text("성공 / 실패")
+                    Text("성공 기록")
                         .foregroundStyle(type == "check" ? Color("CustomColor") : .primary)
                 }
                 CustomDivider(color: type == "check" ? Color("CustomColor") : .primary)
@@ -29,7 +29,7 @@ struct TypePickerGroup: View {
                     type = "count"
                     count = 5
                 } label: {
-                    Text("목표 횟수 설정")
+                    Text("횟수 기록")
                         .foregroundStyle(type == "check" ? .primary : Color("CustomColor"))
                 }
                 CustomDivider(color: type == "check" ? .primary : Color("CustomColor"))

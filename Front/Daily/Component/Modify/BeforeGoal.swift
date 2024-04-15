@@ -1,18 +1,17 @@
 //
-//  Goal.swift
+//  BeforeGoal.swift
 //  Daily
 //
-//  Created by 최승용 on 2022/11/14.
+//  Created by 최승용 on 4/15/24.
 //
 
 import SwiftUI
 
-struct RecordOnList: View {
-    @ObservedObject var userInfo: UserInfo
-    @ObservedObject var calendarViewModel: CalendarViewModel
+struct BeforeGoal: View {
     @Binding var record: RecordModel
+    
     var body: some View {
-        ZStack {
+        VStack {
             HStack(spacing: 12) {
                 if record.issuccess {
                     Image(systemName: "\(record.symbol.toSymbol()?.rawValue ?? "d.circle").fill")
@@ -21,12 +20,16 @@ struct RecordOnList: View {
                 }
                 Text(record.content)
                 Spacer()
-                RecordButton(userInfo: userInfo, calendarViewModel: calendarViewModel, record: $record)
-                    .frame(maxHeight: .infinity)
-                    .foregroundColor(Color("CustomColor"))
-            }
-            if record.type != "check" {
-                RecordProgressBar(record_count: $record.record_count, goal_count: $record.goal_count)
+                Text("\(record.record_count) / \(record.goal_count)")
+//                switch record.type {
+//                case "check":
+//                    Label("성공 기록", systemImage: "checkmark.circle")
+//                case "count":
+//                case "timer":
+//                    Label("시간 기록", systemImage: "play.circle")
+//                default:
+//                    Text("")
+//                }
             }
         }
         .padding(.horizontal, 5)

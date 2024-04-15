@@ -38,12 +38,7 @@ struct BeforeRecord: View {
                 }
             }
             if record.type != "check" {
-                VStack {
-                    Spacer()
-                    ProgressView(value: Double(record.record_count), total: Double(record.goal_count))
-                        .progressViewStyle(LinearProgressViewStyle(tint: Color("CustomColor").opacity(0.8)))
-                }
-                .padding(.vertical, 4)
+                RecordProgressBar(record_count: $record.record_count, goal_count: $record.goal_count)
             }
         }
         .padding(.horizontal, 5)

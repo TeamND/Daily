@@ -22,6 +22,8 @@
 		F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */; };
 		F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */; };
 		F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */; };
+		F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */; };
+		F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F68B31972986694A000791F3 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B31962986694A000791F3 /* Record.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
@@ -89,6 +91,8 @@
 		F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPickerGroup.swift; sourceTree = "<group>"; };
 		F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypePickerGroup.swift; sourceTree = "<group>"; };
 		F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCountPickerGroup.swift; sourceTree = "<group>"; };
+		F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeGoal.swift; sourceTree = "<group>"; };
+		F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F68B31962986694A000791F3 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
+				F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */,
 			);
 			path = Modify;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
 				F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */,
 				F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */,
+				F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -532,6 +538,7 @@
 				F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
 				F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */,
+				F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */,
 				F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */,
@@ -544,6 +551,7 @@
 				F6CC15922B9C91E200689A02 /* AppInfoView.swift in Sources */,
 				F6CC15AA2BA4598700689A02 /* UserInfoModel.swift in Sources */,
 				F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */,
+				F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */,
 				F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */,
 				F6DF64B62BAFDA1200A17B9E /* DayOnMonth.swift in Sources */,
 				F6CC158C2B9C90F300689A02 /* MainView.swift in Sources */,

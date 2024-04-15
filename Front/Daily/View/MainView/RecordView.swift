@@ -20,7 +20,7 @@ struct RecordView: View {
     
     var body: some View {
         VStack {
-            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count)
+//            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count)
             Spacer()
             HStack {
                 DatePickerGroup(userInfo: userInfo, date: $date)
@@ -32,14 +32,13 @@ struct RecordView: View {
             ContentTextField(content: $goalModel.content, type: $goalModel.type)
             
             HStack {
-                if goalModel.type == "count" {
-                    GoalCountPickerGroup(count: $goalModel.goal_count, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
-                }
+                GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
                 Spacer()
                 Button {
                     goalModel.symbol = "체크"
                     goalModel.content = ""
                     goalModel.type = "check"
+                    goalModel.goal_count = 1
                     date = beforeDate
                     userInfo.currentYear = date.year
                     userInfo.currentMonth = date.month
@@ -48,8 +47,6 @@ struct RecordView: View {
                     Text("초기화")
                 }
                 Button {
-                    print(goalModel.content)
-                    print(goalModel.content.count)
                     if goalModel.content.count < 2 {
                         isShowAlert = true
                         isShowContentLengthAlert = true
@@ -64,6 +61,7 @@ struct RecordView: View {
                                 goalModel.symbol = "체크"
                                 goalModel.content = ""
                                 goalModel.type = "check"
+                                goalModel.goal_count = 1
                                 if navigationViewModel.getTagIndex() == 0 {
                                     DispatchQueue.main.async {
                                         self.presentationMode.wrappedValue.dismiss()
