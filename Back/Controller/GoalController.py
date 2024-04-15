@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace, fields
 from Api.GoalApi import GoalApi
+import json
 
 goal = Namespace(
     name="Goal",
@@ -52,9 +53,9 @@ class GoalRUD(Resource):
     @goal.doc(responses={99: 'Failed'})
     def put(self,uid):
         '''목표를 수정한다.'''
-        data = request.args.copy()
-        if'cycle_date' in data and data['cycle_date']:
-            data['cycle_date'] = eval(data['cycle_date'])
+        data = request.get_data()
+        data = data.decode('UTF-8')
+        data = json.loads(data)
         return GoalApi.Update(uid,data)
     
     @goal.doc(responses={00: 'Success'})
