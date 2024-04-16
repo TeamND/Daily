@@ -26,7 +26,6 @@ struct InitView: View {
                     userInfoViewModel.setUserInfo(userInfo: data.data)
                     DispatchQueue.main.async {
                         userInfo.uid = data.data.uid
-                        userInfo.uid = 10
                         userInfo.set_startday = data.data.set_startday
                         userInfo.set_language = data.data.set_language
                         userInfo.set_dateorrepeat = data.data.set_dateorrepeat
