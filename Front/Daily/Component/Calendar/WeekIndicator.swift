@@ -19,12 +19,13 @@ struct WeekIndicator: View {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 2)
                         .opacity(isToday && tapPurpose == "change" ? 1 : 0)
+                        .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
-                        .font(.system(size: 32))
+                        .font(.system(size: CGFloat.fontSize * 5))
                         .foregroundColor(Color("CustomColor").opacity(calendarViewModel.getDayOfRatingOnWeek(dayIndex: index)*0.8))
                         .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
                     Text(userInfo.weeks[index])
-                        .font(.system(size: 16, weight: .bold))
+                        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }
                 .onTapGesture {
                     switch tapPurpose {
@@ -43,6 +44,7 @@ struct WeekIndicator: View {
                 .frame(width: CGFloat.dayOnMonthWidth)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 40)
+        .frame(height: CGFloat.fontSize * 6)
+        .frame(maxWidth: .infinity)
     }
 }

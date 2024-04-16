@@ -12,7 +12,7 @@ struct Calendar_Week_Day: View {
     @ObservedObject var navigationViewModel: NavigationViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             WeekIndicator(userInfo: userInfo, calendarViewModel: calendarViewModel, tapPurpose: "change")
             CustomDivider(color: .primary, height: 2, hPadding: 12)
             if calendarViewModel.recordsOnWeek.count > 0 {
@@ -22,6 +22,7 @@ struct Calendar_Week_Day: View {
                         RecordList(userInfo: userInfo, navigationViewModel: navigationViewModel, calendarViewModel: calendarViewModel)
                     }
                 }
+                .padding(.top, CGFloat.fontSize)
                 Spacer()
                 // swipeAction 재정리 이후 수정
 //                List {

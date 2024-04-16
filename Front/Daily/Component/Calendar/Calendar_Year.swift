@@ -43,3 +43,8 @@ struct Calendar_Year: View {
         }
     }
 }
+
+
+#Preview {
+    Calendar_Year(userInfo: UserInfo(), calendarViewModel: CalendarViewModel())
+}

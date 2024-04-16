@@ -13,6 +13,7 @@ struct CalendarHeader: View {
     @ObservedObject var navigationViewModel: NavigationViewModel
     @StateObject var popupInfo: PopupInfo
     @Namespace var NS
+    
     var body: some View {
         ZStack {
             // leading
@@ -24,9 +25,9 @@ struct CalendarHeader: View {
                         }
                     } label: {
                         Label(userInfo.currentYearLabel, systemImage: "chevron.left")
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
-                    .padding(8)
+                    .padding(CGFloat.fontSize)
                     .matchedGeometryEffect(id: "year", in: NS)
                 }
                 if userInfo.currentState == "week" {
@@ -36,9 +37,9 @@ struct CalendarHeader: View {
                         }
                     } label: {
                         Label(userInfo.currentMonthLabel, systemImage: "chevron.left")
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
-                    .padding(8)
+                    .padding(CGFloat.fontSize)
                     .matchedGeometryEffect(id: "month", in: NS)
                 }
                 Spacer()
@@ -62,7 +63,7 @@ struct CalendarHeader: View {
                         }
                     } label: {
                         Text(userInfo.currentYearLabel)
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
                     .matchedGeometryEffect(id: "year", in: NS)
@@ -78,7 +79,7 @@ struct CalendarHeader: View {
                         }
                     } label: {
                         Text(userInfo.currentMonthLabel)
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
                     .matchedGeometryEffect(id: "month", in: NS)
@@ -94,7 +95,7 @@ struct CalendarHeader: View {
                         }
                     } label: {
                         Text(userInfo.currentDayLabel)
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
                     .matchedGeometryEffect(id: "week", in: NS)
@@ -115,34 +116,11 @@ struct CalendarHeader: View {
                     VStack {
                         Image(systemName: "plus")
                         Text("추가")
-                            .font(.system(size: 12))
+                            .font(.system(size: CGFloat.fontSize * 2))
                     }
                 }
-                .padding(8)
+                .padding(CGFloat.fontSize)
             }
-//            HStack(spacing: 0) {
-//                Spacer()
-//                Button {
-//                    popupInfo.showPopup(isPopup: true)
-//                } label: {
-//                    VStack {
-//                        Image(systemName: "plus")
-//                        Text("add")
-//                            .font(.system(size: 12))
-//                    }
-//                }
-//                .padding(8)
-//                Button {
-//                    popupInfo.showPopup(isPopup: false)
-//                } label: {
-//                    VStack {
-//                        Image(systemName: "slider.horizontal.3")
-//                        Text("menu")
-//                            .font(.system(size: 12))
-//                    }
-//                }
-//                .padding(8)
-//            }
         }
     }
 }

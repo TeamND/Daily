@@ -15,8 +15,12 @@ extension CGFloat {
     static let screenHeight = UIScreen.main.bounds.height
     
     // calendar
+    static let monthOnYearWidth = screenWidth / 3
+    static let monthOnYearHeight = screenHeight / 6
     static let dayOnMonthWidth = screenWidth / 7
-    static let dayOnMonthHeight = screenHeight / 10
+    
+    static let fontSizeForiPhone15 = 6 * screenWidth / 393 // 6.7 iPhone 기준
+    static let fontSize = UIDevice.current.model == "iPhone" ? fontSizeForiPhone15 : fontSizeForiPhone15 / 2
 }
 
 // MARK: - Frame Modifier
@@ -66,9 +70,9 @@ extension View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 좌 -> 우
-                if value.translation.width > 100 {
+                if value.translation.width > CGFloat.fontSize * 15 {
                     if navigationViewModel.getTagIndex() == 0 {
-                        if value.startLocation.x < 30 && userInfo.currentState != "year" {
+                        if value.startLocation.x < CGFloat.fontSize * 5 && userInfo.currentState != "year" {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "year"
