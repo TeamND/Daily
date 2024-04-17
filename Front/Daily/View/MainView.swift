@@ -40,6 +40,7 @@ struct MainView: View {
             .navigationBarHidden(true)
         }
         .tint(Color("CustomColor"))
+        .accentColor(Color("CustomColor"))
     }
 }
 
