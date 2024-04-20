@@ -25,6 +25,8 @@
 		F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */; };
 		F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */; };
 		F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */; };
+		F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */; };
+		F6699BA62BD4667E00B1FDA7 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA52BD4667E00B1FDA7 /* TestView.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F68B31972986694A000791F3 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B31962986694A000791F3 /* Record.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
@@ -95,6 +97,8 @@
 		F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeGoal.swift; sourceTree = "<group>"; };
 		F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
 		F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalButton.swift; sourceTree = "<group>"; };
+		F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
+		F6699BA52BD4667E00B1FDA7 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F68B31962986694A000791F3 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -254,6 +258,7 @@
 				F6C0F7F029125AF500984457 /* InitView.swift */,
 				F6CC158B2B9C90F300689A02 /* MainView.swift */,
 				F61AE0022BC42D4600C35948 /* MainView */,
+				F6699BA52BD4667E00B1FDA7 /* TestView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				F61AE0012BC42CDC00C35948 /* Calendar_Week&Day */,
 				F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */,
 				F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */,
+				F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -537,6 +543,7 @@
 				F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
+				F6699BA62BD4667E00B1FDA7 /* TestView.swift in Sources */,
 				F68B31972986694A000791F3 /* Record.swift in Sources */,
 				F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
@@ -545,6 +552,7 @@
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */,
 				F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */,
+				F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */,
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
 				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,

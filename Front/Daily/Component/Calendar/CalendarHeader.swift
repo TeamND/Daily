@@ -117,8 +117,7 @@ struct CalendarHeader: View {
                     } label: {
                         VStack {
                             Image(systemName: "info.circle")
-//                            Text("어플 정보")
-//                                .font(.system(size: CGFloat.fontSize * 2))
+                                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                         }
                     }
                     .padding(CGFloat.fontSize)

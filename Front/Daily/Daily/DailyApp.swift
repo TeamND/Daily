@@ -16,6 +16,7 @@ struct DailyApp: App {
         WindowGroup {
             if isLoading { InitView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, isLoading: $isLoading) }
             else         { MainView(userInfo: userInfo, userInfoViewModel: userInfoViewModel) }
+//            TestView()
         }
     }
 }

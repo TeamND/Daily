@@ -7,6 +7,9 @@
 
 import Foundation
 
+// MARK: - about Calendar
+let marginRange = 2
+
 // MARK: - about Record
 func contentOfGoalHintText(type: String) -> String {
     if type == "check" {
