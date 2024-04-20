@@ -1,4 +1,4 @@
-# Daily
+# [Daily - 매일 매일 일정 관리](https://apps.apple.com/kr/app/daily-%EB%A7%A4%EC%9D%BC-%EB%A7%A4%EC%9D%BC-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC/id6480167782)
 ***"Design 🎨 , Record 📝, and Check 👏 'Daily'!!"***
 
 ***Team ND***
