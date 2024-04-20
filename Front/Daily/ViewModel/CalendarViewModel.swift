@@ -25,7 +25,7 @@ class CalendarViewModel: ObservableObject {
     
     // MARK: - month
     @Published var daysOnMonth: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
-    @Published var tagIndex: Int = 1
+//    @Published var tagIndex: Int = 2
     
     func getDaysOnMonth(dayIndex: Int) -> dayOnMonthModel {
         return self.daysOnMonth[dayIndex]

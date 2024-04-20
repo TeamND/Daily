@@ -12,15 +12,16 @@ struct MainView: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     @StateObject var navigationViewModel: NavigationViewModel = NavigationViewModel()
-    @State var updateVersion: Bool = false
+    @State var updateVersion: Bool = true
     
     var body: some View {
         NavigationStack {
             if updateVersion {
-                CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
-//                    .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
-                    .navigationBarTitle("이전")
-                    .navigationBarHidden(true)
+                VStack {
+                    CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
+                }
+                .background(Color("ThemeColor"))
+                .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
             } else {
                 TabView (selection: $navigationViewModel.tagIndex) {
                     CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
@@ -43,10 +44,10 @@ struct MainView: View {
                         .tag(2)
                 }
                 .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
-                .navigationBarTitle("이전")
-                .navigationBarHidden(true)
             }
         }
+        .navigationBarTitle("이전")
+        .navigationBarHidden(true)
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
     }
