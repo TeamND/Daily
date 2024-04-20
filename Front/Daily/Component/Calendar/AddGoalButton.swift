@@ -16,7 +16,7 @@ struct AddGoalButton: View {
             RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
         } label: {
             Label("목표 추가", systemImage: "plus")
-                .foregroundStyle(Color("ThemeColor"))
+                .foregroundStyle(.white)
                 .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
         }
         .padding()
