@@ -10,6 +10,8 @@ import SwiftUI
 struct Calendar_Year: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @State var updateVersion: Bool = false
+    
     var body: some View {
         VStack(spacing: 0) {
             CustomDivider(color: .primary, height: 2)
@@ -18,13 +20,24 @@ struct Calendar_Year: View {
                 HStack(spacing: 0) {
                     ForEach (0..<3) { colIndex in
                         let month = (rowIndex * 3) + colIndex + 1
-                        Button {
-                            withAnimation {
-                                userInfo.currentMonth = month
-                                userInfo.currentState = "month"
+                        if updateVersion {
+//                            NavigationLink {
+//                                Calendar_Month(userInfo: userInfo, calendarViewModel: calendarViewModel)
+//                            } label: {
+//                                MonthOnYear(userInfo: userInfo, calendarViewModel: calendarViewModel, month: month)
+//                            }
+                            NavigationLink(value: "month") {
+                                MonthOnYear(userInfo: userInfo, calendarViewModel: calendarViewModel, month: month)
                             }
-                        } label: {
-                            MonthOnYear(userInfo: userInfo, calendarViewModel: calendarViewModel, month: month)
+                        } else {
+                            Button {
+                                withAnimation {
+                                    userInfo.currentMonth = month
+                                    userInfo.currentState = "month"
+                                }
+                            } label: {
+                                MonthOnYear(userInfo: userInfo, calendarViewModel: calendarViewModel, month: month)
+                            }
                         }
                     }
                 }

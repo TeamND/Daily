@@ -12,9 +12,11 @@ struct AddGoalButton: View {
     @ObservedObject var navigationViewModel: NavigationViewModel
     
     var body: some View {
-        NavigationLink {
-            RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
-        } label: {
+        NavigationLink(value: "addGoal") {
+//        }
+//        NavigationLink {
+//            RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+//        } label: {
             Label("목표 추가", systemImage: "plus")
                 .foregroundStyle(.white)
                 .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
