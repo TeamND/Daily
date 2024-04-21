@@ -12,62 +12,42 @@ struct MainView: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     @StateObject var navigationViewModel: NavigationViewModel = NavigationViewModel()
-    @StateObject var popupInfo: PopupInfo = PopupInfo()
-    @State var updateVersion: Bool = false
-    @State var calendarPath: [String] = []
+    @State var updateVersion: Bool = true
     
     var body: some View {
-        NavigationStack(path: $calendarPath) {
+        NavigationStack(path: $navigationViewModel.currentPath) {
             if updateVersion {
-                ZStack {
-                    VStack(spacing: 0) {
-                        CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, popupInfo: popupInfo, updateVersion: updateVersion)
-                            .navigationBarTitle(calendarPath.count > 0 && calendarPath[calendarPath.count - 1] == "addGoal" ? "이전" : "\(userInfo.currentYearLabel)")
-                            .navigationBarTitleDisplayMode(.inline)
-                            .navigationBarItems(trailing:
-                                                    NavigationLink {
-                                AppInfoView()
-                            } label: {
-                                VStack {
-                                    Image(systemName: "info.circle")
-                                        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                                }
-                            }
-                                .padding(CGFloat.fontSize)
-                            )
-                            .navigationDestination(for: String.self) { value in
-                                if value == "month" {
-                                    Calendar_Month(userInfo: userInfo, calendarViewModel: calendarViewModel)
-                                        .navigationBarTitle(calendarPath.count > 0 && calendarPath[calendarPath.count - 1] == "month" ? "\(userInfo.currentMonthLabel)" : "이전")
-                                        .navigationBarTitleDisplayMode(.inline)
-                                        .navigationBarItems(trailing:
-                                                                NavigationLink {
-                                            AppInfoView()
-                                        } label: {
-                                            VStack {
-                                                Image(systemName: "info.circle")
-                                                    .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                                            }
+                VStack(spacing: 0) {
+                    Calendar_Year(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
+                        .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, currentState: "year")
+                        .navigationDestination(for: String.self) { value in
+                            if value.contains("month") {
+                                Calendar_Month(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
+                                    .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, currentState: "month")
+                                    .onAppear {
+                                        if value.split(separator: "_").count > 1 {
+                                            userInfo.currentMonth = Int(value.split(separator: "_")[1])!
                                         }
-                                            .padding(CGFloat.fontSize)
-                                        )
-                                }
-                                if value == "addGoal" {
-                                    RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
-                                        .navigationBarTitleDisplayMode(.inline)
-                                }
+                                    }
                             }
-                    }
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            AddGoalButton(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                            if value.contains("day") {
+                                Calendar_Week_Day(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
+                                    .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, currentState: "day")
+                                    .onAppear {
+                                        if value.split(separator: "_").count > 1 {
+                                            userInfo.currentDay = Int(value.split(separator: "_")[1])!
+                                        }
+                                    }
+                            }
+                            if value == "addGoal" {
+                                RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                                    .navigationBarTitleDisplayMode(.inline)
+                            }
+                            if value == "appInfo" {
+                                AppInfoView()
+                                    .navigationBarTitleDisplayMode(.inline)
+                            }
                         }
-                        .padding()
-                    }
-                    .padding()
-    //                .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
                 }
             } else {
                 TabView (selection: $navigationViewModel.tagIndex) {
@@ -97,9 +77,10 @@ struct MainView: View {
         }
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
+        // 추후 수정: initView로 옮기기
         .onAppear {
             if updateVersion && userInfo.currentState != "year" {
-                calendarPath.append("month")
+                navigationViewModel.appendPath(path: "month")
             }
         }
     }

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RecordList: View {
     @ObservedObject var userInfo: UserInfo
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var navigationViewModel: NavigationViewModel
     
     var body: some View {
         VStack {

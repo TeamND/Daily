@@ -11,8 +11,6 @@ struct CalendarHeader: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var navigationViewModel: NavigationViewModel
-    @StateObject var popupInfo: PopupInfo
-    @State var updateVersion: Bool = false
     @Namespace var NS
     
     var body: some View {
@@ -111,28 +109,16 @@ struct CalendarHeader: View {
             // trailing
             HStack(spacing: 0) {
                 Spacer()
-                if updateVersion {
-                    NavigationLink {
-                        AppInfoView()
-                    } label: {
-                        VStack {
-                            Image(systemName: "info.circle")
-                                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                        }
+                NavigationLink {
+                    RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                } label: {
+                    VStack {
+                        Image(systemName: "plus")
+                        Text("추가")
+                            .font(.system(size: CGFloat.fontSize * 2))
                     }
-                    .padding(CGFloat.fontSize)
-                } else {
-                    NavigationLink {
-                        RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
-                    } label: {
-                        VStack {
-                            Image(systemName: "plus")
-                            Text("추가")
-                                .font(.system(size: CGFloat.fontSize * 2))
-                        }
-                    }
-                    .padding(CGFloat.fontSize)
                 }
+                .padding(CGFloat.fontSize)
             }
         }
     }

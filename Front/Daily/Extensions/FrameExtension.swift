@@ -114,3 +114,77 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
+// MARK: - NavigationBar
+extension View {
+    func calendarViewNavigationBar(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, currentState: String) -> some View {
+        self.navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle(
+                navigationViewModel.getNavigationBarTitle(userInfo: userInfo, currentState: currentState)
+            )
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Button {
+                            userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
+                        } label: {
+                            Image(systemName: "chevron.left")
+                        }
+                        if currentState == "year" {
+                            Menu {
+                                ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
+                                    Button {
+                                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: year - userInfo.currentYear)
+                                    } label: {
+                                        Text("\(String(year)) 년")
+                                    }
+                                }
+                            } label: {
+                                Text(userInfo.currentYearLabel)
+                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if currentState == "month" {
+                            Menu {
+                                ForEach(1 ... 12, id:\.self) { month in
+                                    Button {
+                                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: month - userInfo.currentMonth)
+                                    } label: {
+                                        Text("\(String(month)) 월")
+                                    }
+                                }
+                            } label: {
+                                Text(userInfo.currentMonthLabel)
+                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if currentState == "day" {
+                            Menu {
+                                ForEach(1 ... userInfo.lengthOfMonth(), id:\.self) { day in
+                                    Button {
+                                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: day - userInfo.currentDay)
+                                    } label: {
+                                        Text("\(String(day)) 일")
+                                    }
+                                }
+                            } label: {
+                                Text(userInfo.currentDayLabel)
+                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        Button {
+                            userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
+                        } label: {
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                }
+            }
+            .navigationBarItems(trailing:
+                NavigationLink(value: "appInfo") { Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 3)) }
+            )
+    }
+}

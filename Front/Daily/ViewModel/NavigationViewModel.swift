@@ -19,4 +19,48 @@ class NavigationViewModel: ObservableObject {
             self.tagIndex = tagIndex
         }
     }
+    
+    // MARK: - about navigationStack
+    @Published var currentPath: [String] = []
+    
+    func getCurrentPath() -> String {
+        if self.currentPath.count == 0 {
+            return "year"
+        } else {
+            return self.currentPath[self.currentPath.count - 1]
+        }
+    }
+    
+    func getPrevPath() -> String {
+        if self.currentPath.count <= 1 {
+            return "year"
+        } else {
+            return self.currentPath[self.currentPath.count - 2]
+        }
+    }
+    
+    func appendPath(path: String) {
+        DispatchQueue.main.async {
+            self.currentPath.append(path)
+        }
+    }
+    
+    func getNavigationBarTitle(userInfo: UserInfo, currentState: String) -> String {
+        var title = ""
+        switch currentState {
+        case "year":
+            title = userInfo.currentYearLabel
+        case "month":
+            title = userInfo.currentMonthLabel
+        default:
+            title = userInfo.currentDayLabel
+        }
+        if self.getPrevPath().contains(currentState) &&
+            !self.getCurrentPath().contains("year") &&
+            !self.getCurrentPath().contains("month") &&
+            !self.getCurrentPath().contains("day") {
+                title = "이전"
+        }
+        return title
+    }
 }
