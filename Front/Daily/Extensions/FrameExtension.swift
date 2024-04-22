@@ -117,10 +117,10 @@ extension View {
 
 // MARK: - NavigationBar
 extension View {
-    func calendarViewNavigationBar(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, currentState: String) -> some View {
+    func calendarViewNavigationBar(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
         self.navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle(
-                navigationViewModel.getNavigationBarTitle(userInfo: userInfo, currentState: currentState)
+                navigationViewModel.getNavigationBarTitle(userInfo: userInfo, calendarState: calendarState)
             )
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -130,7 +130,7 @@ extension View {
                         } label: {
                             Image(systemName: "chevron.left")
                         }
-                        if currentState == "year" {
+                        if calendarState == "year" {
                             Menu {
                                 ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
                                     Button {
@@ -145,7 +145,7 @@ extension View {
                                     .foregroundColor(.primary)
                             }
                         }
-                        if currentState == "month" {
+                        if calendarState == "month" {
                             Menu {
                                 ForEach(1 ... 12, id:\.self) { month in
                                     Button {
@@ -160,7 +160,7 @@ extension View {
                                     .foregroundColor(.primary)
                             }
                         }
-                        if currentState == "day" {
+                        if calendarState == "day" {
                             Menu {
                                 ForEach(1 ... userInfo.lengthOfMonth(), id:\.self) { day in
                                     Button {

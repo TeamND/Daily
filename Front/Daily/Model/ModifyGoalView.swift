@@ -16,6 +16,7 @@ struct ModifyGoalView: View {
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
+    
     var body: some View {
         VStack {
             BeforeRecord(record: $record)

@@ -19,11 +19,11 @@ struct MainView: View {
             if updateVersion {
                 VStack(spacing: 0) {
                     Calendar_Year(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-                        .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, currentState: "year")
+                        .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "year")
                         .navigationDestination(for: String.self) { value in
                             if value.contains("month") {
                                 Calendar_Month(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-                                    .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, currentState: "month")
+                                    .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "month")
                                     .onAppear {
                                         if value.split(separator: "_").count > 1 {
                                             userInfo.currentMonth = Int(value.split(separator: "_")[1])!
@@ -32,7 +32,7 @@ struct MainView: View {
                             }
                             if value.contains("day") {
                                 Calendar_Week_Day(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
-                                    .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, currentState: "day")
+                                    .calendarViewNavigationBar(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "day")
                                     .onAppear {
                                         if value.split(separator: "_").count > 1 {
                                             userInfo.currentDay = Int(value.split(separator: "_")[1])!

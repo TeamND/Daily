@@ -45,17 +45,17 @@ class NavigationViewModel: ObservableObject {
         }
     }
     
-    func getNavigationBarTitle(userInfo: UserInfo, currentState: String) -> String {
+    func getNavigationBarTitle(userInfo: UserInfo, calendarState: String) -> String {
         var title = ""
-        switch currentState {
+        switch calendarState {
         case "year":
             title = userInfo.currentYearLabel
         case "month":
             title = userInfo.currentMonthLabel
         default:
-            title = userInfo.currentDayLabel
+            title = "이전"
         }
-        if self.getPrevPath().contains(currentState) &&
+        if self.getPrevPath().contains(calendarState) &&
             !self.getCurrentPath().contains("year") &&
             !self.getCurrentPath().contains("month") &&
             !self.getCurrentPath().contains("day") {
