@@ -28,8 +28,8 @@ struct ViewPager<Content: View>: View {
             .offset(x: self.translation)
             .animation(.interpolatingSpring, value: position)
             .animation(.interpolatingSpring, value: translation)
-            .gesture(
-                DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
+            .highPriorityGesture(
+                DragGesture(minimumDistance: CGFloat.fontSize).updating(self.$translation) { value, state, _ in
                     state = value.translation.width
                 }.onEnded { value in
                     let offset = value.predictedEndTranslation.width / geometry.size.width

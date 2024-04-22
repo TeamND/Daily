@@ -19,6 +19,7 @@ struct NoRecord: View {
             if updateVersion {
                 NavigationLink(value: "addGoal") {
                     Text(goRecordViewText)
+                        .frame(width: CGFloat.screenWidth)
                 }
             } else {
                 NavigationLink {
