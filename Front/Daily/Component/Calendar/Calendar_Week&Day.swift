@@ -11,47 +11,52 @@ struct Calendar_Week_Day: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var navigationViewModel: NavigationViewModel
+    @State var isLoading: Bool = true
     @State var updateVersion: Bool = false
     @State var positionInViewPager = marginRange
     
     var body: some View {
         ZStack {
             if updateVersion {
-                VStack(spacing: 0) {
-                    WeekIndicator(userInfo: userInfo, calendarViewModel: calendarViewModel, tapPurpose: "change")
-                    CustomDivider(color: .primary, height: 2, hPadding: 12)
-                    ViewPager(position: $positionInViewPager) {
-                        ForEach(calendarViewModel.currentMonth - marginRange ... calendarViewModel.currentMonth + marginRange, id: \.self) { day in
-                            VStack(spacing: 0) {
-                                if calendarViewModel.recordsOnWeek.count > 0 {
-                                    ViewThatFits(in: .vertical) {
-                                        RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
-                                        ScrollView {
+                if isLoading {
+                    Text("Loading...")
+                } else {
+                    VStack(spacing: 0) {
+                        WeekIndicator(userInfo: userInfo, calendarViewModel: calendarViewModel, tapPurpose: "change")
+                        CustomDivider(color: .primary, height: 2, hPadding: 12)
+                        ViewPager(position: $positionInViewPager) {
+                            ForEach(calendarViewModel.currentMonth - marginRange ... calendarViewModel.currentMonth + marginRange, id: \.self) { day in
+                                VStack(spacing: 0) {
+                                    if calendarViewModel.recordsOnWeek.count > 0 {
+                                        ViewThatFits(in: .vertical) {
                                             RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                                            ScrollView {
+                                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                                            }
                                         }
+                                        .padding(.top, CGFloat.fontSize)
+                                        Spacer()
+                                    } else {
+                                        NoRecord(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
                                     }
-                                    .padding(.top, CGFloat.fontSize)
-                                    Spacer()
-                                } else {
-                                    NoRecord(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
                                 }
+                                .background(Color("ThemeColor"))
                             }
-                            .background(Color("ThemeColor"))
                         }
                     }
-                }
-                .onChange(of: positionInViewPager) { newValue in
-                    print(newValue)
-                    //                    if newValue == marginRange {
-                    //                        return
-                    //                    } else {
-                    //                        calendarViewModel.currentMonth = newValue > marginRange ? calendarViewModel.currentMonth + 1 : calendarViewModel.currentMonth - 1
-                    //                        positionInViewPager = marginRange
-                    //                    }
-                }
-                .animation(.spring, value: positionInViewPager)
-                if calendarViewModel.recordsOnWeek.count > 0 {
-                    AddGoalButton(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    .onChange(of: positionInViewPager) { newValue in
+                        print(newValue)
+                        //                    if newValue == marginRange {
+                        //                        return
+                        //                    } else {
+                        //                        calendarViewModel.currentMonth = newValue > marginRange ? calendarViewModel.currentMonth + 1 : calendarViewModel.currentMonth - 1
+                        //                        positionInViewPager = marginRange
+                        //                    }
+                    }
+                    .animation(.spring, value: positionInViewPager)
+                    if calendarViewModel.recordsOnWeek.count > 0 {
+                        AddGoalButton(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    }
                 }
             } else {
                 VStack(spacing: 0) {
@@ -109,6 +114,7 @@ struct Calendar_Week_Day: View {
             }
             getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
                 calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
+                self.isLoading = false
             }
         }
         .onChange(of: userInfo.currentDay) { day in

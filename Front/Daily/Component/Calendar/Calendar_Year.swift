@@ -40,12 +40,12 @@ struct Calendar_Year: View {
                 }
                 .onChange(of: positionInViewPager) { newValue in
                     print(newValue)
-//                    if newValue == marginRange {
-//                        return
-//                    } else {
-//                        calendarViewModel.currentMonth = newValue > marginRange ? calendarViewModel.currentMonth + 1 : calendarViewModel.currentMonth - 1
-//                        positionInViewPager = marginRange
-//                    }
+                    if 0 < newValue && newValue < marginRange * 2 {
+                        return
+                    } else {
+                        calendarViewModel.setCurrentYear(year: calendarViewModel.getCurrentYear() + newValue - marginRange)
+                        positionInViewPager = marginRange
+                    }
                 }
                 .animation(.spring, value: positionInViewPager)
                 AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel())

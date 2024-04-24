@@ -10,6 +10,7 @@ import Foundation
 class CalendarViewModel: ObservableObject {
     // MARK: - year
     @Published var ratingOnYear: [[Double]] = Array(repeating: Array(repeating: 0, count: 31), count: 12)
+    @Published var ratingOnYearList: [[[Double]]] = Array(repeating: Array(repeating: Array(repeating: 0, count: 31), count: 12), count: listSize)
     
     func getDayOfRatingOnYear(monthIndex: Int, dayIndex: Int) -> Double {
         return self.ratingOnYear[monthIndex][dayIndex]
@@ -25,6 +26,7 @@ class CalendarViewModel: ObservableObject {
     
     // MARK: - month
     @Published var daysOnMonth: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
+    @Published var daysOnMonthList: [[dayOnMonthModel]] = Array(repeating: Array(repeating: dayOnMonthModel(), count: 42), count: listSize)
     
     func getDaysOnMonth(dayIndex: Int) -> dayOnMonthModel {
         return self.daysOnMonth[dayIndex]
@@ -41,6 +43,7 @@ class CalendarViewModel: ObservableObject {
     // MARK: - week
     @Published var ratingOnWeek: [Double] = Array(repeating: 0.0, count: 7)
     @Published var recordsOnWeek: [RecordModel] = []
+    @Published var recordsOnWeekList: [[RecordModel]] = Array(repeating: [], count: listSize)
     
     func getRatingOnWeek() -> [Double] {
         return self.ratingOnWeek
@@ -66,18 +69,39 @@ class CalendarViewModel: ObservableObject {
             self.recordsOnWeek = recordsOnWeek
         }
     }
-    
+
     // MARK: - calendar
     @Published var currentState: String = "month"
     @Published var currentYear: Int = Date().year
     @Published var currentMonth: Int = Date().month
     @Published var currentDay: Int = Date().day
+    func getCurrentYear() -> Int {
+        return self.currentYear
+    }
+    func setCurrentYear(year: Int) {
+        DispatchQueue.main.async {
+            self.currentYear = year
+        }
+    }
+    func getCurrentMonth() -> Int {
+        return self.currentMonth
+    }
     func setCurrentMonth(month: Int) {
-        self.currentMonth = month
+        DispatchQueue.main.async {
+            self.currentMonth = month
+        }
+    }
+    func getCurrentDay() -> Int {
+        return self.currentDay
+    }
+    func setCurrentDay(day: Int) {
+        DispatchQueue.main.async {
+            self.currentDay = day
+        }
     }
     func getCurrentYearLabel(userInfoViewModel: UserInfoViewModel) -> String {
         switch(userInfoViewModel.language) {
-        case "korea":
+        case "한국어":
             return "\(String(self.currentYear))년"
         default:
             return "in \(String(self.currentYear))"
@@ -88,7 +112,7 @@ class CalendarViewModel: ObservableObject {
     }
     func getCurrentDayLabel(userInfoViewModel: UserInfoViewModel) -> String {
         switch(userInfoViewModel.language) {
-        case "korea":
+        case "한국어":
             return "\(self.currentDay)일"
         default:
             switch self.currentDay {

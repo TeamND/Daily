@@ -117,7 +117,7 @@ extension View {
 
 // MARK: - NavigationBar
 extension View {
-    func calendarViewNavigationBar(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
+    func calendarViewNavigationBar(userInfo: UserInfo, userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
         self.navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle(
                 navigationViewModel.getNavigationBarTitle(userInfo: userInfo, calendarState: calendarState)
@@ -140,7 +140,7 @@ extension View {
                                     }
                                 }
                             } label: {
-                                Text(userInfo.currentYearLabel)
+                                Text(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel))
                                     .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                                     .foregroundColor(.primary)
                             }
@@ -155,7 +155,7 @@ extension View {
                                     }
                                 }
                             } label: {
-                                Text(userInfo.currentMonthLabel)
+                                Text(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel))
                                     .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                                     .foregroundColor(.primary)
                             }
@@ -170,7 +170,7 @@ extension View {
                                     }
                                 }
                             } label: {
-                                Text(userInfo.currentDayLabel)
+                                Text(calendarViewModel.getCurrentDayLabel(userInfoViewModel: userInfoViewModel))
                                     .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                                     .foregroundColor(.primary)
                             }

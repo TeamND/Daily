@@ -8,7 +8,8 @@
 import Foundation
 
 // MARK: - about Calendar
-let marginRange = 2
+let marginRange = 3
+let listSize = marginRange * 2 + 1
 
 // MARK: - about Record
 func contentOfGoalHintText(type: String) -> String {
