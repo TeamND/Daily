@@ -184,7 +184,7 @@ extension View {
                 }
             }
             .navigationBarItems(trailing:
-                NavigationLink(value: "appInfo") { Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 3)) }
+                NavigationLink(value: "appInfo") { Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 2.5)) }
             )
     }
 }
