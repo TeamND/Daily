@@ -31,7 +31,7 @@ struct MainView: View {
                                     }
                             }
                             if value.contains("day") {
-                                Calendar_Week_Day(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
+                                Calendar_Week_Day(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
                                     .calendarViewNavigationBar(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "day")
                                     .onAppear {
                                         if value.split(separator: "_").count > 1 {
@@ -40,7 +40,7 @@ struct MainView: View {
                                     }
                             }
                             if value == "addGoal" {
-                                RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                                RecordView(userInfo: userInfo)
                                     .navigationBarTitleDisplayMode(.inline)
                             }
                             if value == "appInfo" {
@@ -50,10 +50,10 @@ struct MainView: View {
                         }
                 }
             } else {
-                CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                     .navigationBarTitle("이전")
                     .navigationBarHidden(true)
-                    .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                    .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel)
             }
         }
         .tint(Color("CustomColor"))

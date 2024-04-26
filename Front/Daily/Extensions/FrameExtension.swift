@@ -66,33 +66,29 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel) -> some View {
+    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 좌 -> 우
                 if value.translation.width > CGFloat.fontSize * 15 {
-                    if navigationViewModel.getTagIndex() == 0 {
-                        if value.startLocation.x < CGFloat.fontSize && userInfo.currentState != "year" {
-                            if userInfo.currentState == "month" {
-                                withAnimation {
-                                    userInfo.currentState = "year"
-                                }
+                    if value.startLocation.x < CGFloat.fontSize * 5 && userInfo.currentState != "year" {
+                        if userInfo.currentState == "month" {
+                            withAnimation {
+                                userInfo.currentState = "year"
                             }
-                            if userInfo.currentState == "week" {
-                                withAnimation {
-                                    userInfo.currentState = "month"
-                                }
-                            }
-                        } else {
-                            userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
                         }
+                        if userInfo.currentState == "week" {
+                            withAnimation {
+                                userInfo.currentState = "month"
+                            }
+                        }
+                    } else {
+                        userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
                     }
                 }
                 // 우 -> 좌
-                if value.translation.width < -100 {
-                    if navigationViewModel.getTagIndex() == 0 {
-                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
-                    }
+                if value.translation.width < -CGFloat.fontSize * 15 {
+                    userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
                 }
             }
         )

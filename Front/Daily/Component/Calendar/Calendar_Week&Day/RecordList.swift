@@ -10,7 +10,6 @@ import SwiftUI
 struct RecordList: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var navigationViewModel: NavigationViewModel
     
     var body: some View {
         VStack {
@@ -23,7 +22,7 @@ struct RecordList: View {
                             Label("날짜 변경", systemImage: "calendar")
                         }
                         NavigationLink {
-                            ModifyGoalView(userInfo: userInfo, navigationViewModel: navigationViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                            ModifyGoalView(userInfo: userInfo, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
                         } label: {
                             Label("목표 수정", systemImage: "pencil")
                         }

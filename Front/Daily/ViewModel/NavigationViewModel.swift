@@ -8,18 +8,6 @@
 import Foundation
 
 class NavigationViewModel: ObservableObject {
-    // MARK: - about tabView
-    @Published var tagIndex: Int = 0
-    
-    func getTagIndex() -> Int {
-        return self.tagIndex
-    }
-    func setTagIndex(tagIndex: Int) {
-        DispatchQueue.main.async {
-            self.tagIndex = tagIndex
-        }
-    }
-    
     // MARK: - about navigationStack
     @Published var currentPath: [String] = []
     

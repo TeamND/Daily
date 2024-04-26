@@ -71,7 +71,7 @@ struct Calendar_Year: View {
                 }
                 .background(Color("ThemeColor"))
             }
-            AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel(), updateVersion: updateVersion)
+            AddGoalButton(userInfo: userInfo, updateVersion: updateVersion)
         }
         .onAppear {
             getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in

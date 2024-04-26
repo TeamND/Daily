@@ -10,7 +10,6 @@ import SwiftUI
 struct Calendar_Week_Day: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @State var isLoading: Bool = true
     @State var updateVersion: Bool = false
     @State var positionInViewPager = marginRange
@@ -29,15 +28,15 @@ struct Calendar_Week_Day: View {
                                 VStack(spacing: 0) {
                                     if calendarViewModel.recordsOnWeek.count > 0 {
                                         ViewThatFits(in: .vertical) {
-                                            RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                                            RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
                                             ScrollView {
-                                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
                                             }
                                         }
                                         .padding(.top, CGFloat.fontSize)
                                         Spacer()
                                     } else {
-                                        NoRecord(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
+                                        NoRecord(userInfo: userInfo, updateVersion: updateVersion)
                                     }
                                 }
                                 .background(Color("ThemeColor"))
@@ -61,9 +60,9 @@ struct Calendar_Week_Day: View {
                     CustomDivider(color: .primary, height: 2, hPadding: 12)
                     if calendarViewModel.recordsOnWeek.count > 0 {
                         ViewThatFits(in: .vertical) {
-                            RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                            RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
                             ScrollView {
-                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel)
+                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
                             }
                         }
                         .padding(.top, CGFloat.fontSize)
@@ -100,13 +99,13 @@ struct Calendar_Week_Day: View {
                         //                .listStyle(.plain)
                         //                .listRowSeparator(.hidden)
                     } else {
-                        NoRecord(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
+                        NoRecord(userInfo: userInfo, updateVersion: updateVersion)
                     }
                 }
                 .background(Color("ThemeColor"))
             }
             if calendarViewModel.recordsOnWeek.count > 0 {
-                AddGoalButton(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
+                AddGoalButton(userInfo: userInfo, updateVersion: updateVersion)
             }
         }
         .onAppear {

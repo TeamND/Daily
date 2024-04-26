@@ -10,7 +10,6 @@ import SwiftUI
 struct ModifyGoalView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfo: UserInfo
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
     @State var isShowAlert: Bool = false

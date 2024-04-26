@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NoRecord: View {
     @ObservedObject var userInfo: UserInfo
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @State var updateVersion: Bool = false
     
     var body: some View {
@@ -23,7 +22,7 @@ struct NoRecord: View {
                 }
             } else {
                 NavigationLink {
-                    RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    RecordView(userInfo: userInfo)
                 } label: {
                     Text(goRecordViewText)
                 }

@@ -64,7 +64,7 @@ struct Calendar_Month: View {
                 }
                 .background(Color("ThemeColor"))
             }
-            AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel(), updateVersion: updateVersion)
+            AddGoalButton(userInfo: userInfo, updateVersion: updateVersion)
         }
         .onAppear {
             getCalendarMonth(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in

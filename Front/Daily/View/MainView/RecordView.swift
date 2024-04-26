@@ -10,7 +10,6 @@ import SwiftUI
 struct RecordView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfo: UserInfo
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
@@ -62,12 +61,8 @@ struct RecordView: View {
                                 goalModel.content = ""
                                 goalModel.type = "check"
                                 goalModel.goal_count = 1
-                                if navigationViewModel.getTagIndex() == 0 {
-                                    DispatchQueue.main.async {
-                                        self.presentationMode.wrappedValue.dismiss()
-                                    }
-                                } else {
-                                    navigationViewModel.setTagIndex(tagIndex: 0)
+                                DispatchQueue.main.async {
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }
                             }
                         }
@@ -112,5 +107,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(userInfo: UserInfo(), navigationViewModel: NavigationViewModel())
+    RecordView(userInfo: UserInfo())
 }

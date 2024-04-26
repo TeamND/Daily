@@ -10,7 +10,6 @@ import SwiftUI
 struct CalendarHeader: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @Namespace var NS
     
     var body: some View {
