@@ -72,7 +72,7 @@ extension View {
                 // 좌 -> 우
                 if value.translation.width > CGFloat.fontSize * 15 {
                     if navigationViewModel.getTagIndex() == 0 {
-                        if value.startLocation.x < CGFloat.fontSize * 5 && userInfo.currentState != "year" {
+                        if value.startLocation.x < CGFloat.fontSize && userInfo.currentState != "year" {
                             if userInfo.currentState == "month" {
                                 withAnimation {
                                     userInfo.currentState = "year"

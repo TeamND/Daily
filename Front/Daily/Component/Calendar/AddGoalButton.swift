@@ -10,20 +10,34 @@ import SwiftUI
 struct AddGoalButton: View {
     @ObservedObject var userInfo: UserInfo
     @ObservedObject var navigationViewModel: NavigationViewModel
+    @State var updateVersion: Bool = false
     
     var body: some View {
         VStack {
             Spacer()
             HStack {
                 Spacer()
-                NavigationLink(value: "addGoal") {
-                    Label("목표 추가", systemImage: "plus")
-                        .foregroundStyle(.white)
-                        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                if updateVersion {
+                    NavigationLink(value: "addGoal") {
+                        Label("목표 추가", systemImage: "plus")
+                            .foregroundStyle(.white)
+                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                    }
+                    .padding()
+                    .background(Color("CustomColor"))
+                    .cornerRadius(20)
+                } else {
+                    NavigationLink {
+                        RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    } label: {
+                        Label("목표 추가", systemImage: "plus")
+                            .foregroundStyle(.white)
+                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                    }
+                    .padding()
+                    .background(Color("CustomColor"))
+                    .cornerRadius(20)
                 }
-                .padding()
-                .background(Color("CustomColor"))
-                .cornerRadius(20)
             }
             .padding()
         }

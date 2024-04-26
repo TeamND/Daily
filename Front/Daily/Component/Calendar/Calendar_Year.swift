@@ -48,7 +48,6 @@ struct Calendar_Year: View {
                     }
                 }
                 .animation(.spring, value: positionInViewPager)
-                AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel())
             } else {
                 VStack(spacing: 0) {
                     CustomDivider(color: .primary, height: 2)
@@ -70,7 +69,9 @@ struct Calendar_Year: View {
                     }
                     Spacer()
                 }
+                .background(Color("ThemeColor"))
             }
+            AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel(), updateVersion: updateVersion)
         }
         .onAppear {
             getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in

@@ -49,7 +49,6 @@ struct Calendar_Month: View {
                         }
                     }
                     .animation(.spring, value: positionInViewPager)
-                    AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel())
                 }
             } else {
                 VStack(spacing: 0) {
@@ -63,7 +62,9 @@ struct Calendar_Month: View {
                         Spacer()
                     }
                 }
+                .background(Color("ThemeColor"))
             }
+            AddGoalButton(userInfo: userInfo, navigationViewModel: NavigationViewModel(), updateVersion: updateVersion)
         }
         .onAppear {
             getCalendarMonth(userID: String(userInfo.uid), month: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)") { (data) in

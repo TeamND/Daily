@@ -54,9 +54,6 @@ struct Calendar_Week_Day: View {
                         //                    }
                     }
                     .animation(.spring, value: positionInViewPager)
-                    if calendarViewModel.recordsOnWeek.count > 0 {
-                        AddGoalButton(userInfo: userInfo, navigationViewModel: navigationViewModel)
-                    }
                 }
             } else {
                 VStack(spacing: 0) {
@@ -106,6 +103,10 @@ struct Calendar_Week_Day: View {
                         NoRecord(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
                     }
                 }
+                .background(Color("ThemeColor"))
+            }
+            if calendarViewModel.recordsOnWeek.count > 0 {
+                AddGoalButton(userInfo: userInfo, navigationViewModel: navigationViewModel, updateVersion: updateVersion)
             }
         }
         .onAppear {

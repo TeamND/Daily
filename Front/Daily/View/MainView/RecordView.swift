@@ -107,6 +107,7 @@ struct RecordView: View {
             date = Calendar.current.date(from: DateComponents(year: userInfo.currentYear, month: userInfo.currentMonth, day: userInfo.currentDay))!
             beforeDate = date
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

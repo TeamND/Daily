@@ -17,6 +17,7 @@ struct AppInfoView: View {
             }
             .padding()
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

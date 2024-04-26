@@ -110,15 +110,11 @@ struct CalendarHeader: View {
             HStack(spacing: 0) {
                 Spacer()
                 NavigationLink {
-                    RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    AppInfoView()
                 } label: {
-                    VStack {
-                        Image(systemName: "plus")
-                        Text("추가")
-                            .font(.system(size: CGFloat.fontSize * 2))
-                    }
+                    Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 2.5))
                 }
-                .padding(CGFloat.fontSize)
+                .padding(CGFloat.fontSize * 2)
             }
         }
     }
