@@ -52,7 +52,7 @@ struct CalendarHeader: View {
                 }
                 if userInfo.currentState == "year" {
                     Menu {
-                        ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
+                        ForEach(userInfo.currentYear - 5 ... userInfo.currentYear + 5, id: \.self) { year in
                             Button {
                                 userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: year - userInfo.currentYear)
                             } label: {

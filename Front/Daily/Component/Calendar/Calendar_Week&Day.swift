@@ -66,6 +66,7 @@ struct Calendar_Week_Day: View {
                             }
                         }
                         .padding(.top, CGFloat.fontSize)
+                        .padding(.bottom, CGFloat.fontSize * 15)
                         Spacer()
                         // swipeAction 재정리 이후 수정
                         //                List {

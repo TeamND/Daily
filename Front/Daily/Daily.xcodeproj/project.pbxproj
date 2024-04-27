@@ -160,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C2F22129221C410006BFC7 /* RecordOnList.swift */,
-				F636CC682923287300879E1F /* RecordButton.swift */,
+				F6EC3D142BDBB36500FAB502 /* RecordOnList */,
 			);
 			path = RecordList;
 			sourceTree = "<group>";
@@ -398,7 +398,6 @@
 				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
 				F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */,
 				F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */,
-				F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -412,6 +411,15 @@
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F6EC3D142BDBB36500FAB502 /* RecordOnList */ = {
+			isa = PBXGroup;
+			children = (
+				F636CC682923287300879E1F /* RecordButton.swift */,
+				F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */,
+			);
+			path = RecordOnList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
