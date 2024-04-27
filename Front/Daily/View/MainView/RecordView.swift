@@ -19,7 +19,7 @@ struct RecordView: View {
     
     var body: some View {
         VStack {
-//            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count)
+            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
             Spacer()
             HStack {
                 DatePickerGroup(userInfo: userInfo, date: $date)
@@ -31,7 +31,7 @@ struct RecordView: View {
             ContentTextField(content: $goalModel.content, type: $goalModel.type)
             
             HStack {
-                GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
                 Spacer()
                 Button {
                     goalModel.symbol = "체크"

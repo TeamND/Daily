@@ -33,7 +33,6 @@ struct MultiDatePickerOnCalendar: View {
 //                                } else {
 //                                    archievements[rowIndex * 7 + colIndex] = 0
 //                                }
-                                print("testt")
                             } label: {
                                 if 1 <= day && day <= lengthOfMonth {
                                     Text("\(day)")

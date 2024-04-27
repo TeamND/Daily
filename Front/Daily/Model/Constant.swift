@@ -13,10 +13,13 @@ let listSize = marginRange * 2 + 1
 
 // MARK: - about Record
 func contentOfGoalHintText(type: String) -> String {
-    if type == "check" {
+    switch type {
+    case "check":
         return "아침 7시에 일어나기 ☀️"
-    } else {
+    case "count":
         return "물 2잔 이상 마시기 🚰"
+    default:
+        return "자기 전 30분 책 읽기 📖"
     }
 }
 let contentLengthAlertTitleText: String = "목표의 길이가 너무 짧아요 😵"

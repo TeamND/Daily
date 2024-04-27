@@ -21,7 +21,7 @@ struct ModifyDateView: View {
                 .hLeading()
                 .padding(.horizontal)
             BeforeRecord(record: $record)
-            CustomDivider(color: .primary, height: 1)
+            CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             DatePicker("", selection: $date, displayedComponents: [.date])
                 .datePickerStyle(.graphical)
