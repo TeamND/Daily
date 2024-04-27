@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Year: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @State var updateVersion: Bool = false
     @State var positionInViewPager = marginRange
@@ -20,14 +20,14 @@ struct Calendar_Year: View {
                     CustomDivider(color: .primary, height: 2)
                         .padding(12)
                     ViewPager(position: $positionInViewPager) {
-                        ForEach(calendarViewModel.currentYear - marginRange ... calendarViewModel.currentYear + marginRange, id: \.self) { year in
+                        ForEach(calendarViewModel.getCurrentYear() - marginRange ... calendarViewModel.getCurrentYear() + marginRange, id: \.self) { year in
                             VStack (spacing: 0) {
                                 ForEach (0..<4) { rowIndex in
                                     HStack(spacing: 0) {
                                         ForEach (0..<3) { colIndex in
                                             let month = (rowIndex * 3) + colIndex + 1
                                             NavigationLink(value: "month_\(month)") {
-                                                MonthOnYear(userInfo: userInfo, calendarViewModel: calendarViewModel, month: month)
+                                                MonthOnYear(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, month: month)
                                             }
                                         }
                                     }
@@ -58,11 +58,12 @@ struct Calendar_Year: View {
                                 let month = (rowIndex * 3) + colIndex + 1
                                 Button {
                                     withAnimation {
-                                        userInfo.currentMonth = month
-                                        userInfo.currentState = "month"
+                                        calendarViewModel.setCurrentMonth(month: month)
+                                        calendarViewModel.currentState = "month"
                                     }
                                 } label: {
-                                    MonthOnYear(userInfo: userInfo, calendarViewModel: calendarViewModel, month: month)
+                                    Text("test")
+                                    MonthOnYear(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, month: month)
                                 }
                             }
                         }
@@ -71,15 +72,15 @@ struct Calendar_Year: View {
                 }
                 .background(Color("ThemeColor"))
             }
-            AddGoalButton(userInfo: userInfo, updateVersion: updateVersion)
+            AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
         }
         .onAppear {
-            getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in
+            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: calendarViewModel.getCurrentYearStr()) { (data) in
                 calendarViewModel.setRatingOnYear(ratingOnYear: data.data)
             }
         }
-        .onChange(of: userInfo.currentYear) { year in
-            getCalendarYear(userID: String(userInfo.uid), year: userInfo.currentYearStr) { (data) in
+        .onChange(of: calendarViewModel.currentYear) { year in
+            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: calendarViewModel.getCurrentYearStr()) { (data) in
                 calendarViewModel.setRatingOnYear(ratingOnYear: data.data)
             }
         }
@@ -88,5 +89,5 @@ struct Calendar_Year: View {
 
 
 #Preview {
-    Calendar_Year(userInfo: UserInfo(), calendarViewModel: CalendarViewModel())
+    Calendar_Year(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
 }

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ModifyDateView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
@@ -41,9 +42,9 @@ struct ModifyDateView: View {
                     modifyRecord(modifyRecordModel: modifyRecordModel) { data in
                         if data.code == "00" {
                             DispatchQueue.main.async {
-                                userInfo.currentYear = date.year
-                                userInfo.currentMonth = date.month
-                                userInfo.currentDay = date.day
+                                calendarViewModel.setCurrentYear(year: date.year)
+                                calendarViewModel.setCurrentMonth(month: date.month)
+                                calendarViewModel.setCurrentDay(day: date.day)
                                 self.presentationMode.wrappedValue.dismiss()
                             }
                         }
@@ -58,9 +59,9 @@ struct ModifyDateView: View {
         }
         .accentColor(Color("CustomColor"))
         .onAppear {
-            date = Calendar.current.date(from: DateComponents(year: userInfo.currentYear, month: userInfo.currentMonth, day: userInfo.currentDay))!
+            date = Calendar.current.date(from: DateComponents(year: calendarViewModel.getCurrentYear(), month: calendarViewModel.getCurrentMonth(), day: calendarViewModel.getCurrentDay()))!
             beforeDate = date
-            beforeDOW = userInfo.currentDOW
+            beforeDOW = calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel)
         }
     }
 }

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct NoRecord: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @State var updateVersion: Bool = false
     
     var body: some View {
@@ -22,7 +23,7 @@ struct NoRecord: View {
                 }
             } else {
                 NavigationLink {
-                    RecordView(userInfo: userInfo)
+                    RecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                 } label: {
                     Text(goRecordViewText)
                 }

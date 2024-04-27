@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct DatePickerGroup: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var date: Date
     @State var isShowCalendarSheet: Bool = false
     
     var body: some View {
         Group {
             Label {
-                Text("\(userInfo.currentYearLabel) \(userInfo.currentMonthLabel) \(userInfo.currentDayLabel) \(userInfo.currentDOW)요일")
+                Text("\(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel)) \(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel)) \(calendarViewModel.getCurrentDayLabel(userInfoViewModel: userInfoViewModel)) \(calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel))요일")
             } icon: {
                 Image(systemName: "calendar")
             }
@@ -24,7 +25,7 @@ struct DatePickerGroup: View {
             isShowCalendarSheet = true
         }
         .sheet(isPresented: $isShowCalendarSheet) {
-            CalendarSheet(userInfo: userInfo, date: $date)
+            CalendarSheet(calendarViewModel: calendarViewModel, date: $date)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }

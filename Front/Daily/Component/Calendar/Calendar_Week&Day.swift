@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Calendar_Week_Day: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @State var isLoading: Bool = true
     @State var updateVersion: Bool = false
@@ -21,22 +21,22 @@ struct Calendar_Week_Day: View {
                     Text("Loading...")
                 } else {
                     VStack(spacing: 0) {
-                        WeekIndicator(userInfo: userInfo, calendarViewModel: calendarViewModel, tapPurpose: "change")
+                        WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tapPurpose: "change")
                         CustomDivider(color: .primary, height: 2, hPadding: 12)
                         ViewPager(position: $positionInViewPager) {
-                            ForEach(calendarViewModel.currentMonth - marginRange ... calendarViewModel.currentMonth + marginRange, id: \.self) { day in
+                            ForEach(calendarViewModel.getCurrentMonth() - marginRange ... calendarViewModel.getCurrentMonth() + marginRange, id: \.self) { day in
                                 VStack(spacing: 0) {
                                     if calendarViewModel.recordsOnWeek.count > 0 {
                                         ViewThatFits(in: .vertical) {
-                                            RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
+                                            RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                                             ScrollView {
-                                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
+                                                RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                                             }
                                         }
                                         .padding(.top, CGFloat.fontSize)
                                         Spacer()
                                     } else {
-                                        NoRecord(userInfo: userInfo, updateVersion: updateVersion)
+                                        NoRecord(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
                                     }
                                 }
                                 .background(Color("ThemeColor"))
@@ -48,7 +48,7 @@ struct Calendar_Week_Day: View {
                         //                    if newValue == marginRange {
                         //                        return
                         //                    } else {
-                        //                        calendarViewModel.currentMonth = newValue > marginRange ? calendarViewModel.currentMonth + 1 : calendarViewModel.currentMonth - 1
+                        //                        calendarViewModel.getCurrentMonth() = newValue > marginRange ? calendarViewModel.getCurrentMonth() + 1 : calendarViewModel.getCurrentMonth() - 1
                         //                        positionInViewPager = marginRange
                         //                    }
                     }
@@ -56,73 +56,43 @@ struct Calendar_Week_Day: View {
                 }
             } else {
                 VStack(spacing: 0) {
-                    WeekIndicator(userInfo: userInfo, calendarViewModel: calendarViewModel, tapPurpose: "change")
+                    WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tapPurpose: "change")
                     CustomDivider(color: .primary, height: 2, hPadding: 12)
                     if calendarViewModel.recordsOnWeek.count > 0 {
                         ViewThatFits(in: .vertical) {
-                            RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
+                            RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                             ScrollView {
-                                RecordList(userInfo: userInfo, calendarViewModel: calendarViewModel)
+                                RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                             }
                         }
                         .padding(.top, CGFloat.fontSize)
                         .padding(.bottom, CGFloat.fontSize * 15)
                         Spacer()
-                        // swipeAction 재정리 이후 수정
-                        //                List {
-                        //                    ForEach ($calendarViewModel.recordsOnWeek, id:\.self.uid) { record in
-                        //                        RecordOnList(userInfo: userInfo, calendarViewModel: calendarViewModel, record: record)
-                        //                            .swipeActions(allowsFullSwipe: true) {
-                        //                                Button(role: .destructive) {
-                        //                                    deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
-                        //                                        if data.code == "00" {
-                        //                                            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
-                        //                                                calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
-                        //                                            }
-                        //                                            getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
-                        //                                                calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
-                        //                                            }
-                        //                                        } else { print("\(record.goal_uid) delete fail@@@") }
-                        //                                    }
-                        //                                } label: {
-                        //                                    Label("Delete", systemImage: "trash")
-                        //                                }
-                        //                                //                                Button() {
-                        //                                //                                    print("modify")
-                        //                                //                                } label: {
-                        //                                //                                    Label("Modify", systemImage: "pencil")
-                        //                                //                                }
-                        //                                //                                .tint(.orange)
-                        //                            }
-                        //                            .frame(minHeight: 40)
-                        //                    }
-                        //                }
-                        //                .listStyle(.plain)
-                        //                .listRowSeparator(.hidden)
+                        // swipeAction 고민
                     } else {
-                        NoRecord(userInfo: userInfo, updateVersion: updateVersion)
+                        NoRecord(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
                     }
                 }
                 .background(Color("ThemeColor"))
             }
             if calendarViewModel.recordsOnWeek.count > 0 {
-                AddGoalButton(userInfo: userInfo, updateVersion: updateVersion)
+                AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
             }
         }
         .onAppear {
-            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+            getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: calendarViewModel.calcStartDay(value: -calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
                 calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
             }
-            getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(calendarViewModel.getCurrentYearStr())-\(calendarViewModel.getCurrentMonthStr())-\(calendarViewModel.getCurrentDayStr())") { (data) in
                 calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
                 self.isLoading = false
             }
         }
-        .onChange(of: userInfo.currentDay) { day in
-            getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+        .onChange(of: calendarViewModel.currentDay) { day in
+            getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: calendarViewModel.calcStartDay(value: -calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
                 calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
             }
-            getCalendarDay(userID: String(userInfo.uid), day: "\(userInfo.currentYearStr)-\(userInfo.currentMonthStr)-\(userInfo.currentDayStr)") { (data) in
+            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(calendarViewModel.getCurrentYearStr())-\(calendarViewModel.getCurrentMonthStr())-\(calendarViewModel.getCurrentDayStr())") { (data) in
                 calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
             }
         }

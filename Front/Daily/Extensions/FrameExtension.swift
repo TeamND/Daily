@@ -66,29 +66,29 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel) -> some View {
+    func mainViewDragGesture(calendarViewModel: CalendarViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 좌 -> 우
                 if value.translation.width > CGFloat.fontSize * 15 {
-                    if value.startLocation.x < CGFloat.fontSize * 5 && userInfo.currentState != "year" {
-                        if userInfo.currentState == "month" {
+                    if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.currentState != "year" {
+                        if calendarViewModel.currentState == "month" {
                             withAnimation {
-                                userInfo.currentState = "year"
+                                calendarViewModel.currentState = "year"
                             }
                         }
-                        if userInfo.currentState == "week" {
+                        if calendarViewModel.currentState == "week" {
                             withAnimation {
-                                userInfo.currentState = "month"
+                                calendarViewModel.currentState = "month"
                             }
                         }
                     } else {
-                        userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
+                        calendarViewModel.changeCalendar(amount: -1)
                     }
                 }
                 // 우 -> 좌
                 if value.translation.width < -CGFloat.fontSize * 15 {
-                    userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
+                    calendarViewModel.changeCalendar(amount: 1)
                 }
             }
         )
@@ -113,16 +113,16 @@ extension View {
 
 // MARK: - NavigationBar
 extension View {
-    func calendarViewNavigationBar(userInfo: UserInfo, userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
+    func calendarViewNavigationBar(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
         self.navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle(
-                navigationViewModel.getNavigationBarTitle(userInfo: userInfo, calendarState: calendarState)
+                navigationViewModel.getNavigationBarTitle(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, calendarState: calendarState)
             )
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     HStack {
                         Button {
-                            userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
+                            calendarViewModel.changeCalendar(amount: -1)
                         } label: {
                             Image(systemName: "chevron.left")
                         }
@@ -130,7 +130,7 @@ extension View {
                             Menu {
                                 ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
                                     Button {
-                                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: year - userInfo.currentYear)
+                                        calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear())
                                     } label: {
                                         Text("\(String(year)) 년")
                                     }
@@ -145,7 +145,7 @@ extension View {
                             Menu {
                                 ForEach(1 ... 12, id:\.self) { month in
                                     Button {
-                                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: month - userInfo.currentMonth)
+                                        calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth())
                                     } label: {
                                         Text("\(String(month)) 월")
                                     }
@@ -158,9 +158,9 @@ extension View {
                         }
                         if calendarState == "day" {
                             Menu {
-                                ForEach(1 ... userInfo.lengthOfMonth(), id:\.self) { day in
+                                ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
                                     Button {
-                                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: day - userInfo.currentDay)
+                                        calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay())
                                     } label: {
                                         Text("\(String(day)) 일")
                                     }
@@ -172,7 +172,7 @@ extension View {
                             }
                         }
                         Button {
-                            userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
+                            calendarViewModel.changeCalendar(amount: 1)
                         } label: {
                             Image(systemName: "chevron.right")
                         }

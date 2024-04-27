@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ModifyGoalView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var userInfo: UserInfo
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
     @State var isShowAlert: Bool = false

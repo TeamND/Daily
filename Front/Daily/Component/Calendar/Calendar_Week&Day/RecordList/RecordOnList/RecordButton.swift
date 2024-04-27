@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct RecordButton: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
+    
     var body: some View {
         let isVisibleCount: Bool = false
         ZStack {
@@ -25,7 +26,7 @@ struct RecordButton: View {
                                 DispatchQueue.main.async {
                                     record.record_count = data.data.record_count
                                     record.issuccess = data.data.issuccess
-                                    getCalendarWeek(userID: String(userInfo.uid), startDay: userInfo.calcStartDay(value: -userInfo.DOWIndex)) { (data) in
+                                    getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: calendarViewModel.calcStartDay(value: -calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
                                         calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
                                     }
                                 }
@@ -44,9 +45,12 @@ struct RecordButton: View {
                     case "count":
                         Label("추가", systemImage: "plus.circle")
                     case "timer":
-                        Text("timer")
-                        //                    if record.isStart { Label("중지", systemImage: "pause.circle") }
-                        //                    else              { Label("시작", systemImage: "play.circle") }
+                        Text(record.start_time)
+                        if record.start_time == "" {
+                            Label("시작", systemImage: "play.circle")
+                        } else {
+                            Label("중지", systemImage: "pause.circle")
+                        }
                     default:
                         Text("")
                     }

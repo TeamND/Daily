@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct AddGoalButton: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @State var updateVersion: Bool = false
     
     var body: some View {
@@ -27,7 +28,7 @@ struct AddGoalButton: View {
                     .cornerRadius(20)
                 } else {
                     NavigationLink {
-                        RecordView(userInfo: userInfo)
+                        RecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                     } label: {
                         Label("목표 추가", systemImage: "plus")
                             .foregroundStyle(.white)

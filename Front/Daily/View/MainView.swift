@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @ObservedObject var userInfo: UserInfo
     @ObservedObject var userInfoViewModel: UserInfoViewModel
-    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @StateObject var navigationViewModel: NavigationViewModel = NavigationViewModel()
     @State var updateVersion: Bool = false
     
@@ -18,12 +17,12 @@ struct MainView: View {
         NavigationStack(path: $navigationViewModel.currentPath) {
             if updateVersion {
                 VStack(spacing: 0) {
-                    Calendar_Year(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-                        .calendarViewNavigationBar(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "year")
+                    Calendar_Year(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
+                        .calendarViewNavigationBar(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "year")
                         .navigationDestination(for: String.self) { value in
                             if value.contains("month") {
-                                Calendar_Month(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-                                    .calendarViewNavigationBar(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "month")
+                                Calendar_Month(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
+                                    .calendarViewNavigationBar(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "month")
                                     .onAppear {
                                         if value.split(separator: "_").count > 1 {
                                             calendarViewModel.setCurrentMonth(month: Int(value.split(separator: "_")[1])!)
@@ -31,8 +30,8 @@ struct MainView: View {
                                     }
                             }
                             if value.contains("day") {
-                                Calendar_Week_Day(userInfo: userInfo, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-                                    .calendarViewNavigationBar(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "day")
+                                Calendar_Week_Day(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
+                                    .calendarViewNavigationBar(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "day")
                                     .onAppear {
                                         if value.split(separator: "_").count > 1 {
                                             calendarViewModel.setCurrentDay(day:Int(value.split(separator: "_")[1])!)
@@ -40,7 +39,7 @@ struct MainView: View {
                                     }
                             }
                             if value == "addGoal" {
-                                RecordView(userInfo: userInfo)
+                                RecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                                     .navigationBarTitleDisplayMode(.inline)
                             }
                             if value == "appInfo" {
@@ -50,17 +49,17 @@ struct MainView: View {
                         }
                 }
             } else {
-                CalendarView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+                CalendarView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                     .navigationBarTitle("이전")
                     .navigationBarHidden(true)
-                    .mainViewDragGesture(userInfo: userInfo, calendarViewModel: calendarViewModel)
+                    .mainViewDragGesture(calendarViewModel: calendarViewModel)
             }
         }
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
         // 추후 수정: initView로 옮기기
         .onAppear {
-            if updateVersion && userInfo.currentState != "year" {
+            if updateVersion && calendarViewModel.currentState != "year" {
                 navigationViewModel.appendPath(path: "month")
             }
         }
@@ -68,5 +67,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(userInfo: UserInfo(), userInfoViewModel: UserInfoViewModel())
+    MainView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
 }

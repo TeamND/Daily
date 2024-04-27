@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WeekOnMonth: View {
-    @ObservedObject var userInfo: UserInfo
     @ObservedObject var calendarViewModel: CalendarViewModel
     let rowIndex: Int
     let startDayIndex: Int
@@ -21,20 +20,20 @@ struct WeekOnMonth: View {
                 if 1 <= day && day <= lengthOfMonth {
                     if updateVersion {
                         NavigationLink(value: "day_\(day)") {
-                            DayOnMonth(userInfo: userInfo, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
+                            DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
                         }
                     } else {
                         Button {
                             withAnimation {
-                                userInfo.currentDay = day
-                                userInfo.currentState = "week"
+                                calendarViewModel.setCurrentDay(day: day)
+                                calendarViewModel.currentState = "week"
                             }
                         } label: {
-                            DayOnMonth(userInfo: userInfo, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
+                            DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
                         }
                     }
                 } else {
-                    DayOnMonth(userInfo: userInfo, day: 0, dayOnMonth: dayOnMonthModel())
+                    DayOnMonth(calendarViewModel: calendarViewModel, day: 0, dayOnMonth: dayOnMonthModel())
                         .opacity(0)
                 }
             }

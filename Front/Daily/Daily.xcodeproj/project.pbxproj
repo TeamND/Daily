@@ -35,7 +35,6 @@
 		F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */; };
 		F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F806291A501400984457 /* CalendarHeader.swift */; };
 		F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F812291BFC9300984457 /* CustomDivider.swift */; };
-		F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81C291CBC1500984457 /* UserInfo.swift */; };
 		F6C2F22229221C410006BFC7 /* RecordOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22129221C410006BFC7 /* RecordOnList.swift */; };
 		F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B02F2BB424B300C578C1 /* AppInfo.swift */; };
 		F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */; };
@@ -105,7 +104,6 @@
 		F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar_Week&Day.swift"; sourceTree = "<group>"; };
 		F6C0F806291A501400984457 /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeader.swift; sourceTree = "<group>"; };
 		F6C0F812291BFC9300984457 /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
-		F6C0F81C291CBC1500984457 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		F6C2F22129221C410006BFC7 /* RecordOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordOnList.swift; sourceTree = "<group>"; };
 		F6C6B02F2BB424B300C578C1 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoLabel.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 		F61AE0082BC544D000C35948 /* Modify */ = {
 			isa = PBXGroup;
 			children = (
-				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
 				F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */,
 			);
 			path = Modify;
@@ -309,7 +306,6 @@
 			children = (
 				F672992F29B761A300E392BD /* Popup */,
 				F6D06251292F567900B825EF /* Calendar */,
-				F61AE0082BC544D000C35948 /* Modify */,
 				F6D06252292F56AD00B825EF /* Record */,
 				F6C6B02E2BB424A000C578C1 /* AppInfo */,
 				F6D062492925B84B00B825EF /* Custom */,
@@ -392,11 +388,13 @@
 		F6D06252292F56AD00B825EF /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
 				F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */,
 				F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */,
 				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
 				F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */,
 				F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */,
+				F61AE0082BC544D000C35948 /* Modify */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -404,7 +402,6 @@
 		F6D0625E293819A400B825EF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				F6C0F81C291CBC1500984457 /* UserInfo.swift */,
 				F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */,
 				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
@@ -509,7 +506,6 @@
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
 				F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */,
-				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
 				F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */,
 				F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */,
 				F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */,

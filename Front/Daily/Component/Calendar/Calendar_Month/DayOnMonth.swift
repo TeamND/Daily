@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct DayOnMonth: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
     let day: Int
     let dayOnMonth: dayOnMonthModel
     @State var isShowSymbolPopup: Bool = false
+    
     var body: some View {
         let symbols = dayOnMonth.symbol
         let maxSymbolNum = UIDevice.current.model == "iPhone" ? 4 : 8
@@ -46,7 +47,7 @@ struct DayOnMonth: View {
         .overlay {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
-                .opacity(userInfo.isToday(day: day) ? 1 : 0)
+                .opacity(calendarViewModel.isToday(day: day) ? 1 : 0)
         }
         .padding(4)
         .frame(width: CGFloat.dayOnMonthWidth)

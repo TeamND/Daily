@@ -33,13 +33,13 @@ class NavigationViewModel: ObservableObject {
         }
     }
     
-    func getNavigationBarTitle(userInfo: UserInfo, calendarState: String) -> String {
+    func getNavigationBarTitle(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, calendarState: String) -> String {
         var title = ""
         switch calendarState {
         case "year":
-            title = userInfo.currentYearLabel
+            title = calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel)
         case "month":
-            title = userInfo.currentMonthLabel
+            title = calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel)
         default:
             title = "이전"
         }

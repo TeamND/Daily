@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct MonthOnYear: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     var month: Int
 
     var body: some View {
-        let startDayIndex = userInfo.startDayIndex(month: month)
-        let lengthOfMonth = userInfo.lengthOfMonth(month: month)
+        let startDayIndex = calendarViewModel.startDayIndex(userInfoViewModel: userInfoViewModel, month: month)
+        let lengthOfMonth = calendarViewModel.lengthOfMonth(month: month)
         VStack(alignment: .leading) {
-            Text(userInfo.months[month - 1])
+            Text(userInfoViewModel.months[month - 1])
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                 .foregroundColor(.primary)
                 .padding(4)

@@ -148,37 +148,77 @@ class CalendarViewModel: ObservableObject {
         }
         return 0
     }
+    
+    func isToday(day: Int) -> Bool {
+        let today = Date()
+        if today.year == self.getCurrentYear() && today.month == self.getCurrentMonth() {
+            return today.day == day
+        }
+        return false
+    }
+    
     func changeCalendar(amount: Int) {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         var changedDay = Date()
-//        let value = direction == "prev" ? -amount : +amount
         switch (self.currentState) {
-//        case "year":
-//            calendarViewModel.resetRatingOnYear()
-//            changedDay = cal.date(byAdding: .year, value: value, to: self.currentDate)!
-//            break
-//        case "month":
-//            calendarViewModel.resetDaysOnMonth()
-//            changedDay = cal.date(byAdding: .month, value: value, to: self.currentDate)!
-//            break
-//        case "week":
-//            changedDay = cal.date(byAdding: .day, value: value, to: self.currentDate)!
-//            break
+        case "year":
+            self.resetRatingOnYear()
+            changedDay = cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
+            break
+        case "month":
+            self.resetDaysOnMonth()
+            changedDay = cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
+            break
+        case "week":
+            changedDay = cal.date(byAdding: .day, value: amount, to: self.getCurrentDate())!
+            break
         default:
             print("changeCalendar currentState error")
         }
-//        
-//        DispatchQueue.main.async {
-//            self.currentYear = changedDay.year
-//            self.currentMonth = changedDay.month
-//            if self.currentState == "week" {
-//                self.currentDay = changedDay.day
-//            } else if self.currentState == "month" && changedDay.month == Date().month {
-//                self.currentDay = Date().day
-//            } else {
-//                self.currentDay = 1
-//            }
-//        }
+
+        DispatchQueue.main.async {
+            self.setCurrentYear(year: changedDay.year)
+            self.setCurrentMonth(month: changedDay.month)
+            if self.currentState == "week" {
+                self.setCurrentDay(day: changedDay.day)
+            } else if self.currentState == "month" && changedDay.month == Date().month {
+                self.setCurrentDay(day: Date().day)
+            } else {
+                self.setCurrentDay(day: 1)
+            }
+        }
+    }
+    
+    func changeDay(userInfoViewModel: UserInfoViewModel, DOWIndex: Int) {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let changedDay = cal.date(byAdding: .day, value: DOWIndex - self.getDOWIndex(userInfoViewModel: userInfoViewModel), to: self.getCurrentDate())!
+        
+        self.currentYear = changedDay.year
+        self.currentMonth = changedDay.month
+        self.currentDay = changedDay.day
+    }
+    
+    func calcStartDay(value: Int) -> String {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let changedDay = cal.date(byAdding: .day, value: value, to: self.getCurrentDate())!
+        
+        return "\(String(format: "%04d", changedDay.year))-\(String(format: "%02d", changedDay.month))-\(String(format: "%02d", changedDay.day))"
+    }
+    
+    func startDayIndex(userInfoViewModel: UserInfoViewModel, month: Int = 0) -> Int {
+        let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
+        let startDay = "\(self.getCurrentYearStr())-\(monthStr)-01".toDate()!
+        for i in userInfoViewModel.weeks.indices {
+            if userInfoViewModel.weeks[i] == startDay.getDOW(language: userInfoViewModel.language) { return i }
+        }
+        return 0
+    }
+    
+    func lengthOfMonth(month: Int = 0) -> Int {
+        let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
+        return "\(self.getCurrentYearStr())-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
 }

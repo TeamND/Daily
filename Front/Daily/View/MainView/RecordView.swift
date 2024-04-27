@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RecordView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
@@ -22,7 +23,7 @@ struct RecordView: View {
             TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
             Spacer()
             HStack {
-                DatePickerGroup(userInfo: userInfo, date: $date)
+                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $date)
                 Spacer()
                 SymbolPickerGroup(symbol: $goalModel.symbol)
             }
@@ -39,9 +40,9 @@ struct RecordView: View {
                     goalModel.type = "check"
                     goalModel.goal_count = 1
                     date = beforeDate
-                    userInfo.currentYear = date.year
-                    userInfo.currentMonth = date.month
-                    userInfo.currentDay = date.day
+                    calendarViewModel.setCurrentYear(year: date.year)
+                    calendarViewModel.setCurrentMonth(month: date.month)
+                    calendarViewModel.setCurrentDay(day: date.day)
                 } label: {
                     Text("초기화")
                 }
@@ -50,8 +51,8 @@ struct RecordView: View {
                         isShowAlert = true
                         isShowContentLengthAlert = true
                     } else {
-                        let currentDate = userInfo.currentYearStr + userInfo.currentMonthStr + userInfo.currentDayStr
-                        goalModel.user_uid = userInfo.uid
+                        let currentDate = calendarViewModel.getCurrentYearStr() + calendarViewModel.getCurrentMonthStr() + calendarViewModel.getCurrentDayStr()
+                        goalModel.user_uid = userInfoViewModel.userInfo.uid
                         goalModel.start_date = currentDate
                         goalModel.end_date = currentDate
                         goalModel.cycle_date = [currentDate]
@@ -99,7 +100,7 @@ struct RecordView: View {
             }
         })
         .onAppear {
-            date = Calendar.current.date(from: DateComponents(year: userInfo.currentYear, month: userInfo.currentMonth, day: userInfo.currentDay))!
+            date = Calendar.current.date(from: DateComponents(year: calendarViewModel.getCurrentYear(), month: calendarViewModel.getCurrentMonth(), day: calendarViewModel.getCurrentDay()))!
             beforeDate = date
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -107,5 +108,5 @@ struct RecordView: View {
 }
 
 #Preview {
-    RecordView(userInfo: UserInfo())
+    RecordView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
 }
