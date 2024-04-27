@@ -10,12 +10,12 @@ import SwiftUI
 @main
 struct DailyApp: App {
     @State var isLoading: Bool = true
-    @StateObject var userInfo: UserInfo = UserInfo(uid: -1, set_startday: 0, set_language: "korea", set_dateorrepeat: "date", set_calendarstate: "month")
     @StateObject var userInfoViewModel: UserInfoViewModel = UserInfoViewModel()
+    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     var body: some Scene {
         WindowGroup {
-            if isLoading { InitView(userInfo: userInfo, userInfoViewModel: userInfoViewModel, isLoading: $isLoading) }
-            else         { MainView(userInfo: userInfo, userInfoViewModel: userInfoViewModel) }
+            if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
+            else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
         }
     }
 }

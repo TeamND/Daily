@@ -8,31 +8,27 @@
 import SwiftUI
 
 struct InitView: View {
-    @ObservedObject var userInfo: UserInfo
     @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var isLoading: Bool
     @State var isShowTerminateAlert: Bool = false
+    
     var body: some View {
         VStack(spacing: 40) {
             Image(systemName: "d.circle.fill")
                 .resizable()
-                .frame(width: 280, height: 280)
+                .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
                 .foregroundColor(Color("CustomColor"))
             Text("Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!")
-                .font(.headline)
+                .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
         }
         .onAppear {
             getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
                 if data.code == "00" {
-                    userInfoViewModel.setUserInfo(userInfo: data.data)
                     DispatchQueue.main.async {
-                        userInfo.uid = data.data.uid
-                        userInfo.set_startday = data.data.set_startday
-                        userInfo.set_language = data.data.set_language
-                        userInfo.set_dateorrepeat = data.data.set_dateorrepeat
-                        userInfo.set_calendarstate = data.data.set_calendarstate
+                        userInfoViewModel.setUserInfo(userInfo: data.data)
+                        calendarViewModel.currentState = userInfoViewModel.userInfo.set_calendarstate
                         
-                        userInfo.currentState = userInfo.set_calendarstate
                         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                             isLoading = false
                         }

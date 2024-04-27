@@ -9,17 +9,16 @@ import SwiftUI
 
 struct ModifyGoalView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var userInfo: UserInfo
-    @ObservedObject var navigationViewModel: NavigationViewModel
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
+    
     var body: some View {
         VStack {
             BeforeRecord(record: $record)
-            CustomDivider(color: .primary, height: 1)
+            CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             VStack {
                 HStack {
@@ -31,7 +30,7 @@ struct ModifyGoalView: View {
                 ContentTextField(content: $modifyGoalModel.content, type: $record.type)
                 
                 HStack {
-                    GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                    GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, time: $modifyGoalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
                     Spacer()
                     Button {
                         presentationMode.wrappedValue.dismiss()

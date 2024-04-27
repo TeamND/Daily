@@ -8,37 +8,36 @@
 import SwiftUI
 
 struct CalendarHeader: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var navigationViewModel: NavigationViewModel
-    @StateObject var popupInfo: PopupInfo
     @Namespace var NS
+    
     var body: some View {
         ZStack {
             // leading
             HStack {
-                if userInfo.currentState == "month" {
+                if calendarViewModel.currentState == "month" {
                     Button {
                         withAnimation {
-                            userInfo.currentState = "year"
+                            calendarViewModel.currentState = "year"
                         }
                     } label: {
-                        Label(userInfo.currentYearLabel, systemImage: "chevron.left")
-                            .font(.system(size: 16, weight: .bold))
+                        Label(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
+                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
-                    .padding(8)
+                    .padding(CGFloat.fontSize)
                     .matchedGeometryEffect(id: "year", in: NS)
                 }
-                if userInfo.currentState == "week" {
+                if calendarViewModel.currentState == "week" {
                     Button {
                         withAnimation {
-                            userInfo.currentState = "month"
+                            calendarViewModel.currentState = "month"
                         }
                     } label: {
-                        Label(userInfo.currentMonthLabel, systemImage: "chevron.left")
-                            .font(.system(size: 16, weight: .bold))
+                        Label(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
+                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
-                    .padding(8)
+                    .padding(CGFloat.fontSize)
                     .matchedGeometryEffect(id: "month", in: NS)
                 }
                 Spacer()
@@ -47,60 +46,60 @@ struct CalendarHeader: View {
             HStack {
                 Spacer()
                 Button {
-                    userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
+                    calendarViewModel.changeCalendar(amount: -1)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
-                if userInfo.currentState == "year" {
+                if calendarViewModel.currentState == "year" {
                     Menu {
-                        ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
+                        ForEach(calendarViewModel.getCurrentYear() - 5 ... calendarViewModel.getCurrentYear() + 5, id: \.self) { year in
                             Button {
-                                userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: year - userInfo.currentYear)
+                                calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear())
                             } label: {
                                 Text("\(String(year)) 년")
                             }
                         }
                     } label: {
-                        Text(userInfo.currentYearLabel)
-                            .font(.system(size: 20, weight: .bold))
+                        Text(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel))
+                            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
                     .matchedGeometryEffect(id: "year", in: NS)
                 }
-                if userInfo.currentState == "month" {
+                if calendarViewModel.currentState == "month" {
                     Menu {
                         ForEach(1 ... 12, id:\.self) { month in
                             Button {
-                                userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: month - userInfo.currentMonth)
+                                calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth())
                             } label: {
                                 Text("\(String(month)) 월")
                             }
                         }
                     } label: {
-                        Text(userInfo.currentMonthLabel)
-                            .font(.system(size: 20, weight: .bold))
+                        Text(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel))
+                            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
                     .matchedGeometryEffect(id: "month", in: NS)
                 }
-                if userInfo.currentState == "week" {
+                if calendarViewModel.currentState == "week" {
                     Menu {
-                        ForEach(1 ... userInfo.lengthOfMonth(), id:\.self) { day in
+                        ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
                             Button {
-                                userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel, amount: day - userInfo.currentDay)
+                                calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay())
                             } label: {
                                 Text("\(String(day)) 일")
                             }
                         }
                     } label: {
-                        Text(userInfo.currentDayLabel)
-                            .font(.system(size: 20, weight: .bold))
+                        Text(calendarViewModel.getCurrentDayLabel(userInfoViewModel: userInfoViewModel))
+                            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
                     .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Button {
-                    userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
+                    calendarViewModel.changeCalendar(amount: 1)
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -110,39 +109,12 @@ struct CalendarHeader: View {
             HStack(spacing: 0) {
                 Spacer()
                 NavigationLink {
-                    RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
+                    AppInfoView()
                 } label: {
-                    VStack {
-                        Image(systemName: "plus")
-                        Text("추가")
-                            .font(.system(size: 12))
-                    }
+                    Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 2.5))
                 }
-                .padding(8)
+                .padding(CGFloat.fontSize * 2)
             }
-//            HStack(spacing: 0) {
-//                Spacer()
-//                Button {
-//                    popupInfo.showPopup(isPopup: true)
-//                } label: {
-//                    VStack {
-//                        Image(systemName: "plus")
-//                        Text("add")
-//                            .font(.system(size: 12))
-//                    }
-//                }
-//                .padding(8)
-//                Button {
-//                    popupInfo.showPopup(isPopup: false)
-//                } label: {
-//                    VStack {
-//                        Image(systemName: "slider.horizontal.3")
-//                        Text("menu")
-//                            .font(.system(size: 12))
-//                    }
-//                }
-//                .padding(8)
-//            }
         }
     }
 }

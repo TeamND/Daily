@@ -8,62 +8,48 @@
 import SwiftUI
 
 struct DayOnMonth: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
     let day: Int
     let dayOnMonth: dayOnMonthModel
     @State var isShowSymbolPopup: Bool = false
+    
     var body: some View {
         let symbols = dayOnMonth.symbol
+        let maxSymbolNum = UIDevice.current.model == "iPhone" ? 4 : 8
         VStack(alignment: .leading) {
             ZStack {
                 Image(systemName: "circle.fill")
-                    .font(.system(size: 24))
+                    .font(.system(size: CGFloat.fontSize * 4))
                     .foregroundColor(Color("CustomColor").opacity(dayOnMonth.rating*0.8))
                 Text("\(day)")
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                     .foregroundColor(.primary)
             }
             .padding(4)
             VStack(alignment: .center, spacing: 8) {
-                HStack(spacing: 0) {
-                    ForEach(symbols.indices, id: \.self) { symbolIndex in
-                        if 0 <= symbolIndex && symbolIndex < 2 {
-                            SymbolOnMonth(symbol: symbols[symbolIndex])
-                                .frame(maxWidth: .infinity)
+                ForEach(0 ..< maxSymbolNum, id: \.self) { index in
+                    if index % 2 == 0 {
+                        HStack(spacing: 0) {
+                            ForEach(symbols.indices, id: \.self) { symbolIndex in
+                                if index <= symbolIndex && symbolIndex < index + 2 {
+                                    SymbolOnMonth(symbol: symbols[symbolIndex], isEllipsis: index == maxSymbolNum - 2 && symbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1)
+                                }
+                            }
+                            if index >= symbols.count - 1 {
+                                SymbolOnMonth(symbol: symbolOnMonthModel(), isEllipsis: false)
+                            }
                         }
                     }
                 }
-                HStack(spacing: 0) {
-                    ForEach(symbols.indices, id: \.self) { symbolIndex in
-                        if symbols.count > 4 && symbolIndex == 3 {
-                            // 추후 심볼 팝업 추가
-//                            Button {
-//                                isShowSymbolPopup = true
-//                            } label: {
-//                                Image(systemName: "ellipsis")
-//                            }
-                            Image(systemName: "ellipsis")
-                            .frame(maxWidth: .infinity)
-//                            .popup(isPresented: $isShowSymbolPopup)
-                        } else if 2 <= symbolIndex && symbolIndex < 4 {
-                            SymbolOnMonth(symbol: symbols[symbolIndex])
-                                .frame(maxWidth: .infinity)
-                        }
-                    }
-                }
-                Spacer()
             }
-            .frame(height: 40)
-            .font(.system(size: 12, weight: .bold))
-            .foregroundColor(.primary)
+            .padding(.bottom, 4)
         }
         .overlay {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
-                .opacity(userInfo.isToday(day: day) ? 1 : 0)
+                .opacity(calendarViewModel.isToday(day: day) ? 1 : 0)
         }
         .padding(4)
         .frame(width: CGFloat.dayOnMonthWidth)
-        .frame(idealHeight: CGFloat.dayOnMonthHeight)
     }
 }

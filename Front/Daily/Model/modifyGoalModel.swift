@@ -13,6 +13,7 @@ struct modifyGoalModel: Codable {
     var symbol: String = ""
     var type: String = "check"
     var goal_count: Int = 1
+    var goal_time: Int = 300
     
     init (record: RecordModel) {
         self.uid = record.goal_uid
@@ -20,5 +21,6 @@ struct modifyGoalModel: Codable {
         self.symbol = record.symbol
         self.type = record.type
         self.goal_count = record.goal_count
+        self.goal_time = record.goal_time
     }
 }

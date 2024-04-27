@@ -8,17 +8,25 @@
 import SwiftUI
 
 struct NoRecord: View {
-    @ObservedObject var userInfo: UserInfo
-    @ObservedObject var navigationViewModel: NavigationViewModel
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
+    @State var updateVersion: Bool = false
     
     var body: some View {
         VStack {
             Spacer()
             Text(noRecordText)
-            NavigationLink {
-                RecordView(userInfo: userInfo, navigationViewModel: navigationViewModel)
-            } label: {
-                Text(goRecordViewText)
+            if updateVersion {
+                NavigationLink(value: "addGoal") {
+                    Text(goRecordViewText)
+                        .frame(width: CGFloat.screenWidth)
+                }
+            } else {
+                NavigationLink {
+                    RecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+                } label: {
+                    Text(goRecordViewText)
+                }
             }
             Spacer()
         }

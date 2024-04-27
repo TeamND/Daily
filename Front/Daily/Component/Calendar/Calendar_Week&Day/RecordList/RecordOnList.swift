@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct RecordOnList: View {
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
+    
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
@@ -21,7 +22,7 @@ struct RecordOnList: View {
                 }
                 Text(record.content)
                 Spacer()
-                RecordButton(userInfo: userInfo, calendarViewModel: calendarViewModel, record: $record)
+                RecordButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record)
                     .frame(maxHeight: .infinity)
                     .foregroundColor(Color("CustomColor"))
             }

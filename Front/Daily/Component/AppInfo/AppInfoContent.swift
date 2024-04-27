@@ -43,10 +43,3 @@ struct AppInfoContent: View {
         }
     }
 }
-
-#Preview {
-    Group {
-        AppInfoContent(name: "Sample", content: "Test")
-        AppInfoContent(name: "Sample", linkLabel: "TestLink", linkDestination: "TestDestination")
-    }
-}

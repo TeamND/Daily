@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarSheet: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var userInfo: UserInfo
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var date: Date
     
     var body: some View {
@@ -20,9 +20,9 @@ struct CalendarSheet: View {
                 Text("\(String(date.year))년 \(date.month)월 \(date.day)일")
                 Spacer()
                 Button {
-                    userInfo.currentYear = date.year
-                    userInfo.currentMonth = date.month
-                    userInfo.currentDay = date.day
+                    calendarViewModel.setCurrentYear(year: date.year)
+                    calendarViewModel.setCurrentMonth(month: date.month)
+                    calendarViewModel.setCurrentDay(day: date.day)
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text("Confirm")

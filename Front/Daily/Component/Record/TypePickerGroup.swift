@@ -10,29 +10,39 @@ import SwiftUI
 struct TypePickerGroup: View {
     @Binding var type: String
     @Binding var count: Int
+    @Binding var time: Int
     
     var body: some View {
         HStack {
+//            VStack {
+//                Button {
+//                    type = "check"
+//                    count = 1
+//                } label: {
+//                    Text("성공 기록")
+//                        .foregroundStyle(type == "check" ? Color("CustomColor") : .primary)
+//                }
+//                CustomDivider(color: type == "check" ? Color("CustomColor") : .primary)
+//            }
+//            .hCenter()
             VStack {
                 Button {
-                    type = "check"
-                    count = 1
+                    type = count == 1 ? "check" : "count"
                 } label: {
-                    Text("성공 기록")
-                        .foregroundStyle(type == "check" ? Color("CustomColor") : .primary)
+                    Text("횟수")
+                        .foregroundStyle(type == "timer" ? .primary : Color("CustomColor"))
                 }
-                CustomDivider(color: type == "check" ? Color("CustomColor") : .primary)
+                CustomDivider(color: type == "timer" ? .primary : Color("CustomColor"))
             }
             .hCenter()
             VStack {
                 Button {
-                    type = "count"
-                    count = 5
+                    type = "timer"
                 } label: {
-                    Text("횟수 기록")
-                        .foregroundStyle(type == "check" ? .primary : Color("CustomColor"))
+                    Text("시간")
+                        .foregroundStyle(type == "timer" ? Color("CustomColor") : .primary)
                 }
-                CustomDivider(color: type == "check" ? .primary : Color("CustomColor"))
+                CustomDivider(color: type == "timer" ? Color("CustomColor") : .primary)
             }
             .hCenter()
         }

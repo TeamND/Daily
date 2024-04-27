@@ -17,6 +17,6 @@ struct RecordProgressBar: View {
             ProgressView(value: Double(record_count), total: Double(goal_count))
                 .progressViewStyle(LinearProgressViewStyle(tint: Color("CustomColor").opacity(0.6)))
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, CGFloat.fontSize)
     }
 }

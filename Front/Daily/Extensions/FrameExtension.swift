@@ -15,8 +15,12 @@ extension CGFloat {
     static let screenHeight = UIScreen.main.bounds.height
     
     // calendar
+    static let monthOnYearWidth = screenWidth / 3
+    static let monthOnYearHeight = screenHeight / 6
     static let dayOnMonthWidth = screenWidth / 7
-    static let dayOnMonthHeight = screenHeight / 10
+    
+    static let fontSizeForiPhone15 = 6 * screenWidth / 393 // 6.7 iPhone 기준
+    static let fontSize = UIDevice.current.model == "iPhone" ? fontSizeForiPhone15 : fontSizeForiPhone15 / 2
 }
 
 // MARK: - Frame Modifier
@@ -62,33 +66,29 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(userInfo: UserInfo, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel) -> some View {
+    func mainViewDragGesture(calendarViewModel: CalendarViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 좌 -> 우
-                if value.translation.width > 100 {
-                    if navigationViewModel.getTagIndex() == 0 {
-                        if value.startLocation.x < 30 && userInfo.currentState != "year" {
-                            if userInfo.currentState == "month" {
-                                withAnimation {
-                                    userInfo.currentState = "year"
-                                }
+                if value.translation.width > CGFloat.fontSize * 15 {
+                    if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.currentState != "year" {
+                        if calendarViewModel.currentState == "month" {
+                            withAnimation {
+                                calendarViewModel.currentState = "year"
                             }
-                            if userInfo.currentState == "week" {
-                                withAnimation {
-                                    userInfo.currentState = "month"
-                                }
-                            }
-                        } else {
-                            userInfo.changeCalendar(direction: "prev", calendarViewModel: calendarViewModel)
                         }
+                        if calendarViewModel.currentState == "week" {
+                            withAnimation {
+                                calendarViewModel.currentState = "month"
+                            }
+                        }
+                    } else {
+                        calendarViewModel.changeCalendar(amount: -1)
                     }
                 }
                 // 우 -> 좌
-                if value.translation.width < -100 {
-                    if navigationViewModel.getTagIndex() == 0 {
-                        userInfo.changeCalendar(direction: "next", calendarViewModel: calendarViewModel)
-                    }
+                if value.translation.width < -CGFloat.fontSize * 15 {
+                    calendarViewModel.changeCalendar(amount: 1)
                 }
             }
         )
@@ -108,5 +108,79 @@ extension View {
 extension View {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+// MARK: - NavigationBar
+extension View {
+    func calendarViewNavigationBar(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
+        self.navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle(
+                navigationViewModel.getNavigationBarTitle(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, calendarState: calendarState)
+            )
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Button {
+                            calendarViewModel.changeCalendar(amount: -1)
+                        } label: {
+                            Image(systemName: "chevron.left")
+                        }
+                        if calendarState == "year" {
+                            Menu {
+                                ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
+                                    Button {
+                                        calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear())
+                                    } label: {
+                                        Text("\(String(year)) 년")
+                                    }
+                                }
+                            } label: {
+                                Text(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel))
+                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if calendarState == "month" {
+                            Menu {
+                                ForEach(1 ... 12, id:\.self) { month in
+                                    Button {
+                                        calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth())
+                                    } label: {
+                                        Text("\(String(month)) 월")
+                                    }
+                                }
+                            } label: {
+                                Text(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel))
+                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if calendarState == "day" {
+                            Menu {
+                                ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
+                                    Button {
+                                        calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay())
+                                    } label: {
+                                        Text("\(String(day)) 일")
+                                    }
+                                }
+                            } label: {
+                                Text(calendarViewModel.getCurrentDayLabel(userInfoViewModel: userInfoViewModel))
+                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        Button {
+                            calendarViewModel.changeCalendar(amount: 1)
+                        } label: {
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                }
+            }
+            .navigationBarItems(trailing:
+                NavigationLink(value: "appInfo") { Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 2.5)) }
+            )
     }
 }

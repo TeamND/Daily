@@ -14,7 +14,6 @@
 		F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0042BC42EA100C35948 /* ModifyDateView.swift */; };
 		F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */; };
 		F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0092BC5450B00C35948 /* BeforeRecord.swift */; };
-		F62E885029405D560010FEE2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62E884F29405D560010FEE2 /* Date.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */; };
@@ -24,8 +23,9 @@
 		F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */; };
 		F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */; };
 		F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */; };
+		F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */; };
+		F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
-		F68B31972986694A000791F3 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B31962986694A000791F3 /* Record.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -35,9 +35,7 @@
 		F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */; };
 		F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F806291A501400984457 /* CalendarHeader.swift */; };
 		F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F812291BFC9300984457 /* CustomDivider.swift */; };
-		F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F81C291CBC1500984457 /* UserInfo.swift */; };
 		F6C2F22229221C410006BFC7 /* RecordOnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22129221C410006BFC7 /* RecordOnList.swift */; };
-		F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2F22329221EAC0006BFC7 /* Goal.swift */; };
 		F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B02F2BB424B300C578C1 /* AppInfo.swift */; };
 		F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */; };
 		F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */; };
@@ -64,15 +62,15 @@
 		F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */; };
 		F6CC15C02BAACAC300689A02 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15BF2BAACAC300689A02 /* StringExtension.swift */; };
 		F6CC15C22BAD5ACA00689A02 /* FrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC15C12BAD5ACA00689A02 /* FrameExtension.swift */; };
-		F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0623729234C2E00B825EF /* PopupInfo.swift */; };
 		F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */; };
-		F6D0624B2927B58B00B825EF /* Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0624A2927B58B00B825EF /* Times.swift */; };
 		F6DF64AE2BAFC7F400A17B9E /* getCalendarYearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64AD2BAFC7F400A17B9E /* getCalendarYearModel.swift */; };
 		F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */; };
 		F6DF64B22BAFCDB500A17B9E /* MonthOnYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B12BAFCDB500A17B9E /* MonthOnYear.swift */; };
 		F6DF64B42BAFD9DD00A17B9E /* WeekOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B32BAFD9DD00A17B9E /* WeekOnMonth.swift */; };
 		F6DF64B62BAFDA1200A17B9E /* DayOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B52BAFDA1200A17B9E /* DayOnMonth.swift */; };
 		F6DF64B82BAFDCB800A17B9E /* SymbolOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B72BAFDCB800A17B9E /* SymbolOnMonth.swift */; };
+		F6EC3D182BDCC34400FAB502 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D172BDCC34400FAB502 /* DateExtension.swift */; };
+		F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,7 +81,6 @@
 		F61AE0042BC42EA100C35948 /* ModifyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyDateView.swift; path = Model/ModifyDateView.swift; sourceTree = SOURCE_ROOT; };
 		F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyGoalView.swift; path = Model/ModifyGoalView.swift; sourceTree = SOURCE_ROOT; };
 		F61AE0092BC5450B00C35948 /* BeforeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeRecord.swift; sourceTree = "<group>"; };
-		F62E884F29405D560010FEE2 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextField.swift; sourceTree = "<group>"; };
@@ -93,8 +90,9 @@
 		F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCountPickerGroup.swift; sourceTree = "<group>"; };
 		F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeGoal.swift; sourceTree = "<group>"; };
 		F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
+		F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalButton.swift; sourceTree = "<group>"; };
+		F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
-		F68B31962986694A000791F3 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,9 +104,7 @@
 		F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar_Week&Day.swift"; sourceTree = "<group>"; };
 		F6C0F806291A501400984457 /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeader.swift; sourceTree = "<group>"; };
 		F6C0F812291BFC9300984457 /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
-		F6C0F81C291CBC1500984457 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		F6C2F22129221C410006BFC7 /* RecordOnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordOnList.swift; sourceTree = "<group>"; };
-		F6C2F22329221EAC0006BFC7 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		F6C6B02F2BB424B300C578C1 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoLabel.swift; sourceTree = "<group>"; };
 		F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoContent.swift; sourceTree = "<group>"; };
@@ -136,15 +132,15 @@
 		F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolSheet.swift; sourceTree = "<group>"; };
 		F6CC15BF2BAACAC300689A02 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		F6CC15C12BAD5ACA00689A02 /* FrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameExtension.swift; sourceTree = "<group>"; };
-		F6D0623729234C2E00B825EF /* PopupInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupInfo.swift; sourceTree = "<group>"; };
 		F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekIndicator.swift; sourceTree = "<group>"; };
-		F6D0624A2927B58B00B825EF /* Times.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Times.swift; sourceTree = "<group>"; };
 		F6DF64AD2BAFC7F400A17B9E /* getCalendarYearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCalendarYearModel.swift; sourceTree = "<group>"; };
 		F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		F6DF64B12BAFCDB500A17B9E /* MonthOnYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthOnYear.swift; sourceTree = "<group>"; };
 		F6DF64B32BAFD9DD00A17B9E /* WeekOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOnMonth.swift; sourceTree = "<group>"; };
 		F6DF64B52BAFDA1200A17B9E /* DayOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOnMonth.swift; sourceTree = "<group>"; };
 		F6DF64B72BAFDCB800A17B9E /* SymbolOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolOnMonth.swift; sourceTree = "<group>"; };
+		F6EC3D172BDCC34400FAB502 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C2F22129221C410006BFC7 /* RecordOnList.swift */,
-				F636CC682923287300879E1F /* RecordButton.swift */,
+				F6EC3D142BDBB36500FAB502 /* RecordOnList */,
 			);
 			path = RecordList;
 			sourceTree = "<group>";
@@ -218,7 +214,6 @@
 		F61AE0082BC544D000C35948 /* Modify */ = {
 			isa = PBXGroup;
 			children = (
-				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
 				F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */,
 			);
 			path = Modify;
@@ -228,8 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				F64EE8862952F9620098C785 /* Constant.swift */,
-				F6D0624A2927B58B00B825EF /* Times.swift */,
-				F62E884F29405D560010FEE2 /* Date.swift */,
 				F6CC15AF2BA6906600689A02 /* ResponseModel.swift */,
 				F6CC15A92BA4598700689A02 /* UserInfoModel.swift */,
 				F6CC15AB2BA459EA00689A02 /* getUserInfoModel.swift */,
@@ -313,7 +306,6 @@
 			children = (
 				F672992F29B761A300E392BD /* Popup */,
 				F6D06251292F567900B825EF /* Calendar */,
-				F61AE0082BC544D000C35948 /* Modify */,
 				F6D06252292F56AD00B825EF /* Record */,
 				F6C6B02E2BB424A000C578C1 /* AppInfo */,
 				F6D062492925B84B00B825EF /* Custom */,
@@ -336,6 +328,7 @@
 			children = (
 				F6CC15C12BAD5ACA00689A02 /* FrameExtension.swift */,
 				F6CC15BF2BAACAC300689A02 /* StringExtension.swift */,
+				F6EC3D172BDCC34400FAB502 /* DateExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -386,6 +379,8 @@
 				F6C0F7FE2917E91F00984457 /* Calendar_Week&Day.swift */,
 				F61AE0012BC42CDC00C35948 /* Calendar_Week&Day */,
 				F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */,
+				F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */,
+				F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -393,12 +388,13 @@
 		F6D06252292F56AD00B825EF /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
 				F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */,
 				F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */,
 				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
 				F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */,
 				F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */,
-				F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */,
+				F61AE0082BC544D000C35948 /* Modify */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -406,15 +402,21 @@
 		F6D0625E293819A400B825EF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				F6C0F81C291CBC1500984457 /* UserInfo.swift */,
-				F6D0623729234C2E00B825EF /* PopupInfo.swift */,
-				F6C2F22329221EAC0006BFC7 /* Goal.swift */,
-				F68B31962986694A000791F3 /* Record.swift */,
 				F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */,
-				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
+				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
+				F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F6EC3D142BDBB36500FAB502 /* RecordOnList */ = {
+			isa = PBXGroup;
+			children = (
+				F636CC682923287300879E1F /* RecordButton.swift */,
+				F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */,
+			);
+			path = RecordOnList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,7 +499,6 @@
 				F6DF64AE2BAFC7F400A17B9E /* getCalendarYearModel.swift in Sources */,
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
-				F6D0623829234C2E00B825EF /* PopupInfo.swift in Sources */,
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */,
 				F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */,
@@ -505,12 +506,9 @@
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
 				F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */,
-				F6C0F81D291CBC1500984457 /* UserInfo.swift in Sources */,
-				F6D0624B2927B58B00B825EF /* Times.swift in Sources */,
 				F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */,
 				F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */,
 				F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */,
-				F62E885029405D560010FEE2 /* Date.swift in Sources */,
 				F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */,
 				F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
@@ -524,6 +522,7 @@
 				F6C0F7FF2917E91F00984457 /* Calendar_Week&Day.swift in Sources */,
 				F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */,
 				F6DF64B22BAFCDB500A17B9E /* MonthOnYear.swift in Sources */,
+				F6EC3D182BDCC34400FAB502 /* DateExtension.swift in Sources */,
 				F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */,
 				F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */,
 				F6CC15A42BA1E69700689A02 /* getCalendarDayModel.swift in Sources */,
@@ -534,14 +533,13 @@
 				F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
-				F68B31972986694A000791F3 /* Record.swift in Sources */,
 				F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
 				F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */,
 				F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
-				F6C2F22429221EAC0006BFC7 /* Goal.swift in Sources */,
 				F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */,
+				F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */,
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
 				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
@@ -554,7 +552,9 @@
 				F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */,
 				F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */,
 				F6DF64B62BAFDA1200A17B9E /* DayOnMonth.swift in Sources */,
+				F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */,
 				F6CC158C2B9C90F300689A02 /* MainView.swift in Sources */,
+				F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -706,16 +706,16 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0.10;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -750,16 +750,16 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0.10;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

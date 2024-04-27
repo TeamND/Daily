@@ -8,28 +8,29 @@
 import SwiftUI
 
 struct WeekIndicator: View {
-    @StateObject var userInfo: UserInfo
-    @StateObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     var tapPurpose: String = ""
     var body: some View {
         HStack(spacing: 0) {
-            ForEach (userInfo.weeks.indices, id: \.self) { index in
+            ForEach (userInfoViewModel.weeks.indices, id: \.self) { index in
                 ZStack {
-                    let isToday = userInfo.weeks[index] == userInfo.currentDOW
+                    let isToday = userInfoViewModel.weeks[index] == calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel)
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 2)
                         .opacity(isToday && tapPurpose == "change" ? 1 : 0)
+                        .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
-                        .font(.system(size: 32))
+                        .font(.system(size: CGFloat.fontSize * 5))
                         .foregroundColor(Color("CustomColor").opacity(calendarViewModel.getDayOfRatingOnWeek(dayIndex: index)*0.8))
                         .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
-                    Text(userInfo.weeks[index])
-                        .font(.system(size: 16, weight: .bold))
+                    Text(userInfoViewModel.weeks[index])
+                        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        userInfo.changeDay(DOWIndex: index)
+                        calendarViewModel.changeDay(userInfoViewModel: userInfoViewModel, DOWIndex: index)
                     case "select":
                         if calendarViewModel.getDayOfRatingOnWeek(dayIndex: index) == 0 {
                             calendarViewModel.setDayOfRatingOnWeek(dayIndex: index, dayOfRating: 0.4)
@@ -43,6 +44,7 @@ struct WeekIndicator: View {
                 .frame(width: CGFloat.dayOnMonthWidth)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 40)
+        .frame(height: CGFloat.fontSize * 6)
+        .frame(maxWidth: .infinity)
     }
 }

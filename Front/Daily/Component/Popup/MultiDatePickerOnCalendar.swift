@@ -10,13 +10,13 @@ import SwiftUI
 struct MultiDatePickerOnCalendar: View {
     @State var year: String
     @State var month: String
-    var fontSize: CGFloat = 6
     var startDayIndex = 0
     var lengthOfMonth = 40
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("\(year)-\(month)")
-                .font(.system(size: 20, weight: .bold))
+                .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                 .foregroundColor(.primary)
                 .padding(4)
             ForEach (0..<6) { rowIndex in
@@ -25,7 +25,7 @@ struct MultiDatePickerOnCalendar: View {
                         ZStack {
                             let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                             Image(systemName: "circle.fill")
-                                .font(.system(size: fontSize * 2))
+                                .font(.system(size: CGFloat.fontSize * 2))
                                 .foregroundColor(Color("CustomColor").opacity(0.4))
                             Button {
 //                                if archievements[rowIndex * 7 + colIndex] == 0 {
@@ -33,15 +33,14 @@ struct MultiDatePickerOnCalendar: View {
 //                                } else {
 //                                    archievements[rowIndex * 7 + colIndex] = 0
 //                                }
-                                print("testt")
                             } label: {
                                 if 1 <= day && day <= lengthOfMonth {
                                     Text("\(day)")
-                                        .font(.system(size: fontSize, weight: .bold))
+                                        .font(.system(size: CGFloat.fontSize, weight: .bold))
                                         .foregroundColor(.primary)
                                 } else {
                                     Text("1")
-                                        .font(.system(size: fontSize, weight: .bold))
+                                        .font(.system(size: CGFloat.fontSize, weight: .bold))
                                         .opacity(0)
                                 }
                             }
