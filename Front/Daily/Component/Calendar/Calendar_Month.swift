@@ -53,7 +53,7 @@ struct Calendar_Month: View {
             } else {
                 VStack(spacing: 0) {
                     WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: CalendarViewModel())
-                    CustomDivider(color: .primary, height: 2, hPadding: 12)
+                    CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
                     VStack(spacing: 0) {
                         ForEach (0..<6) { rowIndex in
                             WeekOnMonth(calendarViewModel: calendarViewModel, rowIndex: rowIndex, startDayIndex: startDayIndex, lengthOfMonth: lengthOfMonth, updateVersion: updateVersion)

@@ -57,7 +57,7 @@ struct Calendar_Week_Day: View {
             } else {
                 VStack(spacing: 0) {
                     WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tapPurpose: "change")
-                    CustomDivider(color: .primary, height: 2, hPadding: 12)
+                    CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
                     if calendarViewModel.recordsOnWeek.count > 0 {
                         ViewThatFits(in: .vertical) {
                             RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)

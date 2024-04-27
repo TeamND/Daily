@@ -403,8 +403,8 @@
 			isa = PBXGroup;
 			children = (
 				F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */,
-				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
+				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
 				F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */,
 			);
 			path = ViewModel;
@@ -706,7 +706,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -750,7 +750,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

@@ -17,7 +17,7 @@ struct Calendar_Year: View {
         ZStack {
             if updateVersion {
                 VStack(spacing: 0) {
-                    CustomDivider(color: .primary, height: 2)
+                    CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize)
                         .padding(12)
                     ViewPager(position: $positionInViewPager) {
                         ForEach(calendarViewModel.getCurrentYear() - marginRange ... calendarViewModel.getCurrentYear() + marginRange, id: \.self) { year in
@@ -50,7 +50,7 @@ struct Calendar_Year: View {
                 .animation(.spring, value: positionInViewPager)
             } else {
                 VStack(spacing: 0) {
-                    CustomDivider(color: .primary, height: 2)
+                    CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize)
                         .padding(12)
                     ForEach (0..<4) { rowIndex in
                         HStack(spacing: 0) {

@@ -20,7 +20,7 @@ struct RecordView: View {
     
     var body: some View {
         VStack {
-            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
+//            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
             Spacer()
             HStack {
                 DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $date)
