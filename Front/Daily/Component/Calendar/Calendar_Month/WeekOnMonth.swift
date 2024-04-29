@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WeekOnMonth: View {
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     let rowIndex: Int
     let startDayIndex: Int
@@ -26,7 +27,7 @@ struct WeekOnMonth: View {
                         Button {
                             withAnimation {
                                 calendarViewModel.setCurrentDay(day: day)
-                                calendarViewModel.currentState = "week"
+                                calendarViewModel.setCurrentState(state: "week", userInfoViewModel: userInfoViewModel)
                             }
                         } label: {
                             DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))

@@ -27,7 +27,7 @@ struct InitView: View {
                 if data.code == "00" {
                     DispatchQueue.main.async {
                         userInfoViewModel.setUserInfo(userInfo: data.data)
-                        calendarViewModel.currentState = userInfoViewModel.userInfo.set_calendarstate
+                        calendarViewModel.setCurrentState(state: userInfoViewModel.userInfo.set_calendarstate, userInfoViewModel: userInfoViewModel)
                         
                         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                             isLoading = false

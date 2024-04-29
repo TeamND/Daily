@@ -16,10 +16,10 @@ struct CalendarHeader: View {
         ZStack {
             // leading
             HStack {
-                if calendarViewModel.currentState == "month" {
+                if calendarViewModel.getCurrentState() == "month" {
                     Button {
                         withAnimation {
-                            calendarViewModel.currentState = "year"
+                            calendarViewModel.setCurrentState(state: "year", userInfoViewModel: userInfoViewModel)
                         }
                     } label: {
                         Label(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
@@ -28,10 +28,10 @@ struct CalendarHeader: View {
                     .padding(CGFloat.fontSize)
                     .matchedGeometryEffect(id: "year", in: NS)
                 }
-                if calendarViewModel.currentState == "week" {
+                if calendarViewModel.getCurrentState() == "week" {
                     Button {
                         withAnimation {
-                            calendarViewModel.currentState = "month"
+                            calendarViewModel.setCurrentState(state: "month", userInfoViewModel: userInfoViewModel)
                         }
                     } label: {
                         Label(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
@@ -46,15 +46,15 @@ struct CalendarHeader: View {
             HStack {
                 Spacer()
                 Button {
-                    calendarViewModel.changeCalendar(amount: -1)
+                    calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
-                if calendarViewModel.currentState == "year" {
+                if calendarViewModel.getCurrentState() == "year" {
                     Menu {
                         ForEach(calendarViewModel.getCurrentYear() - 5 ... calendarViewModel.getCurrentYear() + 5, id: \.self) { year in
                             Button {
-                                calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear())
+                                calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear(), userInfoViewModel: userInfoViewModel)
                             } label: {
                                 Text("\(String(year)) 년")
                             }
@@ -66,11 +66,11 @@ struct CalendarHeader: View {
                     }
                     .matchedGeometryEffect(id: "year", in: NS)
                 }
-                if calendarViewModel.currentState == "month" {
+                if calendarViewModel.getCurrentState() == "month" {
                     Menu {
                         ForEach(1 ... 12, id:\.self) { month in
                             Button {
-                                calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth())
+                                calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth(), userInfoViewModel: userInfoViewModel)
                             } label: {
                                 Text("\(String(month)) 월")
                             }
@@ -82,11 +82,11 @@ struct CalendarHeader: View {
                     }
                     .matchedGeometryEffect(id: "month", in: NS)
                 }
-                if calendarViewModel.currentState == "week" {
+                if calendarViewModel.getCurrentState() == "week" {
                     Menu {
                         ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
                             Button {
-                                calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay())
+                                calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay(), userInfoViewModel: userInfoViewModel)
                             } label: {
                                 Text("\(String(day)) 일")
                             }
@@ -99,7 +99,7 @@ struct CalendarHeader: View {
                     .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Button {
-                    calendarViewModel.changeCalendar(amount: 1)
+                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
                 } label: {
                     Image(systemName: "chevron.right")
                 }

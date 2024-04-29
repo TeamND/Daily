@@ -29,12 +29,13 @@ struct BeforeRecord: View {
                     case "count":
                         Label("추가", systemImage: "plus.circle")
                     case "timer":
-                        Text(record.start_time)
-                        if record.start_time == "" {
-                            Label("시작", systemImage: "play.circle")
-                        } else {
-                            Label("중지", systemImage: "pause.circle")
-                        }
+                        Text("test")
+//                        Text(record.start_time ?? "nil")
+//                        if record.start_time == "" {
+//                            Label("시작", systemImage: "play.circle")
+//                        } else {
+//                            Label("중지", systemImage: "pause.circle")
+//                        }
                     default:
                         Text("")
                     }

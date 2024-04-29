@@ -34,7 +34,7 @@ struct MainView: View {
                                     .calendarViewNavigationBar(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, navigationViewModel: navigationViewModel, calendarState: "day")
                                     .onAppear {
                                         if value.split(separator: "_").count > 1 {
-                                            calendarViewModel.setCurrentDay(day:Int(value.split(separator: "_")[1])!)
+                                            calendarViewModel.setCurrentDay(day: Int(value.split(separator: "_")[1])!)
                                         }
                                     }
                             }
@@ -52,14 +52,14 @@ struct MainView: View {
                 CalendarView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                     .navigationBarTitle("이전")
                     .navigationBarHidden(true)
-                    .mainViewDragGesture(calendarViewModel: calendarViewModel)
+                    .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
             }
         }
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
         // 추후 수정: initView로 옮기기
         .onAppear {
-            if updateVersion && calendarViewModel.currentState != "year" {
+            if updateVersion && calendarViewModel.getCurrentState() != "year" {
                 navigationViewModel.appendPath(path: "month")
             }
         }

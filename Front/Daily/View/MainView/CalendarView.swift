@@ -14,9 +14,9 @@ struct CalendarView: View {
     var body: some View {
         VStack(spacing: 0) {
             CalendarHeader(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
-            if calendarViewModel.currentState == "year" { Calendar_Year(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
-            if calendarViewModel.currentState == "month" { Calendar_Month(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
-            if calendarViewModel.currentState == "week" { Calendar_Week_Day(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
+            if calendarViewModel.getCurrentState() == "year" { Calendar_Year(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
+            if calendarViewModel.getCurrentState() == "month" { Calendar_Month(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
+            if calendarViewModel.getCurrentState() == "week" { Calendar_Week_Day(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
         }
     }
 }

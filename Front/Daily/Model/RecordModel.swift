@@ -18,7 +18,7 @@ struct RecordModel: Codable {
     let record_time: Int
     var record_count: Int
     var issuccess: Bool
-    let start_time: String
+    var start_time: String
     
     init() {
         self.uid = -1

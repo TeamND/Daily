@@ -59,10 +59,9 @@ struct Calendar_Year: View {
                                 Button {
                                     withAnimation {
                                         calendarViewModel.setCurrentMonth(month: month)
-                                        calendarViewModel.currentState = "month"
+                                        calendarViewModel.setCurrentState(state: "month", userInfoViewModel: userInfoViewModel)
                                     }
                                 } label: {
-                                    Text("test")
                                     MonthOnYear(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, month: month)
                                 }
                             }
@@ -73,16 +72,6 @@ struct Calendar_Year: View {
                 .background(Color("ThemeColor"))
             }
             AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-        }
-        .onAppear {
-            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: calendarViewModel.getCurrentYearStr()) { (data) in
-                calendarViewModel.setRatingOnYear(ratingOnYear: data.data)
-            }
-        }
-        .onChange(of: calendarViewModel.currentYear) { year in
-            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: calendarViewModel.getCurrentYearStr()) { (data) in
-                calendarViewModel.setRatingOnYear(ratingOnYear: data.data)
-            }
         }
     }
 }

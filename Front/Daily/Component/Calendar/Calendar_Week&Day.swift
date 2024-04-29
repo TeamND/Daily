@@ -17,9 +17,9 @@ struct Calendar_Week_Day: View {
     var body: some View {
         ZStack {
             if updateVersion {
-                if isLoading {
-                    Text("Loading...")
-                } else {
+//                if isLoading {
+//                    Text("Loading...")
+//                } else {
                     VStack(spacing: 0) {
                         WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tapPurpose: "change")
                         CustomDivider(color: .primary, height: 2, hPadding: 12)
@@ -53,7 +53,7 @@ struct Calendar_Week_Day: View {
                         //                    }
                     }
                     .animation(.spring, value: positionInViewPager)
-                }
+//                }
             } else {
                 VStack(spacing: 0) {
                     WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tapPurpose: "change")
@@ -77,23 +77,6 @@ struct Calendar_Week_Day: View {
             }
             if calendarViewModel.recordsOnWeek.count > 0 {
                 AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, updateVersion: updateVersion)
-            }
-        }
-        .onAppear {
-            getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: calendarViewModel.calcStartDay(value: -calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
-                calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
-            }
-            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(calendarViewModel.getCurrentYearStr())-\(calendarViewModel.getCurrentMonthStr())-\(calendarViewModel.getCurrentDayStr())") { (data) in
-                calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
-                self.isLoading = false
-            }
-        }
-        .onChange(of: calendarViewModel.currentDay) { day in
-            getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: calendarViewModel.calcStartDay(value: -calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
-                calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
-            }
-            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(calendarViewModel.getCurrentYearStr())-\(calendarViewModel.getCurrentMonthStr())-\(calendarViewModel.getCurrentDayStr())") { (data) in
-                calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
             }
         }
     }

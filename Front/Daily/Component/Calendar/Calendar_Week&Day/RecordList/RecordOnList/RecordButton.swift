@@ -45,11 +45,12 @@ struct RecordButton: View {
                     case "count":
                         Label("추가", systemImage: "plus.circle")
                     case "timer":
-                        if record.start_time == pauseTime {
-                            Label("시작", systemImage: "play.circle")
-                        } else {
-                            Label("중지", systemImage: "pause.circle")
-                        }
+                        Text("test")
+//                        if record.start_time == pauseTime {
+//                            Label("시작", systemImage: "play.circle")
+//                        } else {
+//                            Label("중지", systemImage: "pause.circle")
+//                        }
                     default:
                         Text("")
                     }

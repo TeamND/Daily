@@ -66,29 +66,29 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(calendarViewModel: CalendarViewModel) -> some View {
+    func mainViewDragGesture(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 좌 -> 우
                 if value.translation.width > CGFloat.fontSize * 15 {
-                    if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.currentState != "year" {
-                        if calendarViewModel.currentState == "month" {
+                    if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.getCurrentState() != "year" {
+                        if calendarViewModel.getCurrentState() == "month" {
                             withAnimation {
-                                calendarViewModel.currentState = "year"
+                                calendarViewModel.setCurrentState(state: "year", userInfoViewModel: userInfoViewModel)
                             }
                         }
-                        if calendarViewModel.currentState == "week" {
+                        if calendarViewModel.getCurrentState() == "week" {
                             withAnimation {
-                                calendarViewModel.currentState = "month"
+                                calendarViewModel.setCurrentState(state: "month", userInfoViewModel: userInfoViewModel)
                             }
                         }
                     } else {
-                        calendarViewModel.changeCalendar(amount: -1)
+                        calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
                     }
                 }
                 // 우 -> 좌
                 if value.translation.width < -CGFloat.fontSize * 15 {
-                    calendarViewModel.changeCalendar(amount: 1)
+                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
                 }
             }
         )
@@ -122,7 +122,7 @@ extension View {
                 ToolbarItem(placement: .principal) {
                     HStack {
                         Button {
-                            calendarViewModel.changeCalendar(amount: -1)
+                            calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
                         } label: {
                             Image(systemName: "chevron.left")
                         }
@@ -130,7 +130,7 @@ extension View {
                             Menu {
                                 ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
                                     Button {
-                                        calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear())
+                                        calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear(), userInfoViewModel: userInfoViewModel)
                                     } label: {
                                         Text("\(String(year)) 년")
                                     }
@@ -145,7 +145,7 @@ extension View {
                             Menu {
                                 ForEach(1 ... 12, id:\.self) { month in
                                     Button {
-                                        calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth())
+                                        calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth(), userInfoViewModel: userInfoViewModel)
                                     } label: {
                                         Text("\(String(month)) 월")
                                     }
@@ -160,7 +160,7 @@ extension View {
                             Menu {
                                 ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
                                     Button {
-                                        calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay())
+                                        calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay(), userInfoViewModel: userInfoViewModel)
                                     } label: {
                                         Text("\(String(day)) 일")
                                     }
@@ -172,7 +172,7 @@ extension View {
                             }
                         }
                         Button {
-                            calendarViewModel.changeCalendar(amount: 1)
+                            calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
                         } label: {
                             Image(systemName: "chevron.right")
                         }

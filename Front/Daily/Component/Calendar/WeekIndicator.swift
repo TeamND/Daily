@@ -30,7 +30,7 @@ struct WeekIndicator: View {
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        calendarViewModel.changeDay(userInfoViewModel: userInfoViewModel, DOWIndex: index)
+                        calendarViewModel.changeCalendar(amount: index - calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel), userInfoViewModel: userInfoViewModel)
                     case "select":
                         if calendarViewModel.getDayOfRatingOnWeek(dayIndex: index) == 0 {
                             calendarViewModel.setDayOfRatingOnWeek(dayIndex: index, dayOfRating: 0.4)
