@@ -14,6 +14,7 @@ struct WeekOnMonth: View {
     let startDayIndex: Int
     let lengthOfMonth: Int
     @State var updateVersion: Bool = false
+    
     var body: some View {
         HStack(spacing: 0) {
             ForEach (0..<7) { colIndex in
@@ -26,8 +27,7 @@ struct WeekOnMonth: View {
                     } else {
                         Button {
                             withAnimation {
-                                calendarViewModel.setCurrentDay(day: day)
-                                calendarViewModel.setCurrentState(state: "week", userInfoViewModel: userInfoViewModel)
+                                calendarViewModel.setCurrentState(state: "week", year: 0, month: 0, day: day, userInfoViewModel: userInfoViewModel)
                             }
                         } label: {
                             DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))

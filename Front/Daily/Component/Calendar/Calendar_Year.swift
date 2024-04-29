@@ -58,8 +58,7 @@ struct Calendar_Year: View {
                                 let month = (rowIndex * 3) + colIndex + 1
                                 Button {
                                     withAnimation {
-                                        calendarViewModel.setCurrentMonth(month: month)
-                                        calendarViewModel.setCurrentState(state: "month", userInfoViewModel: userInfoViewModel)
+                                        calendarViewModel.setCurrentState(state: "month", year: 0, month: month, day: 0, userInfoViewModel: userInfoViewModel)
                                     }
                                 } label: {
                                     MonthOnYear(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, month: month)

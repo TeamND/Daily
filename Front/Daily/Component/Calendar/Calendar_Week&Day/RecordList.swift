@@ -29,12 +29,7 @@ struct RecordList: View {
                         Button {
                             deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
                                 if data.code == "00" {
-                                    getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: calendarViewModel.calcStartDay(value: -calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
-                                        calendarViewModel.setRatingOnWeek(ratingOnWeek: data.data.rating)
-                                    }
-                                    getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(calendarViewModel.getCurrentYearStr())-\(calendarViewModel.getCurrentMonthStr())-\(calendarViewModel.getCurrentDayStr())") { (data) in
-                                        calendarViewModel.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
-                                    }
+                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
                                 } else { print("\(record.goal_uid) delete fail@@@") }
                             }
                         } label: {

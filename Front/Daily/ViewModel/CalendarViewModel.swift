@@ -9,15 +9,9 @@ import Foundation
 
 class CalendarViewModel: ObservableObject {
     // MARK: - year
-    @Published var beforeYear: Int = 0
     @Published var ratingOnYear: [[Double]] = Array(repeating: Array(repeating: 0, count: 31), count: 12)
     @Published var ratingOnYearList: [[[Double]]] = Array(repeating: Array(repeating: Array(repeating: 0, count: 31), count: 12), count: listSize)
     
-    func syncBeforeYear() {
-        DispatchQueue.main.async {
-            self.beforeYear = self.currentYear
-        }
-    }
     func getDayOfRatingOnYear(monthIndex: Int, dayIndex: Int) -> Double {
         return self.ratingOnYear[monthIndex][dayIndex]
     }
@@ -31,15 +25,9 @@ class CalendarViewModel: ObservableObject {
     }
     
     // MARK: - month
-    @Published var beforeMonth: Int = 0
     @Published var daysOnMonth: [dayOnMonthModel] = Array(repeating: dayOnMonthModel(), count: 42)
     @Published var daysOnMonthList: [[dayOnMonthModel]] = Array(repeating: Array(repeating: dayOnMonthModel(), count: 42), count: listSize)
     
-    func syncBeforeMonth() {
-        DispatchQueue.main.async {
-            self.beforeMonth = self.currentMonth
-        }
-    }
     func getDaysOnMonth(dayIndex: Int) -> dayOnMonthModel {
         return self.daysOnMonth[dayIndex]
     }
@@ -53,17 +41,10 @@ class CalendarViewModel: ObservableObject {
     }
     
     // MARK: - week
-    @Published var beforeStartDay: Int = 0
     @Published var ratingOnWeek: [Double] = Array(repeating: 0.0, count: 7)
-    @Published var beforeDay: Int = 0
     @Published var recordsOnWeek: [RecordModel] = []
     @Published var recordsOnWeekList: [[RecordModel]] = Array(repeating: [], count: listSize)
     
-    func syncBeforeStartDay(currentStartDay: Int) {
-        DispatchQueue.main.async {
-            self.beforeStartDay = currentStartDay
-        }
-    }
     func getRatingOnWeek() -> [Double] {
         return self.ratingOnWeek
     }
@@ -80,11 +61,6 @@ class CalendarViewModel: ObservableObject {
             self.ratingOnWeek[dayIndex] = dayOfRating
         }
     }
-    func syncBeforeDay() {
-        DispatchQueue.main.async {
-            self.beforeDay = self.currentDay
-        }
-    }
     func getRecordsOnWeek() -> [RecordModel] {
         return self.recordsOnWeek
     }
@@ -98,7 +74,9 @@ class CalendarViewModel: ObservableObject {
     @Published var currentState: String = "month"
     @Published var currentYear: Int = Date().year
     @Published var currentMonth: Int = Date().month
+    @Published var currentStartDay: Int = 0
     @Published var currentDay: Int = Date().day
+    
     func getCurrentState() -> String {
         return self.currentState
     }
@@ -107,41 +85,47 @@ class CalendarViewModel: ObservableObject {
             self.currentState = state
         }
     }
-    func setCurrentState(state: String, userInfoViewModel: UserInfoViewModel) {
+    func setCurrentState(state: String, year: Int, month: Int, day: Int, userInfoViewModel: UserInfoViewModel) {
         DispatchQueue.main.async {
+            let currentYear = year == 0 ? self.currentYear : year
+            let currentMonth = month == 0 ? self.currentMonth : month
+            let currentDay = day == 0 ? self.currentDay : day
+            
             switch(state) {
             case "year":
-                if self.beforeYear != self.currentYear {
-                    getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getCurrentYearStr()) { (data) in
-                        self.setRatingOnYear(ratingOnYear: data.data)
-                        self.setCurrentState(state: state)
-                        self.syncBeforeYear()
-                    }
+                getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: currentYear)) { (data) in
+                    self.setRatingOnYear(ratingOnYear: data.data)
+                    self.setCurrentState(state: state)
+                    self.setCurrentYear(year: currentYear)
                 }
                 break
             case "month":
-                if self.beforeYear != self.currentYear || self.beforeMonth != self.currentMonth {
-                    getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: "\(self.getCurrentYearStr())-\(self.getCurrentMonthStr())") { (data) in
-                        self.setDaysOnMonth(daysOnMonth: data.data)
-                        self.setCurrentState(state: state)
-                        self.syncBeforeMonth()
-                    }
+                getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: self.getStringFormatOfDate(year: currentYear, month: currentMonth)) { (data) in
+                    self.setDaysOnMonth(daysOnMonth: data.data)
+                    self.setCurrentState(state: state)
+                    self.setCurrentMonth(month: currentMonth)
                 }
                 break
             default: // "week"
-                let startDay = self.getStartDay(value: -self.getDOWIndex(userInfoViewModel: userInfoViewModel))
-                if self.beforeYear != self.currentYear || self.beforeMonth != self.currentMonth || self.beforeStartDay != startDay {
-                    getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.calcStartDay(value: -self.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
+                let currentDate = self.getStringFormatOfDate(year: currentYear, month: currentMonth, day: currentDay).toDate()!
+                let DOW = currentDate.getDOW(language: userInfoViewModel.language)
+                var DOWIndex = 0
+                for i in userInfoViewModel.weeks.indices {
+                    if userInfoViewModel.weeks[i] == DOW { DOWIndex = i }
+                }
+                var cal = Calendar.current
+                cal.timeZone = TimeZone(identifier: "UTC")!
+                let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: currentDate)!
+                if self.currentStartDay != startDate.day {
+                    getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.getStringFormatOfDate(year: startDate.year, month: startDate.month, day: startDate.day)) { (data) in
                         self.setRatingOnWeek(ratingOnWeek: data.data.rating)
-                        self.syncBeforeStartDay(currentStartDay: startDay)
+                        self.setCurrentStartDay(startDay: startDate.day)
                     }
                 }
-                if self.beforeYear != self.currentYear || self.beforeMonth != self.currentMonth || self.beforeDay != self.currentDay {
-                    getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(self.getCurrentYearStr())-\(self.getCurrentMonthStr())-\(self.getCurrentDayStr())") { (data) in
-                        self.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
-                        self.setCurrentState(state: state)
-                        self.syncBeforeDay()
-                    }
+                getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: self.getStringFormatOfDate(year: currentYear, month: currentMonth, day: currentDay)) { (data) in
+                    self.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
+                    self.setCurrentState(state: state)
+                    self.setCurrentDay(day: currentDay)
                 }
                 break
             }
@@ -161,6 +145,11 @@ class CalendarViewModel: ObservableObject {
     func setCurrentMonth(month: Int) {
         DispatchQueue.main.async {
             self.currentMonth = month
+        }
+    }
+    func setCurrentStartDay(startDay: Int) {
+        DispatchQueue.main.async {
+            self.currentStartDay = startDay
         }
     }
     func getCurrentDay() -> Int {
@@ -229,9 +218,7 @@ class CalendarViewModel: ObservableObject {
         return false
     }
     
-    func changeCalendar(amount: Int, userInfoViewModel: UserInfoViewModel) {
-        if amount == 0 { return }
-        
+    func changeCalendar(amount: Int, userInfoViewModel: UserInfoViewModel, targetDate: Date? = nil) {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         var changedDay = Date()
@@ -239,34 +226,36 @@ class CalendarViewModel: ObservableObject {
         case "year":
             self.resetRatingOnYear()
             changedDay = cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
-            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: "\(String(format: "%04d", changedDay.year))") { (data) in
+            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: changedDay.year)) { (data) in
                 self.setRatingOnYear(ratingOnYear: data.data)
                 self.changeDay(changedDay: changedDay)
-                self.syncBeforeYear()
             }
             break
         case "month":
             self.resetDaysOnMonth()
             changedDay = cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
-            getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: "\(String(format: "%04d", changedDay.year))-\(String(format: "%02d", changedDay.month))") { (data) in
+            getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month)) { (data) in
                 self.setDaysOnMonth(daysOnMonth: data.data)
                 self.changeDay(changedDay: changedDay)
-                self.syncBeforeMonth()
             }
             break
         default: // "week"
-            changedDay = cal.date(byAdding: .day, value: amount, to: self.getCurrentDate())!
-            let startDay = self.getStartDay(value: -self.getDOWIndex(userInfoViewModel: userInfoViewModel))
-            if self.beforeStartDay != startDay {
-                getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.calcStartDay(value: -self.getDOWIndex(userInfoViewModel: userInfoViewModel))) { (data) in
+            changedDay = targetDate ?? cal.date(byAdding: .day, value: amount, to: self.getCurrentDate())!
+            let DOW = changedDay.getDOW(language: userInfoViewModel.language)
+            var DOWIndex = 0
+            for i in userInfoViewModel.weeks.indices {
+                if userInfoViewModel.weeks[i] == DOW { DOWIndex = i }
+            }
+            let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: changedDay)!
+            if self.currentStartDay != startDate.day || amount == 0 {
+                getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.getStringFormatOfDate(year: startDate.year, month: startDate.month, day: startDate.day)) { (data) in
                     self.setRatingOnWeek(ratingOnWeek: data.data.rating)
-                    self.syncBeforeStartDay(currentStartDay: startDay)
+                    self.setCurrentStartDay(startDay: startDate.day)
                 }
             }
-            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: "\(String(format: "%04d", changedDay.year))-\(String(format: "%02d", changedDay.month))-\(String(format: "%02d", changedDay.day))") { (data) in
+            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month, day: changedDay.day)) { (data) in
                 self.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
                 self.changeDay(changedDay: changedDay)
-                self.syncBeforeDay()
             }
             break
         }
@@ -284,20 +273,14 @@ class CalendarViewModel: ObservableObject {
         }
     }
     
-    // API 통합 이후 묶어서 추후 수정
-    func getStartDay(value: Int) -> Int {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let changedDay = cal.date(byAdding: .day, value: value, to: self.getCurrentDate())!
-        
-        return changedDay.day
-    }
-    func calcStartDay(value: Int) -> String {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let changedDay = cal.date(byAdding: .day, value: value, to: self.getCurrentDate())!
-        
-        return "\(String(format: "%04d", changedDay.year))-\(String(format: "%02d", changedDay.month))-\(String(format: "%02d", changedDay.day))"
+    func getStringFormatOfDate(year: Int = 0, month: Int = 0, day: Int = 0) -> String {
+        if month == 0 {
+            return "\(String(format: "%04d", year))"
+        } else if day == 0 {
+            return "\(String(format: "%04d", year))-\(String(format: "%02d", month))"
+        } else {
+            return "\(String(format: "%04d", year))-\(String(format: "%02d", month))-\(String(format: "%02d", day))"
+        }
     }
     
     func startDayIndex(userInfoViewModel: UserInfoViewModel, month: Int = 0) -> Int {
@@ -308,7 +291,6 @@ class CalendarViewModel: ObservableObject {
         }
         return 0
     }
-    
     func lengthOfMonth(month: Int = 0) -> Int {
         let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
         return "\(self.getCurrentYearStr())-\(monthStr)-01".toDate()!.lastDayOfMonth().day

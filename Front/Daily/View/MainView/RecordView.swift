@@ -63,6 +63,7 @@ struct RecordView: View {
                                 goalModel.type = "check"
                                 goalModel.goal_count = 1
                                 DispatchQueue.main.async {
+                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
                                     self.presentationMode.wrappedValue.dismiss()
                                 }
                             }
@@ -100,7 +101,7 @@ struct RecordView: View {
             }
         })
         .onAppear {
-            date = Calendar.current.date(from: DateComponents(year: calendarViewModel.getCurrentYear(), month: calendarViewModel.getCurrentMonth(), day: calendarViewModel.getCurrentDay()))!
+            date = calendarViewModel.getCurrentDate()
             beforeDate = date
         }
         .navigationBarTitleDisplayMode(.inline)

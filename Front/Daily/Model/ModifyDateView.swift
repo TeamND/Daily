@@ -42,9 +42,7 @@ struct ModifyDateView: View {
                     modifyRecord(modifyRecordModel: modifyRecordModel) { data in
                         if data.code == "00" {
                             DispatchQueue.main.async {
-                                calendarViewModel.setCurrentYear(year: date.year)
-                                calendarViewModel.setCurrentMonth(month: date.month)
-                                calendarViewModel.setCurrentDay(day: date.day)
+                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: date)
                                 self.presentationMode.wrappedValue.dismiss()
                             }
                         }
@@ -59,7 +57,7 @@ struct ModifyDateView: View {
         }
         .accentColor(Color("CustomColor"))
         .onAppear {
-            date = Calendar.current.date(from: DateComponents(year: calendarViewModel.getCurrentYear(), month: calendarViewModel.getCurrentMonth(), day: calendarViewModel.getCurrentDay()))!
+            date = calendarViewModel.getCurrentDate()
             beforeDate = date
             beforeDOW = calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel)
         }
