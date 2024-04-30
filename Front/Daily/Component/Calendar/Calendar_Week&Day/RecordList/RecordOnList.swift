@@ -11,6 +11,7 @@ struct RecordOnList: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
+    @State var isBeforeRecord: Bool = false
     
     var body: some View {
         ZStack {
@@ -22,19 +23,15 @@ struct RecordOnList: View {
                 }
                 Text(record.content)
                 Spacer()
-                RecordButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record)
-                    .frame(maxHeight: .infinity)
-                    .foregroundColor(Color("CustomColor"))
-            }
-            if record.type != "check" {
-                RecordProgressBar(record_count: $record.record_count, goal_count: $record.goal_count)
+                RecordButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: $isBeforeRecord)
+                    .frame(maxHeight: 40)
             }
         }
-        .padding(.horizontal, 5)
+        .padding(.horizontal, CGFloat.fontSize * 2)
         .frame(height: 60)
         .background {
             RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
         }
-        .padding(.horizontal, 5)
+        .padding(.horizontal, CGFloat.fontSize / 2)
     }
 }

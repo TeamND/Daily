@@ -22,7 +22,7 @@ struct RecordList: View {
                             Label("날짜 변경", systemImage: "calendar")
                         }
                         NavigationLink {
-                            ModifyGoalView(record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                            ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
                         } label: {
                             Label("목표 수정", systemImage: "pencil")
                         }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ModifyGoalView: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var userInfoViewModel: UserInfoViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
     @State var isShowAlert: Bool = false
@@ -17,7 +19,7 @@ struct ModifyGoalView: View {
     
     var body: some View {
         VStack {
-            BeforeRecord(record: $record)
+            RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: true)
             CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             VStack {
@@ -45,6 +47,7 @@ struct ModifyGoalView: View {
                                 modifyGoal(modifyGoalModel: modifyGoalModel) { data in
                                     if data.code == "00" {
                                         DispatchQueue.main.async {
+                                            calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
                                             self.presentationMode.wrappedValue.dismiss()
                                         }
                                     }

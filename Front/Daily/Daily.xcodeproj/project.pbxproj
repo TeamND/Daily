@@ -13,7 +13,6 @@
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
 		F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0042BC42EA100C35948 /* ModifyDateView.swift */; };
 		F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */; };
-		F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AE0092BC5450B00C35948 /* BeforeRecord.swift */; };
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */; };
@@ -22,7 +21,6 @@
 		F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */; };
 		F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */; };
 		F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */; };
-		F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */; };
 		F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */; };
 		F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
@@ -71,6 +69,7 @@
 		F6DF64B82BAFDCB800A17B9E /* SymbolOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B72BAFDCB800A17B9E /* SymbolOnMonth.swift */; };
 		F6EC3D182BDCC34400FAB502 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D172BDCC34400FAB502 /* DateExtension.swift */; };
 		F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */; };
+		F6EC3D1D2BE0D2FC00FAB502 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,7 +79,6 @@
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
 		F61AE0042BC42EA100C35948 /* ModifyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyDateView.swift; path = Model/ModifyDateView.swift; sourceTree = SOURCE_ROOT; };
 		F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyGoalView.swift; path = Model/ModifyGoalView.swift; sourceTree = SOURCE_ROOT; };
-		F61AE0092BC5450B00C35948 /* BeforeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeRecord.swift; sourceTree = "<group>"; };
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextField.swift; sourceTree = "<group>"; };
@@ -89,7 +87,6 @@
 		F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypePickerGroup.swift; sourceTree = "<group>"; };
 		F6699B992BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCountPickerGroup.swift; sourceTree = "<group>"; };
 		F6699B9B2BCD123200B1FDA7 /* BeforeGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeGoal.swift; sourceTree = "<group>"; };
-		F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
 		F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalButton.swift; sourceTree = "<group>"; };
 		F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
@@ -141,6 +138,7 @@
 		F6DF64B72BAFDCB800A17B9E /* SymbolOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolOnMonth.swift; sourceTree = "<group>"; };
 		F6EC3D172BDCC34400FAB502 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
+		F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,7 +386,6 @@
 		F6D06252292F56AD00B825EF /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				F61AE0092BC5450B00C35948 /* BeforeRecord.swift */,
 				F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */,
 				F6699B952BC70D4400B1FDA7 /* SymbolPickerGroup.swift */,
 				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
@@ -414,9 +411,17 @@
 			isa = PBXGroup;
 			children = (
 				F636CC682923287300879E1F /* RecordButton.swift */,
-				F6699B9D2BCD24FE00B1FDA7 /* RecordProgressBar.swift */,
+				F6EC3D1B2BE0D2EE00FAB502 /* RecordButton */,
 			);
 			path = RecordOnList;
+			sourceTree = "<group>";
+		};
+		F6EC3D1B2BE0D2EE00FAB502 /* RecordButton */ = {
+			isa = PBXGroup;
+			children = (
+				F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */,
+			);
+			path = RecordButton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -501,7 +506,6 @@
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */,
-				F61AE00A2BC5450B00C35948 /* BeforeRecord.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
@@ -548,8 +552,8 @@
 				F6C0F7FB2917DDB600984457 /* Calendar_Year.swift in Sources */,
 				F6CC15922B9C91E200689A02 /* AppInfoView.swift in Sources */,
 				F6CC15AA2BA4598700689A02 /* UserInfoModel.swift in Sources */,
+				F6EC3D1D2BE0D2FC00FAB502 /* RecordProgressBar.swift in Sources */,
 				F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */,
-				F6699B9E2BCD24FE00B1FDA7 /* RecordProgressBar.swift in Sources */,
 				F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */,
 				F6DF64B62BAFDA1200A17B9E /* DayOnMonth.swift in Sources */,
 				F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */,

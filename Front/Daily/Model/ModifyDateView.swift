@@ -21,7 +21,7 @@ struct ModifyDateView: View {
             Text("\(String(beforeDate.year))년 \(beforeDate.month)월 \(beforeDate.day)일 \(beforeDOW)요일")
                 .hLeading()
                 .padding(.horizontal)
-            BeforeRecord(record: $record)
+            RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: true)
             CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             DatePicker("", selection: $date, displayedComponents: [.date])
