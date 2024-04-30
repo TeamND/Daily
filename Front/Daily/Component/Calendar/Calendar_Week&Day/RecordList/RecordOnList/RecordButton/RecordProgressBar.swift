@@ -10,12 +10,12 @@ import SwiftUI
 struct RecordProgressBar: View {
     @Binding var record: RecordModel
     @State var color: Color
+    @State var progress: CGFloat = 1
     
     var body: some View {
-        let progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
         ZStack {
             Circle()
-                .stroke(Color.black.opacity(0.1), style: StrokeStyle(lineWidth: CGFloat.fontSize / 2, lineCap: .round))
+                .stroke(.primary.opacity(0.1), style: StrokeStyle(lineWidth: CGFloat.fontSize / 2, lineCap: .round))
             Circle()
                 .trim(from: progress, to: 1)
                 .stroke(
@@ -32,6 +32,21 @@ struct RecordProgressBar: View {
             }
             .font(.system(size : CGFloat.fontSize * 2))
             .foregroundColor(color)
+        }
+        .onAppear {
+            withAnimation {
+                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
+            }
+        }
+        .onChange(of: record.record_count) { newValue in
+            withAnimation {
+                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
+            }
+        }
+        .onChange(of: record.goal_count) { newValue in
+            withAnimation {
+                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
+            }
         }
     }
 }
