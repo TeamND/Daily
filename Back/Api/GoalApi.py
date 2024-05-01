@@ -138,24 +138,24 @@ class GoalApi(Resource):
     # 목표 타이머 시작      
     def Timer(uid,data):
         result = db.session.get(Record,uid)
-        
+        start_time = 0
+
         if result:
             try:
-                # 처음 저장하는 경우
-                if data['isstart'] == 'True':
-                    result.start_time = data['time']
-                        
-                # 중간에 멈춘경우 record 저장        
+                # 값이 있는 경우 반환 후 초기화
+                if result.start_time2:
+                    diff = datetime.datetime.strptime(data['start_time'],'%Y-%m-%d %H:%M:%S') - result.start_time2
+                    start_time = round(diff.total_seconds())
+                    result.start_time2 = None
+                # 값 저장
                 else:
-                    diff = datetime.datetime.strptime(data['time'],'%Y-%m-%d %H:%M:%S') - result.start_time
-                    result.record_time += diff.seconds
-                    result.start_time = None
-                
+                    print('ㅇ벗')
+                    result.start_time2 = data['start_time']
                 db.session.commit()
                 return {
                     'code': '00',
                     'message': '목표시간 설정에 성공했습니다.',
-                    'data': { 'record_time':result.record_time }
+                    'data': { 'start_time': start_time }
                 }, 00
                 
             except Exception as e:
