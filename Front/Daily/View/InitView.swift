@@ -27,7 +27,7 @@ struct InitView: View {
             System().getStoreVersion() { storeVersion in
                 let storeVersion = storeVersion.split(separator: ".").map {$0}
                 let appVersion = System.appVersion!.split(separator: ".").map {$0}
-                if storeVersion[0] >= appVersion[0] || storeVersion[1] > appVersion[1] {
+                if storeVersion[0] > appVersion[0] || storeVersion[1] > appVersion[1] {
                     isShowOpenStoreAlert = true
                 } else {
                     getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
