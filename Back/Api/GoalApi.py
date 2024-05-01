@@ -89,11 +89,11 @@ class GoalApi(Resource):
         if result:
             try:
                 for k,v in data.items():
-                    if k == 'goal_count' and result.type == 'count':
+                    if k == 'goal_count' and (result.type == 'count' or result.type == 'check'):
                         record_list = Record.query.filter_by(goal_uid=uid)
                         if record_list:
                             for record in record_list:
-                                record.issuccess = True if record.record_count == v else False
+                                record.issuccess = True if record.record_count >= v else False
                     setattr(result, k, v)
                 db.session.commit()
                 return {
