@@ -70,6 +70,8 @@
 		F6EC3D182BDCC34400FAB502 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D172BDCC34400FAB502 /* DateExtension.swift */; };
 		F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */; };
 		F6EC3D1D2BE0D2FC00FAB502 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */; };
+		F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */; };
+		F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D202BE2477500FAB502 /* SystemModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +141,8 @@
 		F6EC3D172BDCC34400FAB502 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
+		F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManager.swift; sourceTree = "<group>"; };
+		F6EC3D202BE2477500FAB502 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +237,7 @@
 				F6CC15B72BA96BDE00689A02 /* GoalModel.swift */,
 				F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */,
 				F6CC15AD2BA68CB600689A02 /* increaseCountModel.swift */,
+				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 				F6CC159D2BA1E01200689A02 /* HTTPManager.swift */,
 				F6CC159F2BA1E1CA00689A02 /* JSONConverter.swift */,
 				F6CC15A12BA1E39A00689A02 /* NetworkManager.swift */,
+				F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -535,11 +541,13 @@
 				F6DF64B82BAFDCB800A17B9E /* SymbolOnMonth.swift in Sources */,
 				F6CC15C22BAD5ACA00689A02 /* FrameExtension.swift in Sources */,
 				F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */,
+				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
 				F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
 				F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */,
+				F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */,
 				F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */,
