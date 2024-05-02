@@ -12,7 +12,7 @@ struct startTimerModel: Codable {
     var start_time: String = ""
     
     init (record: RecordModel) {
-        self.uid = record.goal_uid
+        self.uid = record.uid
         self.start_time = record.start_time
     }
 }
