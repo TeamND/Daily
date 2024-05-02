@@ -71,7 +71,10 @@ class GoalTimer(Resource):
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 타이머를 시작한다.'''
-        return GoalApi.Timer(record_uid,request.args)    
+        data = request.get_data()
+        data = data.decode('UTF-8')
+        data = json.loads(data)
+        return GoalApi.Timer(record_uid,data)    
 
 @goal.route('/count/<int:record_uid>')
 class GoalCount(Resource):
