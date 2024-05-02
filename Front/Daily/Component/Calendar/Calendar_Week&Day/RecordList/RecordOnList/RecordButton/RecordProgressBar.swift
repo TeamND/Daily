@@ -25,24 +25,17 @@ struct RecordProgressBar: View {
                 .rotationEffect(Angle(degrees: 90))
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
             
-            Group {
-                if record.type == "timer" {
-                    VStack {
-                        Text(record.record_time.timerFormat())
-                        Text(record.goal_time.timerFormat())
-                    }
-                    .font(.system(size : CGFloat.fontSize * 1.5))
+            if record.type == "timer" {
+                if record.start_time == pauseTime {
+                    Image(systemName: "play")
                 } else {
-                    HStack(spacing: CGFloat.fontSize / 6) {
-                        Text("\(record.record_count)")
-                        Text("/")
-                        Text("\(record.goal_count)")
-                    }
-                    .font(.system(size : CGFloat.fontSize * 2))
+                    Image(systemName: "pause")
                 }
+            } else {
+                Image(systemName: "plus")
             }
-            .foregroundColor(color)
         }
+        .foregroundColor(color)
         .onAppear {
             withAnimation {
                 if record.type == "timer" {

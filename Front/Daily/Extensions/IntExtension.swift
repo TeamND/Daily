@@ -8,24 +8,13 @@
 import Foundation
 
 extension Int {
-    func hourFormat() -> String {
-        return String(format: "%02d", self / 3600)
-    }
-    func minFormat() -> String {
-        return String(format: "%02d", self % 3600 / 60)
-    }
-    func secFormat() -> String {
-        return String(format: "%02d", self % 60)
-    }
     func timerFormat() -> String {
-        var returnString = ""
-        if self >= 3600 {
-            returnString = self.hourFormat() + ":"
+        if self < 60 {
+            return String(format: "%d", self % 60)
         }
-        if self >= 60 {
-            returnString = returnString + self.minFormat() + ":"
+        if self < 3600 {
+            return String(format: "%d:%02d", self % 3600 / 60, self % 60)
         }
-        returnString = returnString + self.secFormat()
-        return returnString
+        return String(format: "%d:%02d:%02d", self / 3600, self % 3600 / 60, self % 60)
     }
 }

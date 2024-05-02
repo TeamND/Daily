@@ -98,12 +98,11 @@ func increaseCount(recordUID: String, complete: @escaping (increaseCountModel) -
         complete(data)
     }
 }
-func startTimer(startTimerModel: startTimerModel, complete: @escaping (startTimerResponseModel) -> Void) {
-    guard let encodingData: Data = JSONConverter.encodeJson(param: startTimerModel) else {
+func startTimer(startTimerRequestModel: startTimerRequestModel, complete: @escaping (startTimerResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: startTimerRequestModel) else {
         return
     }
-    HTTPManager.requestPUT(url: "\(serverUrl)goal/timer/\(startTimerModel.uid)", encodingData: encodingData) { data in
-        print(String(data: data, encoding: .utf8))
+    HTTPManager.requestPUT(url: "\(serverUrl)goal/timer/\(startTimerRequestModel.uid)", encodingData: encodingData) { data in
         guard let data: startTimerResponseModel = JSONConverter.decodeJson(data: data) else {
             guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
                 return

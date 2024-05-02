@@ -1,5 +1,5 @@
 //
-//  startTimerModel.swift
+//  startTimerRequestModel.swift
 //  Daily
 //
 //  Created by 최승용 on 5/2/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct startTimerModel: Codable {
+struct startTimerRequestModel: Codable {
     let uid: Int
     var start_time: String = ""
     
@@ -20,5 +20,9 @@ struct startTimerModel: Codable {
 struct startTimerResponseModel: Codable {
     let code: String
     let message: String
-    let start_time: String
+    let data: startTimerData
+}
+
+struct startTimerData: Codable {
+    let start_time: Int
 }

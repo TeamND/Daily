@@ -72,7 +72,7 @@
 		F6EC3D1D2BE0D2FC00FAB502 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */; };
 		F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */; };
 		F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D202BE2477500FAB502 /* SystemModel.swift */; };
-		F6EC3D232BE358D100FAB502 /* startTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D222BE358D100FAB502 /* startTimerModel.swift */; };
+		F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */; };
 		F6EC3D252BE363A800FAB502 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D242BE363A800FAB502 /* IntExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -145,7 +145,7 @@
 		F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
 		F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManager.swift; sourceTree = "<group>"; };
 		F6EC3D202BE2477500FAB502 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
-		F6EC3D222BE358D100FAB502 /* startTimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startTimerModel.swift; sourceTree = "<group>"; };
+		F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startTimerRequestModel.swift; sourceTree = "<group>"; };
 		F6EC3D242BE363A800FAB502 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -241,7 +241,7 @@
 				F6CC15B72BA96BDE00689A02 /* GoalModel.swift */,
 				F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */,
 				F6CC15AD2BA68CB600689A02 /* increaseCountModel.swift */,
-				F6EC3D222BE358D100FAB502 /* startTimerModel.swift */,
+				F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
 			);
 			path = Model;
@@ -527,7 +527,7 @@
 				F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */,
 				F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */,
 				F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */,
-				F6EC3D232BE358D100FAB502 /* startTimerModel.swift in Sources */,
+				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,
 				F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */,

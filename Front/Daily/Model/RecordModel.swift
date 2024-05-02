@@ -13,9 +13,9 @@ struct RecordModel: Codable {
     let content: String
     var type: String
     let symbol: String
-    let goal_time: Int
+    var goal_time: Int
     var goal_count: Int
-    let record_time: Int
+    var record_time: Int
     var record_count: Int
     var issuccess: Bool
     var start_time: String
