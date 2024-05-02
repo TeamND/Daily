@@ -22,10 +22,10 @@ struct System {
         }
     }
     
-//    func openAppStore() {
-//        guard let url = URL(string: System.appStoreOpenUrlString) else { return }
-//        if UIApplication.shared.canOpenURL(url) {
-//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//        }
-//    }
+    func openAppStore() {
+        guard let url = URL(string: System.appStoreOpenUrlString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 }

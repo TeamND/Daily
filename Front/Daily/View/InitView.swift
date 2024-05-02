@@ -66,7 +66,7 @@ struct InitView: View {
                 dismissButton: .default(
                     Text("확인"),
                     action: {
-                        terminateApp()
+                        System().openAppStore()
                     }
                 )
             )
