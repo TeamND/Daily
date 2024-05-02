@@ -31,6 +31,10 @@ struct RecordButton: View {
                         }
                     case "timer":
                         print("timer record button press")
+                        record.start_time = Date().toString()
+                        startTimer(startTimerModel: startTimerModel(record: record)) { (data) in
+                            print(data)
+                        }
                         //                    record.itart.toggle()
                     default:
                         print("catch error is record button")

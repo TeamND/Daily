@@ -25,17 +25,43 @@ struct RecordProgressBar: View {
                 .rotationEffect(Angle(degrees: 90))
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
             
-            HStack(spacing: CGFloat.fontSize / 6) {
-                Text("\(record.record_count)")
-                Text("/")
-                Text("\(record.goal_count)")
+            Group {
+                if record.type == "timer" {
+                    VStack {
+                        Text("\(record.record_time)")
+//                        Text("2:59:59")
+                        Text("\(record.goal_time)")
+//                        Text("3:00:00")
+                    }
+                    .font(.system(size : CGFloat.fontSize * 1.5))
+                } else {
+                    HStack(spacing: CGFloat.fontSize / 6) {
+                        Text("\(record.record_count)")
+                        Text("/")
+                        Text("\(record.goal_count)")
+                    }
+                    .font(.system(size : CGFloat.fontSize * 2))
+                }
             }
-            .font(.system(size : CGFloat.fontSize * 2))
             .foregroundColor(color)
         }
         .onAppear {
             withAnimation {
-                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
+                if record.type == "timer" {
+                    progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
+                } else {
+                    progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
+                }
+            }
+        }
+        .onChange(of: record.record_time) { newValue in
+            withAnimation {
+                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
+            }
+        }
+        .onChange(of: record.goal_time) { newValue in
+            withAnimation {
+                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
             }
         }
         .onChange(of: record.record_count) { newValue in

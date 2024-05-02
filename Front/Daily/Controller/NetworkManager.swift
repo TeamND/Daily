@@ -98,6 +98,22 @@ func increaseCount(recordUID: String, complete: @escaping (increaseCountModel) -
         complete(data)
     }
 }
+func startTimer(startTimerModel: startTimerModel, complete: @escaping (startTimerResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: startTimerModel) else {
+        return
+    }
+    HTTPManager.requestPUT(url: "\(serverUrl)goal/timer/\(startTimerModel.uid)", encodingData: encodingData) { data in
+        print(String(data: data, encoding: .utf8))
+        guard let data: startTimerResponseModel = JSONConverter.decodeJson(data: data) else {
+            guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+                return
+            }
+            print("data decoding error data is. \(data)")
+            return
+        }
+        complete(data)
+    }
+}
 func deleteGoal(goalUID: String, complete: @escaping (ResponseModel) -> Void) {
     HTTPManager.requestDELETE(url: "\(serverUrl)goal/\(goalUID)", encodingData: Data()) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
