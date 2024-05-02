@@ -28,10 +28,8 @@ struct RecordProgressBar: View {
             Group {
                 if record.type == "timer" {
                     VStack {
-                        Text("\(record.record_time)")
-//                        Text("2:59:59")
-                        Text("\(record.goal_time)")
-//                        Text("3:00:00")
+                        Text(record.record_time.timerFormat())
+                        Text(record.goal_time.timerFormat())
                     }
                     .font(.system(size : CGFloat.fontSize * 1.5))
                 } else {
