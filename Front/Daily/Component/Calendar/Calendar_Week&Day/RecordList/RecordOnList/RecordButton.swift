@@ -52,23 +52,6 @@ struct RecordButton: View {
             } label: {
                 ZStack {
                     RecordProgressBar(record: $record, color: Color("CustomColor"))
-//                    Group {
-//                        if record.type == "timer" {
-//                            VStack {
-//                                Text(record.record_time.timerFormat())
-//                                Text(record.goal_time.timerFormat())
-//                            }
-//                            .font(.system(size : CGFloat.fontSize * 1.5))
-//                        } else {
-//                            HStack(spacing: CGFloat.fontSize / 6) {
-//                                Text("\(record.record_count)")
-//                                Text("/")
-//                                Text("\(record.goal_count)")
-//                            }
-//                            .font(.system(size : CGFloat.fontSize * 2))
-//                        }
-//                    }
-//                    .padding(.trailing, 60)
                     Image(systemName: "hand.thumbsup.circle")
                         .font(.system(size: CGFloat.fontSize * 4))
                         .background(Color("BackgroundColor"))

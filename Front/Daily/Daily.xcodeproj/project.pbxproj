@@ -74,6 +74,7 @@
 		F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D202BE2477500FAB502 /* SystemModel.swift */; };
 		F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */; };
 		F6EC3D252BE363A800FAB502 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D242BE363A800FAB502 /* IntExtension.swift */; };
+		F6EC3D272BE509CD00FAB502 /* RecordPerGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D262BE509CD00FAB502 /* RecordPerGoal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +148,7 @@
 		F6EC3D202BE2477500FAB502 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 		F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startTimerRequestModel.swift; sourceTree = "<group>"; };
 		F6EC3D242BE363A800FAB502 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		F6EC3D262BE509CD00FAB502 /* RecordPerGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPerGoal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +424,7 @@
 		F6EC3D142BDBB36500FAB502 /* RecordOnList */ = {
 			isa = PBXGroup;
 			children = (
+				F6EC3D262BE509CD00FAB502 /* RecordPerGoal.swift */,
 				F636CC682923287300879E1F /* RecordButton.swift */,
 				F6EC3D1B2BE0D2EE00FAB502 /* RecordButton */,
 			);
@@ -532,6 +535,7 @@
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,
 				F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */,
 				F6CC15A02BA1E1CA00689A02 /* JSONConverter.swift in Sources */,
+				F6EC3D272BE509CD00FAB502 /* RecordPerGoal.swift in Sources */,
 				F64EE8872952F9620098C785 /* Constant.swift in Sources */,
 				F6DF64B42BAFD9DD00A17B9E /* WeekOnMonth.swift in Sources */,
 				F6C0F7F129125AF500984457 /* InitView.swift in Sources */,

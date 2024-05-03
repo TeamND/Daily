@@ -26,6 +26,7 @@ struct RecordOnList: View {
                 RecordButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: $isBeforeRecord)
                     .frame(maxHeight: 40)
             }
+            RecordPerGoal(record: $record, paddingTrailing: 40)
         }
         .padding(.horizontal, CGFloat.fontSize * 2)
         .frame(height: 60)
