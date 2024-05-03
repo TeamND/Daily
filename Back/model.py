@@ -41,6 +41,7 @@ class Record(db.Model):
     record_count = db.Column(db.Integer, default=0)
     record_time = db.Column(db.Integer, default=0)
     start_time = db.Column(db.DateTime, default=datetime.datetime.strptime('0001-01-01','%Y-%m-%d'))
-    
+    start_time2 = db.Column(db.DateTime)
+
     def __repr__(self):
-        return f"Record('{self.uid}', '{self.goal_uid}', '{self.date}', '{self.order}', '{self.issuccess}', '{self.record_count}', '{self.goal_count}', '{self.record_time}', '{self.goal_time}', '{self.start_time}')"
+        return f"Record('{self.uid}', '{self.goal_uid}', '{self.date}', '{self.order}', '{self.issuccess}', '{self.record_count}', '{self.record_time}', '{self.start_time}', '{self.start_time2}')"
