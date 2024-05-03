@@ -5,6 +5,22 @@ from model import db
 from Controller.UserController import user
 from Controller.GoalController import goal
 from Controller.CalendarController import calendar
+import logging
+import os
+
+# 로그 저장 폴더. 없을 시 생성
+if not os.path.isdir('logs'):
+  os.mkdir('logs')
+  
+# 3. 기본 설정된 werkzeug 로그 끄기
+logging.getLogger('werkzeug').disabled = True
+
+# 4. 저장위치, 레벨, 포맷 세팅
+logging.basicConfig(filename = "logs/daily.log", level = logging.DEBUG
+                  , datefmt = '%Y/%m/%d %H:%M:%S' 
+                  , format = '%(asctime)s:%(levelname)s:%(message)s')
+
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 api = Api(
