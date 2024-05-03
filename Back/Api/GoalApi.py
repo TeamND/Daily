@@ -146,10 +146,10 @@ class GoalApi(Resource):
                 if result.start_time2:
                     diff = datetime.datetime.strptime(data['start_time'],'%Y-%m-%d %H:%M:%S') - result.start_time2
                     start_time = round(diff.total_seconds())
+                    result.record_time += start_time
                     result.start_time2 = None
                 # 값 저장
                 else:
-                    print('ㅇ벗')
                     result.start_time2 = data['start_time']
                 db.session.commit()
                 return {
