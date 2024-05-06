@@ -52,7 +52,7 @@ struct RecordButton: View {
             } label: {
                 ZStack {
                     RecordProgressBar(record: $record, color: Color("CustomColor"))
-                    Image(systemName: "hand.thumbsup.circle")
+                    Image(systemName: "hand.thumbsup")
                         .font(.system(size: CGFloat.fontSize * 4))
                         .background(Color("BackgroundColor"))
                         .cornerRadius(15)
@@ -60,15 +60,15 @@ struct RecordButton: View {
                         .scaleEffect(isAction ? 1 : 0)
                         .animation(.bouncy, value: 5)
                 }
-                .onChange(of: isAction) { newValue in
-                    if isAction == true {
-                        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-                            withAnimation {
-                                isAction = false
-                            }
-                        }
-                    }
-                }
+//                .onChange(of: isAction) { newValue in
+//                    if isAction == true {
+//                        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+//                            withAnimation {
+//                                isAction = false
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }
