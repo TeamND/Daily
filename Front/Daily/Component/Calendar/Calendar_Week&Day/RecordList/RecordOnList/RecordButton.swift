@@ -52,23 +52,35 @@ struct RecordButton: View {
             } label: {
                 ZStack {
                     RecordProgressBar(record: $record, color: Color("CustomColor"))
-                    Image(systemName: "hand.thumbsup")
-                        .font(.system(size: CGFloat.fontSize * 4))
-                        .background(Color("BackgroundColor"))
-                        .cornerRadius(15)
-                        .foregroundColor(Color("CustomColor"))
-                        .scaleEffect(isAction ? 1 : 0)
-                        .animation(.bouncy, value: 5)
+                    
+                    HStack {
+                        if record.issuccess {
+                            Image(systemName: "hand.thumbsup")
+                                .scaleEffect(isAction ? 1.5 : 1)
+                                .animation(.bouncy, value: 5)
+                        } else {
+                            if record.type == "timer" {
+                                if record.start_time == pauseTime {
+                                    Image(systemName: "play")
+                                } else {
+                                    Image(systemName: "pause")
+                                }
+                            } else {
+                                Image(systemName: "plus")
+                            }
+                        }
+                    }
+                    .foregroundColor(Color("CustomColor"))
                 }
-//                .onChange(of: isAction) { newValue in
-//                    if isAction == true {
-//                        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-//                            withAnimation {
-//                                isAction = false
-//                            }
-//                        }
-//                    }
-//                }
+                .onChange(of: isAction) { newValue in
+                    if isAction == true {
+                        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                            withAnimation {
+                                isAction = false
+                            }
+                        }
+                    }
+                }
             }
         }
     }

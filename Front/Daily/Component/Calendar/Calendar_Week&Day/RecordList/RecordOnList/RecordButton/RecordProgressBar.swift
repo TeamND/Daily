@@ -24,18 +24,7 @@ struct RecordProgressBar: View {
                     style: StrokeStyle(lineWidth: CGFloat.fontSize / 2, lineCap: .round))
                 .rotationEffect(Angle(degrees: 90))
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
-            
-            if record.type == "timer" {
-                if record.start_time == pauseTime {
-                    Image(systemName: "play")
-                } else {
-                    Image(systemName: "pause")
-                }
-            } else {
-                Image(systemName: "plus")
-            }
         }
-        .foregroundColor(color)
         .onAppear {
             withAnimation {
                 if record.type == "timer" {
