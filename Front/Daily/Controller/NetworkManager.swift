@@ -12,7 +12,7 @@ private let serverUrl: String = "http://34.22.71.88:5000/"
 
 // MARK: - userInfo
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
-    HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)") { data in
+    HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)?appVersion=\(String(System.appVersion!))") { data in
         guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
             guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
                 return
