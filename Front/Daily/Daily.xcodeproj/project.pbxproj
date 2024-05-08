@@ -75,7 +75,37 @@
 		F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */; };
 		F6EC3D252BE363A800FAB502 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D242BE363A800FAB502 /* IntExtension.swift */; };
 		F6EC3D272BE509CD00FAB502 /* RecordPerGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D262BE509CD00FAB502 /* RecordPerGoal.swift */; };
+		F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6EC3D2E2BEB4EA900FAB502 /* WidgetKit.framework */; };
+		F6EC3D4D2BEB7A6500FAB502 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6EC3D302BEB4EA900FAB502 /* SwiftUI.framework */; };
+		F6EC3D502BEB7A6500FAB502 /* DailyWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D4F2BEB7A6500FAB502 /* DailyWidgetBundle.swift */; };
+		F6EC3D522BEB7A6500FAB502 /* DailyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D512BEB7A6500FAB502 /* DailyWidget.swift */; };
+		F6EC3D542BEB7A6600FAB502 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */; };
+		F6EC3D582BEB7A6600FAB502 /* DailyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F6EC3D4B2BEB7A6500FAB502 /* DailyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F6EC3D562BEB7A6600FAB502 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F6BEC929290F5894005EAF28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F6EC3D4A2BEB7A6500FAB502;
+			remoteInfo = DailyWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F6EC3D442BEB4EAD00FAB502 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F6EC3D582BEB7A6600FAB502 /* DailyWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
@@ -149,6 +179,13 @@
 		F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startTimerRequestModel.swift; sourceTree = "<group>"; };
 		F6EC3D242BE363A800FAB502 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		F6EC3D262BE509CD00FAB502 /* RecordPerGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPerGoal.swift; sourceTree = "<group>"; };
+		F6EC3D2E2BEB4EA900FAB502 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		F6EC3D302BEB4EA900FAB502 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		F6EC3D4B2BEB7A6500FAB502 /* DailyWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6EC3D4F2BEB7A6500FAB502 /* DailyWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWidgetBundle.swift; sourceTree = "<group>"; };
+		F6EC3D512BEB7A6500FAB502 /* DailyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWidget.swift; sourceTree = "<group>"; };
+		F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F6EC3D552BEB7A6600FAB502 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +193,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6EC3D482BEB7A6500FAB502 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6EC3D4D2BEB7A6500FAB502 /* SwiftUI.framework in Frameworks */,
+				F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +325,8 @@
 				F6CC15BC2BAAC46000689A02 /* Sheet */,
 				F637807929109AF000356212 /* Model */,
 				F6D0625E293819A400B825EF /* ViewModel */,
+				F6EC3D4E2BEB7A6500FAB502 /* DailyWidget */,
+				F6EC3D2D2BEB4EA900FAB502 /* Frameworks */,
 				F6BEC932290F5894005EAF28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -287,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				F6BEC931290F5894005EAF28 /* Daily.app */,
+				F6EC3D4B2BEB7A6500FAB502 /* DailyWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -439,6 +488,26 @@
 			path = RecordButton;
 			sourceTree = "<group>";
 		};
+		F6EC3D2D2BEB4EA900FAB502 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F6EC3D2E2BEB4EA900FAB502 /* WidgetKit.framework */,
+				F6EC3D302BEB4EA900FAB502 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F6EC3D4E2BEB7A6500FAB502 /* DailyWidget */ = {
+			isa = PBXGroup;
+			children = (
+				F6EC3D4F2BEB7A6500FAB502 /* DailyWidgetBundle.swift */,
+				F6EC3D512BEB7A6500FAB502 /* DailyWidget.swift */,
+				F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */,
+				F6EC3D552BEB7A6600FAB502 /* Info.plist */,
+			);
+			path = DailyWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -449,10 +518,12 @@
 				F6BEC92D290F5894005EAF28 /* Sources */,
 				F6BEC92E290F5894005EAF28 /* Frameworks */,
 				F6BEC92F290F5894005EAF28 /* Resources */,
+				F6EC3D442BEB4EAD00FAB502 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F6EC3D572BEB7A6600FAB502 /* PBXTargetDependency */,
 			);
 			name = Daily;
 			packageProductDependencies = (
@@ -461,6 +532,23 @@
 			productReference = F6BEC931290F5894005EAF28 /* Daily.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F6EC3D4A2BEB7A6500FAB502 /* DailyWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F6EC3D592BEB7A6600FAB502 /* Build configuration list for PBXNativeTarget "DailyWidgetExtension" */;
+			buildPhases = (
+				F6EC3D472BEB7A6500FAB502 /* Sources */,
+				F6EC3D482BEB7A6500FAB502 /* Frameworks */,
+				F6EC3D492BEB7A6500FAB502 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DailyWidgetExtension;
+			productName = DailyWidgetExtension;
+			productReference = F6EC3D4B2BEB7A6500FAB502 /* DailyWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -468,11 +556,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					F6BEC930290F5894005EAF28 = {
 						CreatedOnToolsVersion = 14.0.1;
+					};
+					F6EC3D4A2BEB7A6500FAB502 = {
+						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
@@ -493,6 +584,7 @@
 			projectRoot = "";
 			targets = (
 				F6BEC930290F5894005EAF28 /* Daily */,
+				F6EC3D4A2BEB7A6500FAB502 /* DailyWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -504,6 +596,14 @@
 			files = (
 				F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */,
 				F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6EC3D492BEB7A6500FAB502 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6EC3D542BEB7A6600FAB502 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,7 +683,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F6EC3D472BEB7A6500FAB502 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6EC3D502BEB7A6500FAB502 /* DailyWidgetBundle.swift in Sources */,
+				F6EC3D522BEB7A6500FAB502 /* DailyWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F6EC3D572BEB7A6600FAB502 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F6EC3D4A2BEB7A6500FAB502 /* DailyWidgetExtension */;
+			targetProxy = F6EC3D562BEB7A6600FAB502 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F6BEC93E290F5895005EAF28 /* Debug */ = {
@@ -702,6 +819,7 @@
 		F6BEC941290F5895005EAF28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Daily/Daily.entitlements;
@@ -746,6 +864,7 @@
 		F6BEC942290F5895005EAF28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Daily/Daily.entitlements;
@@ -787,6 +906,72 @@
 			};
 			name = Release;
 		};
+		F6EC3D5A2BEB7A6600FAB502 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3NLDZW4Z5J;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DailyWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F6EC3D5B2BEB7A6600FAB502 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3NLDZW4Z5J;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DailyWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -804,6 +989,15 @@
 			buildConfigurations = (
 				F6BEC941290F5895005EAF28 /* Debug */,
 				F6BEC942290F5895005EAF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F6EC3D592BEB7A6600FAB502 /* Build configuration list for PBXNativeTarget "DailyWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6EC3D5A2BEB7A6600FAB502 /* Debug */,
+				F6EC3D5B2BEB7A6600FAB502 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
