@@ -13,6 +13,10 @@ class UserApi(Resource):
 
         if result:
             try:
+                if result.version != data['appVersion']:
+                    setattr(result,'version',data['appVersion'])
+                    db.session.commit()
+                    
                 UserApi.LastTime('user',result.uid)
 
                 response = {
@@ -42,7 +46,7 @@ class UserApi(Resource):
             
         else:
             try:
-                user = User(phone_uid=phone_uid,version=data['version'])
+                user = User(phone_uid=phone_uid,version=data['appVersion'])
                 db.session.add(user)
                 db.session.commit()
                 result = User.query.filter(User.phone_uid == phone_uid).first()
