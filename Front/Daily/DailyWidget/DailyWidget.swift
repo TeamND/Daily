@@ -115,22 +115,66 @@ struct SimpleEntry: TimelineEntry {
     let emoji: String
 }
 
-struct DailyWidgetEntryView : View {
+struct DailyWidgetEntryView: View {
     @Environment(\.widgetFamily) private var family
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
-            switch family {
-            case .systemSmall:
-                Text(entry.records[0].content)
-            case .systemMedium:
-                Text("Medium")
-            case .systemLarge:
-                Text("Large")
-            default:    // systemExtraLarge
-                EmptyView()
+            if entry.records.count > 0 {
+                ForEach(entry.records.indices, id: \.self) { index in
+                    switch family {
+                    case .systemSmall, .systemMedium:
+                        if index < 3 {
+                            SimpleRecordList(record: entry.records[index])
+                        }
+                    case .systemLarge:
+                        if index < 7 {
+                            SimpleRecordList(record: entry.records[index])
+                        }
+                    default:    // systemExtraLarge for iPad
+                        EmptyView()
+                    }
+                }
+            } else {
+                Text("아직 목표가 없어요 😓")
             }
+        }
+    }
+}
+
+struct SimpleRecordList: View {
+    @Environment(\.widgetFamily) private var family
+    @State var record: RecordModel
+    
+    var body: some View {
+        let symbols: [String: String] = [
+            "체크" : "checkmark.circle",
+            "운동" : "dubbell",
+            "런닝" : "figure.run.circle",
+            "공부" : "book",
+            "키보드" : "keyboard",
+            "하트" : "heart",
+            "별" : "star",
+            "커플" : "person.2.crop.square.stack",
+            "모임" : "person.3"
+        ]
+        ZStack {
+            HStack(spacing: 12) {
+                if record.issuccess {
+                    Image(systemName: "\(symbols[record.symbol] ?? "d.circle").fill")
+                } else {
+                    Image(systemName: "\(symbols[record.symbol] ?? "d.circle")")
+                }
+                Text(record.content)
+                    .lineLimit(1)
+                Spacer()
+            }
+        }
+        .padding(.horizontal, family == .systemSmall ? 5 : 10)
+        .padding(.vertical, 10)
+        .background {
+            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
         }
     }
 }
@@ -142,11 +186,11 @@ struct DailyWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
                 DailyWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
+                    .containerBackground(Color("ThemeColor"), for: .widget)
             } else {
                 DailyWidgetEntryView(entry: entry)
                     .padding()
-                    .background()
+                    .background(Color("ThemeColor"))
             }
         }
         .configurationDisplayName("Daily Widget")
