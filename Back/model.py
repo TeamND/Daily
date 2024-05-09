@@ -12,6 +12,8 @@ class User(db.Model):
     set_language = db.Column(db.String(100), default='korea')
     set_dateorrepeat = db.Column(db.String(100), default='date')
     set_calendarstate = db.Column(db.String(100), default='month')
+    version = db.Column(db.String(100))
+    last_time = db.Column(db.DateTime)
     
 class Goal(db.Model):
     __tablename__ = 'goal'

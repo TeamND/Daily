@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Resource, Api, Namespace
 from sqlalchemy import extract,func
 from model import db,Goal,Record
+from Api.UserApi import UserApi
 import datetime
 import json
 
@@ -10,6 +11,7 @@ class CalendarApi(Resource):
         result = db.session.get(Record,uid)
         
         if result:
+            UserApi.LastTime('record',uid)
             try:
                 for k,v in data.items():
                     setattr(result, k, v)
@@ -35,6 +37,7 @@ class CalendarApi(Resource):
         try:
             result = db.session.get(Record,uid)
             if result:
+                UserApi.LastTime('record',uid)
                 db.session.delete(result)
                 db.session.commit()
                 return {
@@ -56,6 +59,7 @@ class CalendarApi(Resource):
 
     def Day(uid,data):
         try:
+            UserApi.LastTime('user',uid)
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')
             
             # join
@@ -81,6 +85,7 @@ class CalendarApi(Resource):
         
     def Week(uid,data):
         try:
+            UserApi.LastTime('user',uid)
             start_date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m-%d')
             start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
             end_date = start_date + datetime.timedelta(days=6)
@@ -127,6 +132,7 @@ class CalendarApi(Resource):
         
     def Month(uid,data):
         try:
+            UserApi.LastTime('user',uid)
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y-%m')
             
             # join
@@ -181,6 +187,7 @@ class CalendarApi(Resource):
         
     def Year(uid,data):
         try:
+            UserApi.LastTime('user',uid)
             date = data['date'] if data.get('date',type=str) is not None else datetime.datetime.now().strftime('%Y')
             
             # join

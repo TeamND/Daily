@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace
 from model import db,Goal,Record
+from Api.UserApi import UserApi
 import datetime
 import json
 
@@ -57,20 +58,20 @@ class GoalApi(Resource):
     # 조회
     def Read(uid):
         result = db.session.get(Goal,uid)
-        
+
         if result:
-            data = result.__dict__
-            data.pop('_sa_instance_state')
-            data['start_date'] = str(data['start_date'])
-            data['end_date'] = str(data['end_date'])
-            
             try:
+                data = result.__dict__
+                data.pop('_sa_instance_state')
+                data['start_date'] = str(data['start_date'])
+                data['end_date'] = str(data['end_date'])
+                
                 return {
                     'code': '00',
                     'message': '조회성공',
                     'data': data
                 }, 00
-                
+ 
             except Exception as e:
                 return {
                     'code': '99',
@@ -88,6 +89,7 @@ class GoalApi(Resource):
         
         if result:
             try:
+                UserApi.LastTime('goal',uid)
                 for k,v in data.items():
                     if k == 'goal_count' and (result.type == 'count' or result.type == 'check'):
                         record_list = Record.query.filter_by(goal_uid=uid)
@@ -117,6 +119,7 @@ class GoalApi(Resource):
         try:
             result = db.session.get(Goal,uid)
             if result:
+                UserApi.LastTime('goal',uid)
                 db.session.delete(result)
                 db.session.commit()
                 return {
@@ -141,6 +144,7 @@ class GoalApi(Resource):
         start_time = 0
 
         if result:
+            UserApi.LastTime('record',uid)
             try:
                 # 값이 있는 경우 반환 후 초기화
                 if result.start_time2:
@@ -176,7 +180,8 @@ class GoalApi(Resource):
         
         if result:
             try:
-                    
+                UserApi.LastTime('record',uid)
+
                 # join
                 join = db.session.query(Record.record_count,Goal.goal_count)\
                         .filter(Record.goal_uid==Goal.uid, Record.uid==uid).first()

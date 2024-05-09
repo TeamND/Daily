@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace
-from model import db,User
+from datetime import datetime
+from model import db,User,Goal,Record
 import json
 import hashlib
 class UserApi(Resource):
@@ -12,6 +13,8 @@ class UserApi(Resource):
 
         if result:
             try:
+                UserApi.LastTime('user',result.uid)
+
                 return {
                     'code': '00',
                     'message': '조회성공',
@@ -20,7 +23,9 @@ class UserApi(Resource):
                         'set_startday': result.set_startday,
                         'set_language': result.set_language,
                         'set_dateorrepeat': result.set_dateorrepeat,
-                        'set_calendarstate': result.set_calendarstate
+                        'set_calendarstate': result.set_calendarstate,
+                        'version': result.version,
+                        'last_time': result.last_time
                     }
                 }, 00
             except Exception as e:
@@ -35,7 +40,8 @@ class UserApi(Resource):
                 db.session.add(user)
                 db.session.commit()
                 result = User.query.filter(User.phone_uid == phone_uid).first()
-                
+                UserApi.LastTime('user',result.uid)
+
                 return {
                     'code': '00',
                     'message': '입력성공',
@@ -44,7 +50,9 @@ class UserApi(Resource):
                             'set_startday': result.set_startday,
                             'set_language': result.set_language,
                             'set_dateorrepeat': result.set_dateorrepeat,
-                            'set_calendarstate': result.set_calendarstate
+                            'set_calendarstate': result.set_calendarstate,
+                            'version': result.version,
+                            'last_time': result.last_time
                     }
                 }, 00
             except Exception as e:
@@ -56,9 +64,10 @@ class UserApi(Resource):
 
     def Set(data):
         result = User.query.filter(User.uid == data['uid']).first()
-    
+
         if result:
             try:
+                UserApi.LastTime('user',result.uid)
                 for k,v in data.items():
                     setattr(result, k, v)
                 db.session.commit()
@@ -78,3 +87,18 @@ class UserApi(Resource):
                 'message': '조회된 데이터가 없습니다.'
             }, 99
         
+    def LastTime(table,uid):
+        try:
+            if table == 'record':
+                LTresult = db.session.query(Goal.user_uid).filter(Record.goal_uid == Goal.uid, Record.uid == uid).first()
+                uid = LTresult.user_uid
+            elif table == 'goal':
+                LTresult = db.session.query(Goal.user_uid).filter(Goal.uid == uid).first()
+                uid = LTresult.user_uid
+            
+            LTresult = User.query.filter(User.uid == uid).first()
+            setattr(LTresult, 'last_time', datetime.now())
+            db.session.commit()
+
+        except Exception as e:
+            db.session.rollback()

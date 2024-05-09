@@ -30,4 +30,4 @@ class Set(Resource):
     @user.doc(responses={99: 'Failed'})
     def post(self):
         '''유저의 설정값을 변경한다.'''
-        return UserApi.Set(request.form)
+        return UserApi.Set(request.form.copy())
