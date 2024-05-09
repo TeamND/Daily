@@ -5,7 +5,7 @@ from model import db,User,Goal,Record
 import json
 import hashlib
 class UserApi(Resource):
-    def Info(phone_uid):
+    def Info(phone_uid,data=None):
 
         # 해시
         phone_uid = hashlib.sha256(phone_uid.encode()).hexdigest()
@@ -15,18 +15,24 @@ class UserApi(Resource):
             try:
                 UserApi.LastTime('user',result.uid)
 
-                return {
-                    'code': '00',
-                    'message': '조회성공',
-                    'data': {
+                response = {
                         'uid': result.uid,
                         'set_startday': result.set_startday,
                         'set_language': result.set_language,
                         'set_dateorrepeat': result.set_dateorrepeat,
-                        'set_calendarstate': result.set_calendarstate,
-                        'version': result.version,
-                        'last_time': result.last_time
+                        'set_calendarstate': result.set_calendarstate
                     }
+                
+                if hasattr(result,'version'):
+                    response['version'] = result.version
+                
+                if hasattr(result,'last_time'):
+                    response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S")
+
+                return {
+                    'code': '00',
+                    'message': '조회성공',
+                    'data': response
                 }, 00
             except Exception as e:
                  return {
@@ -36,24 +42,29 @@ class UserApi(Resource):
             
         else:
             try:
-                user = User(phone_uid=phone_uid)
+                user = User(phone_uid=phone_uid,version=data['version'])
                 db.session.add(user)
                 db.session.commit()
                 result = User.query.filter(User.phone_uid == phone_uid).first()
                 UserApi.LastTime('user',result.uid)
 
+                response = {
+                        'uid': result.uid,
+                        'set_startday': result.set_startday,
+                        'set_language': result.set_language,
+                        'set_dateorrepeat': result.set_dateorrepeat,
+                        'set_calendarstate': result.set_calendarstate
+                    }
+                if hasattr(result,'version'):
+                    response['version'] = result.version
+                
+                if hasattr(result,'last_time'):
+                    response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S")
+
                 return {
                     'code': '00',
                     'message': '입력성공',
-                    'data': {
-                            'uid': result.uid,
-                            'set_startday': result.set_startday,
-                            'set_language': result.set_language,
-                            'set_dateorrepeat': result.set_dateorrepeat,
-                            'set_calendarstate': result.set_calendarstate,
-                            'version': result.version,
-                            'last_time': result.last_time
-                    }
+                    'data': response
                 }, 00
             except Exception as e:
                 db.session.rollback()

@@ -14,7 +14,8 @@ class Info(Resource):
     @user.doc(responses={99: 'Failed'})
     def get(self,phone_uid):
         '''유저를 확인하고 없으면 등록한다.'''
-        return UserApi.Info(phone_uid)
+        data = request.args
+        return UserApi.Info(phone_uid,data)
 
 user_column = reqparse.RequestParser()
 user_column.add_argument('user_uid', type=int, default=None, help='유저 고유정보',required=True)
