@@ -13,7 +13,7 @@ struct startTimerRequestModel: Codable {
     
     init (record: RecordModel) {
         self.uid = record.uid
-        self.start_time = record.start_time
+        self.start_time = record.start_time2!
     }
 }
 

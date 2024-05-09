@@ -11,7 +11,6 @@ import Foundation
 let marginRange = 3
 let listSize = marginRange * 2 + 1
 
-let pauseTime = "0001-01-01 12:01:00"
 // MARK: - about Record
 func contentOfGoalHintText(type: String) -> String {
     switch type {
