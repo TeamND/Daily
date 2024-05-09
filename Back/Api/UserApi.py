@@ -13,6 +13,10 @@ class UserApi(Resource):
 
         if result:
             try:
+                if result.version != data['appVersion']:
+                    setattr(result,'version',data['appVersion'])
+                    db.session.commit()
+                    
                 UserApi.LastTime('user',result.uid)
 
                 response = {
