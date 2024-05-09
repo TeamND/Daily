@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WidgetKit
 
 class CalendarViewModel: ObservableObject {
     // MARK: - year
@@ -240,6 +241,7 @@ class CalendarViewModel: ObservableObject {
             }
             break
         default: // "week"
+            if amount == 0 { WidgetCenter.shared.reloadAllTimelines() } // update event 발생 시 위젯 동기화
             changedDay = targetDate ?? cal.date(byAdding: .day, value: amount, to: self.getCurrentDate())!
             let DOW = changedDay.getDOW(language: userInfoViewModel.language)
             var DOWIndex = 0

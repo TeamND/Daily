@@ -16,7 +16,25 @@ struct RecordButton: View {
     
     var body: some View {
         if isBeforeRecord {
-            RecordProgressBar(record: $record, color: .primary)
+            ZStack {
+                RecordProgressBar(record: $record, color: .primary)
+                HStack {
+                    if record.issuccess {
+                        Image(systemName: "hand.thumbsup")
+                    } else {
+                        if record.type == "timer" {
+                            if record.start_time2 == nil {
+                                Image(systemName: "play")
+                            } else {
+                                Image(systemName: "pause")
+                            }
+                        } else {
+                            Image(systemName: "plus")
+                        }
+                    }
+                }
+                .foregroundColor(.primary)
+            }
         } else {
             Button {
                 if record.issuccess {
@@ -30,18 +48,19 @@ struct RecordButton: View {
                             }
                         }
                     case "timer":
-                        let isStart = record.start_time == pauseTime
-                        record.start_time = Date().toString()
+                        let isStart = record.start_time2 == nil
+                        record.start_time2 = Date().toString()
                         startTimer(startTimerRequestModel: startTimerRequestModel(record: record)) { (data) in
+                            print("startTimer result is \(data)")
                             DispatchQueue.main.async {
                                 if isStart {
                                     print("timer start!!!!!")
                                 } else {
                                     // 타이머 구현 전까지 임시로 사용, 추후 수정
-                                    record.record_time += data.data.start_time
+//                                    record.record_time += data.data.start_time
 //                                    print("record_time \(data.data.start_time) 만큼 더해서 재설정")
                                     print("sync..?")
-                                    record.start_time = pauseTime
+                                    record.start_time2 = nil
                                 }
                             }
                         }
@@ -60,7 +79,9 @@ struct RecordButton: View {
                                 .animation(.bouncy, value: 5)
                         } else {
                             if record.type == "timer" {
-                                if record.start_time == pauseTime {
+                                
+                                Text(record.start_time2 ?? "nil")
+                                if record.start_time2 == nil {
                                     Image(systemName: "play")
                                 } else {
                                     Image(systemName: "pause")
