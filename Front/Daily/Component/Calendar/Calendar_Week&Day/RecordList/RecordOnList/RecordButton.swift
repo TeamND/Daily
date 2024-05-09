@@ -16,7 +16,25 @@ struct RecordButton: View {
     
     var body: some View {
         if isBeforeRecord {
-            RecordProgressBar(record: $record, color: .primary)
+            ZStack {
+                RecordProgressBar(record: $record, color: .primary)
+                HStack {
+                    if record.issuccess {
+                        Image(systemName: "hand.thumbsup")
+                    } else {
+                        if record.type == "timer" {
+                            if record.start_time == pauseTime {
+                                Image(systemName: "play")
+                            } else {
+                                Image(systemName: "pause")
+                            }
+                        } else {
+                            Image(systemName: "plus")
+                        }
+                    }
+                }
+                .foregroundColor(.primary)
+            }
         } else {
             Button {
                 if record.issuccess {
