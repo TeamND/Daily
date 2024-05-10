@@ -13,7 +13,7 @@ class UserApi(Resource):
 
         if result:
             try:
-                if result.version != data['appVersion']:
+                if 'appVersion' in data and result.version != data['appVersion']:
                     setattr(result,'version',data['appVersion'])
                     db.session.commit()
                     
