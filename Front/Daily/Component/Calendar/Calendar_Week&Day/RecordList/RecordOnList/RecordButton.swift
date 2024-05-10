@@ -79,8 +79,6 @@ struct RecordButton: View {
                                 .animation(.bouncy, value: 5)
                         } else {
                             if record.type == "timer" {
-                                
-                                Text(record.start_time2 ?? "nil")
                                 if record.start_time2 == nil {
                                     Image(systemName: "play")
                                 } else {

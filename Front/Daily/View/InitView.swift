@@ -11,6 +11,7 @@ struct InitView: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var isLoading: Bool
+    @State var isShowAlert: Bool = false
     @State var isShowTerminateAlert: Bool = false
     @State var isShowOpenStoreAlert: Bool = false
     
@@ -28,6 +29,7 @@ struct InitView: View {
                 let storeVersion = storeVersion.split(separator: ".").map {$0}
                 let appVersion = System.appVersion!.split(separator: ".").map {$0}
                 if storeVersion[0] > appVersion[0] || storeVersion[1] > appVersion[1] {
+                    isShowAlert = true
                     isShowOpenStoreAlert = true
                 } else {
                     getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
@@ -41,35 +43,39 @@ struct InitView: View {
                                 }
                             }
                         } else {
+                            isShowAlert = true
                             isShowTerminateAlert = true
                         }
                     }
                 }
             }
         }
-        .alert(isPresented: $isShowTerminateAlert, content: {
-            Alert(
-                title: Text("오류가 발생했습니다."),
-                message: Text("네트워크 연결 상태를 먼저 확인해주세요"),
-                dismissButton: .default(
-                    Text("확인"),
-                    action: {
-                        terminateApp()
-                    }
+        .alert(isPresented: $isShowAlert, content: {
+            if self.isShowTerminateAlert {
+                Alert(
+                    title: Text("오류가 발생했습니다."),
+                    message: Text("네트워크 연결 상태를 먼저 확인해주세요"),
+                    dismissButton: .default(
+                        Text("확인"),
+                        action: {
+                            isShowTerminateAlert = false
+                            terminateApp()
+                        }
+                    )
                 )
-            )
-        })
-        .alert(isPresented: $isShowOpenStoreAlert, content: {
-            Alert(
-                title: Text("업데이트가 필요합니다."),
-                message: Text("업데이트 이후 사용해주세요"),
-                dismissButton: .default(
-                    Text("확인"),
-                    action: {
-                        System().openAppStore()
-                    }
+            } else {
+                Alert(
+                    title: Text("업데이트가 필요합니다."),
+                    message: Text("업데이트 이후 사용해주세요"),
+                    dismissButton: .default(
+                        Text("확인"),
+                        action: {
+                            isShowOpenStoreAlert = false
+                            System().openAppStore()
+                        }
+                    )
                 )
-            )
+            }
         })
     }
 }

@@ -41,6 +41,7 @@ struct ModifyGoalView: View {
                     }
                     Button {
                         if modifyGoalModel.content.count < 2 {
+                            isShowAlert = true
                             isShowContentLengthAlert = true
                         } else {
                             DispatchQueue.main.async {
