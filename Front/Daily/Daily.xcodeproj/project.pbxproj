@@ -84,7 +84,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F6EC3D562BEB7A6600FAB502 /* PBXContainerItemProxy */ = {
+		F6EC3D5E2BEDA7BE00FAB502 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F6BEC929290F5894005EAF28 /* Project object */;
 			proxyType = 1;
@@ -523,7 +523,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F6EC3D572BEB7A6600FAB502 /* PBXTargetDependency */,
+				F6EC3D5F2BEDA7BE00FAB502 /* PBXTargetDependency */,
 			);
 			name = Daily;
 			packageProductDependencies = (
@@ -695,10 +695,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F6EC3D572BEB7A6600FAB502 /* PBXTargetDependency */ = {
+		F6EC3D5F2BEDA7BE00FAB502 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F6EC3D4A2BEB7A6500FAB502 /* DailyWidgetExtension */;
-			targetProxy = F6EC3D562BEB7A6600FAB502 /* PBXContainerItemProxy */;
+			targetProxy = F6EC3D5E2BEDA7BE00FAB502 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

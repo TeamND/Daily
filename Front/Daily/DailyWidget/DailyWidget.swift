@@ -10,11 +10,11 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), records: [RecordModel()], emoji: "😀")
+        SimpleEntry(date: Date(), records: [RecordModel()])
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), records: [RecordModel()], emoji: "😀")
+        let entry = SimpleEntry(date: Date(), records: [RecordModel()])
         completion(entry)
     }
 
@@ -26,7 +26,7 @@ struct Provider: TimelineProvider {
             let currentDate = Date()
             for hourOffset in 0 ..< 5 {
                 let entryDate = Calendar.current.date(byAdding: .minute, value: hourOffset, to: currentDate)!
-                let entry = SimpleEntry(date: entryDate, records: data.data.goalList, emoji: "😀")
+                let entry = SimpleEntry(date: entryDate, records: data.data.goalList)
                 entries.append(entry)
             }
             
@@ -34,26 +34,26 @@ struct Provider: TimelineProvider {
             completion(timeline)
         }
     }
-//    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-//        getNewData { (news) in
-//            let date = Date()
-//            let entry = SimpleEntry(date: date, news: news)
-//            let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: date)
-//            let timeline = Timeline(entries: [entry], policy: .after(nextUpdate!))
-//                
-//            completion(timeline)
-//        }
-//    }
 }
 
 struct getCalendarDayModel: Codable {
     let code: String
     let message: String
     let data: getCalendarDayData
+    
+    init() {
+        self.code = "99"
+        self.message = "Network Error"
+        self.data = getCalendarDayData()
+    }
 }
 
 struct getCalendarDayData: Codable {
     let goalList: [RecordModel]
+    
+    init() {
+        self.goalList = [RecordModel()]
+    }
 }
 
 struct RecordModel: Codable {
@@ -72,7 +72,7 @@ struct RecordModel: Codable {
     init() {
         self.uid = -1
         self.goal_uid = -1
-        self.content = "test content"
+        self.content = "아침 7시에 일어나기 ☀️"
         self.type = "check"
         self.symbol = "체크"
         self.goal_time = 0
@@ -86,24 +86,20 @@ struct RecordModel: Codable {
 
 func getCalendarDay(complete: @escaping (getCalendarDayModel) -> Void) {
     print("userID is \(UIDevice.current.identifierForVendor!.uuidString)")
-    guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/day/111?date=2024-05-08") else { return }
+    guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/day/111?date=2024-05-09") else { return }
     
     var urlRequest = URLRequest(url: requestURL)
     urlRequest.httpMethod = "GET"
     
-    
     URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
         guard let data = data else { return }
         if urlResponse is HTTPURLResponse {
-//            guard let data: getCalendarDayModel = JSONConverter.decodeJson(data: data) else {
-//                complete(data)
-//            }
             print("data is \(String(decoding: data, as: UTF8.self))")
             do {
                 let data: getCalendarDayModel = try JSONDecoder().decode(getCalendarDayModel.self, from: data)
                 complete(data)
             } catch {
-                print("error is \(error)")
+                complete(getCalendarDayModel())
             }
         } else { return }
     }.resume()
@@ -112,7 +108,6 @@ func getCalendarDay(complete: @escaping (getCalendarDayModel) -> Void) {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let records: [RecordModel]
-    let emoji: String
 }
 
 struct DailyWidgetEntryView: View {
@@ -120,25 +115,107 @@ struct DailyWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            if entry.records.count > 0 {
-                ForEach(entry.records.indices, id: \.self) { index in
-                    switch family {
-                    case .systemSmall, .systemMedium:
-                        if index < 3 {
-                            SimpleRecordList(record: entry.records[index])
+        switch family {
+        case .systemSmall:
+            VStack(alignment: .leading) {
+                SimpleDayRating(day: .constant(8), rating: .constant(0.5))
+                ZStack {
+                    if entry.records.count > 0 {
+                        if entry.records[0].goal_count == 0 {
+                            Text("인터넷 연결을 확인하세요 😥")
+                        } else {
+                            VStack {
+                                Spacer()
+                                ForEach(0 ..< 2) { rowIndex in
+                                    HStack {
+                                        Spacer()
+                                        ForEach(rowIndex * 3 ..< (rowIndex + 1) * 3, id: \.self) { index in
+                                            SimpleSymbol(record: index < entry.records.count ? entry.records[index] : RecordModel())
+                                            Spacer()
+                                        }
+                                    }
+                                    Spacer()
+                                }
+                            }
                         }
-                    case .systemLarge:
-                        if index < 7 {
-                            SimpleRecordList(record: entry.records[index])
-                        }
-                    default:    // systemExtraLarge for iPad
-                        EmptyView()
+                    } else {
+                        Text("아직 목표가 없어요 😓")
+                            .font(.system(size: CGFloat.fontSize * 4 / 5))
                     }
                 }
-            } else {
-                Text("아직 목표가 없어요 😓")
+                .frame(width: CGFloat.screenWidth / 3, height: CGFloat.screenWidth / 9 * 2)
+                .background {
+                    RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+                }
             }
+            .font(.system(size: CGFloat.fontSize))
+        default:
+            HStack(alignment: .top) {
+                SimpleDayRating(day: .constant(8), rating: .constant(0.5))
+                VStack {
+                    if entry.records.count > 0 {
+                        ForEach(entry.records.indices, id: \.self) { index in
+                            if index < 3 {
+                                SimpleRecordList(record: entry.records[index])
+                            }
+                        }
+                        Spacer()
+                    } else {
+                        Text("아직 목표가 없어요 😓")
+                    }
+                }
+                .frame(height: CGFloat.screenHeight / 6)
+            }
+            .font(.system(size: CGFloat.fontSize))
+        }
+//        VStack {
+//            if entry.records.count > 0 {
+//                ForEach(entry.records.indices, id: \.self) { index in
+//                    switch family {
+//                    case .systemSmall, .systemMedium:
+//                        if index < 3 {
+//                            SimpleRecordList(record: entry.records[index])
+//                        }
+//                    case .systemLarge:
+//                        if index < 7 {
+//                            SimpleRecordList(record: entry.records[index])
+//                        }
+//                    default:    // systemExtraLarge for iPad
+//                        EmptyView()
+//                    }
+//                }
+//            } else {
+//                Text("아직 목표가 없어요 😓")
+//            }
+//        }
+    }
+}
+
+struct SimpleDayRating: View {
+    @Binding var day: Int
+    @Binding var rating: Double
+    
+    var body: some View {
+        ZStack {
+            Image(systemName: "circle.fill")
+                .font(.system(size: CGFloat.fontSize * 2))
+                .foregroundColor(Color("CustomColor").opacity(rating*0.8))
+            Text("\(day)")
+                .font(.system(size: CGFloat.fontSize, weight: .bold))
+                .foregroundColor(.primary)
+        }
+    }
+}
+
+struct SimpleSymbol: View {
+    @State var record: RecordModel
+    
+    var body: some View {
+        if record.issuccess {
+            Image(systemName: "\(symbols[record.symbol] ?? "d.circle").fill")
+        } else {
+            Image(systemName: "\(symbols[record.symbol] ?? "d.circle")")
+                .opacity(record.goal_count > 0 ? 1 : 0)
         }
     }
 }
@@ -148,17 +225,6 @@ struct SimpleRecordList: View {
     @State var record: RecordModel
     
     var body: some View {
-        let symbols: [String: String] = [
-            "체크" : "checkmark.circle",
-            "운동" : "dubbell",
-            "런닝" : "figure.run.circle",
-            "공부" : "book",
-            "키보드" : "keyboard",
-            "하트" : "heart",
-            "별" : "star",
-            "커플" : "person.2.crop.square.stack",
-            "모임" : "person.3"
-        ]
         ZStack {
             HStack(spacing: 12) {
                 if record.issuccess {
@@ -204,3 +270,25 @@ struct DailyWidget: Widget {
 //    SimpleEntry(date: .now, emoji: "😀")
 //    SimpleEntry(date: .now, emoji: "🤩")
 //}
+
+
+
+extension CGFloat {
+    static let screenWidth = UIScreen.main.bounds.width
+    static let screenHeight = UIScreen.main.bounds.height
+    
+    static let fontSizeForiPhone15 = 15 * screenWidth / 393 // 6.7 iPhone 기준
+    static let fontSize = UIDevice.current.model == "iPhone" ? fontSizeForiPhone15 : fontSizeForiPhone15 / 2
+}
+
+let symbols: [String: String] = [
+    "체크" : "checkmark.circle",
+    "운동" : "dubbell",
+    "런닝" : "figure.run.circle",
+    "공부" : "book",
+    "키보드" : "keyboard",
+    "하트" : "heart",
+    "별" : "star",
+    "커플" : "person.2.crop.square.stack",
+    "모임" : "person.3"
+]
