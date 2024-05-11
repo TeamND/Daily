@@ -119,34 +119,7 @@ struct DailyWidgetEntryView: View {
         case .systemSmall:
             VStack(alignment: .leading) {
                 SimpleDayRating(day: .constant(8), rating: .constant(0.5))
-                ZStack {
-                    if entry.records.count > 0 {
-                        if entry.records[0].goal_count == 0 {
-                            Text("인터넷 연결을 확인하세요 😥")
-                        } else {
-                            VStack {
-                                Spacer()
-                                ForEach(0 ..< 2) { rowIndex in
-                                    HStack {
-                                        Spacer()
-                                        ForEach(rowIndex * 3 ..< (rowIndex + 1) * 3, id: \.self) { index in
-                                            SimpleSymbol(record: index < entry.records.count ? entry.records[index] : RecordModel())
-                                            Spacer()
-                                        }
-                                    }
-                                    Spacer()
-                                }
-                            }
-                        }
-                    } else {
-                        Text("아직 목표가 없어요 😓")
-                            .font(.system(size: CGFloat.fontSize * 4 / 5))
-                    }
-                }
-                .frame(width: CGFloat.screenWidth / 3, height: CGFloat.screenWidth / 9 * 2)
-                .background {
-                    RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
-                }
+                SymbolListInSmallWidget(records: entry.records)
             }
             .font(.system(size: CGFloat.fontSize))
         default:
@@ -203,6 +176,41 @@ struct SimpleDayRating: View {
             Text("\(day)")
                 .font(.system(size: CGFloat.fontSize, weight: .bold))
                 .foregroundColor(.primary)
+        }
+    }
+}
+
+struct SymbolListInSmallWidget: View {
+    @State var records: [RecordModel]
+    
+    var body: some View {
+        ZStack {
+            if records.count > 0 {
+                if records[0].goal_count == 0 {
+                    Text("인터넷 연결을 확인하세요 😥")
+                } else {
+                    VStack {
+                        Spacer()
+                        ForEach(0 ..< 2) { rowIndex in
+                            HStack {
+                                Spacer()
+                                ForEach(rowIndex * 3 ..< (rowIndex + 1) * 3, id: \.self) { index in
+                                    SimpleSymbol(record: index < records.count ? records[index] : RecordModel())
+                                    Spacer()
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+            } else {
+                Text("아직 목표가 없어요 😓")
+                    .font(.system(size: CGFloat.fontSize * 4 / 5))
+            }
+        }
+        .frame(width: CGFloat.screenWidth / 3, height: CGFloat.screenWidth / 9 * 2)
+        .background {
+            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
         }
     }
 }
