@@ -10,23 +10,25 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), records: [RecordModel()])
+        SimpleEntry(date: Date(), rating: 0, day: String(Calendar.current.component(.day, from: Date())), records: [SimpleRecordModel()])
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), records: [RecordModel()])
+        let entry = SimpleEntry(date: Date(), rating: 0, day: String(Calendar.current.component(.day, from: Date())), records: [SimpleRecordModel()])
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        getCalendarDay { data in
+        getCalendarWidget { data in
             var entries: [SimpleEntry] = []
+            
+            print(data)
             
             // Generate a timeline consisting of five entries an hour apart, starting from the current date.
             let currentDate = Date()
             for hourOffset in 0 ..< 5 {
                 let entryDate = Calendar.current.date(byAdding: .minute, value: hourOffset, to: currentDate)!
-                let entry = SimpleEntry(date: entryDate, records: data.data.goalList)
+                let entry = SimpleEntry(date: entryDate, rating: data.data.rating, day: data.data.date, records: data.data.goalList)
                 entries.append(entry)
             }
             
@@ -36,57 +38,50 @@ struct Provider: TimelineProvider {
     }
 }
 
-struct getCalendarDayModel: Codable {
+struct getCalendarWidgetModel: Codable {
     let code: String
     let message: String
-    let data: getCalendarDayData
+    let data: getCalendarWidgetData
     
     init() {
         self.code = "99"
         self.message = "Network Error"
-        self.data = getCalendarDayData()
+        self.data = getCalendarWidgetData(isError: true)
     }
 }
 
-struct getCalendarDayData: Codable {
-    let goalList: [RecordModel]
+struct getCalendarWidgetData: Codable {
+    let rating: Double
+    let date: String
+    let goalList: [SimpleRecordModel]
     
-    init() {
-        self.goalList = [RecordModel()]
+    init(isError: Bool) {
+        self.rating = 0.0
+        self.date = String(Calendar.current.component(.day, from: Date()))
+        self.goalList = [SimpleRecordModel(isEmpty: isError)]
     }
 }
 
-struct RecordModel: Codable {
-    let uid: Int
-    var goal_uid: Int
+struct SimpleRecordModel: Codable {
     let content: String
-    var type: String
     let symbol: String
-    var goal_time: Int
-    var goal_count: Int
-    var record_time: Int
-    var record_count: Int
-    var issuccess: Bool
-    var start_time: String
+    let issuccess: Bool
     
     init() {
-        self.uid = -1
-        self.goal_uid = -1
         self.content = "아침 7시에 일어나기 ☀️"
-        self.type = "check"
         self.symbol = "체크"
-        self.goal_time = 0
-        self.goal_count = 0
-        self.record_time = 0
-        self.record_count = 0
         self.issuccess = false
-        self.start_time = ""
+    }
+    
+    init(isEmpty: Bool) {
+        self.content = ""
+        self.symbol = "체크"
+        self.issuccess = false
     }
 }
 
-func getCalendarDay(complete: @escaping (getCalendarDayModel) -> Void) {
-    print("userID is \(UIDevice.current.identifierForVendor!.uuidString)")
-    guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/day/111?date=2024-05-09") else { return }
+func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
+    guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
     
     var urlRequest = URLRequest(url: requestURL)
     urlRequest.httpMethod = "GET"
@@ -94,12 +89,11 @@ func getCalendarDay(complete: @escaping (getCalendarDayModel) -> Void) {
     URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
         guard let data = data else { return }
         if urlResponse is HTTPURLResponse {
-            print("data is \(String(decoding: data, as: UTF8.self))")
             do {
-                let data: getCalendarDayModel = try JSONDecoder().decode(getCalendarDayModel.self, from: data)
+                let data: getCalendarWidgetModel = try JSONDecoder().decode(getCalendarWidgetModel.self, from: data)
                 complete(data)
             } catch {
-                complete(getCalendarDayModel())
+                complete(getCalendarWidgetModel())
             }
         } else { return }
     }.resume()
@@ -107,7 +101,9 @@ func getCalendarDay(complete: @escaping (getCalendarDayModel) -> Void) {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let records: [RecordModel]
+    let rating: Double
+    let day: String
+    let records: [SimpleRecordModel]
 }
 
 struct DailyWidgetEntryView: View {
@@ -118,13 +114,13 @@ struct DailyWidgetEntryView: View {
         switch family {
         case .systemSmall:
             VStack(alignment: .leading) {
-                SimpleDayRating(day: .constant(8), rating: .constant(0.5))
+                SimpleDayRating(day: entry.day, rating: entry.rating)
                 SymbolListInSmallWidget(records: entry.records)
             }
             .font(.system(size: CGFloat.fontSize))
         default:
             HStack(alignment: .top) {
-                SimpleDayRating(day: .constant(8), rating: .constant(0.5))
+                SimpleDayRating(day: entry.day, rating: entry.rating)
                 SimpleRecordList(records: entry.records)
             }
             .font(.system(size: CGFloat.fontSize))
@@ -133,15 +129,15 @@ struct DailyWidgetEntryView: View {
 }
 
 struct SimpleDayRating: View {
-    @Binding var day: Int
-    @Binding var rating: Double
+    @State var day: String
+    @State var rating: Double
     
     var body: some View {
         ZStack {
             Image(systemName: "circle.fill")
                 .font(.system(size: CGFloat.fontSize * 2))
                 .foregroundColor(Color("CustomColor").opacity(rating*0.8))
-            Text("\(day)")
+            Text(day)
                 .font(.system(size: CGFloat.fontSize, weight: .bold))
                 .foregroundColor(.primary)
         }
@@ -150,13 +146,13 @@ struct SimpleDayRating: View {
 }
 
 struct SymbolListInSmallWidget: View {
-    @State var records: [RecordModel]
+    @State var records: [SimpleRecordModel]
     
     var body: some View {
         ZStack {
             if records.count > 0 {
-                if records[0].goal_count == 0 {
-                    Text("인터넷 연결을 확인하세요 😥")
+                if records[0].content.count < 2 {
+                    SimpleText(type: "networkError")
                 } else {
                     VStack {
                         Spacer()
@@ -164,7 +160,7 @@ struct SymbolListInSmallWidget: View {
                             HStack {
                                 Spacer()
                                 ForEach(rowIndex * 3 ..< (rowIndex + 1) * 3, id: \.self) { index in
-                                    SimpleSymbol(record: index < records.count ? records[index] : RecordModel())
+                                    SimpleSymbol(record: index < records.count ? records[index] : SimpleRecordModel(isEmpty: true))
                                     Spacer()
                                 }
                             }
@@ -173,8 +169,7 @@ struct SymbolListInSmallWidget: View {
                     }
                 }
             } else {
-                Text("아직 목표가 없어요 😓")
-                    .font(.system(size: CGFloat.fontSize * 4 / 5))
+                SimpleText(type: "noData")
             }
         }
         .background {
@@ -184,46 +179,50 @@ struct SymbolListInSmallWidget: View {
 }
 
 struct SimpleSymbol: View {
-    @State var record: RecordModel
+    @State var record: SimpleRecordModel
     
     var body: some View {
         if record.issuccess {
             Image(systemName: "\(symbols[record.symbol] ?? "d.circle").fill")
         } else {
             Image(systemName: "\(symbols[record.symbol] ?? "d.circle")")
-                .opacity(record.goal_count > 0 ? 1 : 0)
+                .opacity(record.content.count < 2 ? 0 : 1)
         }
     }
 }
 struct SimpleRecordList: View {
     @Environment(\.widgetFamily) private var family
-    @State var records: [RecordModel]
+    @State var records: [SimpleRecordModel]
     
     var body: some View {
         VStack {
             if records.count > 0 {
-                ForEach(records.indices, id: \.self) { index in
-                    switch family {
-                    case .systemMedium:
-                        if index < 3 {
-                            SimpleRecordOnList(record: records[index])
-                        }
-                    default:
-                        if index < 7 {
-                            SimpleRecordOnList(record: records[index])
+                if records[0].content.count < 2 {
+                    SimpleText(type: "networkError")
+                } else {
+                    ForEach(records.indices, id: \.self) { index in
+                        switch family {
+                        case .systemMedium:
+                            if index < 3 {
+                                SimpleRecordOnList(record: records[index])
+                            }
+                        default:
+                            if index < 7 {
+                                SimpleRecordOnList(record: records[index])
+                            }
                         }
                     }
+                    Spacer()
                 }
-                Spacer()
             } else {
-                Text("아직 목표가 없어요 😓")
+                SimpleText(type: "noData")
             }
         }
     }
 }
 
 struct SimpleRecordOnList: View {
-    @State var record: RecordModel
+    @State var record: SimpleRecordModel
     
     var body: some View {
         ZStack {
@@ -241,6 +240,41 @@ struct SimpleRecordOnList: View {
         .padding(10)
         .background {
             RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+        }
+    }
+}
+
+struct SimpleText: View {
+    @Environment(\.widgetFamily) private var family
+    @State var type: String
+    
+    var body: some View {
+        if type == "noData" {
+            HStack {
+                Spacer()
+                VStack {
+                    Spacer()
+                    Text("아직 목표가 없어요 😓")
+                    if family != .systemSmall {
+                        Text("목표 세우러 가기")
+                            .foregroundColor(Color("CustomColor"))
+                    }
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding()
+        }
+        if type == "networkError" {
+            HStack {
+                Spacer()
+                VStack {
+                    Spacer()
+                    Text("인터넷 연결을 확인하세요 😥")
+                    Spacer()
+                }
+                Spacer()
+            }
         }
     }
 }
