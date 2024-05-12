@@ -22,8 +22,6 @@ struct Provider: TimelineProvider {
         getCalendarWidget { data in
             var entries: [SimpleEntry] = []
             
-            print(data)
-            
             // Generate a timeline consisting of five entries an hour apart, starting from the current date.
             let currentDate = Date()
             for hourOffset in 0 ..< 5 {
@@ -263,7 +261,7 @@ struct SimpleText: View {
                 }
                 Spacer()
             }
-            .padding()
+            .padding(CGFloat.fontSize < 15 ? 0 : 10)
         }
         if type == "networkError" {
             HStack {
