@@ -1,10 +1,11 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace
 from sqlalchemy import extract,func
-from model import db,Goal,Record
+from model import db,User,Goal,Record
 from Api.UserApi import UserApi
 import datetime
 import json
+import hashlib
 
 class CalendarApi(Resource):
     def Update(uid,data):
@@ -238,3 +239,43 @@ class CalendarApi(Resource):
                 'code': '99',
                 'message': e
             }, 99
+        
+    def Widget(phone_uid):
+        phone_uid = hashlib.sha256(phone_uid.encode()).hexdigest()
+        user = User.query.filter(User.phone_uid == phone_uid).first()
+        if user:
+            
+            try:
+                UserApi.LastTime('user',user.uid)
+                date = datetime.datetime.now().strftime('%Y-%m-%d')
+                
+                # join
+                join = db.session.query(Goal.content, Goal.symbol, Record.issuccess)\
+                            .filter(Record.goal_uid == Goal.uid, Goal.user_uid == user.uid, Record.date == date)\
+                            .order_by(Record.order).all()
+                
+                rating_count = 0
+                # 데이터 가공
+                result = []
+                for k in join:
+                    if k.issuccess:
+                        rating_count += 1
+                    result.append(json.loads(json.dumps(k._mapping,default=dict)))
+
+                rating = 0 if rating_count == 0 else round(rating_count/len(join),2)
+                day = date[-2:].lstrip('0')
+                return {
+                    'code': '00',
+                    'message': '조회에 성공했습니다.',
+                    'data': {'rating':rating, 'date':day, 'goalList':result}
+                }, 00
+            except Exception as e:
+                return {
+                    'code': '99',
+                    'message': e
+                }, 99
+        else:
+            return {
+                    'code': '99',
+                    'message': '조회에 실패했습니다.'
+                }, 99

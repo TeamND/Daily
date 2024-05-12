@@ -88,3 +88,13 @@ class CalendarYear(Resource):
         '''달력을 년단위로 조회한다.'''
         data = request.args
         return CalendarApi.Year(user_uid,data)
+
+@calendar.route('/widget/<string:phone_uid>')
+class CalendarWidget(Resource):
+    @calendar.doc(params={'phone_uid': '폰 고유번호'})
+    @calendar.expect(day_column)
+    @calendar.doc(responses={00: 'Success'})
+    @calendar.doc(responses={99: 'Failed'})
+    def get(self,phone_uid):
+        '''달력을 일단위로 조회한다.'''
+        return CalendarApi.Widget(phone_uid)
