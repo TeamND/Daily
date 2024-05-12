@@ -125,42 +125,10 @@ struct DailyWidgetEntryView: View {
         default:
             HStack(alignment: .top) {
                 SimpleDayRating(day: .constant(8), rating: .constant(0.5))
-                VStack {
-                    if entry.records.count > 0 {
-                        ForEach(entry.records.indices, id: \.self) { index in
-                            if index < 3 {
-                                SimpleRecordList(record: entry.records[index])
-                            }
-                        }
-                        Spacer()
-                    } else {
-                        Text("아직 목표가 없어요 😓")
-                    }
-                }
-                .frame(height: CGFloat.screenHeight / 6)
+                SimpleRecordList(records: entry.records)
             }
             .font(.system(size: CGFloat.fontSize))
         }
-//        VStack {
-//            if entry.records.count > 0 {
-//                ForEach(entry.records.indices, id: \.self) { index in
-//                    switch family {
-//                    case .systemSmall, .systemMedium:
-//                        if index < 3 {
-//                            SimpleRecordList(record: entry.records[index])
-//                        }
-//                    case .systemLarge:
-//                        if index < 7 {
-//                            SimpleRecordList(record: entry.records[index])
-//                        }
-//                    default:    // systemExtraLarge for iPad
-//                        EmptyView()
-//                    }
-//                }
-//            } else {
-//                Text("아직 목표가 없어요 😓")
-//            }
-//        }
     }
 }
 
@@ -177,6 +145,7 @@ struct SimpleDayRating: View {
                 .font(.system(size: CGFloat.fontSize, weight: .bold))
                 .foregroundColor(.primary)
         }
+        Spacer()
     }
 }
 
@@ -208,7 +177,6 @@ struct SymbolListInSmallWidget: View {
                     .font(.system(size: CGFloat.fontSize * 4 / 5))
             }
         }
-        .frame(width: CGFloat.screenWidth / 3, height: CGFloat.screenWidth / 9 * 2)
         .background {
             RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
         }
@@ -227,9 +195,34 @@ struct SimpleSymbol: View {
         }
     }
 }
-
 struct SimpleRecordList: View {
     @Environment(\.widgetFamily) private var family
+    @State var records: [RecordModel]
+    
+    var body: some View {
+        VStack {
+            if records.count > 0 {
+                ForEach(records.indices, id: \.self) { index in
+                    switch family {
+                    case .systemMedium:
+                        if index < 3 {
+                            SimpleRecordOnList(record: records[index])
+                        }
+                    default:
+                        if index < 7 {
+                            SimpleRecordOnList(record: records[index])
+                        }
+                    }
+                }
+                Spacer()
+            } else {
+                Text("아직 목표가 없어요 😓")
+            }
+        }
+    }
+}
+
+struct SimpleRecordOnList: View {
     @State var record: RecordModel
     
     var body: some View {
@@ -245,8 +238,7 @@ struct SimpleRecordList: View {
                 Spacer()
             }
         }
-        .padding(.horizontal, family == .systemSmall ? 5 : 10)
-        .padding(.vertical, 10)
+        .padding(10)
         .background {
             RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
         }
