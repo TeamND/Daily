@@ -46,7 +46,8 @@ class UserApi(Resource):
             
         else:
             try:
-                user = User(phone_uid=phone_uid,version=data['appVersion'])
+                version = data['appVersion'] if 'appVersion' in data and data['appVersion'] else None
+                user = User(phone_uid=phone_uid,version=version)
                 db.session.add(user)
                 db.session.commit()
                 result = User.query.filter(User.phone_uid == phone_uid).first()
