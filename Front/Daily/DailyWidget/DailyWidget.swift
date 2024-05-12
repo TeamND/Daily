@@ -197,6 +197,9 @@ struct SimpleRecordList: View {
             if records.count > 0 {
                 if records[0].content.count < 2 {
                     SimpleText(type: "networkError")
+                        .background {
+                            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+                        }
                 } else {
                     ForEach(records.indices, id: \.self) { index in
                         switch family {
@@ -214,6 +217,9 @@ struct SimpleRecordList: View {
                 }
             } else {
                 SimpleText(type: "noData")
+                    .background {
+                        RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+                    }
             }
         }
     }
