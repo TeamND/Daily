@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @StateObject var navigationViewModel: NavigationViewModel = NavigationViewModel()
@@ -53,6 +54,18 @@ struct MainView: View {
                     .navigationBarTitle("이전")
                     .navigationBarHidden(true)
                     .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+                    .alert(isPresented: $alertViewModel.isShowAlert, content: {
+                        Alert(
+                            title: Text("오류가 발생했습니다."),
+                            message: Text("네트워크 연결 상태를 먼저 확인해주세요"),
+                            dismissButton: .default(
+                                Text("확인"),
+                                action: {
+                                    terminateApp()
+                                }
+                            )
+                        )
+                    })
             }
         }
         .tint(Color("CustomColor"))

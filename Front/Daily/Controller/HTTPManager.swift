@@ -20,9 +20,8 @@ final class HTTPManager {
                 complete(JSONConverter.encodeJson(param: ResponseModel())!)
                 return
             }
-            if urlResponse is HTTPURLResponse {
-                complete(data)
-            } else { return }
+            if urlResponse is HTTPURLResponse { complete(data) }
+            else { complete(JSONConverter.encodeJson(param: ResponseModel())!) }
         }.resume()
     }
     
@@ -54,10 +53,12 @@ final class HTTPManager {
 //        urlRequest.setValue("\(encodingData.count)", forHTTPHeaderField: "Content-Length")
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-            guard let data = data else { return }
-            if urlResponse is HTTPURLResponse {
-                complete(data)
-            } else { return }
+            guard let data = data else {
+                complete(JSONConverter.encodeJson(param: ResponseModel())!)
+                return
+            }
+            if urlResponse is HTTPURLResponse { complete(data) }
+            else { complete(JSONConverter.encodeJson(param: ResponseModel())!) }
         }.resume()
     }
 }

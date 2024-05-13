@@ -12,10 +12,11 @@ struct DailyApp: App {
     @State var isLoading: Bool = true
     @StateObject var userInfoViewModel: UserInfoViewModel = UserInfoViewModel()
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
+    
     var body: some Scene {
         WindowGroup {
             if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
-            else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) }
+            else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
         }
     }
 }

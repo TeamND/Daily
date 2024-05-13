@@ -95,9 +95,13 @@ class CalendarViewModel: ObservableObject {
             switch(state) {
             case "year":
                 getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: currentYear)) { (data) in
-                    self.setRatingOnYear(ratingOnYear: data.data)
-                    self.setCurrentState(state: state)
-                    self.setCurrentYear(year: currentYear)
+//                    if data.code == "00" {
+                        self.setRatingOnYear(ratingOnYear: data.data)
+                        self.setCurrentState(state: state)
+                        self.setCurrentYear(year: currentYear)
+//                    } else {
+//                        print("getCalendarYear error... code is \(data.code) = 99")
+//                    }
                 }
                 break
             case "month":

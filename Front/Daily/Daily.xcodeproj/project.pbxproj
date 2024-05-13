@@ -67,6 +67,7 @@
 		F6DF64B42BAFD9DD00A17B9E /* WeekOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B32BAFD9DD00A17B9E /* WeekOnMonth.swift */; };
 		F6DF64B62BAFDA1200A17B9E /* DayOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B52BAFDA1200A17B9E /* DayOnMonth.swift */; };
 		F6DF64B82BAFDCB800A17B9E /* SymbolOnMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B72BAFDCB800A17B9E /* SymbolOnMonth.swift */; };
+		F6E942522BF208000069003D /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E942512BF208000069003D /* AlertViewModel.swift */; };
 		F6EC3D182BDCC34400FAB502 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D172BDCC34400FAB502 /* DateExtension.swift */; };
 		F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */; };
 		F6EC3D1D2BE0D2FC00FAB502 /* RecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */; };
@@ -171,6 +172,7 @@
 		F6DF64B32BAFD9DD00A17B9E /* WeekOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOnMonth.swift; sourceTree = "<group>"; };
 		F6DF64B52BAFDA1200A17B9E /* DayOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOnMonth.swift; sourceTree = "<group>"; };
 		F6DF64B72BAFDCB800A17B9E /* SymbolOnMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolOnMonth.swift; sourceTree = "<group>"; };
+		F6E942512BF208000069003D /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		F6EC3D172BDCC34400FAB502 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		F6EC3D1C2BE0D2FC00FAB502 /* RecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordProgressBar.swift; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
 				F6CC15942BA0100900689A02 /* NavigationViewModel.swift */,
 				F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */,
+				F6E942512BF208000069003D /* AlertViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -676,6 +679,7 @@
 				F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */,
 				F6CC15B22BA8307E00689A02 /* getCalendarMonthModel.swift in Sources */,
 				F6DF64B62BAFDA1200A17B9E /* DayOnMonth.swift in Sources */,
+				F6E942522BF208000069003D /* AlertViewModel.swift in Sources */,
 				F6EC3D1A2BDCE74C00FAB502 /* TimerViewModel.swift in Sources */,
 				F6CC158C2B9C90F300689A02 /* MainView.swift in Sources */,
 				F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */,

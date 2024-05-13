@@ -21,8 +21,18 @@ struct startTimerResponseModel: Codable {
     let code: String
     let message: String
     let data: startTimerData
+    
+    init() {
+        self.code = "99"
+        self.message = "Network Error"
+        self.data = startTimerData()
+    }
 }
 
 struct startTimerData: Codable {
     let start_time: Int
+    
+    init() {
+        self.start_time = 0
+    }
 }
