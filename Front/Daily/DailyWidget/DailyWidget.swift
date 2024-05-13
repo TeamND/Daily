@@ -85,7 +85,10 @@ func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
     urlRequest.httpMethod = "GET"
     
     URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-        guard let data = data else { return }
+        guard let data = data else {
+            complete(getCalendarWidgetModel())
+            return
+        }
         if urlResponse is HTTPURLResponse {
             do {
                 let data: getCalendarWidgetModel = try JSONDecoder().decode(getCalendarWidgetModel.self, from: data)
@@ -93,7 +96,7 @@ func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
             } catch {
                 complete(getCalendarWidgetModel())
             }
-        } else { return }
+        } else { complete(getCalendarWidgetModel()) }
     }.resume()
 }
 
