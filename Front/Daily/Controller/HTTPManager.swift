@@ -16,7 +16,10 @@ final class HTTPManager {
         urlRequest.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-            guard let data = data else { return }
+            guard let data = data else {
+                complete(JSONConverter.encodeJson(param: ResponseModel())!)
+                return
+            }
             if urlResponse is HTTPURLResponse {
                 complete(data)
             } else { return }

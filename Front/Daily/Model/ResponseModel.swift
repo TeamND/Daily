@@ -10,4 +10,9 @@ import Foundation
 struct ResponseModel: Codable {
     let code: String
     let message: String
+    
+    init() {
+        self.code = "99"
+        self.message = "Network Error"
+    }
 }
