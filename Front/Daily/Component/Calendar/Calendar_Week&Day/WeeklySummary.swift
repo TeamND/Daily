@@ -12,6 +12,14 @@ struct WeeklySummary: View {
         VStack {
             Spacer()
             ZStack {
+                VStack {
+                    Spacer()
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color("BackgroundColor"))
+                        .frame(height: 80)
+                        .padding(.bottom, -50)
+                }
+                .frame(height: 20)
                 HStack {
                     Text("주간 요약")
                         .padding()
@@ -20,14 +28,9 @@ struct WeeklySummary: View {
                     Spacer()
                 }
                 .padding(20)
-                HStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color("BackgroundColor"))
-                        .frame(height: 500)
-                        .padding(.bottom, -600)
-                }
             }
         }
+        .ignoresSafeArea()
     }
 }
 
