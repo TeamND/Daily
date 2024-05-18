@@ -24,8 +24,21 @@
 - Adaptive View
 - Documents required to launch the app
 
-24.04.17. ~
+24.04.17. ~ 24.05.12.
 
 [1.0 출시]
 - App Maintenance
 - Accept Feedbacks
+
+24.05.12. ~ 24.05.14.
+
+[1.1.8 업데이트]
+- Add Widget
+- Handle network exception
+- Add version check logic
+
+24.05.14. ~
+
+[1.1.10 업데이트]
+- Modify Widget UI
+- Add network error case
