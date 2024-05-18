@@ -33,9 +33,7 @@ struct Calendar_Week_Day: View {
                 }
             }
             .background(Color("ThemeColor"))
-            if calendarViewModel.recordsOnWeek.count > 0 {
-                AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
-            }
+            AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
             WeeklySummary()
         }
     }
