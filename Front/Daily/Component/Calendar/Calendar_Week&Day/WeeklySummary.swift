@@ -11,26 +11,35 @@ struct WeeklySummary: View {
     var body: some View {
         VStack {
             Spacer()
-            ZStack {
-                VStack {
-                    Spacer()
+            HStack {
+                Text("주간 요약")
+                    .padding()
+                    .background(Color("BackgroundColor"))
+                    .cornerRadius(20)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            VStack {
+                Spacer()
+                ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color("BackgroundColor"))
-                        .frame(height: 80)
-                        .padding(.bottom, -50)
+                        .frame(height: 500)
+                    VStack {
+                        Text("주간어쩌구 저쩌구")
+                        Text("주간어쩌구 저쩌구")
+                        Text("주간어쩌구 저쩌구")
+                        Text("주간어쩌구 저쩌구")
+                        Text("주간어쩌구 저쩌구")
+                        Text("주간어쩌구 저쩌구")
+                        Text("주간어쩌구 저쩌구")
+                    }
                 }
-                .frame(height: 20)
-                HStack {
-                    Text("주간 요약")
-                        .padding()
-                        .background(Color("BackgroundColor"))
-                        .cornerRadius(20)
-                    Spacer()
-                }
-                .padding(20)
+                .padding(.bottom, -420)
             }
+            .frame(height: 20)
         }
-        .ignoresSafeArea()
+//        .ignoresSafeArea()
     }
 }
 

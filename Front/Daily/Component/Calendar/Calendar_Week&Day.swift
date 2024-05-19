@@ -10,7 +10,7 @@ import SwiftUI
 struct Calendar_Week_Day: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @State var isLoading: Bool = true
+    @State var isShowWeeklySummary: Bool = false
     
     var body: some View {
         ZStack {
@@ -35,6 +35,12 @@ struct Calendar_Week_Day: View {
             .background(Color("ThemeColor"))
             AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
             WeeklySummary()
+                .padding(.bottom, isShowWeeklySummary ? 400 : -20)
+                .onTapGesture {
+                    withAnimation {
+                        isShowWeeklySummary.toggle()
+                    }
+                }
         }
     }
 }

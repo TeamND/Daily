@@ -10,7 +10,6 @@ import SwiftUI
 struct Calendar_Month: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @State var isLoading: Bool = true
     
     var body: some View {
         let startDayIndex = calendarViewModel.startDayIndex(userInfoViewModel: userInfoViewModel)
