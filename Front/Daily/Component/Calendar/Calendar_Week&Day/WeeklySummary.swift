@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct WeeklySummary: View {
+    
     var body: some View {
         VStack {
             Spacer()
             HStack {
-                Text("주간 요약")
-                    .padding()
-                    .background(Color("BackgroundColor"))
-                    .cornerRadius(20)
+                VStack(spacing: 0) {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.primary.opacity(0.3))
+                        .frame(width: CGFloat.fontSize * 5, height: CGFloat.fontSize * 0.8)
+                        .padding(CGFloat.fontSize)
+                    Text("주간 요약")
+                }
+                .padding(.horizontal, CGFloat.fontSize * 3)
+                .padding(.bottom, CGFloat.fontSize * 3)
+                .background(Color("BackgroundColor"))
+                .cornerRadius(20)
                 Spacer()
             }
             .padding(.horizontal, 20)
@@ -39,7 +47,7 @@ struct WeeklySummary: View {
             }
             .frame(height: 20)
         }
-//        .ignoresSafeArea()
+        .padding(.bottom, 400)
     }
 }
 

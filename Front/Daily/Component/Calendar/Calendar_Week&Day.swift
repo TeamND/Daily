@@ -11,6 +11,7 @@ struct Calendar_Week_Day: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @State var isShowWeeklySummary: Bool = false
+    @GestureState private var translation: CGFloat = 0
     
     var body: some View {
         ZStack {
@@ -35,12 +36,30 @@ struct Calendar_Week_Day: View {
             .background(Color("ThemeColor"))
             AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
             WeeklySummary()
-                .padding(.bottom, isShowWeeklySummary ? 400 : -20)
+                .padding(.bottom, isShowWeeklySummary ? 0 : -420)
                 .onTapGesture {
                     withAnimation {
                         isShowWeeklySummary.toggle()
                     }
                 }
+                .offset(y: self.translation < -200 ? -200 : self.translation)
+                .animation(.interpolatingSpring, value: translation)
+                .highPriorityGesture(
+                    DragGesture(minimumDistance: CGFloat.fontSize).updating(self.$translation) { value, state, _ in
+                        state = value.translation.height
+                    }.onEnded { value in
+                        if value.translation.height < -50 {
+                            withAnimation {
+                                isShowWeeklySummary = true
+                            }
+                        }
+                        if value.translation.height > 50 {
+                            withAnimation {
+                                isShowWeeklySummary = false
+                            }
+                        }
+                    }
+                )
         }
     }
 }
