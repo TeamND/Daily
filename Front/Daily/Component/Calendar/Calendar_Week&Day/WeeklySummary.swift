@@ -33,15 +33,21 @@ struct WeeklySummary: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color("BackgroundColor"))
                         .frame(height: 500)
-                    VStack {
-                        Text("주간어쩌구 저쩌구")
-                        Text("주간어쩌구 저쩌구")
-                        Text("주간어쩌구 저쩌구")
-                        Text("주간어쩌구 저쩌구")
-                        Text("주간어쩌구 저쩌구")
-                        Text("주간어쩌구 저쩌구")
-                        Text("주간어쩌구 저쩌구")
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("이번 주 목표 달성률 : ")
+                            Spacer()
+                            Text("80%")
+                        }
+                        Text("")
+                        HStack {
+                            Text(" - ")
+                            Text("적당히 열심히 살자")
+                        }
+                        Spacer()
                     }
+                    .font(.title2)
+                    .padding(CGFloat.fontSize * 10)
                 }
                 .padding(.bottom, -420)
             }

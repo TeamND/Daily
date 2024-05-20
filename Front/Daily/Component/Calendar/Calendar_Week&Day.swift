@@ -42,7 +42,7 @@ struct Calendar_Week_Day: View {
                         isShowWeeklySummary.toggle()
                     }
                 }
-                .offset(y: self.translation < -200 ? -200 : self.translation)
+                .offset(y: !isShowWeeklySummary && self.translation < -200 ? -200 : isShowWeeklySummary && self.translation < 0 ? 0 :self.translation)
                 .animation(.interpolatingSpring, value: translation)
                 .highPriorityGesture(
                     DragGesture(minimumDistance: CGFloat.fontSize).updating(self.$translation) { value, state, _ in
