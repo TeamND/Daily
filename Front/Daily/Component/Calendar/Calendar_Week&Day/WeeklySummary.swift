@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Charts
 
 struct WeeklySummary: View {
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack {
@@ -33,13 +35,37 @@ struct WeeklySummary: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color("BackgroundColor"))
                         .frame(height: 500)
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: CGFloat.fontSize) {
                         HStack {
                             Text("이번 주 목표 달성률 : ")
                             Spacer()
                             Text("80%")
                         }
-                        Text("")
+                        Section {
+//                            Chart(calendarViewModel.ratingOnWeek) { item in
+//                                LineMark(
+//                                    x: .value("Day", item.day),
+//                                    y: .value("Weight", item.weight)
+//                                )
+//        //                        .interpolationMethod(.catmullRom)
+//        //                        .foregroundStyle(by: .value("Day", item.day))
+//                                .symbol {
+//                                    Circle()
+//                                        .fill(.yellow)
+//                                        .frame(width: 10)
+//                                        .shadow(radius: 2)
+//                                }
+//                                .lineStyle(.init(lineWidth: 5))
+//        //                                            .lineStyle(StrokeStyle(lineWidth: 10))
+//        //                                            .symbol(by: .value("Day", item.day))
+//        //                                            .interpolationMethod(.catmullRom)
+//        //                                            .interpolationMethod(.stepEnd)
+//                                .annotation(position: .overlay, alignment: .top) {
+//                                    Text("\(Int(item.weight))")
+//                                }
+//                            }
+//                            .frame(height: 200)
+                        }
                         HStack {
                             Text(" - ")
                             Text("적당히 열심히 살자")
@@ -47,7 +73,8 @@ struct WeeklySummary: View {
                         Spacer()
                     }
                     .font(.title2)
-                    .padding(CGFloat.fontSize * 10)
+                    .padding(.top, CGFloat.fontSize * 5)
+                    .padding(CGFloat.fontSize * 5)
                 }
                 .padding(.bottom, -420)
             }
@@ -58,5 +85,5 @@ struct WeeklySummary: View {
 }
 
 #Preview {
-    WeeklySummary()
+    WeeklySummary(calendarViewModel: CalendarViewModel())
 }
