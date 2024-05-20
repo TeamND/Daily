@@ -324,7 +324,7 @@ extension CGFloat {
 
 let symbols: [String: String] = [
     "체크" : "checkmark.circle",
-    "운동" : "dubbell",
+    "운동" : "dumbbell",
     "런닝" : "figure.run.circle",
     "공부" : "book",
     "키보드" : "keyboard",
