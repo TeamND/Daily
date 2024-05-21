@@ -35,38 +35,38 @@ struct Calendar_Week_Day: View {
             }
             .background(Color("ThemeColor"))
             AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
-//            WeeklySummary(calendarViewModel: calendarViewModel)
-//                .padding(.bottom, isShowWeeklySummary ? 0 : -420)
-//                .onTapGesture {
-//                    withAnimation {
-//                        isShowWeeklySummary.toggle()
-//                    }
-//                }
-//                .offset(y: !isShowWeeklySummary && self.translation < -200 ? -200 : isShowWeeklySummary && self.translation < 0 ? 0 :self.translation)
-//                .animation(.interpolatingSpring, value: translation)
-//                .highPriorityGesture(
-//                    DragGesture(minimumDistance: CGFloat.fontSize).updating(self.$translation) { value, state, _ in
-//                        state = value.translation.height
-//                    }.onEnded { value in
-//                        if value.translation.height < -50 {
-//                            withAnimation {
-//                                isShowWeeklySummary = true
-//                            }
-//                        }
-//                        if value.translation.height > 50 {
-//                            withAnimation {
-//                                isShowWeeklySummary = false
-//                            }
-//                        }
-//                    }
-//                )
+            WeeklySummary(calendarViewModel: calendarViewModel)
+                .padding(.bottom, isShowWeeklySummary ? 0 : -420)
+                .onTapGesture {
+                    withAnimation {
+                        isShowWeeklySummary.toggle()
+                    }
+                }
+                .offset(y: !isShowWeeklySummary && self.translation < -200 ? -200 : isShowWeeklySummary && self.translation < 0 ? 0 :self.translation)
+                .animation(.interpolatingSpring, value: translation)
+                .highPriorityGesture(
+                    DragGesture(minimumDistance: CGFloat.fontSize).updating(self.$translation) { value, state, _ in
+                        state = value.translation.height
+                    }.onEnded { value in
+                        if value.translation.height < -50 {
+                            withAnimation {
+                                isShowWeeklySummary = true
+                            }
+                        }
+                        if value.translation.height > 50 {
+                            withAnimation {
+                                isShowWeeklySummary = false
+                            }
+                        }
+                    }
+                )
         }
-//        .onTapGesture {
-//            if isShowWeeklySummary {
-//                withAnimation {
-//                    isShowWeeklySummary = false
-//                }
-//            }
-//        }
+        .onTapGesture {
+            if isShowWeeklySummary {
+                withAnimation {
+                    isShowWeeklySummary = false
+                }
+            }
+        }
     }
 }
