@@ -37,8 +37,14 @@
 - Handle network exception
 - Add version check logic
 
-24.05.14. ~
+24.05.14. ~ 24.05.20.
 
 [1.1.10 업데이트]
 - Modify Widget UI
 - Add network error case
+
+24.05.20. ~
+
+[1.1.11 업데이트]
+- Fix bug about symbol in widget
+- Modify the AddGoalButton to be visible even NoRecord case
