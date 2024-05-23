@@ -35,44 +35,40 @@ struct WeeklySummary: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color("BackgroundColor"))
                         .frame(height: 500)
-                    VStack(alignment: .leading, spacing: CGFloat.fontSize) {
+                    VStack(alignment: .leading, spacing: CGFloat.fontSize * 3) {
                         HStack {
                             Text("이번 주 목표 달성률 : ")
                             Spacer()
                             Text("80%")
                         }
                         Section {
-//                            Chart(calendarViewModel.ratingOnWeek) { item in
-//                                LineMark(
-//                                    x: .value("Day", item.day),
-//                                    y: .value("Weight", item.weight)
-//                                )
-//        //                        .interpolationMethod(.catmullRom)
-//        //                        .foregroundStyle(by: .value("Day", item.day))
-//                                .symbol {
-//                                    Circle()
-//                                        .fill(.yellow)
-//                                        .frame(width: 10)
-//                                        .shadow(radius: 2)
-//                                }
-//                                .lineStyle(.init(lineWidth: 5))
-//        //                                            .lineStyle(StrokeStyle(lineWidth: 10))
-//        //                                            .symbol(by: .value("Day", item.day))
-//        //                                            .interpolationMethod(.catmullRom)
-//        //                                            .interpolationMethod(.stepEnd)
-//                                .annotation(position: .overlay, alignment: .top) {
-//                                    Text("\(Int(item.weight))")
-//                                }
-//                            }
-//                            .frame(height: 200)
+                            Text("요일 별 목표 달성률 : ")
+                            Chart(calendarViewModel.ratingOnWeekForCharts) { item in
+                                LineMark(
+                                    x: .value("Day", item.day),
+                                    y: .value("Rating", item.rating)
+                                )
+                                .symbol {
+                                    Circle()
+                                        .fill(.primary)
+                                        .frame(width: 10)
+                                        .shadow(radius: 2)
+                                }
+                                .lineStyle(.init(lineWidth: 2))
+                                .annotation(position: .automatic, alignment: .center) {
+                                    Text("\(Int(item.rating))")
+                                        .font(.system(size: CGFloat.fontSize * 2))
+                                }
+                            }
+                            .frame(height: 200)
                         }
-                        HStack {
-                            Text(" - ")
-                            Text("적당히 열심히 살자")
-                        }
+//                        HStack {
+//                            Text(" - ")
+//                            Text("적당히 열심히 살자")
+//                        }
                         Spacer()
                     }
-                    .font(.title2)
+                    .font(.system(size: CGFloat.fontSize * 3))
                     .padding(.top, CGFloat.fontSize * 5)
                     .padding(CGFloat.fontSize * 5)
                 }
