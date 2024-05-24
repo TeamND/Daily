@@ -53,13 +53,19 @@ struct WeeklySummary: View {
                                         .fill(.primary)
                                         .frame(width: 10)
                                         .shadow(radius: 2)
+//                                        .overlay {
+//                                            Text("\(Int(item.rating))")
+//                                                .font(.system(size: CGFloat.fontSize * 2))
+//                                                .padding(item.rating > 50 ? .top :.bottom, CGFloat.fontSize * 4)
+//                                        }
                                 }
                                 .lineStyle(.init(lineWidth: 2))
-                                .annotation(position: .automatic, alignment: .center) {
-                                    Text("\(Int(item.rating))")
-                                        .font(.system(size: CGFloat.fontSize * 2))
-                                }
+//                                .annotation(position: .automatic, spacing: 10) {
+//                                    Text("\(Int(item.rating))")
+//                                        .font(.system(size: CGFloat.fontSize * 2))
+//                                }
                             }
+                            .foregroundStyle(.primary)
                             .frame(height: 200)
                         }
 //                        HStack {
