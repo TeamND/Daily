@@ -43,28 +43,28 @@ struct WeeklySummary: View {
                         }
                         Section {
                             Text("요일 별 목표 달성률 : ")
-                            Chart(calendarViewModel.ratingOnWeekForCharts) { item in
-                                LineMark(
-                                    x: .value("Day", item.day),
-                                    y: .value("Rating", item.rating)
-                                )
-                                .symbol {
-                                    Circle()
-                                        .fill(.primary)
-                                        .frame(width: 10)
-                                        .shadow(radius: 2)
-//                                        .overlay {
-//                                            Text("\(Int(item.rating))")
-//                                                .font(.system(size: CGFloat.fontSize * 2))
-//                                                .padding(item.rating > 50 ? .top :.bottom, CGFloat.fontSize * 4)
-//                                        }
+                            Chart {
+                                ForEach (calendarViewModel.ratingOnWeekForCharts) { date in
+                                    BarMark(
+                                        x: .value("Day", date.day),
+                                        y: .value("Rating", date.rating)
+                                    )
+                                    .opacity(0.3)
+                                    .annotation(position: .top, alignment: .center) {
+                                        Text(date.rating.percentFormat())
+                                            .font(.system(size: CGFloat.fontSize * 1.5))
+                                    }
+                                    RuleMark(
+                                        y: .value("Average", 30)
+                                    )
+                                    .lineStyle(StrokeStyle(lineWidth: 2))
+                                    .annotation(position: .top, alignment: .leading) {
+                                        Text(" 주 목표 달성률 평균 : 30%")
+                                            .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+                                    }
                                 }
-                                .lineStyle(.init(lineWidth: 2))
-//                                .annotation(position: .automatic, spacing: 10) {
-//                                    Text("\(Int(item.rating))")
-//                                        .font(.system(size: CGFloat.fontSize * 2))
-//                                }
                             }
+                            .chartYScale(domain: 0 ... 100)
                             .foregroundStyle(.primary)
                             .frame(height: 200)
                         }
