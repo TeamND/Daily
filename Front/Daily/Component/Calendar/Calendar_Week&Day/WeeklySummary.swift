@@ -55,11 +55,11 @@ struct WeeklySummary: View {
                                             .font(.system(size: CGFloat.fontSize * 1.5))
                                     }
                                     RuleMark(
-                                        y: .value("WeekRating", 30)
+                                        y: .value("RatingOfWeek", calendarViewModel.ratingOfWeek)
                                     )
                                     .lineStyle(StrokeStyle(lineWidth: 2))
                                     .annotation(position: .top, alignment: .leading) {
-                                        Text(" 이번 주 목표 달성률 : 30%")
+                                        Text(" 이번 주 목표 달성률 : \(Int(calendarViewModel.ratingOfWeek))%")
                                             .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                     }
                                 }

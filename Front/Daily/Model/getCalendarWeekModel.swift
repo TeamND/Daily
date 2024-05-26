@@ -21,8 +21,10 @@ struct getCalendarWeekModel: Codable {
 
 struct getCalendarWeekData: Codable {
     let rating: [Double]
+    let ratingOfWeek: Double
     
     init() {
         self.rating = []
+        self.ratingOfWeek = 0.0
     }
 }
