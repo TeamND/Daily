@@ -11,6 +11,12 @@ struct getCalendarMonthModel: Codable {
     let code: String
     let message: String
     let data: [dayOnMonthModel]
+    
+    init() {
+        self.code = "99"
+        self.message = "Network Error"
+        self.data = []
+    }
 }
 
 struct dayOnMonthModel: Codable {

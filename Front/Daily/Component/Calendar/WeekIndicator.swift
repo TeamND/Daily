@@ -11,6 +11,7 @@ struct WeekIndicator: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     var tapPurpose: String = ""
+    
     var body: some View {
         HStack(spacing: 0) {
             ForEach (userInfoViewModel.weeks.indices, id: \.self) { index in

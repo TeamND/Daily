@@ -43,6 +43,15 @@ class CalendarViewModel: ObservableObject {
     
     // MARK: - week
     @Published var ratingOnWeek: [Double] = Array(repeating: 0.0, count: 7)
+    @Published var ratingOnWeekForCharts: [RatingOnWeekModel] = [
+        RatingOnWeekModel(day: "일", rating: 0),
+        RatingOnWeekModel(day: "월", rating: 0),
+        RatingOnWeekModel(day: "화", rating: 0),
+        RatingOnWeekModel(day: "수", rating: 0),
+        RatingOnWeekModel(day: "목", rating: 0),
+        RatingOnWeekModel(day: "금", rating: 0),
+        RatingOnWeekModel(day: "토", rating: 0)
+        ]
     @Published var recordsOnWeek: [RecordModel] = []
     @Published var recordsOnWeekList: [[RecordModel]] = Array(repeating: [], count: listSize)
     
@@ -55,6 +64,9 @@ class CalendarViewModel: ObservableObject {
     func setRatingOnWeek(ratingOnWeek: [Double]) {
         DispatchQueue.main.async {
             self.ratingOnWeek = ratingOnWeek
+            for i in ratingOnWeek.indices{
+                self.ratingOnWeekForCharts[i].rating = ratingOnWeek[i] * 100
+            }
         }
     }
     func setDayOfRatingOnWeek(dayIndex: Int, dayOfRating: Double) {
@@ -95,9 +107,13 @@ class CalendarViewModel: ObservableObject {
             switch(state) {
             case "year":
                 getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: currentYear)) { (data) in
-                    self.setRatingOnYear(ratingOnYear: data.data)
-                    self.setCurrentState(state: state)
-                    self.setCurrentYear(year: currentYear)
+//                    if data.code == "00" {
+                        self.setRatingOnYear(ratingOnYear: data.data)
+                        self.setCurrentState(state: state)
+                        self.setCurrentYear(year: currentYear)
+//                    } else {
+//                        print("getCalendarYear error... code is \(data.code) = 99")
+//                    }
                 }
                 break
             case "month":
