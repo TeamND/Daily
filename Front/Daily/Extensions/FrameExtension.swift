@@ -93,94 +93,11 @@ extension View {
             }
         )
     }
-    
-// MARK: - Custom Popup
-    
-//    func popup(isPresented: Binding<Bool>) -> some View {
-//        if isPresented.wrappedValue {
-//            return PopupView
-//        }
-//        return self
-//    }
 }
 
 // MARK: - Keyboard
 extension View {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-
-// MARK: - NavigationBar
-extension View {
-    func calendarViewNavigationBar(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, navigationViewModel: NavigationViewModel, calendarState: String) -> some View {
-        self.navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle(
-                navigationViewModel.getNavigationBarTitle(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, calendarState: calendarState)
-            )
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack {
-                        Button {
-                            calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
-                        } label: {
-                            Image(systemName: "chevron.left")
-                        }
-                        if calendarState == "year" {
-                            Menu {
-                                ForEach(Date().year - 5 ... Date().year + 5, id: \.self) { year in
-                                    Button {
-                                        calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear(), userInfoViewModel: userInfoViewModel)
-                                    } label: {
-                                        Text("\(String(year)) 년")
-                                    }
-                                }
-                            } label: {
-                                Text(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel))
-                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        if calendarState == "month" {
-                            Menu {
-                                ForEach(1 ... 12, id:\.self) { month in
-                                    Button {
-                                        calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth(), userInfoViewModel: userInfoViewModel)
-                                    } label: {
-                                        Text("\(String(month)) 월")
-                                    }
-                                }
-                            } label: {
-                                Text(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel))
-                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        if calendarState == "day" {
-                            Menu {
-                                ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
-                                    Button {
-                                        calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay(), userInfoViewModel: userInfoViewModel)
-                                    } label: {
-                                        Text("\(String(day)) 일")
-                                    }
-                                }
-                            } label: {
-                                Text(calendarViewModel.getCurrentDayLabel(userInfoViewModel: userInfoViewModel))
-                                    .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        Button {
-                            calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
-                        } label: {
-                            Image(systemName: "chevron.right")
-                        }
-                    }
-                }
-            }
-            .navigationBarItems(trailing:
-                NavigationLink(value: "appInfo") { Image(systemName: "info.circle").font(.system(size: CGFloat.fontSize * 2.5)) }
-            )
     }
 }

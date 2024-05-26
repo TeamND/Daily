@@ -11,13 +11,10 @@ struct MainView: View {
     @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @StateObject var navigationViewModel: NavigationViewModel = NavigationViewModel()
     
     var body: some View {
-        NavigationStack(path: $navigationViewModel.currentPath) {
+        ZStack {
             CalendarView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
-                .navigationBarTitle("이전")
-                .navigationBarHidden(true)
                 .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                 .alert(isPresented: $alertViewModel.isShowAlert, content: {
                     Alert(
@@ -31,12 +28,12 @@ struct MainView: View {
                         )
                     )
                 })
+                .tint(Color("CustomColor"))
+                .accentColor(Color("CustomColor"))
         }
-        .tint(Color("CustomColor"))
-        .accentColor(Color("CustomColor"))
     }
 }
 
 #Preview {
-    MainView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+    MainView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel()).environmentObject(AlertViewModel())
 }
