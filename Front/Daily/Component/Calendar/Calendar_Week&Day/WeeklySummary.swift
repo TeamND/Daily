@@ -55,11 +55,11 @@ struct WeeklySummary: View {
                                             .font(.system(size: CGFloat.fontSize * 1.5))
                                     }
                                     RuleMark(
-                                        y: .value("Average", 30)
+                                        y: .value("WeekRating", 30)
                                     )
                                     .lineStyle(StrokeStyle(lineWidth: 2))
                                     .annotation(position: .top, alignment: .leading) {
-                                        Text(" 평균 : 30%")
+                                        Text(" 이번 주 목표 달성률 : 30%")
                                             .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                     }
                                 }
