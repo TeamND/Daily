@@ -119,11 +119,18 @@ class CalendarApi(Resource):
                     result.append(join_result[day])
                 else:
                     result.append(0)
-               
+            res = {"rating": result}   
+            
+            # 주간 평균 달성률
+            true_count = sum([1 if x[1] else 0 for x in join])
+            if true_count == 0 or len(join) == 0:
+                res["ratingOfWeek"] = float(0.0)
+            else:
+                res["ratingOfWeek"] = round(sum([1 if x[1] else 0 for x in join])/len(join),2)
             return {
                 'code': '00',
                 'message': '조회에 성공했습니다.',
-                'data': {"rating": result}
+                'data': res
             }, 00
         except Exception as e:
             return {
