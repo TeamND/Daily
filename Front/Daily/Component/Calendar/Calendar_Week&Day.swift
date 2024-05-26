@@ -35,6 +35,17 @@ struct Calendar_Week_Day: View {
             }
             .background(Color("ThemeColor"))
             AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+            Rectangle()
+                .fill(.black.opacity(0.5))
+                .opacity(isShowWeeklySummary ? 1 : 0)
+                .onTapGesture {
+                    if isShowWeeklySummary {
+                        withAnimation {
+                            isShowWeeklySummary = false
+                        }
+                    }
+                }
+                .highPriorityGesture(DragGesture())
             WeeklySummary(calendarViewModel: calendarViewModel)
                 .padding(.bottom, isShowWeeklySummary ? 0 : -420)
                 .onTapGesture {
@@ -60,13 +71,6 @@ struct Calendar_Week_Day: View {
                         }
                     }
                 )
-        }
-        .onTapGesture {
-            if isShowWeeklySummary {
-                withAnimation {
-                    isShowWeeklySummary = false
-                }
-            }
         }
     }
 }

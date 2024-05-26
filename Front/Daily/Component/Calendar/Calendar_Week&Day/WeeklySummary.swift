@@ -37,12 +37,12 @@ struct WeeklySummary: View {
                         .frame(height: 500)
                     VStack(alignment: .leading, spacing: CGFloat.fontSize * 3) {
                         HStack {
-                            Text("이번 주 목표 달성률 : ")
                             Spacer()
-                            Text("80%")
+                            Text("목표 달성률")
+                                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                            Spacer()
                         }
                         Section {
-                            Text("요일 별 목표 달성률 : ")
                             Chart {
                                 ForEach (calendarViewModel.ratingOnWeekForCharts) { date in
                                     BarMark(
@@ -59,7 +59,7 @@ struct WeeklySummary: View {
                                     )
                                     .lineStyle(StrokeStyle(lineWidth: 2))
                                     .annotation(position: .top, alignment: .leading) {
-                                        Text(" 주 목표 달성률 평균 : 30%")
+                                        Text(" 평균 : 30%")
                                             .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                     }
                                 }
