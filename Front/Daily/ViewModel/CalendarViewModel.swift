@@ -52,6 +52,7 @@ class CalendarViewModel: ObservableObject {
         RatingOnWeekModel(day: "금", rating: 0),
         RatingOnWeekModel(day: "토", rating: 0)
         ]
+    @Published var ratingOfWeek: Double = 0.0
     @Published var recordsOnWeek: [RecordModel] = []
     @Published var recordsOnWeekList: [[RecordModel]] = Array(repeating: [], count: listSize)
     
@@ -61,12 +62,13 @@ class CalendarViewModel: ObservableObject {
     func getDayOfRatingOnWeek(dayIndex: Int) -> Double {
         return self.ratingOnWeek[dayIndex]
     }
-    func setRatingOnWeek(ratingOnWeek: [Double]) {
+    func setRatingOnWeek(ratingOnWeek: [Double], ratingOfWeek: Double) {
         DispatchQueue.main.async {
             self.ratingOnWeek = ratingOnWeek
             for i in ratingOnWeek.indices{
                 self.ratingOnWeekForCharts[i].rating = ratingOnWeek[i] * 100
             }
+            self.ratingOfWeek = ratingOfWeek * 100
         }
     }
     func setDayOfRatingOnWeek(dayIndex: Int, dayOfRating: Double) {
@@ -135,7 +137,7 @@ class CalendarViewModel: ObservableObject {
                 let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: currentDate)!
                 if self.currentStartDay != startDate.day {
                     getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.getStringFormatOfDate(year: startDate.year, month: startDate.month, day: startDate.day)) { (data) in
-                        self.setRatingOnWeek(ratingOnWeek: data.data.rating)
+                        self.setRatingOnWeek(ratingOnWeek: data.data.rating, ratingOfWeek: data.data.ratingOfWeek)
                         self.setCurrentStartDay(startDay: startDate.day)
                     }
                 }
@@ -267,7 +269,7 @@ class CalendarViewModel: ObservableObject {
             let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: changedDay)!
             if self.currentStartDay != startDate.day || amount == 0 {
                 getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.getStringFormatOfDate(year: startDate.year, month: startDate.month, day: startDate.day)) { (data) in
-                    self.setRatingOnWeek(ratingOnWeek: data.data.rating)
+                    self.setRatingOnWeek(ratingOnWeek: data.data.rating, ratingOfWeek: data.data.ratingOfWeek)
                     self.setCurrentStartDay(startDay: startDate.day)
                 }
             }
