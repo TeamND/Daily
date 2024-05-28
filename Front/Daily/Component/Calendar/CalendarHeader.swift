@@ -10,7 +10,6 @@ import SwiftUI
 struct CalendarHeader: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @Namespace var NS
     
     var body: some View {
         ZStack {
@@ -26,7 +25,6 @@ struct CalendarHeader: View {
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
                     .padding(CGFloat.fontSize)
-                    .matchedGeometryEffect(id: "year", in: NS)
                 }
                 if calendarViewModel.getCurrentState() == "week" {
                     Button {
@@ -38,7 +36,6 @@ struct CalendarHeader: View {
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
                     .padding(CGFloat.fontSize)
-                    .matchedGeometryEffect(id: "month", in: NS)
                 }
                 Spacer()
             }
@@ -64,7 +61,6 @@ struct CalendarHeader: View {
                             .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
-                    .matchedGeometryEffect(id: "year", in: NS)
                 }
                 if calendarViewModel.getCurrentState() == "month" {
                     Menu {
@@ -80,7 +76,6 @@ struct CalendarHeader: View {
                             .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
-                    .matchedGeometryEffect(id: "month", in: NS)
                 }
                 if calendarViewModel.getCurrentState() == "week" {
                     Menu {
@@ -96,7 +91,6 @@ struct CalendarHeader: View {
                             .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                             .foregroundColor(.primary)
                     }
-                    .matchedGeometryEffect(id: "week", in: NS)
                 }
                 Button {
                     calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
@@ -108,6 +102,7 @@ struct CalendarHeader: View {
             // trailing
             HStack(spacing: 0) {
                 Spacer()
+                
                 NavigationLink {
                     AppInfoView()
                 } label: {
