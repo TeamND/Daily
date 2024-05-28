@@ -47,7 +47,7 @@ struct Calendar_Week_Day: View {
                 }
                 .highPriorityGesture(DragGesture())
             WeeklySummary(calendarViewModel: calendarViewModel)
-                .padding(.bottom, isShowWeeklySummary ? 0 : -420)
+                .padding(.bottom, isShowWeeklySummary ? 0 : -320)
                 .onTapGesture {
                     withAnimation {
                         isShowWeeklySummary.toggle()

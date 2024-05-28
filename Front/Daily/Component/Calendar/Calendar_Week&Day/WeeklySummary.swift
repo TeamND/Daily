@@ -21,6 +21,7 @@ struct WeeklySummary: View {
                         .frame(width: CGFloat.fontSize * 5, height: CGFloat.fontSize * 0.8)
                         .padding(CGFloat.fontSize)
                     Text("주간 요약")
+                        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }
                 .padding(.horizontal, CGFloat.fontSize * 3)
                 .padding(.bottom, CGFloat.fontSize * 3)
@@ -35,14 +36,10 @@ struct WeeklySummary: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color("BackgroundColor"))
                         .frame(height: 500)
-                    VStack(alignment: .leading, spacing: CGFloat.fontSize * 3) {
-                        HStack {
-                            Spacer()
+                    VStack(alignment: .center, spacing: CGFloat.fontSize * 3) {
+                        Section {
                             Text("목표 달성률")
                                 .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                            Spacer()
-                        }
-                        Section {
                             Chart {
                                 ForEach (calendarViewModel.ratingOnWeekForCharts) { date in
                                     BarMark(
@@ -59,7 +56,7 @@ struct WeeklySummary: View {
                                     )
                                     .lineStyle(StrokeStyle(lineWidth: 2))
                                     .annotation(position: .top, alignment: .leading) {
-                                        Text(" 이번 주 목표 달성률 : \(Int(calendarViewModel.ratingOfWeek))%")
+                                        Text(" 주간 달성률 : \(Int(calendarViewModel.ratingOfWeek))%")
                                             .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                     }
                                 }
@@ -68,10 +65,6 @@ struct WeeklySummary: View {
                             .foregroundStyle(.primary)
                             .frame(height: 200)
                         }
-//                        HStack {
-//                            Text(" - ")
-//                            Text("적당히 열심히 살자")
-//                        }
                         Spacer()
                     }
                     .font(.system(size: CGFloat.fontSize * 3))
@@ -82,7 +75,7 @@ struct WeeklySummary: View {
             }
             .frame(height: 20)
         }
-        .padding(.bottom, 400)
+        .padding(.bottom, 300)
     }
 }
 

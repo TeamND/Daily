@@ -19,8 +19,7 @@ extension CGFloat {
     static let monthOnYearHeight = screenHeight / 6
     static let dayOnMonthWidth = screenWidth / 7
     
-    static let fontSizeForiPhone15 = 6 * screenWidth / 393 // 6.7 iPhone 기준
-    static let fontSize = UIDevice.current.model == "iPhone" ? fontSizeForiPhone15 : fontSizeForiPhone15 / 2
+    static let fontSize = 6 * screenWidth / 393 // 6.7 iPhone 기준
 }
 
 // MARK: - Frame Modifier
