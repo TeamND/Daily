@@ -103,7 +103,9 @@ struct CalendarHeader: View {
             HStack(spacing: 0) {
                 Spacer()
                 Button {
+                    // 추후 동기화 작업이 필요
                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date())
+                    calendarViewModel.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel)
                 } label: {
                     Text("\(Date().year % 100)/\(Date().month)/\(Date().day)")
                         .padding(CGFloat.fontSize)
