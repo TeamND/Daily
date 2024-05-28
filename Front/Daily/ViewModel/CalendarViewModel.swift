@@ -244,7 +244,7 @@ class CalendarViewModel: ObservableObject {
         switch(self.currentState) {
         case "year":
             self.resetRatingOnYear()
-            changedDay = cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
+            changedDay = targetDate ?? cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
             getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: changedDay.year)) { (data) in
                 self.setRatingOnYear(ratingOnYear: data.data)
                 self.changeDay(changedDay: changedDay)
@@ -252,7 +252,7 @@ class CalendarViewModel: ObservableObject {
             break
         case "month":
             self.resetDaysOnMonth()
-            changedDay = cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
+            changedDay = targetDate ?? cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
             getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month)) { (data) in
                 self.setDaysOnMonth(daysOnMonth: data.data)
                 self.changeDay(changedDay: changedDay)
