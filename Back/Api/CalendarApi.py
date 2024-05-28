@@ -123,10 +123,12 @@ class CalendarApi(Resource):
             
             # 주간 평균 달성률
             true_count = sum([1 if x[1] else 0 for x in join])
-            if true_count == 0 or len(join) == 0:
+            total_count = sum([x[2] for x in join])
+            
+            if true_count == 0 or total_count == 0 or len(join) == 0:
                 res["ratingOfWeek"] = float(0.0)
             else:
-                res["ratingOfWeek"] = round(sum([1 if x[1] else 0 for x in join])/len(join),2)
+                res["ratingOfWeek"] = round(true_count/total_count,2)
             return {
                 'code': '00',
                 'message': '조회에 성공했습니다.',
