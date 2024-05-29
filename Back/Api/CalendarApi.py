@@ -122,7 +122,7 @@ class CalendarApi(Resource):
             res = {"rating": result}   
             
             # 주간 평균 달성률
-            true_count = sum([1 if x[1] else 0 for x in join])
+            true_count = sum([x[2] if x[1] else 0 for x in join])
             total_count = sum([x[2] for x in join])
             
             if true_count == 0 or total_count == 0 or len(join) == 0:
