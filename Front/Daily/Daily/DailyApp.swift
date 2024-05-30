@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct DailyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @State var isLoading: Bool = true
     @StateObject var userInfoViewModel: UserInfoViewModel = UserInfoViewModel()
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()

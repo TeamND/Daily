@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F603C60D2C071F4C009F6F8A /* UNUserNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F603C60C2C071F4C009F6F8A /* UNUserNotificationCenter.swift */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFF82BC2785800C35948 /* modifyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */; };
@@ -63,6 +64,8 @@
 		F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */; };
 		F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */; };
 		F6D9F72A2C01A19A00600458 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F7292C01A19A00600458 /* DoubleExtension.swift */; };
+		F6D9F72E2C06DD7900600458 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72D2C06DD7900600458 /* AppDelegate.swift */; };
+		F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */; };
 		F6DF64AE2BAFC7F400A17B9E /* getCalendarYearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64AD2BAFC7F400A17B9E /* getCalendarYearModel.swift */; };
 		F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */; };
 		F6DF64B22BAFCDB500A17B9E /* MonthOnYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64B12BAFCDB500A17B9E /* MonthOnYear.swift */; };
@@ -111,6 +114,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F603C60C2C071F4C009F6F8A /* UNUserNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNUserNotificationCenter.swift; sourceTree = "<group>"; };
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFF72BC2785800C35948 /* modifyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordModel.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 		F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekIndicator.swift; sourceTree = "<group>"; };
 		F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingOnWeekModel.swift; sourceTree = "<group>"; };
 		F6D9F7292C01A19A00600458 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		F6D9F72D2C06DD7900600458 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoticeManager.swift; sourceTree = "<group>"; };
 		F6DF64AD2BAFC7F400A17B9E /* getCalendarYearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCalendarYearModel.swift; sourceTree = "<group>"; };
 		F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		F6DF64B12BAFCDB500A17B9E /* MonthOnYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthOnYear.swift; sourceTree = "<group>"; };
@@ -398,6 +404,8 @@
 				F6EC3D172BDCC34400FAB502 /* DateExtension.swift */,
 				F6EC3D242BE363A800FAB502 /* IntExtension.swift */,
 				F6D9F7292C01A19A00600458 /* DoubleExtension.swift */,
+				F6D9F72D2C06DD7900600458 /* AppDelegate.swift */,
+				F603C60C2C071F4C009F6F8A /* UNUserNotificationCenter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -409,6 +417,7 @@
 				F6CC159F2BA1E1CA00689A02 /* JSONConverter.swift */,
 				F6CC15A12BA1E39A00689A02 /* NetworkManager.swift */,
 				F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */,
+				F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -665,6 +674,7 @@
 				F6CC15C22BAD5ACA00689A02 /* FrameExtension.swift in Sources */,
 				F6D9F72A2C01A19A00600458 /* DoubleExtension.swift in Sources */,
 				F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */,
+				F6D9F72E2C06DD7900600458 /* AppDelegate.swift in Sources */,
 				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
@@ -681,7 +691,9 @@
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6CC15AC2BA459EA00689A02 /* getUserInfoModel.swift in Sources */,
 				F6C0F7FB2917DDB600984457 /* Calendar_Year.swift in Sources */,
+				F603C60D2C071F4C009F6F8A /* UNUserNotificationCenter.swift in Sources */,
 				F6CC15922B9C91E200689A02 /* AppInfoView.swift in Sources */,
+				F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */,
 				F6CC15AA2BA4598700689A02 /* UserInfoModel.swift in Sources */,
 				F6EC3D1D2BE0D2FC00FAB502 /* RecordProgressBar.swift in Sources */,
 				F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */,

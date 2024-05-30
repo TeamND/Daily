@@ -106,14 +106,18 @@ struct CalendarHeader: View {
                     // 추후 동기화 작업이 필요
                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date())
                     calendarViewModel.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel)
+//                    PushNoticeManager().addCalendarNoti()
                 } label: {
-                    Text("\(Date().year % 100)/\(Date().month)/\(Date().day)")
-                        .padding(CGFloat.fontSize)
-                        .font(.system(size: CGFloat.fontSize * 2.5))
-                        .foregroundStyle(.primary)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.primary, lineWidth: 1))
+                    HStack(spacing: CGFloat.fontSize / 2) {
+                        Text("오늘")
+                        Image(systemName: "chevron.right")
+                    }
+                    .padding(CGFloat.fontSize * 1.5)
+                    .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+                    .foregroundStyle(.primary)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(.primary, lineWidth: 1))
                 }
                 .tint(.primary)
                 .accentColor(.primary)
