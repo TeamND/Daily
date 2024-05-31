@@ -51,19 +51,26 @@ struct WeeklySummary: View {
                                         Text(date.rating.percentFormat())
                                             .font(.system(size: CGFloat.fontSize * 1.5))
                                     }
-                                    RuleMark(
-                                        y: .value("RatingOfWeek", calendarViewModel.ratingOfWeek)
-                                    )
-                                    .lineStyle(StrokeStyle(lineWidth: 2))
-                                    .annotation(position: .top, alignment: .leading) {
-                                        Text(" 주간 달성률 : \(Int(calendarViewModel.ratingOfWeek))%")
-                                            .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+                                    if calendarViewModel.ratingOfWeek > 0 {
+                                        RuleMark(
+                                            y: .value("RatingOfWeek", calendarViewModel.ratingOfWeek)
+                                        )
+                                        .lineStyle(StrokeStyle(lineWidth: 2))
+                                        .annotation(position: .top, alignment: .leading) {
+                                            Text(" 주간 달성률 : \(Int(calendarViewModel.ratingOfWeek))%")
+                                                .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+                                        }
                                     }
                                 }
                             }
                             .chartYScale(domain: 0 ... 100)
                             .foregroundStyle(.primary)
                             .frame(height: 200)
+                        }
+                        HStack {
+                            Spacer()
+                            Text("* 오늘 이후의 목표는 주간 달성률에 포함되지 않습니다.")
+                                .font(.system(size: CGFloat.fontSize * 1.5))
                         }
                         Spacer()
                     }
