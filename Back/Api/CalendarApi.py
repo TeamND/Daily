@@ -98,6 +98,8 @@ class CalendarApi(Resource):
                     .group_by(Record.date,Record.issuccess).order_by(Record.date).all()
             
             join_result = {}
+            true_count = 0
+            total_count = 0
             for k in join:
                 
                 # 목표가 성공 실패 둘다 있는경우
@@ -112,6 +114,12 @@ class CalendarApi(Resource):
                         join_result[k[0]] = 0
                         temp = k[2]
             
+                # 주간 달성률
+                if k[0] <= datetime.datetime.now().strftime('%Y-%m-%d'):
+                    total_count += k[2]
+                    if k[1]:
+                        true_count += k[2]
+
             # 주간 일달성률 할당        
             result = []
             for day in days:
@@ -120,10 +128,6 @@ class CalendarApi(Resource):
                 else:
                     result.append(0)
             res = {"rating": result}   
-            
-            # 주간 평균 달성률
-            true_count = sum([x[2] if x[1] else 0 for x in join])
-            total_count = sum([x[2] for x in join])
             
             if true_count == 0 or total_count == 0 or len(join) == 0:
                 res["ratingOfWeek"] = float(0.0)
