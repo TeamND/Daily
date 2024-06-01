@@ -67,10 +67,12 @@ struct WeeklySummary: View {
                             .foregroundStyle(.primary)
                             .frame(height: 200)
                         }
-                        HStack {
-                            Spacer()
-                            Text("* 오늘 이후의 목표는 주간 달성률에 포함되지 않습니다.")
-                                .font(.system(size: CGFloat.fontSize * 1.5))
+                        if calendarViewModel.ratingOfWeek > 0 {
+                            HStack {
+                                Spacer()
+                                Text("* 오늘 이후의 목표는 주간 달성률 계산에 포함되지 않습니다.")
+                                    .font(.system(size: CGFloat.fontSize * 1.5))
+                            }
                         }
                         Spacer()
                     }
