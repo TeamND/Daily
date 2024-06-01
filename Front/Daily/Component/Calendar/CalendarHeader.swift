@@ -106,7 +106,6 @@ struct CalendarHeader: View {
                     // 추후 동기화 작업이 필요
                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date())
                     calendarViewModel.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel)
-//                    PushNoticeManager().addCalendarNoti()
                 } label: {
                     HStack(spacing: CGFloat.fontSize / 2) {
                         Text("오늘")

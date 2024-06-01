@@ -25,9 +25,7 @@ extension UNUserNotificationCenter {
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         
         self.add(request) { error in
-            if let error = error {
-                print("notification error is \(error)")
-            }
+            if let error = error { print("notification error is \(error)") }
         }
     }
 }
