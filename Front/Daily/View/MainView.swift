@@ -33,11 +33,6 @@ struct MainView: View {
         }
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
-//        .onAppear {
-//            print("mainView onAppear")
-//            PushNoticeManager().viewAppear()
-//            PushNoticeManager().deleteBadgeNumber()
-//        }
     }
 }
 

@@ -14,6 +14,7 @@ struct InitView: View {
     @State var isShowAlert: Bool = false
     @State var isShowTerminateAlert: Bool = false
     @State var isShowOpenStoreAlert: Bool = false
+    @State var isShowOpenSettingAlert: Bool = false
     
     var body: some View {
         VStack(spacing: 40) {
@@ -25,6 +26,7 @@ struct InitView: View {
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
         }
         .onAppear {
+            print("appear")
             System().getStoreVersion() { storeVersion in
                 let storeVersion = storeVersion.split(separator: ".").map {$0}
                 let appVersion = System.appVersion!.split(separator: ".").map {$0}
@@ -38,8 +40,16 @@ struct InitView: View {
                                 userInfoViewModel.setUserInfo(userInfo: data.data)
                                 calendarViewModel.setCurrentState(state: userInfoViewModel.userInfo.set_calendarstate, year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
                                 
+                                PushNoticeManager().requestNotiAuthorization() { isShowAlert in
+                                    if isShowAlert {
+                                        self.isShowAlert = isShowAlert
+                                        self.isShowOpenSettingAlert = isShowAlert
+                                    }
+                                }
                                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-                                    isLoading = false
+                                    if !isShowAlert {
+                                        isLoading = false
+                                    }
                                 }
                             }
                         } else {
@@ -64,17 +74,36 @@ struct InitView: View {
                     )
                 )
             } else {
-                Alert(
-                    title: Text("업데이트가 필요합니다."),
-                    message: Text("업데이트 이후 사용해주세요"),
-                    dismissButton: .default(
-                        Text("확인"),
-                        action: {
-                            isShowOpenStoreAlert = false
-                            System().openAppStore()
-                        }
+                if isShowOpenStoreAlert {
+                    Alert(
+                        title: Text("업데이트가 필요합니다."),
+                        message: Text("업데이트 이후 사용해주세요"),
+                        dismissButton: .default(
+                            Text("확인"),
+                            action: {
+                                isShowOpenStoreAlert = false
+                                System().openAppStore()
+                            }
+                        )
                     )
-                )
+                } else {
+                    Alert(
+                        title: Text("알림 설정이 꺼져있습니다."),
+                        message: Text("Daily의 알림을 받아보세요"),
+                        primaryButton: .default(
+                            Text("설정으로 이동"), action: {
+                                isShowOpenSettingAlert = false
+                                PushNoticeManager().openSettingApp()
+                        }),
+                        secondaryButton: .destructive(
+                            Text("다음에 하기"),
+                            action: {
+                                isShowOpenSettingAlert = false
+                                isLoading = false
+                            }
+                        )
+                    )
+                }
             }
         })
     }

@@ -16,7 +16,7 @@ extension UNUserNotificationCenter {
         content.title = title
         content.body = body
         content.sound = .default
-        content.badge = 1
+//        content.badge = 1
         
         // trigger 만들기
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)

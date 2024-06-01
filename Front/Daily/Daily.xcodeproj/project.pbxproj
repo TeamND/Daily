@@ -64,7 +64,6 @@
 		F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */; };
 		F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */; };
 		F6D9F72A2C01A19A00600458 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F7292C01A19A00600458 /* DoubleExtension.swift */; };
-		F6D9F72E2C06DD7900600458 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72D2C06DD7900600458 /* AppDelegate.swift */; };
 		F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */; };
 		F6DF64AE2BAFC7F400A17B9E /* getCalendarYearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64AD2BAFC7F400A17B9E /* getCalendarYearModel.swift */; };
 		F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */; };
@@ -174,7 +173,6 @@
 		F6D0623D2925ACDA00B825EF /* WeekIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekIndicator.swift; sourceTree = "<group>"; };
 		F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingOnWeekModel.swift; sourceTree = "<group>"; };
 		F6D9F7292C01A19A00600458 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
-		F6D9F72D2C06DD7900600458 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoticeManager.swift; sourceTree = "<group>"; };
 		F6DF64AD2BAFC7F400A17B9E /* getCalendarYearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCalendarYearModel.swift; sourceTree = "<group>"; };
 		F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -404,7 +402,6 @@
 				F6EC3D172BDCC34400FAB502 /* DateExtension.swift */,
 				F6EC3D242BE363A800FAB502 /* IntExtension.swift */,
 				F6D9F7292C01A19A00600458 /* DoubleExtension.swift */,
-				F6D9F72D2C06DD7900600458 /* AppDelegate.swift */,
 				F603C60C2C071F4C009F6F8A /* UNUserNotificationCenter.swift */,
 			);
 			path = Extensions;
@@ -674,7 +671,6 @@
 				F6CC15C22BAD5ACA00689A02 /* FrameExtension.swift in Sources */,
 				F6D9F72A2C01A19A00600458 /* DoubleExtension.swift in Sources */,
 				F6699B962BC70D4400B1FDA7 /* SymbolPickerGroup.swift in Sources */,
-				F6D9F72E2C06DD7900600458 /* AppDelegate.swift in Sources */,
 				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
@@ -872,7 +868,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.1.12;
+				MARKETING_VERSION = 1.1.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -917,7 +913,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.1.12;
+				MARKETING_VERSION = 1.1.13;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
