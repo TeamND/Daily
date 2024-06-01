@@ -31,13 +31,14 @@ class PushNoticeManager {
     
     func removeAllNoti() {
         print("removeAllNoti")
+        self.deleteBadgeNumber()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
-//    func deleteBadgeNumber() {
-//        UNUserNotificationCenter.current().setBadgeCount(0)
-//    }
+    func deleteBadgeNumber() {
+        UNUserNotificationCenter.current().setBadgeCount(0)
+    }
     
     func requestNotiAuthorization(completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
