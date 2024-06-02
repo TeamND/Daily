@@ -11,6 +11,7 @@ struct InitView: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var isLoading: Bool
+    @State var subTitleText: String = "Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!"
     @State var isShowAlert: Bool = false
     @State var isShowTerminateAlert: Bool = false
     @State var isShowOpenStoreAlert: Bool = false
@@ -22,7 +23,7 @@ struct InitView: View {
                 .resizable()
                 .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
                 .foregroundColor(Color("CustomColor"))
-            Text("Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!")
+            Text(subTitleText)
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
         }
         .onAppear {
@@ -83,9 +84,7 @@ struct InitView: View {
                             action: {
                                 isShowOpenStoreAlert = false
                                 System().openAppStore()
-                                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-                                    isLoading = false
-                                }
+                                subTitleText = "업데이트 이후 사용해주세요"
                             }
                         )
                     )
@@ -94,12 +93,13 @@ struct InitView: View {
                         title: Text("알림 설정이 꺼져있습니다."),
                         message: Text("Daily의 알림을 받아보세요"),
                         primaryButton: .default(
-                            Text("설정으로 이동"), action: {
+                            Text("설정으로 이동"),
+                            action: {
                                 isShowOpenSettingAlert = false
                                 PushNoticeManager().openSettingApp()
                                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                                     isLoading = false
-                                }
+                            }
                         }),
                         secondaryButton: .destructive(
                             Text("다음에 하기"),
