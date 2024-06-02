@@ -83,6 +83,9 @@ struct InitView: View {
                             action: {
                                 isShowOpenStoreAlert = false
                                 System().openAppStore()
+                                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                                    isLoading = false
+                                }
                             }
                         )
                     )
@@ -94,6 +97,9 @@ struct InitView: View {
                             Text("설정으로 이동"), action: {
                                 isShowOpenSettingAlert = false
                                 PushNoticeManager().openSettingApp()
+                                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                                    isLoading = false
+                                }
                         }),
                         secondaryButton: .destructive(
                             Text("다음에 하기"),
