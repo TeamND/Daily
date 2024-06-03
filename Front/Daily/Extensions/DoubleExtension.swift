@@ -9,7 +9,6 @@ import Foundation
 
 extension Double {
     func percentFormat() -> String {
-//        print(Int(self * 100))
         if Int(self * 100) % 100 == 0 {
             return String(format: "%.0f", self) + "%"
         } else if Int(self * 100) % 10 == 0 {

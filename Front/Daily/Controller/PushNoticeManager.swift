@@ -13,24 +13,17 @@ class PushNoticeManager {
     @Published var isNotiOn: Bool = false
     
     func addNoti() {
-        print("addNoti")
-//        let calendar = Calendar.current
-//        let newDate = calendar.date(byAdding: DateComponents(second: 5), to: .now)
-//        let components = calendar.dateComponents([.hour, .minute, .second], from: newDate!)
         var components = DateComponents()
         components.calendar = Calendar.current
         components.hour = 22
-//        components.minute = 26
-//        components.second = 00
         
         let title: String = "오늘 하루는 어땠나요 🤔"
         let body: String = "하루를 기록해보세요"
         
-        UNUserNotificationCenter.current().addNotificationRequest(by: components, id: UUID().uuidString, title: title, body: body)
+        UNUserNotificationCenter.current().addNotiRequest(by: components, id: UUID().uuidString, title: title, body: body)
     }
     
     func removeAllNoti() {
-        print("removeAllNoti")
         self.deleteBadgeNumber()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -45,7 +38,7 @@ class PushNoticeManager {
             switch settings.authorizationStatus {
             case .notDetermined:
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                    if let error = error { print("Error : \(error)") }
+                    if let error = error { print("reuqest authorization error is \(error)") }
 
                     if granted { self.addNoti() }
                     completion(false)
@@ -57,7 +50,7 @@ class PushNoticeManager {
                 self.addNoti()
                 completion(false)
             default:
-                print("other case!! \(settings.authorizationStatus)")
+                print("other case in get noti setting situation,\n case is \(settings.authorizationStatus)")
             }
         }
     }

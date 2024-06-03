@@ -27,7 +27,6 @@ struct InitView: View {
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
         }
         .onAppear {
-            print("appear")
             System().getStoreVersion() { storeVersion in
                 let storeVersion = storeVersion.split(separator: ".").map {$0}
                 let appVersion = System.appVersion!.split(separator: ".").map {$0}
