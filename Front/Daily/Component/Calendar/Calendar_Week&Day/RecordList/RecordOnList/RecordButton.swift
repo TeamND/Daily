@@ -17,7 +17,7 @@ struct RecordButton: View {
     var body: some View {
         if isBeforeRecord {
             ZStack {
-                RecordProgressBar(record: $record, color: .primary)
+                RecordProgressBar(record: record, color: .primary)
                 HStack {
                     if record.issuccess {
                         Image(systemName: "hand.thumbsup")
@@ -70,7 +70,7 @@ struct RecordButton: View {
                 }
             } label: {
                 ZStack {
-                    RecordProgressBar(record: $record, color: Color("CustomColor"))
+                    RecordProgressBar(record: record, color: Color("CustomColor"))
                     
                     HStack {
                         if record.issuccess {

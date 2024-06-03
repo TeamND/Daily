@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecordProgressBar: View {
-    @Binding var record: RecordModel
+    @State var record: RecordModel  // @Binding으로 놓을 경우 ViewThatFits에 의해 ScrollView로 변환될 때 out of range 에러가 발생, 임시로 State로 처리
     @State var color: Color
     @State var progress: CGFloat = 1
     

@@ -13,7 +13,7 @@ struct RecordList: View {
     
     var body: some View {
         VStack {
-            ForEach ($calendarViewModel.recordsOnWeek, id:\.self.uid) { record in
+            ForEach ($calendarViewModel.recordsOnWeek, id: \.self.uid) { record in
                 RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
                         NavigationLink {

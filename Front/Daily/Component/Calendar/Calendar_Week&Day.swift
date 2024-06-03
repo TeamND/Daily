@@ -16,13 +16,12 @@ struct Calendar_Week_Day: View {
             WeekIndicator(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, tapPurpose: "change")
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             if calendarViewModel.recordsOnWeek.count > 0 {
-                // ViewThatFits bug 발견, 수정 후 추후 재적용
-//                ViewThatFits(in: .vertical) {
-//                    RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+                ViewThatFits(in: .vertical) {
+                    RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                     ScrollView {
                         RecordList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                     }
-//                }
+                }
                 .padding(.top, CGFloat.fontSize)
                 .padding(.bottom, CGFloat.fontSize * 15)
                 Spacer()
