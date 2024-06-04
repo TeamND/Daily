@@ -17,7 +17,7 @@ struct RecordButton: View {
     var body: some View {
         if isBeforeRecord {
             ZStack {
-                RecordProgressBar(record: record, color: .primary)
+                RecordProgressBar(record: $record, color: .primary, progress: record.type == "timer" ? (record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)) : (record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)))
                 HStack {
                     if record.issuccess {
                         Image(systemName: "hand.thumbsup")
@@ -70,7 +70,7 @@ struct RecordButton: View {
                 }
             } label: {
                 ZStack {
-                    RecordProgressBar(record: record, color: Color("CustomColor"))
+                    RecordProgressBar(record: $record, color: Color("CustomColor"), progress: record.type == "timer" ? (record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)) : (record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)))
                     
                     HStack {
                         if record.issuccess {
