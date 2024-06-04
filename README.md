@@ -43,8 +43,15 @@
 - Modify Widget UI
 - Add network error case
 
-24.05.20. ~
+24.05.20. ~ 24.06.04.
 
 [1.1.11 업데이트]
 - Fix bug about symbol in widget
 - Modify the AddGoalButton to be visible even NoRecord case
+
+24.06.04. ~
+
+[1.1.15 업데이트]
+- Add WeeklySummary
+- Add Today button
+- Add PushNotification
