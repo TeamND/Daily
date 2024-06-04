@@ -49,9 +49,14 @@
 - Fix bug about symbol in widget
 - Modify the AddGoalButton to be visible even NoRecord case
 
-24.06.04. ~
+24.06.04. ~ 24.06.05.
 
 [1.1.15 업데이트]
 - Add WeeklySummary
 - Add Today button
 - Add PushNotification
+
+24.06.05. ~
+
+[1.1.16 업데이트]
+- Fix bug about RecordProgressBar onAppear logic
