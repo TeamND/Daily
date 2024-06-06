@@ -26,6 +26,7 @@
 		F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */; };
 		F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
+		F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -132,6 +133,7 @@
 		F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalButton.swift; sourceTree = "<group>"; };
 		F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
+		F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBackground.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				F61ADFFE2BC4297500C35948 /* RecordList */,
 				F6CC15A52BA4511F00689A02 /* NoRecord.swift */,
 				F61D610C2BF64F7800F29965 /* WeeklySummary.swift */,
+				F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */,
 			);
 			path = "Calendar_Week&Day";
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				F61AE0052BC42EA100C35948 /* ModifyDateView.swift in Sources */,
 				F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */,
 				F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */,
+				F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */,
 				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,

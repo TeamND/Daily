@@ -23,17 +23,7 @@ struct CalendarView: View {
             }
             AddGoalButton(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
             if calendarViewModel.getCurrentState() == "week" {
-                Rectangle()
-                    .fill(.black.opacity(0.5))
-                    .opacity(isShowWeeklySummary ? 1 : 0)
-                    .onTapGesture {
-                        if isShowWeeklySummary {
-                            withAnimation {
-                                isShowWeeklySummary = false
-                            }
-                        }
-                    }
-                    .highPriorityGesture(DragGesture())
+                WeeklyBackground(isShowWeeklySummary: $isShowWeeklySummary)
                 WeeklySummary(calendarViewModel: calendarViewModel)
                     .padding(.bottom, isShowWeeklySummary ? 0 : -320)
                     .onTapGesture {
