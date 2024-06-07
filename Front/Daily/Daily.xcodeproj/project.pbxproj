@@ -27,6 +27,7 @@
 		F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */; };
+		F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -134,6 +135,7 @@
 		F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBackground.swift; sourceTree = "<group>"; };
+		F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLine.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 		F61ADFFE2BC4297500C35948 /* RecordList */ = {
 			isa = PBXGroup;
 			children = (
+				F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */,
 				F6C2F22129221C410006BFC7 /* RecordOnList.swift */,
 				F6EC3D142BDBB36500FAB502 /* RecordOnList */,
 			);
@@ -641,6 +644,7 @@
 				F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */,
 				F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
+				F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F61D610D2BF64F7800F29965 /* WeeklySummary.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
