@@ -65,7 +65,7 @@ class CalendarViewModel: ObservableObject {
     func setRatingOnWeek(ratingOnWeek: [Double], ratingOfWeek: Double) {
         DispatchQueue.main.async {
             self.ratingOnWeek = ratingOnWeek
-            for i in ratingOnWeek.indices{
+            for i in ratingOnWeek.indices {
                 self.ratingOnWeekForCharts[i].rating = ratingOnWeek[i] * 100
             }
             self.ratingOfWeek = ratingOfWeek * 100
