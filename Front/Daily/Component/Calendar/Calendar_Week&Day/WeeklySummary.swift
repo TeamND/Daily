@@ -56,7 +56,13 @@ struct WeeklySummary: View {
                                             y: .value("RatingOfWeek", calendarViewModel.ratingOfWeek)
                                         )
                                         .lineStyle(StrokeStyle(lineWidth: 2))
-                                        .annotation(position: .top, alignment: .leading) {
+                                        .annotation(
+                                            position:
+                                                calendarViewModel.ratingOnWeekForCharts[0].rating == calendarViewModel.ratingOfWeek ||
+                                            calendarViewModel.ratingOnWeekForCharts[1].rating == calendarViewModel.ratingOfWeek ||
+                                            calendarViewModel.ratingOnWeekForCharts[2].rating == calendarViewModel.ratingOfWeek ? .bottom : .top
+                                            , alignment: .leading
+                                        ) {
                                             Text(" 주간 달성률 : \(Int(calendarViewModel.ratingOfWeek))%")
                                                 .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                         }
