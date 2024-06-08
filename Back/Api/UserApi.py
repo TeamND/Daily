@@ -34,7 +34,7 @@ class UserApi(Resource):
                     response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S")
 
                 return {
-                    'code': '00',
+                    'code': '01',
                     'message': '조회성공',
                     'data': response
                 }, 00
