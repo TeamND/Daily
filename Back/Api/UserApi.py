@@ -37,7 +37,7 @@ class UserApi(Resource):
                     'code': '01',
                     'message': '조회성공',
                     'data': response
-                }, 00
+                }, 01
             except Exception as e:
                  return {
                     'code': '99',
