@@ -13,8 +13,15 @@ struct RecordList: View {
     
     var body: some View {
         VStack {
-            ForEach ($calendarViewModel.recordsOnWeek, id: \.self.uid) { record in
-                TimeLine(record: record)
+//            ForEach ($calendarViewModel.recordsOnWeek, id: \.self.uid) { record in
+            ForEach (calendarViewModel.recordsOnWeek.indices, id: \.self) { index in
+                let record = $calendarViewModel.recordsOnWeek[index]
+                if false {
+//                if !record.isAllDay {
+//                    if index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time {
+                        TimeLine(record: record)
+//                    }
+                }
                 RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
                         NavigationLink {
