@@ -14,6 +14,8 @@ struct RecordView: View {
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
+    @State var isAllDay: Bool = true
+    @State var set_time = Date()
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
@@ -29,6 +31,21 @@ struct RecordView: View {
             }
             .frame(height: 40)
             
+            HStack {
+                DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
+                    .datePickerStyle(.compact)
+                    .disabled(isAllDay)
+                    .labelsHidden()
+                    .opacity(isAllDay ? 0.5 : 1)
+                Spacer()
+                Toggle("", isOn: $isAllDay)
+                    .labelsHidden()
+                    .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+                Spacer()
+                Text("하루 종일")
+                    .foregroundStyle(Color("OppositeColor").opacity(isAllDay ? 1 : 0.5))
+            }
+            
             ContentTextField(content: $goalModel.content, type: $goalModel.type)
             
             HStack {
@@ -39,6 +56,8 @@ struct RecordView: View {
                     goalModel.content = ""
                     goalModel.type = "check"
                     goalModel.goal_count = 1
+                    isAllDay = true
+                    initSetTime()
                     date = beforeDate
                     calendarViewModel.setCurrentYear(year: date.year)
                     calendarViewModel.setCurrentMonth(month: date.month)
@@ -75,6 +94,7 @@ struct RecordView: View {
             }
             .buttonStyle(.borderedProminent)
             Spacer()
+            Spacer()
         }
         .padding()
         .alert(isPresented: $isShowAlert, content: {
@@ -103,10 +123,18 @@ struct RecordView: View {
         .onAppear {
             date = calendarViewModel.getCurrentDate()
             beforeDate = date
+            initSetTime()
         }
         .navigationBarTitleDisplayMode(.inline)
     }
+    func initSetTime() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let timeStr = "00:00"
+        set_time = dateFormatter.date(from: timeStr)!
+    }
 }
+
 
 #Preview {
     RecordView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
