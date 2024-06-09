@@ -25,7 +25,7 @@ struct CalendarSheet: View {
                     calendarViewModel.setCurrentDay(day: date.day)
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text("Confirm")
+                    Text("변경")
                 }
             }
             .padding(.horizontal)
