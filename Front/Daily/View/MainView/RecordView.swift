@@ -75,6 +75,8 @@ struct RecordView: View {
                         goalModel.start_date = currentDate
                         goalModel.end_date = currentDate
                         goalModel.cycle_date = [currentDate]
+//                        goalModel.isAllDay = isAllDay
+//                        goalModel.set_time = setTimeOfGoalModel()
                         addGoal(goal: goalModel) { data in
                             if data.code == "00" {
                                 goalModel.symbol = "체크"
@@ -132,6 +134,11 @@ struct RecordView: View {
         dateFormatter.dateFormat = "HH:mm"
         let timeStr = "00:00"
         set_time = dateFormatter.date(from: timeStr)!
+    }
+    func setTimeOfGoalModel() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: set_time)
     }
 }
 

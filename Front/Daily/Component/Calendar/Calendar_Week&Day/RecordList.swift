@@ -18,7 +18,7 @@ struct RecordList: View {
                 let record = $calendarViewModel.recordsOnWeek[index]
                 if false {
 //                if !record.isAllDay {
-//                    if index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time {
+//                    if index == 0 || (index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time) {
                         TimeLine(record: record)
 //                    }
                 }
