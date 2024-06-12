@@ -18,7 +18,6 @@ struct GoalCountPickerGroup: View {
     var body: some View {
         HStack {
             if type == "timer" {
-                Text("목표 시간 : ")
                 Button {
                     if timerViewModel.timerIndex > 0 {
                         timerViewModel.timerIndex -= 1
@@ -47,7 +46,6 @@ struct GoalCountPickerGroup: View {
                     Image(systemName: "chevron.up.circle")
                 }
             } else {
-                Text("목표 횟수 : ")
                 Button {
                     if count > 1 {
                         count -= 1

@@ -14,25 +14,42 @@ struct ModifyGoalView: View {
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
     @State var isShowAlert: Bool = false
+    @State var isSetTime: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
     
     var body: some View {
         VStack {
+//            if record.isSetTime {
+//                TimeLine(record: $record)
+//            }
             RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: true)
             CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             VStack {
                 HStack {
                     Spacer()
-                    SymbolPickerGroup(symbol: $modifyGoalModel.symbol)
+//                    Toggle("", isOn: $record.isSetTime)
+//                        .labelsHidden()
+//                        .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+//                    DatePicker("", selection: $record.set_time, displayedComponents: [.hourAndMinute])
+//                        .datePickerStyle(.compact)
+//                        .disabled(!record.isSetTime)
+//                        .labelsHidden()
+//                        .opacity(0.5)
                 }
-                .frame(height: 40)
                 
                 ContentTextField(content: $modifyGoalModel.content, type: $record.type)
                 
                 HStack {
                     GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, time: $modifyGoalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                    Spacer()
+                    SymbolPickerGroup(symbol: $modifyGoalModel.symbol)
+                }
+                .padding()
+                .frame(height: 40)
+                
+                HStack {
                     Spacer()
                     Button {
                         presentationMode.wrappedValue.dismiss()

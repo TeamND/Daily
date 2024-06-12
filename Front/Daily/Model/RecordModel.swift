@@ -19,7 +19,7 @@ struct RecordModel: Codable {
     var record_count: Int
     var issuccess: Bool
     var start_time2: String?
-//    var isAllDay: Bool
+//    var isSetTime: Bool
 //    var set_time: String
     
     init() {
@@ -34,7 +34,7 @@ struct RecordModel: Codable {
         self.record_count = 0
         self.issuccess = false
         self.start_time2 = ""
-//        self.isAllDay = true
+//        self.isSetTime = false
 //        self.set_time = "00:00"
     }
 }

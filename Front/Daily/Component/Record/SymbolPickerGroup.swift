@@ -13,10 +13,9 @@ struct SymbolPickerGroup: View {
     var body: some View {
         Group {
             Image(systemName: "\(symbol.toSymbol()!.rawValue)")
-                .padding()
             Image(systemName: "chevron.right")
+                .frame(width: CGFloat.fontSize * 10)
             Image(systemName: "\(symbol.toSymbol()!.rawValue).fill")
-                .padding()
         }
         .onTapGesture {
             isShowSymbolSheet = true

@@ -18,7 +18,7 @@ struct ModifyDateView: View {
     
     var body: some View {
         VStack {
-            Text("\(String(beforeDate.year))년 \(beforeDate.month)월 \(beforeDate.day)일 \(beforeDOW)요일")
+            Text("\(String(beforeDate.year)). \(beforeDate.month). \(beforeDate.day). \(beforeDOW)")
                 .hLeading()
                 .padding(.horizontal)
             RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: true)

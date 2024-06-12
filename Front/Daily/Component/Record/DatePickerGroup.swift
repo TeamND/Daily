@@ -16,7 +16,7 @@ struct DatePickerGroup: View {
     var body: some View {
         Group {
             Label {
-                Text("\(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel)) \(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel)) \(calendarViewModel.getCurrentDayLabel(userInfoViewModel: userInfoViewModel)) \(calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel))요일")
+                Text("\(String(calendarViewModel.getCurrentYear())). \(calendarViewModel.getCurrentMonth()). \(calendarViewModel.getCurrentDay()). \(calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel))")
             } icon: {
                 Image(systemName: "calendar")
             }

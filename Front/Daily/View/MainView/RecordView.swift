@@ -14,7 +14,7 @@ struct RecordView: View {
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
-    @State var isAllDay: Bool = true
+    @State var isSetTime: Bool = false
     @State var set_time = Date()
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
@@ -27,36 +27,34 @@ struct RecordView: View {
             HStack {
                 DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $date)
                 Spacer()
-                SymbolPickerGroup(symbol: $goalModel.symbol)
+                Toggle("", isOn: $isSetTime)
+                    .labelsHidden()
+                    .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+                DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
+                    .datePickerStyle(.compact)
+                    .disabled(!isSetTime)
+                    .labelsHidden()
+                    .opacity(isSetTime ? 1 : 0.5)
             }
-            .frame(height: 40)
-            
-//            HStack {
-//                DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
-//                    .datePickerStyle(.compact)
-//                    .disabled(isAllDay)
-//                    .labelsHidden()
-//                    .opacity(isAllDay ? 0.5 : 1)
-//                Spacer()
-//                Toggle("", isOn: $isAllDay)
-//                    .labelsHidden()
-//                    .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
-//                Spacer()
-//                Text("하루 종일")
-//                    .foregroundStyle(Color("OppositeColor").opacity(isAllDay ? 1 : 0.5))
-//            }
             
             ContentTextField(content: $goalModel.content, type: $goalModel.type)
             
             HStack {
                 GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
                 Spacer()
+                SymbolPickerGroup(symbol: $goalModel.symbol)
+            }
+            .padding()
+            .frame(height: 40)
+            
+            HStack {
+                Spacer()
                 Button {
                     goalModel.symbol = "체크"
                     goalModel.content = ""
                     goalModel.type = "check"
                     goalModel.goal_count = 1
-                    isAllDay = true
+                    isSetTime = false
                     initSetTime()
                     date = beforeDate
                     calendarViewModel.setCurrentYear(year: date.year)
@@ -75,14 +73,10 @@ struct RecordView: View {
                         goalModel.start_date = currentDate
                         goalModel.end_date = currentDate
                         goalModel.cycle_date = [currentDate]
-//                        goalModel.isAllDay = isAllDay
+//                        goalModel.isSetTime = isSetTime
 //                        goalModel.set_time = setTimeOfGoalModel()
                         addGoal(goal: goalModel) { data in
                             if data.code == "00" {
-                                goalModel.symbol = "체크"
-                                goalModel.content = ""
-                                goalModel.type = "check"
-                                goalModel.goal_count = 1
                                 DispatchQueue.main.async {
                                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
                                     self.presentationMode.wrappedValue.dismiss()
