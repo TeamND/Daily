@@ -56,7 +56,14 @@
 - Add Today button
 - Add PushNotification
 
-24.06.05. ~
+24.06.05. ~ 24.06.12.
 
 [1.1.16 업데이트]
 - Fix bug about RecordProgressBar onAppear logic
+
+24.06.12. ~
+
+[1.1.17 업데이트]
+- Modify position of ratingOfWeek in WeeklySummary
+- Handle getUserInfo response code "01" case
+- Add Spacer in bottom of RecordView
