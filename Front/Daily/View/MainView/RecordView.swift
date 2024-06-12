@@ -31,20 +31,20 @@ struct RecordView: View {
             }
             .frame(height: 40)
             
-            HStack {
-                DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
-                    .datePickerStyle(.compact)
-                    .disabled(isAllDay)
-                    .labelsHidden()
-                    .opacity(isAllDay ? 0.5 : 1)
-                Spacer()
-                Toggle("", isOn: $isAllDay)
-                    .labelsHidden()
-                    .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
-                Spacer()
-                Text("하루 종일")
-                    .foregroundStyle(Color("OppositeColor").opacity(isAllDay ? 1 : 0.5))
-            }
+//            HStack {
+//                DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
+//                    .datePickerStyle(.compact)
+//                    .disabled(isAllDay)
+//                    .labelsHidden()
+//                    .opacity(isAllDay ? 0.5 : 1)
+//                Spacer()
+//                Toggle("", isOn: $isAllDay)
+//                    .labelsHidden()
+//                    .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+//                Spacer()
+//                Text("하루 종일")
+//                    .foregroundStyle(Color("OppositeColor").opacity(isAllDay ? 1 : 0.5))
+//            }
             
             ContentTextField(content: $goalModel.content, type: $goalModel.type)
             
