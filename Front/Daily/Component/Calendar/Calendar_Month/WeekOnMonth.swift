@@ -20,9 +20,7 @@ struct WeekOnMonth: View {
                 let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                 if 1 <= day && day <= lengthOfMonth {
                     Button {
-                        withAnimation {
-                            calendarViewModel.setCurrentState(state: "week", year: 0, month: 0, day: day, userInfoViewModel: userInfoViewModel)
-                        }
+                        calendarViewModel.setCurrentState(state: "week", year: 0, month: 0, day: day, userInfoViewModel: userInfoViewModel)
                     } label: {
                         DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
                     }

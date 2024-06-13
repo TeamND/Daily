@@ -17,9 +17,7 @@ struct CalendarHeader: View {
             HStack {
                 if calendarViewModel.getCurrentState() == "month" {
                     Button {
-                        withAnimation {
-                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
-                        }
+                        calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
                     } label: {
                         Label(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
@@ -28,9 +26,7 @@ struct CalendarHeader: View {
                 }
                 if calendarViewModel.getCurrentState() == "week" {
                     Button {
-                        withAnimation {
-                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
-                        }
+                        calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
                     } label: {
                         Label(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))

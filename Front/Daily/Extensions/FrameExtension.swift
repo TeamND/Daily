@@ -72,14 +72,10 @@ extension View {
                 if value.translation.width > CGFloat.fontSize * 15 {
                     if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.getCurrentState() != "year" {
                         if calendarViewModel.getCurrentState() == "month" {
-                            withAnimation {
-                                calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
-                            }
+                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
                         }
                         if calendarViewModel.getCurrentState() == "week" {
-                            withAnimation {
-                                calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
-                            }
+                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
                         }
                     } else {
                         calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
