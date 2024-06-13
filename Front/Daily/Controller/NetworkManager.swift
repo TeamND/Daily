@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-private let serverUrl: String = "http://34.22.71.88:5000/"
+private let serverUrl: String = "http://34.22.71.88:5000/"    // gcp
+//private let serverUrl: String = "http://43.202.215.185:5000/"   // aws
 
 // MARK: - userInfo
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
