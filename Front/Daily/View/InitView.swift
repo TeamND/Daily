@@ -35,7 +35,7 @@ struct InitView: View {
                     isShowOpenStoreAlert = true
                 } else {
                     getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
-                        if data.code == "00" || data.code == "01" {
+                        if data.code == "00" || data.code == "01" { // "00": 기존 사용자, "01": 신규 사용자 (추후 튜토리얼 추가)
                             DispatchQueue.main.async {
                                 userInfoViewModel.setUserInfo(userInfo: data.data)
                                 calendarViewModel.setCurrentState(state: userInfoViewModel.userInfo.set_calendarstate, year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
