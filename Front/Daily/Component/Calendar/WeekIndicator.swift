@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WeekIndicator: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     var tapPurpose: String = ""
@@ -31,7 +32,9 @@ struct WeekIndicator: View {
                 .onTapGesture {
                     switch tapPurpose {
                     case "change":
-                        calendarViewModel.changeCalendar(amount: index - calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel), userInfoViewModel: userInfoViewModel)
+                        calendarViewModel.changeCalendar(amount: index - calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel), userInfoViewModel: userInfoViewModel) { code in
+                            if code == "99" { alertViewModel.isShowAlert = true }
+                        }
                     case "select":
                         if calendarViewModel.getDayOfRatingOnWeek(dayIndex: index) == 0 {
                             calendarViewModel.setDayOfRatingOnWeek(dayIndex: index, dayOfRating: 0.4)

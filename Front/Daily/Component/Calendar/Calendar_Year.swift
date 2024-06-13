@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Calendar_Year: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -20,7 +21,9 @@ struct Calendar_Year: View {
                     ForEach (0..<3) { colIndex in
                         let month = (rowIndex * 3) + colIndex + 1
                         Button {
-                            calendarViewModel.setCurrentState(state: "month", year: 0, month: month, day: 0, userInfoViewModel: userInfoViewModel)
+                            calendarViewModel.setCurrentState(state: "month", year: 0, month: month, day: 0, userInfoViewModel: userInfoViewModel) { code in
+                                if code == "99" { alertViewModel.isShowAlert = true }
+                            }
                         } label: {
                             MonthOnYear(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, month: month)
                         }

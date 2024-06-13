@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecordButton: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
@@ -44,7 +45,11 @@ struct RecordButton: View {
                     case "check", "count":
                         increaseCount(recordUID: String(record.uid)) { (data) in
                             if data.code == "00" {
-                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
+                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                    if code == "99" { alertViewModel.isShowAlert = true }
+                                }
+                            } else {
+                                alertViewModel.isShowAlert = true
                             }
                         }
                     case "timer":

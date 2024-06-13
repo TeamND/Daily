@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ModifyDateView: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
@@ -42,9 +43,13 @@ struct ModifyDateView: View {
                     modifyRecord(modifyRecordModel: modifyRecordModel) { data in
                         if data.code == "00" {
                             DispatchQueue.main.async {
-                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: date)
+                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: date) { code in
+                                    if code == "99" { alertViewModel.isShowAlert = true }
+                                }
                                 self.presentationMode.wrappedValue.dismiss()
                             }
+                        } else {
+                            alertViewModel.isShowAlert = true
                         }
                     }
                 } label: {

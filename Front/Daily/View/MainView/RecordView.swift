@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecordView: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
@@ -78,7 +79,9 @@ struct RecordView: View {
                         addGoal(goal: goalModel) { data in
                             if data.code == "00" {
                                 DispatchQueue.main.async {
-                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
+                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                        if code == "99" { alertViewModel.isShowAlert = true }
+                                    }
                                     self.presentationMode.wrappedValue.dismiss()
                                 }
                             }

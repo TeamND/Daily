@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CalendarHeader: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -17,7 +18,9 @@ struct CalendarHeader: View {
             HStack {
                 if calendarViewModel.getCurrentState() == "month" {
                     Button {
-                        calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
+                        calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
+                            if code == "99" { alertViewModel.isShowAlert = true }
+                        }
                     } label: {
                         Label(calendarViewModel.getCurrentYearLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
@@ -26,7 +29,9 @@ struct CalendarHeader: View {
                 }
                 if calendarViewModel.getCurrentState() == "week" {
                     Button {
-                        calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
+                        calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
+                            if code == "99" { alertViewModel.isShowAlert = true }
+                        }
                     } label: {
                         Label(calendarViewModel.getCurrentMonthLabel(userInfoViewModel: userInfoViewModel), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
@@ -39,7 +44,9 @@ struct CalendarHeader: View {
             HStack {
                 Spacer()
                 Button {
-                    calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
+                    calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel) { code in
+                        if code == "99" { alertViewModel.isShowAlert = true }
+                    }
                 } label: {
                     Image(systemName: "chevron.left")
                 }
@@ -47,7 +54,9 @@ struct CalendarHeader: View {
                     Menu {
                         ForEach(calendarViewModel.getCurrentYear() - 5 ... calendarViewModel.getCurrentYear() + 5, id: \.self) { year in
                             Button {
-                                calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear(), userInfoViewModel: userInfoViewModel)
+                                calendarViewModel.changeCalendar(amount: year - calendarViewModel.getCurrentYear(), userInfoViewModel: userInfoViewModel) { code in
+                                    if code == "99" { alertViewModel.isShowAlert = true }
+                                }
                             } label: {
                                 Text("\(String(year)) 년")
                             }
@@ -62,7 +71,9 @@ struct CalendarHeader: View {
                     Menu {
                         ForEach(1 ... 12, id:\.self) { month in
                             Button {
-                                calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth(), userInfoViewModel: userInfoViewModel)
+                                calendarViewModel.changeCalendar(amount: month - calendarViewModel.getCurrentMonth(), userInfoViewModel: userInfoViewModel) { code in
+                                    if code == "99" { alertViewModel.isShowAlert = true }
+                                }
                             } label: {
                                 Text("\(String(month)) 월")
                             }
@@ -77,7 +88,9 @@ struct CalendarHeader: View {
                     Menu {
                         ForEach(1 ... calendarViewModel.lengthOfMonth(), id:\.self) { day in
                             Button {
-                                calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay(), userInfoViewModel: userInfoViewModel)
+                                calendarViewModel.changeCalendar(amount: day - calendarViewModel.getCurrentDay(), userInfoViewModel: userInfoViewModel) { code in
+                                    if code == "99" { alertViewModel.isShowAlert = true }
+                                }
                             } label: {
                                 Text("\(String(day)) 일")
                             }
@@ -89,7 +102,9 @@ struct CalendarHeader: View {
                     }
                 }
                 Button {
-                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
+                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel) { code in
+                        if code == "99" { alertViewModel.isShowAlert = true }
+                    }
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -100,8 +115,12 @@ struct CalendarHeader: View {
                 Spacer()
                 Button {
                     // 추후 동기화 작업이 필요
-                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date())
-                    calendarViewModel.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel)
+                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date()) { code in
+                        if code == "99" { alertViewModel.isShowAlert = true }
+                    }
+                    calendarViewModel.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel) { code in
+                        if code == "99" { alertViewModel.isShowAlert = true }
+                    }
                 } label: {
                     HStack(spacing: CGFloat.fontSize / 2) {
                         Text("오늘")

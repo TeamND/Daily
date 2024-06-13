@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecordList: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     
@@ -37,8 +38,10 @@ struct RecordList: View {
                         Button {
                             deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
                                 if data.code == "00" {
-                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel)
-                                } else { print("\(record.goal_uid) delete fail@@@") }
+                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                        if code == "99" { alertViewModel.isShowAlert = true }
+                                    }
+                                } else { alertViewModel.isShowAlert = true }
                             }
                         } label: {
                             Label("목표 삭제", systemImage: "trash")

@@ -72,18 +72,18 @@ extension View {
                 if value.translation.width > CGFloat.fontSize * 15 {
                     if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.getCurrentState() != "year" {
                         if calendarViewModel.getCurrentState() == "month" {
-                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
+                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in }
                         }
                         if calendarViewModel.getCurrentState() == "week" {
-                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel)
+                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in }
                         }
                     } else {
-                        calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel)
+                        calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel) { code in }
                     }
                 }
                 // 우 -> 좌
                 if value.translation.width < -CGFloat.fontSize * 15 {
-                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel)
+                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel) { code in }
                 }
             }
         )
