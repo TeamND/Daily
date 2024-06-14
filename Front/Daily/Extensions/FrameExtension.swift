@@ -65,25 +65,33 @@ extension PresentationDetent {
 // MARK: - Custom Gesture
 
 extension View {
-    func mainViewDragGesture(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel) -> some View {
+    func mainViewDragGesture(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, alertViewModel: AlertViewModel) -> some View {
         self.gesture(
             DragGesture().onEnded { value in
                 // 좌 -> 우
                 if value.translation.width > CGFloat.fontSize * 15 {
                     if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.getCurrentState() != "year" {
                         if calendarViewModel.getCurrentState() == "month" {
-                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in }
+                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
+                                if code == "99" { alertViewModel.showAlert() }
+                            }
                         }
                         if calendarViewModel.getCurrentState() == "week" {
-                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in }
+                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
+                                if code == "99" { alertViewModel.showAlert() }
+                            }
                         }
                     } else {
-                        calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel) { code in }
+                        calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel) { code in
+                            if code == "99" { alertViewModel.showAlert() }
+                        }
                     }
                 }
                 // 우 -> 좌
                 if value.translation.width < -CGFloat.fontSize * 15 {
-                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel) { code in }
+                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel) { code in
+                        if code == "99" { alertViewModel.showAlert() }
+                    }
                 }
             }
         )

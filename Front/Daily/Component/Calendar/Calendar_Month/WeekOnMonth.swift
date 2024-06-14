@@ -22,7 +22,7 @@ struct WeekOnMonth: View {
                 if 1 <= day && day <= lengthOfMonth {
                     Button {
                         calendarViewModel.setCurrentState(state: "week", year: 0, month: 0, day: day, userInfoViewModel: userInfoViewModel) { code in
-                            if code == "99" { alertViewModel.isShowAlert = true }
+                            if code == "99" { alertViewModel.showAlert() }
                         }
                     } label: {
                         DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))

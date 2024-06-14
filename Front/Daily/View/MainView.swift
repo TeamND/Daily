@@ -17,7 +17,7 @@ struct MainView: View {
             CalendarView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
                 .navigationBarTitle("이전")
                 .navigationBarHidden(true)
-                .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+                .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, alertViewModel: alertViewModel)
                 .alert(isPresented: $alertViewModel.isShowAlert, content: {
                     Alert(
                         title: Text("오류가 발생했습니다."),

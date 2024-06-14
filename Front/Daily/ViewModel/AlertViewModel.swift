@@ -9,4 +9,10 @@ import Foundation
 
 class AlertViewModel: ObservableObject {
     @Published var isShowAlert: Bool = false
+    
+    func showAlert() {
+        DispatchQueue.main.async {
+            self.isShowAlert = true
+        }
+    }
 }

@@ -250,62 +250,65 @@ class CalendarViewModel: ObservableObject {
     }
     
     func changeCalendar(amount: Int, userInfoViewModel: UserInfoViewModel, targetDate: Date? = nil, complete: @escaping (String) -> Void) {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        var changedDay = Date()
-        switch(self.currentState) {
-        case "year":
-            self.resetRatingOnYear()
-            changedDay = targetDate ?? cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
-            getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: changedDay.year)) { (data) in
-                if data.code == "00" {
-                    self.setRatingOnYear(ratingOnYear: data.data)
-                    self.changeDay(changedDay: changedDay)
-                } else {
-                    complete(data.code)
-                }
-            }
-            break
-        case "month":
-            self.resetDaysOnMonth()
-            changedDay = targetDate ?? cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
-            getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month)) { (data) in
-                if data.code == "00" {
-                    self.setDaysOnMonth(daysOnMonth: data.data)
-                    self.changeDay(changedDay: changedDay)
-                } else {
-                    complete(data.code)
-                }
-            }
-            break
-        default: // "week"
-            if amount == 0 { WidgetCenter.shared.reloadAllTimelines() } // update event 발생 시 위젯 동기화
-            changedDay = targetDate ?? cal.date(byAdding: .day, value: amount, to: self.getCurrentDate())!
-            let DOW = changedDay.getDOW(language: userInfoViewModel.language)
-            var DOWIndex = 0
-            for i in userInfoViewModel.weeks.indices {
-                if userInfoViewModel.weeks[i] == DOW { DOWIndex = i }
-            }
-            let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: changedDay)!
-            if self.currentStartDay != startDate.day || amount == 0 {
-                getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.getStringFormatOfDate(year: startDate.year, month: startDate.month, day: startDate.day)) { (data) in
+        DispatchQueue.main.async {
+            var cal = Calendar.current
+            cal.timeZone = TimeZone(identifier: "UTC")!
+            var changedDay = Date()
+            
+            switch(self.currentState) {
+            case "year":
+                self.resetRatingOnYear()
+                changedDay = targetDate ?? cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
+                getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: changedDay.year)) { (data) in
                     if data.code == "00" {
-                        self.setRatingOnWeek(ratingOnWeek: data.data.rating, ratingOfWeek: data.data.ratingOfWeek)
-                        self.setCurrentStartDay(startDay: startDate.day)
+                        self.setRatingOnYear(ratingOnYear: data.data)
+                        self.changeDay(changedDay: changedDay)
                     } else {
                         complete(data.code)
                     }
                 }
-            }
-            getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month, day: changedDay.day)) { (data) in
-                if data.code == "00" {
-                    self.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
-                    self.changeDay(changedDay: changedDay)
-                } else {
-                    complete(data.code)
+                break
+            case "month":
+                self.resetDaysOnMonth()
+                changedDay = targetDate ?? cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
+                getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month)) { (data) in
+                    if data.code == "00" {
+                        self.setDaysOnMonth(daysOnMonth: data.data)
+                        self.changeDay(changedDay: changedDay)
+                    } else {
+                        complete(data.code)
+                    }
                 }
+                break
+            default: // "week"
+                if amount == 0 { WidgetCenter.shared.reloadAllTimelines() } // update event 발생 시 위젯 동기화
+                changedDay = targetDate ?? cal.date(byAdding: .day, value: amount, to: self.getCurrentDate())!
+                let DOW = changedDay.getDOW(language: userInfoViewModel.language)
+                var DOWIndex = 0
+                for i in userInfoViewModel.weeks.indices {
+                    if userInfoViewModel.weeks[i] == DOW { DOWIndex = i }
+                }
+                let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: changedDay)!
+                if self.currentStartDay != startDate.day || amount == 0 {
+                    getCalendarWeek(userID: String(userInfoViewModel.userInfo.uid), startDay: self.getStringFormatOfDate(year: startDate.year, month: startDate.month, day: startDate.day)) { (data) in
+                        if data.code == "00" {
+                            self.setRatingOnWeek(ratingOnWeek: data.data.rating, ratingOfWeek: data.data.ratingOfWeek)
+                            self.setCurrentStartDay(startDay: startDate.day)
+                        } else {
+                            complete(data.code)
+                        }
+                    }
+                }
+                getCalendarDay(userID: String(userInfoViewModel.userInfo.uid), day: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month, day: changedDay.day)) { (data) in
+                    if data.code == "00" {
+                        self.setRecordsOnWeek(recordsOnWeek: data.data.goalList)
+                        self.changeDay(changedDay: changedDay)
+                    } else {
+                        complete(data.code)
+                    }
+                }
+                break
             }
-            break
         }
     }
     

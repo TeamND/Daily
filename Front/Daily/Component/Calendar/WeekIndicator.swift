@@ -33,7 +33,7 @@ struct WeekIndicator: View {
                     switch tapPurpose {
                     case "change":
                         calendarViewModel.changeCalendar(amount: index - calendarViewModel.getDOWIndex(userInfoViewModel: userInfoViewModel), userInfoViewModel: userInfoViewModel) { code in
-                            if code == "99" { alertViewModel.isShowAlert = true }
+                            if code == "99" { alertViewModel.showAlert() }
                         }
                     case "select":
                         if calendarViewModel.getDayOfRatingOnWeek(dayIndex: index) == 0 {

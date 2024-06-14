@@ -46,10 +46,10 @@ struct RecordButton: View {
                         increaseCount(recordUID: String(record.uid)) { (data) in
                             if data.code == "00" {
                                 calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-                                    if code == "99" { alertViewModel.isShowAlert = true }
+                                    if code == "99" { alertViewModel.showAlert() }
                                 }
                             } else {
-                                alertViewModel.isShowAlert = true
+                                alertViewModel.showAlert()
                             }
                         }
                     case "timer":

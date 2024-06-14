@@ -80,7 +80,7 @@ struct RecordView: View {
                             if data.code == "00" {
                                 DispatchQueue.main.async {
                                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-                                        if code == "99" { alertViewModel.isShowAlert = true }
+                                        if code == "99" { alertViewModel.showAlert() }
                                     }
                                     self.presentationMode.wrappedValue.dismiss()
                                 }

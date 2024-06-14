@@ -39,9 +39,9 @@ struct RecordList: View {
                             deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
                                 if data.code == "00" {
                                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-                                        if code == "99" { alertViewModel.isShowAlert = true }
+                                        if code == "99" { alertViewModel.showAlert() }
                                     }
-                                } else { alertViewModel.isShowAlert = true }
+                                } else { alertViewModel.showAlert() }
                             }
                         } label: {
                             Label("목표 삭제", systemImage: "trash")
