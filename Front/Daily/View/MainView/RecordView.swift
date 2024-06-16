@@ -15,7 +15,7 @@ struct RecordView: View {
     @State var goalModel: GoalModel = GoalModel()
     @State var date: Date = Date()
     @State var beforeDate: Date = Date()
-    @State var isSetTime: Bool = false
+    @State var is_set_time: Bool = false
     @State var set_time = Date()
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
@@ -28,14 +28,14 @@ struct RecordView: View {
             HStack {
                 DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $date)
                 Spacer()
-                Toggle("", isOn: $isSetTime)
+                Toggle("", isOn: $is_set_time)
                     .labelsHidden()
                     .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
                 DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
                     .datePickerStyle(.compact)
-                    .disabled(!isSetTime)
+                    .disabled(!is_set_time)
                     .labelsHidden()
-                    .opacity(isSetTime ? 1 : 0.5)
+                    .opacity(is_set_time ? 1 : 0.5)
             }
             
             ContentTextField(content: $goalModel.content, type: $goalModel.type)
@@ -55,8 +55,8 @@ struct RecordView: View {
                     goalModel.content = ""
                     goalModel.type = "check"
                     goalModel.goal_count = 1
-                    isSetTime = false
-                    initSetTime()
+                    is_set_time = false
+                    set_time = "00:00".toDateOfSetTime()
                     date = beforeDate
                     calendarViewModel.setCurrentYear(year: date.year)
                     calendarViewModel.setCurrentMonth(month: date.month)
@@ -74,8 +74,8 @@ struct RecordView: View {
                         goalModel.start_date = currentDate
                         goalModel.end_date = currentDate
                         goalModel.cycle_date = [currentDate]
-//                        goalModel.isSetTime = isSetTime
-//                        goalModel.set_time = setTimeOfGoalModel()
+//                        goalModel.is_set_time = is_set_time
+//                        goalModel.set_time = set_time.toStringOfSetTime()
                         addGoal(goal: goalModel) { data in
                             if data.code == "00" {
                                 DispatchQueue.main.async {
@@ -122,20 +122,9 @@ struct RecordView: View {
         .onAppear {
             date = calendarViewModel.getCurrentDate()
             beforeDate = date
-            initSetTime()
+            set_time = "00:00".toDateOfSetTime()
         }
         .navigationBarTitleDisplayMode(.inline)
-    }
-    func initSetTime() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        let timeStr = "00:00"
-        set_time = dateFormatter.date(from: timeStr)!
-    }
-    func setTimeOfGoalModel() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        return dateFormatter.string(from: set_time)
     }
 }
 

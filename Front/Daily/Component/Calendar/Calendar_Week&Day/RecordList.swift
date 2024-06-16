@@ -18,7 +18,7 @@ struct RecordList: View {
             ForEach (calendarViewModel.recordsOnWeek.indices, id: \.self) { index in
                 let record = $calendarViewModel.recordsOnWeek[index]
                 if false {
-//                if record.isSetTime {
+//                if record.is_set_time {
 //                    if index == 0 || (index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time) {
                         TimeLine(record: record)
 //                    }

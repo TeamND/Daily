@@ -20,40 +20,22 @@ extension Date {
          return Calendar.current.component(.day, from: self)
     }
     
-//    public var getYear: String {
-//        let df = DateFormatter()
-//        df.dateFormat = "YYYY년"
-//        return df.string(from: self)
-//    }
-//
-//    public var getMonth: String {
-//        let df = DateFormatter()
-//        df.dateFormat = "M월"
-//        return df.string(from: self)
-//    }
-//
-//    public var getDay: String {
-//        let df = DateFormatter()
-//        df.dateFormat = "d일"
-//        return df.string(from: self)
-//    }
-    
     public func getDOW(language: String) -> String {
         return language == "한국어" ? self.getKoreaDOW() : self.getEnglishDOW()
     }
 
     public func getKoreaDOW() -> String {
-        let df = DateFormatter()
-        df.dateFormat = "EEE"
-        df.locale = Locale(identifier:"ko_KR")
-        return df.string(from: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        dateFormatter.locale = Locale(identifier:"ko_KR")
+        return dateFormatter.string(from: self)
     }
     
     public func getEnglishDOW() -> String {
-        let df = DateFormatter()
-        df.dateFormat = "EEE"
-        df.locale = Locale(identifier:"en_KR")
-        return df.string(from: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        dateFormatter.locale = Locale(identifier:"en_KR")
+        return dateFormatter.string(from: self)
     }
     
     public func startDayOfMonth() -> Date {
@@ -77,12 +59,18 @@ extension Date {
 
 extension Date {
     func toString() -> String {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return df.string(from: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter.string(from: self)
     }
+    
+    func toStringOfSetTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: self)
+    }
+    
 }
-
 
 extension String {
     func toDate() -> Date? {
@@ -94,5 +82,11 @@ extension String {
         } else {
             return nil
         }
+    }
+    
+    func toDateOfSetTime() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.date(from: self)!
     }
 }

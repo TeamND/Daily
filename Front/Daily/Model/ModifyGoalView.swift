@@ -15,13 +15,12 @@ struct ModifyGoalView: View {
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
     @State var isShowAlert: Bool = false
-    @State var isSetTime: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
     
     var body: some View {
         VStack {
-//            if record.isSetTime {
+//            if record.is_set_time {
 //                TimeLine(record: $record)
 //            }
             RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: true)
@@ -30,12 +29,12 @@ struct ModifyGoalView: View {
             VStack {
                 HStack {
                     Spacer()
-//                    Toggle("", isOn: $record.isSetTime)
+//                    Toggle("", isOn: $record.is_set_time)
 //                        .labelsHidden()
 //                        .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
 //                    DatePicker("", selection: $record.set_time, displayedComponents: [.hourAndMinute])
 //                        .datePickerStyle(.compact)
-//                        .disabled(!record.isSetTime)
+//                        .disabled(!record.is_set_time)
 //                        .labelsHidden()
 //                        .opacity(0.5)
                 }
