@@ -19,6 +19,7 @@ model = goal.model('목표', strict=True, model={
     'type': fields.String(title='횟수/시간 선택', default='check'),
     'goal_count': fields.String(title='목표 횟수', default='1'),
     'goal_time': fields.String(title='목표 시간', default='1M'),
+    'is_set_time': fields.Boolean(title='시간 설정', default='False'),
 })
 # @Todo.response(201, 'Success', todo_fields_with_id)
 @goal.route('/',methods=['POST'])
@@ -33,11 +34,14 @@ class GoalCreate(Resource):
         for data in data_list:
             data = eval(data)
             data.pop('uid')
-            #if 'cycle_date[]' in data:
-            #    cycle_date = request.form.getlist('cycle_date[]')
-            #    data.pop('cycle_date[]')
-            
-            #data['cycle_date'] = cycle_date
+            # if 'cycle_date[]' in data:
+            #     cycle_date = request.form.getlist('cycle_date[]')
+            #     data.pop('cycle_date[]')
+            #     data['cycle_date'] = cycle_date
+
+            if 'is_set_time' in data and data['is_set_time']:
+                data['is_set_time'] = True if data['is_set_time'] == 'true' else False
+
         return GoalApi.Create(data)
     
 @goal.route('/<int:uid>')
@@ -56,6 +60,8 @@ class GoalRUD(Resource):
         data = request.get_data()
         data = data.decode('UTF-8')
         data = json.loads(data)
+        if 'is_set_time' in data and data['is_set_time']:
+            data['is_set_time'] = True if data['is_set_time'] == 'true' else False
         return GoalApi.Update(uid,data)
     
     @goal.doc(responses={00: 'Success'})
