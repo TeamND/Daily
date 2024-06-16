@@ -5,7 +5,6 @@
 //  Created by 최승용 on 3/13/24.
 //
 
-import Foundation
 import SwiftUI
 
 private let serverUrl: String = "http://34.22.71.88:5000/"    // gcp
@@ -123,13 +122,5 @@ func modifyRecord(modifyRecordModel: modifyRecordModel, complete: @escaping (Res
             return
         }
         complete(data)
-    }
-}
-// MARK: - handle error
-
-func terminateApp() {
-    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        exit(0)
     }
 }

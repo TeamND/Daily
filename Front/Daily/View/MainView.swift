@@ -25,7 +25,7 @@ struct MainView: View {
                         dismissButton: .default(
                             Text("확인"),
                             action: {
-                                terminateApp()
+                                System().terminateApp()
                             }
                         )
                     )

@@ -74,7 +74,7 @@ struct InitView: View {
                         Text("확인"),
                         action: {
                             isShowTerminateAlert = false
-                            terminateApp()
+                            System().terminateApp()
                         }
                     )
                 )
