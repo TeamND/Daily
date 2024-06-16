@@ -271,7 +271,6 @@ class CalendarViewModel: ObservableObject {
             case "month":
                 changedDay = targetDate ?? cal.date(byAdding: .month, value: amount, to: self.getCurrentDate())!
                 getCalendarMonth(userID: String(userInfoViewModel.userInfo.uid), month: self.getStringFormatOfDate(year: changedDay.year, month: changedDay.month)) { (data) in
-                    print("data.code is \(data.code)")
                     if data.code == "00" {
                         self.resetDaysOnMonth()
                         self.changeDay(changedDay: changedDay)
