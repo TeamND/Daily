@@ -100,7 +100,7 @@ struct InitView: View {
                             Text("설정으로 이동"),
                             action: {
                                 isShowOpenSettingAlert = false
-                                PushNoticeManager().openSettingApp()
+                                System().openSettingApp()
                                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                                     isLoading = false
                             }

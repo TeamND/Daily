@@ -5,9 +5,7 @@
 //  Created by 최승용 on 5/29/24.
 //
 
-import Foundation
 import UserNotifications
-import UIKit
 
 class PushNoticeManager {
     @Published var isNotiOn: Bool = false
@@ -51,17 +49,6 @@ class PushNoticeManager {
                 completion(false)
             default:
                 print("other case in get noti setting situation,\n case is \(settings.authorizationStatus)")
-            }
-        }
-    }
-        
-    // 설정앱의 Cherish 앱 열기
-    func openSettingApp() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        
-        if UIApplication.shared.canOpenURL(url) {
-            DispatchQueue.main.async {
-                UIApplication.shared.open(url)
             }
         }
     }

@@ -22,18 +22,28 @@ struct System {
         }
     }
     
-    func openAppStore() {
-        guard let url = URL(string: System.appStoreOpenUrlString) else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-
     func terminateApp() {
         UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             exit(0)
         }
     }
-
+    
+    func openAppStore() {
+        guard let url = URL(string: System.appStoreOpenUrlString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            DispatchQueue.main.async {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    func openSettingApp() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            DispatchQueue.main.async {
+                UIApplication.shared.open(url)
+            }
+        }
+    }
 }
