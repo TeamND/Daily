@@ -19,8 +19,8 @@ struct GoalModel: Codable {
     var cycle_date: [String] = []
     var goal_time: Int = 300
     var goal_count: Int = 1
-//    var is_set_time: Bool = false
-//    var set_time: String = "00:00"
+    var is_set_time: Bool = false
+    var set_time: String = "00:00"
     
     init() {}
     init(recordModel: RecordModel) {

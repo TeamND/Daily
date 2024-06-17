@@ -17,11 +17,11 @@ struct RecordList: View {
 //            ForEach ($calendarViewModel.recordsOnWeek, id: \.self.uid) { record in
             ForEach (calendarViewModel.recordsOnWeek.indices, id: \.self) { index in
                 let record = $calendarViewModel.recordsOnWeek[index]
-                if false {
-//                if record.is_set_time {
-//                    if index == 0 || (index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time) {
+//                if false {
+                if record.is_set_time.wrappedValue {
+                    if index == 0 || (index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time.wrappedValue) {
                         TimeLine(record: record)
-//                    }
+                    }
                 }
                 RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {

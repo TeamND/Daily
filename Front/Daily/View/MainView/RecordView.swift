@@ -74,8 +74,8 @@ struct RecordView: View {
                         goalModel.start_date = currentDate
                         goalModel.end_date = currentDate
                         goalModel.cycle_date = [currentDate]
-//                        goalModel.is_set_time = is_set_time
-//                        goalModel.set_time = set_time.toStringOfSetTime()
+                        goalModel.is_set_time = is_set_time
+                        goalModel.set_time = set_time.toStringOfSetTime()
                         addGoal(goal: goalModel) { data in
                             if data.code == "00" {
                                 DispatchQueue.main.async {

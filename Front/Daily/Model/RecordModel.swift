@@ -19,8 +19,8 @@ struct RecordModel: Codable {
     var record_count: Int
     var issuccess: Bool
     var start_time2: String?
-//    var is_set_time: Bool
-//    var set_time: String
+    var is_set_time: Bool
+    var set_time: String
     
     init() {
         self.uid = -1
@@ -34,7 +34,7 @@ struct RecordModel: Codable {
         self.record_count = 0
         self.issuccess = false
         self.start_time2 = ""
-//        self.is_set_time = false
-//        self.set_time = "00:00"
+        self.is_set_time = false
+        self.set_time = "00:00"
     }
 }
