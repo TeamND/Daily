@@ -10,6 +10,9 @@ class GoalApi(Resource):
     def Create(data):
         try:
             # 목포 추가
+            if 'uid' in data:
+                data.pop('uid')
+
             if 'cycle_date[]' in data:
                 cycle_date = request.form.getlist('cycle_date[]')
                 data.pop('cycle_date[]')
@@ -21,7 +24,7 @@ class GoalApi(Resource):
             set_time = '00:00'
             if 'set_time' in data and data['set_time']:
                 set_time = data['set_time']
-                del data['set_time']
+                data.pop('set_time')
 
             goal_query = Goal(**data)
             db.session.add(goal_query)
