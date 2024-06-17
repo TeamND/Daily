@@ -30,18 +30,7 @@ class GoalCreate(Resource):
     @goal.doc(responses={99: 'Failed'})
     def post(self):
         '''목표를 추가한다.'''
-        data_list = request.form.copy()
-        for data in data_list:
-            data = eval(data)
-            data.pop('uid')
-            # if 'cycle_date[]' in data:
-            #     cycle_date = request.form.getlist('cycle_date[]')
-            #     data.pop('cycle_date[]')
-            #     data['cycle_date'] = cycle_date
-
-            if 'is_set_time' in data and data['is_set_time']:
-                data['is_set_time'] = True if data['is_set_time'] == 'true' else False
-
+        data = request.form.copy()
         return GoalApi.Create(data)
     
 @goal.route('/<int:uid>')
