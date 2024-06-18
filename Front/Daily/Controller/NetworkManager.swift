@@ -107,7 +107,9 @@ func modifyGoal(modifyGoalModel: modifyGoalModel, complete: @escaping (ResponseM
     guard let encodingData: Data = JSONConverter.encodeJson(param: modifyGoalModel) else {
         return
     }
+    print(String(decoding: encodingData, as: UTF8.self))
     HTTPManager.requestPUT(url: "\(serverUrl)goal/\(modifyGoalModel.uid)", encodingData: encodingData) { data in
+        print(String(decoding: data, as: UTF8.self))
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }
@@ -120,7 +122,9 @@ func modifyRecord(modifyRecordModel: modifyRecordModel, complete: @escaping (Res
     guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordModel) else {
         return
     }
+    print(String(decoding: encodingData, as: UTF8.self))
     HTTPManager.requestPUT(url: "\(serverUrl)calendar/\(modifyRecordModel.uid)", encodingData: encodingData) { data in
+        print(String(decoding: data, as: UTF8.self))
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }

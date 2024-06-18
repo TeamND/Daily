@@ -14,29 +14,30 @@ struct ModifyGoalView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
+    @State var set_time: Date = Date()
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
     @State var isShowCountRangeAlert: Bool = false
     
     var body: some View {
         VStack {
-//            if record.is_set_time {
-//                TimeLine(record: $record)
-//            }
+            if record.is_set_time {
+                TimeLine(record: $record)
+            }
             RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: $record, isBeforeRecord: true)
             CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             VStack {
                 HStack {
                     Spacer()
-//                    Toggle("", isOn: $record.is_set_time)
-//                        .labelsHidden()
-//                        .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
-//                    DatePicker("", selection: $record.set_time, displayedComponents: [.hourAndMinute])
-//                        .datePickerStyle(.compact)
-//                        .disabled(!record.is_set_time)
-//                        .labelsHidden()
-//                        .opacity(0.5)
+                    Toggle("", isOn: $modifyGoalModel.is_set_time)
+                        .labelsHidden()
+                        .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+                    DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
+                        .datePickerStyle(.compact)
+                        .disabled(!modifyGoalModel.is_set_time)
+                        .labelsHidden()
+                        .opacity(0.5)
                 }
                 
                 ContentTextField(content: $modifyGoalModel.content, type: $record.type)
@@ -62,6 +63,7 @@ struct ModifyGoalView: View {
                             isShowContentLengthAlert = true
                         } else {
                             DispatchQueue.main.async {
+                                modifyGoalModel.set_time = set_time.toStringOfSetTime()
                                 modifyGoal(modifyGoalModel: modifyGoalModel) { data in
                                     if data.code == "00" {
                                         DispatchQueue.main.async {
@@ -107,6 +109,9 @@ struct ModifyGoalView: View {
                 }
             })
             Spacer()
+        }
+        .onAppear {
+            set_time = modifyGoalModel.set_time.toDateOfSetTime()
         }
     }
 }
