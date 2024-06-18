@@ -69,7 +69,7 @@ class CalendarApi(Resource):
                                     func.to_char(Record.start_time, 'YYYY-mm-dd HH:MM:ss').label('start_time'), 
                                     Record.issuccess, Goal.is_set_time, Record.set_time)\
                         .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
-                        .order_by(Goal.is_set_time,Record.order).all()
+                        .order_by(Goal.is_set_time,Record.set_time,Record.order).all()
             
             # 데이터 가공
             result = []
@@ -269,7 +269,7 @@ class CalendarApi(Resource):
                 # join
                 join = db.session.query(Goal.content, Goal.symbol, Record.issuccess, Goal.is_set_time, Record.set_time)\
                             .filter(Record.goal_uid == Goal.uid, Goal.user_uid == user.uid, Record.date == date)\
-                            .order_by(Goal.is_set_time,Record.order).all()
+                            .order_by(Goal.is_set_time,Record.set_time,Record.order).all()
                 
                 rating_count = 0
                 # 데이터 가공
