@@ -19,7 +19,10 @@ class GoalApi(Resource):
                 data['cycle_date'] = cycle_date
 
             if 'is_set_time' in data and data['is_set_time']:
-                data['is_set_time'] = True if data['is_set_time'] == 'true' else False
+                if data['is_set_time'] == 'true' or data['is_set_time'] == True or data['is_set_time'] == 1:
+                    data['is_set_time'] = True 
+                else: 
+                    data['is_set_time'] = False
 
             set_time = '00:00'
             if 'set_time' in data and data['set_time']:

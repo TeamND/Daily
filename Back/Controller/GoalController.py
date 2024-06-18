@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Resource, Api, Namespace, fields
 from Api.GoalApi import GoalApi
 import json
+# import yaml
 
 goal = Namespace(
     name="Goal",
@@ -30,7 +31,9 @@ class GoalCreate(Resource):
     @goal.doc(responses={99: 'Failed'})
     def post(self):
         '''목표를 추가한다.'''
-        data = request.form.copy()
+        data_list = request.form.copy()
+        for data in data_list:
+            data = json.loads(data)
         return GoalApi.Create(data)
     
 @goal.route('/<int:uid>')
