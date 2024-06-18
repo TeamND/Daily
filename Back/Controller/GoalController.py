@@ -52,8 +52,6 @@ class GoalRUD(Resource):
         data = request.get_data()
         data = data.decode('UTF-8')
         data = json.loads(data)
-        if 'is_set_time' in data and data['is_set_time']:
-            data['is_set_time'] = True if data['is_set_time'] == 'true' else False
         return GoalApi.Update(uid,data)
     
     @goal.doc(responses={00: 'Success'})

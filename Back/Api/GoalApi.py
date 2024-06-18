@@ -104,6 +104,18 @@ class GoalApi(Resource):
 
     # 수정
     def Update(uid,data):
+
+        if 'is_set_time' in data and data['is_set_time']:
+                if data['is_set_time'] == 'true' or data['is_set_time'] == True or data['is_set_time'] == 1:
+                    data['is_set_time'] = True 
+                else: 
+                    data['is_set_time'] = False
+
+        set_time = '00:00'
+        if 'set_time' in data and data['set_time']:
+            set_time = data['set_time']
+            data.pop('set_time')
+
         result = db.session.get(Goal,uid)
         
         if result:
@@ -115,6 +127,7 @@ class GoalApi(Resource):
                         if record_list:
                             for record in record_list:
                                 record.issuccess = True if record.record_count >= v else False
+                                record.set_time = set_time
                     setattr(result, k, v)
                 db.session.commit()
                 return {
