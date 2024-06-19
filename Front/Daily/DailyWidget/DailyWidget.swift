@@ -64,22 +64,30 @@ struct SimpleRecordModel: Codable {
     let content: String
     let symbol: String
     let issuccess: Bool
+    let is_set_time: Bool
+    let set_time: String
     
     init() {
         self.content = "아침 7시에 일어나기 ☀️"
         self.symbol = "체크"
         self.issuccess = false
+        self.is_set_time = false
+        self.set_time = "00:00"
     }
     
     init(isEmpty: Bool) {
         self.content = ""
         self.symbol = "체크"
         self.issuccess = false
+        self.is_set_time = false
+        self.set_time = "00:00"
     }
 }
 
 func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
     guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
+    
+    print(requestURL)
     
     var urlRequest = URLRequest(url: requestURL)
     urlRequest.httpMethod = "GET"
@@ -90,6 +98,7 @@ func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
             return
         }
         if urlResponse is HTTPURLResponse {
+            print(String(decoding: data, as: UTF8.self))
             do {
                 let data: getCalendarWidgetModel = try JSONDecoder().decode(getCalendarWidgetModel.self, from: data)
                 complete(data)
@@ -242,6 +251,9 @@ struct SimpleRecordOnList: View {
                 Text(record.content)
                     .lineLimit(1)
                 Spacer()
+                if record.is_set_time {
+                    Text(record.set_time)
+                }
             }
         }
         .padding(10)
