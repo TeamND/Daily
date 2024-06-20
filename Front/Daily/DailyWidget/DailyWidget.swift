@@ -85,9 +85,9 @@ struct SimpleRecordModel: Codable {
 }
 
 func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
-    guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
-    
-    print(requestURL)
+    //let serverUrl: String = "http://34.22.71.88:5000/"    // gcp
+    let serverUrl: String = "http://43.202.215.185:5000/"   // aws
+    guard let requestURL = URL(string: "\(serverUrl)calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
     
     var urlRequest = URLRequest(url: requestURL)
     urlRequest.httpMethod = "GET"
@@ -98,7 +98,6 @@ func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
             return
         }
         if urlResponse is HTTPURLResponse {
-            print(String(decoding: data, as: UTF8.self))
             do {
                 let data: getCalendarWidgetModel = try JSONDecoder().decode(getCalendarWidgetModel.self, from: data)
                 complete(data)
