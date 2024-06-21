@@ -305,10 +305,12 @@ struct DailyWidget: Widget {
             if #available(iOS 17.0, *) {
                 DailyWidgetEntryView(entry: entry)
                     .containerBackground(Color("ThemeColor"), for: .widget)
+                    .widgetURL(URL(string: "widget://daily?day=\(entry.day)")!)
             } else {
                 DailyWidgetEntryView(entry: entry)
                     .padding()
                     .background(Color("ThemeColor"))
+                    .widgetURL(URL(string: "widget://daily?day=\(entry.day)")!)
             }
         }
         .configurationDisplayName("Daily Widget")
