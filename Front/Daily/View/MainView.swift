@@ -33,6 +33,15 @@ struct MainView: View {
         }
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
+        .onOpenURL { openUrl in
+            let url = openUrl.absoluteString.removingPercentEncoding ?? ""
+            if url.contains("widget") && url.contains("day=") {
+                let day = Int(url.split(separator: "day=")[1])!
+                calendarViewModel.setCurrentState(state: "week", year: 0, month: 0, day: day, userInfoViewModel: userInfoViewModel) { code in
+                    if code == "99" { alertViewModel.showAlert() }
+                }
+            }
+        }
     }
 }
 

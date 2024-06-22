@@ -10,6 +10,10 @@ import SwiftUI
 //private let serverUrl: String = "http://34.22.71.88:5000/"    // gcp
 private let serverUrl: String = "http://43.202.215.185:5000/"   // aws
 
+func printDataToString(data: Data) {
+    print(String(decoding: data, as: UTF8.self))
+}
+
 // MARK: - userInfo
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)?appVersion=\(String(System.appVersion!))") { data in
@@ -51,7 +55,6 @@ func getCalendarWeek(userID: String, startDay: String, complete: @escaping (getC
 }
 func getCalendarDay(userID: String, day: String, complete: @escaping (getCalendarDayModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)calendar/day/\(userID)?date=\(day)") { data in
-        print(String(decoding: data, as: UTF8.self))
         guard let data: getCalendarDayModel = JSONConverter.decodeJson(data: data) else {
             complete(getCalendarDayModel())
             return
@@ -65,9 +68,7 @@ func addGoal(goal: GoalModel, complete: @escaping (ResponseModel) -> Void) {
     guard let encodingData: Data = JSONConverter.encodeJson(param: goal) else {
         return
     }
-    print(String(decoding: encodingData, as: UTF8.self))
     HTTPManager.requestPOST(url: "\(serverUrl)goal", encodingData: encodingData) { data in
-        print(String(decoding: data, as: UTF8.self))
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }

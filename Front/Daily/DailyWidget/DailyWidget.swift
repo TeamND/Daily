@@ -64,22 +64,30 @@ struct SimpleRecordModel: Codable {
     let content: String
     let symbol: String
     let issuccess: Bool
+    let is_set_time: Bool
+    let set_time: String
     
     init() {
         self.content = "아침 7시에 일어나기 ☀️"
         self.symbol = "체크"
         self.issuccess = false
+        self.is_set_time = false
+        self.set_time = "00:00"
     }
     
     init(isEmpty: Bool) {
         self.content = ""
         self.symbol = "체크"
         self.issuccess = false
+        self.is_set_time = false
+        self.set_time = "00:00"
     }
 }
 
 func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
-    guard let requestURL = URL(string: "http://34.22.71.88:5000/calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
+    //let serverUrl: String = "http://34.22.71.88:5000/"    // gcp
+    let serverUrl: String = "http://43.202.215.185:5000/"   // aws
+    guard let requestURL = URL(string: "\(serverUrl)calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
     
     var urlRequest = URLRequest(url: requestURL)
     urlRequest.httpMethod = "GET"
@@ -242,6 +250,9 @@ struct SimpleRecordOnList: View {
                 Text(record.content)
                     .lineLimit(1)
                 Spacer()
+                if record.is_set_time {
+                    Text(record.set_time)
+                }
             }
         }
         .padding(10)
@@ -294,10 +305,12 @@ struct DailyWidget: Widget {
             if #available(iOS 17.0, *) {
                 DailyWidgetEntryView(entry: entry)
                     .containerBackground(Color("ThemeColor"), for: .widget)
+                    .widgetURL(URL(string: "widget://daily?day=\(entry.day)")!)
             } else {
                 DailyWidgetEntryView(entry: entry)
                     .padding()
                     .background(Color("ThemeColor"))
+                    .widgetURL(URL(string: "widget://daily?day=\(entry.day)")!)
             }
         }
         .configurationDisplayName("Daily Widget")
