@@ -16,11 +16,11 @@ struct TimeLine: View {
             CustomDivider(color: color, height: CGFloat.fontSize / 3, hPadding: CGFloat.fontSize)
                 .frame(width: CGFloat.fontSize * 5)
             Text(record.set_time)
-//            Text("14 : 00")
                 .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                 .foregroundStyle(color)
             CustomDivider(color: color, height: CGFloat.fontSize / 3, hPadding: CGFloat.fontSize)
         }
         .frame(height: CGFloat.fontSize * 3)
+        .padding(.bottom, -CGFloat.fontSize * 1.5)
     }
 }

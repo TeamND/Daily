@@ -14,12 +14,15 @@ struct RecordList: View {
     
     var body: some View {
         VStack {
-//            ForEach ($calendarViewModel.recordsOnWeek, id: \.self.uid) { record in
             ForEach (calendarViewModel.recordsOnWeek.indices, id: \.self) { index in
                 let record = $calendarViewModel.recordsOnWeek[index]
-//                if false {
                 if record.is_set_time.wrappedValue {
-                    if index == 0 || (index > 0 && calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time.wrappedValue) {
+                    if index == 0 ||    // 첫번째 항목일 경우 표기
+                        (index > 0 &&   // n번째 항목일 경우
+                         (calendarViewModel.recordsOnWeek[index - 1].is_set_time == false ||    // 이전 항목의 is_set_time이 false라면 set_time에 상관 없이 표기
+                          calendarViewModel.recordsOnWeek[index - 1].set_time != record.set_time.wrappedValue)  // 이전 항목과 set_time이 다르면 표기
+                        )
+                    {
                         TimeLine(record: record)
                     }
                 }
