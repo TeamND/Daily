@@ -114,11 +114,7 @@ struct CalendarHeader: View {
             HStack(spacing: 0) {
                 Spacer()
                 Button {
-                    // 추후 동기화 작업이 필요
-                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date()) { code in
-                        if code == "99" { alertViewModel.showAlert() }
-                    }
-                    calendarViewModel.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel) { code in
+                    calendarViewModel.goToday(userInfoViewModel: userInfoViewModel) { code in
                         if code == "99" { alertViewModel.showAlert() }
                     }
                 } label: {

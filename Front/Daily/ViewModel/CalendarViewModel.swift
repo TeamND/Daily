@@ -346,4 +346,14 @@ class CalendarViewModel: ObservableObject {
         let monthStr = String(format: "%02d", month == 0 ? self.currentMonth : month)
         return "\(self.getCurrentYearStr())-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
+    
+    func goToday(userInfoViewModel: UserInfoViewModel, complete: @escaping (String) -> Void) {
+        // 추후 동기화 작업이 필요
+        self.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: Date()) { code in
+            if code == "99" { complete(code) }
+        }
+        self.setCurrentState(state: "week", year: Date().year, month: Date().month, day: Date().day, userInfoViewModel: userInfoViewModel) { code in
+            if code == "99" { complete(code) }
+        }
+    }
 }
