@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//import os
 
 final class HTTPManager {
     static func requestGET(url: String, complete: @escaping (Data) -> ()) {

@@ -22,7 +22,6 @@ struct Provider: TimelineProvider {
         getCalendarWidget { data in
             var entries: [SimpleEntry] = []
             
-            // Generate a timeline consisting of five entries an hour apart, starting from the current date.
             let currentDate = Date()
             for hourOffset in 0 ..< 5 {
                 let entryDate = Calendar.current.date(byAdding: .minute, value: hourOffset, to: currentDate)!
@@ -85,7 +84,6 @@ struct SimpleRecordModel: Codable {
 }
 
 func getCalendarWidget(complete: @escaping (getCalendarWidgetModel) -> Void) {
-    //let serverUrl: String = "http://34.22.71.88:5000/"    // gcp
     let serverUrl: String = "http://43.202.215.185:5000/"   // aws
     guard let requestURL = URL(string: "\(serverUrl)calendar/widget/\(UIDevice.current.identifierForVendor!.uuidString)") else { return }
     
@@ -317,15 +315,6 @@ struct DailyWidget: Widget {
         .description("위젯으로 더욱 간편하게! :D")
     }
 }
-
-//#Preview(as: .systemSmall) {
-//    DailyWidget()
-//} timeline: {
-//    SimpleEntry(date: .now, emoji: "😀")
-//    SimpleEntry(date: .now, emoji: "🤩")
-//}
-
-
 
 extension CGFloat {
     static let screenWidth = UIScreen.main.bounds.width
