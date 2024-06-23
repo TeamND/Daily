@@ -46,7 +46,7 @@ struct RecordView: View {
                 SymbolPickerGroup(symbol: $goalModel.symbol)
             }
             .padding()
-            .frame(height: 40)
+            .frame(height: 50)
             
             HStack {
                 Spacer()
