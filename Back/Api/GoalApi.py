@@ -24,11 +24,6 @@ class GoalApi(Resource):
                 else: 
                     data['is_set_time'] = False
 
-            set_time = '00:00'
-            if 'set_time' in data and data['set_time']:
-                set_time = data['set_time']
-                data.pop('set_time')
-
             goal_query = Goal(**data)
             db.session.add(goal_query)
             db.session.commit()
@@ -60,7 +55,7 @@ class GoalApi(Resource):
             for date in date_list:
                 user_goal = db.session.query(Goal).filter_by(user_uid=goal_query.user_uid)
                 order = user_goal.join(Record, Goal.uid == Record.goal_uid).count()
-                db.session.add(Record(goal_uid=goal_query.uid, date=date, set_time=set_time, order=order))
+                db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
             db.session.commit()
 
             return {
@@ -111,11 +106,6 @@ class GoalApi(Resource):
                 else: 
                     data['is_set_time'] = False
 
-        set_time = '00:00'
-        if 'set_time' in data and data['set_time']:
-            set_time = data['set_time']
-            data.pop('set_time')
-
         result = db.session.get(Goal,uid)
         
         if result:
@@ -127,7 +117,6 @@ class GoalApi(Resource):
                         if record_list:
                             for record in record_list:
                                 record.issuccess = True if record.record_count >= v else False
-                                record.set_time = set_time
                     setattr(result, k, v)
                 db.session.commit()
                 return {
