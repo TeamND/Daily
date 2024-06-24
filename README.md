@@ -68,9 +68,16 @@
 - Handle getUserInfo response code "01" case
 - Add Spacer in bottom of RecordView
 
-24.06.20. ~
+24.06.20. ~ 24.06.24.
 
 [1.2.1 업데이트]
 - Replace server from gcp to aws
 - Add set_time in Goal & Record
-- Add TimeLine in RecordList 
+- Add TimeLine in RecordList
+
+24.06.24. ~
+
+[1.2.3 업데이트]
+- Add WidgetUrl & goToday()
+- Modify padding of TimeLine
+- Modify height of SymbolPickerGroup
