@@ -15,7 +15,7 @@ struct DayOnMonth: View {
     
     var body: some View {
         let symbols = dayOnMonth.symbol
-        let maxSymbolNum = UIDevice.current.model == "iPhone" ? 4 : 6
+        let maxSymbolNum = UIDevice.current.model == "iPad" ? 6 : 4
         VStack(alignment: .leading) {
             ZStack {
                 Image(systemName: "circle.fill")
