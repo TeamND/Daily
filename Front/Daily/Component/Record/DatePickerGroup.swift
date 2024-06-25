@@ -17,6 +17,7 @@ struct DatePickerGroup: View {
         Group {
             Label {
                 Text("\(String(calendarViewModel.getCurrentYear())). \(calendarViewModel.getCurrentMonth()). \(calendarViewModel.getCurrentDay()). \(calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel))")
+                    .font(.system(size: CGFloat.fontSize * 2.5))
             } icon: {
                 Image(systemName: "calendar")
             }
