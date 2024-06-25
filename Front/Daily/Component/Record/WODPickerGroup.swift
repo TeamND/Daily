@@ -15,9 +15,8 @@ struct WODPickerGroup: View {
     var body: some View {
         Group {
             HStack {
-                Text("[")
-                Spacer()
                 ForEach (userInfoViewModel.weeks.indices, id: \.self) { index in
+                    Spacer()
                     ZStack {
                         Image(systemName: "circle.fill")
                             .font(.system(size: CGFloat.fontSize * 4))
@@ -41,9 +40,7 @@ struct WODPickerGroup: View {
                             }
                         }
                     }
-                    Spacer()
                 }
-                Text("]")
             }
         }
     }
