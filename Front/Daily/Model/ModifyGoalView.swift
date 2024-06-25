@@ -37,7 +37,7 @@ struct ModifyGoalView: View {
                         .datePickerStyle(.compact)
                         .disabled(!modifyGoalModel.is_set_time)
                         .labelsHidden()
-                        .opacity(0.5)
+                        .opacity(modifyGoalModel.is_set_time ? 1 : 0.5)
                 }
                 
                 ContentTextField(content: $modifyGoalModel.content, type: $record.type)
