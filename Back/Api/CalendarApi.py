@@ -67,9 +67,9 @@ class CalendarApi(Resource):
             join = db.session.query(Record.uid, Record.goal_uid, Goal.content, Goal.symbol, Goal.type, 
                                     Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, 
                                     func.to_char(Record.start_time, 'YYYY-mm-dd HH:MM:ss').label('start_time'), 
-                                    Record.issuccess, Goal.is_set_time, Record.set_time)\
+                                    Record.issuccess, Goal.is_set_time, Goal.set_time)\
                         .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
-                        .order_by(Goal.is_set_time,Record.set_time,Record.order).all()
+                        .order_by(Goal.is_set_time,Goal.set_time,Record.order).all()
             
             # 데이터 가공
             result = []
@@ -156,7 +156,7 @@ class CalendarApi(Resource):
             join = db.session.query(func.to_char(Record.date, 'dd'), Goal.symbol, Record.issuccess)\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, 
                             extract('year', Record.date) == date[0:4], extract('month', Record.date) == date[5:7])\
-                    .order_by(Record.date,Record.set_time,Record.order,Record.goal_uid).all()
+                    .order_by(Record.date,Goal.set_time,Record.order,Record.goal_uid).all()
             
             # 데이터 가공
             temp = {}
@@ -267,9 +267,9 @@ class CalendarApi(Resource):
                 date = datetime.datetime.now().strftime('%Y-%m-%d')
                 
                 # join
-                join = db.session.query(Goal.content, Goal.symbol, Record.issuccess, Goal.is_set_time, Record.set_time)\
+                join = db.session.query(Goal.content, Goal.symbol, Record.issuccess, Goal.is_set_time, Goal.set_time)\
                             .filter(Record.goal_uid == Goal.uid, Goal.user_uid == user.uid, Record.date == date)\
-                            .order_by(Goal.is_set_time,Record.set_time,Record.order).all()
+                            .order_by(Goal.is_set_time,Goal.set_time,Record.order).all()
                 
                 rating_count = 0
                 # 데이터 가공

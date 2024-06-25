@@ -28,11 +28,12 @@ class Goal(db.Model):
     type = db.Column(db.String(100), default='check')
     goal_count = db.Column(db.Integer, default=1)
     goal_time = db.Column(db.Integer, default=60)
-    is_set_time = db.Column(db.Boolean, default=False)
+    is_set_time = db.Column(db.Boolean, default=False) 
+    set_time = db.Column(db.String(100), default='00:00')
     record = db.relationship('Record', backref='goal', lazy=True) 
     
     def __repr__(self):
-        return f"Goal('{self.uid}', '{self.user_uid}', '{self.content}', '{self.symbol}', '{self.start_date}', '{self.end_date}', '{self.cycle_type}', '{self.cycle_date}', '{self.type}', '{self.goal_count}', '{self.goal_time}', '{self.is_set_time}')"
+        return f"Goal('{self.uid}', '{self.user_uid}', '{self.content}', '{self.symbol}', '{self.start_date}', '{self.end_date}', '{self.cycle_type}', '{self.cycle_date}', '{self.type}', '{self.goal_count}', '{self.goal_time}', '{self.is_set_time}', '{self.set_time}')"
     
 class Record(db.Model):
     __tablename__ = 'record'
@@ -45,7 +46,6 @@ class Record(db.Model):
     record_time = db.Column(db.Integer, default=0)
     start_time = db.Column(db.DateTime, default=datetime.datetime.strptime('0001-01-01','%Y-%m-%d'))
     start_time2 = db.Column(db.DateTime)
-    set_time = db.Column(db.String, default='00:00')
 
     def __repr__(self):
-        return f"Record('{self.uid}', '{self.goal_uid}', '{self.date}', '{self.order}', '{self.issuccess}', '{self.record_count}', '{self.record_time}', '{self.start_time}', '{self.start_time2}', '{self.set_time}')"
+        return f"Record('{self.uid}', '{self.goal_uid}', '{self.date}', '{self.order}', '{self.issuccess}', '{self.record_count}', '{self.record_time}', '{self.start_time}', '{self.start_time2}')"
