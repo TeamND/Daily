@@ -39,6 +39,7 @@ struct RecordView: View {
                                 Button {
                                     withAnimation {
                                         typeIndex = index
+                                        end_date = start_date
                                     }
                                 } label: {
                                     Text(cycle_types[index])
@@ -50,7 +51,7 @@ struct RecordView: View {
                         }
                         Spacer()
                         if typeIndex == 0 {
-                            DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $start_date)
+                            DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $start_date)
                                 .matchedGeometryEffect(id: "start_date", in: ns)
                                 .matchedGeometryEffect(id: "end_date", in: ns)
                         } else if typeIndex == 1 {
@@ -62,12 +63,12 @@ struct RecordView: View {
                     if typeIndex == 1 {
                         VStack {
                             HStack {
-                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $start_date)
+                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $start_date)
                                     .matchedGeometryEffect(id: "start_date", in: ns)
                                 Spacer()
                                 Text(" ~ ")
                                 Spacer()
-                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, date: $end_date)
+                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $end_date)
                                     .matchedGeometryEffect(id: "end_date", in: ns)
                             }
                         }
