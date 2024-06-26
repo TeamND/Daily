@@ -28,7 +28,6 @@ struct RecordView: View {
     @State var isSelectedWOD: [Bool] = Array(repeating: false, count: 7)
     
     var body: some View {
-        
         VStack {
 //            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
             Spacer()
@@ -96,7 +95,9 @@ struct RecordView: View {
             }
             .font(.system(size: CGFloat.fontSize * 2.5))
             
-            ContentTextField(content: $goalModel.content, type: $goalModel.type)
+            RecordSection(title: "목표", isEssential: true, essentialConditions: $goalModel.content.wrappedValue.count >= 2) {
+                ContentTextField(content: $goalModel.content, type: $goalModel.type)
+            }
             
             HStack {
                 GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
@@ -160,6 +161,7 @@ struct RecordView: View {
             Spacer()
         }
         .padding()
+        .background(Color("ThemeColor"))
         .alert(isPresented: $isShowAlert, content: {
             if self.isShowContentLengthAlert {
                 Alert(
@@ -188,6 +190,9 @@ struct RecordView: View {
             end_date = calendarViewModel.getCurrentDate()
             beforeDate = start_date
             set_time = "00:00".toDateOfSetTime()
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
         .navigationBarTitleDisplayMode(.inline)
     }

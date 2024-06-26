@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentTextField: View {
     @Binding var content: String
     @Binding var type: String
+    @FocusState var focusedField : Int?
     
     var body: some View {
         TextField(
@@ -17,11 +18,12 @@ struct ContentTextField: View {
             text: $content,
             prompt: Text(contentOfGoalHintText(type: type))
         )
-        .padding()
-        .background(Color("BackgroundColor"))
-        .cornerRadius(5.0)
+        .focused($focusedField, equals: 0)
         .onSubmit {
             hideKeyboard()
+        }
+        .onAppear {
+            self.focusedField = 0
         }
     }
 }
