@@ -12,10 +12,14 @@ struct SymbolPickerGroup: View {
     @State var isShowSymbolSheet: Bool = false
     var body: some View {
         Group {
-            Image(systemName: "\(symbol.toSymbol()!.rawValue)")
-            Image(systemName: "chevron.right")
-                .frame(width: CGFloat.fontSize * 10)
-            Image(systemName: "\(symbol.toSymbol()!.rawValue).fill")
+            HStack {
+                Spacer()
+                Image(systemName: "\(symbol.toSymbol()!.rawValue)")
+                Image(systemName: "chevron.right")
+                    .frame(width: CGFloat.fontSize * 10)
+                Image(systemName: "\(symbol.toSymbol()!.rawValue).fill")
+                Spacer()
+            }
         }
         .onTapGesture {
             isShowSymbolSheet = true

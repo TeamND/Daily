@@ -17,6 +17,7 @@ struct GoalCountPickerGroup: View {
     
     var body: some View {
         HStack {
+            Spacer()
             if type == "timer" {
                 Button {
                     if timerViewModel.timerIndex > 0 {
@@ -73,6 +74,7 @@ struct GoalCountPickerGroup: View {
                     Image(systemName: "plus.circle")
                 }
             }
+            Spacer()
         }
         .buttonStyle(.plain)
     }

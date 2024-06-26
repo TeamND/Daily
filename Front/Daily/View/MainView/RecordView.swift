@@ -100,12 +100,14 @@ struct RecordView: View {
             }
             
             HStack {
-                GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
-                Spacer()
-                SymbolPickerGroup(symbol: $goalModel.symbol)
+                // check & count = "횟수", timer = "시간"
+                RecordSection(title: $goalModel.type.wrappedValue == "timer" ? "시간" : "횟수") {
+                    GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                }
+                RecordSection(title: "심볼") {
+                    SymbolPickerGroup(symbol: $goalModel.symbol)
+                }
             }
-            .padding()
-            .frame(height: 50)
             
             HStack {
                 Spacer()
