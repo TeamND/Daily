@@ -11,6 +11,7 @@ struct RecordSection<Content: View>: View {
     var title: String
     var isEssential: Bool = false
     var essentialConditions: Bool = false
+    var isNew: Bool = false
     @State var isShowEssentialConditions: Bool = false
     var content: () -> Content
     
@@ -25,7 +26,7 @@ struct RecordSection<Content: View>: View {
                     VStack {
                         HStack {
                             HStack(spacing: CGFloat.fontSize * 0.5) {
-                                Text((title))
+                                Text(title)
                                 if isEssential && !essentialConditions {
                                     Button {
                                         withAnimation {
@@ -42,6 +43,17 @@ struct RecordSection<Content: View>: View {
                                             }
                                         }
                                     }
+                                }
+                                if isNew {
+                                    Text("new")
+                                        .font(.system(size: CGFloat.fontSize * 1.5))
+                                        .padding(.leading, CGFloat.fontSize)
+//                                        .padding(CGFloat.fontSize * 0.3)
+                                        .foregroundStyle(Color("CustomColor"))
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 8)
+//                                                .stroke(Color("CustomColor").opacity(0.5), lineWidth: 1)
+//                                            )
                                 }
                             }
                             .font(.system(size: CGFloat.fontSize * 2))

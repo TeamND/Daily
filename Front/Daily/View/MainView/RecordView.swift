@@ -31,7 +31,7 @@ struct RecordView: View {
         VStack {
 //            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
             Spacer()
-            RecordSection(title: "날짜") {
+            RecordSection(title: "날짜", isNew: true) {
                 VStack {
                     HStack {
                         Menu {
