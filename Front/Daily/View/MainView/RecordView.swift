@@ -13,6 +13,9 @@ struct RecordView: View {
     @Namespace var ns
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @StateObject var goalViewModel: GoalViewModel = GoalViewModel()
+    
+    
     @State var goalModel: GoalModel = GoalModel()
     @State var start_date: Date = Date()
     @State var end_date: Date = Date()
@@ -34,33 +37,19 @@ struct RecordView: View {
             RecordSection(title: "날짜", isNew: true) {
                 VStack {
                     HStack {
-                        Menu {
-                            ForEach(0 ..< cycle_types.count, id: \.self) { index in
-                                Button {
-                                    withAnimation {
-                                        typeIndex = index
-                                        end_date = start_date
-                                    }
-                                } label: {
-                                    Text(cycle_types[index])
-                                }
-                            }
-                        } label: {
-                            Text(cycle_types[typeIndex])
-                                .font(.system(size: CGFloat.fontSize * 2.5))
-                        }
+                        CycleTypePickerGroup(goalViewModel: goalViewModel)
                         Spacer()
-                        if typeIndex == 0 {
+                        if goalViewModel.typeIndex == 0 {
                             DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $start_date)
                                 .matchedGeometryEffect(id: "start_date", in: ns)
                                 .matchedGeometryEffect(id: "end_date", in: ns)
-                        } else if typeIndex == 1 {
+                        } else if goalViewModel.typeIndex == 1 {
                             Spacer()
                             Spacer()
                             WODPickerGroup(userInfoViewModel: userInfoViewModel, selectedWOD: selectedWOD, isSelectedWOD: isSelectedWOD)
                         }
                     }
-                    if typeIndex == 1 {
+                    if goalViewModel.typeIndex == 1 {
                         VStack {
                             HStack {
                                 DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $start_date)
@@ -78,35 +67,35 @@ struct RecordView: View {
             RecordSection(title: "시간") {
                 HStack {
                     Text("하루 종일")
-                        .opacity(is_set_time ? 0.5 : 1)
+                        .opacity(goalViewModel.is_set_time ? 0.5 : 1)
                     Spacer()
-                    Toggle("", isOn: $is_set_time)
+                    Toggle("", isOn: $goalViewModel.is_set_time)
                         .labelsHidden()
                         .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
                         .scaleEffect(CGSize(width: 0.9, height: 0.9))
                     Spacer()
-                    DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
+                    DatePicker("", selection: $goalViewModel.set_time, displayedComponents: [.hourAndMinute])
                         .datePickerStyle(.compact)
-                        .disabled(!is_set_time)
+                        .disabled(!goalViewModel.is_set_time)
                         .labelsHidden()
-                        .opacity(is_set_time ? 1 : 0.5)
+                        .opacity(goalViewModel.is_set_time ? 1 : 0.5)
                         .scaleEffect(CGSize(width: 0.9, height: 0.9))
                         .frame(height: CGFloat.fontSize * 4)
                 }
             }
             .font(.system(size: CGFloat.fontSize * 2.5))
             
-            RecordSection(title: "목표", isEssential: true, essentialConditions: $goalModel.content.wrappedValue.count >= 2) {
-                ContentTextField(content: $goalModel.content, type: $goalModel.type)
+            RecordSection(title: "목표", isEssential: true, essentialConditions: $goalViewModel.goalModel.content.wrappedValue.count >= 2) {
+                ContentTextField(content: $goalViewModel.goalModel.content, type: $goalViewModel.goalModel.type)
             }
             
             HStack {
                 // check & count = "횟수", timer = "시간"
-                RecordSection(title: $goalModel.type.wrappedValue == "timer" ? "시간" : "횟수") {
-                    GoalCountPickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                RecordSection(title: $goalViewModel.goalModel.type.wrappedValue == "timer" ? "시간" : "횟수") {
+                    GoalCountPickerGroup(type: $goalViewModel.goalModel.type, count: $goalViewModel.goalModel.goal_count, time: $goalViewModel.goalModel.goal_time, isShowAlert: $goalViewModel.isShowAlert, isShowCountRangeAlert: $goalViewModel.isShowCountRangeAlert)
                 }
                 RecordSection(title: "심볼") {
-                    SymbolPickerGroup(symbol: $goalModel.symbol)
+                    SymbolPickerGroup(symbol: $goalViewModel.goalModel.symbol)
                 }
             }
             
@@ -114,20 +103,23 @@ struct RecordView: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        goalModel.symbol = "체크"
-                        goalModel.content = ""
-                        goalModel.type = "check"
-                        goalModel.goal_count = 1
-                        is_set_time = false
-                        set_time = "00:00".toDateOfSetTime()
-                        typeIndex = 0
-                        selectedWOD = []
-                        isSelectedWOD = Array(repeating: false, count: 7)
-                        start_date = beforeDate
-                        end_date = beforeDate
-                        calendarViewModel.setCurrentYear(year: start_date.year)
-                        calendarViewModel.setCurrentMonth(month: start_date.month)
-                        calendarViewModel.setCurrentDay(day: start_date.day)
+//                        typeIndex = 0
+                        goalViewModel.resetAll()
+                        
+                        
+//                        goalViewModel.goalModel.symbol = "체크"
+                        goalViewModel.goalModel.content = ""
+                        goalViewModel.goalModel.type = "check"
+                        goalViewModel.goalModel.goal_count = 1
+                        goalViewModel.is_set_time = false
+                        goalViewModel.set_time = "00:00".toDateOfSetTime()
+//                        goalViewModel.selectedWOD = []
+                        goalViewModel.isSelectedWOD = Array(repeating: false, count: 7)
+                        goalViewModel.start_date = goalViewModel.beforeDate
+                        goalViewModel.end_date = goalViewModel.beforeDate
+                        calendarViewModel.setCurrentYear(year: goalViewModel.start_date.year)
+                        calendarViewModel.setCurrentMonth(month: goalViewModel.start_date.month)
+                        calendarViewModel.setCurrentDay(day: goalViewModel.start_date.day)
                     }
                 } label: {
                     Text("초기화")

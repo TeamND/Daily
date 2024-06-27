@@ -30,6 +30,8 @@
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */; };
 		F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */; };
+		F6AB72542C2D438E008A5D28 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */; };
+		F6AB72562C2D455D008A5D28 /* CycleTypePickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -140,6 +142,8 @@
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F6A24D6D2C11FB3E00C328E4 /* WeeklyBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBackground.swift; sourceTree = "<group>"; };
 		F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLine.swift; sourceTree = "<group>"; };
+		F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
+		F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleTypePickerGroup.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -476,6 +480,7 @@
 			children = (
 				F662AC082C2A996A005D92B4 /* RecordSection.swift */,
 				F6699B972BCCFF3C00B1FDA7 /* TypePickerGroup.swift */,
+				F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */,
 				F6699B932BC70CBA00B1FDA7 /* DatePickerGroup.swift */,
 				F662AC0A2C2AB643005D92B4 /* WODPickerGroup.swift */,
 				F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */,
@@ -493,6 +498,7 @@
 				F6DF64AF2BAFC8B000A17B9E /* CalendarViewModel.swift */,
 				F6EC3D192BDCE74C00FAB502 /* TimerViewModel.swift */,
 				F6E942512BF208000069003D /* AlertViewModel.swift */,
+				F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -664,6 +670,7 @@
 				F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */,
 				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
+				F6AB72562C2D455D008A5D28 /* CycleTypePickerGroup.swift in Sources */,
 				F662AC092C2A996A005D92B4 /* RecordSection.swift in Sources */,
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,
 				F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */,
@@ -690,6 +697,7 @@
 				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
 				F6CC15A62BA4511F00689A02 /* NoRecord.swift in Sources */,
+				F6AB72542C2D438E008A5D28 /* GoalViewModel.swift in Sources */,
 				F6C0F807291A501400984457 /* CalendarHeader.swift in Sources */,
 				F6CC15A82BA4566900689A02 /* getCalendarWeekModel.swift in Sources */,
 				F6C6B0302BB424B300C578C1 /* AppInfo.swift in Sources */,
