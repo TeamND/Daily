@@ -9,8 +9,7 @@ import SwiftUI
 
 struct WODPickerGroup: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
-    @State var selectedWOD: [Int]
-    @State var isSelectedWOD: [Bool]
+    @ObservedObject var goalViewModel: GoalViewModel
     
     var body: some View {
         Group {
@@ -20,21 +19,21 @@ struct WODPickerGroup: View {
                     ZStack {
                         Image(systemName: "circle.fill")
                             .font(.system(size: CGFloat.fontSize * 4))
-                            .foregroundColor(Color("CustomColor").opacity(isSelectedWOD[index] ? 0.5 : 0))
+                            .foregroundColor(Color("CustomColor").opacity(goalViewModel.isSelectedWOD[index] ? 0.5 : 0))
                             .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
                         Text(userInfoViewModel.weeks[index])
                             .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                     }
                     .onTapGesture {
                         withAnimation {
-                            isSelectedWOD[index].toggle()
+                            goalViewModel.isSelectedWOD[index].toggle()
                         }
-                        if isSelectedWOD[index] {
-                            selectedWOD.append(index)
+                        if goalViewModel.isSelectedWOD[index] {
+                            goalViewModel.selectedWOD.append(index)
                         } else {
-                            for wodIndex in 0 ..< selectedWOD.count {
-                                if selectedWOD[wodIndex] == index {
-                                    selectedWOD.remove(at: wodIndex)
+                            for wodIndex in 0 ..< goalViewModel.selectedWOD.count {
+                                if goalViewModel.selectedWOD[wodIndex] == index {
+                                    goalViewModel.selectedWOD.remove(at: wodIndex)
                                     break
                                 }
                             }

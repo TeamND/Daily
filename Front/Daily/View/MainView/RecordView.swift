@@ -15,21 +15,6 @@ struct RecordView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @StateObject var goalViewModel: GoalViewModel = GoalViewModel()
     
-    
-    @State var goalModel: GoalModel = GoalModel()
-    @State var start_date: Date = Date()
-    @State var end_date: Date = Date()
-    @State var beforeDate: Date = Date()
-    @State var is_set_time: Bool = false
-    @State var set_time = Date()
-    @State var isShowAlert: Bool = false
-    @State var isShowContentLengthAlert: Bool = false
-    @State var isShowCountRangeAlert: Bool = false
-    let cycle_types: [String] = ["날짜 선택", "요일 반복"]
-    @State var typeIndex: Int = 0
-    @State var selectedWOD: [Int] = []
-    @State var isSelectedWOD: [Bool] = Array(repeating: false, count: 7)
-    
     var body: some View {
         VStack {
 //            TypePickerGroup(type: $goalModel.type, count: $goalModel.goal_count, time: $goalModel.goal_time)
@@ -40,24 +25,24 @@ struct RecordView: View {
                         CycleTypePickerGroup(goalViewModel: goalViewModel)
                         Spacer()
                         if goalViewModel.typeIndex == 0 {
-                            DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $start_date)
+                            DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $goalViewModel.start_date)
                                 .matchedGeometryEffect(id: "start_date", in: ns)
                                 .matchedGeometryEffect(id: "end_date", in: ns)
                         } else if goalViewModel.typeIndex == 1 {
                             Spacer()
                             Spacer()
-                            WODPickerGroup(userInfoViewModel: userInfoViewModel, selectedWOD: selectedWOD, isSelectedWOD: isSelectedWOD)
+                            WODPickerGroup(userInfoViewModel: userInfoViewModel, goalViewModel: goalViewModel)
                         }
                     }
                     if goalViewModel.typeIndex == 1 {
                         VStack {
                             HStack {
-                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $start_date)
+                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $goalViewModel.start_date)
                                     .matchedGeometryEffect(id: "start_date", in: ns)
                                 Spacer()
                                 Text(" ~ ")
                                 Spacer()
-                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $end_date)
+                                DatePickerGroup(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, currentDate: $goalViewModel.end_date)
                                     .matchedGeometryEffect(id: "end_date", in: ns)
                             }
                         }
@@ -67,18 +52,18 @@ struct RecordView: View {
             RecordSection(title: "시간") {
                 HStack {
                     Text("하루 종일")
-                        .opacity(goalViewModel.is_set_time ? 0.5 : 1)
+                        .opacity(goalViewModel.goalModel.is_set_time ? 0.5 : 1)
                     Spacer()
-                    Toggle("", isOn: $goalViewModel.is_set_time)
+                    Toggle("", isOn: $goalViewModel.goalModel.is_set_time)
                         .labelsHidden()
                         .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
                         .scaleEffect(CGSize(width: 0.9, height: 0.9))
                     Spacer()
                     DatePicker("", selection: $goalViewModel.set_time, displayedComponents: [.hourAndMinute])
                         .datePickerStyle(.compact)
-                        .disabled(!goalViewModel.is_set_time)
+                        .disabled(!goalViewModel.goalModel.is_set_time)
                         .labelsHidden()
-                        .opacity(goalViewModel.is_set_time ? 1 : 0.5)
+                        .opacity(goalViewModel.goalModel.is_set_time ? 1 : 0.5)
                         .scaleEffect(CGSize(width: 0.9, height: 0.9))
                         .frame(height: CGFloat.fontSize * 4)
                 }
@@ -103,40 +88,14 @@ struct RecordView: View {
                 Spacer()
                 Button {
                     withAnimation {
-//                        typeIndex = 0
-                        goalViewModel.resetAll()
-                        
-                        
-//                        goalViewModel.goalModel.symbol = "체크"
-                        goalViewModel.goalModel.content = ""
-                        goalViewModel.goalModel.type = "check"
-                        goalViewModel.goalModel.goal_count = 1
-                        goalViewModel.is_set_time = false
-                        goalViewModel.set_time = "00:00".toDateOfSetTime()
-//                        goalViewModel.selectedWOD = []
-                        goalViewModel.isSelectedWOD = Array(repeating: false, count: 7)
-                        goalViewModel.start_date = goalViewModel.beforeDate
-                        goalViewModel.end_date = goalViewModel.beforeDate
-                        calendarViewModel.setCurrentYear(year: goalViewModel.start_date.year)
-                        calendarViewModel.setCurrentMonth(month: goalViewModel.start_date.month)
-                        calendarViewModel.setCurrentDay(day: goalViewModel.start_date.day)
+                        goalViewModel.resetAll(calendarViewModel: calendarViewModel)
                     }
                 } label: {
                     Text("초기화")
                 }
                 Button {
-                    if goalModel.content.count < 2 {
-                        isShowAlert = true
-                        isShowContentLengthAlert = true
-                    } else {
-                        let currentDate = calendarViewModel.getCurrentYearStr() + calendarViewModel.getCurrentMonthStr() + calendarViewModel.getCurrentDayStr()
-                        goalModel.user_uid = userInfoViewModel.userInfo.uid
-                        goalModel.start_date = currentDate
-                        goalModel.end_date = currentDate
-                        goalModel.cycle_date = [currentDate]
-                        goalModel.is_set_time = is_set_time
-                        goalModel.set_time = set_time.toStringOfSetTime()
-                        addGoal(goal: goalModel) { data in
+                    goalViewModel.validateGoal(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) { goal in
+                        addGoal(goal: goal) { data in
                             if data.code == "00" {
                                 DispatchQueue.main.async {
                                     calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
@@ -157,14 +116,14 @@ struct RecordView: View {
         }
         .padding()
         .background(Color("ThemeColor"))
-        .alert(isPresented: $isShowAlert, content: {
-            if self.isShowContentLengthAlert {
+        .alert(isPresented: $goalViewModel.isShowAlert, content: {
+            if goalViewModel.isShowContentLengthAlert {
                 Alert(
                     title: Text(contentLengthAlertTitleText),
                     message: Text(contentLengthAlertMessageText),
                     dismissButton: .default(
                         Text("확인"), action: {
-                            self.isShowContentLengthAlert = false
+                            goalViewModel.isShowContentLengthAlert = false
                         }
                     )
                 )
@@ -174,17 +133,14 @@ struct RecordView: View {
                     message: Text(countRangeAlertMessageText),
                     dismissButton: .default(
                         Text("확인"), action: {
-                            self.isShowCountRangeAlert = false
+                            goalViewModel.isShowCountRangeAlert = false
                         }
                     )
                 )
             }
         })
         .onAppear {
-            start_date = calendarViewModel.getCurrentDate()
-            end_date = calendarViewModel.getCurrentDate()
-            beforeDate = start_date
-            set_time = "00:00".toDateOfSetTime()
+            goalViewModel.initDatesAndSetTime(calendarViewModel: calendarViewModel)
         }
         .onTapGesture {
             hideKeyboard()
