@@ -90,3 +90,9 @@ extension String {
         return dateFormatter.date(from: self)!
     }
 }
+
+extension Date {
+    func yyyyMMdd() -> String {
+        return String(format: "%04d", self.year) + String(format: "%02d", self.month) + String(format: "%02d", self.day)
+    }
+}

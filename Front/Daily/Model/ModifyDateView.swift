@@ -36,10 +36,7 @@ struct ModifyDateView: View {
                     Text("취소")
                 }
                 Button {
-                    let modifyRecordModel = modifyRecordModel(
-                        uid: self.record.uid,
-                        date: String(format: "%04d", date.year) + String(format: "%02d", date.month) + String(format: "%02d", date.day)
-                    )
+                    let modifyRecordModel = modifyRecordModel(uid: self.record.uid, date: date.yyyyMMdd())
                     modifyRecord(modifyRecordModel: modifyRecordModel) { data in
                         if data.code == "00" {
                             DispatchQueue.main.async {

@@ -112,12 +112,14 @@ class GoalViewModel: ObservableObject {
             self.goalModel.user_uid = userInfoViewModel.userInfo.uid
             self.goalModel.set_time = set_time.toStringOfSetTime()
             if goalModel.cycle_type == "date" {
-                let currentDate = calendarViewModel.getCurrentYearStr() + calendarViewModel.getCurrentMonthStr() + calendarViewModel.getCurrentDayStr()
-                self.goalModel.start_date = currentDate
-                self.goalModel.end_date = currentDate
-                self.goalModel.cycle_date = [currentDate]
+                self.goalModel.start_date = self.start_date.yyyyMMdd()
+                self.goalModel.end_date = self.start_date.yyyyMMdd()
+                self.goalModel.cycle_date = [self.start_date.yyyyMMdd()]
             } else {
                 // repeat case
+                self.goalModel.start_date = self.start_date.yyyyMMdd()
+                self.goalModel.end_date = self.end_date.yyyyMMdd()
+//                self.goalModel.cycle_date = self.selectedWOD  // [Int] to type [String]
             }
             complete(self.goalModel)
         }
