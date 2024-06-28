@@ -26,5 +26,25 @@ let contentLengthAlertTitleText: String = "목표의 길이가 너무 짧아요 
 let contentLengthAlertMessageText: String = "최소 2글자 이상의 목표를 설정해주세요"
 let countRangeAlertTitleText: String = "목표 횟수 범위를 벗어났어요 😵‍💫"
 let countRangeAlertMessageText: String = "1 ~ 10회의 목표를 설정해주세요"
+func wrongDateAlertTitleText(type: String) -> String {
+    switch type {
+    case "wrongDateRange":
+        return "날짜 범위가 잘못 되었어요 🤯"
+    case "emptySelectedWOD":
+        return "아직 반복 요일을 설정하지 않았어요 🧐"
+    default:
+        return "선택한 요일이 날짜 범위 안에 없어요 🫠"
+    }
+}
+func wrongDateAlertMessageText(type: String) -> String {
+    switch type {
+    case "wrongDateRange":
+        return "종료일은 시작일 이후로 설정해주세요"
+    case "emptySelectedWOD":
+        return "반복 요일을 먼저 설정해주세요"
+    default:
+        return "날짜 범위를 늘리거나 요일을 더 설정해주세요"
+    }
+}
 let noRecordText: String = "아직 목표가 없어요 😓"
 let goRecordViewText: String = "목표 세우러 가기"

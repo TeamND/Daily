@@ -106,7 +106,7 @@ class CalendarViewModel: ObservableObject {
             let currentMonth = month == 0 ? self.currentMonth : month
             let currentDay = day == 0 ? self.currentDay : day
             
-            switch(state) {
+            switch state {
             case "year":
                 getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: currentYear)) { (data) in
                     if data.code == "00" {
@@ -192,7 +192,7 @@ class CalendarViewModel: ObservableObject {
         }
     }
     func getCurrentYearLabel(userInfoViewModel: UserInfoViewModel) -> String {
-        switch(userInfoViewModel.language) {
+        switch userInfoViewModel.language {
         case "한국어":
             return "\(String(self.currentYear))년"
         default:
@@ -203,7 +203,7 @@ class CalendarViewModel: ObservableObject {
         return userInfoViewModel.months[self.currentMonth - 1]
     }
     func getCurrentDayLabel(userInfoViewModel: UserInfoViewModel) -> String {
-        switch(userInfoViewModel.language) {
+        switch userInfoViewModel.language {
         case "한국어":
             return "\(self.currentDay)일"
         default:
@@ -255,7 +255,7 @@ class CalendarViewModel: ObservableObject {
             cal.timeZone = TimeZone(identifier: "UTC")!
             var changedDay = Date()
             
-            switch(self.currentState) {
+            switch self.currentState {
             case "year":
                 changedDay = targetDate ?? cal.date(byAdding: .year, value: amount, to: self.getCurrentDate())!
                 getCalendarYear(userID: String(userInfoViewModel.userInfo.uid), year: self.getStringFormatOfDate(year: changedDay.year)) { (data) in

@@ -127,13 +127,31 @@ struct RecordView: View {
                         }
                     )
                 )
-            } else {
+            } else if goalViewModel.isShowCountRangeAlert {
                 Alert(
                     title: Text(countRangeAlertTitleText),
                     message: Text(countRangeAlertMessageText),
                     dismissButton: .default(
                         Text("확인"), action: {
                             goalViewModel.isShowCountRangeAlert = false
+                        }
+                    )
+                )
+            } else {
+                Alert(
+                    title: Text(wrongDateAlertTitleText(
+                        type: goalViewModel.start_date > goalViewModel.end_date ? "wrongDateRange"
+                        : goalViewModel.selectedWOD.count == 0 ? "emptySelectedWOD"
+                        : "logicalError")
+                    ),
+                    message: Text(wrongDateAlertMessageText(
+                        type: goalViewModel.start_date > goalViewModel.end_date ? "wrongDateRange"
+                        : goalViewModel.selectedWOD.count == 0 ? "emptySelectedWOD"
+                        : "logicalError")
+                    ),
+                    dismissButton: .default(
+                        Text("확인"), action: {
+                            goalViewModel.isShowWrongDateAlert = false
                         }
                     )
                 )

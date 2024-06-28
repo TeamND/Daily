@@ -20,7 +20,7 @@ class TimerViewModel: ObservableObject {
     }
     
     func timeToString(time: Int) -> String {
-        switch(time) {
+        switch time {
         case 60:
             return "1분"
         case 180:

@@ -69,15 +69,19 @@ class GoalViewModel: ObservableObject {
     @Published var isShowAlert: Bool = false
     @Published var isShowContentLengthAlert: Bool = false
     @Published var isShowCountRangeAlert: Bool = false
+    @Published var isShowWrongDateAlert: Bool = false
     func showAlert(type: String) {
         self.isShowAlert = true
         
-        switch(type) {
+        switch type {
         case "content":
             self.isShowContentLengthAlert = true
             break
         case "count":
             self.isShowCountRangeAlert = true
+            break
+        case "date":
+            self.isShowWrongDateAlert = true
             break
         default:
             return
@@ -115,11 +119,14 @@ class GoalViewModel: ObservableObject {
                 self.goalModel.start_date = self.start_date.yyyyMMdd()
                 self.goalModel.end_date = self.start_date.yyyyMMdd()
                 self.goalModel.cycle_date = [self.start_date.yyyyMMdd()]
-            } else {
-                // repeat case
-                self.goalModel.start_date = self.start_date.yyyyMMdd()
-                self.goalModel.end_date = self.end_date.yyyyMMdd()
-                self.goalModel.cycle_date = self.selectedWOD
+            } else {    // cycle_type = repeat
+                if self.start_date > self.end_date || self.selectedWOD.count == 0 {
+                    self.showAlert(type: "date")
+                } else {
+                    self.goalModel.start_date = self.start_date.yyyyMMdd()
+                    self.goalModel.end_date = self.end_date.yyyyMMdd()
+                    self.goalModel.cycle_date = self.selectedWOD
+                }
             }
             complete(self.goalModel)
         }
