@@ -98,7 +98,7 @@ class GoalViewModel: ObservableObject {
         self.setIsSelectedWOD(isSelectedWOD: Array(repeating: false, count: 7))
         
         self.setStartDate(start_date: self.before_date)
-        self.setEndDate(end_date: self.before_date)
+        self.setEndDate(end_date: self.before_date.setDefaultEndDate())
         
         calendarViewModel.setCurrentYear(year: self.start_date.year)
         calendarViewModel.setCurrentMonth(month: self.start_date.month)
@@ -127,7 +127,7 @@ class GoalViewModel: ObservableObject {
     
     func initDatesAndSetTime(calendarViewModel: CalendarViewModel) {
         self.setStartDate(start_date: calendarViewModel.getCurrentDate())
-        self.setEndDate(end_date: calendarViewModel.getCurrentDate())
+        self.setEndDate(end_date: self.start_date.setDefaultEndDate())
         self.before_date = self.start_date
         self.set_time = "00:00".toDateOfSetTime()
     }

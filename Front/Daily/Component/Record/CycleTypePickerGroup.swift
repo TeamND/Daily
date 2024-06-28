@@ -17,7 +17,7 @@ struct CycleTypePickerGroup: View {
                     Button {
                         withAnimation {
                             goalViewModel.setTypeIndex(typeIndex: index)
-                            goalViewModel.setEndDate(end_date: goalViewModel.start_date)
+                            goalViewModel.setEndDate(end_date: goalViewModel.start_date.setDefaultEndDate())
                         }
                     } label: {
                         Text(goalViewModel.cycle_types[index])
