@@ -52,13 +52,13 @@ class GoalViewModel: ObservableObject {
     // MARK: - cycle_type
     let cycle_types: [String] = ["날짜 선택", "요일 반복"]
     @Published var typeIndex: Int = 0
-    @Published var selectedWOD: [Int] = []
+    @Published var selectedWOD: [String] = []
     @Published var isSelectedWOD: [Bool] = Array(repeating: false, count: 7)
     func setTypeIndex(typeIndex: Int) {
         self.typeIndex = typeIndex
         self.setCycleType(cycle_type: typeIndex == 0 ? "date" : "repeat")
     }
-    func setSelectedWOD(selectedWOD: [Int]) {
+    func setSelectedWOD(selectedWOD: [String]) {
         self.selectedWOD = selectedWOD
     }
     func setIsSelectedWOD(isSelectedWOD: [Bool]) {
@@ -119,7 +119,7 @@ class GoalViewModel: ObservableObject {
                 // repeat case
                 self.goalModel.start_date = self.start_date.yyyyMMdd()
                 self.goalModel.end_date = self.end_date.yyyyMMdd()
-//                self.goalModel.cycle_date = self.selectedWOD  // [Int] to type [String]
+                self.goalModel.cycle_date = self.selectedWOD
             }
             complete(self.goalModel)
         }

@@ -29,10 +29,10 @@ struct WODPickerGroup: View {
                             goalViewModel.isSelectedWOD[index].toggle()
                         }
                         if goalViewModel.isSelectedWOD[index] {
-                            goalViewModel.selectedWOD.append(index)
+                            goalViewModel.selectedWOD.append(String(index))
                         } else {
                             for wodIndex in 0 ..< goalViewModel.selectedWOD.count {
-                                if goalViewModel.selectedWOD[wodIndex] == index {
+                                if goalViewModel.selectedWOD[wodIndex] == String(index) {
                                     goalViewModel.selectedWOD.remove(at: wodIndex)
                                     break
                                 }
