@@ -4,6 +4,7 @@ from model import db,Goal,Record
 from Api.UserApi import UserApi
 import datetime
 import json
+import time
 
 class GoalApi(Resource):
     # 생성
@@ -43,7 +44,7 @@ class GoalApi(Resource):
                 
                 # 반복요일 계산
                 for i in range(date_diff + startday_index):
-                    for cycle in list(map(lambda x:days.index(x), data['cycle_date'])):
+                    for cycle in list(map(lambda x:days.index(int(x)), data['cycle_date'])):
                         if i % 7 == int(cycle):
                             date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
             
@@ -240,3 +241,31 @@ class GoalApi(Resource):
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
             }, 99
+
+# 달성
+    def RemoveRecordAll(uid,data):
+        try:
+            result = db.session.get(Goal,uid)
+            if result:
+                UserApi.LastTime('goal',uid)
+                if 'is_exclude_past' in data and data['is_exclude_past']:
+                    Record.query.filter(Record.goal_uid == uid,Record.date >= time.mktime((datetime.datetime.now()).timetuple())).delete()
+                else:
+                    Record.query.filter(Record.goal_uid == uid).delete()
+                db.session.commit()
+                return {
+                    'code': '00',
+                    'message': '삭제에 성공했습니다.'
+                }, 00
+            else:
+                return {
+                    'code': '99',
+                    'message': '조회된 데이터가 없습니다.'
+                }, 99
+        except Exception as e:
+            db.session.rollback()
+            return {
+                'code': '99',
+                'message': e
+            }, 99
+        
