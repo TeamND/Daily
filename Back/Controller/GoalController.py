@@ -80,3 +80,15 @@ class GoalCount(Resource):
     def put(self,record_uid):
         '''목표의 달성을 추가한다.'''
         return GoalApi.Count(record_uid,request.args)
+
+@goal.route('/removeRecordAll/<int:goal_uid>')
+class removeRecordAll(Resource):
+    
+    @goal.doc(responses={00: 'Success'})
+    @goal.doc(responses={99: 'Failed'})  
+    def get(self,goal_uid):
+        '''기록의 일괄 삭제 한다.'''
+        data = request.get_data()
+        data = data.decode('UTF-8')
+        data = json.loads(data)
+        return GoalApi.RemoveRecordAll(goal_uid,data)
