@@ -120,7 +120,7 @@ class GoalViewModel: ObservableObject {
                 self.goalModel.end_date = self.start_date.yyyyMMdd()
                 self.goalModel.cycle_date = [self.start_date.yyyyMMdd()]
             } else {    // cycle_type = repeat
-                if self.start_date > self.end_date || self.selectedWOD.count == 0 {
+                if self.start_date > self.end_date || self.selectedWOD.count == 0 || self.validateSelectedWOD(userInfoViewModel: userInfoViewModel) {
                     self.showAlert(type: "date")
                 } else {
                     self.goalModel.start_date = self.start_date.yyyyMMdd()
@@ -130,6 +130,35 @@ class GoalViewModel: ObservableObject {
             }
             complete(self.goalModel)
         }
+    }
+    
+    func validateSelectedWOD(userInfoViewModel: UserInfoViewModel) -> Bool {
+        let gap = Calendar.current.dateComponents([.year,.month,.day], from: self.start_date, to: self.end_date)
+        
+        if gap.year! == 0 && gap.month! == 0 && gap.day! < 6 {
+            let s_DOW = self.start_date.getDOW(language: userInfoViewModel.language)
+            let e_DOW = self.end_date.getDOW(language: userInfoViewModel.language)
+            var s_DOWIndex = 0
+            var e_DOWIndex = 0
+            for i in userInfoViewModel.weeks.indices {
+                if userInfoViewModel.weeks[i] == s_DOW { s_DOWIndex = i }
+                if userInfoViewModel.weeks[i] == e_DOW { e_DOWIndex = i }
+            }
+            
+            for i in 0 ..< s_DOWIndex {
+                print("s_DOWIndex check \(i)")
+                if self.selectedWOD.contains(String(i)) {
+                    return true
+                }
+            }
+            for i in e_DOWIndex + 1 ..< 7 {
+                print("e_DOWIndex check \(i)")
+                if self.selectedWOD.contains(String(i)) {
+                    return true
+                }
+            }
+        }
+        return false
     }
     
     func initDatesAndSetTime(calendarViewModel: CalendarViewModel) {

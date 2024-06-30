@@ -43,7 +43,7 @@ func wrongDateAlertMessageText(type: String) -> String {
     case "emptySelectedWOD":
         return "반복 요일을 먼저 설정해주세요"
     default:
-        return "날짜 범위를 늘리거나 요일을 더 설정해주세요"
+        return "날짜 범위를 늘리거나 요일을 다시 설정해주세요"
     }
 }
 let noRecordText: String = "아직 목표가 없어요 😓"
