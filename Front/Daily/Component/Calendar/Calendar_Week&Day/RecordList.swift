@@ -38,16 +38,48 @@ struct RecordList: View {
                         } label: {
                             Label("목표 수정", systemImage: "pencil")
                         }
-                        Button {
-                            deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
-                                if data.code == "00" {
-                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-                                        if code == "99" { alertViewModel.showAlert() }
+//                        if record.cycle_type.wrappedValue == "repeat" {
+                        if true {
+                            Menu {
+                                Button {
+                                    // remove Record
+                                    print("1")
+                                } label: {
+                                    Text("단일 삭제")
+                                }
+                                Menu {
+                                    // remove Record All
+                                    Button {
+                                        // isExcludePast = true
+                                        print("2")
+                                    } label: {
+                                        Text("오늘 이후의 미래 목표만 삭제")
                                     }
-                                } else { alertViewModel.showAlert() }
+                                    Button {
+                                        // isExcludePast = false
+                                        print("3")
+                                    } label: {
+                                        Text("과거의 기록도 함께 삭제")
+                                    }
+                                } label: {
+                                    Text("일괄 삭제")
+                                }
+                            } label: {
+                                Label("목표 삭제", systemImage: "trash")
                             }
-                        } label: {
-                            Label("목표 삭제", systemImage: "trash")
+                        } else {
+                            Button {
+                                // remove Record로 수정(?)
+                                deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
+                                    if data.code == "00" {
+                                        calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                            if code == "99" { alertViewModel.showAlert() }
+                                        }
+                                    } else { alertViewModel.showAlert() }
+                                }
+                            } label: {
+                                Label("목표 삭제", systemImage: "trash")
+                            }
                         }
                     }
                     .foregroundStyle(.primary)
