@@ -28,27 +28,40 @@ struct ModifyGoalView: View {
             CustomDivider(color: .primary, height: 1, hPadding: CGFloat.fontSize)
             Spacer()
             VStack {
-                HStack {
-                    Spacer()
-                    Toggle("", isOn: $modifyGoalModel.is_set_time)
-                        .labelsHidden()
-                        .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
-                    DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
-                        .datePickerStyle(.compact)
-                        .disabled(!modifyGoalModel.is_set_time)
-                        .labelsHidden()
-                        .opacity(modifyGoalModel.is_set_time ? 1 : 0.5)
+                RecordSection(title: "시간") {
+                    HStack {
+                        Text("하루 종일")
+                            .opacity(modifyGoalModel.is_set_time ? 0.5 : 1)
+                        Spacer()
+                        Toggle("", isOn: $modifyGoalModel.is_set_time)
+                            .labelsHidden()
+                            .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+                            .scaleEffect(CGSize(width: 0.9, height: 0.9))
+                        Spacer()
+                        DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])
+                            .datePickerStyle(.compact)
+                            .disabled(!modifyGoalModel.is_set_time)
+                            .labelsHidden()
+                            .opacity(modifyGoalModel.is_set_time ? 1 : 0.5)
+                            .scaleEffect(CGSize(width: 0.9, height: 0.9))
+                            .frame(height: CGFloat.fontSize * 4)
+                    }
+                }
+                .font(.system(size: CGFloat.fontSize * 2.5))
+                
+                RecordSection(title: "목표", isEssential: true, essentialConditions: $modifyGoalModel.content.wrappedValue.count >= 2) {
+                    ContentTextField(content: $modifyGoalModel.content, type: $record.type)
                 }
                 
-                ContentTextField(content: $modifyGoalModel.content, type: $record.type)
-                
                 HStack {
-                    GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, time: $modifyGoalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
-                    Spacer()
-                    SymbolPickerGroup(symbol: $modifyGoalModel.symbol)
+                    // check & count = "횟수", timer = "시간"
+                    RecordSection(title: $modifyGoalModel.type.wrappedValue == "timer" ? "시간" : "횟수") {
+                        GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, time: $modifyGoalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                    }
+                    RecordSection(title: "심볼") {
+                        SymbolPickerGroup(symbol: $modifyGoalModel.symbol)
+                    }
                 }
-                .padding()
-                .frame(height: 40)
                 
                 HStack {
                     Spacer()
