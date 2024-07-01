@@ -116,6 +116,14 @@ func modifyGoal(modifyGoalModel: modifyGoalModel, complete: @escaping (ResponseM
 }
 
 // MARK: - record
+func removeRecord(recordUID: String, complete: @escaping (ResponseModel) -> Void) {
+    HTTPManager.requestDELETE(url: "\(serverUrl)calendar/\(recordUID)", encodingData: Data()) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 func modifyRecord(modifyRecordModel: modifyRecordModel, complete: @escaping (ResponseModel) -> Void) {
     guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordModel) else {
         return

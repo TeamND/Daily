@@ -43,7 +43,13 @@ struct RecordList: View {
                             Menu {
                                 Button {
                                     // remove Record
-                                    print("1")
+                                    removeRecord(recordUID: String(record.uid.wrappedValue)) { data in
+                                        if data.code == "00" {
+                                            calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                                if code == "99" { alertViewModel.showAlert() }
+                                            }
+                                        } else { alertViewModel.showAlert() }
+                                    }
                                 } label: {
                                     Text("단일 삭제")
                                 }
