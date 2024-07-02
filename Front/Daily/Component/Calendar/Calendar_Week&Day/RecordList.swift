@@ -33,8 +33,7 @@ struct RecordList: View {
                         } label: {
                             Label("날짜 변경", systemImage: "calendar")
                         }
-//                        if record.cycle_type.wrappedValue == "repeat" {
-                        if true {
+                        if record.cycle_type.wrappedValue == "repeat" {
                             Menu {
                                 Button {
                                     // remove Record
