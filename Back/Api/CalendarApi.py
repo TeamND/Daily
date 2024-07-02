@@ -67,7 +67,7 @@ class CalendarApi(Resource):
             join = db.session.query(Record.uid, Record.goal_uid, Goal.content, Goal.symbol, Goal.type, 
                                     Record.record_time, Goal.goal_time, Record.record_count, Goal.goal_count, 
                                     func.to_char(Record.start_time, 'YYYY-mm-dd HH:MM:ss').label('start_time'), 
-                                    Record.issuccess, Goal.is_set_time, Goal.set_time)\
+                                    Record.issuccess, Goal.is_set_time, Goal.set_time, Goal.cycle_type)\
                         .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
                         .order_by(Goal.is_set_time,Goal.set_time,Record.order).all()
             
