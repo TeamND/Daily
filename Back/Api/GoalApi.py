@@ -45,8 +45,8 @@ class GoalApi(Resource):
                     # 반복요일 계산
                     for i in range(date_diff + startday_index):
                         for cycle in list(map(lambda x:int(x), data['cycle_date'])):
-                            if (i if user.set_startday else i+1) % 7 == int(cycle):
-                                date_list.append(datetime.datetime.strptime(data['start_date'],'%Y%m%d') + datetime.timedelta(days= i - startday_index))
+                            if i % 7 == int(cycle):
+                                date_list.append(datetime.datetime.strptime(data['start_date'],'%Y%m%d') + datetime.timedelta(days= i - startday_index - (0 if user.set_startday else 1)))
                 
                 # 반복이 아닌경우
                 else:
