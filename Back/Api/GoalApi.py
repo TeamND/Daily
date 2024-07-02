@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace
-from model import db,Goal,Record
+from model import db,User,Goal,Record
 from Api.UserApi import UserApi
 import datetime
 import json
@@ -10,59 +10,65 @@ class GoalApi(Resource):
     # 생성
     def Create(data):
         try:
-            # 목포 추가
-            if 'uid' in data:
-                data.pop('uid')
+            user = db.session.get(User,data['user_uid'])
+            if user:
+                # 목포 추가
+                if 'uid' in data:
+                    data.pop('uid')
 
-            if 'cycle_date[]' in data:
-                cycle_date = request.form.getlist('cycle_date[]')
-                data.pop('cycle_date[]')
-                data['cycle_date'] = cycle_date
+                if 'cycle_date[]' in data:
+                    cycle_date = request.form.getlist('cycle_date[]')
+                    data.pop('cycle_date[]')
+                    data['cycle_date'] = cycle_date
 
-            if 'is_set_time' in data and data['is_set_time']:
-                if data['is_set_time'] == 'true' or data['is_set_time'] == True or data['is_set_time'] == 1:
-                    data['is_set_time'] = True 
-                else: 
-                    data['is_set_time'] = False
+                if 'is_set_time' in data and data['is_set_time']:
+                    if data['is_set_time'] == 'true' or data['is_set_time'] == True or data['is_set_time'] == 1:
+                        data['is_set_time'] = True 
+                    else: 
+                        data['is_set_time'] = False
 
-            goal_query = Goal(**data)
-            db.session.add(goal_query)
-            db.session.commit()
-            db.session.refresh(goal_query)
-            
-            # 타입이 반복일 경우
-            date_list = []
-            
-            if 'start_date' in data and data['cycle_type'] == 'repeat':
+                goal_query = Goal(**data)
+                db.session.add(goal_query)
+                db.session.commit()
+                db.session.refresh(goal_query)
                 
-                # 종료날이 없는경우 30일
-                date_diff = 30 if 'end_date' not in data else (datetime.datetime.strptime(data['end_date'],'%Y-%m-%d') - datetime.datetime.strptime(data['start_date'],'%Y-%m-%d')).days  
-
-                # 변수할당
-                days = ['월', '화', '수', '목', '금', '토', '일']
-                startday_index = datetime.date.weekday(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d'))
+                # 타입이 반복일 경우
+                date_list = []
                 
-                # 반복요일 계산
-                for i in range(date_diff + startday_index):
-                    for cycle in list(map(lambda x:days.index(int(x)), data['cycle_date'])):
-                        if i % 7 == int(cycle):
-                            date_list.append(datetime.datetime.strptime(data['start_date'],'%Y-%m-%d') + datetime.timedelta(days= i - startday_index))
+                if 'start_date' in data and data['cycle_type'] == 'repeat':
+                    # 종료날이 없는경우 30일
+                    date_diff = 30 if 'end_date' not in data else (datetime.datetime.strptime(data['end_date'],'%Y%m%d') - datetime.datetime.strptime(data['start_date'],'%Y%m%d')).days  
+
+                    # 변수할당
+                    startday_index = datetime.date.weekday(datetime.datetime.strptime(data['start_date'],'%Y%m%d'))
+                    
+                    # 반복요일 계산
+                    for i in range(date_diff + startday_index):
+                        for cycle in list(map(lambda x:int(x), data['cycle_date'])):
+                            if (i if user.set_startday else i+1) % 7 == int(cycle):
+                                date_list.append(datetime.datetime.strptime(data['start_date'],'%Y%m%d') + datetime.timedelta(days= i - startday_index))
+                
+                # 반복이 아닌경우
+                else:
+                    date_list = data['cycle_date']
+                
+                # 데이터 입력    
+                for date in date_list:
+                    user_goal = db.session.query(Goal).filter_by(user_uid=goal_query.user_uid)
+                    order = user_goal.join(Record, Goal.uid == Record.goal_uid).count()
+                    db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
+                db.session.commit()
+
+                return {
+                    'code': '00',
+                    'message': '추가에 성공했습니다.'
+                }, 00
             
-            # 반복이 아닌경우
             else:
-                date_list = data['cycle_date']
-            
-            # 데이터 입력    
-            for date in date_list:
-                user_goal = db.session.query(Goal).filter_by(user_uid=goal_query.user_uid)
-                order = user_goal.join(Record, Goal.uid == Record.goal_uid).count()
-                db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
-            db.session.commit()
-
-            return {
-                'code': '00',
-                'message': '추가에 성공했습니다.'
-            }, 00
+                return {
+                    'code': '99',
+                    'message': '유저에 정보가 없습니다.'
+                }, 00
         except Exception as e:
             db.session.rollback()
             return {
