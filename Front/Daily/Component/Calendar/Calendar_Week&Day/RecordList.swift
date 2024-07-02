@@ -33,13 +33,7 @@ struct RecordList: View {
                         } label: {
                             Label("날짜 변경", systemImage: "calendar")
                         }
-                        NavigationLink {
-                            ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
-                        } label: {
-                            Label("목표 수정", systemImage: "pencil")
-                        }
-//                        if record.cycle_type.wrappedValue == "repeat" {
-                        if true {
+                        if record.cycle_type.wrappedValue == "repeat" {
                             Menu {
                                 Button {
                                     // remove Record
@@ -59,7 +53,7 @@ struct RecordList: View {
                                         // isExcludePast = true
                                         print("2")
                                     } label: {
-                                        Text("오늘 이후의 미래 목표만 삭제")
+                                        Text("오늘 이후의 목표만 삭제")
                                     }
                                     Button {
                                         // isExcludePast = false
@@ -74,6 +68,11 @@ struct RecordList: View {
                                 Label("목표 삭제", systemImage: "trash")
                             }
                         } else {
+                            NavigationLink {
+                                ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                            } label: {
+                                Label("목표 수정", systemImage: "pencil")
+                            }
                             Button {
                                 // remove Record로 수정(?)
                                 deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
