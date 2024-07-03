@@ -57,7 +57,13 @@ struct RecordList: View {
                                     }
                                     Button {
                                         // isExcludePast = false
-                                        print("3")
+                                        deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
+                                            if data.code == "00" {
+                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                                    if code == "99" { alertViewModel.showAlert() }
+                                                }
+                                            } else { alertViewModel.showAlert() }
+                                        }
                                     } label: {
                                         Text("과거의 기록도 함께 삭제")
                                     }

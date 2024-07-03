@@ -146,13 +146,11 @@ class GoalViewModel: ObservableObject {
             }
             
             for i in 0 ..< s_DOWIndex {
-                print("s_DOWIndex check \(i)")
                 if self.selectedWOD.contains(String(i)) {
                     return true
                 }
             }
             for i in e_DOWIndex + 1 ..< 7 {
-                print("e_DOWIndex check \(i)")
                 if self.selectedWOD.contains(String(i)) {
                     return true
                 }
