@@ -4,7 +4,6 @@ from model import db,User,Goal,Record
 from Api.UserApi import UserApi
 import datetime
 import json
-import time
 
 class GoalApi(Resource):
     # 생성
@@ -149,6 +148,7 @@ class GoalApi(Resource):
             result = db.session.get(Goal,uid)
             if result:
                 UserApi.LastTime('goal',uid)
+                Record.query.filter(Record.goal_uid == uid).delete()
                 db.session.delete(result)
                 db.session.commit()
                 return {
@@ -256,9 +256,9 @@ class GoalApi(Resource):
             if result:
                 UserApi.LastTime('goal',uid)
                 if 'is_exclude_past' in data and data['is_exclude_past']:
-                    Record.query.filter(Record.goal_uid == uid,Record.date >= time.mktime((datetime.datetime.now()).timetuple())).delete()
-                else:
                     Record.query.filter(Record.goal_uid == uid).delete()
+                else:
+                    Record.query.filter(Record.goal_uid == uid,Record.date > datetime.datetime.today()).delete()
                 db.session.commit()
                 return {
                     'code': '00',

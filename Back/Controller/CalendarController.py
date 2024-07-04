@@ -5,7 +5,7 @@ import json
 
 calendar = Namespace(
     name="Calendar",
-    description="기록를 만들기 위해 사용하는 API",
+    description="달력 조회를 만들기 위해 사용하는 API",
 )
 
 model = calendar.model('기록', strict=True, model={
@@ -19,7 +19,7 @@ model = calendar.model('기록', strict=True, model={
 })
 
 day_column = reqparse.RequestParser()
-day_column.add_argument('date', type=str, default='2022-12-25', help='날짜')
+day_column.add_argument('date', type=str, default='2024-07-04', help='날짜')
 
 @calendar.route('/<int:uid>')
 class CalendarUD(Resource):

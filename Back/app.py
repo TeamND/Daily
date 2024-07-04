@@ -4,6 +4,7 @@ from config import uri
 from model import db
 from Controller.UserController import user
 from Controller.GoalController import goal
+from Controller.RecordController import record
 from Controller.CalendarController import calendar
 import logging
 import os
@@ -40,6 +41,7 @@ db.create_all()
 
 api.add_namespace(user, '/user')
 api.add_namespace(goal, '/goal')
+api.add_namespace(record, '/record')
 api.add_namespace(calendar, '/calendar')
 
 if __name__ == "__main__":
