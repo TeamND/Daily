@@ -50,13 +50,17 @@ struct RecordList: View {
                                 Menu {
                                     // remove Record All
                                     Button {
-                                        // isExcludePast = true
-                                        print("2")
+//                                        removeRecordAll(goalUID: String(record.goal_uid.wrappedValue)) { data in
+//                                            if data.code == "00" {
+//                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+//                                                    if code == "99" { alertViewModel.showAlert() }
+//                                                }
+//                                            } else { alertViewModel.showAlert() }
+//                                        }
                                     } label: {
                                         Text("오늘 이후의 목표만 삭제")
                                     }
                                     Button {
-                                        // isExcludePast = false
                                         deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
                                             if data.code == "00" {
                                                 calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in

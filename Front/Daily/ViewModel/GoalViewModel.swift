@@ -120,7 +120,8 @@ class GoalViewModel: ObservableObject {
                 self.goalModel.end_date = self.start_date.yyyyMMdd()
                 self.goalModel.cycle_date = [self.start_date.yyyyMMdd()]
             } else {    // cycle_type = repeat
-                if self.start_date > self.end_date || self.selectedWOD.count == 0 || self.validateSelectedWOD(userInfoViewModel: userInfoViewModel) {
+                if self.start_date > self.end_date || self.validateDateRange() ||
+                    self.selectedWOD.count == 0 || self.validateSelectedWOD(userInfoViewModel: userInfoViewModel) {
                     self.showAlert(type: "date")
                 } else {
                     self.goalModel.start_date = self.start_date.yyyyMMdd()
@@ -130,6 +131,12 @@ class GoalViewModel: ObservableObject {
             }
             complete(self.goalModel)
         }
+    }
+    
+    func validateDateRange() -> Bool {
+        let gap = Calendar.current.dateComponents([.year,.month,.day], from: self.start_date, to: self.end_date)
+        
+        return gap.year! == 0
     }
     
     func validateSelectedWOD(userInfoViewModel: UserInfoViewModel) -> Bool {

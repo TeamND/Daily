@@ -141,11 +141,13 @@ struct RecordView: View {
                 Alert(
                     title: Text(wrongDateAlertTitleText(
                         type: goalViewModel.start_date > goalViewModel.end_date ? "wrongDateRange"
+                        : goalViewModel.validateDateRange() ? "overDateRange"
                         : goalViewModel.selectedWOD.count == 0 ? "emptySelectedWOD"
                         : "logicalError")
                     ),
                     message: Text(wrongDateAlertMessageText(
                         type: goalViewModel.start_date > goalViewModel.end_date ? "wrongDateRange"
+                        : goalViewModel.validateDateRange() ? "overDateRange"
                         : goalViewModel.selectedWOD.count == 0 ? "emptySelectedWOD"
                         : "logicalError")
                     ),
