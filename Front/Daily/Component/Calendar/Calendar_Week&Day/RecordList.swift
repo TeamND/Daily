@@ -36,6 +36,22 @@ struct RecordList: View {
                         if record.cycle_type.wrappedValue == "repeat" {
                             Menu {
                                 Button {
+                                    print("Comming soon !!!")
+                                } label: {
+                                    Text("단일 수정 (공사 중 🚧)")
+                                        .foregroundStyle(.gray)
+                                }
+                                .disabled(true)
+                                NavigationLink {
+                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                                } label: {
+                                    Text("일괄 수정")
+                                }
+                            } label: {
+                                Label("목표 수정", systemImage: "pencil")
+                            }
+                            Menu {
+                                Button {
                                     // remove Record
                                     removeRecord(recordUID: String(record.uid.wrappedValue)) { data in
                                         if data.code == "00" {
@@ -48,15 +64,14 @@ struct RecordList: View {
                                     Text("단일 삭제")
                                 }
                                 Menu {
-                                    // remove Record All
                                     Button {
-//                                        removeRecordAll(goalUID: String(record.goal_uid.wrappedValue)) { data in
-//                                            if data.code == "00" {
-//                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-//                                                    if code == "99" { alertViewModel.showAlert() }
-//                                                }
-//                                            } else { alertViewModel.showAlert() }
-//                                        }
+                                        removeRecordAll(goalUID: String(record.goal_uid.wrappedValue)) { data in
+                                            if data.code == "00" {
+                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                                    if code == "99" { alertViewModel.showAlert() }
+                                                }
+                                            } else { alertViewModel.showAlert() }
+                                        }
                                     } label: {
                                         Text("오늘 이후의 목표만 삭제")
                                     }
