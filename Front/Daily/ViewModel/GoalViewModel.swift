@@ -136,7 +136,7 @@ class GoalViewModel: ObservableObject {
     func validateDateRange() -> Bool {
         let gap = Calendar.current.dateComponents([.year,.month,.day], from: self.start_date, to: self.end_date)
         
-        return gap.year! == 0
+        return gap.year! > 0
     }
     
     func validateSelectedWOD(userInfoViewModel: UserInfoViewModel) -> Bool {
