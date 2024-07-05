@@ -69,7 +69,7 @@ class CalendarApi(Resource):
                                     func.to_char(Record.start_time, 'YYYY-mm-dd HH:MM:ss').label('start_time'), 
                                     Record.issuccess, Goal.is_set_time, Goal.set_time, Goal.cycle_type)\
                         .filter(Record.goal_uid == Goal.uid, Goal.user_uid == uid, Record.date == date)\
-                        .order_by(Goal.is_set_time,Goal.set_time,Record.order).all()
+                        .order_by(Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
             
             # 데이터 가공
             result = []
@@ -98,7 +98,7 @@ class CalendarApi(Resource):
             # join
             join = db.session.query(func.to_char(Record.date, 'YYYY-mm-dd'), Record.issuccess, func.count(Record.issuccess))\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, Record.date.between(start_date,end_date))\
-                    .group_by(Record.date,Record.issuccess).order_by(Record.date).all()
+                    .group_by(Record.date,Record.issuccess).order_by(Record.date,Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
             
             join_result = {}
             true_count = 0
@@ -156,7 +156,7 @@ class CalendarApi(Resource):
             join = db.session.query(func.to_char(Record.date, 'dd'), Goal.symbol, Record.issuccess)\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, 
                             extract('year', Record.date) == date[0:4], extract('month', Record.date) == date[5:7])\
-                    .order_by(Record.date,Goal.set_time,Record.order,Record.goal_uid).all()
+                    .order_by(Record.date,Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
             
             # 데이터 가공
             temp = {}
@@ -211,7 +211,7 @@ class CalendarApi(Resource):
             # join
             join = db.session.query(func.to_char(Record.date, 'mm'), func.to_char(Record.date, 'dd'), Record.issuccess, func.count(Record.issuccess))\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4])\
-                    .group_by(Record.date,Record.issuccess).order_by(Record.date).all()
+                    .group_by(Record.date,Record.issuccess).order_by(Record.date,Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
             
             result = {}
             for k in join:
@@ -269,7 +269,7 @@ class CalendarApi(Resource):
                 # join
                 join = db.session.query(Goal.content, Goal.symbol, Record.issuccess, Goal.is_set_time, Goal.set_time)\
                             .filter(Record.goal_uid == Goal.uid, Goal.user_uid == user.uid, Record.date == date)\
-                            .order_by(Goal.is_set_time,Goal.set_time,Record.order).all()
+                            .order_by(Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
                 
                 rating_count = 0
                 # 데이터 가공
