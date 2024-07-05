@@ -13,23 +13,41 @@ struct MainView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
-        NavigationStack {
-            CalendarView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
-                .navigationBarTitle("이전")
-                .navigationBarHidden(true)
-                .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, alertViewModel: alertViewModel)
-                .alert(isPresented: $alertViewModel.isShowAlert, content: {
-                    Alert(
-                        title: Text("오류가 발생했습니다."),
-                        message: Text("네트워크 연결 상태를 먼저 확인해주세요"),
-                        dismissButton: .default(
-                            Text("확인"),
-                            action: {
-                                System().terminateApp()
-                            }
+        ZStack {
+            NavigationStack {
+                CalendarView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
+                    .navigationBarTitle("이전")
+                    .navigationBarHidden(true)
+                    .mainViewDragGesture(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, alertViewModel: alertViewModel)
+                    .alert(isPresented: $alertViewModel.isShowAlert, content: {
+                        Alert(
+                            title: Text("오류가 발생했습니다."),
+                            message: Text("네트워크 연결 상태를 먼저 확인해주세요"),
+                            dismissButton: .default(
+                                Text("확인"),
+                                action: {
+                                    System().terminateApp()
+                                }
+                            )
                         )
+                    })
+            }
+            VStack {
+                Spacer()
+                Text(alertViewModel.toastMessage)
+                    .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                    .padding(CGFloat.fontSize)
+                    .background(
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color("BackgroundColor"))
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.primary, lineWidth: 1)
+                        }
                     )
-                })
+                    .padding(CGFloat.fontSize)
+                    .opacity(alertViewModel.isShowToast ? 1 : 0)
+            }
         }
         .tint(Color("CustomColor"))
         .accentColor(Color("CustomColor"))
@@ -38,6 +56,15 @@ struct MainView: View {
             if url.contains("widget") {
                 calendarViewModel.goToday(userInfoViewModel: userInfoViewModel) { code in
                     if code == "99" { alertViewModel.showAlert() }
+                }
+            }
+        }
+        .onChange(of: alertViewModel.isShowToast) { newValue in
+            if newValue {
+                Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
+                    withAnimation {
+                        alertViewModel.hideToast()
+                    }
                 }
             }
         }

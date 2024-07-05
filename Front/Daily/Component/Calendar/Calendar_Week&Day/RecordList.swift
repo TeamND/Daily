@@ -36,12 +36,12 @@ struct RecordList: View {
                         if record.cycle_type.wrappedValue == "repeat" {
                             Menu {
                                 Button {
-                                    print("Comming soon !!!")
+                                    withAnimation {
+                                        alertViewModel.showToast(message: "Comming soon !!!")
+                                    }
                                 } label: {
                                     Text("단일 수정 (공사 중 🚧)")
-                                        .foregroundStyle(.gray)
                                 }
-                                .disabled(true)
                                 NavigationLink {
                                     ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
                                 } label: {
