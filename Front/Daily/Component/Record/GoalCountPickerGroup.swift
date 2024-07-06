@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GoalCountPickerGroup: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @Binding var type: String
     @Binding var count: Int
     @Binding var time: Int
@@ -24,8 +25,7 @@ struct GoalCountPickerGroup: View {
                         timerViewModel.timerIndex -= 1
                         time = timerViewModel.timeList[timerViewModel.timerIndex]
                     } else {
-                        isShowAlert = true
-                        isShowCountRangeAlert = true
+                        alertViewModel.showToast(message: countRangeToastMessageText)
                     }
                 } label: {
                     Image(systemName: "chevron.down.circle")
@@ -40,8 +40,7 @@ struct GoalCountPickerGroup: View {
                         timerViewModel.timerIndex += 1
                         time = timerViewModel.timeList[timerViewModel.timerIndex]
                     } else {
-                        isShowAlert = true
-                        isShowCountRangeAlert = true
+                        alertViewModel.showToast(message: countRangeToastMessageText)
                     }
                 } label: {
                     Image(systemName: "chevron.up.circle")
@@ -54,8 +53,7 @@ struct GoalCountPickerGroup: View {
                             type = "check"
                         }
                     } else {
-                        isShowAlert = true
-                        isShowCountRangeAlert = true
+                        alertViewModel.showToast(message: countRangeToastMessageText)
                     }
                 } label: {
                     Image(systemName: "minus.circle")
@@ -67,8 +65,7 @@ struct GoalCountPickerGroup: View {
                         count += 1
                         type = "count"
                     } else {
-                        isShowAlert = true
-                        isShowCountRangeAlert = true
+                        alertViewModel.showToast(message: countRangeToastMessageText)
                     }
                 } label: {
                     Image(systemName: "plus.circle")
