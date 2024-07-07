@@ -46,6 +46,7 @@ struct MainView: View {
                         }
                     )
                     .padding(CGFloat.fontSize)
+                    .hCenter()
                     .opacity(alertViewModel.isShowToast ? 1 : 0)
             }
         }

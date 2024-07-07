@@ -29,6 +29,11 @@ struct RecordList: View {
                 RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
                     .contextMenu {
                         NavigationLink {
+                            ModifyRecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
+                        } label: {
+                            Label("기록 수정", systemImage: "pencil.and.outline")
+                        }
+                        NavigationLink {
                             ModifyDateView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
                         } label: {
                             Label("날짜 변경", systemImage: "calendar")
@@ -48,7 +53,7 @@ struct RecordList: View {
                                     Text("일괄 수정")
                                 }
                             } label: {
-                                Label("목표 수정", systemImage: "pencil")
+                                Label("목표 수정", systemImage: "pencil.line")
                             }
                             Menu {
                                 Button {
@@ -96,7 +101,7 @@ struct RecordList: View {
                             NavigationLink {
                                 ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
                             } label: {
-                                Label("목표 수정", systemImage: "pencil")
+                                Label("목표 수정", systemImage: "pencil.line")
                             }
                             Button {
                                 // remove Record로 수정(?)
