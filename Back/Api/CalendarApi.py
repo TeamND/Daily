@@ -98,7 +98,7 @@ class CalendarApi(Resource):
             # join
             join = db.session.query(func.to_char(Record.date, 'YYYY-mm-dd'), Record.issuccess, func.count(Record.issuccess))\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, Record.date.between(start_date,end_date))\
-                    .group_by(Record.date,Record.issuccess).order_by(Record.date,Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
+                    .group_by(Record.date,Record.issuccess).order_by(Record.date).all()
             
             join_result = {}
             true_count = 0
@@ -211,7 +211,7 @@ class CalendarApi(Resource):
             # join
             join = db.session.query(func.to_char(Record.date, 'mm'), func.to_char(Record.date, 'dd'), Record.issuccess, func.count(Record.issuccess))\
                     .filter(Record.goal_uid==Goal.uid, Goal.user_uid == uid, extract('year', Record.date) == date[0:4])\
-                    .group_by(Record.date,Record.issuccess).order_by(Record.date,Goal.is_set_time,Goal.set_time,Record.issuccess,Record.uid).all()
+                    .group_by(Record.date,Record.issuccess).order_by(Record.date).all()
             
             result = {}
             for k in join:
