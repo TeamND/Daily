@@ -17,7 +17,6 @@ struct ModifyGoalView: View {
     @State var set_time: Date = Date()
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
-    @State var isShowCountRangeAlert: Bool = false
     
     var body: some View {
         VStack {
@@ -56,7 +55,7 @@ struct ModifyGoalView: View {
                 HStack {
                     // check & count = "횟수", timer = "시간"
                     RecordSection(title: $modifyGoalModel.type.wrappedValue == "timer" ? "시간" : "횟수") {
-                        GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, time: $modifyGoalModel.goal_time, isShowAlert: $isShowAlert, isShowCountRangeAlert: $isShowCountRangeAlert)
+                        GoalCountPickerGroup(type: $modifyGoalModel.type, count: $modifyGoalModel.goal_count, time: $modifyGoalModel.goal_time, isShowAlert: $isShowAlert)
                     }
                     RecordSection(title: "심볼") {
                         SymbolPickerGroup(symbol: $modifyGoalModel.symbol)
@@ -99,7 +98,7 @@ struct ModifyGoalView: View {
             }
             .padding()
             .alert(isPresented: $isShowAlert, content: {
-                if self.isShowContentLengthAlert {
+//                if self.isShowContentLengthAlert {
                     Alert(
                         title: Text(contentLengthAlertTitleText),
                         message: Text(contentLengthAlertMessageText),
@@ -109,17 +108,7 @@ struct ModifyGoalView: View {
                             }
                         )
                     )
-                } else {
-                    Alert(
-                        title: Text(countRangeAlertTitleText),
-                        message: Text(countRangeAlertMessageText),
-                        dismissButton: .default(
-                            Text("확인"), action: {
-                                self.isShowCountRangeAlert = false
-                            }
-                        )
-                    )
-                }
+//                }
             })
             Spacer()
         }

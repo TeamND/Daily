@@ -68,7 +68,6 @@ class GoalViewModel: ObservableObject {
     // MARK: - alert
     @Published var isShowAlert: Bool = false
     @Published var isShowContentLengthAlert: Bool = false
-    @Published var isShowCountRangeAlert: Bool = false
     @Published var isShowWrongDateAlert: Bool = false
     func showAlert(type: String) {
         self.isShowAlert = true
@@ -76,9 +75,6 @@ class GoalViewModel: ObservableObject {
         switch type {
         case "content":
             self.isShowContentLengthAlert = true
-            break
-        case "count":
-            self.isShowCountRangeAlert = true
             break
         case "date":
             self.isShowWrongDateAlert = true

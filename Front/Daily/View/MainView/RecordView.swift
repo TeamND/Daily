@@ -77,7 +77,7 @@ struct RecordView: View {
             HStack {
                 // check & count = "횟수", timer = "시간"
                 RecordSection(title: $goalViewModel.goalModel.type.wrappedValue == "timer" ? "시간" : "횟수") {
-                    GoalCountPickerGroup(type: $goalViewModel.goalModel.type, count: $goalViewModel.goalModel.goal_count, time: $goalViewModel.goalModel.goal_time, isShowAlert: $goalViewModel.isShowAlert, isShowCountRangeAlert: $goalViewModel.isShowCountRangeAlert)
+                    GoalCountPickerGroup(type: $goalViewModel.goalModel.type, count: $goalViewModel.goalModel.goal_count, time: $goalViewModel.goalModel.goal_time, isShowAlert: $goalViewModel.isShowAlert)
                 }
                 RecordSection(title: "심볼") {
                     SymbolPickerGroup(symbol: $goalViewModel.goalModel.symbol)
@@ -124,16 +124,6 @@ struct RecordView: View {
                     dismissButton: .default(
                         Text("확인"), action: {
                             goalViewModel.isShowContentLengthAlert = false
-                        }
-                    )
-                )
-            } else if goalViewModel.isShowCountRangeAlert {
-                Alert(
-                    title: Text(countRangeAlertTitleText),
-                    message: Text(countRangeAlertMessageText),
-                    dismissButton: .default(
-                        Text("확인"), action: {
-                            goalViewModel.isShowCountRangeAlert = false
                         }
                     )
                 )

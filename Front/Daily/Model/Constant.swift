@@ -24,8 +24,6 @@ func contentOfGoalHintText(type: String) -> String {
 }
 let contentLengthAlertTitleText: String = "목표의 길이가 너무 짧아요 😵"
 let contentLengthAlertMessageText: String = "최소 2글자 이상의 목표를 설정해주세요"
-let countRangeAlertTitleText: String = "목표 횟수 범위를 벗어났어요 😵‍💫"
-let countRangeAlertMessageText: String = "1 ~ 10회의 목표를 설정해주세요"
 let countRangeToastMessageText: String = "1 ~ 10회의 목표를 설정해주세요 😵‍💫"
 func wrongDateAlertTitleText(type: String) -> String {
     switch type {

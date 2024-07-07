@@ -13,7 +13,6 @@ struct GoalCountPickerGroup: View {
     @Binding var count: Int
     @Binding var time: Int
     @Binding var isShowAlert: Bool
-    @Binding var isShowCountRangeAlert: Bool
     @StateObject var timerViewModel: TimerViewModel = TimerViewModel()
     
     var body: some View {
