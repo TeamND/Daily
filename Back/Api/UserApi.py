@@ -29,7 +29,7 @@ class UserApi(Resource):
                     response['version'] = result.version
                 
                 if hasattr(result,'last_time'):
-                    response['last_time'] = None
+                    response['last_time'] = response['last_time'] if response['last_time'] else None
 
                 return {
                     'code': '00',
@@ -61,7 +61,7 @@ class UserApi(Resource):
                     response['version'] = result.version
                 
                 if hasattr(result,'last_time'):
-                    response['last_time'] = None
+                    response['last_time'] = response['last_time'] if response['last_time'] else None
 
                 return {
                     'code': '01',
