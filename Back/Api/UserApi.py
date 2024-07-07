@@ -29,7 +29,7 @@ class UserApi(Resource):
                     response['version'] = result.version
                 
                 if hasattr(result,'last_time'):
-                    response['last_time'] = result.last_time if result.last_time else None
+                    response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S") if result.last_time else None
 
                 return {
                     'code': '00',
@@ -41,7 +41,6 @@ class UserApi(Resource):
                     'code': '99',
                     'message': e
                 }, 99
-            
         else:
             try:
                 version = data['appVersion'] if 'appVersion' in data and data['appVersion'] else None
@@ -61,7 +60,7 @@ class UserApi(Resource):
                     response['version'] = result.version
                 
                 if hasattr(result,'last_time'):
-                    response['last_time'] = result.last_time if result.last_time else None
+                    response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S") if result.last_time else None
 
                 return {
                     'code': '01',
