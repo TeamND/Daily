@@ -16,8 +16,6 @@ class UserApi(Resource):
                 if 'appVersion' in data and result.version != data['appVersion']:
                     setattr(result,'version',data['appVersion'])
                     db.session.commit()
-                    
-                UserApi.LastTime('user',result.uid)
 
                 response = {
                         'uid': result.uid,
@@ -31,7 +29,7 @@ class UserApi(Resource):
                     response['version'] = result.version
                 
                 if hasattr(result,'last_time'):
-                    response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S")
+                    response['last_time'] = None
 
                 return {
                     'code': '00',
@@ -51,7 +49,6 @@ class UserApi(Resource):
                 db.session.add(user)
                 db.session.commit()
                 result = User.query.filter(User.phone_uid == phone_uid).first()
-                UserApi.LastTime('user',result.uid)
 
                 response = {
                         'uid': result.uid,
@@ -64,7 +61,7 @@ class UserApi(Resource):
                     response['version'] = result.version
                 
                 if hasattr(result,'last_time'):
-                    response['last_time'] = datetime.strftime(result.last_time,"%Y-%m-%d %H:%M:%S")
+                    response['last_time'] = None
 
                 return {
                     'code': '01',
