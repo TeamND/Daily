@@ -40,15 +40,13 @@ struct RecordList: View {
                         }
                         if record.cycle_type.wrappedValue == "repeat" {
                             Menu {
-                                Button {
-                                    withAnimation {
-                                        alertViewModel.showToast(message: "Comming soon !!!")
-                                    }
+                                NavigationLink {
+                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
                                 } label: {
-                                    Text("단일 수정 (공사 중 🚧)")
+                                    Text("단일 수정")
                                 }
                                 NavigationLink {
-                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
                                 } label: {
                                     Text("일괄 수정")
                                 }
@@ -99,7 +97,7 @@ struct RecordList: View {
                             }
                         } else {
                             NavigationLink {
-                                ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue))
+                                ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
                             } label: {
                                 Label("목표 수정", systemImage: "pencil.line")
                             }

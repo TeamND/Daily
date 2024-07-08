@@ -14,6 +14,7 @@ struct ModifyGoalView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var record: RecordModel
     @State var modifyGoalModel: modifyGoalModel
+    @State var isAll: Bool = true
     @State var set_time: Date = Date()
     @State var isShowAlert: Bool = false
     @State var isShowContentLengthAlert: Bool = false
@@ -76,16 +77,22 @@ struct ModifyGoalView: View {
                         } else {
                             DispatchQueue.main.async {
                                 modifyGoalModel.set_time = set_time.toStringOfSetTime()
-                                modifyGoal(modifyGoalModel: modifyGoalModel) { data in
-                                    if data.code == "00" {
-                                        DispatchQueue.main.async {
-                                            calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-                                                if code == "99" { alertViewModel.showAlert() }
+                                if isAll {
+                                    modifyGoal(modifyGoalModel: modifyGoalModel) { data in
+                                        if data.code == "00" {
+                                            DispatchQueue.main.async {
+                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                                    if code == "99" { alertViewModel.showAlert() }
+                                                }
+                                                self.presentationMode.wrappedValue.dismiss()
                                             }
-                                            self.presentationMode.wrappedValue.dismiss()
+                                        } else {
+                                            alertViewModel.showAlert()
                                         }
-                                    } else {
-                                        alertViewModel.showAlert()
+                                    }
+                                } else {
+                                    withAnimation {
+                                        alertViewModel.showToast(message: "공사 중 🚧")
                                     }
                                 }
                             }
