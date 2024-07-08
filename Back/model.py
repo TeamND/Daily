@@ -30,10 +30,11 @@ class Goal(db.Model):
     goal_time = db.Column(db.Integer, default=60)
     is_set_time = db.Column(db.Boolean, default=False) 
     set_time = db.Column(db.String(100), default='00:00')
+    parent_uid = db.Column(db.Integer)
     record = db.relationship('Record', backref='goal', lazy=True) 
     
     def __repr__(self):
-        return f"Goal('{self.uid}', '{self.user_uid}', '{self.content}', '{self.symbol}', '{self.start_date}', '{self.end_date}', '{self.cycle_type}', '{self.cycle_date}', '{self.type}', '{self.goal_count}', '{self.goal_time}', '{self.is_set_time}', '{self.set_time}')"
+        return f"Goal('{self.uid}', '{self.user_uid}', '{self.content}', '{self.symbol}', '{self.start_date}', '{self.end_date}', '{self.cycle_type}', '{self.cycle_date}', '{self.type}', '{self.goal_count}', '{self.goal_time}', '{self.is_set_time}', '{self.set_time}', '{self.parent_uid}')"
     
 class Record(db.Model):
     __tablename__ = 'record'
