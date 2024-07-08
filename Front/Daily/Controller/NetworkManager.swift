@@ -16,6 +16,7 @@ func printDataToString(data: Data) {
 // MARK: - userInfo
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)?appVersion=\(String(System.appVersion!))") { data in
+        printDataToString(data: data)
         guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
             complete(getUserInfoModel())
             return
@@ -132,11 +133,34 @@ func removeRecordAll(goalUID: String, complete: @escaping (ResponseModel) -> Voi
         complete(data)
     }
 }
-func modifyRecord(modifyRecordModel: modifyRecordModel, complete: @escaping (ResponseModel) -> Void) {
-    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordModel) else {
+func modifyRecordDate(modifyRecordDateModel: modifyRecordDateModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordDateModel) else {
         return
     }
-    HTTPManager.requestPUT(url: "\(serverUrl)record/\(modifyRecordModel.uid)", encodingData: encodingData) { data in
+    HTTPManager.requestPUT(url: "\(serverUrl)record/\(modifyRecordDateModel.uid)", encodingData: encodingData) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
+func modifyRecordCount(modifyRecordCountModel: modifyRecordCountModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordCountModel) else {
+        return
+    }
+    HTTPManager.requestPUT(url: "\(serverUrl)record/\(modifyRecordCountModel.uid)", encodingData: encodingData) { data in
+        printDataToString(data: data)
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
+func modifyRecordTime(modifyRecordTimeModel: modifyRecordTimeModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyRecordTimeModel) else {
+        return
+    }
+    HTTPManager.requestPUT(url: "\(serverUrl)record/\(modifyRecordTimeModel.uid)", encodingData: encodingData) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }

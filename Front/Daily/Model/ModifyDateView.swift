@@ -41,8 +41,8 @@ struct ModifyDateView: View {
                     Text("취소")
                 }
                 Button {
-                    let modifyRecordModel = modifyRecordModel(uid: self.record.uid, date: date.yyyyMMdd())
-                    modifyRecord(modifyRecordModel: modifyRecordModel) { data in
+                    let modifyRecordDateModel = modifyRecordDateModel(uid: self.record.uid, date: date.yyyyMMdd())
+                    modifyRecordDate(modifyRecordDateModel: modifyRecordDateModel) { data in
                         if data.code == "00" {
                             DispatchQueue.main.async {
                                 calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: date) { code in

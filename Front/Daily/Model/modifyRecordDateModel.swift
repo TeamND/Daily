@@ -1,13 +1,13 @@
 //
-//  modifyRecordModel.swift
+//  modifyRecordDateModel.swift
 //  Daily
 //
-//  Created by 최승용 on 4/7/24.
+//  Created by 최승용 on 7/7/24.
 //
 
 import Foundation
 
-struct modifyRecordModel: Codable {
+struct modifyRecordDateModel: Codable {
     let uid: Int
     let date: String
     

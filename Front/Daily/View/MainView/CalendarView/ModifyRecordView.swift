@@ -80,6 +80,34 @@ struct ModifyRecordView: View {
                     }
                 }
             }
+            
+            HStack {
+                Spacer()
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("취소")
+                }
+                Button {
+                    let modifyRecordCountModel = modifyRecordCountModel(uid: self.record.uid, record_count: recordCount)
+                    modifyRecordCount(modifyRecordCountModel: modifyRecordCountModel) { data in
+                        if data.code == "00" {
+                            DispatchQueue.main.async {
+                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                    if code == "99" { alertViewModel.showAlert() }
+                                }
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                        } else {
+                            alertViewModel.showAlert()
+                        }
+                    }
+                } label: {
+                    Text("수정")
+                }
+            }
+            .padding(.horizontal)
+            .buttonStyle(.borderedProminent)
             Spacer()
         }
         .onAppear {
