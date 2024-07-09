@@ -11,6 +11,14 @@ class recordApi(Resource):
         
         if result:
             UserApi.LastTime('record',uid)
+            if 'record_count' in data and data['record_count']:
+                goal = Goal.query.filter(Goal.uid == result.goal_uid).first()
+                data['issuccess'] = True if goal.goal_count == data['record_count'] else False
+            
+            if 'record_time' in data and data['record_time']:
+                goal = Goal.query.filter(Goal.uid == result.goal_uid).first()
+                data['issuccess'] = True if goal.goal_time <= data['record_time'] else False
+
             try:
                 for k,v in data.items():
                     setattr(result, k, v)
