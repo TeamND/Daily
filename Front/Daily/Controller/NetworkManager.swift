@@ -16,7 +16,6 @@ func printDataToString(data: Data) {
 // MARK: - userInfo
 func getUserInfo(userID: String, complete: @escaping (getUserInfoModel) -> Void) {
     HTTPManager.requestGET(url: "\(serverUrl)user/info/\(userID)?appVersion=\(String(System.appVersion!))") { data in
-        printDataToString(data: data)
         guard let data: getUserInfoModel = JSONConverter.decodeJson(data: data) else {
             complete(getUserInfoModel())
             return
@@ -149,7 +148,6 @@ func modifyRecordCount(modifyRecordCountModel: modifyRecordCountModel, complete:
         return
     }
     HTTPManager.requestPUT(url: "\(serverUrl)record/\(modifyRecordCountModel.uid)", encodingData: encodingData) { data in
-        printDataToString(data: data)
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }

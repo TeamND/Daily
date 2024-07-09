@@ -45,10 +45,23 @@ struct InitView: View {
                                     }
                                 }
                                 
-                                PushNoticeManager().requestNotiAuthorization() { isShowAlert in
-                                    if isShowAlert {
-                                        self.isShowAlert = isShowAlert
-                                        self.isShowOpenSettingAlert = isShowAlert
+                                if data.data.last_time == nil || data.code == "01" { // 신규 사용자
+                                    PushNoticeManager().requestNotiAuthorization() { isShowAlert in
+                                        if isShowAlert {
+                                            self.isShowAlert = isShowAlert
+                                            self.isShowOpenSettingAlert = isShowAlert
+                                        }
+                                    }
+                                } else {
+                                    let last_time = String(data.data.last_time!.split(separator: " ")[0])
+                                    let gap = Calendar.current.dateComponents([.year,.month,.day], from: last_time.toDate()!, to: Date())
+                                    if gap.year! > 0 || gap.month! > 0 || gap.day! > 6 {    // 일주일 이내 사용 이력이 없는 사용자
+                                        PushNoticeManager().requestNotiAuthorization() { isShowAlert in
+                                            if isShowAlert {
+                                                self.isShowAlert = isShowAlert
+                                                self.isShowOpenSettingAlert = isShowAlert
+                                            }
+                                        }
                                     }
                                 }
                                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in

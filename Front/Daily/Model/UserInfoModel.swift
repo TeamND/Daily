@@ -13,6 +13,7 @@ struct UserInfoModel: Codable {
     var set_language: String
     var set_dateorrepeat: String
     var set_calendarstate: String
+    var last_time: String?
     
     init() {
         self.uid = 0
@@ -20,5 +21,6 @@ struct UserInfoModel: Codable {
         self.set_language = "korea"
         self.set_dateorrepeat = "date"
         self.set_calendarstate = "month"
+        self.last_time = nil
     }
 }
