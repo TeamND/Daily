@@ -21,7 +21,6 @@ struct AppInfo: View {
                 AppInfoLabel(labelText: "Application", labelImage: "apps.iphone")
             }
             .padding(.vertical)
-            Spacer()
         }
     }
 }

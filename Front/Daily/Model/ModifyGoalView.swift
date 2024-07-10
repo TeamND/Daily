@@ -92,7 +92,7 @@ struct ModifyGoalView: View {
                                     }
                                 } else {
                                     withAnimation {
-                                        alertViewModel.showToast(message: "공사 중 🚧")
+                                        alertViewModel.showToast(message: commingSoonToastMessage)
                                     }
                                 }
                             }
