@@ -9,6 +9,10 @@ import Foundation
 import WidgetKit
 
 class CalendarViewModel: ObservableObject {
+    init() {}
+    init(isTutorial: Bool) {
+        self.daysOnMonth[Date().day - 1] = dayOnMonthModel(symbol: symbolOnMonthModel(imageName: "운동", isSuccess: true), rating: 1.0)
+    }
     // MARK: - year
     @Published var ratingOnYear: [[Double]] = Array(repeating: Array(repeating: 0, count: 31), count: 12)
     @Published var ratingOnYearList: [[[Double]]] = Array(repeating: Array(repeating: Array(repeating: 0, count: 31), count: 12), count: listSize)

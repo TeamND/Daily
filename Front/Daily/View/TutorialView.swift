@@ -9,11 +9,12 @@ import SwiftUI
 
 struct TutorialView: View {
     @Environment(\.presentationMode) var presentationMode
-    var isFirst: Bool
+    @State var isShowSecondSheet: Bool = false
+    @State var isShowThirdSheet: Bool = false
     
     var body: some View {
         ZStack {
-            CalendarView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            CalendarView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel(isTutorial: true))
             VStack {
                 HStack {
                     Spacer()
@@ -30,35 +31,48 @@ struct TutorialView: View {
                             }
                         }
                 }
-                .padding()
                 Spacer()
-                if isFirst {
-                    Button {
-                        print("goMainView")
-                    } label: {
-                        Text("Daily 시작하기")
-                    }
-                } else {
+                HStack {
                     Button {
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("완료")
                     }
+                    .buttonStyle(.borderedProminent)
                 }
             }
+            .padding()
             .background {
                 Rectangle()
-                    .fill(.gray.opacity(0.5))
+                    .fill(.gray.opacity(0.6))
                     .ignoresSafeArea()
                     .onTapGesture {
-                        print("background")
+                        isShowSecondSheet = true
                     }
             }
         }
         .navigationBarHidden(true)
+        .sheet(isPresented: $isShowSecondSheet) {
+            Button {
+                isShowThirdSheet = true
+            } label: {
+                Text("22222")
+            }
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .sheet(isPresented: $isShowThirdSheet) {
+                Button {
+                    self.presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("333333")
+                }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+            }
+        }
     }
 }
 
 #Preview {
-    TutorialView(isFirst: false)
+    TutorialView()
 }

@@ -20,7 +20,7 @@ struct AppInfoView: View {
                             .foregroundColor(.gray)
                         
 //                        NavigationLink {
-//                            TutorialView(isFirst: false)
+//                            TutorialView()
                         Button {
                             withAnimation {
                                 alertViewModel.showToast(message: commingSoonToastMessage)

@@ -27,6 +27,10 @@ struct dayOnMonthModel: Codable {
         symbol = [symbolOnMonthModel()]
         rating = 0.0
     }
+    init(symbol: symbolOnMonthModel, rating: Double) {
+        self.symbol = [symbol]
+        self.rating = rating
+    }
 }
 
 struct symbolOnMonthModel: Codable {
@@ -36,5 +40,9 @@ struct symbolOnMonthModel: Codable {
     init() {
         imageName = ""
         isSuccess = false
+    }
+    init(imageName: String, isSuccess: Bool) {
+        self.imageName = imageName
+        self.isSuccess = isSuccess
     }
 }
