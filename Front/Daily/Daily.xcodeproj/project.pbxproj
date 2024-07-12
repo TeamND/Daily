@@ -17,6 +17,8 @@
 		F636CC692923287300879E1F /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F636CC682923287300879E1F /* RecordButton.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F64FA5CA2C3FB712002F5C14 /* TutorialFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FA5C92C3FB712002F5C14 /* TutorialFirstView.swift */; };
+		F64FA5CC2C417334002F5C14 /* TutorialSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FA5CB2C417334002F5C14 /* TutorialSecondView.swift */; };
+		F64FA5CE2C41733E002F5C14 /* TutorialThirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FA5CD2C41733E002F5C14 /* TutorialThirdView.swift */; };
 		F662AC092C2A996A005D92B4 /* RecordSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F662AC082C2A996A005D92B4 /* RecordSection.swift */; };
 		F662AC0B2C2AB643005D92B4 /* WODPickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F662AC0A2C2AB643005D92B4 /* WODPickerGroup.swift */; };
 		F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */; };
@@ -134,6 +136,8 @@
 		F636CC682923287300879E1F /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F64FA5C92C3FB712002F5C14 /* TutorialFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFirstView.swift; sourceTree = "<group>"; };
+		F64FA5CB2C417334002F5C14 /* TutorialSecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSecondView.swift; sourceTree = "<group>"; };
+		F64FA5CD2C41733E002F5C14 /* TutorialThirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialThirdView.swift; sourceTree = "<group>"; };
 		F662AC082C2A996A005D92B4 /* RecordSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSection.swift; sourceTree = "<group>"; };
 		F662AC0A2C2AB643005D92B4 /* WODPickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WODPickerGroup.swift; sourceTree = "<group>"; };
 		F6699B912BC70B2000B1FDA7 /* ContentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextField.swift; sourceTree = "<group>"; };
@@ -350,6 +354,8 @@
 			isa = PBXGroup;
 			children = (
 				F64FA5C92C3FB712002F5C14 /* TutorialFirstView.swift */,
+				F64FA5CB2C417334002F5C14 /* TutorialSecondView.swift */,
+				F64FA5CD2C41733E002F5C14 /* TutorialThirdView.swift */,
 			);
 			path = TutorialView;
 			sourceTree = "<group>";
@@ -684,6 +690,7 @@
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F61D610D2BF64F7800F29965 /* WeeklySummary.swift in Sources */,
 				F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */,
+				F64FA5CC2C417334002F5C14 /* TutorialSecondView.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
 				F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */,
 				F6CC159E2BA1E01200689A02 /* HTTPManager.swift in Sources */,
@@ -693,6 +700,7 @@
 				F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */,
 				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */,
+				F64FA5CE2C41733E002F5C14 /* TutorialThirdView.swift in Sources */,
 				F636CC692923287300879E1F /* RecordButton.swift in Sources */,
 				F6AB72562C2D455D008A5D28 /* CycleTypePickerGroup.swift in Sources */,
 				F662AC092C2A996A005D92B4 /* RecordSection.swift in Sources */,

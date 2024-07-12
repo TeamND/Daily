@@ -16,21 +16,20 @@ struct TutorialView: View {
         TutorialFirstView(isShowSecondSheet: $isShowSecondSheet)
             .navigationBarHidden(true)
             .sheet(isPresented: $isShowSecondSheet) {
-                Button {
-                    isShowThirdSheet = true
-                } label: {
-                    Text("22222")
-                }
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
-                .sheet(isPresented: $isShowThirdSheet) {
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("333333")
-                    }
+                TutorialSecondView(isShowThirdSheet: $isShowThirdSheet)
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
+                    .sheet(isPresented: $isShowThirdSheet) {
+                        ZStack {
+                            TutorialThirdView()
+                            Button {
+                                self.presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Text("333333")
+                            }
+                        }
+                            .presentationDetents([.large])
+                            .presentationDragIndicator(.visible)
                 }
             }
     }
