@@ -22,11 +22,18 @@ struct TutorialView: View {
                     .sheet(isPresented: $isShowThirdSheet) {
                         ZStack {
                             TutorialThirdView()
-                            Button {
-                                self.presentationMode.wrappedValue.dismiss()
-                            } label: {
-                                Text("333333")
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    Spacer()
+                                    Button {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    } label: {
+                                        Text("완료")
+                                    }
+                                }
                             }
+                            .padding()
                         }
                             .presentationDetents([.large])
                             .presentationDragIndicator(.visible)
