@@ -44,7 +44,12 @@ struct ModifyDateView: View {
                     let modifyRecordDateModel = modifyRecordDateModel(uid: self.record.uid, date: date.yyyyMMdd())
                     modifyRecordDate(modifyRecordDateModel: modifyRecordDateModel) { data in
                         if data.code == "00" {
-                            self.presentationMode.wrappedValue.dismiss()
+                            DispatchQueue.main.async {
+                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: date) { code in
+                                    if code == "99" { alertViewModel.showAlert() }
+                                }
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
                         } else {
                             alertViewModel.showAlert()
                         }
@@ -62,13 +67,6 @@ struct ModifyDateView: View {
             date = calendarViewModel.getCurrentDate()
             beforeDate = date
             beforeDOW = calendarViewModel.getCurrentDOW(userInfoViewModel: userInfoViewModel)
-        }
-        .onDisappear() {
-            DispatchQueue.main.async {
-                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: date) { code in
-                    if code == "99" { alertViewModel.showAlert() }
-                }
-            }
         }
     }
 }
