@@ -97,12 +97,7 @@ struct RecordView: View {
                     goalViewModel.validateGoal(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel) { goal in
                         addGoal(goal: goal) { data in
                             if data.code == "00" {
-                                DispatchQueue.main.async {
-                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-                                        if code == "99" { alertViewModel.showAlert() }
-                                    }
-                                    self.presentationMode.wrappedValue.dismiss()
-                                }
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                         }
                     }
@@ -151,6 +146,13 @@ struct RecordView: View {
         })
         .onAppear {
             goalViewModel.initDatesAndSetTime(calendarViewModel: calendarViewModel)
+        }
+        .onDisappear {
+            DispatchQueue.main.async {
+                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                    if code == "99" { alertViewModel.showAlert() }
+                }
+            }
         }
         .onTapGesture {
             hideKeyboard()
