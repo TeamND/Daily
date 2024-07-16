@@ -41,12 +41,8 @@ struct RecordList: View {
                         if record.cycle_type.wrappedValue == "repeat" {
                             if record.parent_uid.wrappedValue == nil {
                                 Menu {
-                                    Button {
-                                        withAnimation {
-                                            alertViewModel.showToast(message: commingSoonToastMessage)
-                                        }
-//                                    NavigationLink {
-//                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
+                                    NavigationLink {
+                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
                                     } label: {
                                         Text("단일 수정")
                                     }
