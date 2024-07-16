@@ -23,9 +23,6 @@ struct CalendarSheet: View {
                     Spacer()
                     Button {
                         currentDate = selectedDate
-                        calendarViewModel.setCurrentYear(year: selectedDate.year)
-                        calendarViewModel.setCurrentMonth(month: selectedDate.month)
-                        calendarViewModel.setCurrentDay(day: selectedDate.day)
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("변경")
@@ -43,9 +40,6 @@ struct CalendarSheet: View {
                         Spacer()
                         Button {
                             currentDate = selectedDate
-                            calendarViewModel.setCurrentYear(year: selectedDate.year)
-                            calendarViewModel.setCurrentMonth(month: selectedDate.month)
-                            calendarViewModel.setCurrentDay(day: selectedDate.day)
                             self.presentationMode.wrappedValue.dismiss()
                         } label: {
                             Text("변경")

@@ -98,7 +98,7 @@ struct RecordView: View {
                         addGoal(goal: goal) { data in
                             if data.code == "00" {
                                 DispatchQueue.main.async {
-                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                    calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel, targetDate: goalViewModel.start_date) { code in
                                         if code == "99" { alertViewModel.showAlert() }
                                     }
                                     self.presentationMode.wrappedValue.dismiss()
