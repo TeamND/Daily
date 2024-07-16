@@ -82,7 +82,7 @@ class GoalCount(Resource):
         return GoalApi.Count(record_uid,request.args)
 
 @goal.route('/removeRecordAll/<int:goal_uid>')
-class removeRecordAll(Resource):
+class RemoveRecordAll(Resource):
     
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})  
@@ -92,3 +92,15 @@ class removeRecordAll(Resource):
         data = data.decode('UTF-8')
         data = json.loads(data)
         return GoalApi.RemoveRecordAll(goal_uid,data)
+    
+@goal.route('/separateGoal/<int:record_uid>')
+class SeparateGoal(Resource):
+    
+    @goal.doc(responses={00: 'Success'})
+    @goal.doc(responses={99: 'Failed'})  
+    def put(self,record_uid):
+        '''기록의 목표를 변경 한다.'''
+        data = request.get_data()
+        data = data.decode('UTF-8')
+        data = json.loads(data)
+        return GoalApi.SeparateGoal(record_uid,data)

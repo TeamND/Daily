@@ -19,12 +19,12 @@ struct AppInfoView: View {
                         Text("튜토리얼")
                             .foregroundColor(.gray)
                         
-                        NavigationLink {
-                            TutorialView()
-//                        Button {
-//                            withAnimation {
-//                                alertViewModel.showToast(message: commingSoonToastMessage)
-//                            }
+//                        NavigationLink {
+//                            TutorialView()
+                        Button {
+                            withAnimation {
+                                alertViewModel.showToast(message: commingSoonToastMessage)
+                            }
                         } label: {
                             Text("시작하기")
                                 .fontWeight(.bold)
