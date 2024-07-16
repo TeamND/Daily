@@ -280,12 +280,24 @@ class GoalApi(Resource):
     # 기록의 목표 변경
     def SeparateGoal(uid,data):
         try:
-            result = db.session.get(Record,uid)
-            if result:
+            record = db.session.get(Record,uid)
+            if record:
                 UserApi.LastTime('goal',uid)
-                data['parent_uid'] = data['uid']
+                goal = db.session.get(Goal,data['uid'])
+
+                update_list = ['content','symbol','type','goal_count','goal_time','is_set_time','set_time']
+
+                for update in update_list:
+                    if update not in data:
+                        data[update] = getattr(goal, update)
+                
+                data['user_uid'] = getattr(goal,'user_uid')
+                data['cycle_type'] = 'date'
+                data['parent_uid'] = data['uid']          
+                data['cycle_date'] = {record.date.strftime("%Y%m%d")}
+
                 res = GoalApi.Create(data)
-                if getattr(res, 'status_code', 99) == 99:
+                if res[1] == 99:
                     return {
                     'code': '99',
                     'message': '조회된 데이터가 없습니다.'
