@@ -39,19 +39,31 @@ struct RecordList: View {
                             Label("날짜 변경", systemImage: "calendar")
                         }
                         if record.cycle_type.wrappedValue == "repeat" {
-                            Menu {
-                                NavigationLink {
-                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
+                            if record.parent_uid.wrappedValue == nil {
+                                Menu {
+                                    Button {
+                                        withAnimation {
+                                            alertViewModel.showToast(message: commingSoonToastMessage)
+                                        }
+//                                    NavigationLink {
+//                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
+                                    } label: {
+                                        Text("단일 수정")
+                                    }
+                                    NavigationLink {
+                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
+                                    } label: {
+                                        Text("일괄 수정")
+                                    }
                                 } label: {
-                                    Text("단일 수정")
+                                    Label("목표 수정", systemImage: "pencil.line")
                                 }
+                            } else {
                                 NavigationLink {
                                     ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
                                 } label: {
-                                    Text("일괄 수정")
+                                    Label("목표 수정", systemImage: "pencil.line")
                                 }
-                            } label: {
-                                Label("목표 수정", systemImage: "pencil.line")
                             }
                             Menu {
                                 Button {

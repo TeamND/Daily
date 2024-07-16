@@ -22,6 +22,7 @@ struct RecordModel: Codable {
     var is_set_time: Bool
     var set_time: String
     var cycle_type: String
+    var parent_uid: Int?
     
     init() {
         self.uid = -1
@@ -38,5 +39,6 @@ struct RecordModel: Codable {
         self.is_set_time = false
         self.set_time = "00:00"
         self.cycle_type = "date"
+        self.parent_uid = nil
     }
 }
