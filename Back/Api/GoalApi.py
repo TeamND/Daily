@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Resource, Api, Namespace
 from model import db,User,Goal,Record
 from Api.UserApi import UserApi
+from Api.RecordApi import RecordApi
 import datetime
 import json
 
@@ -249,7 +250,7 @@ class GoalApi(Resource):
                 'message': '조회된 데이터가 없습니다.'
             }, 99
 
-# 달성
+    # 목표에 해당하는 기록 전체 삭제
     def RemoveRecordAll(uid,data):
         try:
             result = db.session.get(Goal,uid)
@@ -269,6 +270,32 @@ class GoalApi(Resource):
                     'code': '99',
                     'message': '조회된 데이터가 없습니다.'
                 }, 99
+        except Exception as e:
+            db.session.rollback()
+            return {
+                'code': '99',
+                'message': e
+            }, 99
+        
+    # 기록의 목표 변경
+    def SeparateGoal(uid,data):
+        try:
+            result = db.session.get(Record,uid)
+            if result:
+                UserApi.LastTime('goal',uid)
+                data['parent_uid'] = data['uid']
+                res = GoalApi.Create(data)
+                if getattr(res, 'status_code', 99) == 99:
+                    return {
+                    'code': '99',
+                    'message': '조회된 데이터가 없습니다.'
+                }, 99
+                else:
+                    RecordApi.Delete(uid)
+                    return {
+                    'code': '00',
+                    'message': '수정에 성공했습니다.'
+                }, 0
         except Exception as e:
             db.session.rollback()
             return {

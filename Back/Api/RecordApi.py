@@ -5,7 +5,7 @@ from model import db,Goal,Record
 from Api.UserApi import UserApi
 import datetime
 
-class recordApi(Resource):
+class RecordApi(Resource):
     def Update(uid,data):
         result = db.session.get(Record,uid)
         

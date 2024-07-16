@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace, fields, reqparse
-from Api.RecordApi import recordApi
+from Api.RecordApi import RecordApi
 import json
 
 record = Namespace(
@@ -30,13 +30,13 @@ class RecordUD(Resource):
         data = request.get_data()
         data = data.decode('UTF-8')
         data = json.loads(data)
-        return recordApi.Update(uid,data)
+        return RecordApi.Update(uid,data)
     
     @record.doc(responses={00: 'Success'})
     @record.doc(responses={99: 'Failed'})    
     def delete(self,uid):
         '''기록을 삭제한다.'''
-        return recordApi.Delete(uid)
+        return RecordApi.Delete(uid)
     
 
 @record.route('/deleteAll/<int:goal_uid>')
@@ -45,4 +45,4 @@ class DeleteAll(Resource):
     @record.doc(responses={99: 'Failed'})       
     def delete(self,goal_uid):
         '''기록의 일괄 삭제 한다.'''
-        return recordApi.DeleteAll(goal_uid)    
+        return RecordApi.DeleteAll(goal_uid)    
