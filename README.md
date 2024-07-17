@@ -4,80 +4,10 @@
 ***Team ND***
 
 ---
+🗓️ [Daily notion](https://www.notion.so/seungyooooong/Daily-44127143818b4a8f8d9e864d992b549f) ⌄⌄⌄
 
-22.10.31. ~ 24.03.28
-
-[1차 개발]
-- SwiftUI
-- MVVM Architecture
-- RESTful API
-- Data Handling
-- View Structure
-- Custom Components
-
-24.03.28. ~ 24.04.15.
-
-[1차 테스트]
-- Code Refactoring
-- UI/UX Improvement
-- Version Management
-- Adaptive View
-- Documents required to launch the app
-
-24.04.17. ~ 24.05.12.
-
-[1.0 출시]
-- App Maintenance
-- Accept Feedbacks
-
-24.05.12. ~ 24.05.14.
-
-[1.1.8 업데이트]
-- Add Widget
-- Handle network exception
-- Add version check logic
-
-24.05.14. ~ 24.05.20.
-
-[1.1.10 업데이트]
-- Modify Widget UI
-- Add network error case
-
-24.05.20. ~ 24.06.04.
-
-[1.1.11 업데이트]
-- Fix bug about symbol in widget
-- Modify the AddGoalButton to be visible even NoRecord case
-
-24.06.04. ~ 24.06.05.
-
-[1.1.15 업데이트]
-- Add WeeklySummary
-- Add Today button
-- Add PushNotification
-
-24.06.05. ~ 24.06.12.
-
-[1.1.16 업데이트]
-- Fix bug about RecordProgressBar onAppear logic
-
-24.06.12. ~ 24.06.20.
-
-[1.1.17 업데이트]
-- Modify position of ratingOfWeek in WeeklySummary
-- Handle getUserInfo response code "01" case
-- Add Spacer in bottom of RecordView
-
-24.06.20. ~ 24.06.24.
-
-[1.2.1 업데이트]
-- Replace server from gcp to aws
-- Add set_time in Goal & Record
-- Add TimeLine in RecordList
-
-24.06.24. ~
-
-[1.2.3 업데이트]
-- Add WidgetUrl & goToday()
-- Modify padding of TimeLine
-- Modify height of SymbolPickerGroup
+> 💁 [Support](https://seungyooooong.notion.site/Support-02a8d836301d4c50b157e7913023885f?pvs=4)
+> 
+> 📜 [Develop History](https://seungyooooong.notion.site/Develop-history-c6f47dc9dc524a7abe6cd46b5fa68719?pvs=4)
+> 
+> 💼 [개인정보 처리방침](https://www.notion.so/seungyooooong/c2179388068d44fc9449fa6250da47b1)
