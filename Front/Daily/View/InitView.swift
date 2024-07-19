@@ -12,6 +12,7 @@ struct InitView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var isLoading: Bool
     @State var subTitleText: String = "Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!"
+    @State var isShowNoticeSheet: Bool = true
     @State var isShowAlert: Bool = false
     @State var isShowTerminateAlert: Bool = false
     @State var isShowOpenStoreAlert: Bool = false
@@ -65,6 +66,9 @@ struct InitView: View {
                 }
             }
         }
+        .sheet(isPresented: $isShowNoticeSheet, content: {
+            Text("test")
+        })
         .alert(isPresented: $isShowAlert, content: {
             if self.isShowTerminateAlert {
                 Alert(
