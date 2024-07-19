@@ -88,10 +88,7 @@ class RemoveRecordAll(Resource):
     @goal.doc(responses={99: 'Failed'})  
     def delete(self,goal_uid):
         '''기록의 일괄 삭제 한다.'''
-        data = request.get_data()
-        data = data.decode('UTF-8')
-        data = json.loads(data)
-        return GoalApi.RemoveRecordAll(goal_uid,data)
+        return GoalApi.RemoveRecordAll(goal_uid)
     
 @goal.route('/separateGoal/<int:record_uid>')
 class SeparateGoal(Resource):

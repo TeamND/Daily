@@ -69,7 +69,9 @@ class RecordApi(Resource):
             result = db.session.get(Goal,uid)
             if result:
                 UserApi.LastTime('goal',uid)
-                Record.query.filter(Record.goal_uid == uid,Record.date > datetime.datetime.today()).delete()
+                goal_list = db.session.query(Goal.uid).filter((Goal.parent_uid == result.parent_uid)|(Goal.uid == result.parent_uid)).all()
+                uid_list = [element[0] for element in goal_list]
+                Record.query.filter(Record.goal_uid.in_(uid_list),Record.goal_uid == uid, Record.date > datetime.datetime.today()).delete()
                 db.session.commit()
                 return {
                     'code': '00',

@@ -36,11 +36,11 @@ class GoalApi(Resource):
                     issuccess = data['issuccess']
                     data.pop('issuccess')
 
-                if 'record_time' in data and data['record_time']:
+                if 'record_time' in data:
                     record_time = data['record_time']
                     data.pop('record_time')
 
-                if 'record_count' in data and data['record_count']:
+                if 'record_count' in data:
                     record_count = data['record_count']
                     data.pop('record_count')
 
@@ -268,15 +268,15 @@ class GoalApi(Resource):
             }, 99
 
     # 목표에 해당하는 기록 전체 삭제
-    def RemoveRecordAll(uid,data):
+    def RemoveRecordAll(uid):
         try:
             result = db.session.get(Goal,uid)
             if result:
                 UserApi.LastTime('goal',uid)
-                if 'is_exclude_past' in data and data['is_exclude_past']:
-                    Record.query.filter(Record.goal_uid == uid).delete()
-                else:
-                    Record.query.filter(Record.goal_uid == uid,Record.date > datetime.datetime.today()).delete()
+
+                goal_list = db.session.query(Goal.uid).filter((Goal.parent_uid == result.parent_uid)|(Goal.uid == result.parent_uid)).all()
+                uid_list = [element[0] for element in goal_list]
+                Record.query.filter(Record.goal_uid.in_(uid_list)).delete()
                 db.session.commit()
                 return {
                     'code': '00',
@@ -309,9 +309,12 @@ class GoalApi(Resource):
                         data[update] = getattr(goal, update)
                 
                 data['user_uid'] = getattr(goal,'user_uid')
-                data['cycle_type'] = 'date'
+                data['cycle_type'] = 'repeat'
                 data['parent_uid'] = data['uid']          
                 data['cycle_date'] = {record.date.strftime("%Y%m%d")}
+                data['record_count'] = record.record_count
+                data['record_time'] = record.record_time
+                data['issuccess'] = record.issuccess
 
                 res = GoalApi.Create(data)
                 if res[1] == 99:
