@@ -91,8 +91,17 @@ struct ModifyGoalView: View {
                                         }
                                     }
                                 } else {
-                                    withAnimation {
-                                        alertViewModel.showToast(message: commingSoonToastMessage)
+                                    separateGoal(recordUID: String(record.uid), modifyGoalModel: modifyGoalModel) { data in
+                                        if data.code == "00" {
+                                            DispatchQueue.main.async {
+                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
+                                                    if code == "99" { alertViewModel.showAlert() }
+                                                }
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                        } else {
+                                            alertViewModel.showAlert()
+                                        }
                                     }
                                 }
                             }
