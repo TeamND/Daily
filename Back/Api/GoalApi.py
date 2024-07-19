@@ -24,8 +24,25 @@ class GoalApi(Resource):
                 if 'is_set_time' in data and data['is_set_time']:
                     if data['is_set_time'] == 'true' or data['is_set_time'] == True or data['is_set_time'] == 1:
                         data['is_set_time'] = True 
-                    else: 
+                    else:
                         data['is_set_time'] = False
+
+                # 레코드 관련
+                issuccess = False
+                record_count = 0
+                record_time = 0
+               
+                if 'issuccess' in data:
+                    issuccess = data['issuccess']
+                    data.pop('issuccess')
+
+                if 'record_time' in data and data['record_time']:
+                    record_time = data['record_time']
+                    data.pop('record_time')
+
+                if 'record_count' in data and data['record_count']:
+                    record_count = data['record_count']
+                    data.pop('record_count')
 
                 goal_query = Goal(**data)
                 db.session.add(goal_query)
@@ -57,7 +74,7 @@ class GoalApi(Resource):
                 for date in date_list:
                     user_goal = db.session.query(Goal).filter_by(user_uid=goal_query.user_uid)
                     order = user_goal.join(Record, Goal.uid == Record.goal_uid).count()
-                    db.session.add(Record(goal_uid=goal_query.uid, date=date, order=order))
+                    db.session.add(Record(goal_uid=goal_query.uid, issuccess=issuccess, record_count=record_count, record_time=record_time, date=date, order=order))
                 db.session.commit()
 
                 return {
