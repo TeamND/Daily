@@ -274,7 +274,10 @@ class GoalApi(Resource):
             if result:
                 UserApi.LastTime('goal',uid)
 
-                goal_list = db.session.query(Goal.uid).filter((Goal.parent_uid == result.parent_uid)|(Goal.uid == result.parent_uid)).all()
+                if result.parent_uid != None:
+                    goal_list = db.session.query(Goal.uid).filter((Goal.parent_uid == result.parent_uid)|(Goal.uid == result.parent_uid),Goal.user_uid == result.user_uid).all()
+                else:
+                    goal_list = db.session.query(Goal.uid).filter((Goal.parent_uid == result.uid)|(Goal.uid == result.uid),Goal.user_uid == result.user_uid).all()
                 uid_list = [element[0] for element in goal_list]
                 Record.query.filter(Record.goal_uid.in_(uid_list)).delete()
                 db.session.commit()
