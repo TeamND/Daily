@@ -12,6 +12,8 @@ struct InitView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var isLoading: Bool
     @State var subTitleText: String = "Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!"
+    @State var hasNotice: Bool = true
+    @State var isShowNoticeSheet: Bool = false
     @State var isShowAlert: Bool = false
     @State var isShowTerminateAlert: Bool = false
     @State var isShowOpenStoreAlert: Bool = false
@@ -36,6 +38,15 @@ struct InitView: View {
                 } else {
                     getUserInfo(userID: UIDevice.current.identifierForVendor!.uuidString) { data in
                         if data.code == "00" || data.code == "01" { // "00": 기존 사용자, "01": 신규 사용자 (추후 튜토리얼 추가)
+                            if data.data.last_time == nil {
+                                hasNotice = false
+                            } else {
+                                let lastAccessDate: Date = String(data.data.last_time!.split(separator: " ")[0]).toDate()!
+                                let criterionDate: Date = "2024-07-27".toDate()!
+                                
+                                let gap = Calendar.current.dateComponents([.year,.month,.day], from: lastAccessDate, to: criterionDate)
+                                hasNotice =  gap.year! > 0 || gap.month! > 0 || gap.day! > 0
+                            }
                             DispatchQueue.main.async {
                                 userInfoViewModel.setUserInfo(userInfo: data.data)
                                 calendarViewModel.setCurrentState(state: userInfoViewModel.userInfo.set_calendarstate, year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
@@ -53,7 +64,11 @@ struct InitView: View {
                                 }
                                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                                     if !isShowAlert {
-                                        isLoading = false
+                                        if hasNotice {
+                                            isShowNoticeSheet = true
+                                        } else {
+                                            isLoading = false
+                                        }
                                     }
                                 }
                             }
@@ -65,6 +80,14 @@ struct InitView: View {
                 }
             }
         }
+        .sheet(isPresented: $isShowNoticeSheet, content: {
+            NoticeSheet()
+                .presentationDetents([.height(CGFloat.fontSize * 50)])
+                .presentationDragIndicator(.visible)
+                .onDisappear {
+                    isLoading = false
+                }
+        })
         .alert(isPresented: $isShowAlert, content: {
             if self.isShowTerminateAlert {
                 Alert(
@@ -102,14 +125,22 @@ struct InitView: View {
                                 isShowOpenSettingAlert = false
                                 System().openSettingApp()
                                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-                                    isLoading = false
+                                    if hasNotice {
+                                        isShowNoticeSheet = true
+                                    } else {
+                                        isLoading = false
+                                    }
                             }
                         }),
                         secondaryButton: .destructive(
                             Text("다음에 하기"),
                             action: {
                                 isShowOpenSettingAlert = false
-                                isLoading = false
+                                if hasNotice {
+                                    isShowNoticeSheet = true
+                                } else {
+                                    isLoading = false
+                                }
                             }
                         )
                     )

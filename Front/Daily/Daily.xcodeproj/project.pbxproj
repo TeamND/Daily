@@ -30,6 +30,7 @@
 		F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */; };
 		F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */; };
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
+		F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F679B9A42C4ACA960027608D /* NoticeSheet.swift */; };
 		F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */; };
 		F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */; };
 		F6A1A0052C3A45AA00989FBF /* modifyRecordDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */; };
@@ -149,6 +150,7 @@
 		F6699B9F2BD2374B00B1FDA7 /* AddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalButton.swift; sourceTree = "<group>"; };
 		F6699BA32BD4664F00B1FDA7 /* ViewPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
+		F679B9A42C4ACA960027608D /* NoticeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSheet.swift; sourceTree = "<group>"; };
 		F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyRecordView.swift; sourceTree = "<group>"; };
 		F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordCountModel.swift; sourceTree = "<group>"; };
 		F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordDateModel.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			children = (
 				F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */,
 				F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */,
+				F679B9A42C4ACA960027608D /* NoticeSheet.swift */,
 			);
 			path = Sheet;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */,
 				F6699B9C2BCD123300B1FDA7 /* BeforeGoal.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
+				F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */,
 				F6A1A0072C3A460800989FBF /* modifyRecordTimeModel.swift in Sources */,
 				F6699B982BCCFF3C00B1FDA7 /* TypePickerGroup.swift in Sources */,
 				F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */,
@@ -928,7 +932,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -973,7 +977,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

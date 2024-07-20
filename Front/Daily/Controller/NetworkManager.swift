@@ -114,6 +114,17 @@ func modifyGoal(modifyGoalModel: modifyGoalModel, complete: @escaping (ResponseM
         complete(data)
     }
 }
+func separateGoal(recordUID: String, modifyGoalModel: modifyGoalModel, complete: @escaping (ResponseModel) -> Void) {
+    guard let encodingData: Data = JSONConverter.encodeJson(param: modifyGoalModel) else {
+        return
+    }
+    HTTPManager.requestPUT(url: "\(serverUrl)goal/separateGoal/\(recordUID)", encodingData: encodingData) { data in
+        guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
+            return
+        }
+        complete(data)
+    }
+}
 
 // MARK: - record
 func removeRecord(recordUID: String, complete: @escaping (ResponseModel) -> Void) {
