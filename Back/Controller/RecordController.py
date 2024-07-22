@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Api, Namespace, fields, reqparse
 from Api.RecordApi import RecordApi
+from Api.GoalApi import GoalApi
 import json
 
 record = Namespace(
@@ -45,4 +46,4 @@ class DeleteAll(Resource):
     @record.doc(responses={99: 'Failed'})       
     def delete(self,goal_uid):
         '''기록의 일괄 삭제 한다.'''
-        return RecordApi.DeleteAll(goal_uid)    
+        return GoalApi.RemoveRecordAll(goal_uid)    
