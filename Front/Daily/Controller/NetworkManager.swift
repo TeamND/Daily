@@ -136,7 +136,7 @@ func removeRecord(recordUID: String, complete: @escaping (ResponseModel) -> Void
     }
 }
 func removeRecordAll(goalUID: String, complete: @escaping (ResponseModel) -> Void) {
-    HTTPManager.requestDELETE(url: "\(serverUrl)record/deleteAll/\(goalUID)", encodingData: Data()) { data in
+    HTTPManager.requestDELETE(url: "\(serverUrl)goal/removeRecordAll/\(goalUID)", encodingData: Data()) { data in
         guard let data: ResponseModel = JSONConverter.decodeJson(data: data) else {
             return
         }
