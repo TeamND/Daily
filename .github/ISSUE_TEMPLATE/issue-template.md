@@ -1,5 +1,5 @@
 ---
-name: "\bIssue template"
+name: Issue template
 about: for issue
 title: ''
 labels: "\U0001F41E bug, \U0001F423 feat"
