@@ -1,7 +1,7 @@
 ---
 name: Issue template
 about: for issue
-title: ''
+title: "[Issue] "
 labels: "\U0001F423 feat"
 assignees: ''
 
