@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA62CC4CADB00FB637F /* Colors.swift */; };
 		F6016DAA2CC4CF1200FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA82CC4CF1200FB637F /* Colors.swift */; };
+		F6016DBB2CC4E23300FB637F /* TestInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DBA2CC4E23300FB637F /* TestInterface.swift */; };
+		F6016DBD2CC4E27800FB637F /* TestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DBC2CC4E27800FB637F /* TestUseCase.swift */; };
+		F6016DC12CC4E3FE00FB637F /* TestDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC02CC4E3FE00FB637F /* TestDataSource.swift */; };
+		F6016DC32CC4E44C00FB637F /* TestRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC22CC4E44C00FB637F /* TestRepository.swift */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
@@ -133,11 +137,15 @@
 /* Begin PBXFileReference section */
 		F6016DA62CC4CADB00FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F6016DA82CC4CF1200FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		F6016DBA2CC4E23300FB637F /* TestInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInterface.swift; sourceTree = "<group>"; };
+		F6016DBC2CC4E27800FB637F /* TestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUseCase.swift; sourceTree = "<group>"; };
+		F6016DC02CC4E3FE00FB637F /* TestDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataSource.swift; sourceTree = "<group>"; };
+		F6016DC22CC4E44C00FB637F /* TestRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRepository.swift; sourceTree = "<group>"; };
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
-		F61AE0042BC42EA100C35948 /* ModifyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyDateView.swift; path = Model/ModifyDateView.swift; sourceTree = SOURCE_ROOT; };
-		F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ModifyGoalView.swift; path = Model/ModifyGoalView.swift; sourceTree = SOURCE_ROOT; };
+		F61AE0042BC42EA100C35948 /* ModifyDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyDateView.swift; sourceTree = "<group>"; };
+		F61AE0062BC42EF900C35948 /* ModifyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyGoalView.swift; sourceTree = "<group>"; };
 		F61D610C2BF64F7800F29965 /* WeeklySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklySummary.swift; sourceTree = "<group>"; };
 		F634D2D52CC483C90014EDB6 /* CGFloat+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+extension.swift"; sourceTree = "<group>"; };
 		F634D2D72CC483F80014EDB6 /* PresentationDetent+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDetent+extension.swift"; sourceTree = "<group>"; };
@@ -270,6 +278,150 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		F6016DAB2CC4DE1D00FB637F /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DAE2CC4DE9D00FB637F /* Splash */,
+				F6016DAF2CC4DF0F00FB637F /* Calendar */,
+				F6016DB02CC4DF2D00FB637F /* Modify */,
+				F6016DB12CC4DF4A00FB637F /* Record */,
+				F6016DB22CC4DF5200FB637F /* AppInfo */,
+				F6016DB32CC4DF5C00FB637F /* Tutorial */,
+				F6D0625E293819A400B825EF /* ViewModel */,
+				F6396025290F8A7F007088FF /* View */,
+				F6CC15BC2BAAC46000689A02 /* Sheet */,
+				F6C0F8032919042B00984457 /* Component */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		F6016DAC2CC4DE2A00FB637F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DBE2CC4E3CA00FB637F /* Repositories */,
+				F6016DBF2CC4E3D300FB637F /* Storages */,
+				F6016DB62CC4DFA400FB637F /* Network */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F6016DAD2CC4DE3100FB637F /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DB92CC4DFBE00FB637F /* Entities */,
+				F6016DB82CC4DFB700FB637F /* Usecases */,
+				F6016DB72CC4DFB000FB637F /* Interfaces */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F6016DAE2CC4DE9D00FB637F /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		F6016DAF2CC4DF0F00FB637F /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DB52CC4DF7700FB637F /* ViewModel */,
+				F6016DB42CC4DF7200FB637F /* View */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		F6016DB02CC4DF2D00FB637F /* Modify */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Modify;
+			sourceTree = "<group>";
+		};
+		F6016DB12CC4DF4A00FB637F /* Record */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		F6016DB22CC4DF5200FB637F /* AppInfo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AppInfo;
+			sourceTree = "<group>";
+		};
+		F6016DB32CC4DF5C00FB637F /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
+		F6016DB42CC4DF7200FB637F /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F6016DB52CC4DF7700FB637F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F6016DB62CC4DFA400FB637F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F6CC159C2BA1DFB900689A02 /* Controller */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F6016DB72CC4DFB000FB637F /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DBA2CC4E23300FB637F /* TestInterface.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		F6016DB82CC4DFB700FB637F /* Usecases */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DBC2CC4E27800FB637F /* TestUseCase.swift */,
+			);
+			path = Usecases;
+			sourceTree = "<group>";
+		};
+		F6016DB92CC4DFBE00FB637F /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F637807929109AF000356212 /* Model */,
+				F6CC15B92BAABBF600689A02 /* Enums */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		F6016DBE2CC4E3CA00FB637F /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DC22CC4E44C00FB637F /* TestRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		F6016DBF2CC4E3D300FB637F /* Storages */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DC02CC4E3FE00FB637F /* TestDataSource.swift */,
+			);
+			path = Storages;
+			sourceTree = "<group>";
+		};
 		F61ADFFE2BC4297500C35948 /* RecordList */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,13 +552,9 @@
 				F6BEC933290F5894005EAF28 /* Daily */,
 				F6016DA52CC4CACC00FB637F /* Resource */,
 				F6CC15992BA192A900689A02 /* Extension */,
-				F6CC15B92BAABBF600689A02 /* Enums */,
-				F6CC159C2BA1DFB900689A02 /* Controller */,
-				F6396025290F8A7F007088FF /* View */,
-				F6C0F8032919042B00984457 /* Component */,
-				F6CC15BC2BAAC46000689A02 /* Sheet */,
-				F637807929109AF000356212 /* Model */,
-				F6D0625E293819A400B825EF /* ViewModel */,
+				F6016DAB2CC4DE1D00FB637F /* Presentation */,
+				F6016DAC2CC4DE2A00FB637F /* Data */,
+				F6016DAD2CC4DE3100FB637F /* Domain */,
 				F6EC3D4E2BEB7A6500FAB502 /* DailyWidget */,
 				F6EC3D2D2BEB4EA900FAB502 /* Frameworks */,
 				F6BEC932290F5894005EAF28 /* Products */,
@@ -714,16 +862,19 @@
 				F634D2D62CC483C90014EDB6 /* CGFloat+extension.swift in Sources */,
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
+				F6016DBB2CC4E23300FB637F /* TestInterface.swift in Sources */,
 				F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */,
 				F662AC0B2C2AB643005D92B4 /* WODPickerGroup.swift in Sources */,
 				F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */,
+				F6016DC12CC4E3FE00FB637F /* TestDataSource.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F61D610D2BF64F7800F29965 /* WeeklySummary.swift in Sources */,
 				F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */,
 				F64FA5CC2C417334002F5C14 /* TutorialSecondView.swift in Sources */,
 				F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */,
+				F6016DC32CC4E44C00FB637F /* TestRepository.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
 				F6CC15BE2BAAC46B00689A02 /* SymbolSheet.swift in Sources */,
 				F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */,
@@ -779,6 +930,7 @@
 				F6699BA42BD4664F00B1FDA7 /* ViewPager.swift in Sources */,
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
 				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
+				F6016DBD2CC4E27800FB637F /* TestUseCase.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6CC15AC2BA459EA00689A02 /* getUserInfoModel.swift in Sources */,
 				F6C0F7FB2917DDB600984457 /* Calendar_Year.swift in Sources */,
