@@ -20,7 +20,7 @@ struct DayOnMonth: View {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: CGFloat.fontSize * 4))
-                    .foregroundColor(Color("CustomColor").opacity(dayOnMonth.rating*0.8))
+                    .foregroundColor(Colors.daily.opacity(dayOnMonth.rating*0.8))
                 Text("\(day)")
                     .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                     .foregroundColor(.primary)

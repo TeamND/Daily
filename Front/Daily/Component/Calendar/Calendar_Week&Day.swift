@@ -30,6 +30,6 @@ struct Calendar_Week_Day: View {
                 NoRecord(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel)
             }
         }
-        .background(Color("ThemeColor"))
+        .background(Colors.theme)
     }
 }

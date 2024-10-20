@@ -26,7 +26,7 @@ struct MultiDatePickerOnCalendar: View {
                             let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                             Image(systemName: "circle.fill")
                                 .font(.system(size: CGFloat.fontSize * 2))
-                                .foregroundColor(Color("CustomColor").opacity(0.4))
+                                .foregroundColor(Colors.daily.opacity(0.4))
                             Button {
 //                                if archievements[rowIndex * 7 + colIndex] == 0 {
 //                                    archievements[rowIndex * 7 + colIndex] = 0.4

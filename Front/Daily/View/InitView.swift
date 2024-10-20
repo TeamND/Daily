@@ -24,7 +24,7 @@ struct InitView: View {
             Image(systemName: "d.circle.fill")
                 .resizable()
                 .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
-                .foregroundColor(Color("CustomColor"))
+                .foregroundStyle(Colors.daily)
             Text(subTitleText)
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
         }

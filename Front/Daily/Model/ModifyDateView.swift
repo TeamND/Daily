@@ -62,7 +62,7 @@ struct ModifyDateView: View {
             .buttonStyle(.borderedProminent)
             Spacer()
         }
-        .accentColor(Color("CustomColor"))
+        .accentColor(Colors.daily)
         .onAppear {
             date = calendarViewModel.getCurrentDate()
             beforeDate = date

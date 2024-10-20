@@ -40,7 +40,7 @@ struct MainView: View {
                     .background(
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color("BackgroundColor"))
+                                .fill(Colors.background)
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(.primary, lineWidth: 1)
                         }
@@ -50,8 +50,8 @@ struct MainView: View {
                     .opacity(alertViewModel.isShowToast ? 1 : 0)
             }
         }
-        .tint(Color("CustomColor"))
-        .accentColor(Color("CustomColor"))
+        .tint(Colors.daily)
+        .accentColor(Colors.daily)
         .onOpenURL { openUrl in
             let url = openUrl.absoluteString.removingPercentEncoding ?? ""
             if url.contains("widget") {

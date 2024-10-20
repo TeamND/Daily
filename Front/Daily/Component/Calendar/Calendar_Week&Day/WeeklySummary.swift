@@ -25,7 +25,7 @@ struct WeeklySummary: View {
                 }
                 .padding(.horizontal, CGFloat.fontSize * 3)
                 .padding(.bottom, CGFloat.fontSize * 3)
-                .background(Color("BackgroundColor"))
+                .background(Colors.background)
                 .cornerRadius(20)
                 Spacer()
             }
@@ -34,7 +34,7 @@ struct WeeklySummary: View {
                 Spacer()
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color("BackgroundColor"))
+                        .fill(Colors.background)
                         .frame(height: 500)
                     VStack(alignment: .center, spacing: CGFloat.fontSize * 3) {
                         Section {

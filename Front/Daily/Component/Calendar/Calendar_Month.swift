@@ -26,6 +26,6 @@ struct Calendar_Month: View {
                 Spacer()
             }
         }
-        .background(Color("ThemeColor"))
+        .background(Colors.theme)
     }
 }

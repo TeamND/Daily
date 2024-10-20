@@ -20,7 +20,7 @@ struct RecordSection<Content: View>: View {
         ZStack {
             Group(content: content)
                 .padding()
-                .background(Color("BackgroundColor"))
+                .background(Colors.background)
                 .cornerRadius(10)
                 .overlay {
                     VStack {
@@ -39,7 +39,7 @@ struct RecordSection<Content: View>: View {
                                             if isShowEssentialConditions {
                                                 Text(essentialConditionText)
                                                     .font(.system(size: CGFloat.fontSize * 1.5))
-                                                    .foregroundColor(Color("OppositeColor"))
+                                                    .foregroundColor(.primary)
                                             }
                                         }
                                     }
@@ -49,17 +49,17 @@ struct RecordSection<Content: View>: View {
                                         .font(.system(size: CGFloat.fontSize * 1.5))
                                         .padding(.leading, CGFloat.fontSize)
 //                                        .padding(CGFloat.fontSize * 0.3)
-                                        .foregroundStyle(Color("CustomColor"))
+                                        .foregroundStyle(Colors.daily)
 //                                        .overlay(
 //                                            RoundedRectangle(cornerRadius: 8)
-//                                                .stroke(Color("CustomColor").opacity(0.5), lineWidth: 1)
+//                                                .stroke(Colors.daily.opacity(0.5), lineWidth: 1)
 //                                            )
                                 }
                             }
                             .font(.system(size: CGFloat.fontSize * 2))
                             .padding(.horizontal, CGFloat.fontSize)
                             .padding(.vertical, CGFloat.fontSize * 0.5)
-                            .background(Color("ThemeColor"))
+                            .background(Colors.theme)
                             .cornerRadius(5)
                             .padding(.top, -CGFloat.fontSize * 1.5)
                             .padding(.leading, CGFloat.fontSize * 2)

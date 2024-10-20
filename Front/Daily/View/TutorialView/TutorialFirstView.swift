@@ -24,7 +24,7 @@ struct TutorialFirstView: View {
                         .background {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color("ThemeColor"))
+                                    .fill(Colors.theme)
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(.primary, lineWidth: 1)
                             }

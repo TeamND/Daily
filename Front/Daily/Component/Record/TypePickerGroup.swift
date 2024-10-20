@@ -20,9 +20,9 @@ struct TypePickerGroup: View {
 //                    count = 1
 //                } label: {
 //                    Text("성공 기록")
-//                        .foregroundStyle(type == "check" ? Color("CustomColor") : .primary)
+//                        .foregroundStyle(type == "check" ? Colors.daily : .primary)
 //                }
-//                CustomDivider(color: type == "check" ? Color("CustomColor") : .primary)
+//                CustomDivider(color: type == "check" ? Colors.daily : .primary)
 //            }
 //            .hCenter()
             VStack {
@@ -30,9 +30,9 @@ struct TypePickerGroup: View {
                     type = count == 1 ? "check" : "count"
                 } label: {
                     Text("횟수")
-                        .foregroundStyle(type == "timer" ? .primary : Color("CustomColor"))
+                        .foregroundStyle(type == "timer" ? .primary : Colors.daily)
                 }
-                CustomDivider(color: type == "timer" ? .primary : Color("CustomColor"))
+                CustomDivider(color: type == "timer" ? .primary : Colors.daily)
             }
             .hCenter()
             VStack {
@@ -40,9 +40,9 @@ struct TypePickerGroup: View {
                     type = "timer"
                 } label: {
                     Text("시간")
-                        .foregroundStyle(type == "timer" ? Color("CustomColor") : .primary)
+                        .foregroundStyle(type == "timer" ? Colors.daily : .primary)
                 }
-                CustomDivider(color: type == "timer" ? Color("CustomColor") : .primary)
+                CustomDivider(color: type == "timer" ? Colors.daily : .primary)
             }
             .hCenter()
         }

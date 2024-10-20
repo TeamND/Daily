@@ -143,7 +143,7 @@ struct SimpleDayRating: View {
         ZStack {
             Image(systemName: "circle.fill")
                 .font(.system(size: CGFloat.fontSize * 2))
-                .foregroundColor(Color("CustomColor").opacity(rating*0.8))
+                .foregroundColor(Colors.daily.opacity(rating*0.8))
             Text(day)
                 .font(.system(size: CGFloat.fontSize, weight: .bold))
                 .foregroundColor(.primary)
@@ -180,7 +180,7 @@ struct SymbolListInSmallWidget: View {
             }
         }
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
     }
 }
@@ -207,7 +207,7 @@ struct SimpleRecordList: View {
                 if records[0].content.count < 2 {
                     SimpleText(type: "networkError")
                         .background {
-                            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+                            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
                         }
                 } else {
                     ForEach(records.indices, id: \.self) { index in
@@ -227,7 +227,7 @@ struct SimpleRecordList: View {
             } else {
                 SimpleText(type: "noData")
                     .background {
-                        RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+                        RoundedRectangle(cornerRadius: 15).fill(Colors.background)
                     }
             }
         }
@@ -255,7 +255,7 @@ struct SimpleRecordOnList: View {
         }
         .padding(10)
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
     }
 }
@@ -273,7 +273,7 @@ struct SimpleText: View {
                     Text("아직 목표가 없어요 😓")
                     if family != .systemSmall {
                         Text("목표 세우러 가기")
-                            .foregroundColor(Color("CustomColor"))
+                            .foregroundColor(Colors.daily)
                     }
                     Spacer()
                 }
@@ -302,12 +302,12 @@ struct DailyWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
                 DailyWidgetEntryView(entry: entry)
-                    .containerBackground(Color("ThemeColor"), for: .widget)
+                    .containerBackground(Colors.theme, for: .widget)
                     .widgetURL(URL(string: "widget://daily")!)
             } else {
                 DailyWidgetEntryView(entry: entry)
                     .padding()
-                    .background(Color("ThemeColor"))
+                    .background(Colors.theme)
                     .widgetURL(URL(string: "widget://daily")!)
             }
         }

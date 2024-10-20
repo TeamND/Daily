@@ -28,14 +28,14 @@ struct MonthOnYear: View {
                             if 1 <= day && day <= lengthOfMonth {
                                 Image(systemName: "circle.fill")
                                     .font(.system(size: CGFloat.fontSize * 2))
-                                    .foregroundColor(Color("CustomColor").opacity(calendarViewModel.getDayOfRatingOnYear(monthIndex: month-1, dayIndex: day-1)*0.8))
+                                    .foregroundColor(Colors.daily.opacity(calendarViewModel.getDayOfRatingOnYear(monthIndex: month-1, dayIndex: day-1)*0.8))
                                 Text("\(day)")
                                     .font(.system(size: CGFloat.fontSize, weight: .bold))
                                     .foregroundColor(.primary)
                             } else {
                                 Image(systemName: "circle.fill")
                                     .font(.system(size: CGFloat.fontSize * 2))
-                                    .foregroundColor(Color("CustomColor").opacity(0))
+                                    .foregroundColor(Colors.daily.opacity(0))
                                     .opacity(0)
                                 Text("1")
                                     .font(.system(size: CGFloat.fontSize, weight: .bold))

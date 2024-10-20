@@ -31,7 +31,7 @@ struct RecordOnList: View {
         .padding(.horizontal, CGFloat.fontSize * 2)
         .frame(height: 60)
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
         .padding(.horizontal, CGFloat.fontSize / 2)
     }

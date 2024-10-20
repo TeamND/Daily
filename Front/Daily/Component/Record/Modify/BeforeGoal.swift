@@ -35,7 +35,7 @@ struct BeforeGoal: View {
         .padding(.horizontal, 5)
         .frame(height: 60)
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor"))
+            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
         .padding(.horizontal, 5)
     }

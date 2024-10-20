@@ -19,7 +19,7 @@ struct WODPickerGroup: View {
                     ZStack {
                         Image(systemName: "circle.fill")
                             .font(.system(size: CGFloat.fontSize * 5))
-                            .foregroundColor(Color("CustomColor").opacity(goalViewModel.isSelectedWOD[index] ? 0.5 : 0))
+                            .foregroundColor(Colors.daily.opacity(goalViewModel.isSelectedWOD[index] ? 0.5 : 0))
                             .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가
                         Text(userInfoViewModel.weeks[index])
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))

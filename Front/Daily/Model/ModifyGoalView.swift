@@ -35,7 +35,7 @@ struct ModifyGoalView: View {
                         Spacer()
                         Toggle("", isOn: $modifyGoalModel.is_set_time)
                             .labelsHidden()
-                            .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+                            .toggleStyle(SwitchToggleStyle(tint: Colors.daily))
                             .scaleEffect(CGSize(width: 0.9, height: 0.9))
                         Spacer()
                         DatePicker("", selection: $set_time, displayedComponents: [.hourAndMinute])

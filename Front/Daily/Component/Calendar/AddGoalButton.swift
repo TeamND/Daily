@@ -24,7 +24,7 @@ struct AddGoalButton: View {
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }
                 .padding()
-                .background(Color("CustomColor"))
+                .background(Colors.daily)
                 .cornerRadius(20)
             }
             .padding()

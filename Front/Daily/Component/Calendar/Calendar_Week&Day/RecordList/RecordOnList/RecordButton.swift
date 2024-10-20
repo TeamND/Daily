@@ -75,7 +75,7 @@ struct RecordButton: View {
                 }
             } label: {
                 ZStack {
-                    RecordProgressBar(record: $record, color: Color("CustomColor"), progress: record.type == "timer" ? (record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)) : (record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)))
+                    RecordProgressBar(record: $record, color: Colors.daily, progress: record.type == "timer" ? (record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)) : (record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)))
                     
                     HStack {
                         if record.issuccess {
@@ -94,7 +94,7 @@ struct RecordButton: View {
                             }
                         }
                     }
-                    .foregroundColor(Color("CustomColor"))
+                    .foregroundColor(Colors.daily)
                 }
                 .onChange(of: isAction) { newValue in
                     if isAction == true {

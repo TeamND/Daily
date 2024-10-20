@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimeLine: View {
     @Binding var record: RecordModel
-    @State var color: Color = Color("OppositeColor").opacity(0.8)
+    @State var color: Color = .primary.opacity(0.8)
     
     var body: some View {
         HStack {

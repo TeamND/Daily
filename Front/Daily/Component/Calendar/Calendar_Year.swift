@@ -32,7 +32,7 @@ struct Calendar_Year: View {
             }
             Spacer()
         }
-        .background(Color("ThemeColor"))
+        .background(Colors.theme)
     }
 }
 

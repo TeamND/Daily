@@ -29,7 +29,7 @@ struct NoticeSheet: View {
             }
         }
         .padding()
-        .tint(Color("CustomColor"))
-        .accentColor(Color("CustomColor"))
+        .tint(Colors.daily)
+        .accentColor(Colors.daily)
     }
 }

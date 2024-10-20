@@ -50,7 +50,7 @@ struct CalendarSheet: View {
                 }
             }
         }
-        .accentColor(Color("CustomColor"))
+        .accentColor(Colors.daily)
         .onAppear {
             selectedDate = currentDate
         }

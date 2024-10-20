@@ -56,7 +56,7 @@ struct RecordView: View {
                     Spacer()
                     Toggle("", isOn: $goalViewModel.goalModel.is_set_time)
                         .labelsHidden()
-                        .toggleStyle(SwitchToggleStyle(tint: Color("CustomColor")))
+                        .toggleStyle(SwitchToggleStyle(tint: Colors.daily))
                         .scaleEffect(CGSize(width: 0.9, height: 0.9))
                     Spacer()
                     DatePicker("", selection: $goalViewModel.set_time, displayedComponents: [.hourAndMinute])
@@ -115,7 +115,7 @@ struct RecordView: View {
             Spacer()
         }
         .padding()
-        .background(Color("ThemeColor"))
+        .background(Colors.theme)
         .alert(isPresented: $goalViewModel.isShowAlert, content: {
             if goalViewModel.isShowContentLengthAlert {
                 Alert(

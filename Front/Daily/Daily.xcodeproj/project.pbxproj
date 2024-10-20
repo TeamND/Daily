@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA62CC4CADB00FB637F /* Colors.swift */; };
+		F6016DAA2CC4CF1200FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA82CC4CF1200FB637F /* Colors.swift */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
@@ -129,6 +131,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F6016DA62CC4CADB00FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		F6016DA82CC4CF1200FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
@@ -250,6 +254,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F6016DA52CC4CACC00FB637F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DA62CC4CADB00FB637F /* Colors.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		F6016DA92CC4CF1200FB637F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F6016DA82CC4CF1200FB637F /* Colors.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		F61ADFFE2BC4297500C35948 /* RecordList */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,9 +398,10 @@
 			isa = PBXGroup;
 			children = (
 				F6BEC933290F5894005EAF28 /* Daily */,
+				F6016DA52CC4CACC00FB637F /* Resource */,
+				F6CC15992BA192A900689A02 /* Extension */,
 				F6CC15B92BAABBF600689A02 /* Enums */,
 				F6CC159C2BA1DFB900689A02 /* Controller */,
-				F6CC15992BA192A900689A02 /* Extension */,
 				F6396025290F8A7F007088FF /* View */,
 				F6C0F8032919042B00984457 /* Component */,
 				F6CC15BC2BAAC46000689A02 /* Sheet */,
@@ -405,8 +426,8 @@
 			isa = PBXGroup;
 			children = (
 				F6CC15932B9F460F00689A02 /* Info.plist */,
-				F6BEC934290F5894005EAF28 /* DailyApp.swift */,
 				F6BEC938290F5895005EAF28 /* Assets.xcassets */,
+				F6BEC934290F5894005EAF28 /* DailyApp.swift */,
 				F6BEC93A290F5895005EAF28 /* Daily.entitlements */,
 				F6BEC93B290F5895005EAF28 /* Preview Content */,
 			);
@@ -575,6 +596,7 @@
 				F6EC3D512BEB7A6500FAB502 /* DailyWidget.swift */,
 				F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */,
 				F6EC3D552BEB7A6600FAB502 /* Info.plist */,
+				F6016DA92CC4CF1200FB637F /* Resource */,
 			);
 			path = DailyWidget;
 			sourceTree = "<group>";
@@ -628,7 +650,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					F6BEC930290F5894005EAF28 = {
 						CreatedOnToolsVersion = 14.0.1;
@@ -686,6 +708,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6CC15B02BA6906600689A02 /* ResponseModel.swift in Sources */,
+				F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */,
 				F6DF64AE2BAFC7F400A17B9E /* getCalendarYearModel.swift in Sources */,
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,
 				F634D2D62CC483C90014EDB6 /* CGFloat+extension.swift in Sources */,
@@ -780,6 +803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6EC3D502BEB7A6500FAB502 /* DailyWidgetBundle.swift in Sources */,
+				F6016DAA2CC4CF1200FB637F /* Colors.swift in Sources */,
 				F6EC3D522BEB7A6500FAB502 /* DailyWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -799,6 +823,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -852,6 +877,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = "";
 			};
 			name = Debug;
 		};
@@ -859,6 +885,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -905,13 +932,13 @@
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = "";
 			};
 			name = Release;
 		};
 		F6BEC941290F5895005EAF28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Daily/Daily.entitlements;
@@ -956,7 +983,6 @@
 		F6BEC942290F5895005EAF28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Daily/Daily.entitlements;

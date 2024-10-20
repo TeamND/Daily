@@ -40,7 +40,7 @@ struct ModifyRecordView: View {
                             .padding()
                             .background {
                                 Circle()
-                                    .fill(Color("BackgroundColor"))
+                                    .fill(Colors.background)
                                     .opacity(0.8)
                             }
                     }
@@ -74,7 +74,7 @@ struct ModifyRecordView: View {
                             .padding()
                             .background {
                                 Circle()
-                                    .fill(Color("BackgroundColor"))
+                                    .fill(Colors.background)
                                     .opacity(0.8)
                             }
                     }

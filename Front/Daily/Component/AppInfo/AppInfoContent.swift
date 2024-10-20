@@ -30,12 +30,12 @@ struct AppInfoContent: View {
                     Link(destination: URL(string: "https://\(linkDestination!)")!) {
                         Text(linkLabel!)
                             .fontWeight(.bold)
-                            .foregroundColor(Color("CustomColor"))
+                            .foregroundColor(Colors.daily)
                             .hTrailing()
                     }
                     
                     Image(systemName: "arrow.up.right.square")
-                        .foregroundColor(Color("CustomColor"))
+                        .foregroundColor(Colors.daily)
                 } else {
                     EmptyView()
                 }
