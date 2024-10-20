@@ -1,8 +1,8 @@
 //
-//  DoubleExtension.swift
+//  Double+extension.swift
 //  Daily
 //
-//  Created by 최승용 on 5/25/24.
+//  Created by seungyooooong on 10/20/24.
 //
 
 import Foundation

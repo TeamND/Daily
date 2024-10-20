@@ -1,8 +1,8 @@
 //
-//  IntExtension.swift
+//  Int+extension.swift
 //  Daily
 //
-//  Created by 최승용 on 5/2/24.
+//  Created by seungyooooong on 10/20/24.
 //
 
 import Foundation
