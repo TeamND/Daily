@@ -10,6 +10,8 @@ import Foundation
 class DailyCalendarViewModel: ObservableObject {
     private let testUseCase: TestUseCase
     
+    @Published var test: String = "testString of DailyCalendarViewModel"
+    
     init() {
         let repository = TestRepository()
         self.testUseCase = TestUseCase(repository: repository)
@@ -19,10 +21,11 @@ class DailyCalendarViewModel: ObservableObject {
         print("on Appear is \(currentCalendar)")
     }
     
-    func test(userID: String) {
-        Task {
-            let userInfo = try await testUseCase.getUserInfo(userID: userID)
-            print(userInfo)
-        }
+    func printTest() {
+        print(test)
+    }
+    
+    func changeTest() {
+        self.test = "change test"
     }
 }
