@@ -19,4 +19,10 @@ class TestDataSource {
     func getData() -> String {
         return self.data
     }
+    
+    func getUserInfo(userID: String) async throws -> UserInfoModel {
+        let userInfo: UserInfoModel = try await ServerNetwork.shared.request(.getUserInfo(userID: userID))
+        print("userInfo is \(userInfo)")
+        return userInfo
+    }
 }

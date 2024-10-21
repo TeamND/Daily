@@ -14,8 +14,8 @@ class TestUseCase {
         self.repository = repository
     }
     
-    func testFunc(testParam: String) {
-        let testResult: Bool = repository.test(param: testParam)
-        print("testResult is \(testResult)")
+    func getUserInfo(userID: String) async throws -> UserInfoModel {
+        let userInfo: UserInfoModel = try await repository.test(userID: userID)
+        return userInfo
     }
 }
