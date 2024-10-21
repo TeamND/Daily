@@ -9,6 +9,7 @@ import Foundation
 
 class UserInfoViewModel: ObservableObject {
     @Published var userInfo: UserInfoModel = UserInfoModel()
+    @Published var isNewVersion: Bool = true    // TODO: 리팩토링 끝나면 삭제
     
     func setUserInfo(userInfo: UserInfoModel) {
         DispatchQueue.main.async {
