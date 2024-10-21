@@ -8,5 +8,5 @@
 import Foundation
 
 protocol TestInterface {
-    func test(param: String) -> Bool
+    func test(userID: String) async throws-> UserInfoModel
 }
