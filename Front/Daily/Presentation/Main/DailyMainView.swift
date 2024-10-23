@@ -23,13 +23,13 @@ struct DailyMainView: View {
                             CalendarDayView(dailyCalendarViewModel: dailyCalendarViewModel)
                         }
                     }
-//                    .navigationBarHidden(true)
+                    .navigationBarHidden(true)
                 }
         }
         .onAppear {
             print("test")
-            let navigationObject = NavigationObject(viewType: .calendarMonth)
-            navigationEnvironment.navigationPath.append(navigationObject)
+//            let navigationObject = NavigationObject(viewType: .calendarMonth)
+//            navigationEnvironment.navigationPath.append(navigationObject)
         }
     }
 }
