@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// MARK: - CalendarYearView
 struct CalendarYearView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
@@ -14,7 +15,6 @@ struct CalendarYearView: View {
     var body: some View {
         VStack(spacing: 0) {
             CalendarHeader(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
-            Text("\(dailyCalendarViewModel.year)")
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.selection) {
                 ForEach(-10 ... 10, id: \.self) { index in
@@ -23,13 +23,21 @@ struct CalendarYearView: View {
                         .tag(tag)
                         .onAppear {
                             print("\(tag) onAppear@@@")
+                            let navigationObject = NavigationObject(viewType: .calendarMonth)
+                            navigationEnvironment.navigationPath.append(navigationObject)
                             //                            dailyCalendarViewModel.setSelection(year: dailyCalendarViewModel.year + index)
                         }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+            .padding(CGFloat.fontSize)
+            .background(Colors.theme)
+            .gesture(
+                DragGesture().onEnded { value in
+                    print("x position: \(value.startLocation.x)")
+                }
+            )
         }
-        .background(Colors.theme)
         .overlay {
             AddGoalButton(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
         }
@@ -67,7 +75,6 @@ struct CalendarYear: View {
             .padding(CGFloat.fontSize)
             .background(Colors.background)
             .cornerRadius(20)
-            .padding(CGFloat.fontSize)
             Spacer()
         }
     }

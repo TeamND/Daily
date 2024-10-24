@@ -28,8 +28,6 @@ struct DailyMainView: View {
         }
         .onAppear {
             print("DailyMainView onAppear")
-            let navigationObject = NavigationObject(viewType: .calendarMonth)
-            navigationEnvironment.navigationPath.append(navigationObject)
         }
     }
 }

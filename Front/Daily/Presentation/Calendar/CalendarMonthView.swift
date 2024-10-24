@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// MARK: - CalendarMonthView
 struct CalendarMonthView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
@@ -29,13 +30,21 @@ struct CalendarMonthView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+            .padding(CGFloat.fontSize)
+            .background(Colors.theme)
+            .gesture(
+                DragGesture().onEnded { value in
+                    print("x position: \(value.startLocation.x)")
+                }
+            )
         }
-        .background(Colors.theme)
         .overlay {
             AddGoalButton(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
         }
         .onAppear {
             print("month onAppear")
+            let navigationObject = NavigationObject(viewType: .calendarDay)
+            navigationEnvironment.navigationPath.append(navigationObject)
         }
     }
     
@@ -73,13 +82,12 @@ struct CalendarMonth: View {
                             }
                         }
                     }
-                    if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
+                    if rowIndex < dividerIndex { CustomDivider() }
                 }
             }
             .padding(CGFloat.fontSize)
             .background(Colors.background)
             .cornerRadius(20)
-            .padding(CGFloat.fontSize)
             Spacer()
         }
     }
