@@ -27,9 +27,9 @@ struct DailyMainView: View {
                 }
         }
         .onAppear {
-            print("test")
-//            let navigationObject = NavigationObject(viewType: .calendarMonth)
-//            navigationEnvironment.navigationPath.append(navigationObject)
+            print("DailyMainView onAppear")
+            let navigationObject = NavigationObject(viewType: .calendarMonth)
+            navigationEnvironment.navigationPath.append(navigationObject)
         }
     }
 }

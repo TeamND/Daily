@@ -31,7 +31,10 @@ struct CalendarYearView: View {
         }
         .background(Colors.theme)
         .overlay {
-            AddGoalButton()
+            AddGoalButton(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+        }
+        .onAppear {
+            print("CalendarYearView onAppear")
         }
     }
     
@@ -40,6 +43,7 @@ struct CalendarYearView: View {
     }
 }
 
+// MARK: - CalendarYear
 struct CalendarYear: View {
     let year: Int
     let action: (Int) -> Void
@@ -69,6 +73,7 @@ struct CalendarYear: View {
     }
 }
 
+// MARK: - DailyMonthOnYear
 struct DailyMonthOnYear: View {
     let year: Int
     let month: Int

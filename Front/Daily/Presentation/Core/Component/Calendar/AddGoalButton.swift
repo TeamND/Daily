@@ -11,16 +11,6 @@ struct AddGoalButton: View {
     @ObservedObject var userInfoViewModel: UserInfoViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
     
-    init() {
-        self.userInfoViewModel = UserInfoViewModel()
-        self.calendarViewModel = CalendarViewModel()
-    }
-    
-    init(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel) {
-        self.userInfoViewModel = userInfoViewModel
-        self.calendarViewModel = calendarViewModel
-    }
-    
     var body: some View {
         VStack {
             Spacer()
