@@ -9,18 +9,18 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
-            CalendarHeader(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyCalendarHeader(mode: .month, backButton: $dailyCalendarViewModel.year, title: $dailyCalendarViewModel.month)
             WeekIndicator(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
                 ForEach(-10 ... 10, id: \.self) { year in
                     ForEach(1 ... 12, id: \.self) { month in
-                        let tag = String(2024 + year) + "-" + String(month) + "-" + String(dailyCalendarViewModel.day)
+                        let tag = "\(String(2024 + year))-\(String(month))-\(String(dailyCalendarViewModel.day))"
                         CalendarMonth(year: dailyCalendarViewModel.year + year, month: month, action: action)
                             .tag(tag)
                             .onAppear {
@@ -30,11 +30,13 @@ struct CalendarMonthView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(CGFloat.fontSize)
+            .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .gesture(
                 DragGesture().onEnded { value in
-                    print("x position: \(value.startLocation.x)")
+                    if 0 < value.translation.width && value.startLocation.x < CGFloat.fontSize {
+                        dismiss()
+                    }
                 }
             )
         }
@@ -43,8 +45,6 @@ struct CalendarMonthView: View {
         }
         .onAppear {
             print("month onAppear")
-            let navigationObject = NavigationObject(viewType: .calendarDay)
-            navigationEnvironment.navigationPath.append(navigationObject)
         }
     }
     
@@ -55,6 +55,7 @@ struct CalendarMonthView: View {
 
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
     let month: Int
     let action: (Int) -> Void
@@ -73,6 +74,8 @@ struct CalendarMonth: View {
                             if 1 <= day && day <= lengthOfMonth {
                                 Button {
                                     print("select day is \(day)")
+                                    let navigationObject = NavigationObject(viewType: .calendarDay)
+                                    navigationEnvironment.navigationPath.append(navigationObject)
                                 } label: {
                                     DailyDayOnMonth(day: day)
 //                                    DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
@@ -114,15 +117,16 @@ struct DailyDayOnMonth: View {
                 ForEach(0 ..< maxSymbolNum, id: \.self) { index in
                     if index % 2 == 0 {
                         HStack(spacing: 0) {
+                            ForEach(0 ..< 4, id: \.self) { symbolIndex in
 //                            ForEach(symbols.indices, id: \.self) { symbolIndex in
-//                                if index <= symbolIndex && symbolIndex < index + 2 {
+                                if index <= symbolIndex && symbolIndex < index + 2 {
 //                                    SymbolOnMonth(symbol: symbols[symbolIndex], isEllipsis: index == maxSymbolNum - 2 && symbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1)
-//                                }
-//                            }
+                                    SymbolOnMonth(symbol: symbolOnMonthModel(), isEllipsis: true)
+                                }
+                            }
 //                            if index >= symbols.count - 1 {
 //                                SymbolOnMonth(symbol: symbolOnMonthModel(), isEllipsis: false)
 //                            }
-                            Text("s")
                         }
                     }
                 }
@@ -135,7 +139,7 @@ struct DailyDayOnMonth: View {
 //                .opacity(calendarViewModel.isToday(day: day) ? 1 : 0)
         }
         .padding(4)
-        .frame(width: CGFloat.dayOnMonthWidth)
+        .frame(maxWidth: .infinity)
         .foregroundStyle(Colors.reverse)
     }
 }

@@ -11,4 +11,26 @@ enum CalendarMode {
     case year
     case month
     case day
+    
+    var headerBackButton: String {
+        switch self {
+        case .year:
+            return ""
+        case .month:
+            return "년"
+        case .day:
+            return "월"
+        }
+    }
+    
+    var headerTitle: String {
+        switch self {
+        case .year:
+            return "년"
+        case .month:
+            return "월"
+        case .day:
+            return "일"
+        }
+    }
 }

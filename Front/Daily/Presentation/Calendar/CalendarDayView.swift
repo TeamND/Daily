@@ -9,12 +9,12 @@ import SwiftUI
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
-            CalendarHeader(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyCalendarHeader(mode: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
             WeekIndicator(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel(), tapPurpose: "change")
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
@@ -22,7 +22,7 @@ struct CalendarDayView: View {
                     ForEach(1 ... 12, id: \.self) { month in
                         let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: dailyCalendarViewModel.year + year, month: month)
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
-                            let tag = String(2024 + year) + "-" + String(month) + "-" + String(day)
+                            let tag = "\(String(2024 + year))-\(String(month))-\(String(day))"
                             CalendarDay(year: dailyCalendarViewModel.year + year, month: month, day: day)
                                 .tag(tag)
                                 .onAppear {
@@ -33,11 +33,13 @@ struct CalendarDayView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(CGFloat.fontSize)
+            .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .gesture(
                 DragGesture().onEnded { value in
-                    print("x position: \(value.startLocation.x)")
+                    if 0 < value.translation.width && value.startLocation.x < CGFloat.fontSize {
+                        dismiss()
+                    }
                 }
             )
         }
@@ -201,7 +203,7 @@ struct DailyRecord: View {
     let record: Int
     
     var body: some View {
-        Text("record is \(record)")
+        Text("record is \(String(record))")
     }
 }
 

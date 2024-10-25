@@ -9,32 +9,32 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
-            CalendarHeader(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyCalendarHeader(mode: .year, backButton: .constant(0), title: $dailyCalendarViewModel.year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.selection) {
                 ForEach(-10 ... 10, id: \.self) { index in
-                    let tag = String(dailyCalendarViewModel.year + index) + "-" + String(dailyCalendarViewModel.month) + "-" + String(dailyCalendarViewModel.day)
+                    let tag = "\(String(dailyCalendarViewModel.year + index))-\(String(dailyCalendarViewModel.month))-\(String(dailyCalendarViewModel.day))"
                     CalendarYear(year: dailyCalendarViewModel.year + index, action: action)
                         .tag(tag)
                         .onAppear {
                             print("\(tag) onAppear@@@")
-                            let navigationObject = NavigationObject(viewType: .calendarMonth)
-                            navigationEnvironment.navigationPath.append(navigationObject)
                             //                            dailyCalendarViewModel.setSelection(year: dailyCalendarViewModel.year + index)
                         }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(CGFloat.fontSize)
+            .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .gesture(
                 DragGesture().onEnded { value in
-                    print("x position: \(value.startLocation.x)")
+                    if 0 < value.translation.width && value.startLocation.x < CGFloat.fontSize {
+                        dismiss()
+                    }
                 }
             )
         }
@@ -53,18 +53,21 @@ struct CalendarYearView: View {
 
 // MARK: - CalendarYear
 struct CalendarYear: View {
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
     let action: (Int) -> Void
     
     var body: some View {
         VStack {
-            VStack {
+            VStack(spacing: CGFloat.fontSize * 4) {
                 ForEach (0 ..< 4) { rowIndex in
                     HStack {
                         ForEach (0 ..< 3) { colIndex in
                             let month = (rowIndex * 3) + colIndex + 1
                             Button {
-                                action(month)
+//                                action(month)
+                                let navigationObject = NavigationObject(viewType: .calendarMonth)
+                                navigationEnvironment.navigationPath.append(navigationObject)
                             } label: {
                                 DailyMonthOnYear(year: year, month: month)
                             }
