@@ -26,4 +26,6 @@ struct NavigationObject: Navigatable {
 enum ViewTypes {
     case calendarMonth
     case calendarDay
+    
+    case record
 }

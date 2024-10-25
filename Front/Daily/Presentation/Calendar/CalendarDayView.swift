@@ -44,7 +44,7 @@ struct CalendarDayView: View {
             )
         }
         .overlay {
-            AddGoalButton(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyAddGoalButton()
         }
         .onAppear {
             print("day onAppear")

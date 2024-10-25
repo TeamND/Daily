@@ -39,7 +39,7 @@ struct CalendarYearView: View {
             )
         }
         .overlay {
-            AddGoalButton(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyAddGoalButton()
         }
         .onAppear {
             print("CalendarYearView onAppear")
