@@ -91,6 +91,8 @@
 		F6C758D62CCB123700F9CF91 /* DailyCalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */; };
 		F6C758D82CCB165E00F9CF91 /* LabelStyle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D72CCB165E00F9CF91 /* LabelStyle+extension.swift */; };
 		F6C758DA2CCB45ED00F9CF91 /* DailyAddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */; };
+		F6C758DC2CCD33E400F9CF91 /* DailyWeekIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758DB2CCD33E400F9CF91 /* DailyWeekIndicator.swift */; };
+		F6C758E02CCD356700F9CF91 /* WeekIndicatorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758DF2CCD356700F9CF91 /* WeekIndicatorMode.swift */; };
 		F6CC158C2B9C90F300689A02 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158B2B9C90F300689A02 /* MainView.swift */; };
 		F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158D2B9C91D200689A02 /* CalendarView.swift */; };
 		F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CC158F2B9C91DA00689A02 /* RecordView.swift */; };
@@ -246,6 +248,8 @@
 		F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarHeader.swift; sourceTree = "<group>"; };
 		F6C758D72CCB165E00F9CF91 /* LabelStyle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabelStyle+extension.swift"; sourceTree = "<group>"; };
 		F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAddGoalButton.swift; sourceTree = "<group>"; };
+		F6C758DB2CCD33E400F9CF91 /* DailyWeekIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeekIndicator.swift; sourceTree = "<group>"; };
+		F6C758DF2CCD356700F9CF91 /* WeekIndicatorMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekIndicatorMode.swift; sourceTree = "<group>"; };
 		F6CC158B2B9C90F300689A02 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F6CC158D2B9C91D200689A02 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		F6CC158F2B9C91DA00689A02 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
@@ -686,6 +690,7 @@
 				F6D062492925B84B00B825EF /* Custom */,
 				F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */,
 				F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */,
+				F6C758DB2CCD33E400F9CF91 /* DailyWeekIndicator.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -734,6 +739,7 @@
 				F6CC15BA2BAABC0500689A02 /* Symbol.swift */,
 				F65ACDD62CC8ECEB00C67DD1 /* CalendarMode.swift */,
 				F65ACDDE2CC912EF00C67DD1 /* DayOfWeek.swift */,
+				F6C758DF2CCD356700F9CF91 /* WeekIndicatorMode.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -955,11 +961,13 @@
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F6016DBB2CC4E23300FB637F /* TestInterface.swift in Sources */,
 				F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */,
+				F6C758DC2CCD33E400F9CF91 /* DailyWeekIndicator.swift in Sources */,
 				F6016DE22CC610CD00FB637F /* DailyMainView.swift in Sources */,
 				F662AC0B2C2AB643005D92B4 /* WODPickerGroup.swift in Sources */,
 				F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */,
 				F6CC15BB2BAABC0500689A02 /* Symbol.swift in Sources */,
 				F65ACDDD2CC8FB8900C67DD1 /* CalendarRepository.swift in Sources */,
+				F6C758E02CCD356700F9CF91 /* WeekIndicatorMode.swift in Sources */,
 				F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */,
 				F6016DC12CC4E3FE00FB637F /* TestDataSource.swift in Sources */,
 				F6016DF32CC6220B00FB637F /* CalendarYearView.swift in Sources */,

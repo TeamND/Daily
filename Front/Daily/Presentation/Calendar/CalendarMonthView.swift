@@ -15,7 +15,7 @@ struct CalendarMonthView: View {
     var body: some View {
         VStack(spacing: 0) {
             DailyCalendarHeader(mode: .month, backButton: $dailyCalendarViewModel.year, title: $dailyCalendarViewModel.month)
-            WeekIndicator(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyWeekIndicator()
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
                 ForEach(-10 ... 10, id: \.self) { year in
