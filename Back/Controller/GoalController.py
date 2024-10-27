@@ -9,7 +9,7 @@ goal = Namespace(
     description="목표를 만들기 위해 사용하는 API",
 )
 
-model = goal.model('Goal', strict=True, model={
+goal_model = goal.model('Goal', model={
     'user_uid': fields.Integer,
     'content': fields.String,
     'symbol': fields.String,
@@ -18,9 +18,9 @@ model = goal.model('Goal', strict=True, model={
     'cycle_type': fields.String,
     'cycle_date': fields.String,
     'type': fields.String,
-    'goal_count': fields.String,
-    'goal_time': fields.String,
-    'is_set_time': fields.Boolean,
+    'goal_count': fields.Integer,
+    'goal_time': fields.Integer,
+    'is_set_time': fields.Boolean
 })
 
 timer_model = goal.model('Timer',model={
@@ -58,7 +58,7 @@ class GoalCreate(Resource):
     
 @goal.route('/<int:uid>')
 class GoalRUD(Resource):
-    @goal.response(00,'Success',model)
+    @goal.response(00,'Success',goal.model('GoalResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(goal_model)}))
     @goal.response(99,'Failed')
     def get(self,uid):
         '''목표를 조회한다.'''
@@ -82,7 +82,7 @@ class GoalRUD(Resource):
 @goal.route('/timer/<int:record_uid>')
 class GoalTimer(Resource):
     
-    @goal.response(00,'Success',timer_model)
+    @goal.response(00,'Success',goal.model('TimerResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(timer_model)}))
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 타이머를 시작한다.'''
@@ -94,7 +94,7 @@ class GoalTimer(Resource):
 @goal.route('/count/<int:record_uid>')
 class GoalCount(Resource):
     
-    @goal.response(00,'Success',count_model)
+    @goal.response(00,'Success',goal.model('CountResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(count_model)}))
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 달성을 추가한다.'''

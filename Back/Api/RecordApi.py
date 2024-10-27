@@ -38,7 +38,6 @@ class RecordApi(Resource):
                 'code': '99',
                 'message': '조회된 데이터가 없습니다.'
             }, 99
-        
 
     def Delete(uid):
         try:
@@ -62,7 +61,6 @@ class RecordApi(Resource):
                 'code': '99',
                 'message': e
             }, 99
-        
 
     # def DeleteAll(uid):
     #     try:

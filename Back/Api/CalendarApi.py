@@ -56,7 +56,6 @@ class CalendarApi(Resource):
                 'code': '99',
                 'message': e
             }, 99
-        
 
     def Day(uid,data):
         try:

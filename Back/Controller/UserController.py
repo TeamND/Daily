@@ -6,7 +6,7 @@ user = Namespace(
     name="User",
     description="사용자를 위해 사용하는 API",
 )
-model = user.model('User', strict=True, model={
+user_model = user.model('User', strict=True, model={
         'uid': fields.Integer,
         'set_startday': fields.Integer,
         'set_language': fields.String,
@@ -18,9 +18,8 @@ model = user.model('User', strict=True, model={
 @user.route('/info/<string:phone_uid>')
 class Info(Resource):
     @user.doc(params={'phone_uid': '사용자 고유번호'})
-    # @user.doc(responses={00: 'Success'})
-    @user.response(0,'Look up Success',model)
-    @user.response(1,'Insert Success',model)
+    @user.response(0,'Look up Success',user.model('UserResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(user_model)}))
+    @user.response(1,'Insert Success',user.model('UserResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(user_model)}))
     @user.response(99,'Failed')
     def get(self,phone_uid):
         '''유저를 확인하고 없으면 등록한다.'''
