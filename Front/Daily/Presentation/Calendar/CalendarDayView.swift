@@ -71,7 +71,8 @@ struct CalendarDay: View {
                 Spacer()
             }
         } else {
-            NoRecord(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+            DailyNoRecord()
+//            NoRecord(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
         }
     }
 }
@@ -204,6 +205,26 @@ struct DailyRecord: View {
     
     var body: some View {
         Text("record is \(String(record))")
+    }
+}
+
+// MARK: - DailyNoRecord
+struct DailyNoRecord: View {
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            Text(noRecordText)
+            Button {
+                let navigationObject = NavigationObject(viewType: .record)
+                navigationEnvironment.navigationPath.append(navigationObject)
+            } label: {
+                Text(goRecordViewText)
+            }
+            .foregroundStyle(Colors.daily)
+            Spacer()
+        }
     }
 }
 
