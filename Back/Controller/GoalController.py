@@ -1,5 +1,5 @@
 from flask import request
-from flask_restx import Resource, Api, Namespace, fields
+from flask_restx import Resource, Api, Namespace, reqparse, fields
 from Api.GoalApi import GoalApi
 import json
 # import yaml
@@ -9,24 +9,44 @@ goal = Namespace(
     description="목표를 만들기 위해 사용하는 API",
 )
 
-model = goal.model('목표', strict=True, model={
-    'user_uid': fields.Integer(title='사용자 고유번호', required=True),
-    'content': fields.String(title='내용', required=True),
-    'symbol': fields.String(title='심볼', default='운동'),
-    'start_date': fields.String(title='시작일', default='시작일'),
-    'end_date': fields.String(title='종료일'),
-    'cycle_type': fields.String(title='날짜/반복 선택', default='date'),
-    'cycle_date': fields.List(fields.String(), title='날짜/반복 일'),
-    'type': fields.String(title='횟수/시간 선택', default='check'),
-    'goal_count': fields.String(title='목표 횟수', default='1'),
-    'goal_time': fields.String(title='목표 시간', default='1M'),
-    'is_set_time': fields.Boolean(title='시간 설정', default='False'),
+goal_model = goal.model('Goal', model={
+    'user_uid': fields.Integer,
+    'content': fields.String,
+    'symbol': fields.String,
+    'start_date': fields.String,
+    'end_date': fields.String,
+    'cycle_type': fields.String,
+    'cycle_date': fields.String,
+    'type': fields.String,
+    'goal_count': fields.Integer,
+    'goal_time': fields.Integer,
+    'is_set_time': fields.Boolean
 })
-# @Todo.response(201, 'Success', todo_fields_with_id)
-@goal.route('/',methods=['POST'])
 
+timer_model = goal.model('Timer',model={
+    'start_time': fields.DateTime
+})
+
+count_model = goal.model('Count',model={
+    'record_count': fields.Integer,
+    'issuccess': fields.Boolean
+})
+
+goal_column = reqparse.RequestParser()
+goal_column.add_argument('user_uid', type=int, default=None, help='사용자 고유번호',required=True)
+goal_column.add_argument('content', type=str, default='', help='내용', required=True)
+goal_column.add_argument('symbol', type=str, default='운동', help='심볼')
+goal_column.add_argument('start_date', type=str, default='now()', help='시작일')
+goal_column.add_argument('end_date', type=str, help='종료일')
+goal_column.add_argument('cycle_type', type=str, default='date', help='날짜/반복 선택')
+goal_column.add_argument('cycle_date', type=list, help='날짜/반복 일')
+goal_column.add_argument('type', type=str, default='check', help='횟수/시간 선택')
+goal_column.add_argument('goal_count', type=str, default='1', help='목표 횟수')
+goal_column.add_argument('goal_time', type=str, default='1M', help='목표 시간')
+goal_column.add_argument('is_set_time', type=bool, default=False, help='시간 설정')
+@goal.route('/',methods=['POST'])
 class GoalCreate(Resource):
-    @goal.expect(model)
+    @goal.expect(goal_column)
     @goal.doc(responses={00: 'Success'})
     @goal.doc(responses={99: 'Failed'})
     def post(self):
@@ -38,9 +58,8 @@ class GoalCreate(Resource):
     
 @goal.route('/<int:uid>')
 class GoalRUD(Resource):
-    
-    @goal.doc(responses={00: 'Success'})
-    @goal.doc(responses={99: 'Failed'})
+    @goal.response(00,'Success',goal.model('GoalResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(goal_model)}))
+    @goal.response(99,'Failed')
     def get(self,uid):
         '''목표를 조회한다.'''
         return GoalApi.Read(uid)
@@ -63,7 +82,7 @@ class GoalRUD(Resource):
 @goal.route('/timer/<int:record_uid>')
 class GoalTimer(Resource):
     
-    @goal.doc(responses={00: 'Success'})
+    @goal.response(00,'Success',goal.model('TimerResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(timer_model)}))
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 타이머를 시작한다.'''
@@ -75,7 +94,7 @@ class GoalTimer(Resource):
 @goal.route('/count/<int:record_uid>')
 class GoalCount(Resource):
     
-    @goal.doc(responses={00: 'Success'})
+    @goal.response(00,'Success',goal.model('CountResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(count_model)}))
     @goal.doc(responses={99: 'Failed'})  
     def put(self,record_uid):
         '''목표의 달성을 추가한다.'''
