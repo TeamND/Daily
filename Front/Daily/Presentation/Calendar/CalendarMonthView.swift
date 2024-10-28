@@ -14,7 +14,7 @@ struct CalendarMonthView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(mode: .month, backButton: $dailyCalendarViewModel.year, title: $dailyCalendarViewModel.month)
+            DailyCalendarHeader(type: .month, backButton: $dailyCalendarViewModel.year, title: $dailyCalendarViewModel.month)
             DailyWeekIndicator()
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
@@ -32,13 +32,6 @@ struct CalendarMonthView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .gesture(
-                DragGesture().onEnded { value in
-                    if 0 < value.translation.width && value.startLocation.x < CGFloat.fontSize {
-                        dismiss()
-                    }
-                }
-            )
         }
         .overlay {
             DailyAddGoalButton()

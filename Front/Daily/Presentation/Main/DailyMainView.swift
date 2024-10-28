@@ -15,16 +15,17 @@ struct DailyMainView: View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
             CalendarYearView(dailyCalendarViewModel: dailyCalendarViewModel)
                 .navigationDestination(for: NavigationObject.self) { navigationObject in
-                    switch navigationObject.viewType {
-                    case .calendarMonth:
-                        CalendarMonthView(dailyCalendarViewModel: dailyCalendarViewModel)
-                            .navigationBarHidden(true)
-                    case .calendarDay:
-                        CalendarDayView(dailyCalendarViewModel: dailyCalendarViewModel)
-                            .navigationBarHidden(true)
-                    case .record:
-                        RecordView(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
+                    Group {
+                        switch navigationObject.viewType {
+                        case .calendarMonth:
+                            CalendarMonthView(dailyCalendarViewModel: dailyCalendarViewModel)
+                        case .calendarDay:
+                            CalendarDayView(dailyCalendarViewModel: dailyCalendarViewModel)
+                        case .goal:
+                            DailyGoalView()
+                        }
                     }
+                    .navigationBarHidden(true)
                 }
         }
         .onAppear {

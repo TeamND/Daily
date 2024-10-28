@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DailyCalendarHeader: View {
     @Environment(\.dismiss) var dismiss
-    let mode: CalendarMode
+    let type: CalendarType
     @Binding var backButton: Int
     @Binding var title: Int
     
@@ -17,11 +17,11 @@ struct DailyCalendarHeader: View {
         HStack {
             // MARK: - leading
             HStack {
-                if mode != .year {
+                if type != .year {
                     Button {
                         dismiss()
                     } label: {
-                        Label("\(String(backButton))\(mode.headerBackButton)", systemImage: "chevron.left")
+                        Label("\(String(backButton))\(type.headerBackButton)", systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
                     .padding(CGFloat.fontSize)
@@ -39,9 +39,9 @@ struct DailyCalendarHeader: View {
                 Menu {
                     
                 } label: {
-                    Text("\(String(title))\(mode.headerTitle)")
+                    Text("\(String(title))\(type.headerTitle)")
                         .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                        .foregroundColor(Colors.reverse)
+                        .foregroundStyle(Colors.reverse)
                 }
                 Button {
                     print("go right")
@@ -81,5 +81,5 @@ struct DailyCalendarHeader: View {
 }
 
 #Preview {
-    DailyCalendarHeader(mode: CalendarMode.day, backButton: .constant(10), title: .constant(26))
+    DailyCalendarHeader(type: CalendarType.day, backButton: .constant(10), title: .constant(26))
 }

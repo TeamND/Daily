@@ -14,7 +14,7 @@ struct CalendarYearView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(mode: .year, backButton: .constant(0), title: $dailyCalendarViewModel.year)
+            DailyCalendarHeader(type: .year, backButton: .constant(0), title: $dailyCalendarViewModel.year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.selection) {
                 ForEach(-10 ... 10, id: \.self) { index in

@@ -12,12 +12,12 @@ class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     
     @Published var test: String = "testString of DailyCalendarViewModel"
-    @Published var mode: CalendarMode = .year
-    @Published var selection: String = "2024-10-26"
+    @Published var type: CalendarType = .year
+    @Published var selection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day, joiner: .hyphen)
     
-    @Published var year: Int = 2024
-    @Published var month: Int = 10
-    @Published var day: Int = 26
+    @Published var year: Int = Date().year
+    @Published var month: Int = Date().month
+    @Published var day: Int = Date().day
     
     init() {
         let repository = TestRepository()

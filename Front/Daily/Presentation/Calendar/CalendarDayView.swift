@@ -14,7 +14,7 @@ struct CalendarDayView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(mode: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
+            DailyCalendarHeader(type: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
             DailyWeekIndicator(mode: .change)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
@@ -35,13 +35,6 @@ struct CalendarDayView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .gesture(
-                DragGesture().onEnded { value in
-                    if 0 < value.translation.width && value.startLocation.x < CGFloat.fontSize {
-                        dismiss()
-                    }
-                }
-            )
         }
         .overlay {
             DailyAddGoalButton()
@@ -217,7 +210,7 @@ struct DailyNoRecord: View {
             Spacer()
             Text(noRecordText)
             Button {
-                let navigationObject = NavigationObject(viewType: .record)
+                let navigationObject = NavigationObject(viewType: .goal)
                 navigationEnvironment.navigationPath.append(navigationObject)
             } label: {
                 Text(goRecordViewText)

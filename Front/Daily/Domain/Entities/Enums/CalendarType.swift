@@ -1,5 +1,5 @@
 //
-//  CalendarMode.swift
+//  CalendarType.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/23/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CalendarMode {
+enum CalendarType {
     case year
     case month
     case day

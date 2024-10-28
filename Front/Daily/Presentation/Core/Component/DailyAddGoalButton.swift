@@ -16,7 +16,7 @@ struct DailyAddGoalButton: View {
             HStack {
                 Spacer()
                 Button {
-                    let navigationObject = NavigationObject(viewType: .record)
+                    let navigationObject = NavigationObject(viewType: .goal)
                     navigationEnvironment.navigationPath.append(navigationObject)
                 } label: {
                     Label("목표 추가", systemImage: "plus")

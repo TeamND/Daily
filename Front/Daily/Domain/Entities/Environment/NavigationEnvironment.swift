@@ -27,5 +27,5 @@ enum ViewTypes {
     case calendarMonth
     case calendarDay
     
-    case record
+    case goal
 }

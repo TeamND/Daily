@@ -21,7 +21,7 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(0.8))
+                        .foregroundStyle(Colors.daily.opacity(0.1))
                         .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가 -> 추후 확인 해보고 삭제
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
