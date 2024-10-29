@@ -28,6 +28,14 @@ extension View {
     func hTrailing() -> some View {
         self.frame(maxWidth: .infinity, alignment: .trailing)
     }
+    
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
 }
 
 // MARK: - Custom Gesture

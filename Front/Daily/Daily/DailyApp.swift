@@ -13,11 +13,19 @@ struct DailyApp: App {
     @StateObject var userInfoViewModel: UserInfoViewModel = UserInfoViewModel()
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     
+    @StateObject private var navigationEnvironment = NavigationEnvironment()
+    @StateObject var splashViewModel = SplashViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            DailyCalendarView()
-//            if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
-//            else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
+            if userInfoViewModel.isNewVersion {
+                if splashViewModel.isAppLaunching {
+                    DailyMainView().environmentObject(navigationEnvironment)
+                } else { SplashView(splashViewModel: splashViewModel) }
+            } else {
+                if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
+                else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
+            }
         }
     }
 }
