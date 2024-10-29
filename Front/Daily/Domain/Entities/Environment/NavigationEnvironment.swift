@@ -28,4 +28,6 @@ enum ViewTypes {
     case calendarDay
     
     case goal
+    
+    case appInfo
 }

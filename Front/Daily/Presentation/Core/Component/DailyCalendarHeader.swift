@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DailyCalendarHeader: View {
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @Environment(\.dismiss) var dismiss
     let type: CalendarType
     @Binding var backButton: Int
@@ -67,7 +68,8 @@ struct DailyCalendarHeader: View {
                         )
                 }
                 Button {
-                    print("go app info")
+                    let navigationObject = NavigationObject(viewType: .appInfo)
+                    navigationEnvironment.navigationPath.append(navigationObject)
                 } label: {
                     Image(systemName: "info.circle")
                         .font(.system(size: CGFloat.fontSize * 2.5))

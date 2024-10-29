@@ -23,6 +23,8 @@ struct DailyMainView: View {
                             CalendarDayView(dailyCalendarViewModel: dailyCalendarViewModel)
                         case .goal:
                             DailyGoalView()
+                        case .appInfo:
+                            DailyAppInfoView()
                         }
                     }
                     .navigationBarHidden(true)
