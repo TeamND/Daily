@@ -79,28 +79,45 @@ struct DateSection: View {
 // MARK: - TimeSection
 struct TimeSection: View {
     var body: some View {
-        Text("time")
+        HStack {
+            Text("하루 종일")
+                .opacity(false ? 0.5 : 1)
+            Spacer()
+            Toggle("", isOn: .constant(false))
+                .labelsHidden()
+                .toggleStyle(SwitchToggleStyle(tint: Colors.daily))
+                .scaleEffect(CGSize(width: 0.9, height: 0.9))
+            Spacer()
+            DatePicker("", selection: .constant(Date()), displayedComponents: [.hourAndMinute])
+                .datePickerStyle(.compact)
+                .disabled(true)
+                .labelsHidden()
+                .opacity(false ? 1 : 0.5)
+                .scaleEffect(CGSize(width: 0.9, height: 0.9))
+                .frame(height: CGFloat.fontSize * 4)
+        }
+        .font(.system(size: CGFloat.fontSize * 2.5))
     }
 }
 
 // MARK: - GoalSection
 struct GoalSection: View {
     var body: some View {
-        Text("goal")
+        ContentTextField(content: .constant(""), type: .constant("check"))
     }
 }
 
 // MARK: - CountSection
 struct CountSection: View {
     var body: some View {
-        Text("count")
+        GoalCountPickerGroup(type: .constant("check"), count: .constant(1), time: .constant(0), isShowAlert: .constant(false))
     }
 }
 
 // MARK: - SymbolSection
 struct SymbolSection: View {
     var body: some View {
-        Text("Symbol")
+        SymbolPickerGroup(symbol: .constant("체크"))
     }
 }
 
