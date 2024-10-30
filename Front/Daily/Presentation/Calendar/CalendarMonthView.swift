@@ -21,7 +21,7 @@ struct CalendarMonthView: View {
                 ForEach(-10 ... 10, id: \.self) { index in
                     ForEach(1 ... 12, id: \.self) { month in
                         let year = Date().year + index
-                        let monthSelection = year.formatDateString(type: .year) + "-" + month.formatDateString(type: .month)
+                        let monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
                         CalendarMonth(year: year, month: month, action: dailyCalendarViewModel.selectDay)
                             .tag(monthSelection)
                             .onAppear {
@@ -34,8 +34,8 @@ struct CalendarMonthView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
-                guard let year = Int(monthSelection.split(separator: "-")[0]) else { return }
-                guard let month = Int(monthSelection.split(separator: "-")[1]) else { return }
+                guard let year = Int(monthSelection.split(separator: DateJoiner.hyphen.rawValue)[0]) else { return }
+                guard let month = Int(monthSelection.split(separator: DateJoiner.hyphen.rawValue)[1]) else { return }
                 dailyCalendarViewModel.setYear(year)
                 dailyCalendarViewModel.setMonth(month)
             }

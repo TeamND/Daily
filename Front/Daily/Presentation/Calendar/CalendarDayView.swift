@@ -23,7 +23,7 @@ struct CalendarDayView: View {
                         let year = Date().year + index
                         let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
-                            let daySelection = year.formatDateString(type: .year) + "-" + month.formatDateString(type: .month) + "-" +  day.formatDateString(type: .day)
+                            let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
                             CalendarDay(year: year, month: month, day: day)
                                 .tag(daySelection)
                                 .onAppear {
@@ -37,9 +37,9 @@ struct CalendarDayView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
-                guard let year = Int(daySelection.split(separator: "-")[0]) else { return }
-                guard let month = Int(daySelection.split(separator: "-")[1]) else { return }
-                guard let day = Int(daySelection.split(separator: "-")[2]) else { return }
+                guard let year = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[0]) else { return }
+                guard let month = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[1]) else { return }
+                guard let day = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[2]) else { return }
                 dailyCalendarViewModel.setYear(year)
                 dailyCalendarViewModel.setMonth(month)
                 dailyCalendarViewModel.setDay(day)

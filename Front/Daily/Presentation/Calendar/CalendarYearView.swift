@@ -18,7 +18,7 @@ struct CalendarYearView: View {
             TabView(selection: $dailyCalendarViewModel.yearSelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
                     let year = Date().year + index
-                    let yearSelection = year.formatDateString(type: .year)
+                    let yearSelection = CalendarServices.shared.formatDateString(year: year)
                     CalendarYear(year: year, action: dailyCalendarViewModel.selectMonth)
                         .tag(yearSelection)
                         .onAppear {

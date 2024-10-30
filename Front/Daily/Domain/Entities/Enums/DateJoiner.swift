@@ -7,26 +7,17 @@
 
 import Foundation
 
-enum DateJoiner {
-    case none
-    case dot
-    case hyphen
-    case korean
+enum DateJoiner: String {
+    case none = ""
+    case dot = "."
+    case hyphen = "-"
+    case korean = "k"
     
-    func joinString(type: CalendarType, hasSpacing: Bool = false) -> String {
+    func joinString(type: CalendarType, hasSpacing: Bool) -> String {
         var joinString: String = ""
         switch self {
-        case .none:
-            break
-        case .dot:
-            joinString = "."
-        case .hyphen:
-            switch type {
-            case .year, .month:
-                joinString = "-"
-            case .day:
-                joinString = ""
-            }
+        case .none, .dot, .hyphen:
+            return self.rawValue
         case .korean:
             switch type {
             case .year:

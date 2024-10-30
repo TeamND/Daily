@@ -12,14 +12,14 @@ class CalendarServices {
     
     private init() { }
     
-    func formatDateString(year: Int, month: Int = 1, day: Int = 1, joiner: DateJoiner = .none, hasSpacing: Bool = false) -> String {
+    func formatDateString(year: Int, month: Int = 0, day: Int = 0, joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
         let y = year.formatDateString(type: .year)
-        let yj = joiner.joinString(type: .year, hasSpacing: hasSpacing)
+        let yj = month > 0 || (hasLastJoiner && month == 0) ? joiner.joinString(type: .year, hasSpacing: hasSpacing) : ""
         let m = month.formatDateString(type: .month)
-        let mj = joiner.joinString(type: .month, hasSpacing: hasSpacing)
+        let mj = day > 0 || (hasLastJoiner && day == 0) ? joiner.joinString(type: .month, hasSpacing: hasSpacing) : ""
         let d = day.formatDateString(type: .day)
-        let dj = joiner.joinString(type: .day, hasSpacing: hasSpacing)
-        return y + yj + m + mj + d + dj
+        let dj = hasLastJoiner ? joiner.joinString(type: .day, hasSpacing: hasSpacing) : ""
+        return month == 0 ? y + yj : day == 0 ? y + yj + m + mj : y + yj + m + mj + d + dj
     }
     func startDayIndex(year: Int = 2000, month: Int = 1) -> Int {
         let startDay = "\(String(year))-\(month.formatDateString(type: .month))-01".toDate()!
