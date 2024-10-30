@@ -123,7 +123,7 @@ year_column.add_argument('date', type=str, default='2022', help='날짜')
 class CalendarYear(Resource):
     @calendar.doc(params={'user_uid': '사용자 고유번호'})
     @calendar.expect(year_column)
-    @calendar.response(00,'Success',calendar.model('MonthResponse', model={'code': fields.String, 'message': fields.String, "data": fields.List(fields.List(fields.Integer))}))
+    @calendar.response(00,'Success',calendar.model('YearResponse', model={'code': fields.String, 'message': fields.String, "data": fields.List(fields.List(fields.Integer))}))
     @calendar.response(99,'Failed')
     def get(self,user_uid):
         '''달력을 년단위로 조회한다.'''
@@ -134,7 +134,7 @@ class CalendarYear(Resource):
 class CalendarWidget(Resource):
     @calendar.doc(params={'phone_uid': '폰 고유번호'})
     @calendar.expect(date_column)
-    @calendar.response(00,'Success',calendar.model('MonthResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(widget_list_model)}))
+    @calendar.response(00,'Success',calendar.model('WidgetResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(widget_list_model)}))
     @calendar.response(99,'Failed')
     def get(self,phone_uid):
         '''달력을 일단위로 조회한다.'''
