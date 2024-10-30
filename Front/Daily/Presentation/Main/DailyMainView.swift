@@ -31,7 +31,7 @@ struct DailyMainView: View {
                 }
         }
         .onAppear {
-            print("DailyMainView onAppear")
+            dailyCalendarViewModel.onAppear(navigationEnvironment: navigationEnvironment)
         }
     }
 }

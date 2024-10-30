@@ -19,6 +19,8 @@ struct SplashView: View {
             Text(splashViewModel.subTitle)
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
         }
+        .frame(maxWidth:. infinity, maxHeight: .infinity)
+        .background(Colors.theme)
         .onAppear {
             splashViewModel.onAppear()
         }

@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA62CC4CADB00FB637F /* Colors.swift */; };
 		F6016DAA2CC4CF1200FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA82CC4CF1200FB637F /* Colors.swift */; };
-		F6016DBB2CC4E23300FB637F /* TestInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DBA2CC4E23300FB637F /* TestInterface.swift */; };
-		F6016DBD2CC4E27800FB637F /* TestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DBC2CC4E27800FB637F /* TestUseCase.swift */; };
-		F6016DC12CC4E3FE00FB637F /* TestDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC02CC4E3FE00FB637F /* TestDataSource.swift */; };
-		F6016DC32CC4E44C00FB637F /* TestRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC22CC4E44C00FB637F /* TestRepository.swift */; };
 		F6016DC72CC5273B00FB637F /* NetworkEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC62CC5273B00FB637F /* NetworkEndpoint.swift */; };
 		F6016DC92CC52AD600FB637F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC82CC52AD600FB637F /* NetworkError.swift */; };
 		F6016DCB2CC52E9C00FB637F /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DCA2CC52E9C00FB637F /* ServerResponse.swift */; };
@@ -178,10 +174,6 @@
 /* Begin PBXFileReference section */
 		F6016DA62CC4CADB00FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F6016DA82CC4CF1200FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		F6016DBA2CC4E23300FB637F /* TestInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInterface.swift; sourceTree = "<group>"; };
-		F6016DBC2CC4E27800FB637F /* TestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUseCase.swift; sourceTree = "<group>"; };
-		F6016DC02CC4E3FE00FB637F /* TestDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataSource.swift; sourceTree = "<group>"; };
-		F6016DC22CC4E44C00FB637F /* TestRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRepository.swift; sourceTree = "<group>"; };
 		F6016DC62CC5273B00FB637F /* NetworkEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEndpoint.swift; sourceTree = "<group>"; };
 		F6016DC82CC52AD600FB637F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F6016DCA2CC52E9C00FB637F /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
@@ -463,7 +455,6 @@
 		F6016DB72CC4DFB000FB637F /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				F6016DBA2CC4E23300FB637F /* TestInterface.swift */,
 				F6016DE82CC6161B00FB637F /* AppLaunchInterface.swift */,
 				F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */,
 				F6CE8A212CCF606B0050A25A /* GoalInterface.swift */,
@@ -474,7 +465,6 @@
 		F6016DB82CC4DFB700FB637F /* Usecases */ = {
 			isa = PBXGroup;
 			children = (
-				F6016DBC2CC4E27800FB637F /* TestUseCase.swift */,
 				F6016DEA2CC6162600FB637F /* AppLaunchUseCase.swift */,
 				F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */,
 				F6CE8A1F2CCF60450050A25A /* GoalUseCase.swift */,
@@ -496,7 +486,6 @@
 		F6016DBE2CC4E3CA00FB637F /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				F6016DC22CC4E44C00FB637F /* TestRepository.swift */,
 				F6016DEC2CC6168B00FB637F /* AppLaunchRepository.swift */,
 				F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */,
 				F6CE8A232CCF60900050A25A /* GoalRepository.swift */,
@@ -507,7 +496,6 @@
 		F6016DBF2CC4E3D300FB637F /* Storages */ = {
 			isa = PBXGroup;
 			children = (
-				F6016DC02CC4E3FE00FB637F /* TestDataSource.swift */,
 				F6016DEE2CC616BA00FB637F /* SplashDataSource.swift */,
 			);
 			path = Storages;
@@ -1002,7 +990,6 @@
 				F634D2D62CC483C90014EDB6 /* CGFloat+extension.swift in Sources */,
 				F6C0F7FD2917DDFD00984457 /* Calendar_Month.swift in Sources */,
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
-				F6016DBB2CC4E23300FB637F /* TestInterface.swift in Sources */,
 				F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */,
 				F6C758DC2CCD33E400F9CF91 /* DailyWeekIndicator.swift in Sources */,
 				F6016DE22CC610CD00FB637F /* DailyMainView.swift in Sources */,
@@ -1013,7 +1000,6 @@
 				F6CE8A1A2CCF49EC0050A25A /* UINavigationController+extension.swift in Sources */,
 				F6C758E02CCD356700F9CF91 /* WeekIndicatorMode.swift in Sources */,
 				F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */,
-				F6016DC12CC4E3FE00FB637F /* TestDataSource.swift in Sources */,
 				F6016DF32CC6220B00FB637F /* CalendarYearView.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
 				F61D610D2BF64F7800F29965 /* WeeklySummary.swift in Sources */,
@@ -1021,7 +1007,6 @@
 				F64FA5CC2C417334002F5C14 /* TutorialSecondView.swift in Sources */,
 				F6CE8A202CCF60450050A25A /* GoalUseCase.swift in Sources */,
 				F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */,
-				F6016DC32CC4E44C00FB637F /* TestRepository.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
 				F6CE8A182CCF431B0050A25A /* SectionType.swift in Sources */,
 				F6016DD32CC53BAA00FB637F /* DailyCalendarViewModel.swift in Sources */,
@@ -1102,7 +1087,6 @@
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
 				F6C758E52CCF340400F9CF91 /* DailyDatePicker.swift in Sources */,
 				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
-				F6016DBD2CC4E27800FB637F /* TestUseCase.swift in Sources */,
 				F6CE8A242CCF60900050A25A /* GoalRepository.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6016DCD2CC534C500FB637F /* ServerNetwork.swift in Sources */,

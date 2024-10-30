@@ -9,6 +9,15 @@ import Foundation
 
 class NavigationEnvironment: ObservableObject {
     @Published var navigationPath: [NavigationObject] = []
+    
+    func navigate(_ navigationObject: NavigationObject) {
+        if let currentPath = self.navigationPath.last {
+            if currentPath.viewType == navigationObject.viewType { return }
+        }
+        DispatchQueue.main.async {
+            self.navigationPath.append(navigationObject)
+        }
+    }
 }
 
 protocol Navigatable: Hashable {}

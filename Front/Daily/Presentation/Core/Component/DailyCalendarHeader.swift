@@ -69,7 +69,7 @@ struct DailyCalendarHeader: View {
                 }
                 Button {
                     let navigationObject = NavigationObject(viewType: .appInfo)
-                    navigationEnvironment.navigationPath.append(navigationObject)
+                    navigationEnvironment.navigate(navigationObject)
                 } label: {
                     Image(systemName: "info.circle")
                         .font(.system(size: CGFloat.fontSize * 2.5))

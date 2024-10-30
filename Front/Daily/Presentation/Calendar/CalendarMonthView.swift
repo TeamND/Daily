@@ -18,13 +18,15 @@ struct CalendarMonthView: View {
             DailyWeekIndicator()
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
-                ForEach(-10 ... 10, id: \.self) { year in
+                ForEach(-10 ... 10, id: \.self) { index in
                     ForEach(1 ... 12, id: \.self) { month in
-                        let tag = "\(String(2024 + year))-\(String(month))-\(String(dailyCalendarViewModel.day))"
-                        CalendarMonth(year: dailyCalendarViewModel.year + year, month: month, action: action)
+                        let year = dailyCalendarViewModel.year + index
+                        let day = dailyCalendarViewModel.day
+                        let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
+                        CalendarMonth(year: dailyCalendarViewModel.year + index, month: month, action: dailyCalendarViewModel.selectDay)
                             .tag(tag)
                             .onAppear {
-                                dailyCalendarViewModel.onAppear(tag)
+                                dailyCalendarViewModel.calendarMonthOnAppear()
                             }
                     }
                 }
@@ -36,13 +38,6 @@ struct CalendarMonthView: View {
         .overlay {
             DailyAddGoalButton()
         }
-        .onAppear {
-            print("month onAppear")
-        }
-    }
-    
-    private func action(day: Int) {
-        print("selected day is \(day)")
     }
 }
 
@@ -66,12 +61,9 @@ struct CalendarMonth: View {
                             let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
                             if 1 <= day && day <= lengthOfMonth {
                                 Button {
-                                    print("select day is \(day)")
-                                    let navigationObject = NavigationObject(viewType: .calendarDay)
-                                    navigationEnvironment.navigationPath.append(navigationObject)
+                                    action(day)
                                 } label: {
                                     DailyDayOnMonth(day: day)
-//                                    DayOnMonth(calendarViewModel: calendarViewModel, day: day, dayOnMonth: calendarViewModel.getDaysOnMonth(dayIndex: day-1))
                                 }
                             } else {
                                 DailyDayOnMonth(day: 1).opacity(0)

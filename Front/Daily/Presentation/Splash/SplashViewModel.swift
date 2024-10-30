@@ -12,6 +12,7 @@ class SplashViewModel: ObservableObject {
     
     @Published var subTitle: String = ""
     @Published var isAppLaunching: Bool = false
+    @Published var isAppLoading: Bool = true
     
     init() {
         let repository = AppLaunchRepository()
@@ -20,8 +21,9 @@ class SplashViewModel: ObservableObject {
     
     func onAppear() {
         self.subTitle = appLaunchUseCase.getSubTitle()
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
-            self.isAppLaunching = true
+        self.isAppLaunching = true
+        Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
+            self.isAppLoading = false
         }
     }
 }

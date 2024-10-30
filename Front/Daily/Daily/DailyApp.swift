@@ -19,9 +19,14 @@ struct DailyApp: App {
     var body: some Scene {
         WindowGroup {
             if userInfoViewModel.isNewVersion {
-                if splashViewModel.isAppLaunching {
-                    DailyMainView().environmentObject(navigationEnvironment)
-                } else { SplashView(splashViewModel: splashViewModel) }
+                ZStack {
+                    if splashViewModel.isAppLaunching {
+                        DailyMainView().environmentObject(navigationEnvironment)
+                    }
+                    if splashViewModel.isAppLoading {
+                        SplashView(splashViewModel: splashViewModel)
+                    }
+                }
             } else {
                 if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
                 else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }

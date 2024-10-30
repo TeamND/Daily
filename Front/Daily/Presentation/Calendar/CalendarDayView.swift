@@ -18,15 +18,16 @@ struct CalendarDayView: View {
             DailyWeekIndicator(mode: .change)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.selection) {
-                ForEach(-10 ... 10, id: \.self) { year in
+                ForEach(-10 ... 10, id: \.self) { index in
                     ForEach(1 ... 12, id: \.self) { month in
-                        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: dailyCalendarViewModel.year + year, month: month)
+                        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: dailyCalendarViewModel.year + index, month: month)
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
-                            let tag = "\(String(2024 + year))-\(String(month))-\(String(day))"
-                            CalendarDay(year: dailyCalendarViewModel.year + year, month: month, day: day)
+                            let year = dailyCalendarViewModel.year + index
+                            let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
+                            CalendarDay(year: dailyCalendarViewModel.year + index, month: month, day: day)
                                 .tag(tag)
                                 .onAppear {
-                                    dailyCalendarViewModel.onAppear(tag)
+                                    dailyCalendarViewModel.calendarDayOnAppear()
                                 }
                         }
                     }
@@ -38,9 +39,6 @@ struct CalendarDayView: View {
         }
         .overlay {
             DailyAddGoalButton()
-        }
-        .onAppear {
-            print("day onAppear")
         }
     }
 }
@@ -211,7 +209,7 @@ struct DailyNoRecord: View {
             Text(noRecordText)
             Button {
                 let navigationObject = NavigationObject(viewType: .goal)
-                navigationEnvironment.navigationPath.append(navigationObject)
+                navigationEnvironment.navigate(navigationObject)
             } label: {
                 Text(goRecordViewText)
             }

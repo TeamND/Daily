@@ -9,7 +9,6 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @Environment(\.dismiss) var dismiss
     @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
@@ -18,36 +17,24 @@ struct CalendarYearView: View {
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.selection) {
                 ForEach(-10 ... 10, id: \.self) { index in
-                    let tag = "\(String(dailyCalendarViewModel.year + index))-\(String(dailyCalendarViewModel.month))-\(String(dailyCalendarViewModel.day))"
-                    CalendarYear(year: dailyCalendarViewModel.year + index, action: action)
+                    let year = dailyCalendarViewModel.year + index
+                    let month = dailyCalendarViewModel.month
+                    let day = dailyCalendarViewModel.day
+                    let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
+                    CalendarYear(year: dailyCalendarViewModel.year + index, action: dailyCalendarViewModel.selectMonth)
                         .tag(tag)
                         .onAppear {
-                            print("\(tag) onAppear@@@")
-                            //                            dailyCalendarViewModel.setSelection(year: dailyCalendarViewModel.year + index)
+                            dailyCalendarViewModel.calendarYearOnAppear()
                         }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .gesture(
-                DragGesture().onEnded { value in
-                    if 0 < value.translation.width && value.startLocation.x < CGFloat.fontSize {
-                        dismiss()
-                    }
-                }
-            )
         }
         .overlay {
             DailyAddGoalButton()
         }
-        .onAppear {
-            print("CalendarYearView onAppear")
-        }
-    }
-    
-    private func action(month: Int) {
-        print("selected month is \(month)")
     }
 }
 
@@ -65,9 +52,7 @@ struct CalendarYear: View {
                         ForEach (0 ..< 3) { colIndex in
                             let month = (rowIndex * 3) + colIndex + 1
                             Button {
-//                                action(month)
-                                let navigationObject = NavigationObject(viewType: .calendarMonth)
-                                navigationEnvironment.navigationPath.append(navigationObject)
+                                action(month)
                             } label: {
                                 DailyMonthOnYear(year: year, month: month)
                             }
