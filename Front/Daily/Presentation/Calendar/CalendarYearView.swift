@@ -15,14 +15,12 @@ struct CalendarYearView: View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .year, backButton: .constant(0), title: $dailyCalendarViewModel.year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
-            TabView(selection: $dailyCalendarViewModel.selection) {
+            TabView(selection: $dailyCalendarViewModel.yearSelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
-                    let year = dailyCalendarViewModel.year + index
-                    let month = dailyCalendarViewModel.month
-                    let day = dailyCalendarViewModel.day
-                    let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
-                    CalendarYear(year: dailyCalendarViewModel.year + index, action: dailyCalendarViewModel.selectMonth)
-                        .tag(tag)
+                    let year = Date().year + index
+                    let yearSelection = year.formatDateString(type: .year)
+                    CalendarYear(year: year, action: dailyCalendarViewModel.selectMonth)
+                        .tag(yearSelection)
                         .onAppear {
                             dailyCalendarViewModel.calendarYearOnAppear()
                         }
@@ -31,6 +29,10 @@ struct CalendarYearView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
+            .onChange(of: dailyCalendarViewModel.yearSelection) { yearSelection in
+                guard let year = Int(yearSelection) else { return }
+                dailyCalendarViewModel.setYear(year)
+            }
         }
         .overlay {
             DailyAddGoalButton()

@@ -17,14 +17,13 @@ struct CalendarMonthView: View {
             DailyCalendarHeader(type: .month, backButton: $dailyCalendarViewModel.year, title: $dailyCalendarViewModel.month)
             DailyWeekIndicator()
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
-            TabView(selection: $dailyCalendarViewModel.selection) {
+            TabView(selection: $dailyCalendarViewModel.monthSelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
                     ForEach(1 ... 12, id: \.self) { month in
-                        let year = dailyCalendarViewModel.year + index
-                        let day = dailyCalendarViewModel.day
-                        let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
-                        CalendarMonth(year: dailyCalendarViewModel.year + index, month: month, action: dailyCalendarViewModel.selectDay)
-                            .tag(tag)
+                        let year = Date().year + index
+                        let monthSelection = year.formatDateString(type: .year) + "-" + month.formatDateString(type: .month)
+                        CalendarMonth(year: year, month: month, action: dailyCalendarViewModel.selectDay)
+                            .tag(monthSelection)
                             .onAppear {
                                 dailyCalendarViewModel.calendarMonthOnAppear()
                             }
@@ -34,6 +33,12 @@ struct CalendarMonthView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
+            .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
+                guard let year = Int(monthSelection.split(separator: "-")[0]) else { return }
+                guard let month = Int(monthSelection.split(separator: "-")[1]) else { return }
+                dailyCalendarViewModel.setYear(year)
+                dailyCalendarViewModel.setMonth(month)
+            }
         }
         .overlay {
             DailyAddGoalButton()

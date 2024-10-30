@@ -17,15 +17,15 @@ struct CalendarDayView: View {
             DailyCalendarHeader(type: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
             DailyWeekIndicator(mode: .change)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
-            TabView(selection: $dailyCalendarViewModel.selection) {
+            TabView(selection: $dailyCalendarViewModel.daySelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
                     ForEach(1 ... 12, id: \.self) { month in
-                        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: dailyCalendarViewModel.year + index, month: month)
+                        let year = Date().year + index
+                        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
-                            let year = dailyCalendarViewModel.year + index
-                            let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
-                            CalendarDay(year: dailyCalendarViewModel.year + index, month: month, day: day)
-                                .tag(tag)
+                            let daySelection = year.formatDateString(type: .year) + "-" + month.formatDateString(type: .month) + "-" +  day.formatDateString(type: .day)
+                            CalendarDay(year: year, month: month, day: day)
+                                .tag(daySelection)
                                 .onAppear {
                                     dailyCalendarViewModel.calendarDayOnAppear()
                                 }
@@ -36,6 +36,14 @@ struct CalendarDayView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
+            .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
+                guard let year = Int(daySelection.split(separator: "-")[0]) else { return }
+                guard let month = Int(daySelection.split(separator: "-")[1]) else { return }
+                guard let day = Int(daySelection.split(separator: "-")[2]) else { return }
+                dailyCalendarViewModel.setYear(year)
+                dailyCalendarViewModel.setMonth(month)
+                dailyCalendarViewModel.setDay(day)
+            }
         }
         .overlay {
             DailyAddGoalButton()
