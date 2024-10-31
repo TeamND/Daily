@@ -7,11 +7,15 @@
 
 import Foundation
 
-struct GoalListOnDayModel: Decodable {
+struct GoalListOnDayModel: Decodable, Hashable {
     var goalList: [Goal]
+    
+    init(goalList: [Goal] = []) {
+        self.goalList = goalList
+    }
 }
 
-struct Goal: Decodable {
+struct Goal: Decodable, Hashable {
     var uid: Int
     var goal_uid: Int
     var content: String

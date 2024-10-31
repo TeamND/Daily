@@ -19,10 +19,10 @@ struct CalendarYearView: View {
                 ForEach(-10 ... 10, id: \.self) { index in
                     let year = Date().year + index
                     let yearSelection = CalendarServices.shared.formatDateString(year: year)
-                    CalendarYear(year: year, action: dailyCalendarViewModel.selectMonth)
+                    CalendarYear(year: year, ratingsOnYear: dailyCalendarViewModel.ratingsOnYears[0].ratingsOnYear, action: dailyCalendarViewModel.selectMonth)
                         .tag(yearSelection)
                         .onAppear {
-                            dailyCalendarViewModel.calendarYearOnAppear()
+                            dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
                         }
                 }
             }
@@ -44,6 +44,7 @@ struct CalendarYearView: View {
 struct CalendarYear: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
+    let ratingsOnYear: [[Double]]
     let action: (Int) -> Void
     
     var body: some View {
@@ -56,7 +57,7 @@ struct CalendarYear: View {
                             Button {
                                 action(month)
                             } label: {
-                                DailyMonthOnYear(year: year, month: month)
+                                DailyMonthOnYear(year: year, month: month, ratings: ratingsOnYear[month - 1])
                             }
                         }
                     }
@@ -74,12 +75,14 @@ struct CalendarYear: View {
 struct DailyMonthOnYear: View {
     let year: Int
     let month: Int
+    let ratings: [Double]
     let startDayIndex: Int
     let lengthOfMonth: Int
     
-    init(year: Int, month: Int) {
+    init(year: Int, month: Int, ratings: [Double]) {
         self.year = year
         self.month = month
+        self.ratings = ratings
         self.startDayIndex = CalendarServices.shared.startDayIndex(year: year, month: month)
         self.lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
     }
@@ -97,8 +100,7 @@ struct DailyMonthOnYear: View {
                             if 1 <= day && day <= lengthOfMonth {
                                 Image(systemName: "circle.fill")
                                     .font(.system(size: CGFloat.fontSize * 2))
-                                    .foregroundStyle(Colors.daily.opacity(0.2))
-//                                    .foregroundColor(Colors.daily.opacity(calendarViewModel.getDayOfRatingOnYear(monthIndex: month-1, dayIndex: day-1)*0.8))
+                                    .foregroundStyle(Colors.daily.opacity(ratings[day-1]*0.8))
                                 Text("\(day)")
                                     .font(.system(size: CGFloat.fontSize, weight: .bold))
                             } else {

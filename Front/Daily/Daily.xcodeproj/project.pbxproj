@@ -27,6 +27,9 @@
 		F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF72CC6632600FB637F /* CalendarDayView.swift */; };
 		F605C0C62CD23FA700562EAF /* SymbolsOnMonthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */; };
 		F605C0C82CD23FCA00562EAF /* GoalListOnDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */; };
+		F605C0CC2CD3330200562EAF /* RatingsOnYearsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0CB2CD3330200562EAF /* RatingsOnYearsModel.swift */; };
+		F605C0CE2CD3339000562EAF /* SymbolsOnMonthsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0CD2CD3339000562EAF /* SymbolsOnMonthsModel.swift */; };
+		F605C0D02CD333EB00562EAF /* GoalListOnDaysModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0CF2CD333EB00562EAF /* GoalListOnDaysModel.swift */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
@@ -195,6 +198,9 @@
 		F6016DF72CC6632600FB637F /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsOnMonthModel.swift; sourceTree = "<group>"; };
 		F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListOnDayModel.swift; sourceTree = "<group>"; };
+		F605C0CB2CD3330200562EAF /* RatingsOnYearsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingsOnYearsModel.swift; sourceTree = "<group>"; };
+		F605C0CD2CD3339000562EAF /* SymbolsOnMonthsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsOnMonthsModel.swift; sourceTree = "<group>"; };
+		F605C0CF2CD333EB00562EAF /* GoalListOnDaysModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListOnDaysModel.swift; sourceTree = "<group>"; };
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
@@ -625,6 +631,9 @@
 				F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */,
 				F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */,
 				F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */,
+				F605C0CB2CD3330200562EAF /* RatingsOnYearsModel.swift */,
+				F605C0CD2CD3339000562EAF /* SymbolsOnMonthsModel.swift */,
+				F605C0CF2CD333EB00562EAF /* GoalListOnDaysModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1059,6 +1068,7 @@
 				F6CC15A02BA1E1CA00689A02 /* JSONConverter.swift in Sources */,
 				F6EC3D272BE509CD00FAB502 /* RecordPerGoal.swift in Sources */,
 				F64EE8872952F9620098C785 /* Constant.swift in Sources */,
+				F605C0CC2CD3330200562EAF /* RatingsOnYearsModel.swift in Sources */,
 				F6A1A0052C3A45AA00989FBF /* modifyRecordDateModel.swift in Sources */,
 				F6DF64B42BAFD9DD00A17B9E /* WeekOnMonth.swift in Sources */,
 				F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */,
@@ -1108,6 +1118,8 @@
 				F6C758E52CCF340400F9CF91 /* DailyDatePicker.swift in Sources */,
 				F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */,
 				F6CE8A242CCF60900050A25A /* GoalRepository.swift in Sources */,
+				F605C0CE2CD3339000562EAF /* SymbolsOnMonthsModel.swift in Sources */,
+				F605C0D02CD333EB00562EAF /* GoalListOnDaysModel.swift in Sources */,
 				F6CC15982BA188E200689A02 /* RecordModel.swift in Sources */,
 				F6016DCD2CC534C500FB637F /* ServerNetwork.swift in Sources */,
 				F6CC15AC2BA459EA00689A02 /* getUserInfoModel.swift in Sources */,

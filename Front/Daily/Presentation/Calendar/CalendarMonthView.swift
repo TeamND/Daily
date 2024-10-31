@@ -22,10 +22,10 @@ struct CalendarMonthView: View {
                     ForEach(1 ... 12, id: \.self) { month in
                         let year = Date().year + index
                         let monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
-                        CalendarMonth(year: year, month: month, action: dailyCalendarViewModel.selectDay)
+                        CalendarMonth(year: year, month: month, symbolsOnMonth: dailyCalendarViewModel.symbolsOnMonths[0].symbolsOnMonth, action: dailyCalendarViewModel.selectDay)
                             .tag(monthSelection)
                             .onAppear {
-                                dailyCalendarViewModel.calendarMonthOnAppear()
+                                dailyCalendarViewModel.calendarMonthOnAppear(monthSelection: monthSelection)
                             }
                     }
                 }
@@ -51,6 +51,7 @@ struct CalendarMonth: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
     let month: Int
+    let symbolsOnMonth: [SymbolsOnMonthModel]
     let action: (Int) -> Void
     
     var body: some View {
@@ -68,10 +69,10 @@ struct CalendarMonth: View {
                                 Button {
                                     action(day)
                                 } label: {
-                                    DailyDayOnMonth(day: day)
+                                    DailyDayOnMonth(day: day, symbolsOnMonth: symbolsOnMonth[day-1])
                                 }
                             } else {
-                                DailyDayOnMonth(day: 1).opacity(0)
+                                DailyDayOnMonth(day: 1, symbolsOnMonth: SymbolsOnMonthModel()).opacity(0)
                             }
                         }
                     }
@@ -89,16 +90,22 @@ struct CalendarMonth: View {
 // MARK: - DailyDayOnMonth
 struct DailyDayOnMonth: View {
     let day: Int
+    let symbols: [SymbolOnMonthModel]
+    let rating: Double
+    
+    init(day: Int = 0, symbolsOnMonth: SymbolsOnMonthModel = SymbolsOnMonthModel()) {
+        self.day = day
+        self.symbols = symbolsOnMonth.symbol
+        self.rating = symbolsOnMonth.rating
+    }
     
     var body: some View {
-//        let symbols = dayOnMonth.symbol
         let maxSymbolNum = UIDevice.current.model == "iPad" ? 6 : 4
         VStack(alignment: .leading) {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: CGFloat.fontSize * 4))
-                    .foregroundColor(Colors.daily.opacity(0.8))
-//                    .foregroundColor(Colors.daily.opacity(dayOnMonth.rating*0.8))
+                    .foregroundStyle(Colors.daily.opacity(rating*0.8))
                 Text("\(day)")
                     .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
             }
@@ -107,16 +114,14 @@ struct DailyDayOnMonth: View {
                 ForEach(0 ..< maxSymbolNum, id: \.self) { index in
                     if index % 2 == 0 {
                         HStack(spacing: 0) {
-                            ForEach(0 ..< 4, id: \.self) { symbolIndex in
-//                            ForEach(symbols.indices, id: \.self) { symbolIndex in
+                            ForEach(symbols.indices, id: \.self) { symbolIndex in
                                 if index <= symbolIndex && symbolIndex < index + 2 {
-//                                    SymbolOnMonth(symbol: symbols[symbolIndex], isEllipsis: index == maxSymbolNum - 2 && symbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1)
-                                    SymbolOnMonth(symbol: symbolOnMonthModel(), isEllipsis: true)
+                                    DailySymbolOnMonth(symbol: symbols[symbolIndex], isEllipsis: index == maxSymbolNum - 2 && symbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1)
                                 }
                             }
-//                            if index >= symbols.count - 1 {
-//                                SymbolOnMonth(symbol: symbolOnMonthModel(), isEllipsis: false)
-//                            }
+                            if index >= symbols.count - 1 {
+                                DailySymbolOnMonth(symbol: SymbolOnMonthModel(), isEllipsis: false)
+                            }
                         }
                     }
                 }
@@ -133,6 +138,33 @@ struct DailyDayOnMonth: View {
         .foregroundStyle(Colors.reverse)
     }
 }
+
+// MARK: - DailySymbolOnMonth
+struct DailySymbolOnMonth: View {
+    let symbol: SymbolOnMonthModel
+    let isEllipsis: Bool
+    
+    var body: some View {
+        VStack {
+            if isEllipsis {
+                Image(systemName: "ellipsis")
+            } else if symbol.imageName.toSymbol() == nil {
+                Image(systemName: "d.circle").opacity(0)
+            } else {
+                if symbol.isSuccess {
+                    Image(systemName: "\(symbol.imageName.toSymbol()!.rawValue).fill")
+                } else {
+                    Image(systemName: "\(symbol.imageName.toSymbol()!.rawValue)")
+                }
+            }
+        }
+        .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+        .foregroundStyle(Colors.reverse)
+        .frame(maxWidth: .infinity)
+        .frame(height: CGFloat.fontSize * 2)
+    }
+}
+
 
 #Preview {
     CalendarMonthView(dailyCalendarViewModel: DailyCalendarViewModel())

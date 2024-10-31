@@ -24,10 +24,10 @@ struct CalendarDayView: View {
                         let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
                             let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
-                            CalendarDay(year: year, month: month, day: day)
+                            CalendarDay(year: year, month: month, day: day, goalListOnDay: $dailyCalendarViewModel.goalListOnDays[0].goalListOnDay)
                                 .tag(daySelection)
                                 .onAppear {
-                                    dailyCalendarViewModel.calendarDayOnAppear()
+                                    dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
                                 }
                         }
                     }
@@ -55,15 +55,16 @@ struct CalendarDay: View {
     let year: Int
     let month: Int
     let day: Int
+    @Binding var goalListOnDay: GoalListOnDayModel
     
     var body: some View {
         if false {
             VStack {
                 Spacer().frame(height: CGFloat.fontSize)
                 ViewThatFits(in: .vertical) {
-                    DailyRecordList(records: .constant([]))
+                    DailyRecordList(goalList: $goalListOnDay.goalList)
                     ScrollView {
-                        DailyRecordList(records: .constant([]))
+                        DailyRecordList(goalList: $goalListOnDay.goalList)
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)
@@ -78,11 +79,11 @@ struct CalendarDay: View {
 
 // MARK: - DailyRecordList
 struct DailyRecordList: View {
-    @Binding var records: [Int]
+    @Binding var goalList: [Goal]
     
     var body: some View {
         VStack {
-            ForEach(records, id: \.self) { record in
+            ForEach(goalList, id: \.self) { record in
 //                let record = $calendarViewModel.recordsOnWeek[index]
 //                if record.is_set_time.wrappedValue {
 //                    if index == 0 ||    // 첫번째 항목일 경우 표기
@@ -200,10 +201,10 @@ struct DailyRecordList: View {
 
 // MARK: - DailyRecord
 struct DailyRecord: View {
-    let record: Int
+    let record: Goal
     
     var body: some View {
-        Text("record is \(String(record))")
+        Text("record is \(record.content)")
     }
 }
 

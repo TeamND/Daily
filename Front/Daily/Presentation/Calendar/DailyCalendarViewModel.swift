@@ -21,6 +21,10 @@ class DailyCalendarViewModel: ObservableObject {
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
     @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
     
+    @Published var ratingsOnYears: [RatingsOnYearsModel] = [RatingsOnYearsModel()]
+    @Published var symbolsOnMonths: [SymbolsOnMonthsModel] = [SymbolsOnMonthsModel()]
+    @Published var goalListOnDays: [GoalListOnDaysModel] = [GoalListOnDaysModel()]
+    
     var navigationEnvironment: NavigationEnvironment = NavigationEnvironment()
     
     // MARK: - init
@@ -41,19 +45,28 @@ class DailyCalendarViewModel: ObservableObject {
             }
         }
     }
-    func calendarYearOnAppear() {
+    func calendarYearOnAppear(yearSelection: String) {
         Task {
             let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: "123", year: "2024"))
+            DispatchQueue.main.async {
+                self.ratingsOnYears = [RatingsOnYearsModel(yearSelection: yearSelection, ratingsOnYear: ratingsOnYear)]
+            }
         }
     }
-    func calendarMonthOnAppear() {
+    func calendarMonthOnAppear(monthSelection: String) {
         Task {
             let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: "123", month: "2024-10"))
+            DispatchQueue.main.async {
+                self.symbolsOnMonths = [SymbolsOnMonthsModel(monthSelection: monthSelection, symbolsOnMonth: symbolsOnMonth)]
+            }
         }
     }
-    func calendarDayOnAppear() {
+    func calendarDayOnAppear(daySelection: String) {
         Task {
             let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: "123", day: "2024-10-26"))
+            DispatchQueue.main.async {
+                self.goalListOnDays = [GoalListOnDaysModel(daySelection: daySelection, goalListOnDay: goalListOnDay)]
+            }
         }
     }
     
