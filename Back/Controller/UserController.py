@@ -15,6 +15,11 @@ user_model = user.model('User', strict=True, model={
         'version': fields.String,
         'last_time': fields.DateTime
 })
+
+version_model = user.model('Version', model={
+        'isUpdateRequired': fields.Boolean,
+})
+
 @user.route('/info/<string:phone_uid>')
 class Info(Resource):
     @user.doc(params={'phone_uid': '사용자 고유번호'})
@@ -41,3 +46,17 @@ class Set(Resource):
     def post(self):
         '''유저의 설정값을 변경한다.'''
         return UserApi.Set(request.form.copy())
+    
+version_column = reqparse.RequestParser()
+version_column.add_argument('version', type=str, default='1.1.1', help='버전')
+
+@user.route('/version/<int:user_uid>',methods=['GET'])
+class Version(Resource):
+    @user.doc(params={'user_uid': '사용자 고유번호'})
+    @user.expect(version_column)
+    @user.response(0,'Success',user.model('VersionResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(version_model)}))
+    @user.response(99,'Failed')
+    def get(self,user_uid):
+        '''유저의 버전값을 확인한다.'''
+        data = request.args
+        return UserApi.Version(user_uid,data)
