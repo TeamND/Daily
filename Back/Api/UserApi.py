@@ -114,3 +114,32 @@ class UserApi(Resource):
 
         except Exception as e:
             db.session.rollback()
+
+    def Version(uid,data):
+        result = db.session.get(User,uid)
+
+        if result:
+            try:
+                UserApi.LastTime('user',result.uid)
+                isUpdateRequired = True
+                # 유저의 기존버전과 비교(정규식으로 비교?)
+                if result.version is not None:
+                    before_version = result.version.split('.')
+                    after_version = data['version'].split('.')
+                    if before_version[0] >= after_version[0] and before_version[1] >= after_version[1]:
+                        isUpdateRequired = False
+                return {
+                    'code': '00',
+                    'message': '조회에 성공했습니다.',
+                    'data': {'isUpdateRequired':isUpdateRequired}
+                }, 00
+            except Exception as e:
+                return {
+                    'code': '99',
+                    'message': e
+                }, 99
+        else: 
+           return {
+                'code': '99',
+                'message': '조회된 데이터가 없습니다.'
+            }, 99
