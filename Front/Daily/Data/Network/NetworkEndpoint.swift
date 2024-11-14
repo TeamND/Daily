@@ -27,6 +27,7 @@ enum ServerEndpoint: NetworkEndpoint {
     var serverURL: URL? { URL(string: "http://43.202.215.185:5000") }
     // MARK: - APIs
     case getUserInfo(userID: String)
+    case getServerVersion
     case getCalendarYear(userID: String, year: String)
     case getCalendarMonth(userID: String, month: String)
     case getCalendarWeek(userID: String, startDay: String)
@@ -37,6 +38,8 @@ enum ServerEndpoint: NetworkEndpoint {
         switch self {
         case .getUserInfo(let userID):
             return "/user/info/\(userID)"
+        case .getServerVersion:
+            return "/user/version/\(String(System.appVersion!)))"
         case .getCalendarYear(let userID, _):
             return "/calendar/year/\(userID)"
         case .getCalendarMonth(let userID, _):
@@ -51,7 +54,7 @@ enum ServerEndpoint: NetworkEndpoint {
     // MARK: - method
     var method: NetworkMethod {
         switch self {
-        case .getUserInfo, .getCalendarYear, .getCalendarMonth, .getCalendarWeek, .getCalendarDay:
+        case .getUserInfo, .getServerVersion, .getCalendarYear, .getCalendarMonth, .getCalendarWeek, .getCalendarDay:
             return .get
         }
     }
@@ -69,8 +72,8 @@ enum ServerEndpoint: NetworkEndpoint {
             return [.init(name: "date", value: startDay)]
         case .getCalendarDay(_, let day):
             return [.init(name: "date", value: day)]
-//        default:
-//            return nil
+        default:
+            return nil
         }
     }
     

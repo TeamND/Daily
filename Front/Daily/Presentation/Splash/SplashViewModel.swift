@@ -22,10 +22,24 @@ class SplashViewModel: ObservableObject {
     
     func onAppear() {
         self.subTitle = appLaunchUseCase.getSubTitle()
-        self.isAppLaunching = true
-        Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
-            self.isAppLoading = false
+        Task {
+            if try await checkUpdateRequired() {
+                // TODO: 업데이트 alert 표시
+                print("isUpdateRequired")
+            } else {
+                DispatchQueue.main.async {
+                    self.isAppLaunching = true
+                    Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
+                        self.isAppLoading = false
+                    }
+                }
+            }
         }
+    }
+    
+    func checkUpdateRequired() async throws -> Bool {
+        let versionResponse: VersionResponseModel = try await ServerNetwork.shared.request(.getServerVersion)
+        return versionResponse.isUpdateRequired
     }
     
     func getUserInfo() {

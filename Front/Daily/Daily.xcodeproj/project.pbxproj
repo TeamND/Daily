@@ -27,6 +27,7 @@
 		F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF72CC6632600FB637F /* CalendarDayView.swift */; };
 		F605C0C62CD23FA700562EAF /* SymbolsOnMonthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */; };
 		F605C0C82CD23FCA00562EAF /* GoalListOnDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */; };
+		F605C0E62CE5CD7B00562EAF /* VersionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
@@ -195,6 +196,7 @@
 		F6016DF72CC6632600FB637F /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsOnMonthModel.swift; sourceTree = "<group>"; };
 		F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListOnDayModel.swift; sourceTree = "<group>"; };
+		F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionResponseModel.swift; sourceTree = "<group>"; };
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */,
 				F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */,
 				F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */,
+				F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1070,6 +1073,7 @@
 				F6CC158E2B9C91D200689A02 /* CalendarView.swift in Sources */,
 				F6016DE52CC6118800FB637F /* NavigationEnvironment.swift in Sources */,
 				F6DF64B22BAFCDB500A17B9E /* MonthOnYear.swift in Sources */,
+				F605C0E62CE5CD7B00562EAF /* VersionResponseModel.swift in Sources */,
 				F6DF64B02BAFC8B000A17B9E /* CalendarViewModel.swift in Sources */,
 				F6699B922BC70B2000B1FDA7 /* ContentTextField.swift in Sources */,
 				F6CE8A2D2CD0B1940050A25A /* DailyAppInfoView.swift in Sources */,
@@ -1303,7 +1307,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1347,7 +1351,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
