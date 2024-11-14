@@ -46,17 +46,12 @@ class Set(Resource):
     def post(self):
         '''유저의 설정값을 변경한다.'''
         return UserApi.Set(request.form.copy())
-    
-version_column = reqparse.RequestParser()
-version_column.add_argument('version', type=str, default='1.1.1', help='버전')
 
-@user.route('/version/<int:user_uid>',methods=['GET'])
+@user.route('/version/<string:version>',methods=['GET'])
 class Version(Resource):
-    @user.doc(params={'user_uid': '사용자 고유번호'})
-    @user.expect(version_column)
+    @user.doc(params={'version': '비교할 버전'})
     @user.response(0,'Success',user.model('VersionResponse', model={'code': fields.String, 'message': fields.String, "data": fields.Nested(version_model)}))
     @user.response(99,'Failed')
-    def get(self,user_uid):
+    def get(self,version):
         '''유저의 버전값을 확인한다.'''
-        data = request.args
-        return UserApi.Version(user_uid,data)
+        return UserApi.Version(version)
