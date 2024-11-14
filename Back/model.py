@@ -50,3 +50,11 @@ class Record(db.Model):
 
     def __repr__(self):
         return f"Record('{self.uid}', '{self.goal_uid}', '{self.date}', '{self.order}', '{self.issuccess}', '{self.record_count}', '{self.record_time}', '{self.start_time}', '{self.start_time2}')"
+    
+class System(db.Model):
+    __tablename__ = 'system'
+    uid = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.String(10))
+
+    def __repr__(self):
+        return f"System('{self.uid}','{self.version}')"

@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,g
 from flask_restx import Resource, Api, Namespace
 from datetime import datetime
 from model import db,User,Goal,Record
@@ -124,9 +124,9 @@ class UserApi(Resource):
                 isUpdateRequired = True
                 # 유저의 기존버전과 비교(정규식으로 비교?)
                 if result.version is not None:
-                    before_version = result.version.split('.')
-                    after_version = data['version'].split('.')
-                    if before_version[0] >= after_version[0] and before_version[1] >= after_version[1]:
+                    user_version = data['version'].split('.')
+                    app_version = g.app_version.split('.')
+                    if user_version[0] >= app_version[0] and user_version[1] >= app_version[1]:
                         isUpdateRequired = False
                 return {
                     'code': '00',
