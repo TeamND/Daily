@@ -31,4 +31,16 @@ class CalendarServices {
         let monthStr = String(format: "%02d", month)
         return "\(String(year))-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
+    
+    func weekSelection(daySelection: String) -> String {
+        let date = daySelection.toDate()!
+        let dow = DayOfWeek.allCases.filter({ $0.text == date.getDOW(language: "한국어") }).first!
+        
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let startDate = cal.date(byAdding: .day, value: -dow.index, to: date)!
+        
+        let weekSelection = self.formatDateString(year: startDate.year, month: startDate.month, day: startDate.day)
+        return weekSelection
+    }
 }
