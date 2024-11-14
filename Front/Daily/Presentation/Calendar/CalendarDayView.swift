@@ -24,11 +24,18 @@ struct CalendarDayView: View {
                         let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
                             let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
-                            CalendarDay(year: year, month: month, day: day, goalListOnDay: $dailyCalendarViewModel.goalListOnDays[0].goalListOnDay)
-                                .tag(daySelection)
-                                .onAppear {
-                                    dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
-                                }
+                            let goalListOnDayBinding = Binding<GoalListOnDayModel>(
+                                get: { dailyCalendarViewModel.dayDictionary[daySelection] ?? GoalListOnDayModel() },
+                                set: { dailyCalendarViewModel.dayDictionary[daySelection] = $0 }
+                            )
+                            CalendarDay(
+                                year: year, month: month, day: day,
+                                goalListOnDay: goalListOnDayBinding
+                            )
+                            .tag(daySelection)
+                            .onAppear {
+                                dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
+                            }
                         }
                     }
                 }

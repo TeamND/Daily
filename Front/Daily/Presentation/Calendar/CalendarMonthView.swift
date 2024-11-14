@@ -22,11 +22,15 @@ struct CalendarMonthView: View {
                     ForEach(1 ... 12, id: \.self) { month in
                         let year = Date().year + index
                         let monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
-                        CalendarMonth(year: year, month: month, symbolsOnMonth: dailyCalendarViewModel.symbolsOnMonths[0].symbolsOnMonth, action: dailyCalendarViewModel.selectDay)
-                            .tag(monthSelection)
-                            .onAppear {
-                                dailyCalendarViewModel.calendarMonthOnAppear(monthSelection: monthSelection)
-                            }
+                        CalendarMonth(
+                            year: year, month: month,
+                            symbolsOnMonth: dailyCalendarViewModel.monthDictionary[monthSelection] ?? Array(repeating: SymbolsOnMonthModel(), count: 31),
+                            action: dailyCalendarViewModel.selectDay
+                        )
+                        .tag(monthSelection)
+                        .onAppear {
+                            dailyCalendarViewModel.calendarMonthOnAppear(monthSelection: monthSelection)
+                        }
                     }
                 }
             }

@@ -19,11 +19,15 @@ struct CalendarYearView: View {
                 ForEach(-10 ... 10, id: \.self) { index in
                     let year = Date().year + index
                     let yearSelection = CalendarServices.shared.formatDateString(year: year)
-                    CalendarYear(year: year, ratingsOnYear: dailyCalendarViewModel.ratingsOnYears[0].ratingsOnYear, action: dailyCalendarViewModel.selectMonth)
-                        .tag(yearSelection)
-                        .onAppear {
-                            dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
-                        }
+                    CalendarYear(
+                        year: year,
+                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
+                        action: dailyCalendarViewModel.selectMonth
+                    )
+                    .tag(yearSelection)
+                    .onAppear {
+                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
+                    }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))

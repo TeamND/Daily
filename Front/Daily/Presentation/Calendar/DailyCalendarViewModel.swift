@@ -21,9 +21,18 @@ class DailyCalendarViewModel: ObservableObject {
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
     @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
     
-    @Published var ratingsOnYears: [RatingsOnYearsModel] = [RatingsOnYearsModel()]
-    @Published var symbolsOnMonths: [SymbolsOnMonthsModel] = [SymbolsOnMonthsModel()]
-    @Published var goalListOnDays: [GoalListOnDaysModel] = [GoalListOnDaysModel()]
+    @Published var yearDictionary: [String: [[Double]]] = [
+        CalendarServices.shared.formatDateString(year: Date().year)
+        : Array(repeating: Array(repeating: 0, count: 31), count: 12)
+    ]
+    @Published var monthDictionary: [String: [SymbolsOnMonthModel]] = [
+        CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
+        : Array(repeating: SymbolsOnMonthModel(), count: 31)
+    ]
+    @Published var dayDictionary: [String: GoalListOnDayModel] = [
+        CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
+        : GoalListOnDayModel()
+    ]
     
     var navigationEnvironment: NavigationEnvironment = NavigationEnvironment()
     
@@ -47,26 +56,20 @@ class DailyCalendarViewModel: ObservableObject {
     }
     func calendarYearOnAppear(yearSelection: String) {
         Task {
-            let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: "123", year: "2024"))
-            DispatchQueue.main.async {
-                self.ratingsOnYears = [RatingsOnYearsModel(yearSelection: yearSelection, ratingsOnYear: ratingsOnYear)]
-            }
+            let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: "123", year: yearSelection))
+            await MainActor.run { self.yearDictionary[yearSelection] = ratingsOnYear }
         }
     }
     func calendarMonthOnAppear(monthSelection: String) {
         Task {
-            let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: "123", month: "2024-10"))
-            DispatchQueue.main.async {
-                self.symbolsOnMonths = [SymbolsOnMonthsModel(monthSelection: monthSelection, symbolsOnMonth: symbolsOnMonth)]
-            }
+            let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: "123", month: monthSelection))
+            await MainActor.run { self.monthDictionary[monthSelection] = symbolsOnMonth }
         }
     }
     func calendarDayOnAppear(daySelection: String) {
         Task {
-            let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: "123", day: "2024-10-26"))
-            DispatchQueue.main.async {
-                self.goalListOnDays = [GoalListOnDaysModel(daySelection: daySelection, goalListOnDay: goalListOnDay)]
-            }
+            let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: "123", day: daySelection))
+            await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
         }
     }
     
