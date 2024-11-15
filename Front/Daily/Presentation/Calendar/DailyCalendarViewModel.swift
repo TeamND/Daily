@@ -19,6 +19,7 @@ class DailyCalendarViewModel: ObservableObject {
     
     @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
+    @Published var weekSelection: String = CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
     @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
     
     @Published var yearDictionary: [String: [[Double]]] = [
@@ -28,6 +29,10 @@ class DailyCalendarViewModel: ObservableObject {
     @Published var monthDictionary: [String: [SymbolsOnMonthModel]] = [
         CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
         : Array(repeating: SymbolsOnMonthModel(), count: 31)
+    ]
+    @Published var weekDictionary: [String: RatingsOnWeekModel] = [
+        CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
+        : RatingsOnWeekModel()
     ]
     @Published var dayDictionary: [String: GoalListOnDayModel] = [
         CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
@@ -73,6 +78,16 @@ class DailyCalendarViewModel: ObservableObject {
             guard let userID = UserDefaultManager.userID else { return }
             let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
             await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
+        }
+        Task {
+            guard let userID = UserDefaultManager.userID else { return }
+            let weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
+            if self.weekSelection == weekSelection { return }
+            let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
+            await MainActor.run {
+                self.weekSelection = weekSelection
+                self.weekDictionary[weekSelection] = ratingsOnWeek
+            }
         }
     }
     

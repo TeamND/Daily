@@ -28,6 +28,7 @@
 		F605C0C62CD23FA700562EAF /* SymbolsOnMonthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */; };
 		F605C0C82CD23FCA00562EAF /* GoalListOnDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */; };
 		F605C0E62CE5CD7B00562EAF /* VersionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */; };
+		F605C0E82CE5D8CA00562EAF /* RatingsOnWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
@@ -197,6 +198,7 @@
 		F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsOnMonthModel.swift; sourceTree = "<group>"; };
 		F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListOnDayModel.swift; sourceTree = "<group>"; };
 		F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionResponseModel.swift; sourceTree = "<group>"; };
+		F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingsOnWeekModel.swift; sourceTree = "<group>"; };
 		F61ADFE12BB941D300C35948 /* RecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordList.swift; sourceTree = "<group>"; };
 		F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
 		F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyGoalModel.swift; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 				F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */,
 				F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */,
 				F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */,
+				F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1039,6 +1042,7 @@
 				F61AE0072BC42EF900C35948 /* ModifyGoalView.swift in Sources */,
 				F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */,
 				F6CE8A222CCF606B0050A25A /* GoalInterface.swift in Sources */,
+				F605C0E82CE5D8CA00562EAF /* RatingsOnWeekModel.swift in Sources */,
 				F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */,
 				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */,
