@@ -73,10 +73,10 @@ struct CalendarMonth: View {
                                 Button {
                                     action(day)
                                 } label: {
-                                    DailyDayOnMonth(day: day, symbolsOnMonth: symbolsOnMonth[day-1])
+                                    DailyDayOnMonth(year: year, month: month, day: day, symbolsOnMonth: symbolsOnMonth[day-1])
                                 }
                             } else {
-                                DailyDayOnMonth(day: 1, symbolsOnMonth: SymbolsOnMonthModel()).opacity(0)
+                                DailyDayOnMonth().opacity(0)
                             }
                         }
                     }
@@ -93,11 +93,15 @@ struct CalendarMonth: View {
 
 // MARK: - DailyDayOnMonth
 struct DailyDayOnMonth: View {
+    let year: Int
+    let month: Int
     let day: Int
     let symbols: [SymbolOnMonthModel]
     let rating: Double
     
-    init(day: Int = 0, symbolsOnMonth: SymbolsOnMonthModel = SymbolsOnMonthModel()) {
+    init(year: Int = 0, month: Int = 0, day: Int = 0, symbolsOnMonth: SymbolsOnMonthModel = SymbolsOnMonthModel()) {
+        self.year = year
+        self.month = month
         self.day = day
         self.symbols = symbolsOnMonth.symbol
         self.rating = symbolsOnMonth.rating
@@ -135,7 +139,7 @@ struct DailyDayOnMonth: View {
         .overlay {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
-//                .opacity(calendarViewModel.isToday(day: day) ? 1 : 0)
+                .opacity(CalendarServices.shared.isToday(year: year, month: month, day: day) ? 1 : 0)
         }
         .padding(4)
         .frame(maxWidth: .infinity)

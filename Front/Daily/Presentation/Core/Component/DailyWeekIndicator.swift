@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct DailyWeekIndicator: View {
+    @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel = DailyCalendarViewModel()
     var mode: WeekIndicatorMode = .none
     
     var body: some View {
         HStack(spacing: 0) {
             ForEach(DayOfWeek.allCases, id: \.self) { dayOfWeek in
                 ZStack {
-                    let isToday = dayOfWeek == .sat
+                    let isSelectedDay = CalendarServices.shared.isSelectedDay(
+                        dowIndex: dayOfWeek.index,
+                        weekSelection: dailyCalendarViewModel.weekSelection,
+                        daySelection: dailyCalendarViewModel.daySelection
+                    )
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 2)
-                        .opacity(isToday && mode == .change ? 1 : 0)
+                        .opacity(isSelectedDay && mode == .change ? 1 : 0)
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
@@ -42,8 +47,4 @@ struct DailyWeekIndicator: View {
         .frame(height: CGFloat.fontSize * 6)
         .frame(maxWidth: .infinity)
     }
-}
-
-#Preview {
-    DailyWeekIndicator()
 }

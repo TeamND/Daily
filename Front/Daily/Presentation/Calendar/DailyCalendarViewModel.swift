@@ -15,6 +15,7 @@ class DailyCalendarViewModel: ObservableObject {
     
     @Published var year: Int = Date().year
     @Published var month: Int = Date().month
+    @Published var startDay: Int = CalendarServices.shared.getStartDay(year: Date().year, month: Date().month, day: Date().day)
     @Published var day: Int = Date().day
     
     @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
@@ -81,13 +82,8 @@ class DailyCalendarViewModel: ObservableObject {
         }
         Task {
             guard let userID = UserDefaultManager.userID else { return }
-            let weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
-            if self.weekSelection == weekSelection { return }
             let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
-            await MainActor.run {
-                self.weekSelection = weekSelection
-                self.weekDictionary[weekSelection] = ratingsOnWeek
-            }
+            await MainActor.run { self.weekDictionary[weekSelection] = ratingsOnWeek }
         }
     }
     
@@ -112,6 +108,7 @@ class DailyCalendarViewModel: ObservableObject {
     }
     func selectDay(day: Int) {
         setDay(day)
+        setStartDay(CalendarServices.shared.getStartDay(year: self.year, month: self.month, day: day))
         navigate(type: .day)
     }
     
@@ -125,6 +122,11 @@ class DailyCalendarViewModel: ObservableObject {
         if self.month == month { return }
         self.month = month
         self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
+    }
+    func setStartDay(_ startDay: Int) {
+        if self.startDay == startDay { return }
+        self.startDay = startDay
+        self.weekSelection = CalendarServices.shared.formatDateString(year: year, month: month, day: startDay)
     }
     func setDay(_ day: Int) {
         if self.day == day { return }

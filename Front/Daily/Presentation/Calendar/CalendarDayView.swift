@@ -15,7 +15,7 @@ struct CalendarDayView: View {
     var body: some View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
-            DailyWeekIndicator(mode: .change)
+            DailyWeekIndicator(dailyCalendarViewModel: dailyCalendarViewModel, mode: .change)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.daySelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
@@ -49,6 +49,7 @@ struct CalendarDayView: View {
                 guard let day = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[2]) else { return }
                 dailyCalendarViewModel.setYear(year)
                 dailyCalendarViewModel.setMonth(month)
+                dailyCalendarViewModel.setStartDay(CalendarServices.shared.getStartDay(year: year, month: month, day: day))
                 dailyCalendarViewModel.setDay(day)
             }
         }
