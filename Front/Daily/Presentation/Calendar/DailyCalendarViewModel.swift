@@ -56,19 +56,22 @@ class DailyCalendarViewModel: ObservableObject {
     }
     func calendarYearOnAppear(yearSelection: String) {
         Task {
-            let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: "123", year: yearSelection))
+            guard let userID = UserDefaultManager.userID else { return }
+            let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: userID, year: yearSelection))
             await MainActor.run { self.yearDictionary[yearSelection] = ratingsOnYear }
         }
     }
     func calendarMonthOnAppear(monthSelection: String) {
         Task {
-            let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: "123", month: monthSelection))
+            guard let userID = UserDefaultManager.userID else { return }
+            let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: userID, month: monthSelection))
             await MainActor.run { self.monthDictionary[monthSelection] = symbolsOnMonth }
         }
     }
     func calendarDayOnAppear(daySelection: String) {
         Task {
-            let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: "123", day: daySelection))
+            guard let userID = UserDefaultManager.userID else { return }
+            let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
             await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
         }
     }

@@ -27,6 +27,7 @@ class SplashViewModel: ObservableObject {
                 // TODO: 업데이트 alert 표시
                 print("isUpdateRequired")
             } else {
+                try await getUserInfo()
                 DispatchQueue.main.async {
                     self.isAppLaunching = true
                     Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
@@ -42,11 +43,9 @@ class SplashViewModel: ObservableObject {
         return versionResponse.isUpdateRequired
     }
     
-    func getUserInfo() {
-        Task {
-            let phone_uid = await UIDevice.current.identifierForVendor!.uuidString
-            let userInfo: UserInfoModel = try await ServerNetwork.shared.request(.getUserInfo(userID: phone_uid))
-            UserDefaultManager.setUserInfo(userInfo: userInfo)
-        }
+    func getUserInfo() async throws {
+        let phone_uid = await UIDevice.current.identifierForVendor!.uuidString
+        let userInfo: UserInfoModel = try await ServerNetwork.shared.request(.getUserInfo(userID: phone_uid))
+        UserDefaultManager.setUserInfo(userInfo: userInfo)
     }
 }
