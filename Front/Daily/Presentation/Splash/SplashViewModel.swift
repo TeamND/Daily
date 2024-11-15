@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class SplashViewModel: ObservableObject {
     private let appLaunchUseCase: AppLaunchUseCase
@@ -24,6 +25,14 @@ class SplashViewModel: ObservableObject {
         self.isAppLaunching = true
         Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
             self.isAppLoading = false
+        }
+    }
+    
+    func getUserInfo() {
+        Task {
+            let phone_uid = await UIDevice.current.identifierForVendor!.uuidString
+            let userInfo: UserInfoModel = try await ServerNetwork.shared.request(.getUserInfo(userID: phone_uid))
+            UserDefaultManager.setUserInfo(userInfo: userInfo)
         }
     }
 }
