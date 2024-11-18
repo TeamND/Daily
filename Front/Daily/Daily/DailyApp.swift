@@ -14,6 +14,7 @@ struct DailyApp: App {
     @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
     
     @StateObject private var navigationEnvironment = NavigationEnvironment()
+    @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     var body: some Scene {
@@ -21,7 +22,7 @@ struct DailyApp: App {
             if userInfoViewModel.isNewVersion {
                 ZStack {
                     if splashViewModel.isAppLaunching {
-                        DailyMainView().environmentObject(navigationEnvironment)
+                        DailyMainView().environmentObject(navigationEnvironment).environmentObject(dailyCalendarViewModel)
                     }
                     if splashViewModel.isAppLoading {
                         SplashView(splashViewModel: splashViewModel)

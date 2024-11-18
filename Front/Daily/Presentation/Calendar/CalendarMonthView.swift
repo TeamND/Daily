@@ -10,7 +10,8 @@ import SwiftUI
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -25,7 +26,11 @@ struct CalendarMonthView: View {
                         CalendarMonth(
                             year: year, month: month,
                             symbolsOnMonth: dailyCalendarViewModel.monthDictionary[monthSelection] ?? Array(repeating: SymbolsOnMonthModel(), count: 31),
-                            action: dailyCalendarViewModel.selectDay
+                            action: {
+                                dailyCalendarViewModel.setDate(dailyCalendarViewModel.year, dailyCalendarViewModel.month, $0)
+                                let navigationObject = NavigationObject(viewType: .calendarDay)
+                                navigationEnvironment.navigate(navigationObject)
+                            }
                         )
                         .tag(monthSelection)
                         .onAppear {
@@ -38,10 +43,9 @@ struct CalendarMonthView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
-                guard let year = Int(monthSelection.split(separator: DateJoiner.hyphen.rawValue)[0]) else { return }
-                guard let month = Int(monthSelection.split(separator: DateJoiner.hyphen.rawValue)[1]) else { return }
-                dailyCalendarViewModel.setYear(year)
-                dailyCalendarViewModel.setMonth(month)
+                let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+                guard dateComponents.count == 2 else { return }
+                dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], 1)
             }
         }
         .overlay {
@@ -175,5 +179,5 @@ struct DailySymbolOnMonth: View {
 
 
 #Preview {
-    CalendarMonthView(dailyCalendarViewModel: DailyCalendarViewModel())
+    CalendarMonthView()
 }

@@ -40,8 +40,6 @@ class DailyCalendarViewModel: ObservableObject {
         : GoalListOnDayModel()
     ]
     
-    var navigationEnvironment: NavigationEnvironment = NavigationEnvironment()
-    
     // MARK: - init
     init() {
         let calendarRepository = CalendarRepository()
@@ -49,17 +47,6 @@ class DailyCalendarViewModel: ObservableObject {
     }
     
     // MARK: - onAppear
-    func onAppear(navigationEnvironment: NavigationEnvironment) {
-        self.navigationEnvironment = navigationEnvironment
-        if type == .month || type == .day {
-            self.navigate(type: .month)
-            if type == .day {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.navigate(type: .day)
-                }
-            }
-        }
-    }
     func calendarYearOnAppear(yearSelection: String) {
         Task {
             guard let userID = UserDefaultManager.userID else { return }
@@ -87,31 +74,6 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     
-    // MARK: - navigate
-    func navigate(type: CalendarType) {
-        switch type {
-        case .year:
-            return
-        case .month:
-            let navigationObject = NavigationObject(viewType: .calendarMonth)
-            navigationEnvironment.navigate(navigationObject)
-        case .day:
-            let navigationObject = NavigationObject(viewType: .calendarDay)
-            navigationEnvironment.navigate(navigationObject)
-        }
-    }
-    
-    // MARK: - select calendar
-    func selectMonth(month: Int) {
-        setMonth(month)
-        navigate(type: .month)
-    }
-    func selectDay(day: Int) {
-        setDay(day)
-        setStartDay(CalendarServices.shared.getStartDay(year: self.year, month: self.month, day: day))
-        navigate(type: .day)
-    }
-    
     // MARK: - set
     func setYear(_ year: Int) {
         if self.year == year { return }
@@ -132,5 +94,31 @@ class DailyCalendarViewModel: ObservableObject {
         if self.day == day { return }
         self.day = day
         self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
+    }
+    func setDate(_ year: Int, _ month: Int, _ day: Int) {
+        self.setYear(year)
+        self.setMonth(month)
+        self.setStartDay(CalendarServices.shared.getStartDay(year: year, month: month, day: day))
+        self.setDay(day)
+    }
+    
+    // MARK: - header func
+    func moveDate(type: CalendarType, direction: Direction) {
+        guard let today = self.daySelection.toDate() else { return }
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let componentType: Calendar.Component
+        switch type {
+        case .year:
+            componentType = .year
+        case .month:
+            componentType = .month
+        case .day:
+            componentType = .day
+        }
+        
+        if let prevDate = cal.date(byAdding: componentType, value: direction.rawValue, to: today) {
+            self.setDate(prevDate.year, prevDate.month, prevDate.day)
+        }
     }
 }

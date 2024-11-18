@@ -10,12 +10,12 @@ import SwiftUI
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
-            DailyWeekIndicator(dailyCalendarViewModel: dailyCalendarViewModel, mode: .change)
+            DailyWeekIndicator(mode: .change)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.daySelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
@@ -44,13 +44,9 @@ struct CalendarDayView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
-                guard let year = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[0]) else { return }
-                guard let month = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[1]) else { return }
-                guard let day = Int(daySelection.split(separator: DateJoiner.hyphen.rawValue)[2]) else { return }
-                dailyCalendarViewModel.setYear(year)
-                dailyCalendarViewModel.setMonth(month)
-                dailyCalendarViewModel.setStartDay(CalendarServices.shared.getStartDay(year: year, month: month, day: day))
-                dailyCalendarViewModel.setDay(day)
+                let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+                guard dateComponents.count == 3 else { return }
+                dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
             }
         }
         .overlay {
@@ -238,5 +234,5 @@ struct DailyNoRecord: View {
 
 
 #Preview {
-    CalendarDayView(dailyCalendarViewModel: DailyCalendarViewModel())
+    CalendarDayView()
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyWeekIndicator: View {
-    @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel = DailyCalendarViewModel()
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     var mode: WeekIndicatorMode = .none
     
     var body: some View {

@@ -9,7 +9,8 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -22,7 +23,11 @@ struct CalendarYearView: View {
                     CalendarYear(
                         year: year,
                         ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
-                        action: dailyCalendarViewModel.selectMonth
+                        action: {
+                            dailyCalendarViewModel.setDate(dailyCalendarViewModel.year, $0, 1)
+                            let navigationObject = NavigationObject(viewType: .calendarMonth)
+                            navigationEnvironment.navigate(navigationObject)
+                        }
                     )
                     .tag(yearSelection)
                     .onAppear {
@@ -35,7 +40,7 @@ struct CalendarYearView: View {
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.yearSelection) { yearSelection in
                 guard let year = Int(yearSelection) else { return }
-                dailyCalendarViewModel.setYear(year)
+                dailyCalendarViewModel.setDate(year, 1, 1)
             }
         }
         .overlay {
@@ -127,5 +132,5 @@ struct DailyMonthOnYear: View {
 }
 
 #Preview {
-    CalendarYearView(dailyCalendarViewModel: DailyCalendarViewModel())
+    CalendarYearView()
 }

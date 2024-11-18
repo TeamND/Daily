@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DailyCalendarHeader: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @Environment(\.dismiss) var dismiss
     let type: CalendarType
     @Binding var backButton: Int
@@ -33,7 +34,7 @@ struct DailyCalendarHeader: View {
             // MARK: - center
             HStack {
                 Button {
-                    print("go left")
+                    dailyCalendarViewModel.moveDate(type: type, direction: .prev)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
@@ -46,7 +47,7 @@ struct DailyCalendarHeader: View {
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
                 Button {
-                    print("go right")
+                    dailyCalendarViewModel.moveDate(type: type, direction: .next)
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -56,7 +57,7 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    print("today")
+                    dailyCalendarViewModel.setDate(Date().year, Date().month, Date().day)
                 } label: {
                     Label("오늘", systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))

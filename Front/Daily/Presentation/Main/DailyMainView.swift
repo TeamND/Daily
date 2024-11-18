@@ -9,18 +9,19 @@ import SwiftUI
 
 struct DailyMainView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
-    @StateObject var dailyCalendarViewModel: DailyCalendarViewModel = DailyCalendarViewModel()
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @AppStorage(UserDefaultKey.calendarState.rawValue) var calendarState: String = ""
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
-            CalendarYearView(dailyCalendarViewModel: dailyCalendarViewModel)
+            CalendarYearView()
                 .navigationDestination(for: NavigationObject.self) { navigationObject in
                     Group {
                         switch navigationObject.viewType {
                         case .calendarMonth:
-                            CalendarMonthView(dailyCalendarViewModel: dailyCalendarViewModel)
+                            CalendarMonthView()
                         case .calendarDay:
-                            CalendarDayView(dailyCalendarViewModel: dailyCalendarViewModel)
+                            CalendarDayView()
                         case .goal:
                             DailyGoalView()
                         case .appInfo:
@@ -31,7 +32,16 @@ struct DailyMainView: View {
                 }
         }
         .onAppear {
-            dailyCalendarViewModel.onAppear(navigationEnvironment: navigationEnvironment)
+            if calendarState == CalendarType.month.rawValue || calendarState == CalendarType.day.rawValue {
+                let navigationObject = NavigationObject(viewType: .calendarMonth)
+                navigationEnvironment.navigate(navigationObject)
+                if calendarState == CalendarType.day.rawValue {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        let navigationObject = NavigationObject(viewType: .calendarDay)
+                        navigationEnvironment.navigate(navigationObject)
+                    }
+                }
+            }
         }
     }
 }
