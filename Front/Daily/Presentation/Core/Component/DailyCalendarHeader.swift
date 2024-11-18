@@ -12,8 +12,6 @@ struct DailyCalendarHeader: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @Environment(\.dismiss) var dismiss
     let type: CalendarType
-    @Binding var backButton: Int
-    @Binding var title: Int
     
     var body: some View {
         HStack {
@@ -23,7 +21,7 @@ struct DailyCalendarHeader: View {
                     Button {
                         dismiss()
                     } label: {
-                        Label("\(String(backButton))\(type.headerBackButton)", systemImage: "chevron.left")
+                        Label(dailyCalendarViewModel.headerText(type: type, textPosition: .backButton), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
                     .padding(CGFloat.fontSize)
@@ -41,7 +39,7 @@ struct DailyCalendarHeader: View {
                 Menu {
                     
                 } label: {
-                    Text("\(String(title))\(type.headerTitle)")
+                    Text(dailyCalendarViewModel.headerText(type: type, textPosition: .title))
                         .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                         .foregroundStyle(Colors.reverse)
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
@@ -84,6 +82,11 @@ struct DailyCalendarHeader: View {
     }
 }
 
+enum TextPositionInHeader {
+    case backButton
+    case title
+}
+
 #Preview {
-    DailyCalendarHeader(type: CalendarType.day, backButton: .constant(10), title: .constant(26))
+    DailyCalendarHeader(type: CalendarType.day)
 }

@@ -15,7 +15,7 @@ struct CalendarMonthView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(type: .month, backButton: $dailyCalendarViewModel.year, title: $dailyCalendarViewModel.month)
+            DailyCalendarHeader(type: .month)
             DailyWeekIndicator()
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.monthSelection) {
@@ -27,7 +27,11 @@ struct CalendarMonthView: View {
                             year: year, month: month,
                             symbolsOnMonth: dailyCalendarViewModel.monthDictionary[monthSelection] ?? Array(repeating: SymbolsOnMonthModel(), count: 31),
                             action: {
-                                dailyCalendarViewModel.setDate(dailyCalendarViewModel.year, dailyCalendarViewModel.month, $0)
+                                dailyCalendarViewModel.setDate(
+                                    dailyCalendarViewModel.getDate(type: .year),
+                                    dailyCalendarViewModel.getDate(type: .month),
+                                    $0
+                                )
                                 let navigationObject = NavigationObject(viewType: .calendarDay)
                                 navigationEnvironment.navigate(navigationObject)
                             }

@@ -14,7 +14,7 @@ struct CalendarYearView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(type: .year, backButton: .constant(0), title: $dailyCalendarViewModel.year)
+            DailyCalendarHeader(type: .year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.yearSelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
@@ -24,7 +24,11 @@ struct CalendarYearView: View {
                         year: year,
                         ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
                         action: {
-                            dailyCalendarViewModel.setDate(dailyCalendarViewModel.year, $0, 1)
+                            dailyCalendarViewModel.setDate(
+                                dailyCalendarViewModel.getDate(type: .year),
+                                $0,
+                                1
+                            )
                             let navigationObject = NavigationObject(viewType: .calendarMonth)
                             navigationEnvironment.navigate(navigationObject)
                         }

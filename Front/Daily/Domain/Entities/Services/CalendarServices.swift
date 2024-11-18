@@ -38,14 +38,6 @@ class CalendarServices {
         return "\(String(year))-\(monthStr)-01".toDate()!.lastDayOfMonth().day
     }
     
-    func getStartDay(year: Int, month: Int, day: Int) -> Int {
-        let date = formatDateString(year: year, month: month, day: day).toDate()!
-        let dow = DayOfWeek.allCases.filter({ $0.text == date.getDOW(language: "한국어") }).first!
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let startDate = cal.date(byAdding: .day, value: -dow.index, to: date)!
-        return startDate.day
-    }
     func weekSelection(daySelection: String) -> String {
         let date = daySelection.toDate()!
         let dow = DayOfWeek.allCases.filter({ $0.text == date.getDOW(language: "한국어") }).first!

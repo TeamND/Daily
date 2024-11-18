@@ -14,7 +14,7 @@ struct CalendarDayView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(type: .day, backButton: $dailyCalendarViewModel.month, title: $dailyCalendarViewModel.day)
+            DailyCalendarHeader(type: .day)
             DailyWeekIndicator(mode: .change)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.daySelection) {

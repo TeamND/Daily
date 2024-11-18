@@ -11,13 +11,6 @@ import SwiftUI
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     
-    @Published var type: CalendarType = .month   // TODO: 추후 UserDefaults에서 가져오도록 수정
-    
-    @Published var year: Int = Date().year
-    @Published var month: Int = Date().month
-    @Published var startDay: Int = CalendarServices.shared.getStartDay(year: Date().year, month: Date().month, day: Date().day)
-    @Published var day: Int = Date().day
-    
     @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
     @Published var weekSelection: String = CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
@@ -74,35 +67,38 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     
+    // MARK: - get
+    func getDate(type: CalendarType) -> Int {
+        let dateComponents = self.daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+        switch type {
+        case .year:
+            return dateComponents[0]
+        case .month:
+            return dateComponents[1]
+        case .day:
+            return dateComponents[2]
+        }
+    }
+    
     // MARK: - set
-    func setYear(_ year: Int) {
-        if self.year == year { return }
-        self.year = year
-        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
-    }
-    func setMonth(_ month: Int) {
-        if self.month == month { return }
-        self.month = month
-        self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
-    }
-    func setStartDay(_ startDay: Int) {
-        if self.startDay == startDay { return }
-        self.startDay = startDay
-        self.weekSelection = CalendarServices.shared.formatDateString(year: year, month: month, day: startDay)
-    }
-    func setDay(_ day: Int) {
-        if self.day == day { return }
-        self.day = day
-        self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
-    }
     func setDate(_ year: Int, _ month: Int, _ day: Int) {
-        self.setYear(year)
-        self.setMonth(month)
-        self.setStartDay(CalendarServices.shared.getStartDay(year: year, month: month, day: day))
-        self.setDay(day)
+        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
+        self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
+        self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
+        self.weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
     }
     
     // MARK: - header func
+    func headerText(type: CalendarType, textPosition: TextPositionInHeader) -> String {
+        switch type {
+        case .year:
+            return textPosition == .title ? String(self.getDate(type: type)) + "년" : ""
+        case .month:
+            return textPosition == .title ? String(self.getDate(type: type)) + "월" : String(self.getDate(type: .year)) + "년"
+        case .day:
+            return textPosition == .title ? String(self.getDate(type: type)) + "일" : String(self.getDate(type: .month)) + "월"
+        }
+    }
     func moveDate(type: CalendarType, direction: Direction) {
         guard let today = self.daySelection.toDate() else { return }
         var cal = Calendar.current
