@@ -117,4 +117,15 @@ class DailyCalendarViewModel: ObservableObject {
             self.setDate(prevDate.year, prevDate.month, prevDate.day)
         }
     }
+    
+    // MARK: - weekIndicator func
+    func tapWeekIndicator(dayOfWeek: DayOfWeek) {
+        let startDate = self.weekSelection.toDate()!
+        
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let date = cal.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
+        
+        self.setDate(date.year, date.month, date.day)
+    }
 }

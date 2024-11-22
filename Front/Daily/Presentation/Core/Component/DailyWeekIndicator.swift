@@ -34,7 +34,7 @@ struct DailyWeekIndicator: View {
                 .onTapGesture {
                     switch mode {
                     case .change:
-                        print("change day is \(dayOfWeek)")
+                        dailyCalendarViewModel.tapWeekIndicator(dayOfWeek: dayOfWeek)
                     case .select:
                         print("select day is \(dayOfWeek)")
                     case .none:
