@@ -11,11 +11,19 @@ import SwiftUI
 struct CalendarDayView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @State var opacity: [Double] = Array(repeating: 0, count: 7)
     
     var body: some View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(mode: .change)
+            DailyWeekIndicator(
+                mode: .change,
+                opacity: Binding(
+                    get: {
+                        dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
+                    }, set: { _ in }
+                )
+            )
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.daySelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
@@ -47,6 +55,18 @@ struct CalendarDayView: View {
                 let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
                 guard dateComponents.count == 3 else { return }
                 dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
+            }
+            .onChange(of: dailyCalendarViewModel.weekSelection) { weekSelection in
+                Task {
+                    try await dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)
+                    self.opacity = dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
+                }
+            }
+            .onAppear {
+                Task {
+                    try await dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: dailyCalendarViewModel.weekSelection)
+                    self.opacity = dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
+                }
             }
         }
         .overlay {

@@ -60,11 +60,12 @@ class DailyCalendarViewModel: ObservableObject {
             let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
             await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
         }
-        Task {
-            guard let userID = UserDefaultManager.userID else { return }
-            let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
-            await MainActor.run { self.weekDictionary[weekSelection] = ratingsOnWeek }
-        }
+    }
+    // TODO: 추후 개선
+    func weekIndicatorOnChange(weekSelection: String) async throws {
+        guard let userID = UserDefaultManager.userID else { return }
+        let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
+        await MainActor.run { self.weekDictionary[weekSelection] = ratingsOnWeek }
     }
     
     // MARK: - get

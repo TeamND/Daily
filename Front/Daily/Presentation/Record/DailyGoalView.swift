@@ -13,29 +13,31 @@ struct DailyGoalView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyNavigationBar(title: "목표추가")
-            Spacer()
-            DailySection(type: .date) {
-                DateSection(dailyGoalViewModel: dailyGoalViewModel)
-            }
-            DailySection(type: .time) {
-                TimeSection()
-            }
-            DailySection(type: .content, essentialConditions: false) {
-                GoalSection()
-            }
-            HStack {
-                DailySection(type: .count) {
-                    CountSection()
+            VStack(spacing: .zero) {
+                Spacer()
+                DailySection(type: .date) {
+                    DateSection(dailyGoalViewModel: dailyGoalViewModel)
                 }
-                DailySection(type: .symbol) {
-                    SymbolSection()
+                DailySection(type: .time) {
+                    TimeSection()
                 }
+                DailySection(type: .content, essentialConditions: false) {
+                    GoalSection()
+                }
+                HStack {
+                    DailySection(type: .count) {
+                        CountSection()
+                    }
+                    DailySection(type: .symbol) {
+                        SymbolSection()
+                    }
+                }
+                ButtonSection()
+                Spacer()
+                Spacer()
             }
-            ButtonSection()
-            Spacer()
-            Spacer()
+            .padding()
         }
-        .padding()
         .background(Colors.theme)
         .onTapGesture {
             hideKeyboard()
@@ -47,6 +49,7 @@ struct DailyGoalView: View {
 struct DateSection: View {
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
     @Namespace var ns
+    @State var opacity: [Double] = Array(repeating: 0, count: 7)
     
     var body: some View {
         VStack {
@@ -58,7 +61,7 @@ struct DateSection: View {
                         .matchedGeometryEffect(id: "start_date", in: ns)
                         .matchedGeometryEffect(id: "end_date", in: ns)
                 } else if dailyGoalViewModel.cycleType == .rept {
-                    DailyWeekIndicator(mode: .select)
+                    DailyWeekIndicator(mode: .select, opacity: $opacity)
                 }
             }
             if dailyGoalViewModel.cycleType == .rept {

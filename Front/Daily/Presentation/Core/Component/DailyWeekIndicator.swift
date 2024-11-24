@@ -9,7 +9,13 @@ import SwiftUI
 
 struct DailyWeekIndicator: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    var mode: WeekIndicatorMode = .none
+    var mode: WeekIndicatorMode
+    @Binding var opacity: [Double]
+    
+    init(mode: WeekIndicatorMode = .none, opacity: Binding<[Double]> = Binding(get: { Array(repeating: 0, count: 7) }, set: { _ in })) {
+        self.mode = mode
+        self._opacity = opacity
+    }
     
     var body: some View {
         HStack(spacing: 0) {
@@ -26,8 +32,7 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(mode == .none ? 0 : 0.1))
-                        .padding([.horizontal], -6) // AddGoalPopup에서 width가 늘어나는 현상 때문에 추가 -> 추후 확인 해보고 삭제
+                        .foregroundStyle(Colors.daily.opacity(opacity[dayOfWeek.index]))
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }
@@ -36,7 +41,13 @@ struct DailyWeekIndicator: View {
                     case .change:
                         dailyCalendarViewModel.tapWeekIndicator(dayOfWeek: dayOfWeek)
                     case .select:
-                        print("select day is \(dayOfWeek)")
+                        withAnimation {
+                            if opacity[dayOfWeek.index] > 0 {
+                                opacity[dayOfWeek.index] = 0
+                            } else {
+                                opacity[dayOfWeek.index] = 0.8
+                            }
+                        }
                     case .none:
                         break
                     }
