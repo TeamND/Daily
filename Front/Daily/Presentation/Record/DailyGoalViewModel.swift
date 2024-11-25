@@ -16,7 +16,7 @@ class DailyGoalViewModel: ObservableObject {
     @Published var cycleDate: [String] = []
     
     @Published var isSetTime: Bool = false
-    @Published var setTime: Date = Date()
+    @Published var setTime: Date = "00:00".toDateOfSetTime()
     
     @Published var content: String = ""
     @Published var goalType: GoalTypes = .check
@@ -44,7 +44,7 @@ class DailyGoalViewModel: ObservableObject {
 //        goalTime = 300    // TODO: 추후 수정
         goalCount = 1
         isSetTime = false
-        setTime = Date()
+        setTime = "00:00".toDateOfSetTime()
     }
     
     func add() {

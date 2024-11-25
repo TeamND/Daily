@@ -19,10 +19,10 @@ struct DailyGoalView: View {
                     DateSection(dailyGoalViewModel: dailyGoalViewModel)
                 }
                 DailySection(type: .time) {
-                    TimeSection()
+                    TimeSection(isSetTime: $dailyGoalViewModel.isSetTime, setTime: $dailyGoalViewModel.setTime)
                 }
-                DailySection(type: .content, essentialConditions: false) {
-                    GoalSection()
+                DailySection(type: .content, essentialConditions: dailyGoalViewModel.content.count >= 2) {
+                    ContentSection(content: $dailyGoalViewModel.content, goalType: $dailyGoalViewModel.goalType)
                 }
                 HStack {
                     DailySection(type: .count) {
@@ -92,21 +92,24 @@ struct DateSection: View {
 
 // MARK: - TimeSection
 struct TimeSection: View {
+    @Binding var isSetTime: Bool
+    @Binding var setTime: Date
+    
     var body: some View {
         HStack {
             Text("하루 종일")
-                .opacity(false ? 0.5 : 1)
+                .opacity(isSetTime ? 0.5 : 1)
             Spacer()
-            Toggle("", isOn: .constant(false))
+            Toggle("", isOn: $isSetTime)
                 .labelsHidden()
                 .toggleStyle(SwitchToggleStyle(tint: Colors.daily))
                 .scaleEffect(CGSize(width: 0.9, height: 0.9))
             Spacer()
-            DatePicker("", selection: .constant(Date()), displayedComponents: [.hourAndMinute])
+            DatePicker("", selection: $setTime, displayedComponents: [.hourAndMinute])
                 .datePickerStyle(.compact)
-                .disabled(true)
+                .disabled(!isSetTime)
                 .labelsHidden()
-                .opacity(false ? 1 : 0.5)
+                .opacity(isSetTime ? 1 : 0.5)
                 .scaleEffect(CGSize(width: 0.9, height: 0.9))
                 .frame(height: CGFloat.fontSize * 4)
         }
@@ -114,10 +117,25 @@ struct TimeSection: View {
     }
 }
 
-// MARK: - GoalSection
-struct GoalSection: View {
+// MARK: - ContentSection
+struct ContentSection: View {
+    @Binding var content: String
+    @Binding var goalType: GoalTypes
+    @FocusState var focusedField : Int?
+    
     var body: some View {
-        ContentTextField(content: .constant(""), type: .constant("check"))
+        TextField(
+            "",
+            text: $content,
+            prompt: Text(contentOfGoalHintText(type: goalType.rawValue))
+        )
+        .focused($focusedField, equals: 0)
+        .onSubmit {
+            hideKeyboard()
+        }
+        .onAppear {
+            self.focusedField = 0
+        }
     }
 }
 
