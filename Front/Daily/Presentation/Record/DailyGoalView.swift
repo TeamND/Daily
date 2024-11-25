@@ -26,7 +26,11 @@ struct DailyGoalView: View {
                 }
                 HStack {
                     DailySection(type: .count) {
-                        CountSection()
+                        CountSection(
+                            goalType: $dailyGoalViewModel.goalType,
+                            goalCount: $dailyGoalViewModel.goalCount,
+                            goalTime: .constant(300)    // TODO: 추후 수정
+                        )
                     }
                     DailySection(type: .symbol) {
                         SymbolSection(symbol: $dailyGoalViewModel.symbol)
@@ -119,8 +123,40 @@ struct GoalSection: View {
 
 // MARK: - CountSection
 struct CountSection: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
+    @Binding var goalType: GoalTypes
+    @Binding var goalCount: Int
+    @Binding var goalTime: Int
+    @State var isShowAlert: Bool = false
+    
     var body: some View {
-        GoalCountPickerGroup(type: .constant("check"), count: .constant(1), time: .constant(0), isShowAlert: .constant(false))
+        HStack {
+            Spacer()
+            if goalType == .timer {
+                // TODO: 추후 타이머 추가
+            } else {
+                countButton(direction: .minus)
+                Text("\(goalCount)")
+                    .frame(width: CGFloat.fontSize * 10)
+                countButton(direction: .plus)
+            }
+            Spacer()
+        }
+    }
+    
+    private func countButton(direction: Direction) -> some View {
+        Button {
+            if goalCount + direction.value < GeneralServices.shared.minimumGoalCount ||
+                goalCount + direction.value > GeneralServices.shared.maximumGoalCount {
+                alertViewModel.showToast(message: countRangeToastMessageText)
+            } else {
+                goalCount += direction.value
+                goalType = goalCount == 1 ? .check : .count
+            }
+        } label: {
+            Image(systemName: direction.imageName)
+        }
+        .buttonStyle(.plain)
     }
 }
 

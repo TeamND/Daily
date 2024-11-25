@@ -114,7 +114,7 @@ class DailyCalendarViewModel: ObservableObject {
             componentType = .day
         }
         
-        if let prevDate = cal.date(byAdding: componentType, value: direction.rawValue, to: today) {
+        if let prevDate = cal.date(byAdding: componentType, value: direction.value, to: today) {
             self.setDate(prevDate.year, prevDate.month, prevDate.day)
         }
     }

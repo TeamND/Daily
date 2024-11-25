@@ -155,6 +155,8 @@
 		F6F31DC92CF449760090A3B9 /* AddGoalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */; };
 		F6F31DCB2CF46E260090A3B9 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DCA2CF46E260090A3B9 /* Symbols.swift */; };
 		F6F31DCD2CF46FCB0090A3B9 /* SymbolsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DCC2CF46FCB0090A3B9 /* SymbolsSheet.swift */; };
+		F6F31DCF2CF474680090A3B9 /* GoalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DCE2CF474680090A3B9 /* GoalTypes.swift */; };
+		F6F31DD12CF47D210090A3B9 /* GeneralServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DD02CF47D210090A3B9 /* GeneralServices.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,6 +336,8 @@
 		F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalRequestModel.swift; sourceTree = "<group>"; };
 		F6F31DCA2CF46E260090A3B9 /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
 		F6F31DCC2CF46FCB0090A3B9 /* SymbolsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsSheet.swift; sourceTree = "<group>"; };
+		F6F31DCE2CF474680090A3B9 /* GoalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTypes.swift; sourceTree = "<group>"; };
+		F6F31DD02CF47D210090A3B9 /* GeneralServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralServices.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -671,6 +675,7 @@
 		F65ACDE02CC91CE200C67DD1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F6F31DD02CF47D210090A3B9 /* GeneralServices.swift */,
 				F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */,
 			);
 			path = Services;
@@ -806,6 +811,7 @@
 				F6C758E62CCF37F200F9CF91 /* DateJoiner.swift */,
 				F6CE8A172CCF431B0050A25A /* SectionType.swift */,
 				F6CE8A282CCF62710050A25A /* CycleType.swift */,
+				F6F31DCE2CF474680090A3B9 /* GoalTypes.swift */,
 				F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */,
 			);
 			path = Enums;
@@ -1046,6 +1052,7 @@
 				F61D610D2BF64F7800F29965 /* WeeklySummary.swift in Sources */,
 				F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */,
 				F64FA5CC2C417334002F5C14 /* TutorialSecondView.swift in Sources */,
+				F6F31DCF2CF474680090A3B9 /* GoalTypes.swift in Sources */,
 				F6CE8A202CCF60450050A25A /* GoalUseCase.swift in Sources */,
 				F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */,
 				F6699B942BC70CBA00B1FDA7 /* DatePickerGroup.swift in Sources */,
@@ -1159,6 +1166,7 @@
 				F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */,
 				F6699BA02BD2374B00B1FDA7 /* AddGoalButton.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
+				F6F31DD12CF47D210090A3B9 /* GeneralServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

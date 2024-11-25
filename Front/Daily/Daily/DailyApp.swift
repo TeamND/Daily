@@ -15,23 +15,32 @@ struct DailyApp: App {
     
     @StateObject private var navigationEnvironment = NavigationEnvironment()
     @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
+    @StateObject private var alertViewModel = AlertViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     var body: some Scene {
         WindowGroup {
             if userInfoViewModel.isNewVersion {
-                ZStack {
-                    if splashViewModel.isAppLaunching {
-                        DailyMainView().environmentObject(navigationEnvironment).environmentObject(dailyCalendarViewModel)
-                    }
-                    if splashViewModel.isAppLoading {
-                        SplashView(splashViewModel: splashViewModel)
-                    }
-                }
+                daily
+                    .environmentObject(navigationEnvironment)
+                    .environmentObject(dailyCalendarViewModel)
+                    .environmentObject(alertViewModel)
             } else {
                 if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
                 else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
             }
+        }
+    }
+    
+    private var daily: some View {
+        ZStack {
+            if splashViewModel.isAppLaunching {
+                DailyMainView().environmentObject(navigationEnvironment).environmentObject(dailyCalendarViewModel)
+            }
+            if splashViewModel.isAppLoading {
+                SplashView(splashViewModel: splashViewModel)
+            }
+            alertViewModel.toastView
         }
     }
 }

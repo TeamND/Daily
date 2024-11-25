@@ -19,6 +19,7 @@ class DailyGoalViewModel: ObservableObject {
     @Published var setTime: Date = Date()
     
     @Published var content: String = ""
+    @Published var goalType: GoalTypes = .check
     @Published var goalCount: Int = 1
     @Published var symbol: Symbols = .check
     
@@ -35,7 +36,7 @@ class DailyGoalViewModel: ObservableObject {
     func reset() {
         content = ""
         symbol = .check
-//        type = "check"    // TODO: 추후 수정
+        goalType = .check
         startDate = Date()
         endDate = Date().setDefaultEndDate()
         cycleType = .date
@@ -53,7 +54,7 @@ class DailyGoalViewModel: ObservableObject {
                 user_uid: user_uid,
                 content: content,
                 symbol: symbol.rawValue,
-                type: "check",  // TODO: 추후 수정
+                type: goalType.rawValue,
                 start_date: startDate.yyyyMMdd(),
                 end_date: endDate.yyyyMMdd(),
                 cycle_type: cycleType.rawValue,
