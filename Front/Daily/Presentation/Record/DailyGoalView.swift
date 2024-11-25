@@ -29,7 +29,7 @@ struct DailyGoalView: View {
                         CountSection()
                     }
                     DailySection(type: .symbol) {
-                        SymbolSection()
+                        SymbolSection(symbol: $dailyGoalViewModel.symbol)
                     }
                 }
                 ButtonSection(dailyGoalViewModel: dailyGoalViewModel)
@@ -126,8 +126,27 @@ struct CountSection: View {
 
 // MARK: - SymbolSection
 struct SymbolSection: View {
+    @Binding var symbol: Symbols
+    @State var isShowSymbolSheet: Bool = false
+    
     var body: some View {
-        SymbolPickerGroup(symbol: .constant("체크"))
+        HStack {
+            Spacer()
+            Image(systemName: "\(symbol.imageName)")
+            Image(systemName: "chevron.right")
+                .frame(width: CGFloat.fontSize * 10)
+            Image(systemName: "\(symbol.imageName).fill")
+            Spacer()
+        }
+        .onTapGesture {
+            isShowSymbolSheet = true
+        }
+        .sheet(isPresented: $isShowSymbolSheet) {
+            SymbolsSheet(symbol: $symbol)
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
+        }
+
     }
 }
 

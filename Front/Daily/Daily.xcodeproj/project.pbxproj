@@ -153,6 +153,8 @@
 		F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */; };
 		F6F31DC72CF443FC0090A3B9 /* DailyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */; };
 		F6F31DC92CF449760090A3B9 /* AddGoalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */; };
+		F6F31DCB2CF46E260090A3B9 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DCA2CF46E260090A3B9 /* Symbols.swift */; };
+		F6F31DCD2CF46FCB0090A3B9 /* SymbolsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DCC2CF46FCB0090A3B9 /* SymbolsSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -330,6 +332,8 @@
 		F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyButton.swift; sourceTree = "<group>"; };
 		F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalRequestModel.swift; sourceTree = "<group>"; };
+		F6F31DCA2CF46E260090A3B9 /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
+		F6F31DCC2CF46FCB0090A3B9 /* SymbolsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -795,6 +799,7 @@
 			isa = PBXGroup;
 			children = (
 				F6CC15BA2BAABC0500689A02 /* Symbol.swift */,
+				F6F31DCA2CF46E260090A3B9 /* Symbols.swift */,
 				F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */,
 				F65ACDDE2CC912EF00C67DD1 /* DayOfWeek.swift */,
 				F6C758DF2CCD356700F9CF91 /* WeekIndicatorMode.swift */,
@@ -810,6 +815,7 @@
 			isa = PBXGroup;
 			children = (
 				F6CC15BD2BAAC46B00689A02 /* SymbolSheet.swift */,
+				F6F31DCC2CF46FCB0090A3B9 /* SymbolsSheet.swift */,
 				F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */,
 				F679B9A42C4ACA960027608D /* NoticeSheet.swift */,
 			);
@@ -1017,6 +1023,7 @@
 				F6CC15B02BA6906600689A02 /* ResponseModel.swift in Sources */,
 				F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */,
 				F605C0C82CD23FCA00562EAF /* GoalListOnDayModel.swift in Sources */,
+				F6F31DCD2CF46FCB0090A3B9 /* SymbolsSheet.swift in Sources */,
 				F6DF64AE2BAFC7F400A17B9E /* getCalendarYearModel.swift in Sources */,
 				F6D0623E2925ACDA00B825EF /* WeekIndicator.swift in Sources */,
 				F6CE8A292CCF62710050A25A /* CycleType.swift in Sources */,
@@ -1035,6 +1042,7 @@
 				F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */,
 				F6016DF32CC6220B00FB637F /* CalendarYearView.swift in Sources */,
 				F6CC15A22BA1E39A00689A02 /* NetworkManager.swift in Sources */,
+				F6F31DCB2CF46E260090A3B9 /* Symbols.swift in Sources */,
 				F61D610D2BF64F7800F29965 /* WeeklySummary.swift in Sources */,
 				F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */,
 				F64FA5CC2C417334002F5C14 /* TutorialSecondView.swift in Sources */,

@@ -20,7 +20,7 @@ class DailyGoalViewModel: ObservableObject {
     
     @Published var content: String = ""
     @Published var goalCount: Int = 1
-    @Published var symbol: String = "체크"
+    @Published var symbol: Symbols = .check
     
 //    private let beforeDate: Date
     
@@ -34,7 +34,7 @@ class DailyGoalViewModel: ObservableObject {
     
     func reset() {
         content = ""
-        symbol = "체크"
+        symbol = .check
 //        type = "check"    // TODO: 추후 수정
         startDate = Date()
         endDate = Date().setDefaultEndDate()
@@ -52,7 +52,7 @@ class DailyGoalViewModel: ObservableObject {
             let goal: AddGoalRequestModel = AddGoalRequestModel(
                 user_uid: user_uid,
                 content: content,
-                symbol: symbol,
+                symbol: symbol.rawValue,
                 type: "check",  // TODO: 추후 수정
                 start_date: startDate.yyyyMMdd(),
                 end_date: endDate.yyyyMMdd(),
