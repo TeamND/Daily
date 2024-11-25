@@ -151,6 +151,8 @@
 		F6EC3D542BEB7A6600FAB502 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */; };
 		F6EC3D582BEB7A6600FAB502 /* DailyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F6EC3D4B2BEB7A6500FAB502 /* DailyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */; };
+		F6F31DC72CF443FC0090A3B9 /* DailyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */; };
+		F6F31DC92CF449760090A3B9 /* AddGoalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,6 +328,8 @@
 		F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6EC3D552BEB7A6600FAB502 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyButton.swift; sourceTree = "<group>"; };
+		F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalRequestModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -633,6 +637,7 @@
 				F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */,
 				F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */,
 				F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */,
+				F6F31DC82CF449760090A3B9 /* AddGoalRequestModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -742,6 +747,7 @@
 				F6CE8A152CCF42800050A25A /* DailySection.swift */,
 				F6C758E42CCF340400F9CF91 /* DailyDatePicker.swift */,
 				F6CE8A262CCF61C80050A25A /* DailyCycleTypePicker.swift */,
+				F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1046,6 +1052,7 @@
 				F6699B9A2BCCFFA900B1FDA7 /* GoalCountPickerGroup.swift in Sources */,
 				F6CE8A222CCF606B0050A25A /* GoalInterface.swift in Sources */,
 				F605C0E82CE5D8CA00562EAF /* RatingsOnWeekModel.swift in Sources */,
+				F6F31DC92CF449760090A3B9 /* AddGoalRequestModel.swift in Sources */,
 				F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */,
 				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */,
@@ -1067,6 +1074,7 @@
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,
 				F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */,
 				F65ACDDF2CC912EF00C67DD1 /* DayOfWeek.swift in Sources */,
+				F6F31DC72CF443FC0090A3B9 /* DailyButton.swift in Sources */,
 				F6CC15A02BA1E1CA00689A02 /* JSONConverter.swift in Sources */,
 				F6EC3D272BE509CD00FAB502 /* RecordPerGoal.swift in Sources */,
 				F64EE8872952F9620098C785 /* Constant.swift in Sources */,

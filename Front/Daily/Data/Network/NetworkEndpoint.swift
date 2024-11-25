@@ -32,6 +32,7 @@ enum ServerEndpoint: NetworkEndpoint {
     case getCalendarMonth(userID: String, month: String)
     case getCalendarWeek(userID: String, startDay: String)
     case getCalendarDay(userID: String, day: String)
+    case addGoal(goal: AddGoalRequestModel)
     
     // MARK: - path
     var path: String {
@@ -48,6 +49,8 @@ enum ServerEndpoint: NetworkEndpoint {
             return "/calendar/week/\(userID)"
         case .getCalendarDay(let userID, _):
             return "/calendar/day/\(userID)"
+        case .addGoal:
+            return "/goal"
         }
     }
     
@@ -56,6 +59,8 @@ enum ServerEndpoint: NetworkEndpoint {
         switch self {
         case .getUserInfo, .getServerVersion, .getCalendarYear, .getCalendarMonth, .getCalendarWeek, .getCalendarDay:
             return .get
+        case .addGoal:
+            return .post
         }
     }
     
@@ -88,10 +93,10 @@ enum ServerEndpoint: NetworkEndpoint {
     // MARK: - body
     var body: (any Encodable)? {
         switch self {
+        case .addGoal(let goal):
+            return goal // TODO: 추후 Encoding 필요할 수 있음
         default:
             return nil
         }
     }
-    
-    
 }

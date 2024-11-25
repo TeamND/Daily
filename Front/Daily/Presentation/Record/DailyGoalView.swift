@@ -32,7 +32,7 @@ struct DailyGoalView: View {
                         SymbolSection()
                     }
                 }
-                ButtonSection()
+                ButtonSection(dailyGoalViewModel: dailyGoalViewModel)
                 Spacer()
                 Spacer()
             }
@@ -73,6 +73,13 @@ struct DateSection: View {
                     Spacer()
                     DailyDatePicker(currentDate: .constant(Date()))
                         .matchedGeometryEffect(id: "end_date", in: ns)
+                }
+            }
+        }
+        .onAppear {
+            for item in dailyGoalViewModel.cycleDate {
+                if let dowIndex = Int(item) {
+                    opacity[dowIndex] = 0.8
                 }
             }
         }
@@ -126,22 +133,19 @@ struct SymbolSection: View {
 
 // MARK: - ButtonSection
 struct ButtonSection: View {
+    @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    
     var body: some View {
         HStack {
             Spacer()
-            Button {
-                print("init")
-            } label: {
-                Text("초기화")
-            }
-            Button {
-                print("추가")
-            } label: {
-                Text("추가")
-            }
+            DailyButton(action: {
+                dailyGoalViewModel.reset()
+            }, text: "초기화")
+            DailyButton(action: {
+                dailyGoalViewModel.add()
+            }, text: "추가")
         }
-        .tint(Colors.daily) // TODO: 추후 수정
-        .buttonStyle(.borderedProminent)
+        .padding(.top, CGFloat.fontSize)
     }
 }
 
