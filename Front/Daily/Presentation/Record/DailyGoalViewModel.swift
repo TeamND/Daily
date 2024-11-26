@@ -33,6 +33,7 @@ class DailyGoalViewModel: ObservableObject {
 //        self.beforeDate = Date()
     }
     
+    // MARK: - button func
     func reset() {
         content = ""
         symbol = .check
@@ -47,16 +48,19 @@ class DailyGoalViewModel: ObservableObject {
         setTime = "00:00".toDateOfSetTime()
     }
     
-    func add() {
+    func add(successAction: @escaping () -> Void) {
         Task {
             guard let userID = UserDefaultManager.userID, let user_uid = Int(userID) else { return }
+            if validateContent() { return }
+            if cycleType == .rept && validateCycleDate() { return }
+            if cycleType == .rept && validateDateRange() { return }
             let goal: AddGoalRequestModel = AddGoalRequestModel(
                 user_uid: user_uid,
                 content: content,
                 symbol: symbol.rawValue,
                 type: goalType.rawValue,
                 start_date: startDate.yyyyMMdd(),
-                end_date: endDate.yyyyMMdd(),
+                end_date: cycleType == .date ? startDate.yyyyMMdd() : endDate.yyyyMMdd(),
                 cycle_type: cycleType.rawValue,
                 cycle_date: cycleType == .date ? [startDate.yyyyMMdd()] : cycleDate,
                 goal_time: 300, // TODO: 추후 수정
@@ -65,6 +69,41 @@ class DailyGoalViewModel: ObservableObject {
                 set_time: setTime.toStringOfSetTime()   // TODO: 추후 수정
             )
             try await ServerNetwork.shared.request(.addGoal(goal: goal))
+            await MainActor.run { successAction() }
         }
+    }
+    
+    // MARK: - validate func
+    private func validateContent() -> Bool {
+        return content.count < 2
+    }
+    private func validateDateRange() -> Bool {
+        let gap = Calendar.current.dateComponents([.year,.month,.day], from: startDate, to: endDate)
+        return gap.year! > 0
+    }
+    
+    private func validateCycleDate() -> Bool {
+        if cycleDate.count == 0 { return true }
+        let gap = Calendar.current.dateComponents([.year,.month,.day], from: startDate, to: endDate)
+        
+        if gap.year! == 0 && gap.month! == 0 && gap.day! < 6 {
+            let s_DOW = startDate.getKoreaDOW()
+            let e_DOW = endDate.getKoreaDOW()
+            var s_DOWIndex = 0
+            var e_DOWIndex = 0
+            
+            for dayOfWeek in DayOfWeek.allCases {
+                if dayOfWeek.text == s_DOW { s_DOWIndex = dayOfWeek.index }
+                if dayOfWeek.text == e_DOW { e_DOWIndex = dayOfWeek.index }
+            }
+            
+            for i in 0 ..< s_DOWIndex {
+                if cycleDate.contains(String(i)) { return true }
+            }
+            for i in e_DOWIndex + 1 ..< 7 {
+                if cycleDate.contains(String(i)) { return true }
+            }
+        }
+        return false
     }
 }

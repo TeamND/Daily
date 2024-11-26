@@ -203,6 +203,7 @@ struct SymbolSection: View {
 // MARK: - ButtonSection
 struct ButtonSection: View {
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         HStack {
@@ -211,7 +212,7 @@ struct ButtonSection: View {
                 dailyGoalViewModel.reset()
             }, text: "초기화")
             DailyButton(action: {
-                dailyGoalViewModel.add()
+                dailyGoalViewModel.add(successAction: { dismiss() })
             }, text: "추가")
         }
         .padding(.top, CGFloat.fontSize)
