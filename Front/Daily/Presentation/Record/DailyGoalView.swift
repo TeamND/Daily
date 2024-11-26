@@ -61,7 +61,7 @@ struct DateSection: View {
                 DailyCycleTypePicker(cycleType: $dailyGoalViewModel.cycleType)
                 Spacer()
                 if dailyGoalViewModel.cycleType == .date {
-                    DailyDatePicker(currentDate: .constant(Date()))
+                    DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
                         .matchedGeometryEffect(id: "start_date", in: ns)
                         .matchedGeometryEffect(id: "end_date", in: ns)
                 } else if dailyGoalViewModel.cycleType == .rept {
@@ -70,22 +70,18 @@ struct DateSection: View {
             }
             if dailyGoalViewModel.cycleType == .rept {
                 HStack {
-                    DailyDatePicker(currentDate: .constant(Date()))
+                    DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
                         .matchedGeometryEffect(id: "start_date", in: ns)
                     Spacer()
                     Text("~")
                     Spacer()
-                    DailyDatePicker(currentDate: .constant(Date()))
+                    DailyDatePicker(currentDate: $dailyGoalViewModel.endDate)
                         .matchedGeometryEffect(id: "end_date", in: ns)
                 }
             }
         }
-        .onAppear {
-            for item in dailyGoalViewModel.cycleDate {
-                if let dowIndex = Int(item) {
-                    opacity[dowIndex] = 0.8
-                }
-            }
+        .onChange(of: opacity) { opacity in
+            dailyGoalViewModel.cycleDate = opacity.enumerated().compactMap { $1 == 0.8 ? String($0) : nil }
         }
     }
 }
