@@ -202,6 +202,7 @@ struct SymbolSection: View {
 
 // MARK: - ButtonSection
 struct ButtonSection: View {
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -212,7 +213,10 @@ struct ButtonSection: View {
                 dailyGoalViewModel.reset()
             }, text: "초기화")
             DailyButton(action: {
-                dailyGoalViewModel.add(successAction: { dismiss() })
+                dailyGoalViewModel.add(
+                    successAction: { dismiss() },
+                    validateAction: { alertViewModel.showToast(message: $0) }
+                )
             }, text: "추가")
         }
         .padding(.top, CGFloat.fontSize)

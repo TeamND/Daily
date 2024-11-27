@@ -48,12 +48,16 @@ class DailyGoalViewModel: ObservableObject {
         setTime = "00:00".toDateOfSetTime()
     }
     
-    func add(successAction: @escaping () -> Void) {
+    func add(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
         Task {
             guard let userID = UserDefaultManager.userID, let user_uid = Int(userID) else { return }
-            if validateContent() { return }
-            if cycleType == .rept && validateCycleDate() { return }
-            if cycleType == .rept && validateDateRange() { return }
+            if validateContent() { validateAction(contentLengthAlertMessageText); return }
+            if cycleType == .rept {
+                if cycleDate.count == 0 { validateAction(wrongDateAlertTitleText(type: "emptySelectedWOD")); return }
+                if startDate > endDate { validateAction(wrongDateAlertTitleText(type: "wrongDateRange")); return }
+                if validateDateRange() { validateAction(wrongDateAlertTitleText(type: "overDateRange")); return }
+                if validateCycleDate() { validateAction(wrongDateAlertTitleText(type: "")); return }
+            }
             let goal: AddGoalRequestModel = AddGoalRequestModel(
                 user_uid: user_uid,
                 content: content,
@@ -83,7 +87,6 @@ class DailyGoalViewModel: ObservableObject {
     }
     
     private func validateCycleDate() -> Bool {
-        if cycleDate.count == 0 { return true }
         let gap = Calendar.current.dateComponents([.year,.month,.day], from: startDate, to: endDate)
         
         if gap.year! == 0 && gap.month! == 0 && gap.day! < 6 {
