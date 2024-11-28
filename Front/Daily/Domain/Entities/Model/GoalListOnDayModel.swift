@@ -25,10 +25,10 @@ struct Goal: Decodable, Hashable {
     var goal_time: Int
     var record_count: Int
     var goal_count: Int
-    var set_time: Bool
+    var set_time: String
     var is_set_time: Bool
     var cycle_type: String
-    var parnet_uid: Int
+    var parent_uid: Int?
     var issuccess: Bool
     var start_time: String
 }

@@ -82,7 +82,7 @@ struct CalendarDay: View {
     @Binding var goalListOnDay: GoalListOnDayModel
     
     var body: some View {
-        if false {
+        if goalListOnDay.goalList.count > 0 {
             VStack {
                 Spacer().frame(height: CGFloat.fontSize)
                 ViewThatFits(in: .vertical) {
@@ -96,7 +96,6 @@ struct CalendarDay: View {
             }
         } else {
             DailyNoRecord()
-//            NoRecord(userInfoViewModel: UserInfoViewModel(), calendarViewModel: CalendarViewModel())
         }
     }
 }
