@@ -33,6 +33,7 @@ enum ServerEndpoint: NetworkEndpoint {
     case getCalendarWeek(userID: String, startDay: String)
     case getCalendarDay(userID: String, day: String)
     case addGoal(goal: AddGoalRequestModel)
+    case increaseCount(recordID: String)
     
     // MARK: - path
     var path: String {
@@ -51,6 +52,8 @@ enum ServerEndpoint: NetworkEndpoint {
             return "/calendar/day/\(userID)"
         case .addGoal:
             return "/goal"
+        case .increaseCount(let recordID):
+            return "/goal/count/\(recordID)"
         }
     }
     
@@ -61,6 +64,8 @@ enum ServerEndpoint: NetworkEndpoint {
             return .get
         case .addGoal:
             return .post
+        case .increaseCount:
+            return .put
         }
     }
     
