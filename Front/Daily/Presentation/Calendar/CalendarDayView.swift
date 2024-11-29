@@ -11,7 +11,6 @@ import SwiftUI
 struct CalendarDayView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @State var opacity: [Double] = Array(repeating: 0, count: 7)
     
     var body: some View {
         VStack(spacing: 0) {
@@ -57,16 +56,10 @@ struct CalendarDayView: View {
                 dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
             }
             .onChange(of: dailyCalendarViewModel.weekSelection) { weekSelection in
-                Task {
-                    try await dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)
-                    self.opacity = dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
-                }
+                dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)
             }
             .onAppear {
-                Task {
-                    try await dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: dailyCalendarViewModel.weekSelection)
-                    self.opacity = dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
-                }
+                dailyCalendarViewModel.weekIndicatorOnChange()
             }
         }
         .overlay {

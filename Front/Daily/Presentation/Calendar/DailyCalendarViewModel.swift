@@ -54,18 +54,22 @@ class DailyCalendarViewModel: ObservableObject {
             await MainActor.run { self.monthDictionary[monthSelection] = symbolsOnMonth }
         }
     }
-    func calendarDayOnAppear(daySelection: String) {
+    func calendarDayOnAppear(daySelection: String? = nil) {
         Task {
+            let daySelection = daySelection ?? self.daySelection
             guard let userID = UserDefaultManager.userID else { return }
             let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
             await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
         }
     }
     // TODO: 추후 개선
-    func weekIndicatorOnChange(weekSelection: String) async throws {
-        guard let userID = UserDefaultManager.userID else { return }
-        let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
-        await MainActor.run { self.weekDictionary[weekSelection] = ratingsOnWeek }
+    func weekIndicatorOnChange(weekSelection: String? = nil) {
+        Task {
+            let weekSelection = weekSelection ?? self.weekSelection
+            guard let userID = UserDefaultManager.userID else { return }
+            let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
+            await MainActor.run { withAnimation { self.weekDictionary[weekSelection] = ratingsOnWeek } }
+        }
     }
     
     // MARK: - get

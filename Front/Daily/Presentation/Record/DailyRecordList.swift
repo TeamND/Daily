@@ -129,12 +129,12 @@ struct DailyRecordList: View {
 
 // MARK: - DailyRecord
 struct DailyRecord: View {
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @StateObject var dailyRecordViewModel: DailyRecordViewModel
     
     init(record: Goal) {
         _dailyRecordViewModel = StateObject(wrappedValue: DailyRecordViewModel(record: record))
     }
-//    @State var record: Goal
     
     var body: some View {
         ZStack {
@@ -154,6 +154,12 @@ struct DailyRecord: View {
             RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
         .padding(.horizontal, CGFloat.fontSize / 2)
+        .onChange(of: dailyRecordViewModel.record.record_count) { _ in
+            dailyCalendarViewModel.calendarDayOnAppear()
+        }
+        .onChange(of: dailyRecordViewModel.record.issuccess) { _ in
+            dailyCalendarViewModel.weekIndicatorOnChange()
+        }
     }
 }
 

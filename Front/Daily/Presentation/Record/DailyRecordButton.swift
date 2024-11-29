@@ -18,17 +18,7 @@ struct DailyRecordButton: View {
             } else {
                 switch dailyRecordViewModel.record.type {
                 case "check", "count":
-                    print("test!")
                     dailyRecordViewModel.increaseCount()
-//                    increaseCount(recordUID: String(record.uid)) { (data) in
-//                        if data.code == "00" {
-//                            calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-//                                if code == "99" { alertViewModel.showAlert() }
-//                            }
-//                        } else {
-//                            alertViewModel.showAlert()
-//                        }
-//                    }
 //                case "timer": // TODO: 추후 구현
                 default:
                     print("catch error is record button")

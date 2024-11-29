@@ -17,7 +17,10 @@ class DailyRecordViewModel: ObservableObject {
     func increaseCount() {
         Task {
             let result: increaseCountData = try await ServerNetwork.shared.request(.increaseCount(recordID: String(record.uid)))
-            await MainActor.run { print(result) }
+            await MainActor.run {
+                self.record.record_count = result.record_count
+                self.record.issuccess = result.issuccess
+            }
         }
     }
 }
