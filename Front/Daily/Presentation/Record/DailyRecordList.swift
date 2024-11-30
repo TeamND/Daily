@@ -24,44 +24,48 @@ struct DailyRecordList: View {
                     if isFirstItem || isDifferentFromPrevious { DailyTimeLine(record: record) }
                 }
                 DailyRecord(record: record)
-//                RecordOnList(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
-//                    .contextMenu {
-//                        NavigationLink {
+                    .contextMenu {
+                        Button {
 //                            ModifyRecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
-//                        } label: {
-//                            Label("기록 수정", systemImage: "pencil.and.outline")
-//                        }
-//                        NavigationLink {
+                            print("go ModifyRecordView")
+                        } label: {
+                            Label("기록 수정", systemImage: "pencil.and.outline")
+                        }
+                        Button {
 //                            ModifyDateView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
-//                        } label: {
-//                            Label("날짜 변경", systemImage: "calendar")
-//                        }
-//                        if record.cycle_type.wrappedValue == "repeat" {
-//                            if record.parent_uid.wrappedValue == nil {
-//                                Menu {
-//                                    NavigationLink {
+                            print("go ModifyDateView")
+                        } label: {
+                            Label("날짜 변경", systemImage: "calendar")
+                        }
+                        if record.cycle_type == "repeat" {
+                            if record.parent_uid == nil {
+                                Menu {
+                                    Button {
 //                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
-//                                    } label: {
-//                                        Text("단일 수정")
-//                                    }
-//                                    NavigationLink {
+                                        print("go ModifyGoalView")
+                                    } label: {
+                                        Text("단일 수정")
+                                    }
+                                    Button {
 //                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
-//                                    } label: {
-//                                        Text("일괄 수정")
-//                                    }
-//                                } label: {
-//                                    Label("목표 수정", systemImage: "pencil.line")
-//                                }
-//                            } else {
-//                                NavigationLink {
+                                        print("go ModifyGoalView isAll")
+                                    } label: {
+                                        Text("일괄 수정")
+                                    }
+                                } label: {
+                                    Label("목표 수정", systemImage: "pencil.line")
+                                }
+                            } else {
+                                Button {
 //                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
-//                                } label: {
-//                                    Label("목표 수정", systemImage: "pencil.line")
-//                                }
-//                            }
-//                            Menu {
-//                                Button {
-//                                    // remove Record
+                                    print("go ModifyGoalView isAll")
+                                } label: {
+                                    Label("목표 수정", systemImage: "pencil.line")
+                                }
+                            }
+                            Menu {
+                                Button {
+                                    // remove Record
 //                                    removeRecord(recordUID: String(record.uid.wrappedValue)) { data in
 //                                        if data.code == "00" {
 //                                            calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
@@ -69,11 +73,12 @@ struct DailyRecordList: View {
 //                                            }
 //                                        } else { alertViewModel.showAlert() }
 //                                    }
-//                                } label: {
-//                                    Text("단일 삭제")
-//                                }
-//                                Menu {
-//                                    Button {
+                                    print("remove Record")
+                                } label: {
+                                    Text("단일 삭제")
+                                }
+                                Menu {
+                                    Button {
 //                                        removeRecordAll(goalUID: String(record.goal_uid.wrappedValue)) { data in
 //                                            if data.code == "00" {
 //                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
@@ -81,10 +86,10 @@ struct DailyRecordList: View {
 //                                                }
 //                                            } else { alertViewModel.showAlert() }
 //                                        }
-//                                    } label: {
-//                                        Text("오늘 이후의 목표만 삭제")
-//                                    }
-//                                    Button {
+                                    } label: {
+                                        Text("오늘 이후의 목표만 삭제")
+                                    }
+                                    Button {
 //                                        deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
 //                                            if data.code == "00" {
 //                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
@@ -92,23 +97,24 @@ struct DailyRecordList: View {
 //                                                }
 //                                            } else { alertViewModel.showAlert() }
 //                                        }
-//                                    } label: {
-//                                        Text("과거의 기록도 함께 삭제")
-//                                    }
-//                                } label: {
-//                                    Text("일괄 삭제")
-//                                }
-//                            } label: {
-//                                Label("목표 삭제", systemImage: "trash")
-//                            }
-//                        } else {
-//                            NavigationLink {
+                                    } label: {
+                                        Text("과거의 기록도 함께 삭제")
+                                    }
+                                } label: {
+                                    Text("일괄 삭제")
+                                }
+                            } label: {
+                                Label("목표 삭제", systemImage: "trash")
+                            }
+                        } else {
+                            Button {
 //                                ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
-//                            } label: {
-//                                Label("목표 수정", systemImage: "pencil.line")
-//                            }
-//                            Button {
-//                                // remove Record로 수정(?)
+                                print("go ModifyGoalView isAll")
+                            } label: {
+                                Label("목표 수정", systemImage: "pencil.line")
+                            }
+                            Button {
+                                // remove Record로 수정(?)
 //                                deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
 //                                    if data.code == "00" {
 //                                        calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
@@ -116,12 +122,11 @@ struct DailyRecordList: View {
 //                                        }
 //                                    } else { alertViewModel.showAlert() }
 //                                }
-//                            } label: {
-//                                Label("목표 삭제", systemImage: "trash")
-//                            }
-//                        }
-//                    }
-//                    .foregroundStyle(.primary)
+                            } label: {
+                                Label("목표 삭제", systemImage: "trash")
+                            }
+                        }
+                }
             }
         }
     }
