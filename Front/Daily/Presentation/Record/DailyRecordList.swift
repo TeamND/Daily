@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - DailyRecordList
 struct DailyRecordList: View {
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @Binding var goalListOnDay: GoalListOnDayModel
     
     var body: some View {
@@ -26,14 +27,16 @@ struct DailyRecordList: View {
                 DailyRecord(record: record)
                     .contextMenu {
                         Button {
-//                            ModifyRecordView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
-                            print("go ModifyRecordView")
+                            let data = ModifyDataModel(modifyRecord: record, modifyType: .record)
+                            let navigationObject = NavigationObject(viewType: .goal, data: data)
+                            navigationEnvironment.navigate(navigationObject)
                         } label: {
                             Label("기록 수정", systemImage: "pencil.and.outline")
                         }
                         Button {
-//                            ModifyDateView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record)
-                            print("go ModifyDateView")
+                            let data = ModifyDataModel(modifyRecord: record, modifyType: .date)
+                            let navigationObject = NavigationObject(viewType: .goal, data: data)
+                            navigationEnvironment.navigate(navigationObject)
                         } label: {
                             Label("날짜 변경", systemImage: "calendar")
                         }
@@ -41,14 +44,16 @@ struct DailyRecordList: View {
                             if record.parent_uid == nil {
                                 Menu {
                                     Button {
-//                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: false)
-                                        print("go ModifyGoalView")
+                                        let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: false)
+                                        let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                        navigationEnvironment.navigate(navigationObject)
                                     } label: {
                                         Text("단일 수정")
                                     }
                                     Button {
-//                                        ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
-                                        print("go ModifyGoalView isAll")
+                                        let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
+                                        let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                        navigationEnvironment.navigate(navigationObject)
                                     } label: {
                                         Text("일괄 수정")
                                     }
@@ -57,8 +62,9 @@ struct DailyRecordList: View {
                                 }
                             } else {
                                 Button {
-//                                    ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
-                                    print("go ModifyGoalView isAll")
+                                    let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
+                                    let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                    navigationEnvironment.navigate(navigationObject)
                                 } label: {
                                     Label("목표 수정", systemImage: "pencil.line")
                                 }
@@ -108,8 +114,9 @@ struct DailyRecordList: View {
                             }
                         } else {
                             Button {
-//                                ModifyGoalView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, record: record, modifyGoalModel: modifyGoalModel(record: record.wrappedValue), isAll: true)
-                                print("go ModifyGoalView isAll")
+                                let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
+                                let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                navigationEnvironment.navigate(navigationObject)
                             } label: {
                                 Label("목표 수정", systemImage: "pencil.line")
                             }

@@ -10,6 +10,14 @@ import SwiftUI
 struct DailyGoalView: View {
     @StateObject var dailyGoalViewModel: DailyGoalViewModel = DailyGoalViewModel()
     
+    init() {
+        print("normal")
+    }
+    
+    init(modifyData: ModifyDataModel) {
+        print(modifyData.modifyType)
+    }
+    
     var body: some View {
         VStack(spacing: .zero) {
             DailyNavigationBar(title: "목표추가")
