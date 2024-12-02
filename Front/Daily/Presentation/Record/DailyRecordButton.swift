@@ -10,6 +10,7 @@ import SwiftUI
 struct DailyRecordButton: View {
     @ObservedObject var dailyRecordViewModel: DailyRecordViewModel
     @State var isAction: Bool = false
+    var color: Color = Colors.daily
     
     var body: some View {
         Button {
@@ -28,7 +29,7 @@ struct DailyRecordButton: View {
             ZStack {
                 DailyRecordProgressBar(
                     record: $dailyRecordViewModel.record,
-                    color: Colors.daily,
+                    color: color,
                     progress: dailyRecordViewModel.record.type == "timer" ? (dailyRecordViewModel.record.issuccess ? 0 : 1 - (CGFloat(dailyRecordViewModel.record.record_time * 100 / dailyRecordViewModel.record.goal_time) / 100)) : (dailyRecordViewModel.record.issuccess ? 0 : 1 - (CGFloat(dailyRecordViewModel.record.record_count * 100 / dailyRecordViewModel.record.goal_count) / 100))
                 )
                 
@@ -40,7 +41,7 @@ struct DailyRecordButton: View {
                     Image(systemName: "plus")
                 }
             }
-            .foregroundColor(Colors.daily)
+            .foregroundColor(color)
         }
         .onChange(of: isAction) { isAction in
             if isAction {

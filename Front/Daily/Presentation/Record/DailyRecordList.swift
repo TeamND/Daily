@@ -143,9 +143,11 @@ struct DailyRecordList: View {
 struct DailyRecord: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @StateObject var dailyRecordViewModel: DailyRecordViewModel
+    let isButtonDisabled: Bool
     
-    init(record: Goal) {
+    init(record: Goal, isButtonDisabled: Bool = false) {
         _dailyRecordViewModel = StateObject(wrappedValue: DailyRecordViewModel(record: record))
+        self.isButtonDisabled = isButtonDisabled
     }
     
     var body: some View {
@@ -155,8 +157,9 @@ struct DailyRecord: View {
                 Image(systemName: symbolImage)
                 Text(dailyRecordViewModel.record.content)
                 Spacer()
-                DailyRecordButton(dailyRecordViewModel: dailyRecordViewModel)
+                DailyRecordButton(dailyRecordViewModel: dailyRecordViewModel, color: isButtonDisabled ? Colors.reverse : Colors.daily)
                     .frame(maxHeight: 40)
+                    .disabled(isButtonDisabled)
             }
             DailyRecordPerGoal(record: $dailyRecordViewModel.record, paddingTrailing: 40)
         }
