@@ -34,6 +34,10 @@ enum ServerEndpoint: NetworkEndpoint {
     case getCalendarDay(userID: String, day: String)
     case addGoal(goal: AddGoalRequestModel)
     case increaseCount(recordID: String)
+    case modifyRecordCount(record: ModifyRecordProtocol)
+    case modifyRecordDate(record: ModifyRecordProtocol)
+    case modifyGoal(goalID: String, goal: ModifyGoalRequestModel)
+    case separateGoal(recordID: String, goal: ModifyGoalRequestModel)
     
     // MARK: - path
     var path: String {
@@ -54,6 +58,12 @@ enum ServerEndpoint: NetworkEndpoint {
             return "/goal"
         case .increaseCount(let recordID):
             return "/goal/count/\(recordID)"
+        case .modifyRecordCount(let record), .modifyRecordDate(let record):
+            return "/record/\(record.uid)"
+        case .modifyGoal(let goalID, _):
+            return "/goal/\(goalID)"
+        case .separateGoal(let recordID, _):
+            return "/goal/separateGoal/\(recordID)"
         }
     }
     
@@ -64,7 +74,7 @@ enum ServerEndpoint: NetworkEndpoint {
             return .get
         case .addGoal:
             return .post
-        case .increaseCount:
+        case .increaseCount, .modifyRecordCount, .modifyRecordDate, .modifyGoal, .separateGoal:
             return .put
         }
     }
@@ -99,7 +109,11 @@ enum ServerEndpoint: NetworkEndpoint {
     var body: (any Encodable)? {
         switch self {
         case .addGoal(let goal):
-            return goal // TODO: 추후 Encoding 필요할 수 있음
+            return goal
+        case .modifyRecordCount(let record), .modifyRecordDate(let record):
+            return record
+        case .modifyGoal(_, let goal), .separateGoal(_, let goal):
+            return goal
         default:
             return nil
         }

@@ -124,8 +124,9 @@ struct DailyModifyView: View {
 
 // MARK: - ButtonSection
 struct ModifyButtonSection: View {
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var alertViewModel: AlertViewModel
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         HStack {
@@ -137,7 +138,10 @@ struct ModifyButtonSection: View {
                 dismiss()
             }, text: "취소")
             DailyButton(action: {
-                dailyGoalViewModel.modify()
+                dailyGoalViewModel.modify(
+                    successAction: { dismiss() },
+                    validateAction: { alertViewModel.showToast(message: $0) }
+                )
             }, text: "수정")
         }
         .padding(.top, CGFloat.fontSize)
