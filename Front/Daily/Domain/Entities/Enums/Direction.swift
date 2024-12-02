@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum Direction {
-    case prev
-    case next
+enum Direction: String {
+    case prev = "<"
+    case next = ">"
 
-    case minus
-    case plus
+    case minus = "-"
+    case plus = "+"
     
     var value: Int {
         switch self {

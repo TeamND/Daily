@@ -26,6 +26,9 @@ class DailyGoalViewModel: ObservableObject {
     @Published var modifyRecord: Goal? = nil
     @Published var modifyType: ModifyTypes? = nil
     @Published var modifyIsAll: Bool? = nil
+    @Published var modifyDate: Date = Date()
+    var beforeDateString: String? = nil
+    @Published var modifyRecordCount: Int = 0
     
 //    private let beforeDate: Date
     
@@ -44,6 +47,16 @@ class DailyGoalViewModel: ObservableObject {
         self.modifyRecord = modifyData.modifyRecord
         self.modifyType = modifyData.modifyType
         self.modifyIsAll = modifyData.isAll
+        
+        if let year = modifyData.year,
+           let month = modifyData.month,
+           let day = modifyData.day,
+           let date = CalendarServices.shared.getDate(year: year, month: month, day: day) {
+            self.modifyDate = date
+            self.beforeDateString = "\(CalendarServices.shared.formatDateString(year: date.year, month: date.month, day: date.day, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(date.getKoreaDOW())"
+        }
+        
+        self.modifyRecordCount = modifyData.modifyRecord.record_count
     }
     
     // MARK: - get
@@ -111,6 +124,10 @@ class DailyGoalViewModel: ObservableObject {
             try await ServerNetwork.shared.request(.addGoal(goal: goal))
             await MainActor.run { successAction() }
         }
+    }
+    
+    func modify() {
+        
     }
     
     // MARK: - validate func

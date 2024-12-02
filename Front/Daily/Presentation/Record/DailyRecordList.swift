@@ -31,14 +31,14 @@ struct DailyRecordList: View {
                     .contextMenu {
                         Button {
                             let data = ModifyDataModel(modifyRecord: record, modifyType: .record)
-                            let navigationObject = NavigationObject(viewType: .goal, data: data)
+                            let navigationObject = NavigationObject(viewType: .modify, data: data)
                             navigationEnvironment.navigate(navigationObject)
                         } label: {
                             Label("기록 수정", systemImage: "pencil.and.outline")
                         }
                         Button {
                             let data = ModifyDataModel(modifyRecord: record, modifyType: .date, year: year, month: month, day: day)
-                            let navigationObject = NavigationObject(viewType: .goal, data: data)
+                            let navigationObject = NavigationObject(viewType: .modify, data: data)
                             navigationEnvironment.navigate(navigationObject)
                         } label: {
                             Label("날짜 변경", systemImage: "calendar")
@@ -48,14 +48,14 @@ struct DailyRecordList: View {
                                 Menu {
                                     Button {
                                         let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: false)
-                                        let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                        let navigationObject = NavigationObject(viewType: .modify, data: data)
                                         navigationEnvironment.navigate(navigationObject)
                                     } label: {
                                         Text("단일 수정")
                                     }
                                     Button {
                                         let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
-                                        let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                        let navigationObject = NavigationObject(viewType: .modify, data: data)
                                         navigationEnvironment.navigate(navigationObject)
                                     } label: {
                                         Text("일괄 수정")
@@ -66,7 +66,7 @@ struct DailyRecordList: View {
                             } else {
                                 Button {
                                     let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
-                                    let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                    let navigationObject = NavigationObject(viewType: .modify, data: data)
                                     navigationEnvironment.navigate(navigationObject)
                                 } label: {
                                     Label("목표 수정", systemImage: "pencil.line")
@@ -118,7 +118,7 @@ struct DailyRecordList: View {
                         } else {
                             Button {
                                 let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
-                                let navigationObject = NavigationObject(viewType: .goal, data: data)
+                                let navigationObject = NavigationObject(viewType: .modify, data: data)
                                 navigationEnvironment.navigate(navigationObject)
                             } label: {
                                 Label("목표 수정", systemImage: "pencil.line")

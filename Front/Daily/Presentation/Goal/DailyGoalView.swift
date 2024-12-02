@@ -8,40 +8,11 @@
 import SwiftUI
 
 struct DailyGoalView: View {
-    @StateObject var dailyGoalViewModel: DailyGoalViewModel
-    var beforeDate: String = ""
-    
-    init() {
-        _dailyGoalViewModel = StateObject(wrappedValue: DailyGoalViewModel())
-    }
-    
-    init(modifyData: ModifyDataModel) {
-        _dailyGoalViewModel = StateObject(wrappedValue: DailyGoalViewModel(modifyData: modifyData))
-        if let year = modifyData.year,
-           let month = modifyData.month,
-           let day = modifyData.day,
-           let beforeDate = CalendarServices.shared.getDate(year: year, month: month, day: day) {
-            self.beforeDate = "\(String(year)). \(month). \(day). \(beforeDate.getKoreaDOW())"
-        }
-    }
+    @StateObject var dailyGoalViewModel: DailyGoalViewModel = DailyGoalViewModel()
     
     var body: some View {
         VStack {
             DailyNavigationBar(title: dailyGoalViewModel.getNavigationBarTitle())
-            if let modifyType = dailyGoalViewModel.modifyType,
-               let modifyRecord = dailyGoalViewModel.modifyRecord {
-                if modifyType == .date {
-                    Label(beforeDate, systemImage: "calendar")
-                        .font(.system(size: CGFloat.fontSize * 2.5))
-                        .hLeading()
-                        .padding(.horizontal)
-                }
-                if modifyRecord.is_set_time {
-                    DailyTimeLine(record: modifyRecord)
-                }
-                DailyRecord(record: modifyRecord, isButtonDisabled: true)
-                CustomDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
-            }
             VStack(spacing: .zero) {
                 Spacer()
                 DailySection(type: .date) {
@@ -189,11 +160,12 @@ struct CountSection: View {
     
     private func countButton(direction: Direction) -> some View {
         Button {
-            if goalCount + direction.value < GeneralServices.shared.minimumGoalCount ||
-                goalCount + direction.value > GeneralServices.shared.maximumGoalCount {
+            let afterCount = goalCount + direction.value
+            if afterCount < GeneralServices.shared.minimumGoalCount ||
+                afterCount > GeneralServices.shared.maximumGoalCount {
                 alertViewModel.showToast(message: countRangeToastMessageText)
             } else {
-                goalCount += direction.value
+                goalCount = afterCount
                 goalType = goalCount == 1 ? .check : .count
             }
         } label: {
