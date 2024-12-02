@@ -8,19 +8,40 @@
 import SwiftUI
 
 struct DailyGoalView: View {
-    @StateObject var dailyGoalViewModel: DailyGoalViewModel = DailyGoalViewModel()
+    @StateObject var dailyGoalViewModel: DailyGoalViewModel
+    var beforeDate: String = ""
     
     init() {
-        print("normal")
+        _dailyGoalViewModel = StateObject(wrappedValue: DailyGoalViewModel())
     }
     
     init(modifyData: ModifyDataModel) {
-        print(modifyData.modifyType)
+        _dailyGoalViewModel = StateObject(wrappedValue: DailyGoalViewModel(modifyData: modifyData))
+        if let year = modifyData.year,
+           let month = modifyData.month,
+           let day = modifyData.day,
+           let beforeDate = CalendarServices.shared.getDate(year: year, month: month, day: day) {
+            self.beforeDate = "\(String(year)). \(month). \(day). \(beforeDate.getKoreaDOW())"
+        }
     }
     
     var body: some View {
-        VStack(spacing: .zero) {
-            DailyNavigationBar(title: "목표추가")
+        VStack {
+            DailyNavigationBar(title: dailyGoalViewModel.getNavigationBarTitle())
+            if let modifyType = dailyGoalViewModel.modifyType,
+               let modifyRecord = dailyGoalViewModel.modifyRecord {
+                if modifyType == .date {
+                    Label(beforeDate, systemImage: "calendar")
+                        .font(.system(size: CGFloat.fontSize * 2.5))
+                        .hLeading()
+                        .padding(.horizontal)
+                }
+                if modifyRecord.is_set_time {
+                    DailyTimeLine(record: modifyRecord)
+                }
+                DailyRecord(record: modifyRecord, isButtonDisabled: true)
+                CustomDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
+            }
             VStack(spacing: .zero) {
                 Spacer()
                 DailySection(type: .date) {

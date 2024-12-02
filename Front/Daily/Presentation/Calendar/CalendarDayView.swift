@@ -79,9 +79,15 @@ struct CalendarDay: View {
             VStack {
                 Spacer().frame(height: CGFloat.fontSize)
                 ViewThatFits(in: .vertical) {
-                    DailyRecordList(goalListOnDay: $goalListOnDay)
+                    DailyRecordList(
+                        year: year, month: month, day: day,
+                        goalListOnDay: $goalListOnDay
+                    )
                     ScrollView {
-                        DailyRecordList(goalListOnDay: $goalListOnDay)
+                        DailyRecordList(
+                            year: year, month: month, day: day,
+                            goalListOnDay: $goalListOnDay
+                        )
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)

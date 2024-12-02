@@ -11,6 +11,9 @@ struct ModifyDataModel: Hashable {
     var modifyRecord: Goal
     var modifyType: ModifyTypes
     var isAll: Bool = false
+    var year: Int? = nil
+    var month: Int? = nil
+    var day: Int? = nil
 }
 
 enum ModifyTypes {

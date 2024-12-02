@@ -23,6 +23,10 @@ class DailyGoalViewModel: ObservableObject {
     @Published var goalCount: Int = 1
     @Published var symbol: Symbols = .check
     
+    @Published var modifyRecord: Goal? = nil
+    @Published var modifyType: ModifyTypes? = nil
+    @Published var modifyIsAll: Bool? = nil
+    
 //    private let beforeDate: Date
     
     // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
@@ -31,6 +35,38 @@ class DailyGoalViewModel: ObservableObject {
         self.goalUseCase = GoalUseCase(repository: goalRepository)
         
 //        self.beforeDate = Date()
+    }
+    
+    convenience init(modifyData: ModifyDataModel) {
+        self.init()
+        
+        self.setRecord(record: modifyData.modifyRecord)
+        self.modifyRecord = modifyData.modifyRecord
+        self.modifyType = modifyData.modifyType
+        self.modifyIsAll = modifyData.isAll
+    }
+    
+    // MARK: - get
+    func getNavigationBarTitle() -> String {
+        guard let modifyType = self.modifyType else { return "목표추가" }
+        switch modifyType {
+        case .record:
+            return "기록수정"
+        case .date:
+            return "날짜변경"
+        case .goal:
+            return "목표수정"
+        }
+    }
+    
+    // MARK: - set
+    func setRecord(record: Goal) {
+        self.cycleType = CycleType(rawValue: record.cycle_type) ?? .date
+        self.isSetTime = record.is_set_time
+        self.setTime = record.set_time.toDateOfSetTime()
+        self.content = record.content
+        self.goalCount = record.goal_count
+        self.symbol = Symbols(rawValue: record.symbol) ?? .check
     }
     
     // MARK: - button func

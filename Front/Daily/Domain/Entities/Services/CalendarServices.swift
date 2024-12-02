@@ -49,4 +49,13 @@ class CalendarServices {
         let weekSelection = self.formatDateString(year: startDate.year, month: startDate.month, day: startDate.day)
         return weekSelection
     }
+    
+    func getDate(year: Int, month: Int, day: Int) -> Date? {
+        var components = DateComponents()
+           components.year = year
+           components.month = month
+           components.day = day
+           
+           return Calendar.current.date(from: components)
+    }
 }

@@ -10,6 +10,9 @@ import SwiftUI
 // MARK: - DailyRecordList
 struct DailyRecordList: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    let year: Int
+    let month: Int
+    let day: Int
     @Binding var goalListOnDay: GoalListOnDayModel
     
     var body: some View {
@@ -34,7 +37,7 @@ struct DailyRecordList: View {
                             Label("기록 수정", systemImage: "pencil.and.outline")
                         }
                         Button {
-                            let data = ModifyDataModel(modifyRecord: record, modifyType: .date)
+                            let data = ModifyDataModel(modifyRecord: record, modifyType: .date, year: year, month: month, day: day)
                             let navigationObject = NavigationObject(viewType: .goal, data: data)
                             navigationEnvironment.navigate(navigationObject)
                         } label: {
