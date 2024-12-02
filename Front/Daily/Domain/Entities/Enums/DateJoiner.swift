@@ -17,7 +17,7 @@ enum DateJoiner: String {
         var joinString: String = ""
         switch self {
         case .none, .dot, .hyphen:
-            return self.rawValue
+            joinString = self.rawValue
         case .korean:
             switch type {
             case .year:
@@ -28,6 +28,7 @@ enum DateJoiner: String {
                 joinString = "일"
             }
         }
-        return joinString + (hasSpacing ? " " : "")
+        if hasSpacing { joinString += " " }
+        return joinString
     }
 }
