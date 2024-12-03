@@ -43,7 +43,7 @@ struct DailyRecordList: View {
                         } label: {
                             Label("날짜 변경", systemImage: "calendar")
                         }
-                        if record.cycle_type == "repeat" {
+                        if record.cycle_type == CycleType.rept.rawValue {
                             if record.parent_uid == nil {
                                 Menu {
                                     Button {
@@ -74,38 +74,18 @@ struct DailyRecordList: View {
                             }
                             Menu {
                                 Button {
-                                    // remove Record
-//                                    removeRecord(recordUID: String(record.uid.wrappedValue)) { data in
-//                                        if data.code == "00" {
-//                                            calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-//                                                if code == "99" { alertViewModel.showAlert() }
-//                                            }
-//                                        } else { alertViewModel.showAlert() }
-//                                    }
-                                    print("remove Record")
+                                    DailyRecordViewModel(record: record).removeRecord(isAll: false)
                                 } label: {
                                     Text("단일 삭제")
                                 }
                                 Menu {
                                     Button {
-//                                        removeRecordAll(goalUID: String(record.goal_uid.wrappedValue)) { data in
-//                                            if data.code == "00" {
-//                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-//                                                    if code == "99" { alertViewModel.showAlert() }
-//                                                }
-//                                            } else { alertViewModel.showAlert() }
-//                                        }
+                                        DailyRecordViewModel(record: record).removeRecord(isAll: true)
                                     } label: {
                                         Text("오늘 이후의 목표만 삭제")
                                     }
                                     Button {
-//                                        deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
-//                                            if data.code == "00" {
-//                                                calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-//                                                    if code == "99" { alertViewModel.showAlert() }
-//                                                }
-//                                            } else { alertViewModel.showAlert() }
-//                                        }
+                                        DailyRecordViewModel(record: record).removeGoal()
                                     } label: {
                                         Text("과거의 기록도 함께 삭제")
                                     }
@@ -124,14 +104,7 @@ struct DailyRecordList: View {
                                 Label("목표 수정", systemImage: "pencil.line")
                             }
                             Button {
-                                // remove Record로 수정(?)
-//                                deleteGoal(goalUID: String(record.goal_uid.wrappedValue)) { data in
-//                                    if data.code == "00" {
-//                                        calendarViewModel.changeCalendar(amount: 0, userInfoViewModel: userInfoViewModel) { code in
-//                                            if code == "99" { alertViewModel.showAlert() }
-//                                        }
-//                                    } else { alertViewModel.showAlert() }
-//                                }
+                                DailyRecordViewModel(record: record).removeGoal()
                             } label: {
                                 Label("목표 삭제", systemImage: "trash")
                             }

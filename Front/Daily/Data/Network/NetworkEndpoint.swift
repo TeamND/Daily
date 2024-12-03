@@ -38,6 +38,9 @@ enum ServerEndpoint: NetworkEndpoint {
     case modifyRecordDate(record: ModifyRecordProtocol)
     case modifyGoal(goalID: String, goal: ModifyGoalRequestModel)
     case separateGoal(recordID: String, goal: ModifyGoalRequestModel)
+    case removeRecord(recordID: String)
+    case removeRecordAll(goalID: String)
+    case removeGoal(goalID: String)
     
     // MARK: - path
     var path: String {
@@ -64,6 +67,12 @@ enum ServerEndpoint: NetworkEndpoint {
             return "/goal/\(goalID)"
         case .separateGoal(let recordID, _):
             return "/goal/separateGoal/\(recordID)"
+        case .removeRecord(let recordID):
+            return "/record/\(recordID)"
+        case .removeRecordAll(let goalID):
+            return "/goal/removeRecordAll/\(goalID)"
+        case .removeGoal(let goalID):
+            return "/goal/\(goalID)"
         }
     }
     
@@ -76,6 +85,8 @@ enum ServerEndpoint: NetworkEndpoint {
             return .post
         case .increaseCount, .modifyRecordCount, .modifyRecordDate, .modifyGoal, .separateGoal:
             return .put
+        case .removeRecord, .removeRecordAll, .removeGoal:
+            return .delete
         }
     }
     

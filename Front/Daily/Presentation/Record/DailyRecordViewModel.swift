@@ -23,4 +23,19 @@ class DailyRecordViewModel: ObservableObject {
             }
         }
     }
+    
+    func removeRecord(isAll: Bool) {
+        Task {
+            if isAll {
+                try await ServerNetwork.shared.request(.removeRecordAll(goalID: String(record.goal_uid)))
+            } else {
+                try await ServerNetwork.shared.request(.removeRecord(recordID: String(record.uid)))
+            }
+        }
+    }
+    func removeGoal() {
+        Task {
+            try await ServerNetwork.shared.request(.removeGoal(goalID: String(record.goal_uid)))
+        }
+    }
 }
