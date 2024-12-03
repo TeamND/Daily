@@ -9,28 +9,43 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @ObservedObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack(spacing: 0) {
-            DailyCalendarHeader(type: .year, backButton: .constant(0), title: $dailyCalendarViewModel.year)
+            DailyCalendarHeader(type: .year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
-            TabView(selection: $dailyCalendarViewModel.selection) {
+            TabView(selection: $dailyCalendarViewModel.yearSelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
-                    let year = dailyCalendarViewModel.year + index
-                    let month = dailyCalendarViewModel.month
-                    let day = dailyCalendarViewModel.day
-                    let tag = CalendarServices.shared.formatDateString(year: year, month: month, day: day, joiner: .hyphen)
-                    CalendarYear(year: dailyCalendarViewModel.year + index, action: dailyCalendarViewModel.selectMonth)
-                        .tag(tag)
-                        .onAppear {
-                            dailyCalendarViewModel.calendarYearOnAppear()
+                    let year = Date().year + index
+                    let yearSelection = CalendarServices.shared.formatDateString(year: year)
+                    CalendarYear(
+                        year: year,
+                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
+                        action: {
+                            dailyCalendarViewModel.setDate(
+                                dailyCalendarViewModel.getDate(type: .year),
+                                $0,
+                                1
+                            )
+                            let navigationObject = NavigationObject(viewType: .calendarMonth)
+                            navigationEnvironment.navigate(navigationObject)
                         }
+                    )
+                    .tag(yearSelection)
+                    .onAppear {
+                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
+                    }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
+            .onChange(of: dailyCalendarViewModel.yearSelection) { yearSelection in
+                guard let year = Int(yearSelection) else { return }
+                dailyCalendarViewModel.setDate(year, 1, 1)
+            }
         }
         .overlay {
             DailyAddGoalButton()
@@ -42,6 +57,7 @@ struct CalendarYearView: View {
 struct CalendarYear: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
+    let ratingsOnYear: [[Double]]
     let action: (Int) -> Void
     
     var body: some View {
@@ -54,7 +70,7 @@ struct CalendarYear: View {
                             Button {
                                 action(month)
                             } label: {
-                                DailyMonthOnYear(year: year, month: month)
+                                DailyMonthOnYear(year: year, month: month, ratings: ratingsOnYear[month - 1])
                             }
                         }
                     }
@@ -72,12 +88,14 @@ struct CalendarYear: View {
 struct DailyMonthOnYear: View {
     let year: Int
     let month: Int
+    let ratings: [Double]
     let startDayIndex: Int
     let lengthOfMonth: Int
     
-    init(year: Int, month: Int) {
+    init(year: Int, month: Int, ratings: [Double]) {
         self.year = year
         self.month = month
+        self.ratings = ratings
         self.startDayIndex = CalendarServices.shared.startDayIndex(year: year, month: month)
         self.lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
     }
@@ -95,8 +113,7 @@ struct DailyMonthOnYear: View {
                             if 1 <= day && day <= lengthOfMonth {
                                 Image(systemName: "circle.fill")
                                     .font(.system(size: CGFloat.fontSize * 2))
-                                    .foregroundStyle(Colors.daily.opacity(0.2))
-//                                    .foregroundColor(Colors.daily.opacity(calendarViewModel.getDayOfRatingOnYear(monthIndex: month-1, dayIndex: day-1)*0.8))
+                                    .foregroundStyle(Colors.daily.opacity(ratings[day-1]*0.8))
                                 Text("\(day)")
                                     .font(.system(size: CGFloat.fontSize, weight: .bold))
                             } else {
@@ -119,5 +136,5 @@ struct DailyMonthOnYear: View {
 }
 
 #Preview {
-    CalendarYearView(dailyCalendarViewModel: DailyCalendarViewModel())
+    CalendarYearView()
 }

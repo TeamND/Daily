@@ -22,17 +22,30 @@ class SplashViewModel: ObservableObject {
     
     func onAppear() {
         self.subTitle = appLaunchUseCase.getSubTitle()
-        self.isAppLaunching = true
-        Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
-            self.isAppLoading = false
+        Task {
+            if try await checkUpdateRequired() {
+                // TODO: 업데이트 alert 표시
+                print("isUpdateRequired")
+            } else {
+                try await getUserInfo()
+                DispatchQueue.main.async {
+                    self.isAppLaunching = true
+                    Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
+                        self.isAppLoading = false
+                    }
+                }
+            }
         }
     }
     
-    func getUserInfo() {
-        Task {
-            let phone_uid = await UIDevice.current.identifierForVendor!.uuidString
-            let userInfo: UserInfoModel = try await ServerNetwork.shared.request(.getUserInfo(userID: phone_uid))
-            UserDefaultManager.setUserInfo(userInfo: userInfo)
-        }
+    func checkUpdateRequired() async throws -> Bool {
+        let versionResponse: VersionResponseModel = try await ServerNetwork.shared.request(.getServerVersion)
+        return versionResponse.isUpdateRequired
+    }
+    
+    func getUserInfo() async throws {
+        let phone_uid = await UIDevice.current.identifierForVendor!.uuidString
+        let userInfo: UserInfoModel = try await ServerNetwork.shared.request(.getUserInfo(userID: phone_uid))
+        UserDefaultManager.setUserInfo(userInfo: userInfo)
     }
 }

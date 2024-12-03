@@ -53,6 +53,7 @@ struct DailySection<Content: View>: View {
                     .foregroundColor(.red)
                 if isShowEssentialConditions {
                     Text(type.essentialConditionText)
+                        .foregroundStyle(Colors.reverse)
                 }
             }
         }

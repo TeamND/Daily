@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum CycleType: CaseIterable {
-    case date
-    case rept
+enum CycleType: String, CaseIterable {
+    case date = "date"
+    case rept = "repeat"
     
     var text: String {
         switch self {

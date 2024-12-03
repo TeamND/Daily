@@ -15,6 +15,7 @@ struct DailyAddGoalButton: View {
             Spacer()
             HStack {
                 Spacer()
+                // TODO: 추후 DailyButton으로 통일
                 Button {
                     let navigationObject = NavigationObject(viewType: .goal)
                     navigationEnvironment.navigate(navigationObject)

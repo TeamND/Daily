@@ -11,14 +11,27 @@ import SwiftUI
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     
-    @Published var selection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day, joiner: .hyphen)
-    @Published var type: CalendarType = .day   // TODO: 추후 UserDefaults에서 가져오도록 수정
+    @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
+    @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
+    @Published var weekSelection: String = CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
+    @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
     
-    @Published var year: Int = Date().year
-    @Published var month: Int = Date().month
-    @Published var day: Int = Date().day
-    
-    var navigationEnvironment: NavigationEnvironment = NavigationEnvironment()
+    @Published var yearDictionary: [String: [[Double]]] = [
+        CalendarServices.shared.formatDateString(year: Date().year)
+        : Array(repeating: Array(repeating: 0, count: 31), count: 12)
+    ]
+    @Published var monthDictionary: [String: [SymbolsOnMonthModel]] = [
+        CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
+        : Array(repeating: SymbolsOnMonthModel(), count: 31)
+    ]
+    @Published var weekDictionary: [String: RatingsOnWeekModel] = [
+        CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
+        : RatingsOnWeekModel()
+    ]
+    @Published var dayDictionary: [String: GoalListOnDayModel] = [
+        CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
+        : GoalListOnDayModel()
+    ]
     
     // MARK: - init
     init() {
@@ -27,49 +40,97 @@ class DailyCalendarViewModel: ObservableObject {
     }
     
     // MARK: - onAppear
-    func onAppear(navigationEnvironment: NavigationEnvironment) {
-        print("onAppear of DailyCalendarViewModel is called")
-        self.navigationEnvironment = navigationEnvironment
-        if type == .month || type == .day {
-            self.navigate(type: .month)
-            if type == .day {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.navigate(type: .day)
-                }
-            }
+    func calendarYearOnAppear(yearSelection: String) {
+        Task {
+            guard let userID = UserDefaultManager.userID else { return }
+            let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: userID, year: yearSelection))
+            await MainActor.run { self.yearDictionary[yearSelection] = ratingsOnYear }
         }
     }
-    func calendarYearOnAppear() {
-        
+    func calendarMonthOnAppear(monthSelection: String) {
+        Task {
+            guard let userID = UserDefaultManager.userID else { return }
+            let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: userID, month: monthSelection))
+            await MainActor.run { self.monthDictionary[monthSelection] = symbolsOnMonth }
+        }
     }
-    func calendarMonthOnAppear() {
-        
+    func calendarDayOnAppear(daySelection: String? = nil) {
+        Task {
+            let daySelection = daySelection ?? self.daySelection
+            guard let userID = UserDefaultManager.userID else { return }
+            let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
+            await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
+        }
     }
-    func calendarDayOnAppear() {
-        
+    // TODO: 추후 개선
+    func weekIndicatorOnChange(weekSelection: String? = nil) {
+        Task {
+            let weekSelection = weekSelection ?? self.weekSelection
+            guard let userID = UserDefaultManager.userID else { return }
+            let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
+            await MainActor.run { withAnimation { self.weekDictionary[weekSelection] = ratingsOnWeek } }
+        }
     }
     
-    // MARK: - navigate
-    func navigate(type: CalendarType) {
+    // MARK: - get
+    func getDate(type: CalendarType) -> Int {
+        let dateComponents = self.daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
         switch type {
         case .year:
-            return
+            return dateComponents[0]
         case .month:
-            let navigationObject = NavigationObject(viewType: .calendarMonth)
-            navigationEnvironment.navigate(navigationObject)
+            return dateComponents[1]
         case .day:
-            let navigationObject = NavigationObject(viewType: .calendarDay)
-            navigationEnvironment.navigate(navigationObject)
+            return dateComponents[2]
         }
     }
     
-    // MARK: - select calendar
-    func selectMonth(month: Int) {
-        print("selected month is \(month)")
-        navigate(type: .month)
+    // MARK: - set
+    func setDate(_ year: Int, _ month: Int, _ day: Int) {
+        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
+        self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
+        self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
+        self.weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
     }
-    func selectDay(day: Int) {
-        print("selected day is \(day)")
-        navigate(type: .day)
+    
+    // MARK: - header func
+    func headerText(type: CalendarType, textPosition: TextPositionInHeader) -> String {
+        switch type {
+        case .year:
+            return textPosition == .title ? String(self.getDate(type: type)) + "년" : ""
+        case .month:
+            return textPosition == .title ? String(self.getDate(type: type)) + "월" : String(self.getDate(type: .year)) + "년"
+        case .day:
+            return textPosition == .title ? String(self.getDate(type: type)) + "일" : String(self.getDate(type: .month)) + "월"
+        }
+    }
+    func moveDate(type: CalendarType, direction: Direction) {
+        guard let today = self.daySelection.toDate() else { return }
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let componentType: Calendar.Component
+        switch type {
+        case .year:
+            componentType = .year
+        case .month:
+            componentType = .month
+        case .day:
+            componentType = .day
+        }
+        
+        if let prevDate = cal.date(byAdding: componentType, value: direction.value, to: today) {
+            self.setDate(prevDate.year, prevDate.month, prevDate.day)
+        }
+    }
+    
+    // MARK: - weekIndicator func
+    func tapWeekIndicator(dayOfWeek: DayOfWeek) {
+        let startDate = self.weekSelection.toDate()!
+        
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let date = cal.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
+        
+        self.setDate(date.year, date.month, date.day)
     }
 }

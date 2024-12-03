@@ -9,10 +9,9 @@ import SwiftUI
 
 struct DailyCalendarHeader: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @Environment(\.dismiss) var dismiss
     let type: CalendarType
-    @Binding var backButton: Int
-    @Binding var title: Int
     
     var body: some View {
         HStack {
@@ -22,7 +21,7 @@ struct DailyCalendarHeader: View {
                     Button {
                         dismiss()
                     } label: {
-                        Label("\(String(backButton))\(type.headerBackButton)", systemImage: "chevron.left")
+                        Label(dailyCalendarViewModel.headerText(type: type, textPosition: .backButton), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
                     .padding(CGFloat.fontSize)
@@ -33,20 +32,20 @@ struct DailyCalendarHeader: View {
             // MARK: - center
             HStack {
                 Button {
-                    print("go left")
+                    dailyCalendarViewModel.moveDate(type: type, direction: .prev)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
                 Menu {
                     
                 } label: {
-                    Text("\(String(title))\(type.headerTitle)")
+                    Text(dailyCalendarViewModel.headerText(type: type, textPosition: .title))
                         .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                         .foregroundStyle(Colors.reverse)
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
                 Button {
-                    print("go right")
+                    dailyCalendarViewModel.moveDate(type: type, direction: .next)
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -56,7 +55,7 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    print("today")
+                    dailyCalendarViewModel.setDate(Date().year, Date().month, Date().day)
                 } label: {
                     Label("오늘", systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))
@@ -83,6 +82,11 @@ struct DailyCalendarHeader: View {
     }
 }
 
+enum TextPositionInHeader {
+    case backButton
+    case title
+}
+
 #Preview {
-    DailyCalendarHeader(type: CalendarType.day, backButton: .constant(10), title: .constant(26))
+    DailyCalendarHeader(type: CalendarType.day)
 }

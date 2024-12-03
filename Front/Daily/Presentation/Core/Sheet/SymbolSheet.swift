@@ -10,6 +10,7 @@ import SwiftUI
 struct SymbolSheet: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var symbol: String
+    
     var body: some View {
         List {
             ForEach(Symbol.allCases, id: \.self) { symbol in

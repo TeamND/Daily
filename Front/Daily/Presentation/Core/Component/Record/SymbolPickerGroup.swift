@@ -10,6 +10,7 @@ import SwiftUI
 struct SymbolPickerGroup: View {
     @Binding var symbol: String
     @State var isShowSymbolSheet: Bool = false
+    
     var body: some View {
         Group {
             HStack {
