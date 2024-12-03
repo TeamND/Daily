@@ -148,10 +148,10 @@ struct DailyRecord: View {
             RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
         .padding(.horizontal, CGFloat.fontSize / 2)
-        .onChange(of: dailyRecordViewModel.record.record_count) { _ in
+        .onChange(of: dailyRecordViewModel.record.record_count) { _, _ in
             dailyCalendarViewModel.calendarDayOnAppear()
         }
-        .onChange(of: dailyRecordViewModel.record.issuccess) { _ in
+        .onChange(of: dailyRecordViewModel.record.issuccess) { _, _ in
             dailyCalendarViewModel.weekIndicatorOnChange()
         }
     }

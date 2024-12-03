@@ -46,9 +46,7 @@ struct CalendarMonthView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
-                dailyCalendarViewModel.checkCurrentCalendar(type: .month, selection: monthSelection)
-                loadingViewModel.loading()
+            .onChange(of: dailyCalendarViewModel.monthSelection) { _, monthSelection in
                 if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
                     let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
                     guard dateComponents.count == 2 else { return }

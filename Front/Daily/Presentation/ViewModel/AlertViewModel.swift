@@ -55,7 +55,7 @@ class AlertViewModel: ObservableObject {
                 .hCenter()
                 .opacity(isShowToast ? 1 : 0)
         }
-        .onChange(of: isShowToast) { isShowToast in
+        .onChange(of: isShowToast) { _, isShowToast in
             if isShowToast {
                 Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
                     self.hideToast()

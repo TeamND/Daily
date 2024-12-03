@@ -49,16 +49,14 @@ struct CalendarDayView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
-                dailyCalendarViewModel.checkCurrentCalendar(type: .day, selection: daySelection)
-                loadingViewModel.loading()
+            .onChange(of: dailyCalendarViewModel.daySelection) { _, daySelection in
                 if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
                     let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
                     guard dateComponents.count == 3 else { return }
                     dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
                 }
             }
-            .onChange(of: dailyCalendarViewModel.weekSelection) { weekSelection in
+            .onChange(of: dailyCalendarViewModel.weekSelection) { _, weekSelection in
                 dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)
             }
             .onAppear {

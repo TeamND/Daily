@@ -96,7 +96,7 @@ struct RecordButton: View {
                     }
                     .foregroundColor(Colors.daily)
                 }
-                .onChange(of: isAction) { newValue in
+                .onChange(of: isAction) { _, newValue in
                     if isAction == true {
                         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                             withAnimation {

@@ -35,22 +35,22 @@ struct DailyRecordProgressBar: View {
         //                }
         //            }
         //        }
-        .onChange(of: record.record_time) { newValue in
+        .onChange(of: record.record_time) { _, newValue in
             withAnimation {
                 progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
             }
         }
-        .onChange(of: record.goal_time) { newValue in
+        .onChange(of: record.goal_time) { _, newValue in
             withAnimation {
                 progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
             }
         }
-        .onChange(of: record.record_count) { newValue in
+        .onChange(of: record.record_count) { _, newValue in
             withAnimation {
                 progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
             }
         }
-        .onChange(of: record.goal_count) { newValue in
+        .onChange(of: record.goal_count) { _, newValue in
             withAnimation {
                 progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
             }

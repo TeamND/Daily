@@ -43,7 +43,7 @@ struct DailyRecordButton: View {
             }
             .foregroundColor(color)
         }
-        .onChange(of: isAction) { isAction in
+        .onChange(of: isAction) { _, isAction in
             if isAction {
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                     withAnimation { self.isAction = false }
