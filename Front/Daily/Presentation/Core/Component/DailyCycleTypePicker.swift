@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct DailyCycleTypePicker: View {
-    @Binding var cycleType: CycleType
+    @Binding var cycleType: CycleTypes
     
     var body: some View {
         Menu {
-            ForEach(CycleType.allCases, id: \.self) { cycleType in
+            ForEach(CycleTypes.allCases, id: \.self) { cycleType in
                 Button {
                     withAnimation {
                         self.cycleType = cycleType

@@ -1,5 +1,5 @@
 //
-//  CycleType.swift
+//  CycleTypes.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/28/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CycleType: String, CaseIterable {
+enum CycleTypes: String, CaseIterable, Codable {
     case date = "date"
     case rept = "repeat"
     

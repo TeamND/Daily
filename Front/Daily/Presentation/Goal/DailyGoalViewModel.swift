@@ -10,7 +10,7 @@ import Foundation
 class DailyGoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
     
-    @Published var cycleType: CycleType = .date
+    @Published var cycleType: CycleTypes = .date
     @Published var startDate: Date = Date()
     @Published var endDate: Date = Date().setDefaultEndDate()
     @Published var cycleDate: [String] = []
@@ -74,7 +74,7 @@ class DailyGoalViewModel: ObservableObject {
     
     // MARK: - set
     func setRecord(record: Goal) {
-        self.cycleType = CycleType(rawValue: record.cycle_type) ?? .date
+        self.cycleType = CycleTypes(rawValue: record.cycle_type) ?? .date
         self.isSetTime = record.is_set_time
         self.setTime = record.set_time.toDateOfSetTime()
         self.content = record.content
