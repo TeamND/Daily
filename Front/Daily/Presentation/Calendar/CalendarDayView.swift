@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
@@ -51,9 +52,11 @@ struct CalendarDayView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
-                let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
-                guard dateComponents.count == 3 else { return }
-                dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
+                if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
+                    let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+                    guard dateComponents.count == 3 else { return }
+                    dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
+                }
             }
             .onChange(of: dailyCalendarViewModel.weekSelection) { weekSelection in
                 dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)

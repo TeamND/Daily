@@ -35,7 +35,7 @@ struct DailyApp: App {
     private var daily: some View {
         ZStack {
             if splashViewModel.isAppLaunching {
-                DailyMainView().environmentObject(navigationEnvironment).environmentObject(dailyCalendarViewModel)
+                DailyMainView()
             }
             if splashViewModel.isAppLoading {
                 SplashView(splashViewModel: splashViewModel)

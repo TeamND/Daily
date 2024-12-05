@@ -47,9 +47,11 @@ struct CalendarMonthView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
-                let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
-                guard dateComponents.count == 2 else { return }
-                dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], 1)
+                if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
+                    let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+                    guard dateComponents.count == 2 else { return }
+                    dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], 1)
+                }
             }
         }
         .overlay {
