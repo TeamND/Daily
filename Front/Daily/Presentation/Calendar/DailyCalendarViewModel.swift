@@ -10,6 +10,40 @@ import SwiftUI
 
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
+    private var updateable: Bool = true
+    
+    var currentYear: Int = Date().year
+    @Published var yearSelections: [String] = []
+    
+    func loadSelections(type: CalendarType) {
+        switch type {
+        case .year:
+            yearSelections = (-3...3).map { offset in
+                String(offset + currentYear)
+            }
+        case .month:
+            return
+        case .day:
+            return
+        }
+    }
+    
+    func updateCurrentYear(_ year: Int) {
+        if updateable {
+            setUpdateTimer()
+            currentYear = year
+            loadSelections(type: .year)
+        }
+    }
+    
+    func setUpdateTimer() {
+        DispatchQueue.main.async {
+            self.updateable = false
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+                self.updateable = true
+            }
+        }
+    }
     
     @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
@@ -41,6 +75,7 @@ class DailyCalendarViewModel: ObservableObject {
     
     // MARK: - onAppear
     func calendarYearOnAppear(yearSelection: String) {
+        updateCurrentYear(Int(yearSelection)!)
         Task {
             guard let userID = UserDefaultManager.userID else { return }
             let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: userID, year: yearSelection))

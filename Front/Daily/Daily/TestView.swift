@@ -43,10 +43,8 @@ struct TestView: View {
     
     var body: some View {
         TabView(selection: $viewModel.initialIndex) {
-//        TabView {
             ForEach(Array(viewModel.visibleMonths.enumerated()), id: \.element) { index, page in
                 TestCalendarView(date: String(page))
-//                    .tag(index)
                     .onAppear {
                         viewModel.updateCenterPage(page)
                     }

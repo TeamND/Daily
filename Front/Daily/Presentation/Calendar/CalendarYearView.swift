@@ -17,12 +17,10 @@ struct CalendarYearView: View {
             DailyCalendarHeader(type: .year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.yearSelection) {
-                ForEach(-10 ... 10, id: \.self) { index in
-                    let year = Date().year + index
-                    let yearSelection = CalendarServices.shared.formatDateString(year: year)
+                ForEach(dailyCalendarViewModel.yearSelections, id: \.self) { year in
                     CalendarYear(
-                        year: year,
-                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
+                        year: Int(year)!,
+                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[year] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
                         action: {
                             dailyCalendarViewModel.setDate(
                                 dailyCalendarViewModel.getDate(type: .year),
@@ -33,9 +31,8 @@ struct CalendarYearView: View {
                             navigationEnvironment.navigate(navigationObject)
                         }
                     )
-                    .tag(yearSelection)
                     .onAppear {
-                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
+                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: year)
                     }
                 }
             }
@@ -51,6 +48,9 @@ struct CalendarYearView: View {
         }
         .overlay {
             DailyAddGoalButton()
+        }
+        .onAppear {
+            dailyCalendarViewModel.loadSelections(type: .year)
         }
     }
 }
