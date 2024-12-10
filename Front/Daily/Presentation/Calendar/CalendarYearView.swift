@@ -11,6 +11,7 @@ import SwiftUI
 struct CalendarYearView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -40,6 +41,7 @@ struct CalendarYearView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.yearSelection) { yearSelection in
+                loadingViewModel.loading()
                 if navigationEnvironment.navigationPath.last == nil {
                     guard let year = Int(yearSelection) else { return }
                     dailyCalendarViewModel.setDate(year, 1, 1)

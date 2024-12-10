@@ -16,6 +16,7 @@ struct DailyApp: App {
     @StateObject private var navigationEnvironment = NavigationEnvironment()
     @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
     @StateObject private var alertViewModel = AlertViewModel()
+    @StateObject private var loadingViewModel = LoadingViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     var body: some Scene {
@@ -25,6 +26,7 @@ struct DailyApp: App {
                     .environmentObject(navigationEnvironment)
                     .environmentObject(dailyCalendarViewModel)
                     .environmentObject(alertViewModel)
+                    .environmentObject(loadingViewModel)
             } else {
                 if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
                 else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
@@ -42,6 +44,7 @@ struct DailyApp: App {
                 SplashView(splashViewModel: splashViewModel)
             }
             alertViewModel.toastView
+            if loadingViewModel.isLoading { loadingViewModel.loadingView }
         }
     }
 }
