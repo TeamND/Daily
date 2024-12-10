@@ -81,6 +81,7 @@
 		F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */; };
 		F6AB72542C2D438E008A5D28 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */; };
 		F6AB72562C2D455D008A5D28 /* CycleTypePickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */; };
+		F6AE8AF92D0444380080A0DE /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AF82D0444380080A0DE /* TestView.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -270,6 +271,7 @@
 		F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLine.swift; sourceTree = "<group>"; };
 		F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
 		F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleTypePickerGroup.swift; sourceTree = "<group>"; };
+		F6AE8AF82D0444380080A0DE /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 				F6BEC934290F5894005EAF28 /* DailyApp.swift */,
 				F6BEC93A290F5895005EAF28 /* Daily.entitlements */,
 				F6BEC93B290F5895005EAF28 /* Preview Content */,
+				F6AE8AF82D0444380080A0DE /* TestView.swift */,
 			);
 			path = Daily;
 			sourceTree = "<group>";
@@ -1182,6 +1185,7 @@
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F60B97352CFD97090015B19B /* DailyModifyView.swift in Sources */,
 				F6C758D62CCB123700F9CF91 /* DailyCalendarHeader.swift in Sources */,
+				F6AE8AF92D0444380080A0DE /* TestView.swift in Sources */,
 				F6C758D82CCB165E00F9CF91 /* LabelStyle+extension.swift in Sources */,
 				F6CE8A162CCF42800050A25A /* DailySection.swift in Sources */,
 				F65ACDE22CC91CEC00C67DD1 /* CalendarServices.swift in Sources */,

@@ -34,13 +34,14 @@ struct DailyApp: App {
     
     private var daily: some View {
         ZStack {
-            if splashViewModel.isAppLaunching {
-                DailyMainView()
-            }
-            if splashViewModel.isAppLoading {
-                SplashView(splashViewModel: splashViewModel)
-            }
-            alertViewModel.toastView
+            TestView()
+//            if splashViewModel.isAppLaunching {
+//                DailyMainView()
+//            }
+//            if splashViewModel.isAppLoading {
+//                SplashView(splashViewModel: splashViewModel)
+//            }
+//            alertViewModel.toastView
         }
     }
 }
