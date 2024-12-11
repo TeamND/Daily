@@ -9,13 +9,16 @@ import Foundation
 
 class CalendarServices {
     static let shared = CalendarServices()
-    private init() { }
+    private var calendar: Calendar = Calendar.current
+    private init() {
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+    }
     
     func isToday(year: Int, month: Int, day: Int) -> Bool {
         return Date().year == year && Date().month == month && Date().day == day
     }
     func isSelectedDay(dowIndex: Int, weekSelection: String, daySelection: String) -> Bool {
-        return dowIndex == Calendar.current.dateComponents([.day], from: weekSelection.toDate()!, to: daySelection.toDate()!).day!
+        return dowIndex == calendar.dateComponents([.day], from: weekSelection.toDate()!, to: daySelection.toDate()!).day!
     }
     
     func formatDateString(year: Int, month: Int = 0, day: Int = 0, joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
@@ -41,10 +44,7 @@ class CalendarServices {
     func weekSelection(daySelection: String) -> String {
         let date = daySelection.toDate()!
         let dow = DayOfWeek.allCases.filter({ $0.text == date.getDOW(language: "한국어") }).first!
-        
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let startDate = cal.date(byAdding: .day, value: -dow.index, to: date)!
+        let startDate = calendar.date(byAdding: .day, value: -dow.index, to: date)!
         
         let weekSelection = self.formatDateString(year: startDate.year, month: startDate.month, day: startDate.day)
         return weekSelection
@@ -56,6 +56,33 @@ class CalendarServices {
         components.month = month
         components.day = day
 
-        return Calendar.current.date(from: components)
+        return calendar.date(from: components)
+    }
+    
+    // TODO: 추후 수정
+    func getDaysInMonth(date: Date) -> [(date: Date, id: String)] {
+        let interval = calendar.dateInterval(of: .month, for: date)!
+        let firstDate = interval.start
+        
+        let firstWeekday = calendar.component(.weekday, from: firstDate)
+        let previousDates = (1..<firstWeekday).map { offset in
+            let date = calendar.date(byAdding: .day, value: -offset, to: firstDate)!
+            return (date: date, id: "prev_\(offset)_\(date.timeIntervalSince1970)")
+        }.reversed()
+        
+        let numberOfDays = calendar.range(of: .day, in: .month, for: date)!.count
+        let currentMonthDates = (0..<numberOfDays).map { day in
+            let date = calendar.date(byAdding: .day, value: day, to: firstDate)!
+            return (date: date, id: "current_\(day)_\(date.timeIntervalSince1970)")
+        }
+        
+        let totalCells = 42
+        let remainingCells = totalCells - previousDates.count - currentMonthDates.count
+        let nextDates = (1..<remainingCells).map { day in
+            let date = calendar.date(byAdding: .day, value: day, to: currentMonthDates.last!.date)!
+            return (date: date, id: "next_\(day)_\(date.timeIntervalSince1970)")
+        }
+        
+        return Array(previousDates) + currentMonthDates + nextDates
     }
 }

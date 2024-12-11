@@ -11,17 +11,30 @@ import SwiftUI
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     private var updateable: Bool = true
-    
+    private var calendar = Calendar.current
+//    let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: currentDate)!
     var currentYear: Int = Date().year
+    var currentMonth: Int = Date().month
+    var currentDay: Int = Date().day
     @Published var yearSelections: [String] = []
+    @Published var monthSelections: [String] = []
     
     func loadSelections(type: CalendarType) {
         switch type {
         case .year:
-            yearSelections = (-3...3).map { offset in
-                String(offset + currentYear)
+            yearSelections = (-3 ... 3).map { offset in
+                if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+                   let newDate = calendar.date(byAdding: .year, value: offset, to: currentDate) {
+                    return CalendarServices.shared.formatDateString(year: newDate.year)
+                } else { return "" }
             }
         case .month:
+            monthSelections = (-3 ... 3).map { offset in
+                if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+                   let newDate = calendar.date(byAdding: .month, value: offset, to: currentDate) {
+                    return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month)
+                } else { return "" }
+            }
             return
         case .day:
             return
@@ -39,7 +52,7 @@ class DailyCalendarViewModel: ObservableObject {
     func setUpdateTimer() {
         DispatchQueue.main.async {
             self.updateable = false
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { timer in
                 self.updateable = true
             }
         }
@@ -69,6 +82,8 @@ class DailyCalendarViewModel: ObservableObject {
     
     // MARK: - init
     init() {
+        self.calendar.timeZone = TimeZone(identifier: "UTC")!
+        
         let calendarRepository = CalendarRepository()
         self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
     }
