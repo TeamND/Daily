@@ -59,6 +59,10 @@ class CalendarServices {
         return calendar.date(from: components)
     }
     
+    func separateSelection(_ selection: String) -> [Int] {
+        selection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+    }
+    
     // TODO: 추후 수정
     func getDaysInMonth(date: Date) -> [(date: Date, id: String)] {
         let interval = calendar.dateInterval(of: .month, for: date)!

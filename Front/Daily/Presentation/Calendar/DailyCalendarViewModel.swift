@@ -41,11 +41,19 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     
-    func updateCurrentYear(_ year: Int) {
+    func updateCurrentCalendar(type: CalendarType, selection: String) {
         if updateable {
             setUpdateTimer()
-            currentYear = year
-            loadSelections(type: .year)
+            let selections = CalendarServices.shared.separateSelection(selection)
+            switch type {
+            case .year:
+                currentYear = selections[0]
+            case .month:
+                currentMonth = selections[1]
+            case .day:
+                currentDay = selections[2]
+            }
+            loadSelections(type: type)
         }
     }
     
@@ -90,7 +98,7 @@ class DailyCalendarViewModel: ObservableObject {
     
     // MARK: - onAppear
     func calendarYearOnAppear(yearSelection: String) {
-        updateCurrentYear(Int(yearSelection)!)
+        updateCurrentCalendar(type: .year, selection: yearSelection)
         Task {
             guard let userID = UserDefaultManager.userID else { return }
             let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: userID, year: yearSelection))
@@ -98,6 +106,7 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     func calendarMonthOnAppear(monthSelection: String) {
+        updateCurrentCalendar(type: .month, selection: monthSelection)
         Task {
             guard let userID = UserDefaultManager.userID else { return }
             let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: userID, month: monthSelection))

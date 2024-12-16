@@ -18,10 +18,12 @@ struct CalendarYearView: View {
             DailyCalendarHeader(type: .year)
             CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
             TabView(selection: $dailyCalendarViewModel.yearSelection) {
-                ForEach(dailyCalendarViewModel.yearSelections, id: \.self) { year in
+                ForEach(dailyCalendarViewModel.yearSelections, id: \.self) { yearSelection in
+                    let selections = CalendarServices.shared.separateSelection(yearSelection)
+                    let year = selections[0]
                     CalendarYear(
-                        year: Int(year)!,
-                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[year] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
+                        year: year,
+                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
                         action: {
                             dailyCalendarViewModel.setDate(
                                 dailyCalendarViewModel.getDate(type: .year),
@@ -33,7 +35,7 @@ struct CalendarYearView: View {
                         }
                     )
                     .onAppear {
-                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: year)
+                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
                     }
                 }
             }
@@ -66,7 +68,7 @@ struct CalendarYear: View {
     
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: .zero) {
-            ForEach(1 ..< 13) { month in
+            ForEach(1 ... 12, id: \.self) { month in
                 Button {
                     action(month)
                 } label: {
