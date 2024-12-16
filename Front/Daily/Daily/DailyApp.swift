@@ -36,7 +36,6 @@ struct DailyApp: App {
     
     private var daily: some View {
         ZStack {
-//            TestView()
             if splashViewModel.isAppLaunching {
                 DailyMainView()
             }
