@@ -16,7 +16,8 @@ struct CalendarYearView: View {
     var body: some View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .year)
-            CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize).padding(12)
+            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
+            Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: $dailyCalendarViewModel.yearSelection) {
                 ForEach(dailyCalendarViewModel.yearSelections, id: \.self) { yearSelection in
                     let selections = CalendarServices.shared.separateSelection(yearSelection)
@@ -77,9 +78,10 @@ struct CalendarYear: View {
             }
         }
         .padding(CGFloat.fontSize)
+        .padding(.vertical, -CGFloat.fontSize * 2)
         .background(Colors.background)
         .cornerRadius(20)
-        .frame(maxHeight: .infinity, alignment: .top)
+        .vTop()
     }
 }
 
@@ -96,7 +98,7 @@ struct DailyMonthOnYear: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        LazyVStack(alignment: .leading) {
             Text("\(month)월")
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                 .padding(4)
@@ -109,11 +111,11 @@ struct DailyMonthOnYear: View {
                     } else { Spacer() }
                 }
             }
-            Spacer()
         }
         .foregroundStyle(Colors.reverse)
-        .frame(maxWidth: .infinity, alignment: .top)
+        .vTop()
         .padding(.horizontal, CGFloat.fontSize)
+        .padding(.vertical, CGFloat.fontSize * 2)
     }
 }
 

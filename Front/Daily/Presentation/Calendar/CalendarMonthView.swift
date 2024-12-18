@@ -17,7 +17,8 @@ struct CalendarMonthView: View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .month)
             DailyWeekIndicator()
-            CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
+            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
+            Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: $dailyCalendarViewModel.monthSelection) {
                 ForEach(dailyCalendarViewModel.monthSelections, id: \.self) { monthSelection in
                     let selections = CalendarServices.shared.separateSelection(monthSelection)
@@ -63,7 +64,6 @@ struct CalendarMonthView: View {
 
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
     let month: Int
     let symbolsOnMonth: [SymbolsOnMonthModel]
@@ -74,31 +74,27 @@ struct CalendarMonth: View {
         let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
         let dividerIndex = (lengthOfMonth + startDayIndex - 1) / 7
         
-        VStack {
-            LazyVStack {
-                ForEach (0 ... dividerIndex, id: \.self) { rowIndex in
-                    HStack(spacing: 0) {
-                        ForEach (0 ..< 7) { colIndex in
-                            let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
-                            if 1 <= day && day <= lengthOfMonth {
-                                Button {
-                                    action(day)
-                                } label: {
-                                    DailyDayOnMonth(year: year, month: month, day: day, symbolsOnMonth: symbolsOnMonth[day-1])
-                                }
-                            } else {
-                                DailyDayOnMonth().opacity(0)
+        LazyVStack {
+            ForEach (0 ... dividerIndex, id: \.self) { rowIndex in
+                HStack(spacing: 0) {
+                    ForEach (0 ..< 7) { colIndex in
+                        let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
+                        if 1 <= day && day <= lengthOfMonth {
+                            Button {
+                                action(day)
+                            } label: {
+                                DailyDayOnMonth(year: year, month: month, day: day, symbolsOnMonth: symbolsOnMonth[day-1])
                             }
-                        }
+                        } else { DailyDayOnMonth().opacity(0) }
                     }
-                    if rowIndex < dividerIndex { CustomDivider() }
                 }
+                if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
             }
-            .padding(CGFloat.fontSize)
-            .background(Colors.background)
-            .cornerRadius(20)
-            Spacer()
         }
+        .padding(CGFloat.fontSize)
+        .background(Colors.background)
+        .cornerRadius(20)
+        .vTop()
     }
 }
 
@@ -152,7 +148,6 @@ struct DailyDayOnMonth: View {
                 .stroke(.green, lineWidth: 2)
                 .opacity(CalendarServices.shared.isToday(year: year, month: month, day: day) ? 1 : 0)
         }
-        .padding(4)
         .frame(maxWidth: .infinity)
         .foregroundStyle(Colors.reverse)
     }

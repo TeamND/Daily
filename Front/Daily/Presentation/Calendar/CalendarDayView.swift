@@ -24,7 +24,7 @@ struct CalendarDayView: View {
                     }, set: { _ in }
                 )
             )
-            CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
+            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             TabView(selection: $dailyCalendarViewModel.daySelection) {
                 ForEach(-10 ... 10, id: \.self) { index in
                     ForEach(1 ... 12, id: \.self) { month in
