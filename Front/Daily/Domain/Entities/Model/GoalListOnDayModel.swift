@@ -8,9 +8,9 @@
 import Foundation
 
 struct GoalListOnDayModel: Decodable, Hashable {
-    var goalList: [Goal]
+    var goalList: [Goal]?
     
-    init(goalList: [Goal] = []) {
+    init(goalList: [Goal]? = nil) {
         self.goalList = goalList
     }
 }

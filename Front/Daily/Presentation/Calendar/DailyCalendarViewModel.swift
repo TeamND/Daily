@@ -12,12 +12,14 @@ class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     private var updateable: Bool = true
     private var calendar = Calendar.current
-//    let startDate = cal.date(byAdding: .day, value: -DOWIndex, to: currentDate)!
+
     var currentYear: Int = Date().year
     var currentMonth: Int = Date().month
     var currentDay: Int = Date().day
+
     @Published var yearSelections: [String] = []
     @Published var monthSelections: [String] = []
+    @Published var daySelections: [String] = []
     
     func loadSelections(type: CalendarType) {
         switch type {
@@ -35,9 +37,13 @@ class DailyCalendarViewModel: ObservableObject {
                     return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month)
                 } else { return "" }
             }
-            return
         case .day:
-            return
+            daySelections = (-3 ... 3).map { offset in
+                if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+                   let newDate = calendar.date(byAdding: .day, value: offset, to: currentDate) {
+                    return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month, day: newDate.day)
+                } else { return "" }
+            }
         }
     }
     
@@ -114,8 +120,9 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     func calendarDayOnAppear(daySelection: String? = nil) {
+        let daySelection = daySelection ?? self.daySelection
+        updateCurrentCalendar(type: .day, selection: daySelection)
         Task {
-            let daySelection = daySelection ?? self.daySelection
             guard let userID = UserDefaultManager.userID else { return }
             let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
             await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
