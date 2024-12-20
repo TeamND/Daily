@@ -12,6 +12,7 @@ struct CalendarDayView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -49,6 +50,7 @@ struct CalendarDayView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
+                loadingViewModel.loading()
                 if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
                     let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
                     guard dateComponents.count == 3 else { return }

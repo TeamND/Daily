@@ -12,6 +12,7 @@ struct CalendarMonthView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -46,6 +47,7 @@ struct CalendarMonthView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
+                loadingViewModel.loading()
                 if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
                     let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
                     guard dateComponents.count == 2 else { return }
