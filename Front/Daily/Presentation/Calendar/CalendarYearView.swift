@@ -44,6 +44,7 @@ struct CalendarYearView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.yearSelection) { yearSelection in
+                dailyCalendarViewModel.checkCurrentCalendar(type: .year, selection: yearSelection)
                 loadingViewModel.loading()
                 if navigationEnvironment.navigationPath.last == nil {
                     guard let year = Int(yearSelection) else { return }

@@ -50,6 +50,7 @@ struct CalendarDayView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
+                dailyCalendarViewModel.checkCurrentCalendar(type: .day, selection: daySelection)
                 loadingViewModel.loading()
                 if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
                     let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }

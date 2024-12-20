@@ -21,28 +21,26 @@ class DailyCalendarViewModel: ObservableObject {
     @Published var monthSelections: [String] = []
     @Published var daySelections: [String] = []
     
-    func loadSelections(type: CalendarType) {
+    func loadSelections(type: CalendarType, newDate: Date = Date()) {
+        currentYear = newDate.year
+        currentMonth = newDate.month
+        currentDay = newDate.day
+        guard let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay) else { return }
         switch type {
         case .year:
-            yearSelections = (-3 ... 3).map { offset in
-                if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
-                   let newDate = calendar.date(byAdding: .year, value: offset, to: currentDate) {
-                    return CalendarServices.shared.formatDateString(year: newDate.year)
-                } else { return "" }
+            yearSelections = (-2 ... 2).map { offset in
+                guard let newDate = calendar.date(byAdding: .year, value: offset, to: currentDate) else { return "" }
+                return CalendarServices.shared.formatDateString(year: newDate.year)
             }
         case .month:
-            monthSelections = (-3 ... 3).map { offset in
-                if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
-                   let newDate = calendar.date(byAdding: .month, value: offset, to: currentDate) {
-                    return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month)
-                } else { return "" }
+            monthSelections = (-2 ... 2).map { offset in
+                guard let newDate = calendar.date(byAdding: .month, value: offset, to: currentDate) else { return "" }
+                return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month)
             }
         case .day:
-            daySelections = (-3 ... 3).map { offset in
-                if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
-                   let newDate = calendar.date(byAdding: .day, value: offset, to: currentDate) {
-                    return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month, day: newDate.day)
-                } else { return "" }
+            daySelections = (-2 ... 2).map { offset in
+                guard let newDate = calendar.date(byAdding: .day, value: offset, to: currentDate) else { return "" }
+                return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month, day: newDate.day)
             }
         }
     }
@@ -51,15 +49,30 @@ class DailyCalendarViewModel: ObservableObject {
         if updateable {
             setUpdateTimer()
             let selections = CalendarServices.shared.separateSelection(selection)
-            switch type {
-            case .year:
-                currentYear = selections[0]
-            case .month:
-                currentMonth = selections[1]
-            case .day:
-                currentDay = selections[2]
+            if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+               let newDate = CalendarServices.shared.getDate(
+                year: selections.count > 0 ? selections[0] : currentYear,
+                month: selections.count > 1 ? selections[1] : currentMonth,
+                day: selections.count > 2 ? selections[2] : currentDay
+               ) {
+                let diffrence = calendar.dateComponents([.year, .month, .day], from: currentDate, to: newDate)
+                if (type == .year && diffrence.year == 1) ||
+                    (type == .month && diffrence.month == 1) ||
+                    (type == .day && diffrence.day == 1)
+                { loadSelections(type: type, newDate: newDate) }
             }
-            loadSelections(type: type)
+        }
+    }
+    
+    func checkCurrentCalendar(type: CalendarType, selection: String) {
+        let selections = CalendarServices.shared.separateSelection(selection)
+        if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+           let newDate = CalendarServices.shared.getDate(
+            year: selections.count > 0 ? selections[0] : currentYear,
+            month: selections.count > 1 ? selections[1] : currentMonth,
+            day: selections.count > 2 ? selections[2] : currentDay
+           ) {
+            if currentDate != newDate { loadSelections(type: type, newDate: newDate) }
         }
     }
     
@@ -192,11 +205,7 @@ class DailyCalendarViewModel: ObservableObject {
     // MARK: - weekIndicator func
     func tapWeekIndicator(dayOfWeek: DayOfWeek) {
         let startDate = self.weekSelection.toDate()!
-        
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let date = cal.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
-        
+        let date = calendar.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
         self.setDate(date.year, date.month, date.day)
     }
 }
