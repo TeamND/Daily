@@ -12,34 +12,34 @@ struct CalendarMonthView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .month)
             DailyWeekIndicator()
-            CustomDivider(color: .primary, height: 2, hPadding: CGFloat.fontSize * 2)
+            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
+            Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: $dailyCalendarViewModel.monthSelection) {
-                ForEach(-10 ... 10, id: \.self) { index in
-                    ForEach(1 ... 12, id: \.self) { month in
-                        let year = Date().year + index
-                        let monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
-                        CalendarMonth(
-                            year: year, month: month,
-                            symbolsOnMonth: dailyCalendarViewModel.monthDictionary[monthSelection] ?? Array(repeating: SymbolsOnMonthModel(), count: 31),
-                            action: {
-                                dailyCalendarViewModel.setDate(
-                                    dailyCalendarViewModel.getDate(type: .year),
-                                    dailyCalendarViewModel.getDate(type: .month),
-                                    $0
-                                )
-                                let navigationObject = NavigationObject(viewType: .calendarDay)
-                                navigationEnvironment.navigate(navigationObject)
-                            }
-                        )
-                        .tag(monthSelection)
-                        .onAppear {
-                            dailyCalendarViewModel.calendarMonthOnAppear(monthSelection: monthSelection)
+                ForEach(dailyCalendarViewModel.monthSelections, id: \.self) { monthSelection in
+                    let selections = CalendarServices.shared.separateSelection(monthSelection)
+                    let year = selections[0]
+                    let month = selections[1]
+                    CalendarMonth(
+                        year: year, month: month,
+                        symbolsOnMonth: dailyCalendarViewModel.monthDictionary[monthSelection] ?? Array(repeating: SymbolsOnMonthModel(), count: 31),
+                        action: {
+                            dailyCalendarViewModel.setDate(
+                                dailyCalendarViewModel.getDate(type: .year),
+                                dailyCalendarViewModel.getDate(type: .month),
+                                $0
+                            )
+                            let navigationObject = NavigationObject(viewType: .calendarDay)
+                            navigationEnvironment.navigate(navigationObject)
                         }
+                    )
+                    .onAppear {
+                        dailyCalendarViewModel.calendarMonthOnAppear(monthSelection: monthSelection)
                     }
                 }
             }
@@ -47,6 +47,8 @@ struct CalendarMonthView: View {
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
             .onChange(of: dailyCalendarViewModel.monthSelection) { monthSelection in
+                dailyCalendarViewModel.checkCurrentCalendar(type: .month, selection: monthSelection)
+                loadingViewModel.loading()
                 if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
                     let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
                     guard dateComponents.count == 2 else { return }
@@ -57,12 +59,14 @@ struct CalendarMonthView: View {
         .overlay {
             DailyAddGoalButton()
         }
+        .onAppear {
+            dailyCalendarViewModel.loadSelections(type: .month)
+        }
     }
 }
 
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
     let month: Int
     let symbolsOnMonth: [SymbolsOnMonthModel]
@@ -73,31 +77,27 @@ struct CalendarMonth: View {
         let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
         let dividerIndex = (lengthOfMonth + startDayIndex - 1) / 7
         
-        VStack {
-            VStack {
-                ForEach (0 ... dividerIndex, id: \.self) { rowIndex in
-                    HStack(spacing: 0) {
-                        ForEach (0 ..< 7) { colIndex in
-                            let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
-                            if 1 <= day && day <= lengthOfMonth {
-                                Button {
-                                    action(day)
-                                } label: {
-                                    DailyDayOnMonth(year: year, month: month, day: day, symbolsOnMonth: symbolsOnMonth[day-1])
-                                }
-                            } else {
-                                DailyDayOnMonth().opacity(0)
+        LazyVStack {
+            ForEach (0 ... dividerIndex, id: \.self) { rowIndex in
+                HStack(spacing: 0) {
+                    ForEach (0 ..< 7) { colIndex in
+                        let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
+                        if 1 <= day && day <= lengthOfMonth {
+                            Button {
+                                action(day)
+                            } label: {
+                                DailyDayOnMonth(year: year, month: month, day: day, symbolsOnMonth: symbolsOnMonth[day-1])
                             }
-                        }
+                        } else { DailyDayOnMonth().opacity(0) }
                     }
-                    if rowIndex < dividerIndex { CustomDivider() }
                 }
+                if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
             }
-            .padding(CGFloat.fontSize)
-            .background(Colors.background)
-            .cornerRadius(20)
-            Spacer()
         }
+        .padding(CGFloat.fontSize)
+        .background(Colors.background)
+        .cornerRadius(20)
+        .vTop()
     }
 }
 
@@ -151,7 +151,6 @@ struct DailyDayOnMonth: View {
                 .stroke(.green, lineWidth: 2)
                 .opacity(CalendarServices.shared.isToday(year: year, month: month, day: day) ? 1 : 0)
         }
-        .padding(4)
         .frame(maxWidth: .infinity)
         .foregroundStyle(Colors.reverse)
     }

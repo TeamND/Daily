@@ -10,6 +10,80 @@ import SwiftUI
 
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
+    private var updateable: Bool = true
+    private var calendar = Calendar.current
+
+    var currentYear: Int = Date().year
+    var currentMonth: Int = Date().month
+    var currentDay: Int = Date().day
+
+    @Published var yearSelections: [String] = []
+    @Published var monthSelections: [String] = []
+    @Published var daySelections: [String] = []
+    
+    func loadSelections(type: CalendarType, newDate: Date = Date()) {
+        currentYear = newDate.year
+        currentMonth = newDate.month
+        currentDay = newDate.day
+        guard let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay) else { return }
+        switch type {
+        case .year:
+            yearSelections = (-2 ... 2).map { offset in
+                guard let newDate = calendar.date(byAdding: .year, value: offset, to: currentDate) else { return "" }
+                return CalendarServices.shared.formatDateString(year: newDate.year)
+            }
+        case .month:
+            monthSelections = (-2 ... 2).map { offset in
+                guard let newDate = calendar.date(byAdding: .month, value: offset, to: currentDate) else { return "" }
+                return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month)
+            }
+        case .day:
+            daySelections = (-2 ... 2).map { offset in
+                guard let newDate = calendar.date(byAdding: .day, value: offset, to: currentDate) else { return "" }
+                return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month, day: newDate.day)
+            }
+        }
+    }
+    
+    func updateCurrentCalendar(type: CalendarType, selection: String) {
+        if updateable {
+            setUpdateTimer()
+            let selections = CalendarServices.shared.separateSelection(selection)
+            if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+               let newDate = CalendarServices.shared.getDate(
+                year: selections.count > 0 ? selections[0] : currentYear,
+                month: selections.count > 1 ? selections[1] : currentMonth,
+                day: selections.count > 2 ? selections[2] : currentDay
+               ) {
+                let diffrence = calendar.dateComponents([.year, .month, .day], from: currentDate, to: newDate)
+                if (type == .year && diffrence.year == 1) ||
+                    (type == .month && diffrence.month == 1) ||
+                    (type == .day && diffrence.day == 1)
+                { loadSelections(type: type, newDate: newDate) }
+            }
+        }
+    }
+    
+    func checkCurrentCalendar(type: CalendarType, selection: String) {
+        let selections = CalendarServices.shared.separateSelection(selection)
+        if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
+           let newDate = CalendarServices.shared.getDate(
+            year: selections.count > 0 ? selections[0] : currentYear,
+            month: selections.count > 1 ? selections[1] : currentMonth,
+            day: selections.count > 2 ? selections[2] : currentDay
+           ) {
+            if currentDate != newDate { loadSelections(type: type, newDate: newDate) }
+        }
+    }
+    
+    func setUpdateTimer() {
+        DispatchQueue.main.async {
+            self.updateable = false
+            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { timer in
+                self.updateable = true
+            }
+        }
+    }
     
     @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
@@ -35,12 +109,15 @@ class DailyCalendarViewModel: ObservableObject {
     
     // MARK: - init
     init() {
+        self.calendar.timeZone = TimeZone(identifier: "UTC")!
+        
         let calendarRepository = CalendarRepository()
         self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
     }
     
     // MARK: - onAppear
     func calendarYearOnAppear(yearSelection: String) {
+        updateCurrentCalendar(type: .year, selection: yearSelection)
         Task {
             guard let userID = UserDefaultManager.userID else { return }
             let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: userID, year: yearSelection))
@@ -48,6 +125,7 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     func calendarMonthOnAppear(monthSelection: String) {
+        updateCurrentCalendar(type: .month, selection: monthSelection)
         Task {
             guard let userID = UserDefaultManager.userID else { return }
             let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: userID, month: monthSelection))
@@ -55,8 +133,9 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     func calendarDayOnAppear(daySelection: String? = nil) {
+        let daySelection = daySelection ?? self.daySelection
+        updateCurrentCalendar(type: .day, selection: daySelection)
         Task {
-            let daySelection = daySelection ?? self.daySelection
             guard let userID = UserDefaultManager.userID else { return }
             let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
             await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
@@ -126,11 +205,7 @@ class DailyCalendarViewModel: ObservableObject {
     // MARK: - weekIndicator func
     func tapWeekIndicator(dayOfWeek: DayOfWeek) {
         let startDate = self.weekSelection.toDate()!
-        
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let date = cal.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
-        
+        let date = calendar.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
         self.setDate(date.year, date.month, date.day)
     }
 }
