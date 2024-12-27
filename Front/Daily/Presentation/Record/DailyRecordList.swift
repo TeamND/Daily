@@ -43,7 +43,7 @@ struct DailyRecordList: View {
                             } label: {
                                 Label("날짜 변경", systemImage: "calendar")
                             }
-                            if record.cycle_type == CycleType.rept.rawValue {
+                            if record.cycle_type == CycleTypes.rept.rawValue {
                                 if record.parent_uid == nil {
                                     Menu {
                                         Button {

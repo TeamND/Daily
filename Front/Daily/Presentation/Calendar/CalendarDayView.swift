@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
@@ -28,21 +29,25 @@ struct CalendarDayView: View {
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: $dailyCalendarViewModel.daySelection) {
-                ForEach(dailyCalendarViewModel.daySelections, id: \.self) { daySelection in
-                    let selections = CalendarServices.shared.separateSelection(daySelection)
-                    let year = selections[0]
-                    let month = selections[1]
-                    let day = selections[2]
-                    let goalListOnDayBinding = Binding<GoalListOnDayModel>(
-                        get: { dailyCalendarViewModel.dayDictionary[daySelection] ?? GoalListOnDayModel() },
-                        set: { dailyCalendarViewModel.dayDictionary[daySelection] = $0 }
-                    )
-                    CalendarDay(
-                        year: year, month: month, day: day,
-                        goalListOnDay: goalListOnDayBinding
-                    )
-                    .onAppear {
-                        dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
+                ForEach(-10 ... 10, id: \.self) { index in
+                    ForEach(1 ... 12, id: \.self) { month in
+                        let year = Date().year + index
+                        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
+                        ForEach(1 ... lengthOfMonth, id: \.self) { day in
+                            let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
+                            let goalListOnDayBinding = Binding<GoalListOnDayModel>(
+                                get: { dailyCalendarViewModel.dayDictionary[daySelection] ?? GoalListOnDayModel() },
+                                set: { dailyCalendarViewModel.dayDictionary[daySelection] = $0 }
+                            )
+                            CalendarDay(
+                                year: year, month: month, day: day,
+                                goalListOnDay: goalListOnDayBinding
+                            )
+//                            .tag(daySelection)
+//                            .onAppear {
+//                                dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
+//                            }
+                        }
                     }
                 }
             }
@@ -73,6 +78,8 @@ struct CalendarDayView: View {
 }
 // MARK: - CalendarDay
 struct CalendarDay: View {
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @Environment(\.modelContext) private var modelContext
     let year: Int
     let month: Int
     let day: Int

@@ -10,11 +10,13 @@ import SwiftData
 
 @Model
 class DailyRecordModel {
+    var goal: DailyGoalModel?
     var date: Date
     var isSuccess: Bool
     var count: Int
     
-    init(date: Date, isSuccess: Bool, count: Int) {
+    init(goal: DailyGoalModel?, date: Date, isSuccess: Bool, count: Int) {
+        self.goal = goal
         self.date = date
         self.isSuccess = isSuccess
         self.count = count

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 class DailyGoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
@@ -97,6 +98,28 @@ class DailyGoalViewModel: ObservableObject {
         setTime = "00:00".toDateOfSetTime()
     }
     
+    func add(modelContext: ModelContext) {
+        let newGoal = DailyGoalModel(
+            type: .count,
+            cycleType: .date,
+            content: content,
+            symbol: .check,
+            startDate: Date(),
+            endDate: Date(),
+            count: 1,
+            isSetTime: false,
+            setTime: "00:00"
+        )
+        let newRecord = DailyRecordModel(
+            goal: newGoal,
+            date: Date(),
+            isSuccess: false,
+            count: 0
+        )
+        newGoal.records.append(newRecord)
+        modelContext.insert(newGoal)
+        try? modelContext.save()
+    }
     func add(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
         Task {
             guard let userID = UserDefaultManager.userID, let user_uid = Int(userID) else { return }

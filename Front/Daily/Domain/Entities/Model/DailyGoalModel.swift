@@ -35,6 +35,7 @@ class DailyGoalModel {
     var count: Int
     var isSetTime: Bool
     var setTime: String
+    @Relationship(deleteRule: .cascade ,inverse: \DailyRecordModel.goal)
     var records: [DailyRecordModel]
     var childGoals: [DailyGoalModel]?
     
@@ -49,7 +50,7 @@ class DailyGoalModel {
         count: Int,
         isSetTime: Bool,
         setTime: String,
-        records: [DailyRecordModel],
+        records: [DailyRecordModel] = [],
         childGoals: [DailyGoalModel]? = nil
     ) {
         self.type = type

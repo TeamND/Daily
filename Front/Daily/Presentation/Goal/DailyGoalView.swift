@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DailyGoalView: View {
     @StateObject var dailyGoalViewModel: DailyGoalViewModel = DailyGoalViewModel()
@@ -207,6 +208,8 @@ struct ButtonSection: View {
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
     @Environment(\.dismiss) var dismiss
     
+    @Environment(\.modelContext) private var modelContext
+    
     var body: some View {
         HStack {
             Spacer()
@@ -214,10 +217,11 @@ struct ButtonSection: View {
                 dailyGoalViewModel.reset()
             }, text: "초기화")
             DailyButton(action: {
-                dailyGoalViewModel.add(
-                    successAction: { dismiss() },
-                    validateAction: { alertViewModel.showToast(message: $0) }
-                )
+                dailyGoalViewModel.add(modelContext: modelContext)
+//                dailyGoalViewModel.add(
+//                    successAction: { dismiss() },
+//                    validateAction: { alertViewModel.showToast(message: $0) }
+//                )
             }, text: "추가")
         }
         .padding(.top, CGFloat.fontSize)

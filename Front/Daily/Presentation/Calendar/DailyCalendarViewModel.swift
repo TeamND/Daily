@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
@@ -207,5 +208,30 @@ class DailyCalendarViewModel: ObservableObject {
         let startDate = self.weekSelection.toDate()!
         let date = calendar.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
         self.setDate(date.year, date.month, date.day)
+    }
+
+    // MARK: - Query filter
+    func getRecords() -> FetchDescriptor<DailyRecordModel> {
+        return FetchDescriptor<DailyRecordModel>()
+    }
+    func getGoals(year: Int, month: Int, day: Int) -> FetchDescriptor<DailyGoalModel> {
+        var descriptor = FetchDescriptor<DailyGoalModel>()
+        descriptor.predicate = #Predicate<DailyGoalModel> {
+            $0.records.contains(
+                where: {
+                    $0.isSuccess
+//                    let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = "yyyy-MM-dd"
+//                    dateFormatter.timeZone = TimeZone(identifier: "UTC")
+//                    if let date = dateFormatter.date(from: daySelection) {
+//                        $0.date == date
+//                    } else {
+//                        $0.date == Date()
+//                    }
+                }
+            )
+        }
+        return descriptor
     }
 }
