@@ -10,13 +10,23 @@ import Foundation
 // MARK: - return Int
 extension Date {
     public var year: Int {
-        return Calendar.current.component(.year, from: self)
+        Calendar.current.component(.year, from: self)
     }
     public var month: Int {
-         return Calendar.current.component(.month, from: self)
+        Calendar.current.component(.month, from: self)
     }
     public var day: Int {
-         return Calendar.current.component(.day, from: self)
+         Calendar.current.component(.day, from: self)
+    }
+    public var weekOfMonth: Int {
+        var calendar = Calendar.current
+        calendar.firstWeekday = (UserDefaultManager.startDay ?? 0) + 1
+        return calendar.component(.weekOfMonth, from: self)
+    }
+    public var weekday: Int {
+        var calendar = Calendar.current
+        calendar.firstWeekday = (UserDefaultManager.startDay ?? 0) + 1
+        return calendar.component(.weekday, from: self)
     }
 }
 
@@ -49,6 +59,16 @@ extension Date {
     }
     func yyyyMMdd() -> String {
         return String(format: "%04d", self.year) + String(format: "%02d", self.month) + String(format: "%02d", self.day)
+    }
+    func getSelection(type: CalendarType) -> String {
+        switch type {
+        case .year:
+            return CalendarServices.shared.formatDateString(year: self.year)
+        case .month:
+            return CalendarServices.shared.formatDateString(year: self.year, month: self.month)
+        case .day:
+            return CalendarServices.shared.formatDateString(year: self.year, month: self.month, day: self.day)
+        }
     }
 }
 

@@ -9,37 +9,32 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
         let monthSelection = Binding(    // TODO: 추후 수정
-            get: { CalendarServices.shared.formatDateString(year: dailyCalendarViewModel.currentDate.year, month: dailyCalendarViewModel.currentDate.month) },
+            get: { dailyCalendarViewModel.currentDate.getSelection(type: .month) },
             set: {
                 let year = CalendarServices.shared.separateSelection($0)[0]
                 let month = CalendarServices.shared.separateSelection($0)[1]
                 dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date()
             }
         )
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
             DailyCalendarHeader(type: .month)
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: monthSelection) {
                 ForEach(-1 ... 12, id: \.self) { index in
-                    let year = dailyCalendarViewModel.currentDate.year
-                    let direction: Direction = index < 0 ? .prev : index < 12 ? .current : .next
-                    let month = direction == .next ? 1 : direction == .prev ? 12 : index + 1
-                    let monthSelection = CalendarServices.shared.formatDateString(year: year + direction.value, month: month)
+                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .month, index: index)
                     Group {
-                        if 0 <= index && index < 12 {
+                        if direction == .current {
                             CalendarMonth(
-                                year: year, month: month,
+                                year: date.year, month: date.month,
                                 action: {
-                                    guard let currentDate = CalendarServices.shared.getDate(year: year, month: month, day: $0) else { return }
+                                    guard let currentDate = CalendarServices.shared.getDate(year: date.year, month: date.month, day: $0) else { return }
                                     dailyCalendarViewModel.currentDate = currentDate
                                     let navigationObject = NavigationObject(viewType: .calendarDay)
                                     navigationEnvironment.navigate(navigationObject)
@@ -47,7 +42,7 @@ struct CalendarMonthView: View {
                             )
                         } else { CalendarLoadView(type: .month, direction: direction) }
                     }
-                    .tag(monthSelection)
+                    .tag(selection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))

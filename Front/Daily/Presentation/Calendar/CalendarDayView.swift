@@ -10,69 +10,41 @@ import SwiftData
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
+        let daySelection = Binding(    // TODO: 추후 수정
+            get: { dailyCalendarViewModel.currentDate.getSelection(type: .day) },
+            set: {
+                let year = CalendarServices.shared.separateSelection($0)[0]
+                let month = CalendarServices.shared.separateSelection($0)[1]
+                let day = CalendarServices.shared.separateSelection($0)[2]
+                dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
+            }
+        )
+        VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(
-                mode: .change,
-                opacity: Binding(
-                    get: {
-                        dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
-                    }, set: { _ in }
-                )
-            )
+            DailyWeekIndicator(mode: .change)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: $dailyCalendarViewModel.daySelection) {
-                ForEach(-10 ... 10, id: \.self) { index in
-                    ForEach(1 ... 12, id: \.self) { month in
-                        let year = Date().year + index
-                        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
-                        ForEach(1 ... lengthOfMonth, id: \.self) { day in
-                            let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
-                            let goalListOnDayBinding = Binding<GoalListOnDayModel>(
-                                get: { dailyCalendarViewModel.dayDictionary[daySelection] ?? GoalListOnDayModel() },
-                                set: { dailyCalendarViewModel.dayDictionary[daySelection] = $0 }
-                            )
-                            CalendarDay(
-                                year: year, month: month, day: day,
-                                goalListOnDay: goalListOnDayBinding
-                            )
-//                            .tag(daySelection)
-//                            .onAppear {
-//                                dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
-//                            }
-                        }
+            TabView(selection: daySelection) {
+                ForEach(-1 ... 7, id: \.self) { index in
+                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .day, index: index)
+                    Group {
+                        if direction == .current {
+                            CalendarDay(year: date.year, month: date.month, day: date.day, goalListOnDay: .constant(GoalListOnDayModel()))
+                        } else { CalendarLoadView(type: .day, direction: direction) }
                     }
+                    .tag(selection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.daySelection) { _, daySelection in
-                if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
-                    let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
-                    guard dateComponents.count == 3 else { return }
-                    dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
-                }
-            }
-            .onChange(of: dailyCalendarViewModel.weekSelection) { _, weekSelection in
-                dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)
-            }
-            .onAppear {
-                dailyCalendarViewModel.weekIndicatorOnChange()
-            }
         }
         .overlay {
             DailyAddGoalButton()
-        }
-        .onAppear {
-            dailyCalendarViewModel.loadSelections(type: .day)
         }
     }
 }

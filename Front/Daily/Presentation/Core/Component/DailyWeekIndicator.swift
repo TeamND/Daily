@@ -21,11 +21,7 @@ struct DailyWeekIndicator: View {
         HStack(spacing: 0) {
             ForEach(DayOfWeek.allCases, id: \.self) { dayOfWeek in
                 ZStack {
-                    let isSelectedDay = CalendarServices.shared.isSelectedDay(
-                        dowIndex: dayOfWeek.index,
-                        weekSelection: dailyCalendarViewModel.weekSelection,
-                        daySelection: dailyCalendarViewModel.daySelection
-                    )
+                    let isSelectedDay = true    // TODO: 추후 수정
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 2)
                         .opacity(isSelectedDay && mode == .change ? 1 : 0)

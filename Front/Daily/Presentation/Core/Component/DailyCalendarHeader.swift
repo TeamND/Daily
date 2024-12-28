@@ -55,7 +55,7 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    dailyCalendarViewModel.setDate(Date().year, Date().month, Date().day)
+                    dailyCalendarViewModel.currentDate = Date()
                 } label: {
                     Label("오늘", systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))

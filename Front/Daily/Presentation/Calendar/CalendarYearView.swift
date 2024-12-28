@@ -14,7 +14,7 @@ struct CalendarYearView: View {
     
     var body: some View {
         let yearSelection = Binding(    // TODO: 추후 수정
-            get: { CalendarServices.shared.formatDateString(year: dailyCalendarViewModel.currentDate.year) },
+            get: { dailyCalendarViewModel.currentDate.getSelection(type: .year) },
             set: {
                 let year = CalendarServices.shared.separateSelection($0)[0]
                 dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: 1, day: 1) ?? Date()
@@ -25,23 +25,22 @@ struct CalendarYearView: View {
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: yearSelection) {
-                ForEach(-1 ... 10, id: \.self) { unit in
-                    let year = dailyCalendarViewModel.decade + unit
-                    let yearSelection = CalendarServices.shared.formatDateString(year: year)
+                ForEach(-1 ... 10, id: \.self) { index in
+                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .year, index: index)
                     Group {
-                        if 0 <= unit && unit < 10 {
+                        if direction == .current {
                             CalendarYear(
-                                year: year,
+                                year: date.year,
                                 action: {
-                                    guard let currentDate = CalendarServices.shared.getDate(year: year, month: $0, day: 1) else { return }
+                                    guard let currentDate = CalendarServices.shared.getDate(year: date.year, month: $0, day: 1) else { return }
                                     dailyCalendarViewModel.currentDate = currentDate
                                     let navigationObject = NavigationObject(viewType: .calendarMonth)
                                     navigationEnvironment.navigate(navigationObject)
                                 }
                             )
-                        } else { CalendarLoadView(type: .year, direction: unit < 0 ? .prev : .next) }
+                        } else { CalendarLoadView(type: .year, direction: direction) }
                     }
-                    .tag(yearSelection)
+                    .tag(selection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
