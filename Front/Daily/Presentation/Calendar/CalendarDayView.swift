@@ -14,21 +14,12 @@ struct CalendarDayView: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
-        let daySelection = Binding(    // TODO: 추후 수정
-            get: { dailyCalendarViewModel.currentDate.getSelection(type: .day) },
-            set: {
-                let year = CalendarServices.shared.separateSelection($0)[0]
-                let month = CalendarServices.shared.separateSelection($0)[1]
-                let day = CalendarServices.shared.separateSelection($0)[2]
-                dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
-            }
-        )
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
             DailyWeekIndicator(mode: .change)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: daySelection) {
+            TabView(selection: dailyCalendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... 7, id: \.self) { index in
                     let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .day, index: index)
                     Group {

@@ -13,18 +13,11 @@ struct CalendarYearView: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
-        let yearSelection = Binding(    // TODO: 추후 수정
-            get: { dailyCalendarViewModel.currentDate.getSelection(type: .year) },
-            set: {
-                let year = CalendarServices.shared.separateSelection($0)[0]
-                dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: 1, day: 1) ?? Date()
-            }
-        )
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .year)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: yearSelection) {
+            TabView(selection: dailyCalendarViewModel.bindSelection(type: .year)) {
                 ForEach(-1 ... 10, id: \.self) { index in
                     let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .year, index: index)
                     Group {

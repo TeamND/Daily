@@ -15,6 +15,19 @@ class DailyCalendarViewModel: ObservableObject {
 
     @Published var currentDate: Date = Date()
     
+    func bindSelection(type: CalendarType) -> Binding<String> {
+        Binding(
+            get: { self.currentDate.getSelection(type: type) },
+            set: {
+                let selections = CalendarServices.shared.separateSelection($0)
+                let year = selections[0]
+                let month = selections.count > 1 ? selections[1] : 1
+                let day = selections.count > 2 ? selections[2] : selections.count > 1 && year == Date().year && month == Date().month ? Date().day : 1
+                self.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
+            }
+        )
+    }
+    
 //    var yeardate: Date { calendar.date(byAdding: .year, value: -currentDate.year % 10, to: currentDate) ?? Date() }
 //    var monthdate: Date { calendar.date(byAdding: .month , value: -(currentDate.month - 1), to: currentDate) ?? Date() }
 //    var weekdate: Date { calendar.date(byAdding: .day, value: -(currentDate.weekday - 1), to: currentDate) ?? Date() }
@@ -64,29 +77,14 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     func moveDate(type: CalendarType, direction: Direction) {
-//        guard let today = self.daySelection.toDate() else { return }
-//        var cal = Calendar.current
-//        cal.timeZone = TimeZone(identifier: "UTC")!
-//        let componentType: Calendar.Component
-//        switch type {
-//        case .year:
-//            componentType = .year
-//        case .month:
-//            componentType = .month
-//        case .day:
-//            componentType = .day
-//        }
-//        
-//        if let prevDate = cal.date(byAdding: componentType, value: direction.value, to: today) {
-//            self.setDate(prevDate.year, prevDate.month, prevDate.day)
-//        }
+        let byAdding: Calendar.Component = type == .year ? .year : type == .month ? .month : .day
+        currentDate = calendar.date(byAdding: byAdding, value: direction.value, to: currentDate) ?? Date()
     }
     
     // MARK: - weekIndicator func
     func tapWeekIndicator(dayOfWeek: DayOfWeek) {
-//        let startDate = self.weekSelection.toDate()!
-//        let date = calendar.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
-//        self.setDate(date.year, date.month, date.day)
+        let offset = currentDate.weekday - 1
+        currentDate = calendar.date(byAdding: .day, value: dayOfWeek.index - offset, to: currentDate) ?? Date()
     }
 
     // MARK: - Query filter

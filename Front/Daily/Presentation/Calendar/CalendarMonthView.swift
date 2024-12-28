@@ -13,20 +13,12 @@ struct CalendarMonthView: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
-        let monthSelection = Binding(    // TODO: 추후 수정
-            get: { dailyCalendarViewModel.currentDate.getSelection(type: .month) },
-            set: {
-                let year = CalendarServices.shared.separateSelection($0)[0]
-                let month = CalendarServices.shared.separateSelection($0)[1]
-                dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date()
-            }
-        )
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .month)
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: monthSelection) {
+            TabView(selection: dailyCalendarViewModel.bindSelection(type: .month)) {
                 ForEach(-1 ... 12, id: \.self) { index in
                     let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .month, index: index)
                     Group {
