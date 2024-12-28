@@ -25,18 +25,22 @@ struct CalendarYearView: View {
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: yearSelection) {
-                ForEach(0 ..< 10, id: \.self) { unit in
+                ForEach(-1 ... 10, id: \.self) { unit in
                     let year = dailyCalendarViewModel.decade + unit
                     let yearSelection = CalendarServices.shared.formatDateString(year: year)
-                    CalendarYear(
-                        year: year,
-                        action: {
-                            guard let currentDate = CalendarServices.shared.getDate(year: year, month: $0, day: 1) else { return }
-                            dailyCalendarViewModel.currentDate = currentDate
-                            let navigationObject = NavigationObject(viewType: .calendarMonth)
-                            navigationEnvironment.navigate(navigationObject)
-                        }
-                    )
+                    Group {
+                        if 0 <= unit && unit < 10 {
+                            CalendarYear(
+                                year: year,
+                                action: {
+                                    guard let currentDate = CalendarServices.shared.getDate(year: year, month: $0, day: 1) else { return }
+                                    dailyCalendarViewModel.currentDate = currentDate
+                                    let navigationObject = NavigationObject(viewType: .calendarMonth)
+                                    navigationEnvironment.navigate(navigationObject)
+                                }
+                            )
+                        } else { CalendarLoadView(type: .year, direction: unit < 0 ? .prev : .next) }
+                    }
                     .tag(yearSelection)
                 }
             }

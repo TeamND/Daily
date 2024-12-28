@@ -14,9 +14,7 @@ class DailyCalendarViewModel: ObservableObject {
     private var updateable: Bool = true
     private var calendar = Calendar.current
 
-    @Published var currentDate: Date = Date() {
-        didSet { print("currentDate changed: \(currentDate)") }
-    }
+    @Published var currentDate: Date = Date()
     
     var decade: Int { currentDate.year / 10 * 10 }
     
@@ -177,6 +175,18 @@ class DailyCalendarViewModel: ObservableObject {
         self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
         self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
         self.weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
+    }
+    
+    func loadText(type: CalendarType, direction: Direction) -> String {
+        switch type {
+        case .year:
+            let decade = self.decade + direction.value * 10
+            return "\(String(decade)) 년대"
+        case .month:
+            return ""
+        case .day:
+            return ""
+        }
     }
     
     // MARK: - header func
