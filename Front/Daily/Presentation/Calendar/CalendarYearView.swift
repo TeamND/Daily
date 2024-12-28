@@ -14,7 +14,7 @@ struct CalendarYearView: View {
     
     var body: some View {
         let yearSelection = Binding(    // TODO: 추후 수정
-            get: { return CalendarServices.shared.formatDateString(year: dailyCalendarViewModel.currentDate.year) },
+            get: { CalendarServices.shared.formatDateString(year: dailyCalendarViewModel.currentDate.year) },
             set: {
                 let year = CalendarServices.shared.separateSelection($0)[0]
                 dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: 1, day: 1) ?? Date()

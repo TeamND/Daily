@@ -9,6 +9,7 @@ import Foundation
 
 enum Direction: String {
     case prev = "<"
+    case current = "|"
     case next = ">"
 
     case minus = "-"
@@ -18,6 +19,8 @@ enum Direction: String {
         switch self {
         case .prev, .minus:
             return -1
+        case .current:
+            return 0
         case .next, .plus:
             return 1
         }
@@ -25,6 +28,10 @@ enum Direction: String {
     
     var imageName: String {
         switch self {
+        case .prev:
+            return "chevron.left.2"
+        case .next:
+            return "chevron.right.2"
         case .minus:
             return "minus.circle"
         case .plus:

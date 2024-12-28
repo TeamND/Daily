@@ -16,12 +16,12 @@ struct CalendarLoadView: View {
         HStack {
             if direction == .prev {
                 Spacer()
-                Image(systemName: "chevron.left.2")
+                Image(systemName: direction.imageName)
             }
             Text(dailyCalendarViewModel.loadText(type: type, direction: direction))
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
             if direction == .next {
-                Image(systemName: "chevron.right.2")
+                Image(systemName: direction.imageName)
                 Spacer()
             }
         }

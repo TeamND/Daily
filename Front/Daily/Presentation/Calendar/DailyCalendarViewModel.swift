@@ -90,7 +90,7 @@ class DailyCalendarViewModel: ObservableObject {
     }
     
 //    @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year) { didSet { print("test") } }
-    @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
+//    @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
     @Published var weekSelection: String = CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
     @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
     
@@ -172,7 +172,7 @@ class DailyCalendarViewModel: ObservableObject {
     // MARK: - set
     func setDate(_ year: Int, _ month: Int, _ day: Int) {
 //        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
-        self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
+//        self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
         self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
         self.weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
     }
@@ -181,9 +181,11 @@ class DailyCalendarViewModel: ObservableObject {
         switch type {
         case .year:
             let decade = self.decade + direction.value * 10
-            return "\(String(decade)) 년대"
+            return "\(String(decade))년대"
         case .month:
-            return ""
+            let newYear = self.currentDate.year + direction.value
+            let newMonth = direction == .next ? 1 : 12
+            return "\(String(newYear))년 \(newMonth)월"
         case .day:
             return ""
         }

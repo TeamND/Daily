@@ -15,50 +15,47 @@ struct CalendarMonthView: View {
     @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
+        let monthSelection = Binding(    // TODO: 추후 수정
+            get: { CalendarServices.shared.formatDateString(year: dailyCalendarViewModel.currentDate.year, month: dailyCalendarViewModel.currentDate.month) },
+            set: {
+                let year = CalendarServices.shared.separateSelection($0)[0]
+                let month = CalendarServices.shared.separateSelection($0)[1]
+                dailyCalendarViewModel.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date()
+            }
+        )
         VStack(spacing: 0) {
             DailyCalendarHeader(type: .month)
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: $dailyCalendarViewModel.monthSelection) {
-                ForEach(dailyCalendarViewModel.monthSelections, id: \.self) { monthSelection in
-                    let selections = CalendarServices.shared.separateSelection(monthSelection)
-                    let year = selections[0]
-                    let month = selections[1]
-                    CalendarMonth(
-                        year: year, month: month,
-                        symbolsOnMonth: dailyCalendarViewModel.monthDictionary[monthSelection] ?? Array(repeating: SymbolsOnMonthModel(), count: 31),
-                        action: {
-                            dailyCalendarViewModel.setDate(
-                                dailyCalendarViewModel.getDate(type: .year),
-                                dailyCalendarViewModel.getDate(type: .month),
-                                $0
+            TabView(selection: monthSelection) {
+                ForEach(-1 ... 12, id: \.self) { index in
+                    let year = dailyCalendarViewModel.currentDate.year
+                    let direction: Direction = index < 0 ? .prev : index < 12 ? .current : .next
+                    let month = direction == .next ? 1 : direction == .prev ? 12 : index + 1
+                    let monthSelection = CalendarServices.shared.formatDateString(year: year + direction.value, month: month)
+                    Group {
+                        if 0 <= index && index < 12 {
+                            CalendarMonth(
+                                year: year, month: month,
+                                action: {
+                                    guard let currentDate = CalendarServices.shared.getDate(year: year, month: month, day: $0) else { return }
+                                    dailyCalendarViewModel.currentDate = currentDate
+                                    let navigationObject = NavigationObject(viewType: .calendarDay)
+                                    navigationEnvironment.navigate(navigationObject)
+                                }
                             )
-                            let navigationObject = NavigationObject(viewType: .calendarDay)
-                            navigationEnvironment.navigate(navigationObject)
-                        }
-                    )
-                    .onAppear {
-                        dailyCalendarViewModel.calendarMonthOnAppear(monthSelection: monthSelection)
+                        } else { CalendarLoadView(type: .month, direction: direction) }
                     }
+                    .tag(monthSelection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.monthSelection) { _, monthSelection in
-                if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
-                    let dateComponents = monthSelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
-                    guard dateComponents.count == 2 else { return }
-                    dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], 1)
-                }
-            }
         }
         .overlay {
             DailyAddGoalButton()
-        }
-        .onAppear {
-            dailyCalendarViewModel.loadSelections(type: .month)
         }
     }
 }
@@ -67,7 +64,6 @@ struct CalendarMonthView: View {
 struct CalendarMonth: View {
     let year: Int
     let month: Int
-    let symbolsOnMonth: [SymbolsOnMonthModel]
     let action: (Int) -> Void
     
     var body: some View {
@@ -84,7 +80,7 @@ struct CalendarMonth: View {
                             Button {
                                 action(day)
                             } label: {
-                                DailyDayOnMonth(year: year, month: month, day: day, symbolsOnMonth: symbolsOnMonth[day-1])
+                                DailyDayOnMonth(year: year, month: month, day: day)
                             }
                         } else { DailyDayOnMonth().opacity(0) }
                     }
