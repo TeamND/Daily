@@ -14,14 +14,22 @@ class DailyCalendarViewModel: ObservableObject {
     private var updateable: Bool = true
     private var calendar = Calendar.current
 
+    @Published var currentDate: Date = Date() {
+        didSet { print("currentDate changed: \(currentDate)") }
+    }
+    
+    var decade: Int { currentDate.year / 10 * 10 }
+    
+    
+    
     var currentYear: Int = Date().year
     var currentMonth: Int = Date().month
     var currentDay: Int = Date().day
 
+    // TODO: 추후 삭제
     @Published var yearSelections: [String] = []
     @Published var monthSelections: [String] = []
     @Published var daySelections: [String] = []
-    
     func loadSelections(type: CalendarType, newDate: Date = Date()) {
         currentYear = newDate.year
         currentMonth = newDate.month
@@ -45,7 +53,6 @@ class DailyCalendarViewModel: ObservableObject {
             }
         }
     }
-    
     func updateCurrentCalendar(type: CalendarType, selection: String) {
         if updateable {
             setUpdateTimer()
@@ -64,7 +71,6 @@ class DailyCalendarViewModel: ObservableObject {
             }
         }
     }
-    
     func checkCurrentCalendar(type: CalendarType, selection: String) {
         let selections = CalendarServices.shared.separateSelection(selection)
         if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
@@ -76,7 +82,6 @@ class DailyCalendarViewModel: ObservableObject {
             if currentDate != newDate { loadSelections(type: type, newDate: newDate) }
         }
     }
-    
     func setUpdateTimer() {
         DispatchQueue.main.async {
             self.updateable = false
@@ -86,11 +91,12 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     
-    @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
+//    @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year) { didSet { print("test") } }
     @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
     @Published var weekSelection: String = CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
     @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
     
+    // TODO: 추후 삭제
     @Published var yearDictionary: [String: [[Double]]] = [
         CalendarServices.shared.formatDateString(year: Date().year)
         : Array(repeating: Array(repeating: 0, count: 31), count: 12)
@@ -167,7 +173,7 @@ class DailyCalendarViewModel: ObservableObject {
     
     // MARK: - set
     func setDate(_ year: Int, _ month: Int, _ day: Int) {
-        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
+//        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
         self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
         self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
         self.weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
@@ -177,11 +183,11 @@ class DailyCalendarViewModel: ObservableObject {
     func headerText(type: CalendarType, textPosition: TextPositionInHeader) -> String {
         switch type {
         case .year:
-            return textPosition == .title ? String(self.getDate(type: type)) + "년" : ""
+            return textPosition == .title ? String(self.currentDate.year) + "년" : ""
         case .month:
-            return textPosition == .title ? String(self.getDate(type: type)) + "월" : String(self.getDate(type: .year)) + "년"
+            return textPosition == .title ? String(self.currentDate.month) + "월" : String(self.currentDate.year) + "년"
         case .day:
-            return textPosition == .title ? String(self.getDate(type: type)) + "일" : String(self.getDate(type: .month)) + "월"
+            return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
         }
     }
     func moveDate(type: CalendarType, direction: Direction) {
