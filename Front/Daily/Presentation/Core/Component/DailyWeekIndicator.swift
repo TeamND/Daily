@@ -38,11 +38,7 @@ struct DailyWeekIndicator: View {
                         dailyCalendarViewModel.setDate(byAdding: .day, value: dayOfWeek.index - (dailyCalendarViewModel.currentDate.weekday - 1))
                     case .select:
                         withAnimation {
-                            if opacity[dayOfWeek.index] > 0 {
-                                opacity[dayOfWeek.index] = 0
-                            } else {
-                                opacity[dayOfWeek.index] = 0.8
-                            }
+                            opacity[dayOfWeek.index] = opacity[dayOfWeek.index] == 0.8 ? 0 : 0.8
                         }
                     case .none:
                         break

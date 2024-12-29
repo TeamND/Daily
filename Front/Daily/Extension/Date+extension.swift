@@ -60,7 +60,7 @@ extension Date {
     func yyyyMMdd() -> String {
         return String(format: "%04d", self.year) + String(format: "%02d", self.month) + String(format: "%02d", self.day)
     }
-    func getSelection(type: CalendarType) -> String {
+    func getSelection(type: CalendarType = .day) -> String {
         switch type {
         case .year:
             return CalendarServices.shared.formatDateString(year: self.year)
@@ -93,5 +93,10 @@ extension Date {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         return cal.date(byAdding: .month, value: 1, to: self)!
+    }
+    func defaultDate() -> Date {
+        var cal = Calendar.current
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        return cal.startOfDay(for: self)
     }
 }

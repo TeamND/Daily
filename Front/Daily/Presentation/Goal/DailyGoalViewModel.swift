@@ -6,15 +6,26 @@
 //
 
 import Foundation
+import SwiftUI
 import SwiftData
 
 class DailyGoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
+    private var calendar = Calendar.current
     
     @Published var cycleType: CycleTypes = .date
-    @Published var startDate: Date = Date()
-    @Published var endDate: Date = Date().setDefaultEndDate()
-    @Published var cycleDate: [String] = []
+    @Published var startDate: Date = Date().defaultDate()
+    @Published var endDate: Date = Date().defaultDate().setDefaultEndDate()
+    var selectedWeekday: [Int] = []
+    var repeatDates: [String] {
+        switch cycleType {
+        case .date:
+            return [startDate.getSelection()]
+        case .rept:
+            return stride(from: startDate, through: endDate, by: 24 * 60 * 60)
+                .compactMap { selectedWeekday.contains(calendar.component(.weekday, from: $0)) ? $0.getSelection() : nil }
+        }
+    }
     
     @Published var isSetTime: Bool = false
     @Published var setTime: Date = "00:00".toDateOfSetTime()
@@ -35,6 +46,8 @@ class DailyGoalViewModel: ObservableObject {
     
     // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
+        self.calendar.timeZone = TimeZone(identifier: "UTC")!
+        
         let goalRepository = GoalRepository()
         self.goalUseCase = GoalUseCase(repository: goalRepository)
         
@@ -88,10 +101,10 @@ class DailyGoalViewModel: ObservableObject {
         content = ""
         symbol = .check
         goalType = .check
-        startDate = Date()
-        endDate = Date().setDefaultEndDate()
+        startDate = Date().defaultDate()
+        endDate = Date().defaultDate().setDefaultEndDate()
         cycleType = .date
-        cycleDate = []
+        selectedWeekday = []
 //        goalTime = 300    // TODO: 추후 수정
         goalCount = 1
         isSetTime = false
@@ -100,24 +113,24 @@ class DailyGoalViewModel: ObservableObject {
     
     func add(modelContext: ModelContext) {
         let newGoal = DailyGoalModel(
-            type: .count,
-            cycleType: .date,
+            type: goalType,
+            cycleType: cycleType,
             content: content,
-            symbol: .check,
-            startDate: Date(),
-            endDate: Date(),
-            count: 1,
-            isSetTime: false,
-            setTime: "00:00"
+            symbol: symbol,
+            startDate: startDate,
+            endDate: endDate,
+            repeatDates: repeatDates,
+            count: goalCount,
+            isSetTime: isSetTime,
+            setTime: setTime.toStringOfSetTime()
         )
-        let newRecord = DailyRecordModel(
-            goal: newGoal,
-            date: Date(),
-            isSuccess: false,
-            count: 0
-        )
-        newGoal.records.append(newRecord)
         modelContext.insert(newGoal)
+        try? modelContext.save()
+        
+        repeatDates.forEach { repeatDate in
+            guard let date = repeatDate.toDate() else { return }
+            modelContext.insert(DailyRecordModel(goal: newGoal, date: date))
+        }
         try? modelContext.save()
     }
     func add(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
@@ -125,10 +138,10 @@ class DailyGoalViewModel: ObservableObject {
             guard let userID = UserDefaultManager.userID, let user_uid = Int(userID) else { return }
             if validateContent() { validateAction(contentLengthAlertMessageText); return }
             if cycleType == .rept {
-                if cycleDate.count == 0 { validateAction(wrongDateAlertTitleText(type: "emptySelectedWOD")); return }
+                if selectedWeekday.count == 0 { validateAction(wrongDateAlertTitleText(type: "emptySelectedWOD")); return }
                 if startDate > endDate { validateAction(wrongDateAlertTitleText(type: "wrongDateRange")); return }
                 if validateDateRange() { validateAction(wrongDateAlertTitleText(type: "overDateRange")); return }
-                if validateCycleDate() { validateAction(wrongDateAlertTitleText(type: "")); return }
+                if repeatDates.count == 0 { validateAction(wrongDateAlertTitleText(type: "")); return }
             }
             let goal: AddGoalRequestModel = AddGoalRequestModel(
                 user_uid: user_uid,
@@ -138,7 +151,7 @@ class DailyGoalViewModel: ObservableObject {
                 start_date: startDate.yyyyMMdd(),
                 end_date: cycleType == .date ? startDate.yyyyMMdd() : endDate.yyyyMMdd(),
                 cycle_type: cycleType.rawValue,
-                cycle_date: cycleType == .date ? [startDate.yyyyMMdd()] : cycleDate,
+                cycle_date: [],
                 goal_time: 300, // TODO: 추후 수정
                 goal_count: goalCount,
                 is_set_time: isSetTime,
@@ -191,29 +204,5 @@ class DailyGoalViewModel: ObservableObject {
     private func validateDateRange() -> Bool {
         let gap = Calendar.current.dateComponents([.year,.month,.day], from: startDate, to: endDate)
         return gap.year! > 0
-    }
-    
-    private func validateCycleDate() -> Bool {
-        let gap = Calendar.current.dateComponents([.year,.month,.day], from: startDate, to: endDate)
-        
-        if gap.year! == 0 && gap.month! == 0 && gap.day! < 6 {
-            let s_DOW = startDate.getKoreaDOW()
-            let e_DOW = endDate.getKoreaDOW()
-            var s_DOWIndex = 0
-            var e_DOWIndex = 0
-            
-            for dayOfWeek in DayOfWeek.allCases {
-                if dayOfWeek.text == s_DOW { s_DOWIndex = dayOfWeek.index }
-                if dayOfWeek.text == e_DOW { e_DOWIndex = dayOfWeek.index }
-            }
-            
-            for i in 0 ..< s_DOWIndex {
-                if cycleDate.contains(String(i)) { return true }
-            }
-            for i in e_DOWIndex + 1 ..< 7 {
-                if cycleDate.contains(String(i)) { return true }
-            }
-        }
-        return false
     }
 }

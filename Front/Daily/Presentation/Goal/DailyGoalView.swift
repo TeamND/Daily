@@ -82,7 +82,7 @@ struct DateSection: View {
             }
         }
         .onChange(of: opacity) { _, opacity in
-            dailyGoalViewModel.cycleDate = opacity.enumerated().compactMap { $1 == 0.8 ? String($0) : nil }
+            dailyGoalViewModel.selectedWeekday = opacity.enumerated().compactMap { $1 == 0.8 ? $0 + 1 : nil }
         }
     }
 }
