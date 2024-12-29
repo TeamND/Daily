@@ -35,7 +35,7 @@ struct DailyWeekIndicator: View {
                 .onTapGesture {
                     switch mode {
                     case .change:
-                        dailyCalendarViewModel.tapWeekIndicator(dayOfWeek: dayOfWeek)
+                        dailyCalendarViewModel.setDate(byAdding: .day, value: dayOfWeek.index - (dailyCalendarViewModel.currentDate.weekday - 1))
                     case .select:
                         withAnimation {
                             if opacity[dayOfWeek.index] > 0 {

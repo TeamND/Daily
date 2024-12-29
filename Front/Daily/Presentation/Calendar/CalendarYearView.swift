@@ -25,8 +25,7 @@ struct CalendarYearView: View {
                             CalendarYear(
                                 year: date.year,
                                 action: {
-                                    guard let currentDate = CalendarServices.shared.getDate(year: date.year, month: $0, day: 1) else { return }
-                                    dailyCalendarViewModel.currentDate = currentDate
+                                    dailyCalendarViewModel.setDate(year: date.year, month: $0)
                                     let navigationObject = NavigationObject(viewType: .calendarMonth)
                                     navigationEnvironment.navigate(navigationObject)
                                 }

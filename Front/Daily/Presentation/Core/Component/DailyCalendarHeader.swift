@@ -32,7 +32,7 @@ struct DailyCalendarHeader: View {
             // MARK: - center
             HStack {
                 Button {
-                    dailyCalendarViewModel.moveDate(type: type, direction: .prev)
+                    dailyCalendarViewModel.setDate(byAdding: type.byAdding, value: Direction.prev.value)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
@@ -45,7 +45,7 @@ struct DailyCalendarHeader: View {
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
                 Button {
-                    dailyCalendarViewModel.moveDate(type: type, direction: .next)
+                    dailyCalendarViewModel.setDate(byAdding: type.byAdding, value: Direction.next.value)
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -55,7 +55,7 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    dailyCalendarViewModel.currentDate = Date()
+                    dailyCalendarViewModel.setDate(date: Date())
                 } label: {
                     Label("오늘", systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))

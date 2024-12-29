@@ -18,14 +18,24 @@ class DailyCalendarViewModel: ObservableObject {
     func bindSelection(type: CalendarType) -> Binding<String> {
         Binding(
             get: { self.currentDate.getSelection(type: type) },
-            set: {
-                let selections = CalendarServices.shared.separateSelection($0)
-                let year = selections[0]
-                let month = selections.count > 1 ? selections[1] : 1
-                let day = selections.count > 2 ? selections[2] : selections.count > 1 && year == Date().year && month == Date().month ? Date().day : 1
-                self.currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
-            }
+            set: { self.setDate(selection: $0) }
         )
+    }
+    
+    func setDate(selection: String) {
+        let selections = CalendarServices.shared.separateSelection(selection)
+        self.setDate(year: selections[0], month: selections[safe: 1], day: selections[safe: 2])
+    }
+    func setDate(year: Int, month: Int? = nil, day: Int? = nil) {
+        let month = month ?? 1
+        let day = day ?? year == Date().year && month == Date().month ? Date().day : 1
+        currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
+    }
+    func setDate(byAdding: Calendar.Component, value: Int) {
+        currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date()
+    }
+    func setDate(date: Date) {
+        currentDate = date
     }
     
 //    var yeardate: Date { calendar.date(byAdding: .year, value: -currentDate.year % 10, to: currentDate) ?? Date() }
@@ -33,9 +43,8 @@ class DailyCalendarViewModel: ObservableObject {
 //    var weekdate: Date { calendar.date(byAdding: .day, value: -(currentDate.weekday - 1), to: currentDate) ?? Date() }
     
     func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        let byAdding: Calendar.Component = type == .year ? .year : type == .month ? .month : .day
         let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : (currentDate.weekday - 1)
-        let date: Date = calendar.date(byAdding: byAdding, value: index - offset, to: currentDate) ?? Date()
+        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date()
         
         let maxIndex = type == .year ? 10 : type == .month ? 12 : 7
         let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
@@ -75,16 +84,6 @@ class DailyCalendarViewModel: ObservableObject {
         case .day:
             return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
         }
-    }
-    func moveDate(type: CalendarType, direction: Direction) {
-        let byAdding: Calendar.Component = type == .year ? .year : type == .month ? .month : .day
-        currentDate = calendar.date(byAdding: byAdding, value: direction.value, to: currentDate) ?? Date()
-    }
-    
-    // MARK: - weekIndicator func
-    func tapWeekIndicator(dayOfWeek: DayOfWeek) {
-        let offset = currentDate.weekday - 1
-        currentDate = calendar.date(byAdding: .day, value: dayOfWeek.index - offset, to: currentDate) ?? Date()
     }
 
     // MARK: - Query filter
