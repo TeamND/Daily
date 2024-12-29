@@ -74,6 +74,7 @@
 		F672993129B7621E00E392BD /* MultiDatePickerOnCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */; };
 		F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F679B9A42C4ACA960027608D /* NoticeSheet.swift */; };
 		F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */; };
+		F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */; };
 		F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */; };
 		F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */; };
 		F6A1A0052C3A45AA00989FBF /* modifyRecordDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */; };
@@ -82,8 +83,8 @@
 		F6A24D702C12CB0400C328E4 /* TimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */; };
 		F6AB72542C2D438E008A5D28 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */; };
 		F6AB72562C2D455D008A5D28 /* CycleTypePickerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */; };
-		F6AE8AFB2D0833220080A0DE /* LoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AFA2D0833220080A0DE /* LoadingViewModel.swift */; };
 		F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */; };
+		F6AE8AFB2D0833220080A0DE /* LoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AFA2D0833220080A0DE /* LoadingViewModel.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -266,6 +267,7 @@
 		F672993029B7621E00E392BD /* MultiDatePickerOnCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiDatePickerOnCalendar.swift; sourceTree = "<group>"; };
 		F679B9A42C4ACA960027608D /* NoticeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSheet.swift; sourceTree = "<group>"; };
 		F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLoadView.swift; sourceTree = "<group>"; };
 		F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyRecordView.swift; sourceTree = "<group>"; };
 		F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordCountModel.swift; sourceTree = "<group>"; };
 		F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordDateModel.swift; sourceTree = "<group>"; };
@@ -274,8 +276,8 @@
 		F6A24D6F2C12CB0400C328E4 /* TimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLine.swift; sourceTree = "<group>"; };
 		F6AB72532C2D438E008A5D28 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
 		F6AB72552C2D455D008A5D28 /* CycleTypePickerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleTypePickerGroup.swift; sourceTree = "<group>"; };
-		F6AE8AFA2D0833220080A0DE /* LoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModel.swift; sourceTree = "<group>"; };
 		F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
+		F6AE8AFA2D0833220080A0DE /* LoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModel.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 				F6016DF22CC6220B00FB637F /* CalendarYearView.swift */,
 				F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */,
 				F6016DF72CC6632600FB637F /* CalendarDayView.swift */,
+				F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -1220,6 +1223,7 @@
 				F6CC15AA2BA4598700689A02 /* UserInfoModel.swift in Sources */,
 				F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */,
 				F634D2D82CC483F80014EDB6 /* PresentationDetent+extension.swift in Sources */,
+				F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */,
 				F6016DE92CC6161B00FB637F /* AppLaunchInterface.swift in Sources */,
 				F6016DC72CC5273B00FB637F /* NetworkEndpoint.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,

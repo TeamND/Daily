@@ -11,59 +11,44 @@ import SwiftUI
 struct CalendarYearView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
             DailyCalendarHeader(type: .year)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: $dailyCalendarViewModel.yearSelection) {
-                ForEach(dailyCalendarViewModel.yearSelections, id: \.self) { yearSelection in
-                    let selections = CalendarServices.shared.separateSelection(yearSelection)
-                    let year = selections[0]
-                    CalendarYear(
-                        year: year,
-                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
-                        action: {
-                            dailyCalendarViewModel.setDate(
-                                dailyCalendarViewModel.getDate(type: .year),
-                                $0,
-                                1
+            TabView(selection: dailyCalendarViewModel.bindSelection(type: .year)) {
+                ForEach(-1 ... 10, id: \.self) { index in
+                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .year, index: index)
+                    Group {
+                        if direction == .current {
+                            CalendarYear(
+                                year: date.year,
+                                action: {
+                                    guard let currentDate = CalendarServices.shared.getDate(year: date.year, month: $0, day: 1) else { return }
+                                    dailyCalendarViewModel.currentDate = currentDate
+                                    let navigationObject = NavigationObject(viewType: .calendarMonth)
+                                    navigationEnvironment.navigate(navigationObject)
+                                }
                             )
-                            let navigationObject = NavigationObject(viewType: .calendarMonth)
-                            navigationEnvironment.navigate(navigationObject)
-                        }
-                    )
-                    .onAppear {
-                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
+                        } else { CalendarLoadView(type: .year, direction: direction) }
                     }
+                    .tag(selection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.yearSelection) { _, yearSelection in
-                if navigationEnvironment.navigationPath.last == nil {
-                    guard let year = Int(yearSelection) else { return }
-                    dailyCalendarViewModel.setDate(year, 1, 1)
-                }
-            }
         }
         .overlay {
             DailyAddGoalButton()
-        }
-        .onAppear {
-            dailyCalendarViewModel.loadSelections(type: .year)
         }
     }
 }
 
 // MARK: - CalendarYear
 struct CalendarYear: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let year: Int
-    let ratingsOnYear: [[Double]]
     let action: (Int) -> Void
     
     var body: some View {
@@ -72,7 +57,7 @@ struct CalendarYear: View {
                 Button {
                     action(month)
                 } label: {
-                    DailyMonthOnYear(year: year, month: month, ratings: ratingsOnYear[month - 1])
+                    DailyMonthOnYear(year: year, month: month)
                 }
             }
         }
@@ -90,7 +75,7 @@ struct DailyMonthOnYear: View {
     let month: Int
     let ratings: [Double]
     
-    init(year: Int, month: Int, ratings: [Double]) {
+    init(year: Int, month: Int, ratings: [Double] = Array(repeating: 0, count: 31)) {
         self.year = year
         self.month = month
         self.ratings = ratings
