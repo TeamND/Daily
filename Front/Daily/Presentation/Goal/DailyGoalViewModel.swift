@@ -111,7 +111,14 @@ class DailyGoalViewModel: ObservableObject {
         setTime = "00:00".toDateOfSetTime()
     }
     
-    func add(modelContext: ModelContext) {
+    func add(modelContext: ModelContext, successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
+        if validateContent() { validateAction(contentLengthAlertMessageText); return }
+        if cycleType == .rept {
+            if selectedWeekday.count == 0 { validateAction(wrongDateAlertTitleText(type: "emptySelectedWOD")); return }
+            if startDate > endDate { validateAction(wrongDateAlertTitleText(type: "wrongDateRange")); return }
+            if validateDateRange() { validateAction(wrongDateAlertTitleText(type: "overDateRange")); return }
+            if repeatDates.count == 0 { validateAction(wrongDateAlertTitleText(type: "")); return }
+        }
         let newGoal = DailyGoalModel(
             type: goalType,
             cycleType: cycleType,
@@ -132,6 +139,7 @@ class DailyGoalViewModel: ObservableObject {
             modelContext.insert(DailyRecordModel(goal: newGoal, date: date))
         }
         try? modelContext.save()
+        successAction()
     }
     func add(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
         Task {

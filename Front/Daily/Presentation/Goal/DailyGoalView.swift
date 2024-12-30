@@ -217,11 +217,11 @@ struct ButtonSection: View {
                 dailyGoalViewModel.reset()
             }, text: "초기화")
             DailyButton(action: {
-                dailyGoalViewModel.add(modelContext: modelContext)
-//                dailyGoalViewModel.add(
-//                    successAction: { dismiss() },
-//                    validateAction: { alertViewModel.showToast(message: $0) }
-//                )
+                dailyGoalViewModel.add(
+                    modelContext: modelContext,
+                    successAction: { dismiss() },
+                    validateAction: { alertViewModel.showToast(message: $0) }
+                )
             }, text: "추가")
         }
         .padding(.top, CGFloat.fontSize)
