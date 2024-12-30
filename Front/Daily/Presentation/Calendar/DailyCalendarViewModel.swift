@@ -14,6 +14,7 @@ class DailyCalendarViewModel: ObservableObject {
     private var calendar = Calendar.current
 
     @Published var currentDate: Date = Date()
+    @Published var yearDictionary: [String: [[Double]]] = [:]
     
     func bindSelection(type: CalendarType) -> Binding<String> {
         Binding(
@@ -72,6 +73,38 @@ class DailyCalendarViewModel: ObservableObject {
             let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date()
             return "\(date.month)월 \(date.weekOfMonth)주차"
         }
+    }
+    
+    func calendarYearOnAppear(modelContext: ModelContext, date: Date, selection: String) {
+        let startOfYear = calendar.date(from: DateComponents(year: date.year, month: 1, day: 1))!
+        let endOfYear = calendar.date(from: DateComponents(year: date.year, month: 12, day: 31))!
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startOfYear <= record.date && record.date <= endOfYear
+            }
+        )
+        
+        guard let records = try? modelContext.fetch(descriptor) else { return }
+        
+        var recordsByDate: [Date: [DailyRecordModel]] = [:]
+        records.forEach { record in
+            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
+            if let normalizedDate = calendar.date(from: components) {
+                recordsByDate[normalizedDate, default: []].append(record)
+            }
+        }
+        
+        var newRatings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        for (date, dayRecords) in recordsByDate {
+            let successCount = dayRecords.filter { $0.isSuccess }.count
+            let totalCount = dayRecords.count
+            
+            if totalCount > 0 {
+                newRatings[date.month - 1][date.day - 1] = Double(successCount) / Double(totalCount)
+            }
+        }
+        
+        yearDictionary[selection] = newRatings
     }
     
     // MARK: - header func
