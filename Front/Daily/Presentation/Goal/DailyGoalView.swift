@@ -220,7 +220,7 @@ struct ButtonSection: View {
                 dailyGoalViewModel.add(
                     modelContext: modelContext,
                     successAction: { dismiss() },
-                    validateAction: { alertViewModel.showToast(message: $0) }
+                    validateAction: { alertViewModel.showToast(message: $0.messageText) }
                 )
             }, text: "추가")
         }

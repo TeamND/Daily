@@ -111,13 +111,13 @@ class DailyGoalViewModel: ObservableObject {
         setTime = "00:00".toDateOfSetTime()
     }
     
-    func add(modelContext: ModelContext, successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
-        if validateContent() { validateAction(contentLengthAlertMessageText); return }
+    func add(modelContext: ModelContext, successAction: @escaping () -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+        if validateContent() { validateAction(ContentAlert.tooShoertLength); return }
         if cycleType == .rept {
-            if selectedWeekday.count == 0 { validateAction(wrongDateAlertTitleText(type: "emptySelectedWOD")); return }
-            if startDate > endDate { validateAction(wrongDateAlertTitleText(type: "wrongDateRange")); return }
-            if validateDateRange() { validateAction(wrongDateAlertTitleText(type: "overDateRange")); return }
-            if repeatDates.count == 0 { validateAction(wrongDateAlertTitleText(type: "")); return }
+            if selectedWeekday.count == 0 { validateAction(DateAlert.emptySelectedWeekday); return }
+            if startDate > endDate { validateAction(DateAlert.wrongDateRange); return }
+            if validateDateRange() { validateAction(DateAlert.overDateRange); return }
+            if repeatDates.count == 0 { validateAction(DateAlert.emptyRepeatDates); return }
         }
         let newGoal = DailyGoalModel(
             type: goalType,
@@ -140,34 +140,6 @@ class DailyGoalViewModel: ObservableObject {
         }
         try? modelContext.save()
         successAction()
-    }
-    func add(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
-        Task {
-            guard let userID = UserDefaultManager.userID, let user_uid = Int(userID) else { return }
-            if validateContent() { validateAction(contentLengthAlertMessageText); return }
-            if cycleType == .rept {
-                if selectedWeekday.count == 0 { validateAction(wrongDateAlertTitleText(type: "emptySelectedWOD")); return }
-                if startDate > endDate { validateAction(wrongDateAlertTitleText(type: "wrongDateRange")); return }
-                if validateDateRange() { validateAction(wrongDateAlertTitleText(type: "overDateRange")); return }
-                if repeatDates.count == 0 { validateAction(wrongDateAlertTitleText(type: "")); return }
-            }
-            let goal: AddGoalRequestModel = AddGoalRequestModel(
-                user_uid: user_uid,
-                content: content,
-                symbol: symbol.rawValue,
-                type: goalType.rawValue,
-                start_date: startDate.yyyyMMdd(),
-                end_date: cycleType == .date ? startDate.yyyyMMdd() : endDate.yyyyMMdd(),
-                cycle_type: cycleType.rawValue,
-                cycle_date: [],
-                goal_time: 300, // TODO: 추후 수정
-                goal_count: goalCount,
-                is_set_time: isSetTime,
-                set_time: setTime.toStringOfSetTime()   // TODO: 추후 수정
-            )
-            try await ServerNetwork.shared.request(.addGoal(goal: goal))
-            await MainActor.run { successAction() }
-        }
     }
     
     func modify(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
