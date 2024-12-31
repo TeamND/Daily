@@ -56,8 +56,7 @@ struct CalendarYear: View {
                             let month = row * 3 + col + 1
                             Button {
                                 dailyCalendarViewModel.setDate(year: date.year, month: month)
-                                let navigationObject = NavigationObject(viewType: .calendarMonth)
-                                navigationEnvironment.navigate(navigationObject)
+                                navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
                             } label: {
                                 DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: ratingsOfYear[month - 1])
                             }

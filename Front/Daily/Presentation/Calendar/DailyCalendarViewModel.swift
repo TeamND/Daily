@@ -108,7 +108,7 @@ class DailyCalendarViewModel: ObservableObject {
     }
     
     // MARK: - header func
-    func headerText(type: CalendarType, textPosition: TextPositionInHeader) -> String {
+    func headerText(type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
         switch type {
         case .year:
             return textPosition == .title ? String(self.currentDate.year) + "년" : ""

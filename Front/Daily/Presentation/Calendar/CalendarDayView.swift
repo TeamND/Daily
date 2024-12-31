@@ -10,7 +10,6 @@ import SwiftData
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {

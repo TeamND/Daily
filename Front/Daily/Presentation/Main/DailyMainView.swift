@@ -36,12 +36,10 @@ struct DailyMainView: View {
         }
         .onAppear {
             if calendarState == CalendarType.month.rawValue || calendarState == CalendarType.day.rawValue {
-                let navigationObject = NavigationObject(viewType: .calendarMonth)
-                navigationEnvironment.navigate(navigationObject)
+                navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
                 if calendarState == CalendarType.day.rawValue {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        let navigationObject = NavigationObject(viewType: .calendarDay)
-                        navigationEnvironment.navigate(navigationObject)
+                        navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
                     }
                 }
             }

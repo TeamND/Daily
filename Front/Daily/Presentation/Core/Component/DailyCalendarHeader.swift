@@ -56,6 +56,7 @@ struct DailyCalendarHeader: View {
             HStack(spacing: 0) {
                 Button {
                     dailyCalendarViewModel.setDate(date: Date())
+                    navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
                     Label("오늘", systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))
@@ -68,8 +69,7 @@ struct DailyCalendarHeader: View {
                         )
                 }
                 Button {
-                    let navigationObject = NavigationObject(viewType: .appInfo)
-                    navigationEnvironment.navigate(navigationObject)
+                    navigationEnvironment.navigate(NavigationObject(viewType: .appInfo))
                 } label: {
                     Image(systemName: "info.circle")
                         .font(.system(size: CGFloat.fontSize * 2.5))

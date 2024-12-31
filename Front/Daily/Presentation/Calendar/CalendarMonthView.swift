@@ -27,8 +27,7 @@ struct CalendarMonthView: View {
                                 year: date.year, month: date.month,
                                 action: {
                                     dailyCalendarViewModel.setDate(year: date.year, month: date.month, day: $0)
-                                    let navigationObject = NavigationObject(viewType: .calendarDay)
-                                    navigationEnvironment.navigate(navigationObject)
+                                    navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
                                 }
                             )
                         } else { CalendarLoadView(type: .month, direction: direction) }

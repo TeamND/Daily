@@ -17,8 +17,7 @@ struct DailyAddGoalButton: View {
                 Spacer()
                 // TODO: 추후 DailyButton으로 통일
                 Button {
-                    let navigationObject = NavigationObject(viewType: .goal)
-                    navigationEnvironment.navigate(navigationObject)
+                    navigationEnvironment.navigate(NavigationObject(viewType: .goal))
                 } label: {
                     Label("목표 추가", systemImage: "plus")
                         .foregroundStyle(.white)
