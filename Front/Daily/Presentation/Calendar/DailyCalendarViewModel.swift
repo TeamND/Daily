@@ -30,7 +30,7 @@ class DailyCalendarViewModel: ObservableObject {
     }
     func setDate(year: Int, month: Int? = nil, day: Int? = nil) {
         let month = month ?? 1
-        let day = day ?? year == Date().year && month == Date().month ? Date().day : 1
+        let day = day ?? (year == Date().year && month == Date().month ? Date().day : 1)
         currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
     }
     func setDate(byAdding: Calendar.Component, value: Int) {
