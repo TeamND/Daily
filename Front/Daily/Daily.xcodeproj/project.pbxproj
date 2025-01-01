@@ -25,7 +25,6 @@
 		F6016DF32CC6220B00FB637F /* CalendarYearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF22CC6220B00FB637F /* CalendarYearView.swift */; };
 		F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */; };
 		F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF72CC6632600FB637F /* CalendarDayView.swift */; };
-		F605C0C62CD23FA700562EAF /* SymbolsOnMonthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */; };
 		F605C0C82CD23FCA00562EAF /* GoalListOnDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */; };
 		F605C0E62CE5CD7B00562EAF /* VersionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */; };
 		F605C0E82CE5D8CA00562EAF /* RatingsOnWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */; };
@@ -77,6 +76,7 @@
 		F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */; };
 		F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845F2D21072800AEBD76 /* Array+extension.swift */; };
 		F69A84642D22E81100AEBD76 /* DailyAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84632D22E81100AEBD76 /* DailyAlert.swift */; };
+		F69A84662D252B9400AEBD76 /* MonthDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84652D252B9400AEBD76 /* MonthDatas.swift */; };
 		F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */; };
 		F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */; };
 		F6A1A0052C3A45AA00989FBF /* modifyRecordDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */; };
@@ -220,7 +220,6 @@
 		F6016DF22CC6220B00FB637F /* CalendarYearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarYearView.swift; sourceTree = "<group>"; };
 		F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
 		F6016DF72CC6632600FB637F /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
-		F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsOnMonthModel.swift; sourceTree = "<group>"; };
 		F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListOnDayModel.swift; sourceTree = "<group>"; };
 		F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionResponseModel.swift; sourceTree = "<group>"; };
 		F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingsOnWeekModel.swift; sourceTree = "<group>"; };
@@ -272,6 +271,7 @@
 		F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLoadView.swift; sourceTree = "<group>"; };
 		F69A845F2D21072800AEBD76 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		F69A84632D22E81100AEBD76 /* DailyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAlert.swift; sourceTree = "<group>"; };
+		F69A84652D252B9400AEBD76 /* MonthDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDatas.swift; sourceTree = "<group>"; };
 		F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyRecordView.swift; sourceTree = "<group>"; };
 		F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordCountModel.swift; sourceTree = "<group>"; };
 		F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordDateModel.swift; sourceTree = "<group>"; };
@@ -664,6 +664,7 @@
 			children = (
 				F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */,
 				F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */,
+				F69A84652D252B9400AEBD76 /* MonthDatas.swift */,
 				F64EE8862952F9620098C785 /* Constant.swift */,
 				F6CC15AF2BA6906600689A02 /* ResponseModel.swift */,
 				F6CC15A92BA4598700689A02 /* UserInfoModel.swift */,
@@ -682,7 +683,6 @@
 				F6EC3D222BE358D100FAB502 /* startTimerRequestModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
 				F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */,
-				F605C0C52CD23FA700562EAF /* SymbolsOnMonthModel.swift */,
 				F605C0C72CD23FCA00562EAF /* GoalListOnDayModel.swift */,
 				F605C0E52CE5CD7B00562EAF /* VersionResponseModel.swift */,
 				F605C0E72CE5D8CA00562EAF /* RatingsOnWeekModel.swift */,
@@ -1150,8 +1150,8 @@
 				F6C758E92CCF3E1300F9CF91 /* DailyGoalViewModel.swift in Sources */,
 				F6C758E32CCE47BB00F9CF91 /* DailyGoalView.swift in Sources */,
 				F6C758E72CCF37F200F9CF91 /* DateJoiner.swift in Sources */,
+				F69A84662D252B9400AEBD76 /* MonthDatas.swift in Sources */,
 				F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */,
-				F605C0C62CD23FA700562EAF /* SymbolsOnMonthModel.swift in Sources */,
 				F662AC092C2A996A005D92B4 /* RecordSection.swift in Sources */,
 				F6CC15B82BA96BDE00689A02 /* GoalModel.swift in Sources */,
 				F6CC15902B9C91DA00689A02 /* RecordView.swift in Sources */,

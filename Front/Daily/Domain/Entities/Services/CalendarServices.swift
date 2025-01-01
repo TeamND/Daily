@@ -27,16 +27,6 @@ class CalendarServices {
         let dj = hasLastJoiner ? joiner.joinString(type: .day, hasSpacing: hasSpacing) : ""
         return month == 0 ? y + yj : day == 0 ? y + yj + m + mj : y + yj + m + mj + d + dj
     }
-    func startDayIndex(year: Int = 2000, month: Int = 1) -> Int {
-        let startDay = "\(String(year))-\(month.formatDateString(type: .month))-01".toDate()!
-        let startDOW = startDay.getDOW(language: "한국어")
-        let dow = DayOfWeek.allCases.filter({ $0.text == startDOW }).first!
-        return dow.index
-    }
-    func lengthOfMonth(year: Int = 0, month: Int = 0) -> Int {
-        let monthStr = String(format: "%02d", month)
-        return "\(String(year))-\(monthStr)-01".toDate()!.lastDayOfMonth().day
-    }
     
     func getDate(year: Int, month: Int, day: Int) -> Date? {
         var components = DateComponents()

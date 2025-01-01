@@ -15,6 +15,7 @@ class DailyCalendarViewModel: ObservableObject {
 
     @Published var currentDate: Date = Date()
     @Published var yearDictionary: [String: [[Double]]] = [:]
+    @Published var monthDictionary: [String: [MonthDatas]] = [:]
     
     func bindSelection(type: CalendarType) -> Binding<String> {
         Binding(
@@ -43,16 +44,6 @@ class DailyCalendarViewModel: ObservableObject {
 //    var monthdate: Date { calendar.date(byAdding: .month , value: -(currentDate.month - 1), to: currentDate) ?? Date() }
 //    var weekdate: Date { calendar.date(byAdding: .day, value: -(currentDate.weekday - 1), to: currentDate) ?? Date() }
     
-    func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : (currentDate.weekday - 1)
-        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date()
-        
-        let maxIndex = type == .year ? 10 : type == .month ? 12 : 7
-        let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
-        
-        return (date, direction, date.getSelection(type: type))
-    }
-    
     // MARK: - init
     init() {
         self.calendar.timeZone = TimeZone(identifier: "UTC")!
@@ -75,6 +66,7 @@ class DailyCalendarViewModel: ObservableObject {
         }
     }
     
+    // MARK: - onAppear
     func calendarYearOnAppear(modelContext: ModelContext, date: Date, selection: String) {
         let startOfYear = calendar.date(from: DateComponents(year: date.year, month: 1, day: 1))!
         let endOfYear = calendar.date(from: DateComponents(year: date.year, month: 12, day: 31))!
@@ -85,7 +77,6 @@ class DailyCalendarViewModel: ObservableObject {
         )
         
         guard let records = try? modelContext.fetch(descriptor) else { return }
-        
         var recordsByDate: [Date: [DailyRecordModel]] = [:]
         records.forEach { record in
             let components = calendar.dateComponents([.year, .month, .day], from: record.date)
@@ -105,6 +96,61 @@ class DailyCalendarViewModel: ObservableObject {
         }
         
         yearDictionary[selection] = newRatings
+    }
+    func calendarMonthOnAppear(modelContext: ModelContext, date: Date, selection: String) {
+        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
+        let endOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month + 1, day: 1))!.addingTimeInterval(-1)
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startOfMonth <= record.date && record.date <= endOfMonth
+            }
+        )
+        
+        guard let records = try? modelContext.fetch(descriptor) else { return }
+        var recordsByDate: [Date: [DailyRecordModel]] = [:]
+        records.forEach { record in
+            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
+            if let normalizedDate = calendar.date(from: components) {
+                recordsByDate[normalizedDate, default: []].append(record)
+            }
+        }
+        
+        var monthDatas: [MonthDatas] = Array(repeating: MonthDatas(), count: lengthOfMonth)
+        for day in 1 ... lengthOfMonth {
+            if let dayDate = calendar.date(from: DateComponents(year: date.year, month: date.month, day: day)),
+               let dayRecords = recordsByDate[dayDate] {
+                
+                var dailySymbols: [DailySymbol] = []
+                dayRecords.forEach { record in
+                    if let goal = record.goal {
+                        dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
+                    }
+                }
+                
+                let rating = dayRecords.isEmpty ? 0.0 : Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
+                monthDatas[day - 1] = MonthDatas(symbol: dailySymbols, rating: rating)
+            }
+        }
+        
+        monthDictionary[selection] = monthDatas
+    }
+    
+    // MARK: - get info func
+    func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
+        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : (currentDate.weekday - 1)
+        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date()
+        
+        let maxIndex = type == .year ? 10 : type == .month ? 12 : 7
+        let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
+        
+        return (date, direction, date.getSelection(type: type))
+    }
+    func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
+        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        let dividerCount = (lengthOfMonth + (startOfMonth.weekday - 1) - 1) / 7
+        return (startOfMonth.weekday, lengthOfMonth, dividerCount)
     }
     
     // MARK: - header func

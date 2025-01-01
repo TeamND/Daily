@@ -9,7 +9,6 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
@@ -22,15 +21,8 @@ struct CalendarMonthView: View {
                 ForEach(-1 ... 12, id: \.self) { index in
                     let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .month, index: index)
                     Group {
-                        if direction == .current {
-                            CalendarMonth(
-                                year: date.year, month: date.month,
-                                action: {
-                                    dailyCalendarViewModel.setDate(year: date.year, month: date.month, day: $0)
-                                    navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
-                                }
-                            )
-                        } else { CalendarLoadView(type: .month, direction: direction) }
+                        if direction == .current { CalendarMonth(date: date, selection: selection) }
+                        else { CalendarLoadView(type: .month, direction: direction) }
                     }
                     .tag(selection)
                 }
@@ -47,36 +39,43 @@ struct CalendarMonthView: View {
 
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
-    let year: Int
-    let month: Int
-    let action: (Int) -> Void
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    let date: Date
+    let selection: String
+    var monthDatas: [MonthDatas] {
+        dailyCalendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDatas(), count: 31)
+    }
     
     var body: some View {
-        let startDayIndex = CalendarServices.shared.startDayIndex(year: year, month: month)
-        let lengthOfMonth = CalendarServices.shared.lengthOfMonth(year: year, month: month)
-        let dividerIndex = (lengthOfMonth + startDayIndex - 1) / 7
-        
+        let (startOfMonthWeekday, lengthOfMonth, dividerCount) = dailyCalendarViewModel.getMonthInfo(date: date)
         LazyVStack {
-            ForEach (0 ... dividerIndex, id: \.self) { rowIndex in
+            ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack(spacing: 0) {
                     ForEach (0 ..< 7) { colIndex in
-                        let day: Int = rowIndex * 7 + colIndex - startDayIndex + 1
+                        let day: Int = rowIndex * 7 + colIndex - (startOfMonthWeekday - 1) + 1
                         if 1 <= day && day <= lengthOfMonth {
                             Button {
-                                action(day)
+                                dailyCalendarViewModel.setDate(year: date.year, month: date.month, day: day)
+                                navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
                             } label: {
-                                DailyDayOnMonth(year: year, month: month, day: day)
+                                DailyDayOnMonth(year: date.year, month: date.month, day: day, monthData: monthDatas[day - 1])
                             }
                         } else { DailyDayOnMonth().opacity(0) }
                     }
                 }
-                if rowIndex < dividerIndex { CustomDivider(hPadding: 20) }
+                if rowIndex < dividerCount { CustomDivider(hPadding: 20) }
             }
         }
         .padding(CGFloat.fontSize)
+        .foregroundStyle(Colors.reverse)
         .background(Colors.background)
         .cornerRadius(20)
         .vTop()
+        .onAppear {
+            dailyCalendarViewModel.calendarMonthOnAppear(modelContext: modelContext, date: date, selection: selection)
+        }
     }
 }
 
@@ -85,77 +84,62 @@ struct DailyDayOnMonth: View {
     let year: Int
     let month: Int
     let day: Int
-    let symbols: [SymbolOnMonthModel]
+    let dailySymbols: [DailySymbol]
     let rating: Double
     
-    init(year: Int = 0, month: Int = 0, day: Int = 0, symbolsOnMonth: SymbolsOnMonthModel = SymbolsOnMonthModel()) {
+    init(year: Int = 0, month: Int = 0, day: Int = 0, monthData: MonthDatas = MonthDatas()) {
         self.year = year
         self.month = month
         self.day = day
-        self.symbols = symbolsOnMonth.symbol
-        self.rating = symbolsOnMonth.rating
+        self.dailySymbols = monthData.symbol
+        self.rating = monthData.rating
     }
     
     var body: some View {
         let maxSymbolNum = UIDevice.current.model == "iPad" ? 6 : 4
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: .zero) {
             ZStack {
                 Image(systemName: "circle.fill")
                     .font(.system(size: CGFloat.fontSize * 4))
-                    .foregroundStyle(Colors.daily.opacity(rating*0.8))
+                    .foregroundStyle(Colors.daily.opacity(rating * 0.8))
                 Text("\(day)")
                     .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
             }
-            .padding(4)
-            VStack(alignment: .center, spacing: 8) {
-                ForEach(0 ..< maxSymbolNum, id: \.self) { index in
-                    if index % 2 == 0 {
-                        HStack(spacing: 0) {
-                            ForEach(symbols.indices, id: \.self) { symbolIndex in
-                                if index <= symbolIndex && symbolIndex < index + 2 {
-                                    DailySymbolOnMonth(symbol: symbols[symbolIndex], isEllipsis: index == maxSymbolNum - 2 && symbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1)
-                                }
-                            }
-                            if index >= symbols.count - 1 {
-                                DailySymbolOnMonth(symbol: SymbolOnMonthModel(), isEllipsis: false)
-                            }
-                        }
-                    }
+            .padding(CGFloat.fontSize)
+            
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: .zero), count: 2), spacing: CGFloat.fontSize * 2) {
+                ForEach(0 ..< 4, id: \.self) { symbolIndex in
+                    if symbolIndex < min(maxSymbolNum, dailySymbols.count) {
+                        DailySymbolOnMonth(
+                            dailySymbol: dailySymbols[symbolIndex],
+                            isEllipsis: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
+                        )
+                    } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isEllipsis: false) }
                 }
             }
-            .padding(.bottom, 4)
+            .padding(.vertical, CGFloat.fontSize)
         }
         .overlay {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
-                .opacity(CalendarServices.shared.isToday(year: year, month: month, day: day) ? 1 : 0)
+                .opacity(year == Date().year && month == Date().month && day == Date().day ? 1 : 0)
         }
-        .frame(maxWidth: .infinity)
-        .foregroundStyle(Colors.reverse)
     }
 }
 
 // MARK: - DailySymbolOnMonth
 struct DailySymbolOnMonth: View {
-    let symbol: SymbolOnMonthModel
+    let dailySymbol: DailySymbol
     let isEllipsis: Bool
     
     var body: some View {
         VStack {
-            if isEllipsis {
-                Image(systemName: "ellipsis")
-            } else if symbol.imageName.toSymbol() == nil {
-                Image(systemName: "d.circle").opacity(0)
-            } else {
-                if symbol.isSuccess {
-                    Image(systemName: "\(symbol.imageName.toSymbol()!.rawValue).fill")
-                } else {
-                    Image(systemName: "\(symbol.imageName.toSymbol()!.rawValue)")
-                }
+            if isEllipsis { Image(systemName: "ellipsis") }
+            else if let symbol = dailySymbol.symbol {
+                Image(systemName: "\(symbol.imageName)\(dailySymbol.isSuccess ? ".fill" : "")")
             }
         }
         .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-        .foregroundStyle(Colors.reverse)
         .frame(maxWidth: .infinity)
         .frame(height: CGFloat.fontSize * 2)
     }
