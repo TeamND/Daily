@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyRecordProgressBar: View {
-    @Binding var record: Goal
+    @Binding var record: DailyRecordModel
     @State var color: Color
     @State var progress: CGFloat
     
@@ -35,24 +35,14 @@ struct DailyRecordProgressBar: View {
         //                }
         //            }
         //        }
-        .onChange(of: record.record_time) { _, newValue in
+        .onChange(of: record.count) { _, newValue in
             withAnimation {
-                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
+                progress = record.isSuccess ? 0 : 1 - (CGFloat(record.count * 100 / record.goal!.count) / 100)
             }
         }
-        .onChange(of: record.goal_time) { _, newValue in
+        .onChange(of: record.goal!.count) { _, newValue in
             withAnimation {
-                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_time * 100 / record.goal_time) / 100)
-            }
-        }
-        .onChange(of: record.record_count) { _, newValue in
-            withAnimation {
-                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
-            }
-        }
-        .onChange(of: record.goal_count) { _, newValue in
-            withAnimation {
-                progress = record.issuccess ? 0 : 1 - (CGFloat(record.record_count * 100 / record.goal_count) / 100)
+                progress = record.isSuccess ? 0 : 1 - (CGFloat(record.count * 100 / record.goal!.count) / 100)
             }
         }
     }

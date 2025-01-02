@@ -14,11 +14,11 @@ struct DailyRecordButton: View {
     
     var body: some View {
         Button {
-            if dailyRecordViewModel.record.issuccess {
+            if dailyRecordViewModel.record.isSuccess {
                 withAnimation { isAction = true }
             } else {
-                switch dailyRecordViewModel.record.type {
-                case "check", "count":
+                switch dailyRecordViewModel.record.goal!.type {
+                case .check, .count:
                     dailyRecordViewModel.increaseCount()
 //                case "timer": // TODO: 추후 구현
                 default:
@@ -30,10 +30,10 @@ struct DailyRecordButton: View {
                 DailyRecordProgressBar(
                     record: $dailyRecordViewModel.record,
                     color: color,
-                    progress: dailyRecordViewModel.record.type == "timer" ? (dailyRecordViewModel.record.issuccess ? 0 : 1 - (CGFloat(dailyRecordViewModel.record.record_time * 100 / dailyRecordViewModel.record.goal_time) / 100)) : (dailyRecordViewModel.record.issuccess ? 0 : 1 - (CGFloat(dailyRecordViewModel.record.record_count * 100 / dailyRecordViewModel.record.goal_count) / 100))
+                    progress: dailyRecordViewModel.record.goal!.type == .timer ? (dailyRecordViewModel.record.isSuccess ? 0 : 1 - (CGFloat(dailyRecordViewModel.record.count * 100 / dailyRecordViewModel.record.goal!.count) / 100)) : (dailyRecordViewModel.record.isSuccess ? 0 : 1 - (CGFloat(dailyRecordViewModel.record.count * 100 / dailyRecordViewModel.record.goal!.count) / 100))
                 )
                 
-                if dailyRecordViewModel.record.issuccess {
+                if dailyRecordViewModel.record.isSuccess {
                     Image(systemName: "hand.thumbsup")
                         .scaleEffect(isAction ? 1.5 : 1)
                         .animation(.bouncy, value: 5)

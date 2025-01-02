@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyRecordPerGoal: View {
-    @Binding var record: Goal
+    @Binding var record: DailyRecordModel
     let paddingTrailing: CGFloat
     
     var body: some View {
@@ -16,14 +16,14 @@ struct DailyRecordPerGoal: View {
             Spacer()
             VStack {
                 HStack(spacing: CGFloat.fontSize / 6) {
-                    if record.type == "timer" {
-                        Text(record.record_time.timerFormat())
+                    if record.goal!.type == .timer {
+                        Text(record.count.timerFormat())
                         Text("/")
-                        Text(record.goal_time.timerFormat())
+                        Text(record.goal!.count.timerFormat())
                     } else {
-                        Text("\(record.record_count)")
+                        Text("\(record.count)")
                         Text("/")
-                        Text("\(record.goal_count)")
+                        Text("\(record.goal!.count)")
                     }
                 }
                 .font(.system(size : CGFloat.fontSize * 2))

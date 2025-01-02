@@ -15,16 +15,15 @@ struct CalendarDayView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(mode: .change)
+            DailyWeekIndicator(mode: .change, currentDate: dailyCalendarViewModel.currentDate)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: dailyCalendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... 7, id: \.self) { index in
                     let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .day, index: index)
                     Group {
-                        if direction == .current {
-                            CalendarDay(year: date.year, month: date.month, day: date.day, goalListOnDay: .constant(GoalListOnDayModel()))
-                        } else { CalendarLoadView(type: .day, direction: direction) }
+                        if direction == .current { CalendarDay(date: date) }
+                        else { CalendarLoadView(type: .day, direction: direction) }
                     }
                     .tag(selection)
                 }
@@ -41,36 +40,40 @@ struct CalendarDayView: View {
 // MARK: - CalendarDay
 struct CalendarDay: View {
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @Environment(\.modelContext) private var modelContext
-    let year: Int
-    let month: Int
-    let day: Int
-    @Binding var goalListOnDay: GoalListOnDayModel
+    @Query private var records: [DailyRecordModel]
+    let date: Date
+    
+    init(date: Date) {
+        self.date = date
+        _records = Query(DailyCalendarViewModel.recordsForDateDescriptor(date))
+    }
     
     var body: some View {
-        if let goalList = goalListOnDay.goalList {
-            if goalList.count > 0 {
-                VStack {
-                    ViewThatFits(in: .vertical) {
-                        DailyRecordList(
-                            year: year, month: month, day: day,
-                            goalListOnDay: $goalListOnDay
-                        )
-                        ScrollView {
-                            DailyRecordList(
-                                year: year, month: month, day: day,
-                                goalListOnDay: $goalListOnDay
-                            )
-                        }
-                    }
-                    Spacer().frame(height: CGFloat.fontSize * 15)
-                    Spacer()
-                }
-            } else {
-                DailyNoRecord()
-            }
+        if records.count == 0 {
+            DailyNoRecord()
         } else {
-            ProgressView()
+            VStack {
+                ViewThatFits(in: .vertical) {
+                    DailyRecordList(
+                        date: date,
+                        records: records.sorted {   // MARK: DailyGoalModel?.Bool 타입 정렬 임시 처리
+                            guard let prev = $0.goal, let next = $1.goal else { return false }
+                            return prev.isSetTime == false && next.isSetTime == true
+                        }
+                    )
+                    ScrollView {
+                        DailyRecordList(
+                            date: date,
+                            records: records.sorted {   // MARK: DailyGoalModel?.Bool 타입 정렬 임시 처리
+                                guard let prev = $0.goal, let next = $1.goal else { return false }
+                                return prev.isSetTime == false && next.isSetTime == true
+                            }
+                        )
+                    }
+                }
+                Spacer().frame(height: CGFloat.fontSize * 15)
+                Spacer()
+            }
         }
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyTimeLine: View {
-    let record: Goal
+    let setTime: String
     
     var body: some View {
         CustomDivider(
@@ -17,7 +17,7 @@ struct DailyTimeLine: View {
             hPadding: CGFloat.fontSize
         )
         .overlay {
-            Text(record.set_time)
+            Text(setTime)
                 .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                 .padding(.horizontal, CGFloat.fontSize * 2)
                 .background(Colors.theme)

@@ -40,10 +40,6 @@ class DailyCalendarViewModel: ObservableObject {
         currentDate = date
     }
     
-//    var yeardate: Date { calendar.date(byAdding: .year, value: -currentDate.year % 10, to: currentDate) ?? Date() }
-//    var monthdate: Date { calendar.date(byAdding: .month , value: -(currentDate.month - 1), to: currentDate) ?? Date() }
-//    var weekdate: Date { calendar.date(byAdding: .day, value: -(currentDate.weekday - 1), to: currentDate) ?? Date() }
-    
     // MARK: - init
     init() {
         self.calendar.timeZone = TimeZone(identifier: "UTC")!
@@ -166,27 +162,34 @@ class DailyCalendarViewModel: ObservableObject {
     }
 
     // MARK: - Query filter
-    func getRecords() -> FetchDescriptor<DailyRecordModel> {
-        return FetchDescriptor<DailyRecordModel>()
-    }
-    func getGoals(year: Int, month: Int, day: Int) -> FetchDescriptor<DailyGoalModel> {
-        var descriptor = FetchDescriptor<DailyGoalModel>()
-        descriptor.predicate = #Predicate<DailyGoalModel> {
-            $0.records.contains(
-                where: {
-                    $0.isSuccess
-//                    let daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
-//                    let dateFormatter = DateFormatter()
-//                    dateFormatter.dateFormat = "yyyy-MM-dd"
-//                    dateFormatter.timeZone = TimeZone(identifier: "UTC")
-//                    if let date = dateFormatter.date(from: daySelection) {
-//                        $0.date == date
-//                    } else {
-//                        $0.date == Date()
-//                    }
-                }
-            )
+    static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        let predicate = #Predicate<DailyRecordModel> { record in
+            startOfDay <= record.date && record.date < endOfDay
         }
+        
+        var descriptor = FetchDescriptor<DailyRecordModel>(predicate: predicate)
+        descriptor.sortBy = [
+//            SortDescriptor(\DailyRecordModel.goal?.isSetTime),
+            SortDescriptor(\DailyRecordModel.goal?.setTime),
+            SortDescriptor(\DailyRecordModel.date)
+        ]
+        
         return descriptor
+    }
+    
+    static func recordsForWeekDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
+        let calendar = Calendar.current
+        let startDate = calendar.date(byAdding: .day, value: -(date.weekday - 1), to: date)!
+        let endDate = calendar.date(byAdding: .day, value: 7, to: startDate)!
+        
+        let predicate = #Predicate<DailyRecordModel> { record in
+            startDate <= record.date && record.date < endDate
+        }
+        
+        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
     }
 }
