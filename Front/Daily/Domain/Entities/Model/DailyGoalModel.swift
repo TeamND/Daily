@@ -37,7 +37,8 @@ class DailyGoalModel: Navigatable {
     var setTime: String
     @Relationship(deleteRule: .cascade ,inverse: \DailyRecordModel.goal)
     var records: [DailyRecordModel]
-    var childGoals: [DailyGoalModel]?
+    var parentGoal: DailyGoalModel?
+    var childGoals: [DailyGoalModel]
     
     init(
         type: GoalTypes,
@@ -51,7 +52,8 @@ class DailyGoalModel: Navigatable {
         isSetTime: Bool,
         setTime: String,
         records: [DailyRecordModel] = [],
-        childGoals: [DailyGoalModel]? = nil
+        parentGoal: DailyGoalModel? = nil,
+        childGoals: [DailyGoalModel] = []
     ) {
         self.type = type
         self.cycleType = cycleType
@@ -69,6 +71,7 @@ class DailyGoalModel: Navigatable {
         self.isSetTime = isSetTime
         self.setTime = setTime
         self.records = records
+        self.parentGoal = parentGoal
         self.childGoals = childGoals
     }
 }

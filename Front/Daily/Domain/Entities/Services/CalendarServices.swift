@@ -17,7 +17,9 @@ class CalendarServices {
     func isToday(year: Int, month: Int, day: Int) -> Bool {
         return Date().year == year && Date().month == month && Date().day == day
     }
-    
+    func formatDateString(date: Date = Date(), joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
+        self.formatDateString(year: date.year, month: date.month, day: date.day, joiner: joiner, hasSpacing: hasSpacing, hasLastJoiner: hasLastJoiner)
+    }
     func formatDateString(year: Int, month: Int = 0, day: Int = 0, joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
         let y = year.formatDateString(type: .year)
         let yj = month > 0 || (hasLastJoiner && month == 0) ? joiner.joinString(type: .year, hasSpacing: hasSpacing) : ""

@@ -37,7 +37,7 @@ struct DailyGoalView: View {
                         SymbolSection(symbol: $dailyGoalViewModel.symbol)
                     }
                 }
-                ButtonSection(dailyGoalViewModel: dailyGoalViewModel)
+                ButtonSection(dailyGoalViewModel: dailyGoalViewModel, buttonType: .add)
                 Spacer()
                 Spacer()
             }
@@ -204,25 +204,41 @@ struct SymbolSection: View {
 
 // MARK: - ButtonSection
 struct ButtonSection: View {
-    @EnvironmentObject var alertViewModel: AlertViewModel
-    @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
     @Environment(\.dismiss) var dismiss
-    
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var alertViewModel: AlertViewModel
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    let buttonType: ButtonTypes
     
     var body: some View {
         HStack {
+            if buttonType == .modify && dailyGoalViewModel.modifyType == .date {
+                Text("\(CalendarServices.shared.formatDateString(date: dailyGoalViewModel.modifyDate, joiner: .korean, hasSpacing: true, hasLastJoiner: true))")
+            }
             Spacer()
             DailyButton(action: {
                 dailyGoalViewModel.reset()
             }, text: "초기화")
             DailyButton(action: {
-                dailyGoalViewModel.add(
-                    modelContext: modelContext,
-                    successAction: { dismiss() },
-                    validateAction: { alertViewModel.showToast(message: $0.messageText) }
-                )
-            }, text: "추가")
+                switch buttonType {
+                case .add:
+                    dailyGoalViewModel.add(
+                        modelContext: modelContext,
+                        successAction: { dismiss() },
+                        validateAction: { alertViewModel.showToast(message: $0.messageText) }
+                    )
+                case .modify:
+                    dailyGoalViewModel.modify(
+                        modelContext: modelContext,
+                        successAction: {
+                            dismiss()
+                            if let newDate = $0 { dailyCalendarViewModel.setDate(date: newDate) }
+                        },
+                        validateAction: { alertViewModel.showToast(message: $0.messageText) }
+                    )
+                }
+            }, text: buttonType.text)
         }
         .padding(.top, CGFloat.fontSize)
     }
