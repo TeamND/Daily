@@ -35,7 +35,7 @@ class DailyGoalViewModel: ObservableObject {
     @Published var goalCount: Int = 1
     @Published var symbol: Symbols = .check
     
-    @Published var modifyRecord: Goal? = nil
+    @Published var modifyRecord: DailyRecordModel? = nil
     @Published var modifyType: ModifyTypes? = nil
     @Published var modifyIsAll: Bool? = nil
     @Published var modifyDate: Date = Date()
@@ -62,15 +62,12 @@ class DailyGoalViewModel: ObservableObject {
         self.modifyType = modifyData.modifyType
         self.modifyIsAll = modifyData.isAll
         
-        if let year = modifyData.year,
-           let month = modifyData.month,
-           let day = modifyData.day,
-           let date = CalendarServices.shared.getDate(year: year, month: month, day: day) {
+        if let date = modifyData.date {
             self.modifyDate = date
             self.beforeDateString = "\(CalendarServices.shared.formatDateString(year: date.year, month: date.month, day: date.day, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(date.getKoreaDOW())"
         }
         
-        self.modifyRecordCount = modifyData.modifyRecord.record_count
+        self.modifyRecordCount = modifyData.modifyRecord.count
     }
     
     // MARK: - get
@@ -87,13 +84,15 @@ class DailyGoalViewModel: ObservableObject {
     }
     
     // MARK: - set
-    func setRecord(record: Goal) {
-        self.cycleType = CycleTypes(rawValue: record.cycle_type) ?? .date
-        self.isSetTime = record.is_set_time
-        self.setTime = record.set_time.toDateOfSetTime()
-        self.content = record.content
-        self.goalCount = record.goal_count
-        self.symbol = Symbols(rawValue: record.symbol) ?? .check
+    func setRecord(record: DailyRecordModel) {
+        if let goal = record.goal {
+            self.cycleType = goal.cycleType
+            self.isSetTime = goal.isSetTime
+            self.setTime = goal.setTime.toDateOfSetTime()
+            self.content = goal.content
+            self.goalCount = goal.count
+            self.symbol = goal.symbol
+        }
     }
     
     // MARK: - button func
@@ -143,38 +142,38 @@ class DailyGoalViewModel: ObservableObject {
     }
     
     func modify(successAction: @escaping () -> Void, validateAction: @escaping (String) -> Void) {
-        Task {
-            if let record = modifyRecord,
-               let type = modifyType,
-               let isAll = modifyIsAll {
-                switch type {
-                case .record:
-                    let record: ModifyCountModel = ModifyCountModel(uid: record.uid, record_count: modifyRecordCount)
-                    try await ServerNetwork.shared.request(.modifyRecordCount(record: record))
-                case .date:
-                    let record: ModifyDateModel = ModifyDateModel(uid: record.uid, date: modifyDate.yyyyMMdd())
-                    try await ServerNetwork.shared.request(.modifyRecordDate(record: record))
-                case .goal:
-                    if validateContent() { validateAction(contentLengthAlertMessageText); return }
-                    let goal: ModifyGoalRequestModel = ModifyGoalRequestModel(
-                        uid: record.goal_uid,
-                        content: content,
-                        symbol: symbol.rawValue,
-                        type: goalType.rawValue,
-                        goal_count: goalCount,
-                        goal_time: 300, // TODO: 추후 수정
-                        is_set_time: isSetTime,
-                        set_time: setTime.toStringOfSetTime()   // TODO: 추후 수정
-                    )
-                    if isAll {
-                        try await ServerNetwork.shared.request(.modifyGoal(goalID: String(goal.uid), goal: goal))
-                    } else {
-                        try await ServerNetwork.shared.request(.separateGoal(recordID: String(record.uid), goal: goal))
-                    }
-                }
-            }
-            await MainActor.run { successAction() }
-        }
+//        Task {
+//            if let record = modifyRecord,
+//               let type = modifyType,
+//               let isAll = modifyIsAll {
+//                switch type {
+//                case .record:
+//                    let record: ModifyCountModel = ModifyCountModel(uid: record.uid, record_count: modifyRecordCount)
+//                    try await ServerNetwork.shared.request(.modifyRecordCount(record: record))
+//                case .date:
+//                    let record: ModifyDateModel = ModifyDateModel(uid: record.uid, date: modifyDate.yyyyMMdd())
+//                    try await ServerNetwork.shared.request(.modifyRecordDate(record: record))
+//                case .goal:
+//                    if validateContent() { validateAction(contentLengthAlertMessageText); return }
+//                    let goal: ModifyGoalRequestModel = ModifyGoalRequestModel(
+//                        uid: record.goal_uid,
+//                        content: content,
+//                        symbol: symbol.rawValue,
+//                        type: goalType.rawValue,
+//                        goal_count: goalCount,
+//                        goal_time: 300, // TODO: 추후 수정
+//                        is_set_time: isSetTime,
+//                        set_time: setTime.toStringOfSetTime()   // TODO: 추후 수정
+//                    )
+//                    if isAll {
+//                        try await ServerNetwork.shared.request(.modifyGoal(goalID: String(goal.uid), goal: goal))
+//                    } else {
+//                        try await ServerNetwork.shared.request(.separateGoal(recordID: String(record.uid), goal: goal))
+//                    }
+//                }
+//            }
+//            await MainActor.run { successAction() }
+//        }
     }
     
     // MARK: - validate func

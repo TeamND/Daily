@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class DailyGoalModel {
+class DailyGoalModel: Navigatable {
     var type: GoalTypes
     var cycleType: CycleTypes
     var content: String

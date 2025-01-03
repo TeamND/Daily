@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class DailyRecordModel {
+class DailyRecordModel: Navigatable {
     var goal: DailyGoalModel?
     var date: Date
     var isSuccess: Bool

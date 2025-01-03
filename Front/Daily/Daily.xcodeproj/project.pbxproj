@@ -172,9 +172,7 @@
 		F6F31DD32CF83BA50090A3B9 /* DailyTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DD22CF83BA50090A3B9 /* DailyTimeLine.swift */; };
 		F6F31DD52CF87DCF0090A3B9 /* DailyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DD42CF87DCF0090A3B9 /* DailyRecordButton.swift */; };
 		F6F31DD72CF880490090A3B9 /* DailyRecordProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DD62CF880490090A3B9 /* DailyRecordProgressBar.swift */; };
-		F6F31DD92CF883DF0090A3B9 /* DailyRecordPerGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DD82CF883DF0090A3B9 /* DailyRecordPerGoal.swift */; };
 		F6F31DF52CF96DC60090A3B9 /* DailyRecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DF42CF96DC60090A3B9 /* DailyRecordList.swift */; };
-		F6F31DF72CF96E260090A3B9 /* DailyRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DF62CF96E260090A3B9 /* DailyRecordViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -371,9 +369,7 @@
 		F6F31DD22CF83BA50090A3B9 /* DailyTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTimeLine.swift; sourceTree = "<group>"; };
 		F6F31DD42CF87DCF0090A3B9 /* DailyRecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordButton.swift; sourceTree = "<group>"; };
 		F6F31DD62CF880490090A3B9 /* DailyRecordProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordProgressBar.swift; sourceTree = "<group>"; };
-		F6F31DD82CF883DF0090A3B9 /* DailyRecordPerGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordPerGoal.swift; sourceTree = "<group>"; };
 		F6F31DF42CF96DC60090A3B9 /* DailyRecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordList.swift; sourceTree = "<group>"; };
-		F6F31DF62CF96E260090A3B9 /* DailyRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -973,11 +969,9 @@
 		F6F31DF32CF96DB80090A3B9 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				F6F31DF62CF96E260090A3B9 /* DailyRecordViewModel.swift */,
 				F6F31DF42CF96DC60090A3B9 /* DailyRecordList.swift */,
 				F6F31DD42CF87DCF0090A3B9 /* DailyRecordButton.swift */,
 				F6F31DD62CF880490090A3B9 /* DailyRecordProgressBar.swift */,
-				F6F31DD82CF883DF0090A3B9 /* DailyRecordPerGoal.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -1134,7 +1128,6 @@
 				F6CE8A222CCF606B0050A25A /* GoalInterface.swift in Sources */,
 				F605C0E82CE5D8CA00562EAF /* RatingsOnWeekModel.swift in Sources */,
 				F6F31DC92CF449760090A3B9 /* AddGoalRequestModel.swift in Sources */,
-				F6F31DD92CF883DF0090A3B9 /* DailyRecordPerGoal.swift in Sources */,
 				F6A24D6E2C11FB3E00C328E4 /* WeeklyBackground.swift in Sources */,
 				F6EC3D232BE358D100FAB502 /* startTimerRequestModel.swift in Sources */,
 				F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */,
@@ -1209,7 +1202,6 @@
 				F65ACDE22CC91CEC00C67DD1 /* CalendarServices.swift in Sources */,
 				F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */,
 				F634D2E02CC485C90014EDB6 /* Int+extension.swift in Sources */,
-				F6F31DF72CF96E260090A3B9 /* DailyRecordViewModel.swift in Sources */,
 				F60B97392CFDD5A40015B19B /* ModifyCountModel.swift in Sources */,
 				F6A1A0072C3A460800989FBF /* modifyRecordTimeModel.swift in Sources */,
 				F6016DD92CC60D0400FB637F /* SplashViewModel.swift in Sources */,
