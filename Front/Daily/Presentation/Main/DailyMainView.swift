@@ -23,7 +23,8 @@ struct DailyMainView: View {
                         case .calendarDay:
                             CalendarDayView()
                         case .goal:
-                            DailyGoalView()
+                            let data = navigationObject.data as! GoalDataModel
+                            DailyGoalView(goalData: data)
                         case .modify:
                             let data = navigationObject.data as! ModifyDataModel
                             DailyModifyView(modifyData: data)

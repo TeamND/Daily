@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DailyModifyView: View {
     @EnvironmentObject var alertViewModel: AlertViewModel
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @StateObject var dailyGoalViewModel: DailyGoalViewModel
     
     init(modifyData: ModifyDataModel) {
@@ -22,7 +23,7 @@ struct DailyModifyView: View {
                let modifyGoal = modifyRecord.goal,
                let modifyType = dailyGoalViewModel.modifyType {
                 if modifyType == .date {
-                    Label(dailyGoalViewModel.beforeDateString ?? "", systemImage: "calendar")
+                    Label("\(CalendarServices.shared.formatDateString(date: dailyCalendarViewModel.currentDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(dailyCalendarViewModel.currentDate.getKoreaDOW())", systemImage: "calendar")
                         .font(.system(size: CGFloat.fontSize * 2.5))
                         .hLeading()
                         .padding(.horizontal)

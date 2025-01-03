@@ -39,10 +39,9 @@ class DailyGoalViewModel: ObservableObject {
     @Published var modifyType: ModifyTypes? = nil
     @Published var modifyIsAll: Bool? = nil
     @Published var modifyDate: Date = Date()
-    var beforeDateString: String? = nil
     @Published var modifyRecordCount: Int = 0
     
-//    private let beforeDate: Date
+    private var beforeDate: Date = Date()
     
     // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
@@ -50,8 +49,14 @@ class DailyGoalViewModel: ObservableObject {
         
         let goalRepository = GoalRepository()
         self.goalUseCase = GoalUseCase(repository: goalRepository)
+    }
+    
+    convenience init(goalData: GoalDataModel) {
+        self.init()
         
-//        self.beforeDate = Date()
+        self.beforeDate = goalData.date
+        self.startDate = self.beforeDate.defaultDate()
+        self.endDate = self.beforeDate.defaultDate().setDefaultEndDate()
     }
     
     convenience init(modifyData: ModifyDataModel) {
@@ -61,12 +66,8 @@ class DailyGoalViewModel: ObservableObject {
         self.modifyRecord = modifyData.modifyRecord
         self.modifyType = modifyData.modifyType
         self.modifyIsAll = modifyData.isAll
-        
-        if let date = modifyData.date {
-            self.modifyDate = date
-            self.beforeDateString = "\(CalendarServices.shared.formatDateString(date: date, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(date.getKoreaDOW())"
-        }
-        
+        self.beforeDate = modifyData.date
+        self.modifyDate = self.beforeDate
         self.modifyRecordCount = modifyData.modifyRecord.count
     }
     
@@ -99,12 +100,13 @@ class DailyGoalViewModel: ObservableObject {
     func reset() {
         if let modifyRecord {
             self.setRecord(record: modifyRecord)
+            modifyDate = beforeDate
         } else {
             content = ""
             symbol = .check
             goalType = .check
-            startDate = Date().defaultDate()
-            endDate = Date().defaultDate().setDefaultEndDate()
+            startDate = beforeDate.defaultDate()
+            endDate = beforeDate.defaultDate().setDefaultEndDate()
             cycleType = .date
             selectedWeekday = []
             //        goalTime = 300    // TODO: 추후 수정

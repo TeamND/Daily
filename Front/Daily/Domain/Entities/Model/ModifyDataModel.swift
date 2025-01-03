@@ -8,10 +8,10 @@
 import Foundation
 
 struct ModifyDataModel: Hashable {
+    let date: Date
     var modifyRecord: DailyRecordModel
     var modifyType: ModifyTypes
     var isAll: Bool = false
-    var date: Date? = nil
 }
 
 enum ModifyTypes {

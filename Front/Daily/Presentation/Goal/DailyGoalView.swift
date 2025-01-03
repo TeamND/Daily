@@ -9,7 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct DailyGoalView: View {
-    @StateObject var dailyGoalViewModel: DailyGoalViewModel = DailyGoalViewModel()
+    @StateObject var dailyGoalViewModel: DailyGoalViewModel
+    
+    init(goalData: GoalDataModel) {
+        _dailyGoalViewModel = StateObject(wrappedValue: DailyGoalViewModel(goalData: goalData))
+    }
     
     var body: some View {
         VStack {
@@ -242,8 +246,4 @@ struct ButtonSection: View {
         }
         .padding(.top, CGFloat.fontSize)
     }
-}
-
-#Preview {
-    DailyGoalView()
 }

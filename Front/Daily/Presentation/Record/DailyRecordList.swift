@@ -33,7 +33,7 @@ struct DailyRecordList: View {
                         .contextMenu {
                             // MARK: ModifyRecord
                             Button {
-                                let data = ModifyDataModel(modifyRecord: record, modifyType: .record)
+                                let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .record)
                                 let navigationObject = NavigationObject(viewType: .modify, data: data)
                                 navigationEnvironment.navigate(navigationObject)
                             } label: {
@@ -41,7 +41,7 @@ struct DailyRecordList: View {
                             }
                             // MARK: ModifyDate
                             Button {
-                                let data = ModifyDataModel(modifyRecord: record, modifyType: .date, date: date)
+                                let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .date)
                                 let navigationObject = NavigationObject(viewType: .modify, data: data)
                                 navigationEnvironment.navigate(navigationObject)
                             } label: {
@@ -50,7 +50,7 @@ struct DailyRecordList: View {
                             // MARK: ModifyGoal
                             if goal.cycleType == .date || goal.parentGoal != nil {
                                 Button {
-                                    let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
+                                    let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: true)
                                     let navigationObject = NavigationObject(viewType: .modify, data: data)
                                     navigationEnvironment.navigate(navigationObject)
                                 } label: {
@@ -59,14 +59,14 @@ struct DailyRecordList: View {
                             } else {
                                 Menu {
                                     Button {
-                                        let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: false)
+                                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: false)
                                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                                         navigationEnvironment.navigate(navigationObject)
                                     } label: {
                                         Text("단일 수정")
                                     }
                                     Button {
-                                        let data = ModifyDataModel(modifyRecord: record, modifyType: .goal, isAll: true)
+                                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: true)
                                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                                         navigationEnvironment.navigate(navigationObject)
                                     } label: {
@@ -167,12 +167,15 @@ struct DailyRecord: View {
 // MARK: - DailyNoRecord
 struct DailyNoRecord: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack {
             Text(noRecordText)
             Button {
-                navigationEnvironment.navigate(NavigationObject(viewType: .goal))
+                let data = GoalDataModel(date: dailyCalendarViewModel.currentDate)
+                let navigationObject = NavigationObject(viewType: .goal, data: data)
+                navigationEnvironment.navigate(navigationObject)
             } label: {
                 Text(goRecordViewText)
                     .foregroundStyle(Colors.daily)
