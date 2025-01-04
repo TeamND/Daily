@@ -165,7 +165,7 @@ class DailyGoalViewModel: ObservableObject {
                     goal.count = goalCount
                     goal.isSetTime = isSetTime
                     goal.setTime = setTime.toStringOfSetTime()
-                    record.isSuccess = goal.count == modifyRecordCount
+                    record.isSuccess = goal.count <= modifyRecordCount
                     try? modelContext.save()
                 } else {
                     let newGoal = DailyGoalModel(
