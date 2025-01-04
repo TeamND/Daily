@@ -37,7 +37,33 @@ struct DailyCalendarHeader: View {
                     Image(systemName: "chevron.left")
                 }
                 Menu {
-                    
+                    switch type {
+                    case .year:
+                        ForEach((dailyCalendarViewModel.currentDate.year / 10) * 10 ..< (dailyCalendarViewModel.currentDate.year / 10 + 1) * 10, id: \.self) { year in
+                            Button {
+                                dailyCalendarViewModel.setDate(year: year)
+                            } label: {
+                                Text("\(String(year)) 년")
+                            }
+                        }
+                    case .month:
+                        ForEach(1 ... 12, id: \.self) { month in
+                            Button {
+                                dailyCalendarViewModel.setDate(year: dailyCalendarViewModel.currentDate.year, month: month)
+                            } label: {
+                                Text("\(String(month)) 월")
+                            }
+                        }
+                    case .day:
+                        let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: dailyCalendarViewModel.currentDate)?.count ?? 0
+                        ForEach(1 ... lengthOfMonth, id: \.self) { day in
+                            Button {
+                                dailyCalendarViewModel.setDate(year: dailyCalendarViewModel.currentDate.year, month: dailyCalendarViewModel.currentDate.month, day: day)
+                            } label: {
+                                Text("\(String(day)) 일")
+                            }
+                        }
+                    }
                 } label: {
                     Text(dailyCalendarViewModel.headerText(type: type, textPosition: .title))
                         .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
