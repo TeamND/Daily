@@ -18,6 +18,24 @@ class NavigationEnvironment: ObservableObject {
             self.navigationPath.append(navigationObject)
         }
     }
+    
+    func navigateDirect(from: CalendarType, to: CalendarType = .day) {
+        switch from {
+        case .year:
+            DispatchQueue.main.async {
+                self.navigationPath.append(NavigationObject(viewType: .calendarMonth))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.navigationPath.append(NavigationObject(viewType: .calendarDay))
+                }
+            }
+        case .month:
+            DispatchQueue.main.async {
+                self.navigationPath.append(NavigationObject(viewType: .calendarDay))
+            }
+        default:
+            return
+        }
+    }
 }
 
 protocol Navigatable: Hashable {}

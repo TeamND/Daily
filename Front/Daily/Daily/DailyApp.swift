@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct DailyApp: App {
@@ -27,6 +28,7 @@ struct DailyApp: App {
                     .environmentObject(dailyCalendarViewModel)
                     .environmentObject(alertViewModel)
                     .environmentObject(loadingViewModel)
+                    .modelContainer(for: [DailyGoalModel.self, DailyRecordModel.self])
             } else {
                 if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
                 else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }

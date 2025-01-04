@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DailyAddGoalButton: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     
     var body: some View {
         VStack {
@@ -17,7 +18,8 @@ struct DailyAddGoalButton: View {
                 Spacer()
                 // TODO: 추후 DailyButton으로 통일
                 Button {
-                    let navigationObject = NavigationObject(viewType: .goal)
+                    let data = GoalDataModel(date: dailyCalendarViewModel.currentDate)
+                    let navigationObject = NavigationObject(viewType: .goal, data: data)
                     navigationEnvironment.navigate(navigationObject)
                 } label: {
                     Label("목표 추가", systemImage: "plus")

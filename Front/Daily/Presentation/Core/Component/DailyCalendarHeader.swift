@@ -32,12 +32,38 @@ struct DailyCalendarHeader: View {
             // MARK: - center
             HStack {
                 Button {
-                    dailyCalendarViewModel.moveDate(type: type, direction: .prev)
+                    dailyCalendarViewModel.setDate(byAdding: type.byAdding, value: Direction.prev.value)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
                 Menu {
-                    
+                    switch type {
+                    case .year:
+                        ForEach((dailyCalendarViewModel.currentDate.year / 10) * 10 ..< (dailyCalendarViewModel.currentDate.year / 10 + 1) * 10, id: \.self) { year in
+                            Button {
+                                dailyCalendarViewModel.setDate(year: year)
+                            } label: {
+                                Text("\(String(year)) 년")
+                            }
+                        }
+                    case .month:
+                        ForEach(1 ... 12, id: \.self) { month in
+                            Button {
+                                dailyCalendarViewModel.setDate(year: dailyCalendarViewModel.currentDate.year, month: month)
+                            } label: {
+                                Text("\(String(month)) 월")
+                            }
+                        }
+                    case .day:
+                        let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: dailyCalendarViewModel.currentDate)?.count ?? 0
+                        ForEach(1 ... lengthOfMonth, id: \.self) { day in
+                            Button {
+                                dailyCalendarViewModel.setDate(year: dailyCalendarViewModel.currentDate.year, month: dailyCalendarViewModel.currentDate.month, day: day)
+                            } label: {
+                                Text("\(String(day)) 일")
+                            }
+                        }
+                    }
                 } label: {
                     Text(dailyCalendarViewModel.headerText(type: type, textPosition: .title))
                         .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
@@ -45,7 +71,7 @@ struct DailyCalendarHeader: View {
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
                 Button {
-                    dailyCalendarViewModel.moveDate(type: type, direction: .next)
+                    dailyCalendarViewModel.setDate(byAdding: type.byAdding, value: Direction.next.value)
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -55,7 +81,8 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    dailyCalendarViewModel.setDate(Date().year, Date().month, Date().day)
+                    dailyCalendarViewModel.setDate(date: Date())
+                    navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
                     Label("오늘", systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))
@@ -68,8 +95,7 @@ struct DailyCalendarHeader: View {
                         )
                 }
                 Button {
-                    let navigationObject = NavigationObject(viewType: .appInfo)
-                    navigationEnvironment.navigate(navigationObject)
+                    navigationEnvironment.navigate(NavigationObject(viewType: .appInfo))
                 } label: {
                     Image(systemName: "info.circle")
                         .font(.system(size: CGFloat.fontSize * 2.5))

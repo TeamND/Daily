@@ -7,105 +7,38 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
-    private var updateable: Bool = true
     private var calendar = Calendar.current
 
-    var currentYear: Int = Date().year
-    var currentMonth: Int = Date().month
-    var currentDay: Int = Date().day
-
-    @Published var yearSelections: [String] = []
-    @Published var monthSelections: [String] = []
-    @Published var daySelections: [String] = []
+    @Published var currentDate: Date = Date()
+    @Published var yearDictionary: [String: [[Double]]] = [:]
+    @Published var monthDictionary: [String: [MonthDatas]] = [:]
     
-    func loadSelections(type: CalendarType, newDate: Date = Date()) {
-        currentYear = newDate.year
-        currentMonth = newDate.month
-        currentDay = newDate.day
-        guard let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay) else { return }
-        switch type {
-        case .year:
-            yearSelections = (-2 ... 2).map { offset in
-                guard let newDate = calendar.date(byAdding: .year, value: offset, to: currentDate) else { return "" }
-                return CalendarServices.shared.formatDateString(year: newDate.year)
-            }
-        case .month:
-            monthSelections = (-2 ... 2).map { offset in
-                guard let newDate = calendar.date(byAdding: .month, value: offset, to: currentDate) else { return "" }
-                return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month)
-            }
-        case .day:
-            daySelections = (-2 ... 2).map { offset in
-                guard let newDate = calendar.date(byAdding: .day, value: offset, to: currentDate) else { return "" }
-                return CalendarServices.shared.formatDateString(year: newDate.year, month: newDate.month, day: newDate.day)
-            }
-        }
+    func bindSelection(type: CalendarType) -> Binding<String> {
+        Binding(
+            get: { self.currentDate.getSelection(type: type) },
+            set: { self.setDate(selection: $0) }
+        )
     }
     
-    func updateCurrentCalendar(type: CalendarType, selection: String) {
-        if updateable {
-            setUpdateTimer()
-            let selections = CalendarServices.shared.separateSelection(selection)
-            if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
-               let newDate = CalendarServices.shared.getDate(
-                year: selections.count > 0 ? selections[0] : currentYear,
-                month: selections.count > 1 ? selections[1] : currentMonth,
-                day: selections.count > 2 ? selections[2] : currentDay
-               ) {
-                let diffrence = calendar.dateComponents([.year, .month, .day], from: currentDate, to: newDate)
-                if (type == .year && diffrence.year == 1) ||
-                    (type == .month && diffrence.month == 1) ||
-                    (type == .day && diffrence.day == 1)
-                { loadSelections(type: type, newDate: newDate) }
-            }
-        }
-    }
-    
-    func checkCurrentCalendar(type: CalendarType, selection: String) {
+    func setDate(selection: String) {
         let selections = CalendarServices.shared.separateSelection(selection)
-        if let currentDate = CalendarServices.shared.getDate(year: currentYear, month: currentMonth, day: currentDay),
-           let newDate = CalendarServices.shared.getDate(
-            year: selections.count > 0 ? selections[0] : currentYear,
-            month: selections.count > 1 ? selections[1] : currentMonth,
-            day: selections.count > 2 ? selections[2] : currentDay
-           ) {
-            if currentDate != newDate { loadSelections(type: type, newDate: newDate) }
-        }
+        self.setDate(year: selections[0], month: selections[safe: 1], day: selections[safe: 2])
     }
-    
-    func setUpdateTimer() {
-        DispatchQueue.main.async {
-            self.updateable = false
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { timer in
-                self.updateable = true
-            }
-        }
+    func setDate(year: Int, month: Int? = nil, day: Int? = nil) {
+        let month = month ?? 1
+        let day = day ?? (year == Date().year && month == Date().month ? Date().day : 1)
+        currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
     }
-    
-    @Published var yearSelection: String = CalendarServices.shared.formatDateString(year: Date().year)
-    @Published var monthSelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
-    @Published var weekSelection: String = CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
-    @Published var daySelection: String = CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
-    
-    @Published var yearDictionary: [String: [[Double]]] = [
-        CalendarServices.shared.formatDateString(year: Date().year)
-        : Array(repeating: Array(repeating: 0, count: 31), count: 12)
-    ]
-    @Published var monthDictionary: [String: [SymbolsOnMonthModel]] = [
-        CalendarServices.shared.formatDateString(year: Date().year, month: Date().month)
-        : Array(repeating: SymbolsOnMonthModel(), count: 31)
-    ]
-    @Published var weekDictionary: [String: RatingsOnWeekModel] = [
-        CalendarServices.shared.weekSelection(daySelection: CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day))
-        : RatingsOnWeekModel()
-    ]
-    @Published var dayDictionary: [String: GoalListOnDayModel] = [
-        CalendarServices.shared.formatDateString(year: Date().year, month: Date().month, day: Date().day)
-        : GoalListOnDayModel()
-    ]
+    func setDate(byAdding: Calendar.Component, value: Int) {
+        currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date()
+    }
+    func setDate(date: Date) {
+        currentDate = date
+    }
     
     // MARK: - init
     init() {
@@ -115,97 +48,148 @@ class DailyCalendarViewModel: ObservableObject {
         self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
     }
     
-    // MARK: - onAppear
-    func calendarYearOnAppear(yearSelection: String) {
-        updateCurrentCalendar(type: .year, selection: yearSelection)
-        Task {
-            guard let userID = UserDefaultManager.userID else { return }
-            let ratingsOnYear: [[Double]] = try await ServerNetwork.shared.request(.getCalendarYear(userID: userID, year: yearSelection))
-            await MainActor.run { self.yearDictionary[yearSelection] = ratingsOnYear }
-        }
-    }
-    func calendarMonthOnAppear(monthSelection: String) {
-        updateCurrentCalendar(type: .month, selection: monthSelection)
-        Task {
-            guard let userID = UserDefaultManager.userID else { return }
-            let symbolsOnMonth: [SymbolsOnMonthModel] = try await ServerNetwork.shared.request(.getCalendarMonth(userID: userID, month: monthSelection))
-            await MainActor.run { self.monthDictionary[monthSelection] = symbolsOnMonth }
-        }
-    }
-    func calendarDayOnAppear(daySelection: String? = nil) {
-        let daySelection = daySelection ?? self.daySelection
-        updateCurrentCalendar(type: .day, selection: daySelection)
-        Task {
-            guard let userID = UserDefaultManager.userID else { return }
-            let goalListOnDay: GoalListOnDayModel = try await ServerNetwork.shared.request(.getCalendarDay(userID: userID, day: daySelection))
-            await MainActor.run { self.dayDictionary[daySelection] = goalListOnDay }
-        }
-    }
-    // TODO: 추후 개선
-    func weekIndicatorOnChange(weekSelection: String? = nil) {
-        Task {
-            let weekSelection = weekSelection ?? self.weekSelection
-            guard let userID = UserDefaultManager.userID else { return }
-            let ratingsOnWeek: RatingsOnWeekModel = try await ServerNetwork.shared.request(.getCalendarWeek(userID: userID, startDay: weekSelection))
-            await MainActor.run { withAnimation { self.weekDictionary[weekSelection] = ratingsOnWeek } }
-        }
-    }
-    
-    // MARK: - get
-    func getDate(type: CalendarType) -> Int {
-        let dateComponents = self.daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
+    func loadText(type: CalendarType, direction: Direction) -> String {
         switch type {
         case .year:
-            return dateComponents[0]
+            let decade = (currentDate.year / 10 + direction.value) * 10
+            return "\(String(decade))년대"
         case .month:
-            return dateComponents[1]
+            let year = currentDate.year + direction.value
+            return "\(String(year))년"
         case .day:
-            return dateComponents[2]
+            let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date()
+            return "\(date.month)월 \(date.weekOfMonth)주차"
         }
     }
     
-    // MARK: - set
-    func setDate(_ year: Int, _ month: Int, _ day: Int) {
-        self.yearSelection = CalendarServices.shared.formatDateString(year: year)
-        self.monthSelection = CalendarServices.shared.formatDateString(year: year, month: month)
-        self.daySelection = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
-        self.weekSelection = CalendarServices.shared.weekSelection(daySelection: daySelection)
+    // MARK: - onAppear
+    func calendarYearOnAppear(modelContext: ModelContext, date: Date, selection: String) {
+        let startOfYear = calendar.date(from: DateComponents(year: date.year, month: 1, day: 1))!
+        let endOfYear = calendar.date(from: DateComponents(year: date.year, month: 12, day: 31))!
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startOfYear <= record.date && record.date <= endOfYear
+            }
+        )
+        
+        guard let records = try? modelContext.fetch(descriptor) else { return }
+        var recordsByDate: [Date: [DailyRecordModel]] = [:]
+        records.forEach { record in
+            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
+            if let normalizedDate = calendar.date(from: components) {
+                recordsByDate[normalizedDate, default: []].append(record)
+            }
+        }
+        
+        var newRatings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        for (date, dayRecords) in recordsByDate {
+            let successCount = dayRecords.filter { $0.isSuccess }.count
+            let totalCount = dayRecords.count
+            
+            if totalCount > 0 {
+                newRatings[date.month - 1][date.day - 1] = Double(successCount) / Double(totalCount)
+            }
+        }
+        
+        yearDictionary[selection] = newRatings
+    }
+    func calendarMonthOnAppear(modelContext: ModelContext, date: Date, selection: String) {
+        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
+        let endOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month + 1, day: 1))!.addingTimeInterval(-1)
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startOfMonth <= record.date && record.date <= endOfMonth
+            }
+        )
+        
+        guard let records = try? modelContext.fetch(descriptor) else { return }
+        var recordsByDate: [Date: [DailyRecordModel]] = [:]
+        records.forEach { record in
+            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
+            if let normalizedDate = calendar.date(from: components) {
+                recordsByDate[normalizedDate, default: []].append(record)
+            }
+        }
+        
+        var monthDatas: [MonthDatas] = Array(repeating: MonthDatas(), count: lengthOfMonth)
+        for day in 1 ... lengthOfMonth {
+            if let dayDate = calendar.date(from: DateComponents(year: date.year, month: date.month, day: day)),
+               let dayRecords = recordsByDate[dayDate] {
+                
+                var dailySymbols: [DailySymbol] = []
+                dayRecords.forEach { record in
+                    if let goal = record.goal {
+                        dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
+                    }
+                }
+                
+                let rating = dayRecords.isEmpty ? 0.0 : Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
+                monthDatas[day - 1] = MonthDatas(symbol: dailySymbols, rating: rating)
+            }
+        }
+        
+        monthDictionary[selection] = monthDatas
+    }
+    
+    // MARK: - get info func
+    func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
+        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : (currentDate.weekday - 1)
+        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date()
+        
+        let maxIndex = type == .year ? 10 : type == .month ? 12 : 7
+        let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
+        
+        return (date, direction, date.getSelection(type: type))
+    }
+    func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
+        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        let dividerCount = (lengthOfMonth + (startOfMonth.weekday - 1) - 1) / 7
+        return (startOfMonth.weekday, lengthOfMonth, dividerCount)
     }
     
     // MARK: - header func
-    func headerText(type: CalendarType, textPosition: TextPositionInHeader) -> String {
+    func headerText(type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
         switch type {
         case .year:
-            return textPosition == .title ? String(self.getDate(type: type)) + "년" : ""
+            return textPosition == .title ? String(self.currentDate.year) + "년" : ""
         case .month:
-            return textPosition == .title ? String(self.getDate(type: type)) + "월" : String(self.getDate(type: .year)) + "년"
+            return textPosition == .title ? String(self.currentDate.month) + "월" : String(self.currentDate.year) + "년"
         case .day:
-            return textPosition == .title ? String(self.getDate(type: type)) + "일" : String(self.getDate(type: .month)) + "월"
+            return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
         }
     }
-    func moveDate(type: CalendarType, direction: Direction) {
-        guard let today = self.daySelection.toDate() else { return }
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        let componentType: Calendar.Component
-        switch type {
-        case .year:
-            componentType = .year
-        case .month:
-            componentType = .month
-        case .day:
-            componentType = .day
+
+    // MARK: - Query filter
+    static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        let predicate = #Predicate<DailyRecordModel> { record in
+            startOfDay <= record.date && record.date < endOfDay
         }
         
-        if let prevDate = cal.date(byAdding: componentType, value: direction.value, to: today) {
-            self.setDate(prevDate.year, prevDate.month, prevDate.day)
-        }
+        var descriptor = FetchDescriptor<DailyRecordModel>(predicate: predicate)
+        descriptor.sortBy = [
+//            SortDescriptor(\DailyRecordModel.goal?.isSetTime),
+            SortDescriptor(\DailyRecordModel.goal?.setTime),
+            SortDescriptor(\DailyRecordModel.date)
+        ]
+        
+        return descriptor
     }
     
-    // MARK: - weekIndicator func
-    func tapWeekIndicator(dayOfWeek: DayOfWeek) {
-        let startDate = self.weekSelection.toDate()!
-        let date = calendar.date(byAdding: .day, value: dayOfWeek.index, to: startDate)!
-        self.setDate(date.year, date.month, date.day)
+    static func recordsForWeekDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
+        let calendar = Calendar.current
+        let startDate = calendar.date(byAdding: .day, value: -(date.weekday - 1), to: date)!
+        let endDate = calendar.date(byAdding: .day, value: 7, to: startDate)!
+        
+        let predicate = #Predicate<DailyRecordModel> { record in
+            startDate <= record.date && record.date < endDate
+        }
+        
+        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
     }
 }

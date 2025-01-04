@@ -13,7 +13,7 @@ struct DailyDatePicker: View {
     
     var body: some View {
         Group {
-            Label("\(CalendarServices.shared.formatDateString(year: currentDate.year, month: currentDate.month, day: currentDate.day, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(currentDate.getKoreaDOW())", systemImage: "calendar")
+            Label("\(CalendarServices.shared.formatDateString(date: currentDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(currentDate.getKoreaDOW())", systemImage: "calendar")
                 .font(.system(size: CGFloat.fontSize * 2.5))
         }
         .onTapGesture {

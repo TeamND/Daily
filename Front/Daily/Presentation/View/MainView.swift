@@ -60,7 +60,7 @@ struct MainView: View {
                 }
             }
         }
-        .onChange(of: alertViewModel.isShowToast) { newValue in
+        .onChange(of: alertViewModel.isShowToast) { _, newValue in
             if newValue {
                 Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
                     withAnimation {

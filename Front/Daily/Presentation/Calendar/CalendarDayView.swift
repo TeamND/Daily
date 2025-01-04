@@ -6,104 +6,74 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(
-                mode: .change,
-                opacity: Binding(
-                    get: {
-                        dailyCalendarViewModel.weekDictionary[dailyCalendarViewModel.weekSelection]?.rating ?? Array(repeating: 0, count: 7)
-                    }, set: { _ in }
-                )
-            )
+            DailyWeekIndicator(mode: .change, currentDate: dailyCalendarViewModel.currentDate)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: $dailyCalendarViewModel.daySelection) {
-                ForEach(dailyCalendarViewModel.daySelections, id: \.self) { daySelection in
-                    let selections = CalendarServices.shared.separateSelection(daySelection)
-                    let year = selections[0]
-                    let month = selections[1]
-                    let day = selections[2]
-                    let goalListOnDayBinding = Binding<GoalListOnDayModel>(
-                        get: { dailyCalendarViewModel.dayDictionary[daySelection] ?? GoalListOnDayModel() },
-                        set: { dailyCalendarViewModel.dayDictionary[daySelection] = $0 }
-                    )
-                    CalendarDay(
-                        year: year, month: month, day: day,
-                        goalListOnDay: goalListOnDayBinding
-                    )
-                    .onAppear {
-                        dailyCalendarViewModel.calendarDayOnAppear(daySelection: daySelection)
+            TabView(selection: dailyCalendarViewModel.bindSelection(type: .day)) {
+                ForEach(-1 ... 7, id: \.self) { index in
+                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .day, index: index)
+                    Group {
+                        if direction == .current { CalendarDay(date: date) }
+                        else { CalendarLoadView(type: .day, direction: direction) }
                     }
+                    .tag(selection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.daySelection) { daySelection in
-                dailyCalendarViewModel.checkCurrentCalendar(type: .day, selection: daySelection)
-                loadingViewModel.loading()
-                if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
-                    let dateComponents = daySelection.split(separator: DateJoiner.hyphen.rawValue).compactMap { Int($0) }
-                    guard dateComponents.count == 3 else { return }
-                    dailyCalendarViewModel.setDate(dateComponents[0], dateComponents[1], dateComponents[2])
-                }
-            }
-            .onChange(of: dailyCalendarViewModel.weekSelection) { weekSelection in
-                dailyCalendarViewModel.weekIndicatorOnChange(weekSelection: weekSelection)
-            }
-            .onAppear {
-                dailyCalendarViewModel.weekIndicatorOnChange()
-            }
         }
         .overlay {
             DailyAddGoalButton()
-        }
-        .onAppear {
-            dailyCalendarViewModel.loadSelections(type: .day)
         }
     }
 }
 // MARK: - CalendarDay
 struct CalendarDay: View {
-    let year: Int
-    let month: Int
-    let day: Int
-    @Binding var goalListOnDay: GoalListOnDayModel
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @Query private var records: [DailyRecordModel]
+    let date: Date
+    
+    init(date: Date) {
+        self.date = date
+        _records = Query(DailyCalendarViewModel.recordsForDateDescriptor(date))
+    }
     
     var body: some View {
-        if let goalList = goalListOnDay.goalList {
-            if goalList.count > 0 {
-                VStack {
-                    ViewThatFits(in: .vertical) {
-                        DailyRecordList(
-                            year: year, month: month, day: day,
-                            goalListOnDay: $goalListOnDay
-                        )
-                        ScrollView {
-                            DailyRecordList(
-                                year: year, month: month, day: day,
-                                goalListOnDay: $goalListOnDay
-                            )
-                        }
-                    }
-                    Spacer().frame(height: CGFloat.fontSize * 15)
-                    Spacer()
-                }
-            } else {
-                DailyNoRecord()
-            }
+        if records.count == 0 {
+            DailyNoRecord()
         } else {
-            ProgressView()
+            VStack {
+                ViewThatFits(in: .vertical) {
+                    DailyRecordList(
+                        date: date,
+                        records: records.sorted {   // MARK: DailyGoalModel?.Bool 타입 정렬 임시 처리
+                            guard let prev = $0.goal, let next = $1.goal else { return false }
+                            return prev.isSetTime == false && next.isSetTime == true
+                        }
+                    )
+                    ScrollView {
+                        DailyRecordList(
+                            date: date,
+                            records: records.sorted {   // MARK: DailyGoalModel?.Bool 타입 정렬 임시 처리
+                                guard let prev = $0.goal, let next = $1.goal else { return false }
+                                return prev.isSetTime == false && next.isSetTime == true
+                            }
+                        )
+                    }
+                }
+                Spacer().frame(height: CGFloat.fontSize * 15)
+                Spacer()
+            }
         }
     }
 }

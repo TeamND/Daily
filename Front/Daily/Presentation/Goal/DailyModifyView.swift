@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DailyModifyView: View {
     @EnvironmentObject var alertViewModel: AlertViewModel
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @StateObject var dailyGoalViewModel: DailyGoalViewModel
     
     init(modifyData: ModifyDataModel) {
@@ -19,20 +20,18 @@ struct DailyModifyView: View {
         VStack {
             DailyNavigationBar(title: dailyGoalViewModel.getNavigationBarTitle())
             if let modifyRecord = dailyGoalViewModel.modifyRecord,
+               let modifyGoal = modifyRecord.goal,
                let modifyType = dailyGoalViewModel.modifyType {
                 if modifyType == .date {
-                    Label(dailyGoalViewModel.beforeDateString ?? "", systemImage: "calendar")
+                    Label("\(CalendarServices.shared.formatDateString(date: dailyCalendarViewModel.currentDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(dailyCalendarViewModel.currentDate.getKoreaDOW())", systemImage: "calendar")
                         .font(.system(size: CGFloat.fontSize * 2.5))
                         .hLeading()
                         .padding(.horizontal)
                 }
-                if modifyRecord.is_set_time {
-                    DailyTimeLine(record: modifyRecord)
-                }
+                if modifyGoal.isSetTime { DailyTimeLine(setTime: modifyGoal.setTime) }
                 DailyRecord(record: modifyRecord, isButtonDisabled: true)
                 CustomDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
                 VStack(spacing: .zero) {
-                    Spacer()
                     switch modifyType {
                     case .record:
                         ZStack {
@@ -42,11 +41,11 @@ struct DailyModifyView: View {
                             HStack {
                                 countButton(direction: .minus)
                                 Menu {
-                                    ForEach(0 ... modifyRecord.goal_count, id:\.self) { record_count in
+                                    ForEach(0 ... modifyGoal.count, id:\.self) { count in
                                         Button {
-                                            dailyGoalViewModel.modifyRecordCount = record_count
+                                            dailyGoalViewModel.modifyRecordCount = count
                                         } label: {
-                                            Text("\(String(record_count))번")
+                                            Text("\(String(count))번")
                                         }
                                     }
                                 } label: {
@@ -83,17 +82,15 @@ struct DailyModifyView: View {
                             }
                         }
                     }
-                    ModifyButtonSection(dailyGoalViewModel: dailyGoalViewModel)
-                    Spacer()
+                    ButtonSection(dailyGoalViewModel: dailyGoalViewModel, buttonType: .modify)
                 }
                 .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .background(Colors.theme)
         .if(dailyGoalViewModel.modifyType == .goal, transform: { view in
-            view.onTapGesture {
-                hideKeyboard()
-            }
+            view.onTapGesture { hideKeyboard() }
         })
     }
     
@@ -119,31 +116,5 @@ struct DailyModifyView: View {
                         .opacity(0.8)
                 }
         }
-    }
-}
-
-// MARK: - ButtonSection
-struct ModifyButtonSection: View {
-    @EnvironmentObject var alertViewModel: AlertViewModel
-    @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        HStack {
-            if dailyGoalViewModel.modifyType == .date {
-                Text("\(CalendarServices.shared.formatDateString(year: dailyGoalViewModel.modifyDate.year, month: dailyGoalViewModel.modifyDate.month, day: dailyGoalViewModel.modifyDate.day, joiner: .korean, hasSpacing: true, hasLastJoiner: true))")
-            }
-            Spacer()
-            DailyButton(action: {
-                dismiss()
-            }, text: "취소")
-            DailyButton(action: {
-                dailyGoalViewModel.modify(
-                    successAction: { dismiss() },
-                    validateAction: { alertViewModel.showToast(message: $0) }
-                )
-            }, text: "수정")
-        }
-        .padding(.top, CGFloat.fontSize)
     }
 }

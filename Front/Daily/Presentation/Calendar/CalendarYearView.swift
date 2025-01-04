@@ -9,80 +9,70 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @EnvironmentObject var loadingViewModel: LoadingViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
             DailyCalendarHeader(type: .year)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: $dailyCalendarViewModel.yearSelection) {
-                ForEach(dailyCalendarViewModel.yearSelections, id: \.self) { yearSelection in
-                    let selections = CalendarServices.shared.separateSelection(yearSelection)
-                    let year = selections[0]
-                    CalendarYear(
-                        year: year,
-                        ratingsOnYear: dailyCalendarViewModel.yearDictionary[yearSelection] ?? Array(repeating: Array(repeating: 0, count: 31), count: 12),
-                        action: {
-                            dailyCalendarViewModel.setDate(
-                                dailyCalendarViewModel.getDate(type: .year),
-                                $0,
-                                1
-                            )
-                            let navigationObject = NavigationObject(viewType: .calendarMonth)
-                            navigationEnvironment.navigate(navigationObject)
-                        }
-                    )
-                    .onAppear {
-                        dailyCalendarViewModel.calendarYearOnAppear(yearSelection: yearSelection)
+            TabView(selection: dailyCalendarViewModel.bindSelection(type: .year)) {
+                ForEach(-1 ... 10, id: \.self) { index in
+                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .year, index: index)
+                    Group {
+                        if direction == .current { CalendarYear(date: date, selection: selection) }
+                        else { CalendarLoadView(type: .year, direction: direction) }
                     }
+                    .tag(selection)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.horizontal, CGFloat.fontSize)
             .background(Colors.theme)
-            .onChange(of: dailyCalendarViewModel.yearSelection) { yearSelection in
-                dailyCalendarViewModel.checkCurrentCalendar(type: .year, selection: yearSelection)
-                loadingViewModel.loading()
-                if navigationEnvironment.navigationPath.last == nil {
-                    guard let year = Int(yearSelection) else { return }
-                    dailyCalendarViewModel.setDate(year, 1, 1)
-                }
-            }
         }
         .overlay {
             DailyAddGoalButton()
-        }
-        .onAppear {
-            dailyCalendarViewModel.loadSelections(type: .year)
         }
     }
 }
 
 // MARK: - CalendarYear
 struct CalendarYear: View {
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
-    let year: Int
-    let ratingsOnYear: [[Double]]
-    let action: (Int) -> Void
+    let date: Date
+    let selection: String
+    var ratingsOfYear: [[Double]] {
+        dailyCalendarViewModel.yearDictionary[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+    }
     
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: .zero) {
-            ForEach(1 ... 12, id: \.self) { month in
-                Button {
-                    action(month)
-                } label: {
-                    DailyMonthOnYear(year: year, month: month, ratings: ratingsOnYear[month - 1])
+        LazyVStack(spacing: .zero) {
+            VStack(spacing: CGFloat.fontSize * 2) {
+                ForEach(0 ..< 4) { row in
+                    HStack(spacing: .zero) {
+                        ForEach(0 ..< 3) { col in
+                            let month = row * 3 + col + 1
+                            Button {
+                                dailyCalendarViewModel.setDate(year: date.year, month: month)
+                                navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
+                            } label: {
+                                DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: ratingsOfYear[month - 1])
+                            }
+                        }
+                    }
                 }
             }
+            .padding(CGFloat.fontSize)
+            .foregroundStyle(Colors.reverse)
+            .background(Colors.background)
+            .cornerRadius(20)
         }
-        .padding(CGFloat.fontSize)
-        .padding(.vertical, -CGFloat.fontSize * 2)
-        .background(Colors.background)
-        .cornerRadius(20)
         .vTop()
+        .onAppear {
+            dailyCalendarViewModel.calendarYearOnAppear(modelContext: modelContext, date: date, selection: selection)
+        }
     }
 }
 
@@ -90,33 +80,24 @@ struct CalendarYear: View {
 struct DailyMonthOnYear: View {
     let year: Int
     let month: Int
-    let ratings: [Double]
-    
-    init(year: Int, month: Int, ratings: [Double]) {
-        self.year = year
-        self.month = month
-        self.ratings = ratings
-    }
+    let ratingsOfMonth: [Double]
     
     var body: some View {
-        LazyVStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             Text("\(month)월")
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                .padding(4)
+                .padding(CGFloat.fontSize)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: .zero) {
                 let date: Date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date()
                 ForEach(CalendarServices.shared.getDaysInMonth(date: date), id: \.id) { item in
                     if item.date.month == month {
                         let day = item.date.day
-                        DailyDayOnYear(day: day, rating: ratings[day - 1])
+                        DailyDayOnYear(day: day, rating: ratingsOfMonth[day - 1])
                     } else { Spacer() }
                 }
             }
         }
-        .foregroundStyle(Colors.reverse)
-        .vTop()
         .padding(.horizontal, CGFloat.fontSize)
-        .padding(.vertical, CGFloat.fontSize * 2)
     }
 }
 

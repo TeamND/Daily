@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Symbols: String, CaseIterable {
+enum Symbols: String, CaseIterable, Codable {
     case check = "체크"
     case training = "운동"
     case running = "런닝"
