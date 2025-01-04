@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import DailyUtilities
 
 @main
 struct DailyApp: App {
@@ -20,6 +21,15 @@ struct DailyApp: App {
     @StateObject private var loadingViewModel = LoadingViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
+    let dailyModelContainer: ModelContainer
+    
+    init() {
+        dailyModelContainer = try! ModelContainer(
+            for: DailyGoalModel.self, DailyRecordModel.self,
+            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
+        )
+    }
+    
     var body: some Scene {
         WindowGroup {
             if userInfoViewModel.isNewVersion {
@@ -28,7 +38,7 @@ struct DailyApp: App {
                     .environmentObject(dailyCalendarViewModel)
                     .environmentObject(alertViewModel)
                     .environmentObject(loadingViewModel)
-                    .modelContainer(for: [DailyGoalModel.self, DailyRecordModel.self])
+                    .modelContainer(dailyModelContainer)
             } else {
                 if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
                 else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
