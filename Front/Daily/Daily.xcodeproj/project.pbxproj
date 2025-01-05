@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,6 +35,8 @@
 		F60B97392CFDD5A40015B19B /* ModifyCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B97382CFDD5A40015B19B /* ModifyCountModel.swift */; };
 		F60B973D2CFDD6010015B19B /* ModifyDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B973C2CFDD6010015B19B /* ModifyDateModel.swift */; };
 		F60B973F2CFDDADC0015B19B /* ModifyGoalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B973E2CFDDADC0015B19B /* ModifyGoalRequestModel.swift */; };
+		F61294172D293D9600A308D1 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F61294162D293D9600A308D1 /* DailyUtilities */; };
+		F61294192D293D9C00A308D1 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F61294182D293D9C00A308D1 /* DailyUtilities */; };
 		F61ADFE22BB941D300C35948 /* RecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE12BB941D300C35948 /* RecordList.swift */; };
 		F61ADFE82BBEB77000C35948 /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFE72BBEB77000C35948 /* UserInfoViewModel.swift */; };
 		F61ADFFD2BC4202F00C35948 /* modifyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61ADFFC2BC4202F00C35948 /* modifyGoalModel.swift */; };
@@ -79,6 +81,9 @@
 		F69A84662D252B9400AEBD76 /* MonthDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84652D252B9400AEBD76 /* MonthDatas.swift */; };
 		F69A84682D27DD8100AEBD76 /* ButtonTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */; };
 		F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */; };
+		F69A846C2D291CB900AEBD76 /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */; };
+		F69A846E2D291CCA00AEBD76 /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846D2D291CCA00AEBD76 /* DailyRecordModel.swift */; };
+		F69A84702D291D5500AEBD76 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846F2D291D5500AEBD76 /* Enums.swift */; };
 		F6A19FFF2C39FDE400989FBF /* ModifyRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */; };
 		F6A1A0032C3A459800989FBF /* modifyRecordCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */; };
 		F6A1A0052C3A45AA00989FBF /* modifyRecordDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */; };
@@ -274,6 +279,11 @@
 		F69A84652D252B9400AEBD76 /* MonthDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDatas.swift; sourceTree = "<group>"; };
 		F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypes.swift; sourceTree = "<group>"; };
 		F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataModel.swift; sourceTree = "<group>"; };
+		F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalModel.swift; sourceTree = "<group>"; };
+		F69A846D2D291CCA00AEBD76 /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
+		F69A846F2D291D5500AEBD76 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		F69A84712D29247F00AEBD76 /* DailyWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyWidgetExtension.entitlements; sourceTree = "<group>"; };
+		F69A84822D293A2E00AEBD76 /* DailyUtilities */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DailyUtilities; sourceTree = SOURCE_ROOT; };
 		F6A19FFE2C39FDE400989FBF /* ModifyRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyRecordView.swift; sourceTree = "<group>"; };
 		F6A1A0022C3A459800989FBF /* modifyRecordCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordCountModel.swift; sourceTree = "<group>"; };
 		F6A1A0042C3A45AA00989FBF /* modifyRecordDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modifyRecordDateModel.swift; sourceTree = "<group>"; };
@@ -381,6 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F61294172D293D9600A308D1 /* DailyUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +399,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F61294192D293D9C00A308D1 /* DailyUtilities in Frameworks */,
 				F6EC3D4D2BEB7A6500FAB502 /* SwiftUI.framework in Frameworks */,
 				F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */,
 			);
@@ -408,6 +420,9 @@
 			isa = PBXGroup;
 			children = (
 				F6016DA82CC4CF1200FB637F /* Colors.swift */,
+				F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */,
+				F69A846D2D291CCA00AEBD76 /* DailyRecordModel.swift */,
+				F69A846F2D291D5500AEBD76 /* Enums.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -755,6 +770,8 @@
 				F6016DAD2CC4DE3100FB637F /* Domain */,
 				F6EC3D4E2BEB7A6500FAB502 /* DailyWidget */,
 				F6EC3D2D2BEB4EA900FAB502 /* Frameworks */,
+				F69A84712D29247F00AEBD76 /* DailyWidgetExtension.entitlements */,
+				F69A84822D293A2E00AEBD76 /* DailyUtilities */,
 				F6BEC932290F5894005EAF28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1001,6 +1018,7 @@
 			);
 			name = Daily;
 			packageProductDependencies = (
+				F61294162D293D9600A308D1 /* DailyUtilities */,
 			);
 			productName = Daily;
 			productReference = F6BEC931290F5894005EAF28 /* Daily.app */;
@@ -1052,6 +1070,7 @@
 			);
 			mainGroup = F6BEC928290F5894005EAF28;
 			packageReferences = (
+				F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */,
 			);
 			productRefGroup = F6BEC932290F5894005EAF28 /* Products */;
 			projectDirPath = "";
@@ -1256,7 +1275,10 @@
 			files = (
 				F6EC3D502BEB7A6500FAB502 /* DailyWidgetBundle.swift in Sources */,
 				F6016DAA2CC4CF1200FB637F /* Colors.swift in Sources */,
+				F69A846C2D291CB900AEBD76 /* DailyGoalModel.swift in Sources */,
 				F6EC3D522BEB7A6500FAB502 /* DailyWidget.swift in Sources */,
+				F69A84702D291D5500AEBD76 /* Enums.swift in Sources */,
+				F69A846E2D291CCA00AEBD76 /* DailyRecordModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,6 +1504,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DailyWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3NLDZW4Z5J;
@@ -1490,14 +1513,14 @@
 				INFOPLIST_FILE = DailyWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DailyWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1519,6 +1542,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DailyWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3NLDZW4Z5J;
@@ -1527,14 +1551,14 @@
 				INFOPLIST_FILE = DailyWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DailyWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1581,6 +1605,26 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DailyUtilities;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F61294162D293D9600A308D1 /* DailyUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
+			productName = DailyUtilities;
+		};
+		F61294182D293D9C00A308D1 /* DailyUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
+			productName = DailyUtilities;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6BEC929290F5894005EAF28 /* Project object */;
 }
