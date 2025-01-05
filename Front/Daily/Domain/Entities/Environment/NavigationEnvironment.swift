@@ -11,9 +11,7 @@ class NavigationEnvironment: ObservableObject {
     @Published var navigationPath: [NavigationObject] = []
     
     func navigate(_ navigationObject: NavigationObject) {
-        if let currentPath = self.navigationPath.last {
-            if currentPath.viewType == navigationObject.viewType { return }
-        }
+        if self.navigationPath.contains(where: { $0.viewType == navigationObject.viewType }) { return }
         DispatchQueue.main.async {
             self.navigationPath.append(navigationObject)
         }

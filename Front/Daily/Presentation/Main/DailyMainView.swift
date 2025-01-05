@@ -45,6 +45,15 @@ struct DailyMainView: View {
                 }
             }
         }
+        .onOpenURL { openUrl in
+            let url = openUrl.absoluteString.removingPercentEncoding ?? ""
+            if url.contains("widget") {
+                navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
+                }
+            }
+        }
     }
 }
 
