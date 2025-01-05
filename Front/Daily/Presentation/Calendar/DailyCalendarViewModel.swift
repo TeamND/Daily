@@ -166,18 +166,16 @@ class DailyCalendarViewModel: ObservableObject {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: date)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        let predicate = #Predicate<DailyRecordModel> { record in
-            startOfDay <= record.date && record.date < endOfDay
-        }
-        
-        var descriptor = FetchDescriptor<DailyRecordModel>(predicate: predicate)
-        descriptor.sortBy = [
-//            SortDescriptor(\DailyRecordModel.goal?.isSetTime),
-            SortDescriptor(\DailyRecordModel.goal?.setTime),
-            SortDescriptor(\DailyRecordModel.date)
-        ]
-        
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startOfDay <= record.date && record.date < endOfDay
+            },
+            sortBy: [
+                SortDescriptor(\.goal?.isSetTime),
+                SortDescriptor(\.goal?.setTime),
+                SortDescriptor(\.date)
+            ]
+        )
         return descriptor
     }
     

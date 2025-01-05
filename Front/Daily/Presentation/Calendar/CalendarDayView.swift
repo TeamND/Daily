@@ -54,21 +54,9 @@ struct CalendarDay: View {
         } else {
             VStack {
                 ViewThatFits(in: .vertical) {
-                    DailyRecordList(
-                        date: date,
-                        records: records.sorted {   // MARK: DailyGoalModel?.Bool 타입 정렬 임시 처리
-                            guard let prev = $0.goal, let next = $1.goal else { return false }
-                            return prev.isSetTime == false && next.isSetTime == true
-                        }
-                    )
+                    DailyRecordList(date: date, records: records)
                     ScrollView {
-                        DailyRecordList(
-                            date: date,
-                            records: records.sorted {   // MARK: DailyGoalModel?.Bool 타입 정렬 임시 처리
-                                guard let prev = $0.goal, let next = $1.goal else { return false }
-                                return prev.isSetTime == false && next.isSetTime == true
-                            }
-                        )
+                        DailyRecordList(date: date, records: records)
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)

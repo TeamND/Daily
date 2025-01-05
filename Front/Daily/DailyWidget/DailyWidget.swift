@@ -35,61 +35,36 @@ struct Provider: TimelineProvider {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
-        
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
-                record.date >= today && record.date < tomorrow
-            }
-//            },
-//            sortBy: [
-//                SortDescriptor(\DailyRecordModel.goal?.isSetTime),
-//                SortDescriptor(\DailyRecordModel.goal?.setTime),
-//                SortDescriptor(\DailyRecordModel.isSuccess),
-//                SortDescriptor(\DailyRecordModel.date)
-//            ]
+                today <= record.date && record.date < tomorrow
+            },
+            sortBy: [
+                SortDescriptor(\.goal?.isSetTime),
+                SortDescriptor(\.goal?.setTime),
+                SortDescriptor(\.isSuccess),
+                SortDescriptor(\.date)
+            ]
         )
         
-        do {
-            let records = try context.fetch(descriptor)
-            let simpleRecords = records.map { record in
-                SimpleRecordModel(
-                    content: record.goal?.content ?? "",
-                    symbol: record.goal?.symbol ?? .check,
-                    isSuccess: record.isSuccess,
-                    isSetTime: record.goal?.isSetTime ?? false,
-                    setTime: record.goal?.setTime ?? "00:00"
-                )
-            }
-            let rating = records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
-            
-            var entries: [SimpleEntry] = []
-            
-            let currentDate = Date()
-            for hourOffset in 0 ..< 5 {
-                let entryDate = Calendar.current.date(byAdding: .minute, value: hourOffset, to: currentDate)!
-                let entry = SimpleEntry(
-                    date: entryDate,
-                    rating: rating,
-                    day: String(Calendar.current.component(.day, from: Date())),
-                    records: simpleRecords
-                )
-                entries.append(entry)
-            }
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
-        } catch {
-            print("Error fetching records: \(error)")
-            
+        guard let records = try? context.fetch(descriptor) else { return }
+        let simpleRecords = records.map { SimpleRecordModel(record: $0) }
+        let rating = records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
+        
+        var entries: [SimpleEntry] = []
+        for hourOffset in 0 ..< 5 {
+            let entryDate = Calendar.current.date(byAdding: .minute, value: hourOffset, to: Date())!
             let entry = SimpleEntry(
-                date: Date(),
-                rating: 0,
+                date: entryDate,
+                rating: rating,
                 day: String(Calendar.current.component(.day, from: Date())),
-                records: []
+                records: simpleRecords
             )
-            let timeline = Timeline(entries: [entry], policy: .atEnd)
-            completion(timeline)
+            entries.append(entry)
         }
+        
+        let timeline = Timeline(entries: entries, policy: .atEnd)
+        completion(timeline)
     }
 }
 
@@ -100,20 +75,20 @@ struct SimpleRecordModel: Codable {
     let isSetTime: Bool
     let setTime: String
     
-    init(content: String = "아침 7시에 일어나기 ☀️", symbol: Symbols = .check, isSuccess: Bool = false, isSetTime: Bool = false, setTime: String = "00:00") {
-        self.content = content
-        self.symbol = symbol
-        self.isSuccess = isSuccess
-        self.isSetTime = isSetTime
-        self.setTime = setTime
-    }
-    
-    init(isEmpty: Bool) {
+    init(isEmpty: Bool = true) {
         self.content = ""
         self.symbol = .check
         self.isSuccess = false
         self.isSetTime = false
         self.setTime = "00:00"
+    }
+    
+    init(record: DailyRecordModel) {
+        self.content = record.goal?.content ?? ""
+        self.symbol = record.goal?.symbol ?? .check
+        self.isSuccess = record.isSuccess
+        self.isSetTime = record.goal?.isSetTime ?? false
+        self.setTime = record.goal?.setTime ?? "00:00"
     }
 }
 
@@ -154,12 +129,11 @@ struct SimpleDayRating: View {
         ZStack {
             Image(systemName: "circle.fill")
                 .font(.system(size: CGFloat.fontSize * 2))
-                .foregroundColor(Colors.daily.opacity(rating*0.8))
+                .foregroundColor(Colors.daily.opacity(rating * 0.8))
             Text(day)
                 .font(.system(size: CGFloat.fontSize, weight: .bold))
                 .foregroundColor(.primary)
         }
-        Spacer()
     }
 }
 
@@ -167,39 +141,30 @@ struct SymbolListInSmallWidget: View {
     @State var records: [SimpleRecordModel]
     
     var body: some View {
-        ZStack {
+        Group {
             if records.count > 0 {
                 VStack {
-                    Spacer()
                     ForEach(0 ..< 2) { rowIndex in
                         HStack {
-                            Spacer()
-                            ForEach(rowIndex * 3 ..< (rowIndex + 1) * 3, id: \.self) { index in
-                                SimpleSymbol(record: index < records.count ? records[index] : SimpleRecordModel(isEmpty: true))
+                            ForEach(0 ..< 3) { colIndex in
+                                let index = rowIndex * 3 + colIndex
+                                let record = index < records.count ? records[index] : SimpleRecordModel(isEmpty: true)
+                                Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .opacity(index < records.count ? 1 : 0)
-                                Spacer()
                             }
                         }
-                        Spacer()
                     }
                 }
-            } else {
-                SimpleText()
-            }
+            } else { SimpleText() }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
     }
 }
 
-struct SimpleSymbol: View {
-    @State var record: SimpleRecordModel
-    
-    var body: some View {
-        Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
-    }
-}
 struct SimpleRecordList: View {
     @Environment(\.widgetFamily) private var family
     @State var records: [SimpleRecordModel]
@@ -254,19 +219,14 @@ struct SimpleText: View {
     @Environment(\.widgetFamily) private var family
     
     var body: some View {
-        HStack {
-            Spacer()
-            VStack {
-                Spacer()
-                Text("아직 목표가 없어요 😓")
-                if family != .systemSmall {
-                    Text("목표 세우러 가기")
-                        .foregroundColor(Colors.daily)
-                }
-                Spacer()
+        VStack {
+            Text("아직 목표가 없어요 😓")
+            if family != .systemSmall {
+                Text("목표 세우러 가기")
+                    .foregroundColor(Colors.daily)
             }
-            Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(CGFloat.fontSize < 15 ? 0 : 10)
     }
 }
@@ -276,16 +236,9 @@ struct DailyWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                DailyWidgetEntryView(entry: entry)
-                    .containerBackground(Colors.theme, for: .widget)
-                    .widgetURL(URL(string: "widget://daily")!)
-            } else {
-                DailyWidgetEntryView(entry: entry)
-                    .padding()
-                    .background(Colors.theme)
-                    .widgetURL(URL(string: "widget://daily")!)
-            }
+            DailyWidgetEntryView(entry: entry)
+                .containerBackground(Colors.theme, for: .widget)
+                .widgetURL(URL(string: "widget://daily")!)
         }
         .configurationDisplayName("Daily Widget")
         .description("위젯으로 더욱 간편하게! :D")
