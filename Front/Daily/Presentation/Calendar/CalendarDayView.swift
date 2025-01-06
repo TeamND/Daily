@@ -54,7 +54,7 @@ struct CalendarDay: View {
     }
     
     var body: some View {
-        if records.count == 0 {
+        if records.isEmpty {
             DailyNoRecord()
         } else {
             VStack {

@@ -170,12 +170,7 @@ class DailyCalendarViewModel: ObservableObject {
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
                 startOfDay <= record.date && record.date < endOfDay
-            },
-            sortBy: [
-                SortDescriptor(\.goal?.isSetTime),
-                SortDescriptor(\.goal?.setTime),
-                SortDescriptor(\.date)
-            ]
+            }
         )
         return descriptor
     }

@@ -28,8 +28,6 @@
 		F607C6822CFED0C8006DE13A /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */; };
 		F60B97332CFC170E0015B19B /* ModifyDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B97322CFC170E0015B19B /* ModifyDataModel.swift */; };
 		F60B97352CFD97090015B19B /* DailyModifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B97342CFD97090015B19B /* DailyModifyView.swift */; };
-		F61294172D293D9600A308D1 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F61294162D293D9600A308D1 /* DailyUtilities */; };
-		F61294192D293D9C00A308D1 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F61294182D293D9C00A308D1 /* DailyUtilities */; };
 		F634D2D62CC483C90014EDB6 /* CGFloat+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2D52CC483C90014EDB6 /* CGFloat+extension.swift */; };
 		F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2D92CC484110014EDB6 /* View+extension.swift */; };
 		F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DB2CC484FA0014EDB6 /* String+extension.swift */; };
@@ -38,6 +36,8 @@
 		F634D2E22CC485D70014EDB6 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E12CC485D70014EDB6 /* Double+extension.swift */; };
 		F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */; };
 		F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */; };
+		F6442C332D2C15BB006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C322D2C15BB006B3658 /* DailyUtilities */; };
+		F6442C352D2C15C4006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C342D2C15C4006B3658 /* DailyUtilities */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
@@ -239,7 +239,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F61294172D293D9600A308D1 /* DailyUtilities in Frameworks */,
+				F6442C332D2C15BB006B3658 /* DailyUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F61294192D293D9C00A308D1 /* DailyUtilities in Frameworks */,
+				F6442C352D2C15C4006B3658 /* DailyUtilities in Frameworks */,
 				F6EC3D4D2BEB7A6500FAB502 /* SwiftUI.framework in Frameworks */,
 				F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */,
 			);
@@ -646,7 +646,7 @@
 			);
 			name = Daily;
 			packageProductDependencies = (
-				F61294162D293D9600A308D1 /* DailyUtilities */,
+				F6442C322D2C15BB006B3658 /* DailyUtilities */,
 			);
 			productName = Daily;
 			productReference = F6BEC931290F5894005EAF28 /* Daily.app */;
@@ -1166,12 +1166,12 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F61294162D293D9600A308D1 /* DailyUtilities */ = {
+		F6442C322D2C15BB006B3658 /* DailyUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
 			productName = DailyUtilities;
 		};
-		F61294182D293D9C00A308D1 /* DailyUtilities */ = {
+		F6442C342D2C15C4006B3658 /* DailyUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
 			productName = DailyUtilities;

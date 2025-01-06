@@ -15,6 +15,19 @@ struct DailyRecordList: View {
     let date: Date
     let records: [DailyRecordModel]
     
+    init(date: Date, records: [DailyRecordModel]) {
+        self.date = date
+        self.records = records.sorted {
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
+                return !prevGoal.isSetTime && nextGoal.isSetTime
+            }
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
+                return prevGoal.setTime < nextGoal.setTime
+            }
+            return $0.date < $1.date
+        }
+    }
+    
     var body: some View {
         VStack {
             let processedRecords = records.reduce(into: [(record: DailyRecordModel, showTimeline: Bool)]()) { result, record in
