@@ -185,15 +185,20 @@ struct DailyWeeklySummary: View {
                         )
                         .opacity(0.3)
                         .annotation(position: .top, alignment: .center) {
-                            Text(data.rating.percentFormat())
-                                .font(.system(size: CGFloat.fontSize * 1.5))
+                            let isLeadingPosition = data.day == "일" || data.day == "월" || data.day == "화"
+                            let isSameRating = Int(round(data.rating)) == ratingOfWeek
+                            let isNotZero = ratingOfWeek != 0
+                            if isLeadingPosition && isSameRating && isNotZero {
+                                EmptyView()
+                            } else {
+                                Text(data.rating.percentFormat())
+                                    .font(.system(size: CGFloat.fontSize * 1.5))
+                            }
                         }
                         if ratingOfWeek > 0 {
                             RuleMark(y: .value("RatingOfWeek", ratingOfWeek))
                                 .lineStyle(StrokeStyle(lineWidth: 2))
-                                .annotation(
-                                    position: ratingsForChart[0].rating == Double(ratingOfWeek) || ratingsForChart[1].rating == Double(ratingOfWeek) || ratingsForChart[2].rating == Double(ratingOfWeek) ? .bottom : .top, alignment: .leading
-                                ) {
+                                .annotation(position: .top, alignment: .leading) {
                                     Text(" 주간 달성률 : \(ratingOfWeek)%")
                                         .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                 }
