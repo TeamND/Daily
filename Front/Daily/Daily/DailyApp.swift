@@ -11,10 +11,9 @@ import DailyUtilities
 
 @main
 struct DailyApp: App {
+    @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var navigationEnvironment = NavigationEnvironment()
     @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
-    @StateObject private var alertViewModel = AlertViewModel()
-    @StateObject private var loadingViewModel = LoadingViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     let dailyModelContainer: ModelContainer
@@ -29,10 +28,9 @@ struct DailyApp: App {
     var body: some Scene {
         WindowGroup {
             daily
+                .environmentObject(alertEnvironment)
                 .environmentObject(navigationEnvironment)
                 .environmentObject(dailyCalendarViewModel)
-                .environmentObject(alertViewModel)
-                .environmentObject(loadingViewModel)
                 .modelContainer(dailyModelContainer)
         }
     }
@@ -43,8 +41,7 @@ struct DailyApp: App {
             if splashViewModel.isAppLoading {
                 SplashView(splashViewModel: splashViewModel)
             }
-            alertViewModel.toastView
-            if loadingViewModel.isLoading { loadingViewModel.loadingView }
+            alertEnvironment.toastView
         }
     }
 }

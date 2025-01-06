@@ -13,11 +13,9 @@ struct AppInfoLabel: View {
     
     var body: some View {
         HStack {
-            Text(labelText.uppercased())
-                .fontWeight(.bold)
-            
+            Text(labelText.uppercased()).fontWeight(.bold)
+            Spacer()
             Image(systemName: labelImage)
-                .hTrailing()
         }
     }
 }

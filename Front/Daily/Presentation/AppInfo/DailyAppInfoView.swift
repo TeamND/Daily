@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct DailyAppInfoView: View {
-    @EnvironmentObject var alertViewModel: AlertViewModel
-    
     var body: some View {
         ViewThatFits(in: .vertical) {
             dailyAppInfoView

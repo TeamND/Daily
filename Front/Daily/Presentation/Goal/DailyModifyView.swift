@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyModifyView: View {
-    @EnvironmentObject var alertViewModel: AlertViewModel
+    @EnvironmentObject var alertEnvironment: AlertEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @StateObject var dailyGoalViewModel: DailyGoalViewModel
     
@@ -98,9 +98,9 @@ struct DailyModifyView: View {
         Button {
             let afterCount = dailyGoalViewModel.modifyRecordCount + direction.value
             if afterCount < 0 {
-                alertViewModel.showToast(message: "최소 기록 횟수는 0번이에요 😓")
+                alertEnvironment.showToast(message: "최소 기록 횟수는 0번이에요 😓")
             } else if afterCount > dailyGoalViewModel.goalCount {
-                alertViewModel.showToast(message: "최대 기록 횟수는 \(dailyGoalViewModel.goalCount)번이에요 🙌")
+                alertEnvironment.showToast(message: "최대 기록 횟수는 \(dailyGoalViewModel.goalCount)번이에요 🙌")
             } else {
                 dailyGoalViewModel.modifyRecordCount = afterCount
             }

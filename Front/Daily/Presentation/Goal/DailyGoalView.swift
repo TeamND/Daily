@@ -142,7 +142,7 @@ struct ContentSection: View {
 
 // MARK: - CountSection
 struct CountSection: View {
-    @EnvironmentObject var alertViewModel: AlertViewModel
+    @EnvironmentObject var alertEnvironment: AlertEnvironment
     @Binding var goalType: GoalTypes
     @Binding var goalCount: Int
     @Binding var goalTime: Int
@@ -168,7 +168,7 @@ struct CountSection: View {
             let afterCount = goalCount + direction.value
             if afterCount < GeneralServices.shared.minimumGoalCount ||
                 afterCount > GeneralServices.shared.maximumGoalCount {
-                alertViewModel.showToast(message: countRangeToastMessageText)
+                alertEnvironment.showToast(message: countRangeToastMessageText)
             } else {
                 goalCount = afterCount
                 goalType = goalCount == 1 ? .check : .count
@@ -210,7 +210,7 @@ struct SymbolSection: View {
 struct ButtonSection: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var alertViewModel: AlertViewModel
+    @EnvironmentObject var alertEnvironment: AlertEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
     let buttonType: ButtonTypes
@@ -230,7 +230,7 @@ struct ButtonSection: View {
                     dailyGoalViewModel.add(
                         modelContext: modelContext,
                         successAction: { dismiss() },
-                        validateAction: { alertViewModel.showToast(message: $0.messageText) }
+                        validateAction: { alertEnvironment.showToast(message: $0.messageText) }
                     )
                 case .modify:
                     dailyGoalViewModel.modify(
@@ -239,7 +239,7 @@ struct ButtonSection: View {
                             dismiss()
                             if let newDate = $0 { dailyCalendarViewModel.setDate(date: newDate) }
                         },
-                        validateAction: { alertViewModel.showToast(message: $0.messageText) }
+                        validateAction: { alertEnvironment.showToast(message: $0.messageText) }
                     )
                 }
             }, text: buttonType.text)

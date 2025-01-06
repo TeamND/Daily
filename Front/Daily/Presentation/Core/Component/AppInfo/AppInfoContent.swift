@@ -15,30 +15,24 @@ struct AppInfoContent: View {
     
     var body: some View {
         VStack {
-            Divider()
-                .padding(.vertical, 5)
-            
+            Divider().padding(.vertical, 5)
             HStack {
-                Text(name)
-                    .foregroundColor(.gray)
-                
-                if content != nil {
-                    Text(content ?? "noValue")
-                        .fontWeight(.bold)
-                        .hTrailing()
-                } else if (linkLabel != nil && linkDestination != nil){
-                    Link(destination: URL(string: "https://\(linkDestination!)")!) {
-                        Text(linkLabel!)
-                            .fontWeight(.bold)
-                            .foregroundColor(Colors.daily)
-                            .hTrailing()
+                Text(name).foregroundStyle(.gray)
+                Spacer()
+                Group {
+                    if let content {
+                        Text(content)
+                    } else if let linkLabel, let linkDestination {
+                        Group {
+                            Link(destination: URL(string: "https://\(linkDestination)")!) { Text(linkLabel) }
+                            Image(systemName: "arrow.up.right.square")
+                        }
+                        .foregroundStyle(Colors.daily)
+                    } else {
+                        EmptyView()
                     }
-                    
-                    Image(systemName: "arrow.up.right.square")
-                        .foregroundColor(Colors.daily)
-                } else {
-                    EmptyView()
                 }
+                .fontWeight(.bold)
             }
         }
     }

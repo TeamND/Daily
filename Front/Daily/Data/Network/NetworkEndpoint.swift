@@ -32,12 +32,7 @@ enum ServerEndpoint: NetworkEndpoint {
     case getCalendarMonth(userID: String, month: String)
     case getCalendarWeek(userID: String, startDay: String)
     case getCalendarDay(userID: String, day: String)
-    case addGoal(goal: AddGoalRequestModel)
     case increaseCount(recordID: String)
-    case modifyRecordCount(record: ModifyRecordProtocol)
-    case modifyRecordDate(record: ModifyRecordProtocol)
-    case modifyGoal(goalID: String, goal: ModifyGoalRequestModel)
-    case separateGoal(recordID: String, goal: ModifyGoalRequestModel)
     case removeRecord(recordID: String)
     case removeRecordAll(goalID: String)
     case removeGoal(goalID: String)
@@ -57,16 +52,8 @@ enum ServerEndpoint: NetworkEndpoint {
             return "/calendar/week/\(userID)"
         case .getCalendarDay(let userID, _):
             return "/calendar/day/\(userID)"
-        case .addGoal:
-            return "/goal"
         case .increaseCount(let recordID):
             return "/goal/count/\(recordID)"
-        case .modifyRecordCount(let record), .modifyRecordDate(let record):
-            return "/record/\(record.uid)"
-        case .modifyGoal(let goalID, _):
-            return "/goal/\(goalID)"
-        case .separateGoal(let recordID, _):
-            return "/goal/separateGoal/\(recordID)"
         case .removeRecord(let recordID):
             return "/record/\(recordID)"
         case .removeRecordAll(let goalID):
@@ -81,9 +68,7 @@ enum ServerEndpoint: NetworkEndpoint {
         switch self {
         case .getUserInfo, .getServerVersion, .getCalendarYear, .getCalendarMonth, .getCalendarWeek, .getCalendarDay:
             return .get
-        case .addGoal:
-            return .post
-        case .increaseCount, .modifyRecordCount, .modifyRecordDate, .modifyGoal, .separateGoal:
+        case .increaseCount:
             return .put
         case .removeRecord, .removeRecordAll, .removeGoal:
             return .delete
@@ -119,12 +104,6 @@ enum ServerEndpoint: NetworkEndpoint {
     // MARK: - body
     var body: (any Encodable)? {
         switch self {
-        case .addGoal(let goal):
-            return goal
-        case .modifyRecordCount(let record), .modifyRecordDate(let record):
-            return record
-        case .modifyGoal(_, let goal), .separateGoal(_, let goal):
-            return goal
         default:
             return nil
         }

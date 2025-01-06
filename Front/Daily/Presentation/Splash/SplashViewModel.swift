@@ -20,6 +20,7 @@ class SplashViewModel: ObservableObject {
     
     func onAppear() {
         self.subTitle = appLaunchUseCase.getSubTitle()
+        
         DispatchQueue.main.async {
             Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
                 self.isAppLoading = false
