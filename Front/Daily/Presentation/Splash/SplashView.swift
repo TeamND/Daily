@@ -24,5 +24,13 @@ struct SplashView: View {
         .onAppear {
             splashViewModel.onAppear()
         }
+        .sheet(isPresented: $splashViewModel.isShowNotice) {
+            NoticeSheet()
+                .presentationDetents([.height(CGFloat.fontSize * 65)])
+                .presentationDragIndicator(.visible)
+                .onDisappear {
+                    splashViewModel.isAppLoading = false
+                }
+        }
     }
 }

@@ -12,6 +12,7 @@ class SplashViewModel: ObservableObject {
     
     @Published var subTitle: String = ""
     @Published var isAppLoading: Bool = true
+    @Published var isShowNotice: Bool = false
     
     init() {
         let repository = AppLaunchRepository()
@@ -21,9 +22,12 @@ class SplashViewModel: ObservableObject {
     func onAppear() {
         self.subTitle = appLaunchUseCase.getSubTitle()
         
-        DispatchQueue.main.async {
-            Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
-                self.isAppLoading = false
+        if Date() < "2025-01-15".toDate()! { isShowNotice = true }
+        else {
+            DispatchQueue.main.async {
+                Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
+                    self.isAppLoading = false
+                }
             }
         }
     }
