@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SplashView: View {
+    @EnvironmentObject var alertEnvironment: AlertEnvironment
     @ObservedObject var splashViewModel: SplashViewModel
     
     var body: some View {
@@ -23,6 +24,7 @@ struct SplashView: View {
         .background(Colors.theme)
         .onAppear {
             splashViewModel.onAppear()
+            PushNoticeManager().requestNotiAuthorization(showAlert: { DispatchQueue.main.async { alertEnvironment.isShowAlert = true } })
         }
         .sheet(isPresented: $splashViewModel.isShowNotice) {
             NoticeSheet()

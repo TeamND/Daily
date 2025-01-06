@@ -31,37 +31,19 @@ class PushNoticeManager {
         UNUserNotificationCenter.current().setBadgeCount(0)
     }
     
-    func requestNotiAuthorization(last_time: String?, completion: @escaping (Bool) -> Void) {
-        if self.validateRequestCondition(last_time: last_time) {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                switch settings.authorizationStatus {
-                case .notDetermined:
-                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                        if let error = error { print("reuqest authorization error is \(error)") }
-                        
-                        if granted { self.addNoti() }
-                        completion(false)
-                    }
-                case .denied:
-                    completion(true)
-                case .authorized:
-                    self.removeAllNoti()
-                    self.addNoti()
-                    completion(false)
-                default:
-                    print("other case in get noti setting situation,\n case is \(settings.authorizationStatus)")
+    func requestNotiAuthorization(showAlert: @escaping () -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+                    if granted { self.addNoti() }
                 }
+            case .denied:
+                showAlert()
+            default:
+                self.removeAllNoti()
+                self.addNoti()
             }
-        }
-    }
-    
-    func validateRequestCondition(last_time: String?) -> Bool {
-        if last_time == nil { // 신규 사용자
-            return true
-        } else {
-            let last_time = String(last_time!.split(separator: " ")[0])
-            let gap = Calendar.current.dateComponents([.year,.month,.day], from: last_time.toDate()!, to: Date())
-            return gap.year! > 0 || gap.month! > 0 || gap.day! > 6   // 일주일 이내 사용 이력이 없는 사용자
         }
     }
 }

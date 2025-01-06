@@ -43,5 +43,20 @@ struct DailyApp: App {
             }
             alertEnvironment.toastView
         }
+        .alert(isPresented: $alertEnvironment.isShowAlert) {
+            Alert(
+                title: Text("알림 설정이 꺼져있습니다."),
+                message: Text("Daily의 알림을 받아보세요"),
+                primaryButton: .default(
+                    Text("설정으로 이동"),
+                    action: {
+                        System().openSettingApp()
+                    }
+                ),
+                secondaryButton: .destructive(
+                    Text("다음에 하기")
+                )
+            )
+        }
     }
 }
