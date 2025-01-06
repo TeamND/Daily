@@ -16,6 +16,7 @@ class DailyCalendarViewModel: ObservableObject {
     @Published var currentDate: Date = Date()
     @Published var yearDictionary: [String: [[Double]]] = [:]
     @Published var monthDictionary: [String: [MonthDatas]] = [:]
+    @Published var isShowWeeklySummary: Bool = false
     
     func bindSelection(type: CalendarType) -> Binding<String> {
         Binding(
