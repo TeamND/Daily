@@ -47,18 +47,10 @@ extension Date {
         dateFormatter.locale = Locale(identifier:"en_KR")
         return dateFormatter.string(from: self)
     }
-    func toString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.string(from: self)
-    }
     func toStringOfSetTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter.string(from: self)
-    }
-    func yyyyMMdd() -> String {
-        return String(format: "%04d", self.year) + String(format: "%02d", self.month) + String(format: "%02d", self.day)
     }
     func getSelection(type: CalendarType = .day) -> String {
         switch type {
@@ -74,21 +66,6 @@ extension Date {
 
 // MARK: - return Date
 extension Date {
-    public func startDayOfMonth() -> Date {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        return cal.startOfDay(for: cal.date(from: cal.dateComponents([.year, .month], from: self))!)
-    }
-    public func startDayOfNextMonth() -> Date {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        return cal.date(byAdding: .month, value: +1, to: self.startDayOfMonth())!
-    }
-    public func lastDayOfMonth() -> Date {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        return cal.date(byAdding: .day, value: -1, to: self.startDayOfNextMonth())!
-    }
     func setDefaultEndDate() -> Date {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!

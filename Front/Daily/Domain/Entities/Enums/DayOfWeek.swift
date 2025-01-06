@@ -55,3 +55,12 @@ enum DayOfWeek: String, CaseIterable {
         }
     }
 }
+
+extension DayOfWeek {
+    static func text(for index: Int) -> String? {
+        guard index >= 0 && index < DayOfWeek.allCases.count else {
+            return nil
+        }
+        return DayOfWeek.allCases[index].text
+    }
+}

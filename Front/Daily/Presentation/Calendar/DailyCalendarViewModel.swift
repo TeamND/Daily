@@ -16,6 +16,7 @@ class DailyCalendarViewModel: ObservableObject {
     @Published var currentDate: Date = Date()
     @Published var yearDictionary: [String: [[Double]]] = [:]
     @Published var monthDictionary: [String: [MonthDatas]] = [:]
+    @Published var isShowWeeklySummary: Bool = false
     
     func bindSelection(type: CalendarType) -> Binding<String> {
         Binding(
@@ -169,12 +170,7 @@ class DailyCalendarViewModel: ObservableObject {
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
                 startOfDay <= record.date && record.date < endOfDay
-            },
-            sortBy: [
-                SortDescriptor(\.goal?.isSetTime),
-                SortDescriptor(\.goal?.setTime),
-                SortDescriptor(\.date)
-            ]
+            }
         )
         return descriptor
     }

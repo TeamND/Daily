@@ -8,25 +8,14 @@
 import Foundation
 
 class UserDefaultManager {
-    @UserDefault(key: .userID, defaultValue: nil) static var userID: String?
     @UserDefault(key: .startDay, defaultValue: nil) static var startDay: Int?
     @UserDefault(key: .language, defaultValue: nil) static var language: String?
     @UserDefault(key: .dateType, defaultValue: nil) static var dateType: String?
     @UserDefault(key: .calendarState, defaultValue: nil) static var calendarState: String?
     @UserDefault(key: .lastTime, defaultValue: nil) static var lastTime: String?
-    
-    static func setUserInfo(userInfo: UserInfoModel) {
-        userID = String(userInfo.uid)
-        startDay = userInfo.set_startday
-        language = userInfo.set_language
-        dateType = userInfo.set_dateorrepeat
-        calendarState = userInfo.set_calendarstate
-        lastTime = userInfo.last_time
-    }
 }
 
 enum UserDefaultKey: String {
-    case userID
     case startDay
     case language
     case dateType

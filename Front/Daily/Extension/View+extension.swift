@@ -38,41 +38,6 @@ extension View {
     }
 }
 
-// MARK: - Custom Gesture
-extension View {
-    func mainViewDragGesture(userInfoViewModel: UserInfoViewModel, calendarViewModel: CalendarViewModel, alertViewModel: AlertViewModel) -> some View {
-        self.gesture(
-            DragGesture().onEnded { value in
-                // MARK: swipe to right
-                if value.translation.width > CGFloat.fontSize * 15 {
-                    if value.startLocation.x < CGFloat.fontSize * 5 && calendarViewModel.getCurrentState() != "year" {
-                        if calendarViewModel.getCurrentState() == "month" {
-                            calendarViewModel.setCurrentState(state: "year", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
-                                if code == "99" { alertViewModel.showAlert() }
-                            }
-                        }
-                        if calendarViewModel.getCurrentState() == "week" {
-                            calendarViewModel.setCurrentState(state: "month", year: 0, month: 0, day: 0, userInfoViewModel: userInfoViewModel) { code in
-                                if code == "99" { alertViewModel.showAlert() }
-                            }
-                        }
-                    } else {
-                        calendarViewModel.changeCalendar(amount: -1, userInfoViewModel: userInfoViewModel) { code in
-                            if code == "99" { alertViewModel.showAlert() }
-                        }
-                    }
-                }
-                // MARK: swipe to left
-                if value.translation.width < -CGFloat.fontSize * 15 {
-                    calendarViewModel.changeCalendar(amount: 1, userInfoViewModel: userInfoViewModel) { code in
-                        if code == "99" { alertViewModel.showAlert() }
-                    }
-                }
-            }
-        )
-    }
-}
-
 // MARK: - Keyboard
 extension View {
     func hideKeyboard() {

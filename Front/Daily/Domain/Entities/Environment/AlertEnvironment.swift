@@ -1,5 +1,5 @@
 //
-//  AlertViewModel.swift
+//  AlertEnvironment.swift
 //  Daily
 //
 //  Created by 최승용 on 5/13/24.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class AlertViewModel: ObservableObject {
+class AlertEnvironment: ObservableObject {
     @Published var isShowAlert: Bool = false
     @Published var isShowToast: Bool = false
     @Published var toastMessage: String = ""

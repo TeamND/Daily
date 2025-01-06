@@ -11,14 +11,9 @@ import DailyUtilities
 
 @main
 struct DailyApp: App {
-    @State var isLoading: Bool = true
-    @StateObject var userInfoViewModel: UserInfoViewModel = UserInfoViewModel()
-    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
-    
+    @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var navigationEnvironment = NavigationEnvironment()
     @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
-    @StateObject private var alertViewModel = AlertViewModel()
-    @StateObject private var loadingViewModel = LoadingViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     let dailyModelContainer: ModelContainer
@@ -32,30 +27,36 @@ struct DailyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if userInfoViewModel.isNewVersion {
-                daily
-                    .environmentObject(navigationEnvironment)
-                    .environmentObject(dailyCalendarViewModel)
-                    .environmentObject(alertViewModel)
-                    .environmentObject(loadingViewModel)
-                    .modelContainer(dailyModelContainer)
-            } else {
-                if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
-                else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
-            }
+            daily
+                .environmentObject(alertEnvironment)
+                .environmentObject(navigationEnvironment)
+                .environmentObject(dailyCalendarViewModel)
+                .modelContainer(dailyModelContainer)
         }
     }
     
     private var daily: some View {
         ZStack {
-            if splashViewModel.isAppLaunching {
-                DailyMainView()
-            }
+            DailyMainView()
             if splashViewModel.isAppLoading {
                 SplashView(splashViewModel: splashViewModel)
             }
-            alertViewModel.toastView
-            if loadingViewModel.isLoading { loadingViewModel.loadingView }
+            alertEnvironment.toastView
+        }
+        .alert(isPresented: $alertEnvironment.isShowAlert) {
+            Alert(
+                title: Text("알림 설정이 꺼져있습니다."),
+                message: Text("Daily의 알림을 받아보세요"),
+                primaryButton: .default(
+                    Text("설정으로 이동"),
+                    action: {
+                        System().openSettingApp()
+                    }
+                ),
+                secondaryButton: .destructive(
+                    Text("다음에 하기")
+                )
+            )
         }
     }
 }

@@ -38,16 +38,22 @@ struct Provider: TimelineProvider {
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
                 today <= record.date && record.date < tomorrow
-            },
-            sortBy: [
-                SortDescriptor(\.goal?.isSetTime),
-                SortDescriptor(\.goal?.setTime),
-                SortDescriptor(\.isSuccess),
-                SortDescriptor(\.date)
-            ]
+            }
         )
         
-        guard let records = try? context.fetch(descriptor) else { return }
+        guard let recordsQuery = try? context.fetch(descriptor) else { return }
+        let records = recordsQuery.sorted {
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
+                return !prevGoal.isSetTime && nextGoal.isSetTime
+            }
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
+                return prevGoal.setTime < nextGoal.setTime
+            }
+            if $0.isSuccess != $1.isSuccess {
+                return !$0.isSuccess && $1.isSuccess
+            }
+            return $0.date < $1.date
+        }
         let simpleRecords = records.map { SimpleRecordModel(record: $0) }
         let rating = records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
         
