@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CalendarSheet: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var calendarViewModel: CalendarViewModel
     @Binding var currentDate: Date
     @State var selectedDate: Date = Date()
     

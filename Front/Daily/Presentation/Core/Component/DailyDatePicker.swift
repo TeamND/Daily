@@ -20,7 +20,7 @@ struct DailyDatePicker: View {
             isShowCalendarSheet = true
         }
         .sheet(isPresented: $isShowCalendarSheet) {
-            CalendarSheet(calendarViewModel: CalendarViewModel(), currentDate: $currentDate)
+            CalendarSheet(currentDate: $currentDate)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
