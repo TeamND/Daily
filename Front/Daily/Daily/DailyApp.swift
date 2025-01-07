@@ -6,17 +6,57 @@
 //
 
 import SwiftUI
+import SwiftData
+import DailyUtilities
 
 @main
 struct DailyApp: App {
-    @State var isLoading: Bool = true
-    @StateObject var userInfoViewModel: UserInfoViewModel = UserInfoViewModel()
-    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
+    @StateObject private var alertEnvironment = AlertEnvironment()
+    @StateObject private var navigationEnvironment = NavigationEnvironment()
+    @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
+    @StateObject var splashViewModel = SplashViewModel()
+    
+    let dailyModelContainer: ModelContainer
+    
+    init() {
+        dailyModelContainer = try! ModelContainer(
+            for: DailyGoalModel.self, DailyRecordModel.self,
+            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
+        )
+    }
     
     var body: some Scene {
         WindowGroup {
-            if isLoading { InitView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel, isLoading: $isLoading) }
-            else         { MainView(userInfoViewModel: userInfoViewModel, calendarViewModel: calendarViewModel).environmentObject(AlertViewModel()) }
+            daily
+                .environmentObject(alertEnvironment)
+                .environmentObject(navigationEnvironment)
+                .environmentObject(dailyCalendarViewModel)
+                .modelContainer(dailyModelContainer)
+        }
+    }
+    
+    private var daily: some View {
+        ZStack {
+            DailyMainView()
+            if splashViewModel.isAppLoading {
+                SplashView(splashViewModel: splashViewModel)
+            }
+            alertEnvironment.toastView
+        }
+        .alert(isPresented: $alertEnvironment.isShowAlert) {
+            Alert(
+                title: Text("알림 설정이 꺼져있습니다."),
+                message: Text("Daily의 알림을 받아보세요"),
+                primaryButton: .default(
+                    Text("설정으로 이동"),
+                    action: {
+                        System().openSettingApp()
+                    }
+                ),
+                secondaryButton: .destructive(
+                    Text("다음에 하기")
+                )
+            )
         }
     }
 }
