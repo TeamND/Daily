@@ -21,6 +21,7 @@ class SplashViewModel: ObservableObject {
     
     func onAppear() {
         self.subTitle = appLaunchUseCase.getSubTitle()
+        setUserDefault()
         
         if Date() < "2025-01-15".toDate()! { isShowNotice = true }
         else {
@@ -30,5 +31,12 @@ class SplashViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func setUserDefault() {
+        UserDefaultManager.startDay = UserDefaultManager.startDay ?? 0
+        UserDefaultManager.language = UserDefaultManager.language ?? "korean"
+        UserDefaultManager.dateType = UserDefaultManager.dateType ?? "date"
+        UserDefaultManager.calendarState = UserDefaultManager.calendarState ?? "month"
     }
 }
