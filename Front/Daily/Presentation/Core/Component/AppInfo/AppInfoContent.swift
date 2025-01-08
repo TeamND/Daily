@@ -13,7 +13,7 @@ struct AppInfoContent: View {
     var linkLabel: String? = nil
     var linkDestination: String? = nil
     var settingType: SettingTypes? = nil
-    @AppStorage(UserDefaultKey.calendarState.rawValue) var calendarState: String = ""
+    @AppStorage(UserDefaultKey.calendarType.rawValue) var calendarType: String = ""
     
     var body: some View {
         VStack {
@@ -32,8 +32,8 @@ struct AppInfoContent: View {
                         .foregroundStyle(Colors.daily)
                     } else if let settingType {
                         switch settingType {
-                        case .calendarState:
-                            Picker("", selection: Binding(get: { calendarState }, set: { UserDefaultManager.calendarState = $0 })) {
+                        case .calendarType:
+                            Picker("", selection: Binding(get: { calendarType }, set: { UserDefaultManager.calendarType = $0 })) {
                                 ForEach(CalendarType.allCases, id: \.self) { calendarType in
                                     Text("\(calendarType)").tag(calendarType.rawValue)
                                 }

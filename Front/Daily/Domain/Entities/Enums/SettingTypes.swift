@@ -8,7 +8,7 @@
 import Foundation
 
 enum SettingTypes {
-    case calendarState
+    case calendarType
     case startDay
     case language
 }
