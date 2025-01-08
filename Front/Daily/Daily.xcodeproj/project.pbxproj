@@ -36,8 +36,8 @@
 		F634D2E22CC485D70014EDB6 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E12CC485D70014EDB6 /* Double+extension.swift */; };
 		F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */; };
 		F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */; };
-		F6442C332D2C15BB006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C322D2C15BB006B3658 /* DailyUtilities */; };
-		F6442C352D2C15C4006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C342D2C15C4006B3658 /* DailyUtilities */; };
+		F6442C3A2D2E09D2006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C392D2E09D2006B3658 /* DailyUtilities */; };
+		F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C3B2D2E09DE006B3658 /* DailyUtilities */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
@@ -239,7 +239,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6442C332D2C15BB006B3658 /* DailyUtilities in Frameworks */,
+				F6442C3A2D2E09D2006B3658 /* DailyUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6442C352D2C15C4006B3658 /* DailyUtilities in Frameworks */,
+				F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */,
 				F6EC3D4D2BEB7A6500FAB502 /* SwiftUI.framework in Frameworks */,
 				F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */,
 			);
@@ -646,7 +646,7 @@
 			);
 			name = Daily;
 			packageProductDependencies = (
-				F6442C322D2C15BB006B3658 /* DailyUtilities */,
+				F6442C392D2E09D2006B3658 /* DailyUtilities */,
 			);
 			productName = Daily;
 			productReference = F6BEC931290F5894005EAF28 /* Daily.app */;
@@ -698,7 +698,7 @@
 			);
 			mainGroup = F6BEC928290F5894005EAF28;
 			packageReferences = (
-				F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */,
+				F6442C382D2E09D2006B3658 /* XCLocalSwiftPackageReference "DailyUtilities" */,
 			);
 			productRefGroup = F6BEC932290F5894005EAF28 /* Products */;
 			projectDirPath = "";
@@ -1159,21 +1159,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */ = {
+		F6442C382D2E09D2006B3658 /* XCLocalSwiftPackageReference "DailyUtilities" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = DailyUtilities;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F6442C322D2C15BB006B3658 /* DailyUtilities */ = {
+		F6442C392D2E09D2006B3658 /* DailyUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
 			productName = DailyUtilities;
 		};
-		F6442C342D2C15C4006B3658 /* DailyUtilities */ = {
+		F6442C3B2D2E09DE006B3658 /* DailyUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
+			package = F6442C382D2E09D2006B3658 /* XCLocalSwiftPackageReference "DailyUtilities" */;
 			productName = DailyUtilities;
 		};
 /* End XCSwiftPackageProductDependency section */
