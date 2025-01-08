@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CalendarType: String {
+enum CalendarType: String, CaseIterable {
     case year
     case month
     case day
