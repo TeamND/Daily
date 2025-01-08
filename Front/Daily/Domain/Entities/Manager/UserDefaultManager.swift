@@ -11,7 +11,7 @@ class UserDefaultManager {
     @UserDefault(key: .startDay, defaultValue: nil) static var startDay: Int?
     @UserDefault(key: .language, defaultValue: nil) static var language: String?
     @UserDefault(key: .dateType, defaultValue: nil) static var dateType: String?
-    @UserDefault(key: .calendarState, defaultValue: nil) static var calendarState: String?
+    @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: String?
     @UserDefault(key: .lastTime, defaultValue: nil) static var lastTime: String?
 }
 
@@ -19,7 +19,7 @@ enum UserDefaultKey: String {
     case startDay
     case language
     case dateType
-    case calendarState
+    case calendarType
     case lastTime
 }
 
