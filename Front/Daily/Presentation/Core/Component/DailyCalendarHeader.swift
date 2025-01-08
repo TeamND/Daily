@@ -66,7 +66,6 @@ struct DailyCalendarHeader: View {
                     }
                 } label: {
                     Text(dailyCalendarViewModel.headerText(type: type, textPosition: .title))
-                        .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                         .foregroundStyle(Colors.reverse)
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
@@ -77,6 +76,7 @@ struct DailyCalendarHeader: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
+            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
             
             // MARK: - trailing
             HStack(spacing: 0) {
