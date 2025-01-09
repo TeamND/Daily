@@ -477,11 +477,6 @@
 			isa = PBXGroup;
 			children = (
 				F6BEC933290F5894005EAF28 /* Daily */,
-				F6016DA52CC4CACC00FB637F /* Resource */,
-				F6CC15992BA192A900689A02 /* Extension */,
-				F6016DAB2CC4DE1D00FB637F /* Presentation */,
-				F6016DAC2CC4DE2A00FB637F /* Data */,
-				F6016DAD2CC4DE3100FB637F /* Domain */,
 				F6EC3D4E2BEB7A6500FAB502 /* DailyWidget */,
 				F6EC3D2D2BEB4EA900FAB502 /* Frameworks */,
 				F69A84712D29247F00AEBD76 /* DailyWidgetExtension.entitlements */,
@@ -507,6 +502,11 @@
 				F6BEC934290F5894005EAF28 /* DailyApp.swift */,
 				F6BEC93A290F5895005EAF28 /* Daily.entitlements */,
 				F6BEC93B290F5895005EAF28 /* Preview Content */,
+				F6016DA52CC4CACC00FB637F /* Resource */,
+				F6CC15992BA192A900689A02 /* Extension */,
+				F6016DAB2CC4DE1D00FB637F /* Presentation */,
+				F6016DAC2CC4DE2A00FB637F /* Data */,
+				F6016DAD2CC4DE3100FB637F /* Domain */,
 			);
 			path = Daily;
 			sourceTree = "<group>";
