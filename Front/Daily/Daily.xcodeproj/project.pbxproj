@@ -36,8 +36,10 @@
 		F634D2E22CC485D70014EDB6 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E12CC485D70014EDB6 /* Double+extension.swift */; };
 		F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */; };
 		F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */; };
-		F6442C332D2C15BB006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C322D2C15BB006B3658 /* DailyUtilities */; };
-		F6442C352D2C15C4006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C342D2C15C4006B3658 /* DailyUtilities */; };
+		F6442C3A2D2E09D2006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C392D2E09D2006B3658 /* DailyUtilities */; };
+		F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C3B2D2E09DE006B3658 /* DailyUtilities */; };
+		F6442C3E2D2E0A8D006B3658 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C3D2D2E0A8D006B3658 /* AppSetting.swift */; };
+		F6442C402D2E0C59006B3658 /* SettingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */; };
 		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
@@ -160,6 +162,8 @@
 		F634D2E12CC485D70014EDB6 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+extension.swift"; sourceTree = "<group>"; };
 		F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertEnvironment.swift; sourceTree = "<group>"; };
+		F6442C3D2D2E0A8D006B3658 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypes.swift; sourceTree = "<group>"; };
 		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarType.swift; sourceTree = "<group>"; };
 		F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
@@ -239,7 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6442C332D2C15BB006B3658 /* DailyUtilities in Frameworks */,
+				F6442C3A2D2E09D2006B3658 /* DailyUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6442C352D2C15C4006B3658 /* DailyUtilities in Frameworks */,
+				F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */,
 				F6EC3D4D2BEB7A6500FAB502 /* SwiftUI.framework in Frameworks */,
 				F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */,
 			);
@@ -539,6 +543,7 @@
 				F6C6B02F2BB424B300C578C1 /* AppInfo.swift */,
 				F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */,
 				F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */,
+				F6442C3D2D2E0A8D006B3658 /* AppSetting.swift */,
 			);
 			path = AppInfo;
 			sourceTree = "<group>";
@@ -574,6 +579,7 @@
 				F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */,
 				F69A84632D22E81100AEBD76 /* DailyAlert.swift */,
 				F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */,
+				F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -646,7 +652,7 @@
 			);
 			name = Daily;
 			packageProductDependencies = (
-				F6442C322D2C15BB006B3658 /* DailyUtilities */,
+				F6442C392D2E09D2006B3658 /* DailyUtilities */,
 			);
 			productName = Daily;
 			productReference = F6BEC931290F5894005EAF28 /* Daily.app */;
@@ -698,7 +704,7 @@
 			);
 			mainGroup = F6BEC928290F5894005EAF28;
 			packageReferences = (
-				F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */,
+				F6442C382D2E09D2006B3658 /* XCLocalSwiftPackageReference "DailyUtilities" */,
 			);
 			productRefGroup = F6BEC932290F5894005EAF28 /* Products */;
 			projectDirPath = "";
@@ -737,6 +743,7 @@
 			files = (
 				F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */,
 				F607C6822CFED0C8006DE13A /* DailyGoalModel.swift in Sources */,
+				F6442C3E2D2E0A8D006B3658 /* AppSetting.swift in Sources */,
 				F6F31DCD2CF46FCB0090A3B9 /* SymbolsSheet.swift in Sources */,
 				F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */,
 				F6CE8A292CCF62710050A25A /* CycleTypes.swift in Sources */,
@@ -767,6 +774,7 @@
 				F6016DCB2CC52E9C00FB637F /* ServerResponse.swift in Sources */,
 				F634D2DE2CC485830014EDB6 /* Date+extension.swift in Sources */,
 				F6C758DA2CCB45ED00F9CF91 /* DailyAddGoalButton.swift in Sources */,
+				F6442C402D2E0C59006B3658 /* SettingTypes.swift in Sources */,
 				F6C758E92CCF3E1300F9CF91 /* DailyGoalViewModel.swift in Sources */,
 				F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */,
 				F6C758E32CCE47BB00F9CF91 /* DailyGoalView.swift in Sources */,
@@ -993,7 +1001,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1037,7 +1045,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1072,7 +1080,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1110,7 +1118,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1159,21 +1167,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */ = {
+		F6442C382D2E09D2006B3658 /* XCLocalSwiftPackageReference "DailyUtilities" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = DailyUtilities;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F6442C322D2C15BB006B3658 /* DailyUtilities */ = {
+		F6442C392D2E09D2006B3658 /* DailyUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
 			productName = DailyUtilities;
 		};
-		F6442C342D2C15C4006B3658 /* DailyUtilities */ = {
+		F6442C3B2D2E09DE006B3658 /* DailyUtilities */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F61294132D293D6C00A308D1 /* XCLocalSwiftPackageReference "DailyUtilities" */;
+			package = F6442C382D2E09D2006B3658 /* XCLocalSwiftPackageReference "DailyUtilities" */;
 			productName = DailyUtilities;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -37,6 +37,6 @@ class SplashViewModel: ObservableObject {
         UserDefaultManager.startDay = UserDefaultManager.startDay ?? 0
         UserDefaultManager.language = UserDefaultManager.language ?? "korean"
         UserDefaultManager.dateType = UserDefaultManager.dateType ?? "date"
-        UserDefaultManager.calendarState = UserDefaultManager.calendarState ?? "month"
+        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? "month"
     }
 }

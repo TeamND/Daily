@@ -10,7 +10,7 @@ import SwiftUI
 struct DailyMainView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @AppStorage(UserDefaultKey.calendarState.rawValue) var calendarState: String = ""
+    @AppStorage(UserDefaultKey.calendarType.rawValue) var calendarType: String = ""
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
@@ -36,9 +36,9 @@ struct DailyMainView: View {
                 }
         }
         .onAppear {
-            if calendarState == CalendarType.month.rawValue || calendarState == CalendarType.day.rawValue {
+            if calendarType == CalendarType.month.rawValue || calendarType == CalendarType.day.rawValue {
                 navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
-                if calendarState == CalendarType.day.rawValue {
+                if calendarType == CalendarType.day.rawValue {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
                     }
