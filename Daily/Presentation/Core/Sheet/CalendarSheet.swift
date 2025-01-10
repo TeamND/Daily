@@ -21,7 +21,7 @@ struct CalendarSheet: View {
                     Text("\(String(selectedDate.year))년 \(String(format: "%02d", selectedDate.month))월 \(String(format: "%02d", selectedDate.day))일")
                     Spacer()
                     Button {
-                        currentDate = selectedDate.defaultDate()
+                        currentDate = selectedDate.startOfDay()
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("변경")
@@ -38,7 +38,7 @@ struct CalendarSheet: View {
                         Text("\(String(selectedDate.year))년 \(String(format: "%02d", selectedDate.month))월 \(String(format: "%02d", selectedDate.day))일")
                         Spacer()
                         Button {
-                            currentDate = selectedDate
+                            currentDate = selectedDate.startOfDay()
                             self.presentationMode.wrappedValue.dismiss()
                         } label: {
                             Text("변경")

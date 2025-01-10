@@ -38,7 +38,7 @@ class DailyCalendarViewModel: ObservableObject {
         currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date()
     }
     func setDate(date: Date) {
-        currentDate = date
+        currentDate = date.startOfDay()
     }
     
     // MARK: - init

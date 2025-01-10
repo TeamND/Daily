@@ -71,7 +71,7 @@ extension Date {
         cal.timeZone = TimeZone(identifier: "UTC")!
         return cal.date(byAdding: .month, value: 1, to: self)!
     }
-    func defaultDate() -> Date {
+    func startOfDay() -> Date {
         var cal = Calendar.current
         cal.timeZone = TimeZone(identifier: "UTC")!
         return cal.startOfDay(for: self)
