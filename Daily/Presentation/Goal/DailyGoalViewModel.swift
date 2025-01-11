@@ -14,8 +14,8 @@ class DailyGoalViewModel: ObservableObject {
     private var calendar = Calendar.current
     
     @Published var cycleType: CycleTypes = .date
-    @Published var startDate: Date = Date().startOfDay()
-    @Published var endDate: Date = Date().startOfDay().setDefaultEndDate()
+    @Published var startDate: Date = Date(format: .daily)
+    @Published var endDate: Date = Date(format: .daily).monthLater()
     var selectedWeekday: [Int] = []
     var repeatDates: [String] {
         switch cycleType {
@@ -28,7 +28,7 @@ class DailyGoalViewModel: ObservableObject {
     }
     
     @Published var isSetTime: Bool = false
-    @Published var setTime: Date = "00:00".toDateOfSetTime()
+    @Published var setTime: Date = "00:00".toDate(format: .setTime) ?? Date(format: .daily)
     
     @Published var content: String = ""
     @Published var goalType: GoalTypes = .check
@@ -38,13 +38,12 @@ class DailyGoalViewModel: ObservableObject {
     
     @Published var modifyRecord: DailyRecordModel? = nil
     @Published var modifyType: ModifyTypes? = nil
-    
-    private var beforeDate: Date = Date()
+    private var beforeDate: Date = Date(format: .daily)
     private var beforeRecord: Int = 0
     
     // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
-        self.calendar.timeZone = TimeZone(identifier: "UTC")!
+        self.calendar.timeZone = .current
         
         let goalRepository = GoalRepository()
         self.goalUseCase = GoalUseCase(repository: goalRepository)
@@ -53,9 +52,9 @@ class DailyGoalViewModel: ObservableObject {
     convenience init(goalData: GoalDataModel) {
         self.init()
         
-        self.beforeDate = goalData.date.startOfDay()
-        self.startDate = self.beforeDate.startOfDay()
-        self.endDate = self.beforeDate.startOfDay().setDefaultEndDate()
+        self.beforeDate = goalData.date
+        self.startDate = self.beforeDate
+        self.endDate = self.beforeDate.monthLater()
     }
     
     convenience init(modifyData: ModifyDataModel) {
@@ -65,7 +64,7 @@ class DailyGoalViewModel: ObservableObject {
         self.modifyRecord = modifyData.modifyRecord
         self.modifyType = modifyData.modifyType
         self.cycleType = modifyData.modifyType == .all ? .rept : .date
-        self.beforeDate = modifyData.date.startOfDay()
+        self.beforeDate = modifyData.date
         self.startDate = self.beforeDate
         self.beforeRecord = modifyData.modifyRecord.count
         self.recordCount = self.beforeRecord
@@ -76,7 +75,7 @@ class DailyGoalViewModel: ObservableObject {
         if let goal = record.goal {
             self.cycleType = goal.cycleType
             self.isSetTime = goal.isSetTime
-            self.setTime = goal.setTime.toDateOfSetTime()
+            self.setTime = goal.setTime.toDate(format: .setTime) ?? Date(format: .daily)
             self.content = goal.content
             self.goalCount = goal.count
             self.symbol = goal.symbol
@@ -87,19 +86,19 @@ class DailyGoalViewModel: ObservableObject {
     func reset() {
         if let modifyRecord {
             self.setRecord(record: modifyRecord)
-            startDate = beforeDate.startOfDay()
+            startDate = beforeDate
             recordCount = beforeRecord
         } else {
             content = ""
             symbol = .check
             goalType = .check
-            startDate = beforeDate.startOfDay()
-            endDate = beforeDate.startOfDay().setDefaultEndDate()
+            startDate = beforeDate
+            endDate = beforeDate.monthLater()
             cycleType = .date
             selectedWeekday = []
             goalCount = 1
             isSetTime = false
-            setTime = "00:00".toDateOfSetTime()
+            setTime = "00:00".toDate(format: .setTime) ?? Date(format: .daily)
         }
     }
     
@@ -115,7 +114,7 @@ class DailyGoalViewModel: ObservableObject {
             repeatDates: repeatDates,
             count: goalCount,
             isSetTime: isSetTime,
-            setTime: setTime.toStringOfSetTime()
+            setTime: setTime.toString(format: .setTime)
         )
         modelContext.insert(newGoal)
         try? modelContext.save()
@@ -138,13 +137,13 @@ class DailyGoalViewModel: ObservableObject {
                 goal.type = goalType
                 goal.count = goalCount
                 goal.isSetTime = isSetTime
-                goal.setTime = setTime.toStringOfSetTime()
+                goal.setTime = setTime.toString(format: .setTime)
                 record.date = startDate
                 record.count = recordCount
                 record.isSuccess = goalCount <= recordCount
                 try? modelContext.save()
             case .single:
-                if goal.content != content || goal.symbol != symbol || goal.type != goalType || goal.count != goalCount || goal.isSetTime != isSetTime || goal.setTime != setTime.toStringOfSetTime() {
+                if goal.content != content || goal.symbol != symbol || goal.type != goalType || goal.count != goalCount || goal.isSetTime != isSetTime || goal.setTime != setTime.toString(format: .setTime) {
                     let newGoal = DailyGoalModel(
                         type: goalType,
                         cycleType: cycleType,
@@ -155,7 +154,7 @@ class DailyGoalViewModel: ObservableObject {
                         repeatDates: repeatDates,
                         count: goalCount,
                         isSetTime: isSetTime,
-                        setTime: setTime.toStringOfSetTime(),
+                        setTime: setTime.toString(format: .setTime),
                         parentGoal: goal
                     )
                     modelContext.insert(newGoal)
@@ -173,7 +172,7 @@ class DailyGoalViewModel: ObservableObject {
                 goal.type = goalType
                 goal.count = goalCount
                 goal.isSetTime = isSetTime
-                goal.setTime = setTime.toStringOfSetTime()
+                goal.setTime = setTime.toString(format: .setTime)
                 record.isSuccess = goalCount <= recordCount
                 try? modelContext.save()
             }

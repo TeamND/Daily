@@ -88,7 +88,7 @@ struct DailyMonthOnYear: View {
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
                 .padding(CGFloat.fontSize)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: .zero) {
-                let date: Date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date()
+                let date: Date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
                 ForEach(CalendarServices.shared.getDaysInMonth(date: date), id: \.id) { item in
                     if item.date.month == month {
                         let day = item.date.day

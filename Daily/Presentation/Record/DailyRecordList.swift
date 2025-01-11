@@ -113,7 +113,7 @@ struct DailyMenu: View {
                                 guard let totalRecords = try? modelContext.fetch(FetchDescriptor<DailyRecordModel>()) else { return }
                                 let deleteRecords = totalRecords.filter { currentRecord in
                                     guard let currentGoal = currentRecord.goal else { return false }
-                                    return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date >= Date().startOfDay()
+                                    return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date >= Date(format: .daily)
                                 }
                                 deleteRecords.forEach { modelContext.delete($0) }
                                 try? modelContext.save()

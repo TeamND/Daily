@@ -9,16 +9,10 @@ import Foundation
 
 // MARK: - Date
 extension String {
-    func toDate() -> Date? {
+    func toDate(format: DateFormats = .daily, timeZone: TimeZone = .current) -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.dateFormat = format.rawValue
+        dateFormatter.timeZone = timeZone
         return dateFormatter.date(from: self)
-    }
-    
-    func toDateOfSetTime() -> Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        return dateFormatter.date(from: self)!
     }
 }
