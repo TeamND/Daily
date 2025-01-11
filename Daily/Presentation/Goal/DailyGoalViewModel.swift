@@ -14,8 +14,8 @@ class DailyGoalViewModel: ObservableObject {
     private var calendar = Calendar.current
     
     @Published var cycleType: CycleTypes = .date
-    @Published var startDate: Date = Date().startOfDay()
-    @Published var endDate: Date = Date().startOfDay().setDefaultEndDate()
+    @Published var startDate: Date = Date(format: .daily)
+    @Published var endDate: Date = Date(format: .daily).monthLater()
     var selectedWeekday: [Int] = []
     var repeatDates: [String] {
         switch cycleType {
@@ -28,7 +28,7 @@ class DailyGoalViewModel: ObservableObject {
     }
     
     @Published var isSetTime: Bool = false
-    @Published var setTime: Date = "00:00".toDateOfSetTime()
+    @Published var setTime: Date = "00:00".toDate(format: .setTime) ?? Date(format: .daily)
     
     @Published var content: String = ""
     @Published var goalType: GoalTypes = .check
@@ -38,14 +38,14 @@ class DailyGoalViewModel: ObservableObject {
     @Published var modifyRecord: DailyRecordModel? = nil
     @Published var modifyType: ModifyTypes? = nil
     @Published var modifyIsAll: Bool? = nil
-    @Published var modifyDate: Date = Date()
+    @Published var modifyDate: Date = Date(format: .daily)
     @Published var modifyRecordCount: Int = 0
     
-    private var beforeDate: Date = Date()
+    private var beforeDate: Date = Date(format: .daily)
     
     // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
-        self.calendar.timeZone = TimeZone(identifier: "UTC")!
+        self.calendar.timeZone = .current
         
         let goalRepository = GoalRepository()
         self.goalUseCase = GoalUseCase(repository: goalRepository)
@@ -54,9 +54,9 @@ class DailyGoalViewModel: ObservableObject {
     convenience init(goalData: GoalDataModel) {
         self.init()
         
-        self.beforeDate = goalData.date.startOfDay()
-        self.startDate = self.beforeDate.startOfDay()
-        self.endDate = self.beforeDate.startOfDay().setDefaultEndDate()
+        self.beforeDate = goalData.date
+        self.startDate = self.beforeDate
+        self.endDate = self.beforeDate.monthLater()
     }
     
     convenience init(modifyData: ModifyDataModel) {
@@ -66,7 +66,7 @@ class DailyGoalViewModel: ObservableObject {
         self.modifyRecord = modifyData.modifyRecord
         self.modifyType = modifyData.modifyType
         self.modifyIsAll = modifyData.isAll
-        self.beforeDate = modifyData.date.startOfDay()
+        self.beforeDate = modifyData.date
         self.modifyDate = self.beforeDate
         self.modifyRecordCount = modifyData.modifyRecord.count
     }
@@ -89,7 +89,7 @@ class DailyGoalViewModel: ObservableObject {
         if let goal = record.goal {
             self.cycleType = goal.cycleType
             self.isSetTime = goal.isSetTime
-            self.setTime = goal.setTime.toDateOfSetTime()
+            self.setTime = goal.setTime.toDate(format: .setTime) ?? Date(format: .daily)
             self.content = goal.content
             self.goalCount = goal.count
             self.symbol = goal.symbol
@@ -100,19 +100,19 @@ class DailyGoalViewModel: ObservableObject {
     func reset() {
         if let modifyRecord {
             self.setRecord(record: modifyRecord)
-            modifyDate = beforeDate.startOfDay()
+            modifyDate = beforeDate
         } else {
             content = ""
             symbol = .check
             goalType = .check
-            startDate = beforeDate.startOfDay()
-            endDate = beforeDate.startOfDay().setDefaultEndDate()
+            startDate = beforeDate
+            endDate = beforeDate.monthLater()
             cycleType = .date
             selectedWeekday = []
             //        goalTime = 300    // TODO: 추후 수정
             goalCount = 1
             isSetTime = false
-            setTime = "00:00".toDateOfSetTime()
+            setTime = "00:00".toDate(format: .setTime) ?? Date(format: .daily)
         }
     }
     
@@ -128,7 +128,7 @@ class DailyGoalViewModel: ObservableObject {
             repeatDates: repeatDates,
             count: goalCount,
             isSetTime: isSetTime,
-            setTime: setTime.toStringOfSetTime()
+            setTime: setTime.toString(format: .setTime)
         )
         modelContext.insert(newGoal)
         try? modelContext.save()
@@ -164,7 +164,7 @@ class DailyGoalViewModel: ObservableObject {
                     goal.type = goalType
                     goal.count = goalCount
                     goal.isSetTime = isSetTime
-                    goal.setTime = setTime.toStringOfSetTime()
+                    goal.setTime = setTime.toString(format: .setTime)
                     record.isSuccess = goal.count <= modifyRecordCount
                     try? modelContext.save()
                 } else {
@@ -178,7 +178,7 @@ class DailyGoalViewModel: ObservableObject {
                         repeatDates: repeatDates,
                         count: goalCount,
                         isSetTime: isSetTime,
-                        setTime: setTime.toStringOfSetTime(),
+                        setTime: setTime.toString(format: .setTime),
                         parentGoal: goal
                     )
                     modelContext.insert(newGoal)

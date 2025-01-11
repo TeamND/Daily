@@ -123,6 +123,7 @@ struct DailyDayOnMonth: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.green, lineWidth: 2)
                 .opacity(year == Date().year && month == Date().month && day == Date().day ? 1 : 0)
+//                .opacity(CalendarServices.shared.isToday(year: year, month: month, day: day) ? 1 : 0) // TODO: 추후 적용
         }
     }
 }

@@ -13,7 +13,7 @@ class DailyCalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     private var calendar = Calendar.current
 
-    @Published var currentDate: Date = Date()
+    @Published var currentDate: Date = Date(format: .daily)
     @Published var yearDictionary: [String: [[Double]]] = [:]
     @Published var monthDictionary: [String: [MonthDatas]] = [:]
     @Published var isShowWeeklySummary: Bool = false
@@ -32,18 +32,18 @@ class DailyCalendarViewModel: ObservableObject {
     func setDate(year: Int, month: Int? = nil, day: Int? = nil) {
         let month = month ?? 1
         let day = day ?? (year == Date().year && month == Date().month ? Date().day : 1)
-        currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date()
+        currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date(format: .daily)
     }
     func setDate(byAdding: Calendar.Component, value: Int) {
-        currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date()
+        currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date(format: .daily)
     }
     func setDate(date: Date) {
-        currentDate = date.startOfDay()
+        currentDate = date
     }
     
     // MARK: - init
     init() {
-        self.calendar.timeZone = TimeZone(identifier: "UTC")!
+        self.calendar.timeZone = .current
         
         let calendarRepository = CalendarRepository()
         self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
@@ -58,7 +58,7 @@ class DailyCalendarViewModel: ObservableObject {
             let year = currentDate.year + direction.value
             return "\(String(year))년"
         case .day:
-            let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date()
+            let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
             return "\(date.month)월 \(date.weekOfMonth)주차"
         }
     }
@@ -136,7 +136,7 @@ class DailyCalendarViewModel: ObservableObject {
     // MARK: - get info func
     func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
         let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : (currentDate.weekday - 1)
-        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date()
+        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
         
         let maxIndex = type == .year ? 10 : type == .month ? 12 : 7
         let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
@@ -164,12 +164,10 @@ class DailyCalendarViewModel: ObservableObject {
 
     // MARK: - Query filter
     static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        let tommorow = Calendar.current.date(byAdding: .day, value: 1, to: date)!
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
-                startOfDay <= record.date && record.date < endOfDay
+                date <= record.date && record.date < tommorow
             }
         )
         return descriptor
