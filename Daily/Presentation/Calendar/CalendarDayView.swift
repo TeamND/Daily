@@ -104,7 +104,7 @@ struct DailyWeeklySummary: View {
     
     private var ratingOfWeek: Int {
         let validRecords = records.filter { record in
-            record.date <= Date(format: .daily)
+            record.date <= Date()
         }
         
         let totalRecords = validRecords.count
