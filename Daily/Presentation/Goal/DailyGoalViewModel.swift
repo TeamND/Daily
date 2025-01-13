@@ -36,7 +36,6 @@ class DailyGoalViewModel: ObservableObject {
     @Published var symbol: Symbols = .check
     
     @Published var modifyRecord: DailyRecordModel? = nil
-    @Published var modifyType: ModifyTypes? = nil
     @Published var modifyIsAll: Bool? = nil
     @Published var modifyDate: Date = Date()
     @Published var modifyRecordCount: Int = 0
@@ -64,24 +63,10 @@ class DailyGoalViewModel: ObservableObject {
         
         self.setRecord(record: modifyData.modifyRecord)
         self.modifyRecord = modifyData.modifyRecord
-        self.modifyType = modifyData.modifyType
         self.modifyIsAll = modifyData.isAll
         self.beforeDate = modifyData.date
         self.modifyDate = self.beforeDate
         self.modifyRecordCount = modifyData.modifyRecord.count
-    }
-    
-    // MARK: - get
-    func getNavigationBarTitle() -> String {
-        guard let modifyType = self.modifyType else { return "목표추가" }
-        switch modifyType {
-        case .record:
-            return "기록수정"
-        case .date:
-            return "날짜변경"
-        case .goal:
-            return "목표수정"
-        }
     }
     
     // MARK: - set
@@ -143,21 +128,20 @@ class DailyGoalViewModel: ObservableObject {
     
     func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .modify) { validateAction(validate); return }
-        var newDate: Date? = nil
         if let record = modifyRecord,
            let goal = record.goal,
-           let type = modifyType,
            let isAll = modifyIsAll {
-            switch type {
-            case .record:
-                record.count = modifyRecordCount
-                record.isSuccess = goal.count == modifyRecordCount
-                try? modelContext.save()
-            case .date:
-                record.date = modifyDate
-                newDate = modifyDate
-                try? modelContext.save()
-            case .goal:
+//            switch type {
+//            case .record:
+//                record.count = modifyRecordCount
+//                record.isSuccess = goal.count == modifyRecordCount
+//                try? modelContext.save()
+//            case .date:
+//                record.date = modifyDate
+//                newDate = modifyDate
+//                let newDate: Date =
+//                try? modelContext.save()
+//            case .goal:
                 if isAll {
                     goal.content = content
                     goal.symbol = symbol
@@ -187,9 +171,9 @@ class DailyGoalViewModel: ObservableObject {
                     record.goal = newGoal
                     try? modelContext.save()
                 }
-            }
+//            }
+//            successAction(newDate)
         }
-        successAction(newDate)
     }
     
     // MARK: - validate func

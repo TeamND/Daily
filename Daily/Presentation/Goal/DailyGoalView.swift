@@ -17,7 +17,7 @@ struct DailyGoalView: View {
     
     var body: some View {
         VStack {
-            DailyNavigationBar(title: dailyGoalViewModel.getNavigationBarTitle())
+            DailyNavigationBar(title: "목표추가")
             VStack(spacing: .zero) {
                 Spacer()
                 DailySection(type: .date) {
@@ -30,11 +30,10 @@ struct DailyGoalView: View {
                     ContentSection(content: $dailyGoalViewModel.content, goalType: $dailyGoalViewModel.goalType)
                 }
                 HStack {
-                    DailySection(type: .count) {
-                        CountSection(
+                    DailySection(type: .goalCount) {
+                        GoalCountSection(
                             goalType: $dailyGoalViewModel.goalType,
-                            goalCount: $dailyGoalViewModel.goalCount,
-                            goalTime: .constant(300)    // TODO: 추후 수정
+                            goalCount: $dailyGoalViewModel.goalCount
                         )
                     }
                     DailySection(type: .symbol) {
@@ -57,13 +56,19 @@ struct DailyGoalView: View {
 // MARK: - DateSection
 struct DateSection: View {
     @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    private let isModify: Bool
     @Namespace var ns
     @State var opacity: [Double] = Array(repeating: 0, count: 7)
+    
+    init(dailyGoalViewModel: DailyGoalViewModel, isModify: Bool = false) {
+        self.dailyGoalViewModel = dailyGoalViewModel
+        self.isModify = isModify
+    }
     
     var body: some View {
         VStack {
             HStack {
-                DailyCycleTypePicker(cycleType: $dailyGoalViewModel.cycleType)
+                DailyCycleTypePicker(cycleType: $dailyGoalViewModel.cycleType, isModify: isModify)
                 Spacer()
                 if dailyGoalViewModel.cycleType == .date {
                     DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
@@ -140,12 +145,11 @@ struct ContentSection: View {
     }
 }
 
-// MARK: - CountSection
-struct CountSection: View {
+// MARK: - GoalCountSection
+struct GoalCountSection: View {
     @EnvironmentObject var alertEnvironment: AlertEnvironment
     @Binding var goalType: GoalTypes
     @Binding var goalCount: Int
-    @Binding var goalTime: Int
     @State var isShowAlert: Bool = false
     
     var body: some View {
@@ -177,6 +181,48 @@ struct CountSection: View {
             Image(systemName: direction.imageName)
         }
         .buttonStyle(.plain)
+    }
+}
+
+// MARK: - CountSection
+struct CountSection: View {
+    @Binding var recordCount: Int
+    @Binding var goalCount: Int
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Menu {
+                ForEach(0 ... goalCount, id: \.self) { count in
+                    Button {
+                        recordCount = count
+                    } label: {
+                        Text("\(count)")
+                    }
+                }
+            } label: {
+                Text("\(recordCount)")
+            }
+            Spacer()
+            Text("/")
+            Spacer()
+            Menu {
+                ForEach(1 ... 10, id: \.self) { count in
+                    Button {
+                        goalCount = count
+                        if recordCount > goalCount {
+                            recordCount = count
+                        }
+                    } label: {
+                        Text("\(count)")
+                    }
+                }
+            } label: {
+                Text("\(goalCount)")
+            }
+            Spacer()
+        }
+        .foregroundStyle(Colors.reverse)
     }
 }
 
@@ -217,9 +263,6 @@ struct ButtonSection: View {
     
     var body: some View {
         HStack {
-            if buttonType == .modify && dailyGoalViewModel.modifyType == .date {
-                Text("\(CalendarServices.shared.formatDateString(date: dailyGoalViewModel.modifyDate, joiner: .korean, hasSpacing: true, hasLastJoiner: true))")
-            }
             Spacer()
             DailyButton(action: {
                 dailyGoalViewModel.reset()

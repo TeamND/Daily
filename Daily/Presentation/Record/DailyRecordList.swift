@@ -44,26 +44,10 @@ struct DailyRecordList: View {
                     if processed.showTimeline { DailyTimeLine(setTime: goal.setTime) }
                     DailyRecord(record: record)
                         .contextMenu {
-                            // MARK: ModifyRecord
-                            Button {
-                                let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .record)
-                                let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                navigationEnvironment.navigate(navigationObject)
-                            } label: {
-                                Label("기록 수정", systemImage: "pencil.and.outline")
-                            }
-                            // MARK: ModifyDate
-                            Button {
-                                let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .date)
-                                let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                navigationEnvironment.navigate(navigationObject)
-                            } label: {
-                                Label("날짜 변경", systemImage: "calendar")
-                            }
                             // MARK: ModifyGoal
                             if goal.cycleType == .date || goal.parentGoal != nil {
                                 Button {
-                                    let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: true)
+                                    let data = ModifyDataModel(date: date, modifyRecord: record, isAll: true)
                                     let navigationObject = NavigationObject(viewType: .modify, data: data)
                                     navigationEnvironment.navigate(navigationObject)
                                 } label: {
@@ -72,14 +56,14 @@ struct DailyRecordList: View {
                             } else {
                                 Menu {
                                     Button {
-                                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: false)
+                                        let data = ModifyDataModel(date: date, modifyRecord: record, isAll: false)
                                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                                         navigationEnvironment.navigate(navigationObject)
                                     } label: {
                                         Text("단일 수정")
                                     }
                                     Button {
-                                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: true)
+                                        let data = ModifyDataModel(date: date, modifyRecord: record, isAll: true)
                                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                                         navigationEnvironment.navigate(navigationObject)
                                     } label: {

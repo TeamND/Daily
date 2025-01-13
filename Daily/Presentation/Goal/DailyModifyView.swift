@@ -18,68 +18,32 @@ struct DailyModifyView: View {
     
     var body: some View {
         VStack {
-            DailyNavigationBar(title: dailyGoalViewModel.getNavigationBarTitle())
+            DailyNavigationBar(title: "목표수정")
             if let modifyRecord = dailyGoalViewModel.modifyRecord,
-               let modifyGoal = modifyRecord.goal,
-               let modifyType = dailyGoalViewModel.modifyType {
-                if modifyType == .date {
-                    Label("\(CalendarServices.shared.formatDateString(date: dailyCalendarViewModel.currentDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(dailyCalendarViewModel.currentDate.getKoreaDOW())", systemImage: "calendar")
-                        .font(.system(size: CGFloat.fontSize * 2.5))
-                        .hLeading()
-                        .padding(.horizontal)
-                }
+               let modifyGoal = modifyRecord.goal {
+                Label("\(CalendarServices.shared.formatDateString(date: dailyCalendarViewModel.currentDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(dailyCalendarViewModel.currentDate.getKoreaDOW())", systemImage: "calendar")
+                    .font(.system(size: CGFloat.fontSize * 2.5))
+                    .hLeading()
+                    .padding(.horizontal)
                 if modifyGoal.isSetTime { DailyTimeLine(setTime: modifyGoal.setTime) }
                 DailyRecord(record: modifyRecord, isButtonDisabled: true)
                 CustomDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
                 VStack(spacing: .zero) {
-                    switch modifyType {
-                    case .record:
-                        ZStack {
-                            Circle()
-                                .stroke(Colors.reverse, lineWidth: 1)
-                                .padding(CGFloat.fontSize * 15)
-                            HStack {
-                                countButton(direction: .minus)
-                                Menu {
-                                    ForEach(0 ... modifyGoal.count, id:\.self) { count in
-                                        Button {
-                                            dailyGoalViewModel.modifyRecordCount = count
-                                        } label: {
-                                            Text("\(String(count))번")
-                                        }
-                                    }
-                                } label: {
-                                    Text("\(dailyGoalViewModel.modifyRecordCount)")
-                                        .font(.system(size: CGFloat.fontSize * 10, weight: .bold))
-                                        .frame(width: CGFloat.fontSize * 10)
-                                        .padding()
-                                        .foregroundColor(Colors.reverse)
-                                }
-                                countButton(direction: .plus)
-                            }
+                    DailySection(type: .date, isModify: true) {
+                        DateSection(dailyGoalViewModel: dailyGoalViewModel, isModify: true)
+                    }
+                    DailySection(type: .time) {
+                        TimeSection(isSetTime: $dailyGoalViewModel.isSetTime, setTime: $dailyGoalViewModel.setTime)
+                    }
+                    DailySection(type: .content, essentialConditions: dailyGoalViewModel.content.count >= 2) {
+                        ContentSection(content: $dailyGoalViewModel.content, goalType: $dailyGoalViewModel.goalType)
+                    }
+                    HStack {
+                        DailySection(type: .count) {
+                            CountSection(recordCount: $dailyGoalViewModel.modifyRecordCount, goalCount: $dailyGoalViewModel.goalCount)
                         }
-                    case .date:
-                        DatePicker("", selection: $dailyGoalViewModel.modifyDate, displayedComponents: [.date])
-                            .datePickerStyle(.graphical)
-                            .accentColor(Colors.daily)
-                    case .goal:
-                        DailySection(type: .time) {
-                            TimeSection(isSetTime: $dailyGoalViewModel.isSetTime, setTime: $dailyGoalViewModel.setTime)
-                        }
-                        DailySection(type: .content, essentialConditions: dailyGoalViewModel.content.count >= 2) {
-                            ContentSection(content: $dailyGoalViewModel.content, goalType: $dailyGoalViewModel.goalType)
-                        }
-                        HStack {
-                            DailySection(type: .count) {
-                                CountSection(
-                                    goalType: $dailyGoalViewModel.goalType,
-                                    goalCount: $dailyGoalViewModel.goalCount,
-                                    goalTime: .constant(300)    // TODO: 추후 수정
-                                )
-                            }
-                            DailySection(type: .symbol) {
-                                SymbolSection(symbol: $dailyGoalViewModel.symbol)
-                            }
+                        DailySection(type: .symbol) {
+                            SymbolSection(symbol: $dailyGoalViewModel.symbol)
                         }
                     }
                     ButtonSection(dailyGoalViewModel: dailyGoalViewModel, buttonType: .modify)
@@ -89,9 +53,7 @@ struct DailyModifyView: View {
             }
         }
         .background(Colors.theme)
-        .if(dailyGoalViewModel.modifyType == .goal, transform: { view in
-            view.onTapGesture { hideKeyboard() }
-        })
+        .onTapGesture { hideKeyboard() }
     }
     
     private func countButton(direction: Direction) -> some View {
