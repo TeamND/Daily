@@ -66,32 +66,35 @@ struct DateSection: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                DailyCycleTypePicker(cycleType: $dailyGoalViewModel.cycleType, isModify: isModify)
-                Spacer()
-                if dailyGoalViewModel.cycleType == .date {
-                    DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
-                        .matchedGeometryEffect(id: "start_date", in: ns)
-                        .matchedGeometryEffect(id: "end_date", in: ns)
-                } else if dailyGoalViewModel.cycleType == .rept {
-                    DailyWeekIndicator(mode: .select, opacity: $opacity)
-                }
-            }
-            if dailyGoalViewModel.cycleType == .rept {
+        if let modifyType = dailyGoalViewModel.modifyType, modifyType == .all { EmptyView() }
+        else {
+            VStack {
                 HStack {
-                    DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
-                        .matchedGeometryEffect(id: "start_date", in: ns)
+                    DailyCycleTypePicker(cycleType: $dailyGoalViewModel.cycleType, isModify: isModify)
                     Spacer()
-                    Text("~")
-                    Spacer()
-                    DailyDatePicker(currentDate: $dailyGoalViewModel.endDate)
-                        .matchedGeometryEffect(id: "end_date", in: ns)
+                    if dailyGoalViewModel.cycleType == .date {
+                        DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
+                            .matchedGeometryEffect(id: "start_date", in: ns)
+                            .matchedGeometryEffect(id: "end_date", in: ns)
+                    } else if dailyGoalViewModel.cycleType == .rept {
+                        DailyWeekIndicator(mode: .select, opacity: $opacity)
+                    }
+                }
+                if dailyGoalViewModel.cycleType == .rept {
+                    HStack {
+                        DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
+                            .matchedGeometryEffect(id: "start_date", in: ns)
+                        Spacer()
+                        Text("~")
+                        Spacer()
+                        DailyDatePicker(currentDate: $dailyGoalViewModel.endDate)
+                            .matchedGeometryEffect(id: "end_date", in: ns)
+                    }
                 }
             }
-        }
-        .onChange(of: opacity) { _, opacity in
-            dailyGoalViewModel.selectedWeekday = opacity.enumerated().compactMap { $1 == 0.8 ? $0 + 1 : nil }
+            .onChange(of: opacity) { _, opacity in
+                dailyGoalViewModel.selectedWeekday = opacity.enumerated().compactMap { $1 == 0.8 ? $0 + 1 : nil }
+            }
         }
     }
 }
@@ -191,7 +194,6 @@ struct CountSection: View {
     
     var body: some View {
         HStack {
-            Spacer()
             Menu {
                 ForEach(0 ... goalCount, id: \.self) { count in
                     Button {
@@ -202,10 +204,9 @@ struct CountSection: View {
                 }
             } label: {
                 Text("\(recordCount)")
+                    .frame(maxWidth: .infinity)
             }
-            Spacer()
             Text("/")
-            Spacer()
             Menu {
                 ForEach(1 ... 10, id: \.self) { count in
                     Button {
@@ -219,8 +220,8 @@ struct CountSection: View {
                 }
             } label: {
                 Text("\(goalCount)")
+                    .frame(maxWidth: .infinity)
             }
-            Spacer()
         }
         .foregroundStyle(Colors.reverse)
     }

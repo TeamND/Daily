@@ -10,5 +10,11 @@ import Foundation
 struct ModifyDataModel: Hashable {
     let date: Date
     var modifyRecord: DailyRecordModel
-    var isAll: Bool = false
+    let modifyType: ModifyTypes
+}
+
+enum ModifyTypes {
+    case record
+    case single
+    case all
 }

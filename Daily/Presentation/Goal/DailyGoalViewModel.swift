@@ -32,15 +32,15 @@ class DailyGoalViewModel: ObservableObject {
     
     @Published var content: String = ""
     @Published var goalType: GoalTypes = .check
+    @Published var recordCount: Int = 0
     @Published var goalCount: Int = 1
     @Published var symbol: Symbols = .check
     
     @Published var modifyRecord: DailyRecordModel? = nil
-    @Published var modifyIsAll: Bool? = nil
-    @Published var modifyDate: Date = Date()
-    @Published var modifyRecordCount: Int = 0
+    @Published var modifyType: ModifyTypes? = nil
     
     private var beforeDate: Date = Date()
+    private var beforeRecord: Int = 0
     
     // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
@@ -63,10 +63,12 @@ class DailyGoalViewModel: ObservableObject {
         
         self.setRecord(record: modifyData.modifyRecord)
         self.modifyRecord = modifyData.modifyRecord
-        self.modifyIsAll = modifyData.isAll
+        self.modifyType = modifyData.modifyType
+        self.cycleType = modifyData.modifyType == .all ? .rept : .date
         self.beforeDate = modifyData.date
-        self.modifyDate = self.beforeDate
-        self.modifyRecordCount = modifyData.modifyRecord.count
+        self.startDate = self.beforeDate
+        self.beforeRecord = modifyData.modifyRecord.count
+        self.recordCount = self.beforeRecord
     }
     
     // MARK: - set
@@ -85,7 +87,8 @@ class DailyGoalViewModel: ObservableObject {
     func reset() {
         if let modifyRecord {
             self.setRecord(record: modifyRecord)
-            modifyDate = beforeDate
+            startDate = beforeDate
+            recordCount = beforeRecord
         } else {
             content = ""
             symbol = .check
@@ -128,30 +131,21 @@ class DailyGoalViewModel: ObservableObject {
     
     func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .modify) { validateAction(validate); return }
-        if let record = modifyRecord,
-           let goal = record.goal,
-           let isAll = modifyIsAll {
-//            switch type {
-//            case .record:
-//                record.count = modifyRecordCount
-//                record.isSuccess = goal.count == modifyRecordCount
-//                try? modelContext.save()
-//            case .date:
-//                record.date = modifyDate
-//                newDate = modifyDate
-//                let newDate: Date =
-//                try? modelContext.save()
-//            case .goal:
-                if isAll {
-                    goal.content = content
-                    goal.symbol = symbol
-                    goal.type = goalType
-                    goal.count = goalCount
-                    goal.isSetTime = isSetTime
-                    goal.setTime = setTime.toStringOfSetTime()
-                    record.isSuccess = goal.count <= modifyRecordCount
-                    try? modelContext.save()
-                } else {
+        if let record = modifyRecord, let goal = record.goal, let modifyType {
+            switch modifyType {
+            case .record:
+                goal.content = content
+                goal.symbol = symbol
+                goal.type = goalType
+                goal.count = goalCount
+                goal.isSetTime = isSetTime
+                goal.setTime = setTime.toStringOfSetTime()
+                record.date = startDate
+                record.count = recordCount
+                record.isSuccess = goalCount <= recordCount
+                try? modelContext.save()
+            case .single:
+                if goal.content != content || goal.symbol != symbol || goal.type != goalType || goal.count != goalCount || goal.isSetTime != isSetTime || goal.setTime != setTime.toStringOfSetTime() {
                     let newGoal = DailyGoalModel(
                         type: goalType,
                         cycleType: cycleType,
@@ -169,10 +163,22 @@ class DailyGoalViewModel: ObservableObject {
                     try? modelContext.save()
                     goal.childGoals.append(newGoal)
                     record.goal = newGoal
-                    try? modelContext.save()
                 }
-//            }
-//            successAction(newDate)
+                record.date = startDate
+                record.count = recordCount
+                record.isSuccess = goalCount <= recordCount
+                try? modelContext.save()
+            case .all:
+                goal.content = content
+                goal.symbol = symbol
+                goal.type = goalType
+                goal.count = goalCount
+                goal.isSetTime = isSetTime
+                goal.setTime = setTime.toStringOfSetTime()
+                record.isSuccess = goalCount <= recordCount
+                try? modelContext.save()
+            }
+            successAction(startDate)
         }
     }
     

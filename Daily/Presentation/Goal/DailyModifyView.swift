@@ -39,8 +39,17 @@ struct DailyModifyView: View {
                         ContentSection(content: $dailyGoalViewModel.content, goalType: $dailyGoalViewModel.goalType)
                     }
                     HStack {
-                        DailySection(type: .count) {
-                            CountSection(recordCount: $dailyGoalViewModel.modifyRecordCount, goalCount: $dailyGoalViewModel.goalCount)
+                        if let modifyType = dailyGoalViewModel.modifyType, modifyType == .all {
+                            DailySection(type: .goalCount) {
+                                GoalCountSection(
+                                    goalType: $dailyGoalViewModel.goalType,
+                                    goalCount: $dailyGoalViewModel.goalCount
+                                )
+                            }
+                        } else {
+                            DailySection(type: .count) {
+                                CountSection(recordCount: $dailyGoalViewModel.recordCount, goalCount: $dailyGoalViewModel.goalCount)
+                            }
                         }
                         DailySection(type: .symbol) {
                             SymbolSection(symbol: $dailyGoalViewModel.symbol)
@@ -58,13 +67,13 @@ struct DailyModifyView: View {
     
     private func countButton(direction: Direction) -> some View {
         Button {
-            let afterCount = dailyGoalViewModel.modifyRecordCount + direction.value
+            let afterCount = dailyGoalViewModel.recordCount + direction.value
             if afterCount < 0 {
                 alertEnvironment.showToast(message: "최소 기록 횟수는 0번이에요 😓")
             } else if afterCount > dailyGoalViewModel.goalCount {
                 alertEnvironment.showToast(message: "최대 기록 횟수는 \(dailyGoalViewModel.goalCount)번이에요 🙌")
             } else {
-                dailyGoalViewModel.modifyRecordCount = afterCount
+                dailyGoalViewModel.recordCount = afterCount
             }
         } label: {
             Text(direction.rawValue)
