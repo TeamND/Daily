@@ -11,8 +11,9 @@ enum SectionType {
     case date
     case time
     case content
-    case count
+    case goalCount
     case symbol
+    case count
     
     var title: String {
         switch self {
@@ -22,10 +23,12 @@ enum SectionType {
             return "시간"
         case .content:
             return "목표"
-        case .count:
+        case .goalCount:
             return "횟수"
         case .symbol:
             return "심볼"
+        case .count:
+            return "(기록 / 목표) 횟수"
         }
     }
     var isNew: Bool {
