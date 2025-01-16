@@ -81,7 +81,7 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    dailyCalendarViewModel.setDate(date: Date())
+                    dailyCalendarViewModel.setDate(date: Date(format: .daily))
                     navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
                     Label("오늘", systemImage: "chevron.right")

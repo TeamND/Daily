@@ -11,13 +11,13 @@ class CalendarServices {
     static let shared = CalendarServices()
     private var calendar: Calendar = Calendar.current
     private init() {
-        calendar.timeZone = TimeZone(identifier: "UTC")!
+        calendar.timeZone = .current
     }
     
     func isToday(year: Int, month: Int, day: Int) -> Bool {
-        return Date().year == year && Date().month == month && Date().day == day
+        return Date(format: .daily).year == year && Date(format: .daily).month == month && Date(format: .daily).day == day
     }
-    func formatDateString(date: Date = Date(), joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
+    func formatDateString(date: Date = Date(format: .daily), joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
         self.formatDateString(year: date.year, month: date.month, day: date.day, joiner: joiner, hasSpacing: hasSpacing, hasLastJoiner: hasLastJoiner)
     }
     func formatDateString(year: Int, month: Int = 0, day: Int = 0, joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
