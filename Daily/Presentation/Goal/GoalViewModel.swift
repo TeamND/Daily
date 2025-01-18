@@ -1,5 +1,5 @@
 //
-//  DailyGoalViewModel.swift
+//  GoalViewModel.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/28/24.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-class DailyGoalViewModel: ObservableObject {
+class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
     private var calendar = Calendar.current
     
@@ -41,7 +41,7 @@ class DailyGoalViewModel: ObservableObject {
     private var beforeDate: Date = Date(format: .daily)
     private var beforeRecord: Int = 0
     
-    // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
+    // TODO: 추후 GoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
         self.calendar.timeZone = .current
         

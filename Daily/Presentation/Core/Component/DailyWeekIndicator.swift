@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct DailyWeekIndicator: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Query private var records: [DailyRecordModel]
     @Binding var opacity: [Double]
     private let mode: WeekIndicatorMode
@@ -22,7 +22,7 @@ struct DailyWeekIndicator: View {
     init(mode: WeekIndicatorMode, currentDate: Date) {
         self.mode = mode
         self._opacity = Binding(get: { Array(repeating: 0, count: 7) }, set: { _ in })
-        _records = Query(DailyCalendarViewModel.recordsForWeekDescriptor(currentDate))
+        _records = Query(CalendarViewModel.recordsForWeekDescriptor(currentDate))
     }
     
     private var ratings: [Double] {
@@ -51,7 +51,7 @@ struct DailyWeekIndicator: View {
         HStack(spacing: 0) {
             ForEach(DayOfWeek.allCases, id: \.self) { dayOfWeek in
                 ZStack {
-                    let isSelectedDay = dailyCalendarViewModel.currentDate.weekday == dayOfWeek.index + 1
+                    let isSelectedDay = calendarViewModel.currentDate.weekday == dayOfWeek.index + 1
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 2)
                         .opacity(isSelectedDay && mode == .change ? 1 : 0)
@@ -65,7 +65,7 @@ struct DailyWeekIndicator: View {
                 .onTapGesture {
                     switch mode {
                     case .change:
-                        dailyCalendarViewModel.setDate(byAdding: .day, value: dayOfWeek.index - (dailyCalendarViewModel.currentDate.weekday - 1))
+                        calendarViewModel.setDate(byAdding: .day, value: dayOfWeek.index - (calendarViewModel.currentDate.weekday - 1))
                     case .select:
                         withAnimation {
                             opacity[dayOfWeek.index] = opacity[dayOfWeek.index] == 0.8 ? 0 : 0.8

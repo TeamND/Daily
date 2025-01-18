@@ -13,7 +13,7 @@ import DailyUtilities
 struct DailyApp: App {
     @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var navigationEnvironment = NavigationEnvironment()
-    @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
+    @StateObject private var calendarViewModel = CalendarViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     let dailyModelContainer: ModelContainer
@@ -30,14 +30,14 @@ struct DailyApp: App {
             daily
                 .environmentObject(alertEnvironment)
                 .environmentObject(navigationEnvironment)
-                .environmentObject(dailyCalendarViewModel)
+                .environmentObject(calendarViewModel)
                 .modelContainer(dailyModelContainer)
         }
     }
     
     private var daily: some View {
         ZStack {
-            DailyMainView()
+            MainView()
             if splashViewModel.isAppLoading {
                 SplashView(splashViewModel: splashViewModel)
             }

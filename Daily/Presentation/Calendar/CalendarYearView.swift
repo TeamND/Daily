@@ -9,16 +9,16 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .year)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: dailyCalendarViewModel.bindSelection(type: .year)) {
+            TabView(selection: calendarViewModel.bindSelection(type: .year)) {
                 ForEach(-1 ... 10, id: \.self) { index in
-                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .year, index: index)
+                    let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .year, index: index)
                     Group {
                         if direction == .current { CalendarYear(date: date, selection: selection) }
                         else { CalendarLoadView(type: .year, direction: direction) }
@@ -39,12 +39,12 @@ struct CalendarYearView: View {
 // MARK: - CalendarYear
 struct CalendarYear: View {
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let date: Date
     let selection: String
     var ratingsOfYear: [[Double]] {
-        dailyCalendarViewModel.yearDictionary[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        calendarViewModel.yearDictionary[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
     }
     
     var body: some View {
@@ -55,7 +55,7 @@ struct CalendarYear: View {
                         ForEach(0 ..< 3) { col in
                             let month = row * 3 + col + 1
                             Button {
-                                dailyCalendarViewModel.setDate(year: date.year, month: month)
+                                calendarViewModel.setDate(year: date.year, month: month)
                                 navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
                             } label: {
                                 DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: ratingsOfYear[month - 1])
@@ -71,7 +71,7 @@ struct CalendarYear: View {
         }
         .vTop()
         .onAppear {
-            dailyCalendarViewModel.calendarYearOnAppear(modelContext: modelContext, date: date, selection: selection)
+            calendarViewModel.calendarYearOnAppear(modelContext: modelContext, date: date, selection: selection)
         }
     }
 }

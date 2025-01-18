@@ -1,5 +1,5 @@
 //
-//  DailyRecordList.swift
+//  RecordList.swift
 //  Daily
 //
 //  Created by seungyooooong on 11/29/24.
@@ -8,8 +8,8 @@
 import SwiftUI
 import SwiftData
 
-// MARK: - DailyRecordList
-struct DailyRecordList: View {
+// MARK: - RecordList
+struct RecordList: View {
     let date: Date
     let records: [DailyRecordModel]
     
@@ -155,7 +155,7 @@ struct DailyRecord: View {
                 Image(systemName: "\(goal.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
                 Text(goal.content)
                 Spacer()
-                DailyRecordButton(record: record, color: isButtonDisabled ? Colors.reverse : Colors.daily)
+                RecordButton(record: record, color: isButtonDisabled ? Colors.reverse : Colors.daily)
                     .frame(maxHeight: 40)
                     .disabled(isButtonDisabled)
             }
@@ -179,16 +179,16 @@ struct DailyRecord: View {
     }
 }
 
-// MARK: - DailyNoRecord
-struct DailyNoRecord: View {
+// MARK: - NoRecord
+struct NoRecord: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack {
             Text(noRecordText)
             Button {
-                let data = GoalDataModel(date: dailyCalendarViewModel.currentDate)
+                let data = GoalDataModel(date: calendarViewModel.currentDate)
                 let navigationObject = NavigationObject(viewType: .goal, data: data)
                 navigationEnvironment.navigate(navigationObject)
             } label: {

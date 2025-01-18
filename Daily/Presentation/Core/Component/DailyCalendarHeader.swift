@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DailyCalendarHeader: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Environment(\.dismiss) var dismiss
     let type: CalendarType
     
@@ -21,7 +21,7 @@ struct DailyCalendarHeader: View {
                     Button {
                         dismiss()
                     } label: {
-                        Label(dailyCalendarViewModel.headerText(type: type, textPosition: .backButton), systemImage: "chevron.left")
+                        Label(calendarViewModel.headerText(type: type, textPosition: .backButton), systemImage: "chevron.left")
                             .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                     }
                     .padding(CGFloat.fontSize)
@@ -32,16 +32,16 @@ struct DailyCalendarHeader: View {
             // MARK: - center
             HStack {
                 Button {
-                    dailyCalendarViewModel.setDate(byAdding: type.byAdding, value: Direction.prev.value)
+                    calendarViewModel.setDate(byAdding: type.byAdding, value: Direction.prev.value)
                 } label: {
                     Image(systemName: "chevron.left")
                 }
                 Menu {
                     switch type {
                     case .year:
-                        ForEach((dailyCalendarViewModel.currentDate.year / 10) * 10 ..< (dailyCalendarViewModel.currentDate.year / 10 + 1) * 10, id: \.self) { year in
+                        ForEach((calendarViewModel.currentDate.year / 10) * 10 ..< (calendarViewModel.currentDate.year / 10 + 1) * 10, id: \.self) { year in
                             Button {
-                                dailyCalendarViewModel.setDate(year: year)
+                                calendarViewModel.setDate(year: year)
                             } label: {
                                 Text("\(String(year)) 년")
                             }
@@ -49,28 +49,28 @@ struct DailyCalendarHeader: View {
                     case .month:
                         ForEach(1 ... 12, id: \.self) { month in
                             Button {
-                                dailyCalendarViewModel.setDate(year: dailyCalendarViewModel.currentDate.year, month: month)
+                                calendarViewModel.setDate(year: calendarViewModel.currentDate.year, month: month)
                             } label: {
                                 Text("\(String(month)) 월")
                             }
                         }
                     case .day:
-                        let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: dailyCalendarViewModel.currentDate)?.count ?? 0
+                        let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: calendarViewModel.currentDate)?.count ?? 0
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
                             Button {
-                                dailyCalendarViewModel.setDate(year: dailyCalendarViewModel.currentDate.year, month: dailyCalendarViewModel.currentDate.month, day: day)
+                                calendarViewModel.setDate(year: calendarViewModel.currentDate.year, month: calendarViewModel.currentDate.month, day: day)
                             } label: {
                                 Text("\(String(day)) 일")
                             }
                         }
                     }
                 } label: {
-                    Text(dailyCalendarViewModel.headerText(type: type, textPosition: .title))
+                    Text(calendarViewModel.headerText(type: type, textPosition: .title))
                         .foregroundStyle(Colors.reverse)
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
                 Button {
-                    dailyCalendarViewModel.setDate(byAdding: type.byAdding, value: Direction.next.value)
+                    calendarViewModel.setDate(byAdding: type.byAdding, value: Direction.next.value)
                 } label: {
                     Image(systemName: "chevron.right")
                 }
@@ -81,7 +81,7 @@ struct DailyCalendarHeader: View {
             // MARK: - trailing
             HStack(spacing: 0) {
                 Button {
-                    dailyCalendarViewModel.setDate(date: Date(format: .daily))
+                    calendarViewModel.setDate(date: Date(format: .daily))
                     navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
                     Label("오늘", systemImage: "chevron.right")

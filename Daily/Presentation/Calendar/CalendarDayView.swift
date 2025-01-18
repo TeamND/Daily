@@ -11,17 +11,17 @@ import Charts
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(mode: .change, currentDate: dailyCalendarViewModel.currentDate)
+            DailyWeekIndicator(mode: .change, currentDate: calendarViewModel.currentDate)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: dailyCalendarViewModel.bindSelection(type: .day)) {
+            TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... 7, id: \.self) { index in
-                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .day, index: index)
+                    let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .day, index: index)
                     Group {
                         if direction == .current { CalendarDay(date: date) }
                         else { CalendarLoadView(type: .day, direction: direction) }
@@ -37,31 +37,31 @@ struct CalendarDayView: View {
             DailyAddGoalButton()
         }
         .overlay {
-            DailyWeeklySummary(currentDate: dailyCalendarViewModel.currentDate)
+            DailyWeeklySummary(currentDate: calendarViewModel.currentDate)
         }
     }
 }
 
 // MARK: - CalendarDay
 struct CalendarDay: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Query private var records: [DailyRecordModel]
     let date: Date
     
     init(date: Date) {
         self.date = date
-        _records = Query(DailyCalendarViewModel.recordsForDateDescriptor(date))
+        _records = Query(CalendarViewModel.recordsForDateDescriptor(date))
     }
     
     var body: some View {
         if records.isEmpty {
-            DailyNoRecord()
+            NoRecord()
         } else {
             VStack {
                 ViewThatFits(in: .vertical) {
-                    DailyRecordList(date: date, records: records)
+                    RecordList(date: date, records: records)
                     ScrollView {
-                        DailyRecordList(date: date, records: records)
+                        RecordList(date: date, records: records)
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)
@@ -77,11 +77,11 @@ struct CalendarDay: View {
 
 // MARK: - DailyWeeklySummary
 struct DailyWeeklySummary: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Query private var records: [DailyRecordModel]
     
     init(currentDate: Date) {
-        _records = Query(DailyCalendarViewModel.recordsForWeekDescriptor(currentDate))
+        _records = Query(CalendarViewModel.recordsForWeekDescriptor(currentDate))
     }
     
     private var ratingsForChart: [RatingOnWeekModel] {
@@ -124,27 +124,27 @@ struct DailyWeeklySummary: View {
         }
         .ignoresSafeArea()
         .onTapGesture {
-            withAnimation { dailyCalendarViewModel.isShowWeeklySummary.toggle() }
+            withAnimation { calendarViewModel.isShowWeeklySummary.toggle() }
         }
-        .offset(y: dailyCalendarViewModel.isShowWeeklySummary ? 0 : 350)
+        .offset(y: calendarViewModel.isShowWeeklySummary ? 0 : 350)
         .highPriorityGesture(
             DragGesture(minimumDistance: CGFloat.fontSize)
                 .onEnded { value in
                     if value.translation.height < -50 {
                         withAnimation {
-                            dailyCalendarViewModel.isShowWeeklySummary = true
+                            calendarViewModel.isShowWeeklySummary = true
                         }
                     }
                     if value.translation.height > 50 {
                         withAnimation {
-                            dailyCalendarViewModel.isShowWeeklySummary = false
+                            calendarViewModel.isShowWeeklySummary = false
                         }
                     }
                 }
         )
         .background {
-            if dailyCalendarViewModel.isShowWeeklySummary {
-                Color.black.opacity(0.5).onTapGesture { withAnimation { dailyCalendarViewModel.isShowWeeklySummary = false } }
+            if calendarViewModel.isShowWeeklySummary {
+                Color.black.opacity(0.5).onTapGesture { withAnimation { calendarViewModel.isShowWeeklySummary = false } }
             }
         }
     }
@@ -173,7 +173,7 @@ struct DailyWeeklySummary: View {
     private var weeklySummaryBody: some View {
         Group {
             VStack(alignment: .center, spacing: CGFloat.fontSize * 3) {
-                Text("\(dailyCalendarViewModel.currentDate.month)월 \(dailyCalendarViewModel.currentDate.weekOfMonth)주차 목표 달성률")
+                Text("\(calendarViewModel.currentDate.month)월 \(calendarViewModel.currentDate.weekOfMonth)주차 목표 달성률")
                     .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 Chart {
                     ForEach(ratingsForChart) { data in
@@ -204,7 +204,7 @@ struct DailyWeeklySummary: View {
                     }
                 }
                 .chartYScale(domain: 0 ... 100)
-                .animation(.none, value: dailyCalendarViewModel.isShowWeeklySummary)
+                .animation(.none, value: calendarViewModel.isShowWeeklySummary)
                 .foregroundStyle(Colors.reverse)
                 .frame(height: 200)
                 Text("* 오늘 이후의 목표는 주간 달성률 계산에 포함되지 않습니다.")
