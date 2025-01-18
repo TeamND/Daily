@@ -67,17 +67,24 @@ struct DailyMenu: View {
                 // MARK: Notice
                 if goal.isSetTime {
                     if record.notice == nil {
+                        let notice = 5  // TODO: 추후 세분화
                         Button {
-                            PushNoticeManager.shared.addNotice()
-                            record.notice = 5   // TODO: 추후 세분화
+                            PushNoticeManager.shared.addNotice(
+                                id: String(describing: record.id),
+                                content: goal.content,
+                                date: record.date,
+                                setTime: goal.setTime,
+                                notice: notice
+                            )
+                            record.notice = notice
                             try? modelContext.save()
-                            alertEnvironment.showToast(message: "\(CalendarServices.shared.formatDateString(date: record.date)) \(goal.setTime)\n5분 전에 알려드릴게요! 💬")
+                            alertEnvironment.showToast(message: "\(notice)분 전에 알려드릴게요! 💬")
                         } label: {
-                            Label("5분 전 알리기", systemImage: "clock.badge")
+                            Label("\(notice)분 전 알리기", systemImage: "clock.badge")
                         }
                     } else {
                         Button {
-                            PushNoticeManager.shared.removeNotice()
+                            PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
                             record.notice = nil
                             try? modelContext.save()
                             alertEnvironment.showToast(message: "알림이 삭제되었어요 🫥")

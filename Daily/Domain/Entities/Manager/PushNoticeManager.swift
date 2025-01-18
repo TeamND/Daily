@@ -7,10 +7,26 @@
 
 import UserNotifications
 
-class PushNoticeManager {
+class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     static let shared = PushNoticeManager()
+    private override init() {
+        super.init()
+        Task { await setupNotificationDelegate() }
+    }
     
-    private init() { }
+    private func setupNotificationDelegate() async {
+        await MainActor.run {
+            UNUserNotificationCenter.current().delegate = self
+        }
+    }
+    
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound])
+    }
     
     func addDefaultNotice() {
         let id = "default"
@@ -41,12 +57,30 @@ class PushNoticeManager {
         }
     }
     
-    func addNotice() {
+    func addNotice(id: String, content: String, date: Date, setTime: String, notice: Int = 5) {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        let timeComponents = setTime.split(separator: ":").compactMap { Int($0) }
+        let hour = timeComponents[0]
+        let minute = timeComponents[1]
         
+        var components = DateComponents()
+        components.calendar = Calendar.current
+        components.year = dateComponents.year
+        components.month = dateComponents.month
+        components.day = dateComponents.day
+        components.hour = hour
+        components.minute = minute
+        
+        guard let noticeDate = calendar.date(from: components)?.addingTimeInterval(TimeInterval(-notice * 60)) else { return }
+        let noticeComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
+        
+        UNUserNotificationCenter.current().addNotiRequest(by: noticeComponents, id: id, title: content, body: "\(notice)분 전이에요 😎😎")
     }
     
-    func removeNotice() {
-        
+    func removeNotice(id: String) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
     }
     
     func removeAllNoti() {
