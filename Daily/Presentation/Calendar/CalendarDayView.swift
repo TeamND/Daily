@@ -103,10 +103,8 @@ struct DailyWeeklySummary: View {
     }
     
     private var ratingOfWeek: Int {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
         let validRecords = records.filter { record in
-            calendar.startOfDay(for: record.date) <= today
+            record.date <= Date()
         }
         
         let totalRecords = validRecords.count

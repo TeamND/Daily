@@ -10,8 +10,6 @@ import SwiftData
 
 // MARK: - DailyRecordList
 struct DailyRecordList: View {
-    @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let date: Date
     let records: [DailyRecordModel]
     
@@ -43,95 +41,98 @@ struct DailyRecordList: View {
                 if let goal = record.goal {
                     if processed.showTimeline { DailyTimeLine(setTime: goal.setTime) }
                     DailyRecord(record: record)
-                        .contextMenu {
-                            // MARK: ModifyRecord
-                            Button {
-                                let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .record)
-                                let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                navigationEnvironment.navigate(navigationObject)
-                            } label: {
-                                Label("기록 수정", systemImage: "pencil.and.outline")
-                            }
-                            // MARK: ModifyDate
-                            Button {
-                                let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .date)
-                                let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                navigationEnvironment.navigate(navigationObject)
-                            } label: {
-                                Label("날짜 변경", systemImage: "calendar")
-                            }
-                            // MARK: ModifyGoal
-                            if goal.cycleType == .date || goal.parentGoal != nil {
-                                Button {
-                                    let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: true)
-                                    let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                    navigationEnvironment.navigate(navigationObject)
-                                } label: {
-                                    Label("목표 수정", systemImage: "pencil.line")
-                                }
-                            } else {
-                                Menu {
-                                    Button {
-                                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: false)
-                                        let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                        navigationEnvironment.navigate(navigationObject)
-                                    } label: {
-                                        Text("단일 수정")
-                                    }
-                                    Button {
-                                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .goal, isAll: true)
-                                        let navigationObject = NavigationObject(viewType: .modify, data: data)
-                                        navigationEnvironment.navigate(navigationObject)
-                                    } label: {
-                                        Text("일괄 수정")
-                                    }
-                                } label: {
-                                    Label("목표 수정", systemImage: "pencil.line")
-                                }
-                            }
-                            // MARK: DeleteGoal
-                            if goal.cycleType == .date {
-                                Button {
-                                    modelContext.delete(goal)
-                                    try? modelContext.save()
-                                } label: {
-                                    Label("목표 삭제", systemImage: "trash")
-                                }
-                            } else {
-                                Menu {
-                                    Button {
-                                        modelContext.delete(record)
-                                        try? modelContext.save()
-                                    } label: {
-                                        Text("단일 삭제")
-                                    }
-                                    Menu {
-                                        Button {
-                                            guard let totalRecords = try? modelContext.fetch(FetchDescriptor<DailyRecordModel>()) else { return }
-                                            let deleteRecords = totalRecords.filter { currentRecord in
-                                                guard let currentGoal = currentRecord.goal else { return false }
-                                                return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date >= Calendar.current.startOfDay(for: Date())
-                                            }
-                                            deleteRecords.forEach { modelContext.delete($0) }
-                                            try? modelContext.save()
-                                        } label: {
-                                            Text("오늘 이후의 목표만 삭제")
-                                        }
-                                        Button {
-                                            goal.childGoals.forEach { modelContext.delete($0) }
-                                            modelContext.delete(goal)
-                                            try? modelContext.save()
-                                        } label: {
-                                            Text("과거의 기록도 함께 삭제")
-                                        }
-                                    } label: {
-                                        Text("일괄 삭제")
-                                    }
-                                } label: {
-                                    Label("목표 삭제", systemImage: "trash")
-                                }
-                            }
+                        .contextMenu { DailyMenu(record: record, date: date) }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - DailyMenu
+struct DailyMenu: View {
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    let record: DailyRecordModel
+    let date: Date
+    
+    init(record: DailyRecordModel, date: Date) {
+        self.record = record
+        self.date = date
+    }
+
+    var body: some View {
+        if let goal = record.goal {
+            VStack {
+                // MARK: ModifyGoal
+                if goal.cycleType == .date || goal.parentGoal != nil {
+                    Button {
+                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .record)
+                        let navigationObject = NavigationObject(viewType: .modify, data: data)
+                        navigationEnvironment.navigate(navigationObject)
+                    } label: {
+                        Label("목표 수정", systemImage: "pencil.line")
+                    }
+                } else {
+                    Menu {
+                        Button {
+                            let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .single)
+                            let navigationObject = NavigationObject(viewType: .modify, data: data)
+                            navigationEnvironment.navigate(navigationObject)
+                        } label: {
+                            Text("단일 수정")
                         }
+                        Button {
+                            let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .all)
+                            let navigationObject = NavigationObject(viewType: .modify, data: data)
+                            navigationEnvironment.navigate(navigationObject)
+                        } label: {
+                            Text("일괄 수정")
+                        }
+                    } label: {
+                        Label("목표 수정", systemImage: "pencil.line")
+                    }
+                }
+                // MARK: DeleteGoal
+                if goal.cycleType == .date {
+                    Button {
+                        modelContext.delete(goal)
+                        try? modelContext.save()
+                    } label: {
+                        Label("목표 삭제", systemImage: "trash")
+                    }
+                } else {
+                    Menu {
+                        Button {
+                            modelContext.delete(record)
+                            try? modelContext.save()
+                        } label: {
+                            Text("단일 삭제")
+                        }
+                        Menu {
+                            Button {
+                                guard let totalRecords = try? modelContext.fetch(FetchDescriptor<DailyRecordModel>()) else { return }
+                                let deleteRecords = totalRecords.filter { currentRecord in
+                                    guard let currentGoal = currentRecord.goal else { return false }
+                                    return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date >= Date(format: .daily)
+                                }
+                                deleteRecords.forEach { modelContext.delete($0) }
+                                try? modelContext.save()
+                            } label: {
+                                Text("오늘 이후의 목표만 삭제")
+                            }
+                            Button {
+                                goal.childGoals.forEach { modelContext.delete($0) }
+                                modelContext.delete(goal)
+                                try? modelContext.save()
+                            } label: {
+                                Text("과거의 기록도 함께 삭제")
+                            }
+                        } label: {
+                            Text("일괄 삭제")
+                        }
+                    } label: {
+                        Label("목표 삭제", systemImage: "trash")
+                    }
                 }
             }
         }
@@ -169,6 +170,7 @@ struct DailyRecord: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             }
             .padding(.horizontal, CGFloat.fontSize * 2)
+            .foregroundStyle(Colors.reverse)
             .background {
                 RoundedRectangle(cornerRadius: 15).fill(Colors.background)
             }

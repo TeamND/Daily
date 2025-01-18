@@ -7,6 +7,16 @@
 
 import Foundation
 
+extension Date {
+    init(format: DateFormats = .daily, timeZone: TimeZone = .current) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format.rawValue
+        formatter.timeZone = timeZone
+        
+        self = formatter.date(from: formatter.string(from: Date())) ?? Date()
+    }
+}
+
 // MARK: - return Int
 extension Date {
     public var year: Int {
@@ -47,9 +57,9 @@ extension Date {
         dateFormatter.locale = Locale(identifier:"en_KR")
         return dateFormatter.string(from: self)
     }
-    func toStringOfSetTime() -> String {
+    func toString(format: DateFormats = .daily) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = format.rawValue
         return dateFormatter.string(from: self)
     }
     func getSelection(type: CalendarType = .day) -> String {
@@ -66,14 +76,9 @@ extension Date {
 
 // MARK: - return Date
 extension Date {
-    func setDefaultEndDate() -> Date {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        return cal.date(byAdding: .month, value: 1, to: self)!
-    }
-    func defaultDate() -> Date {
-        var cal = Calendar.current
-        cal.timeZone = TimeZone(identifier: "UTC")!
-        return cal.startOfDay(for: self)
+    func monthLater(timeZone: TimeZone = .current) -> Date {
+        var calendar = Calendar.current
+        calendar.timeZone = timeZone
+        return calendar.date(byAdding: .month, value: 1, to: self)!
     }
 }

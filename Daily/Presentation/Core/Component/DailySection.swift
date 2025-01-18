@@ -11,6 +11,7 @@ struct DailySection<Content: View>: View {
     var type: SectionType
     var essentialConditions: Bool = false
     @State var isShowEssentialConditions: Bool = false
+    var isModify: Bool = false
     var content: () -> Content
     
     var body: some View {
@@ -26,7 +27,7 @@ struct DailySection<Content: View>: View {
                     if type.isEssential && !essentialConditions {
                         essentialButton
                     }
-                    if type.isNew {
+                    if type.isNew && !isModify {
                         Text("new")
                             .foregroundStyle(Colors.daily)
                     }
