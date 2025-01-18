@@ -8,6 +8,10 @@
 import UserNotifications
 
 class PushNoticeManager {
+    static let shared = PushNoticeManager()
+    
+    private init() { }
+    
     func addDefaultNotice() {
         let id = "default"
         var components = DateComponents()
@@ -38,6 +42,10 @@ class PushNoticeManager {
     }
     
     func addNotice() {
+        
+    }
+    
+    func removeNotice() {
         
     }
     

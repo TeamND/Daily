@@ -52,6 +52,7 @@ struct RecordList: View {
 struct DailyMenu: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var alertEnvironment: AlertEnvironment
     let record: DailyRecordModel
     let date: Date
     
@@ -63,6 +64,28 @@ struct DailyMenu: View {
     var body: some View {
         if let goal = record.goal {
             VStack {
+                // MARK: Notice
+                if goal.isSetTime {
+                    if record.notice == nil {
+                        Button {
+                            PushNoticeManager.shared.addNotice()
+                            record.notice = 5   // TODO: 추후 세분화
+                            try? modelContext.save()
+                            alertEnvironment.showToast(message: "\(CalendarServices.shared.formatDateString(date: record.date)) \(goal.setTime)\n5분 전에 알려드릴게요! 💬")
+                        } label: {
+                            Label("5분 전 알리기", systemImage: "clock.badge")
+                        }
+                    } else {
+                        Button {
+                            PushNoticeManager.shared.removeNotice()
+                            record.notice = nil
+                            try? modelContext.save()
+                            alertEnvironment.showToast(message: "알림이 삭제되었어요 🫥")
+                        } label: {
+                            Label("알림 끄기", systemImage: "clock.badge.fill")
+                        }
+                    }
+                }
                 // MARK: ModifyGoal
                 if goal.cycleType == .date || goal.parentGoal != nil {
                     Button {
