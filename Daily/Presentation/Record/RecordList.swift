@@ -126,6 +126,10 @@ struct DailyMenu: View {
                 // MARK: DeleteGoal
                 if goal.cycleType == .date {
                     Button {
+                        if record.notice != nil {
+                            PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+                            alertEnvironment.showToast(message: "알림이 함께 삭제되었어요 🫥")
+                        }
                         modelContext.delete(goal)
                         try? modelContext.save()
                     } label: {
@@ -134,6 +138,10 @@ struct DailyMenu: View {
                 } else {
                     Menu {
                         Button {
+                            if record.notice != nil {
+                                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+                                alertEnvironment.showToast(message: "알림이 함께 삭제되었어요 🫥")
+                            }
                             modelContext.delete(record)
                             try? modelContext.save()
                         } label: {
@@ -144,14 +152,26 @@ struct DailyMenu: View {
                                 guard let totalRecords = try? modelContext.fetch(FetchDescriptor<DailyRecordModel>()) else { return }
                                 let deleteRecords = totalRecords.filter { currentRecord in
                                     guard let currentGoal = currentRecord.goal else { return false }
-                                    return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date >= Date(format: .daily)
+                                    return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date > Date(format: .daily)
                                 }
-                                deleteRecords.forEach { modelContext.delete($0) }
+                                deleteRecords.forEach {
+                                    if $0.notice != nil {
+                                        PushNoticeManager.shared.removeNotice(id: String(describing: $0.id))
+                                        alertEnvironment.showToast(message: "알림이 함께 삭제되었어요 🫥")
+                                    }
+                                    modelContext.delete($0)
+                                }
                                 try? modelContext.save()
                             } label: {
                                 Text("오늘 이후의 목표만 삭제")
                             }
                             Button {
+                                goal.records.forEach {
+                                    if $0.notice != nil {
+                                        PushNoticeManager.shared.removeNotice(id: String(describing: $0.id))
+                                        alertEnvironment.showToast(message: "알림이 함께 삭제되었어요 🫥")
+                                    }
+                                }
                                 goal.childGoals.forEach { modelContext.delete($0) }
                                 modelContext.delete(goal)
                                 try? modelContext.save()

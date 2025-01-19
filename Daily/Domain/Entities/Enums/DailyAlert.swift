@@ -62,3 +62,21 @@ enum DateAlert: DailyAlert {
         }
     }
 }
+
+enum NoticeAlert: DailyAlert {
+    case dateChanged
+    case setTimeChanged
+    
+    var titleText: String {
+        return ""   // TODO: 추후 수정
+    }
+    
+    var messageText: String {
+        switch self {
+        case .dateChanged:
+            return "목표 날짜가 변경되어 알림이 삭제되었어요 🫥"
+        case .setTimeChanged:
+            return "목표 시간이 변경되어 알림이 삭제되었어요 🫥"
+        }
+    }
+}
