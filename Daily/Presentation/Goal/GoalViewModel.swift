@@ -102,7 +102,7 @@ class GoalViewModel: ObservableObject {
         }
     }
     
-    func add(modelContext: ModelContext, successAction: @escaping () -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func add(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .add) { validateAction(validate); return }
         let newGoal = DailyGoalModel(
             type: goalType,
@@ -124,7 +124,7 @@ class GoalViewModel: ObservableObject {
             modelContext.insert(DailyRecordModel(goal: newGoal, date: date))
         }
         try? modelContext.save()
-        successAction()
+        successAction(startDate)
     }
     
     func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {

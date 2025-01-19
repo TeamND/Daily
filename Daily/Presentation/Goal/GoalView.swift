@@ -273,7 +273,10 @@ struct ButtonSection: View {
                 case .add:
                     goalViewModel.add(
                         modelContext: modelContext,
-                        successAction: { dismiss() },
+                        successAction: {
+                            dismiss()
+                            if let newDate = $0 { calendarViewModel.setDate(date: newDate) }
+                        },
                         validateAction: { alertEnvironment.showToast(message: $0.messageText) }
                     )
                 case .modify:
