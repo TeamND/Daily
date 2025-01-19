@@ -58,24 +58,10 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func addNotice(id: String, content: String, date: Date, setTime: String, notice: Int = 5) {
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
-        let timeComponents = setTime.split(separator: ":").compactMap { Int($0) }
-        let hour = timeComponents[0]
-        let minute = timeComponents[1]
+        guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: notice) else { return }
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
-        var components = DateComponents()
-        components.calendar = Calendar.current
-        components.year = dateComponents.year
-        components.month = dateComponents.month
-        components.day = dateComponents.day
-        components.hour = hour
-        components.minute = minute
-        
-        guard let noticeDate = calendar.date(from: components)?.addingTimeInterval(TimeInterval(-notice * 60)) else { return }
-        let noticeComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
-        
-        UNUserNotificationCenter.current().addNotiRequest(by: noticeComponents, id: id, title: content, body: "\(notice)분 전이에요 😎😎")
+        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(notice)분 전이에요 😎😎")
     }
     
     func removeNotice(id: String) {

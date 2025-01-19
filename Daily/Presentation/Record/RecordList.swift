@@ -82,6 +82,7 @@ struct DailyMenu: View {
                         } label: {
                             Label("\(notice)분 전 알리기", systemImage: "clock.badge")
                         }
+                        .disabled(Date() > CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: notice) ?? Date())
                     } else {
                         Button {
                             PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
