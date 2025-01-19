@@ -28,6 +28,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         completionHandler([.banner, .sound])
     }
     
+    // MARK: - Default
     func addDefaultNotice() {
         let id = "default"
         var components = DateComponents()
@@ -50,6 +51,8 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             case .denied:
                 showAlert()
             default:
+                self.removeBadges()
+                self.removePastNotice()
                 UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
                     if !requests.contains(where: { $0.identifier == "default" }) { self.addDefaultNotice() }
                 }
@@ -57,6 +60,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
+    // MARK: - Notice
     func addNotice(id: String, content: String, date: Date, setTime: String, notice: Int = 5) {
         guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: notice) else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
@@ -69,13 +73,30 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
     }
     
-    func removeAllNoti() {
-        self.deleteBadgeNumber()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    // MARK: - remove
+    func removePastNotice() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        let currentDate = Date(format: .daily)
+        
+        notificationCenter.getPendingNotificationRequests { requests in
+            let pastIDs = requests.compactMap { request -> String? in
+                if let trigger = request.trigger as? UNCalendarNotificationTrigger,
+                   let triggerDate = trigger.nextTriggerDate(),
+                   triggerDate < currentDate,
+                   !trigger.repeats {
+                    return request.identifier
+                }
+                return nil
+            }
+            
+            if !pastIDs.isEmpty {
+                notificationCenter.removePendingNotificationRequests(withIdentifiers: pastIDs)
+                notificationCenter.removeDeliveredNotifications(withIdentifiers: pastIDs)
+            }
+        }
     }
     
-    func deleteBadgeNumber() {
+    func removeBadges() {
         UNUserNotificationCenter.current().setBadgeCount(0)
     }
 }
