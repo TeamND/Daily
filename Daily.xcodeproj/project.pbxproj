@@ -37,6 +37,7 @@
 		F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */; };
 		F63EEE882D31F70A00C9914F /* DateFormats.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63EEE872D31F70A00C9914F /* DateFormats.swift */; };
 		F63EEF0C2D3E554B00C9914F /* NoticeTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63EEF0B2D3E554B00C9914F /* NoticeTimes.swift */; };
+		F63EEF0E2D3E5BC300C9914F /* DailyMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */; };
 		F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */; };
 		F6442C3A2D2E09D2006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C392D2E09D2006B3658 /* DailyUtilities */; };
 		F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C3B2D2E09DE006B3658 /* DailyUtilities */; };
@@ -164,6 +165,7 @@
 		F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+extension.swift"; sourceTree = "<group>"; };
 		F63EEE872D31F70A00C9914F /* DateFormats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormats.swift; sourceTree = "<group>"; };
 		F63EEF0B2D3E554B00C9914F /* NoticeTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTimes.swift; sourceTree = "<group>"; };
+		F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMenu.swift; sourceTree = "<group>"; };
 		F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertEnvironment.swift; sourceTree = "<group>"; };
 		F6442C3D2D2E0A8D006B3658 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
 		F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypes.swift; sourceTree = "<group>"; };
@@ -535,6 +537,7 @@
 				F6CE8A262CCF61C80050A25A /* DailyCycleTypePicker.swift */,
 				F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */,
 				F6F31DD22CF83BA50090A3B9 /* DailyTimeLine.swift */,
+				F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				F6016DF32CC6220B00FB637F /* CalendarYearView.swift in Sources */,
 				F6F31DCB2CF46E260090A3B9 /* Symbols.swift in Sources */,
 				F6F31DCF2CF474680090A3B9 /* GoalTypes.swift in Sources */,
+				F63EEF0E2D3E5BC300C9914F /* DailyMenu.swift in Sources */,
 				F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */,
 				F6CE8A202CCF60450050A25A /* GoalUseCase.swift in Sources */,
 				F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */,
