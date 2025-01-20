@@ -61,11 +61,11 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     // MARK: - Notice
-    func addNotice(id: String, content: String, date: Date, setTime: String, notice: Int = 5) {
-        guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: notice) else { return }
+    func addNotice(id: String, content: String, date: Date, setTime: String, noticeTime: NoticeTimes = .five) {
+        guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
-        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(notice)분 전이에요 😎😎")
+        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요 😎😎")
     }
     
     func removeNotice(id: String) {

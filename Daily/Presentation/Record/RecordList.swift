@@ -67,22 +67,27 @@ struct DailyMenu: View {
                 // MARK: Notice
                 if goal.isSetTime {
                     if record.notice == nil {
-                        let notice = 5  // TODO: 추후 세분화
-                        Button {
-                            PushNoticeManager.shared.addNotice(
-                                id: String(describing: record.id),
-                                content: goal.content,
-                                date: record.date,
-                                setTime: goal.setTime,
-                                notice: notice
-                            )
-                            record.notice = notice
-                            try? modelContext.save()
-                            alertEnvironment.showToast(message: "\(notice)분 전에 알려드릴게요! 💬")
+                        Menu {
+                            ForEach(NoticeTimes.allCases, id: \.self) { noticeTime in
+                                Button {
+                                    PushNoticeManager.shared.addNotice(
+                                        id: String(describing: record.id),
+                                        content: goal.content,
+                                        date: record.date,
+                                        setTime: goal.setTime,
+                                        noticeTime: noticeTime
+                                    )
+                                    record.notice = noticeTime.rawValue
+                                    try? modelContext.save()
+                                    alertEnvironment.showToast(message: "\(noticeTime.text) 전에 알려드릴게요! 💬")
+                                } label: {
+                                    Text("\(noticeTime.text) 전")
+                                }
+                                .disabled(Date() > CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: noticeTime.rawValue) ?? Date())
+                            }
                         } label: {
-                            Label("\(notice)분 전 알리기", systemImage: "clock.badge")
+                            Label("알림 켜기", systemImage: "clock.badge")
                         }
-                        .disabled(Date() > CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: notice) ?? Date())
                     } else {
                         Button {
                             PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
