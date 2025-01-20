@@ -161,6 +161,9 @@ class CalendarViewModel: ObservableObject {
             return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
         }
     }
+    
+    // MARK: - record list func
+    
 
     // MARK: - Query filter
     static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {

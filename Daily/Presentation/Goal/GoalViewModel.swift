@@ -130,6 +130,13 @@ class GoalViewModel: ObservableObject {
     func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .modify) { validateAction(validate); return }
         if let record = modifyRecord, let goal = record.goal, let modifyType {
+            // MARK: date 또는 setTime이 변경되었을 경우 알림 삭제
+            if record.notice != nil && (record.date != startDate || goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime) {
+                record.notice = nil
+                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+                if record.date != startDate { validateAction(NoticeAlert.dateChanged) }
+                if goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime { validateAction(NoticeAlert.setTimeChanged) }
+            }
             switch modifyType {
             case .record:
                 goal.content = content
