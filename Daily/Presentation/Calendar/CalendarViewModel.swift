@@ -168,12 +168,12 @@ class CalendarViewModel: ObservableObject {
     // MARK: - Query filter
     static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
         let tommorow = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-        let descriptor = FetchDescriptor<DailyRecordModel>(
-            predicate: #Predicate<DailyRecordModel> { record in
-                date <= record.date && record.date < tommorow
-            }
-        )
-        return descriptor
+        
+        let predicate = #Predicate<DailyRecordModel> { record in
+            date <= record.date && record.date < tommorow
+        }
+        
+        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
     }
     
     static func recordsForWeekDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
