@@ -24,7 +24,7 @@ struct SplashView: View {
         .background(Colors.theme)
         .onAppear {
             splashViewModel.onAppear()
-            PushNoticeManager().requestNotiAuthorization(showAlert: { DispatchQueue.main.async { alertEnvironment.isShowAlert = true } })
+            PushNoticeManager.shared.requestNotiAuthorization(showAlert: { DispatchQueue.main.async { alertEnvironment.isShowAlert = true } })
         }
         .sheet(isPresented: $splashViewModel.isShowNotice) {
             NoticeSheet()

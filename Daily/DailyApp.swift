@@ -13,7 +13,7 @@ import DailyUtilities
 struct DailyApp: App {
     @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var navigationEnvironment = NavigationEnvironment()
-    @StateObject private var dailyCalendarViewModel = DailyCalendarViewModel()
+    @StateObject private var calendarViewModel = CalendarViewModel()
     @StateObject var splashViewModel = SplashViewModel()
     
     let dailyModelContainer: ModelContainer
@@ -30,14 +30,14 @@ struct DailyApp: App {
             daily
                 .environmentObject(alertEnvironment)
                 .environmentObject(navigationEnvironment)
-                .environmentObject(dailyCalendarViewModel)
+                .environmentObject(calendarViewModel)
                 .modelContainer(dailyModelContainer)
         }
     }
     
     private var daily: some View {
         ZStack {
-            DailyMainView()
+            MainView()
             if splashViewModel.isAppLoading {
                 SplashView(splashViewModel: splashViewModel)
             }
@@ -45,8 +45,8 @@ struct DailyApp: App {
         }
         .alert(isPresented: $alertEnvironment.isShowAlert) {
             Alert(
-                title: Text("알림 설정이 꺼져있습니다."),
-                message: Text("Daily의 알림을 받아보세요"),
+                title: Text("알림 설정이 꺼져있어, 일부 기능이 제한된 상태에요 😱"),
+                message: Text("Daily의 알림을 받아보세요 🙌🙌"),
                 primaryButton: .default(
                     Text("설정으로 이동"),
                     action: {

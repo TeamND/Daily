@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalendarLoadView: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     let type: CalendarType
     let direction: Direction
     
@@ -18,7 +18,7 @@ struct CalendarLoadView: View {
                 Spacer()
                 Image(systemName: direction.imageName)
             }
-            Text(dailyCalendarViewModel.loadText(type: type, direction: direction))
+            Text(calendarViewModel.loadText(type: type, direction: direction))
                 .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
             if direction == .next {
                 Image(systemName: direction.imageName)

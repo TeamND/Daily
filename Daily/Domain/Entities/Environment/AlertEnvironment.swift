@@ -41,6 +41,7 @@ class AlertEnvironment: ObservableObject {
         VStack {
             Spacer()
             Text(toastMessage)
+                .multilineTextAlignment(.center)
                 .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 .padding(CGFloat.fontSize)
                 .background {

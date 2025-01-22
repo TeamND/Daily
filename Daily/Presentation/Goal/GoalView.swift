@@ -1,5 +1,5 @@
 //
-//  DailyGoalView.swift
+//  GoalView.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/27/24.
@@ -8,11 +8,11 @@
 import SwiftUI
 import SwiftData
 
-struct DailyGoalView: View {
-    @StateObject var dailyGoalViewModel: DailyGoalViewModel
+struct GoalView: View {
+    @StateObject var goalViewModel: GoalViewModel
     
     init(goalData: GoalDataModel) {
-        _dailyGoalViewModel = StateObject(wrappedValue: DailyGoalViewModel(goalData: goalData))
+        _goalViewModel = StateObject(wrappedValue: GoalViewModel(goalData: goalData))
     }
     
     var body: some View {
@@ -21,26 +21,26 @@ struct DailyGoalView: View {
             VStack(spacing: .zero) {
                 Spacer()
                 DailySection(type: .date) {
-                    DateSection(dailyGoalViewModel: dailyGoalViewModel)
+                    DateSection(goalViewModel: goalViewModel)
                 }
                 DailySection(type: .time) {
-                    TimeSection(isSetTime: $dailyGoalViewModel.isSetTime, setTime: $dailyGoalViewModel.setTime)
+                    TimeSection(isSetTime: $goalViewModel.isSetTime, setTime: $goalViewModel.setTime)
                 }
-                DailySection(type: .content, essentialConditions: dailyGoalViewModel.content.count >= 2) {
-                    ContentSection(content: $dailyGoalViewModel.content, goalType: $dailyGoalViewModel.goalType)
+                DailySection(type: .content, essentialConditions: goalViewModel.content.count >= 2) {
+                    ContentSection(content: $goalViewModel.content, goalType: $goalViewModel.goalType)
                 }
                 HStack {
                     DailySection(type: .goalCount) {
                         GoalCountSection(
-                            goalType: $dailyGoalViewModel.goalType,
-                            goalCount: $dailyGoalViewModel.goalCount
+                            goalType: $goalViewModel.goalType,
+                            goalCount: $goalViewModel.goalCount
                         )
                     }
                     DailySection(type: .symbol) {
-                        SymbolSection(symbol: $dailyGoalViewModel.symbol)
+                        SymbolSection(symbol: $goalViewModel.symbol)
                     }
                 }
-                ButtonSection(dailyGoalViewModel: dailyGoalViewModel, buttonType: .add)
+                ButtonSection(goalViewModel: goalViewModel, buttonType: .add)
                 Spacer()
                 Spacer()
             }
@@ -55,45 +55,45 @@ struct DailyGoalView: View {
 
 // MARK: - DateSection
 struct DateSection: View {
-    @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    @ObservedObject var goalViewModel: GoalViewModel
     private let isModify: Bool
     @Namespace var ns
     @State var opacity: [Double] = Array(repeating: 0, count: 7)
     
-    init(dailyGoalViewModel: DailyGoalViewModel, isModify: Bool = false) {
-        self.dailyGoalViewModel = dailyGoalViewModel
+    init(goalViewModel: GoalViewModel, isModify: Bool = false) {
+        self.goalViewModel = goalViewModel
         self.isModify = isModify
     }
     
     var body: some View {
-        if let modifyType = dailyGoalViewModel.modifyType, modifyType == .all { EmptyView() }
+        if let modifyType = goalViewModel.modifyType, modifyType == .all { EmptyView() }
         else {
             VStack {
                 HStack {
-                    DailyCycleTypePicker(cycleType: $dailyGoalViewModel.cycleType, isModify: isModify)
+                    DailyCycleTypePicker(cycleType: $goalViewModel.cycleType, isModify: isModify)
                     Spacer()
-                    if dailyGoalViewModel.cycleType == .date {
-                        DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
+                    if goalViewModel.cycleType == .date {
+                        DailyDatePicker(currentDate: $goalViewModel.startDate)
                             .matchedGeometryEffect(id: "start_date", in: ns)
                             .matchedGeometryEffect(id: "end_date", in: ns)
-                    } else if dailyGoalViewModel.cycleType == .rept {
+                    } else if goalViewModel.cycleType == .rept {
                         DailyWeekIndicator(mode: .select, opacity: $opacity)
                     }
                 }
-                if dailyGoalViewModel.cycleType == .rept {
+                if goalViewModel.cycleType == .rept {
                     HStack {
-                        DailyDatePicker(currentDate: $dailyGoalViewModel.startDate)
+                        DailyDatePicker(currentDate: $goalViewModel.startDate)
                             .matchedGeometryEffect(id: "start_date", in: ns)
                         Spacer()
                         Text("~")
                         Spacer()
-                        DailyDatePicker(currentDate: $dailyGoalViewModel.endDate)
+                        DailyDatePicker(currentDate: $goalViewModel.endDate)
                             .matchedGeometryEffect(id: "end_date", in: ns)
                     }
                 }
             }
             .onChange(of: opacity) { _, opacity in
-                dailyGoalViewModel.selectedWeekday = opacity.enumerated().compactMap { $1 == 0.8 ? $0 + 1 : nil }
+                goalViewModel.selectedWeekday = opacity.enumerated().compactMap { $1 == 0.8 ? $0 + 1 : nil }
             }
         }
     }
@@ -258,30 +258,33 @@ struct ButtonSection: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var alertEnvironment: AlertEnvironment
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
-    @ObservedObject var dailyGoalViewModel: DailyGoalViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var goalViewModel: GoalViewModel
     let buttonType: ButtonTypes
     
     var body: some View {
         HStack {
             Spacer()
             DailyButton(action: {
-                dailyGoalViewModel.reset()
+                goalViewModel.reset()
             }, text: "초기화")
             DailyButton(action: {
                 switch buttonType {
                 case .add:
-                    dailyGoalViewModel.add(
-                        modelContext: modelContext,
-                        successAction: { dismiss() },
-                        validateAction: { alertEnvironment.showToast(message: $0.messageText) }
-                    )
-                case .modify:
-                    dailyGoalViewModel.modify(
+                    goalViewModel.add(
                         modelContext: modelContext,
                         successAction: {
                             dismiss()
-                            if let newDate = $0 { dailyCalendarViewModel.setDate(date: newDate) }
+                            if let newDate = $0 { calendarViewModel.setDate(date: newDate) }
+                        },
+                        validateAction: { alertEnvironment.showToast(message: $0.messageText) }
+                    )
+                case .modify:
+                    goalViewModel.modify(
+                        modelContext: modelContext,
+                        successAction: {
+                            dismiss()
+                            if let newDate = $0 { calendarViewModel.setDate(date: newDate) }
                         },
                         validateAction: { alertEnvironment.showToast(message: $0.messageText) }
                     )

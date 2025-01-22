@@ -1,5 +1,5 @@
 //
-//  DailyAppInfoView.swift
+//  AppInfoView.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/29/24.
@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct DailyAppInfoView: View {
+struct AppInfoView: View {
     var body: some View {
         ViewThatFits(in: .vertical) {
-            dailyAppInfoView
+            appInfoView
             ScrollView(.vertical, showsIndicators: false) {
-                dailyAppInfoView
+                appInfoView
             }
         }
     }
     
-    private var dailyAppInfoView: some View {
+    private var appInfoView: some View {
         VStack {
             DailyNavigationBar(title: "어플정보")
             AppSetting()
@@ -30,5 +30,5 @@ struct DailyAppInfoView: View {
 }
 
 #Preview {
-    DailyAppInfoView()
+    AppInfoView()
 }

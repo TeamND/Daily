@@ -1,5 +1,5 @@
 //
-//  DailyCalendarViewModel.swift
+//  CalendarViewModel.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/20/24.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-class DailyCalendarViewModel: ObservableObject {
+class CalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     private var calendar = Calendar.current
 
@@ -161,6 +161,9 @@ class DailyCalendarViewModel: ObservableObject {
             return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
         }
     }
+    
+    // MARK: - record list func
+    
 
     // MARK: - Query filter
     static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {

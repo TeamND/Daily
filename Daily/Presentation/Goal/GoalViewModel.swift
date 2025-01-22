@@ -1,5 +1,5 @@
 //
-//  DailyGoalViewModel.swift
+//  GoalViewModel.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/28/24.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-class DailyGoalViewModel: ObservableObject {
+class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
     private var calendar = Calendar.current
     
@@ -41,7 +41,7 @@ class DailyGoalViewModel: ObservableObject {
     private var beforeDate: Date = Date(format: .daily)
     private var beforeRecord: Int = 0
     
-    // TODO: 추후 DailyGoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
+    // TODO: 추후 GoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
         self.calendar.timeZone = .current
         
@@ -102,7 +102,7 @@ class DailyGoalViewModel: ObservableObject {
         }
     }
     
-    func add(modelContext: ModelContext, successAction: @escaping () -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func add(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .add) { validateAction(validate); return }
         let newGoal = DailyGoalModel(
             type: goalType,
@@ -124,12 +124,19 @@ class DailyGoalViewModel: ObservableObject {
             modelContext.insert(DailyRecordModel(goal: newGoal, date: date))
         }
         try? modelContext.save()
-        successAction()
+        successAction(startDate)
     }
     
     func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .modify) { validateAction(validate); return }
         if let record = modifyRecord, let goal = record.goal, let modifyType {
+            // MARK: date 또는 setTime이 변경되었을 경우 알림 삭제
+            if record.notice != nil && (record.date != startDate || goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime) {
+                record.notice = nil
+                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+                if record.date != startDate { validateAction(NoticeAlert.dateChanged) }
+                if goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime { validateAction(NoticeAlert.setTimeChanged) }
+            }
             switch modifyType {
             case .record:
                 goal.content = content

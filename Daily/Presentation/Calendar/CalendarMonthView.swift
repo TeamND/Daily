@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -17,9 +17,9 @@ struct CalendarMonthView: View {
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
-            TabView(selection: dailyCalendarViewModel.bindSelection(type: .month)) {
+            TabView(selection: calendarViewModel.bindSelection(type: .month)) {
                 ForEach(-1 ... 12, id: \.self) { index in
-                    let (date, direction, selection) = dailyCalendarViewModel.getCalendarInfo(type: .month, index: index)
+                    let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .month, index: index)
                     Group {
                         if direction == .current { CalendarMonth(date: date, selection: selection) }
                         else { CalendarLoadView(type: .month, direction: direction) }
@@ -40,16 +40,16 @@ struct CalendarMonthView: View {
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let date: Date
     let selection: String
     var monthDatas: [MonthDatas] {
-        dailyCalendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDatas(), count: 31)
+        calendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDatas(), count: 31)
     }
     
     var body: some View {
-        let (startOfMonthWeekday, lengthOfMonth, dividerCount) = dailyCalendarViewModel.getMonthInfo(date: date)
+        let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.getMonthInfo(date: date)
         LazyVStack {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack(spacing: 0) {
@@ -57,7 +57,7 @@ struct CalendarMonth: View {
                         let day: Int = rowIndex * 7 + colIndex - (startOfMonthWeekday - 1) + 1
                         if 1 <= day && day <= lengthOfMonth {
                             Button {
-                                dailyCalendarViewModel.setDate(year: date.year, month: date.month, day: day)
+                                calendarViewModel.setDate(year: date.year, month: date.month, day: day)
                                 navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
                             } label: {
                                 DailyDayOnMonth(year: date.year, month: date.month, day: day, monthData: monthDatas[day - 1])
@@ -74,7 +74,7 @@ struct CalendarMonth: View {
         .cornerRadius(20)
         .vTop()
         .onAppear {
-            dailyCalendarViewModel.calendarMonthOnAppear(modelContext: modelContext, date: date, selection: selection)
+            calendarViewModel.calendarMonthOnAppear(modelContext: modelContext, date: date, selection: selection)
         }
     }
 }

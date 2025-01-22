@@ -1,5 +1,5 @@
 //
-//  DailyMainView.swift
+//  MainView.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/21/24.
@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct DailyMainView: View {
+struct MainView: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
-    @EnvironmentObject var dailyCalendarViewModel: DailyCalendarViewModel
     @AppStorage(UserDefaultKey.calendarType.rawValue) var calendarType: String = ""
     
     var body: some View {
@@ -24,12 +23,12 @@ struct DailyMainView: View {
                             CalendarDayView()
                         case .goal:
                             let data = navigationObject.data as! GoalDataModel
-                            DailyGoalView(goalData: data)
+                            GoalView(goalData: data)
                         case .modify:
                             let data = navigationObject.data as! ModifyDataModel
-                            DailyModifyView(modifyData: data)
+                            ModifyView(modifyData: data)
                         case .appInfo:
-                            DailyAppInfoView()
+                            AppInfoView()
                         }
                     }
                     .navigationBarHidden(true)
@@ -58,5 +57,5 @@ struct DailyMainView: View {
 }
 
 #Preview {
-    DailyMainView()
+    MainView()
 }
