@@ -17,7 +17,6 @@ struct AppSetting: View {
             } label: {
                 AppInfoLabel(labelText: "Setting", labelImage: "gear")
             }
-            .padding(.vertical)
         }
     }
 }
