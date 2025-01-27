@@ -13,6 +13,8 @@ struct AppInfoContent: View {
     var linkLabel: String? = nil
     var linkDestination: String? = nil
     var settingType: SettingTypes? = nil
+    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
+    @AppStorage(UserDefaultKey.language.rawValue) var language: String = ""
     @AppStorage(UserDefaultKey.calendarType.rawValue) var calendarType: String = ""
     
     var body: some View {
@@ -32,6 +34,20 @@ struct AppInfoContent: View {
                         .foregroundStyle(Colors.daily)
                     } else if let settingType {
                         switch settingType {
+                        case .startDay:
+                            Picker("", selection: Binding(get: { startDay }, set: { UserDefaultManager.startDay = $0 })) {
+                                ForEach(DayOfWeek.allCases, id: \.self) { startDay in
+                                    Text("\(startDay)").tag(startDay.index)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                        case .language:
+                            Picker("", selection: Binding(get: { language }, set: { UserDefaultManager.language = $0 })) {
+                                ForEach(Languages.allCases, id: \.self) { language in
+                                    Text("\(language)").tag(language.rawValue)
+                                }
+                            }
+                            .pickerStyle(.segmented)
                         case .calendarType:
                             Picker("", selection: Binding(get: { calendarType }, set: { UserDefaultManager.calendarType = $0 })) {
                                 ForEach(CalendarType.allCases, id: \.self) { calendarType in
@@ -39,8 +55,6 @@ struct AppInfoContent: View {
                                 }
                             }
                             .pickerStyle(.segmented)
-                        default:
-                            EmptyView()
                         }
                     } else {
                         EmptyView()

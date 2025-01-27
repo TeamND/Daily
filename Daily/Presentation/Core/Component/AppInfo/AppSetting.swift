@@ -12,6 +12,8 @@ struct AppSetting: View {
         VStack {
             GroupBox {
                 AppInfoContent(name: "Initial CalendarType", settingType: .calendarType)
+                AppInfoContent(name: "StartDay", settingType: .startDay)
+                AppInfoContent(name: "Language", settingType: .language)
             } label: {
                 AppInfoLabel(labelText: "Setting", labelImage: "gear")
             }
