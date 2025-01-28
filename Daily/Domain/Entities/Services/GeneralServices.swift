@@ -8,9 +8,9 @@
 import Foundation
 
 class GeneralServices {
-    static let shared = GeneralServices()
-    private init() { }
+    // MARK: - GoalCount
+    static let minimumGoalCount: Int = 1
+    static let maximumGoalCount: Int = 10
     
-    let minimumGoalCount: Int = 1
-    let maximumGoalCount: Int = 10
+    static let today: String = "오늘"
 }

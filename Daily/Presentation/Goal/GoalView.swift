@@ -173,8 +173,8 @@ struct GoalCountSection: View {
     private func countButton(direction: Direction) -> some View {
         Button {
             let afterCount = goalCount + direction.value
-            if afterCount < GeneralServices.shared.minimumGoalCount ||
-                afterCount > GeneralServices.shared.maximumGoalCount {
+            if afterCount < GeneralServices.minimumGoalCount ||
+                afterCount > GeneralServices.maximumGoalCount {
                 alertEnvironment.showToast(message: countRangeToastMessageText)
             } else {
                 goalCount = afterCount
