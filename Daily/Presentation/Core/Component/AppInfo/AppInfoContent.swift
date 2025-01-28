@@ -33,29 +33,29 @@ struct AppInfoContent: View {
                         }
                         .foregroundStyle(Colors.daily)
                     } else if let settingType {
-                        switch settingType {
-                        case .startDay:
-                            Picker("", selection: Binding(get: { startDay }, set: { UserDefaultManager.startDay = $0 })) {
-                                ForEach(DayOfWeek.allCases, id: \.self) { startDay in
-                                    Text("\(startDay)").tag(startDay.index)
+                        Group {
+                            switch settingType {
+                            case .startDay:
+                                Picker("", selection: Binding(get: { startDay }, set: { UserDefaultManager.startDay = $0 })) {
+                                    Text("\(DayOfWeek.sun)").tag(DayOfWeek.sun.index)
+                                    Text("\(DayOfWeek.mon)").tag(DayOfWeek.mon.index)
+                                }
+                            case .language:
+                                Picker("", selection: Binding(get: { language }, set: { UserDefaultManager.language = $0 })) {
+                                    ForEach(Languages.allCases, id: \.self) { language in
+                                        Text("\(language)").tag(language.rawValue)
+                                    }
+                                }
+                            case .calendarType:
+                                Picker("", selection: Binding(get: { calendarType }, set: { UserDefaultManager.calendarType = $0 })) {
+                                    ForEach(CalendarType.allCases, id: \.self) { calendarType in
+                                        Text("\(calendarType)").tag(calendarType.rawValue)
+                                    }
                                 }
                             }
-                            .pickerStyle(.segmented)
-                        case .language:
-                            Picker("", selection: Binding(get: { language }, set: { UserDefaultManager.language = $0 })) {
-                                ForEach(Languages.allCases, id: \.self) { language in
-                                    Text("\(language)").tag(language.rawValue)
-                                }
-                            }
-                            .pickerStyle(.segmented)
-                        case .calendarType:
-                            Picker("", selection: Binding(get: { calendarType }, set: { UserDefaultManager.calendarType = $0 })) {
-                                ForEach(CalendarType.allCases, id: \.self) { calendarType in
-                                    Text("\(calendarType)").tag(calendarType.rawValue)
-                                }
-                            }
-                            .pickerStyle(.segmented)
                         }
+                        .pickerStyle(.segmented)
+                        .frame(maxWidth: CGFloat.fontSize * 35)
                     } else {
                         EmptyView()
                     }
