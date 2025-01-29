@@ -7,13 +7,6 @@
 
 import Foundation
 
-// MARK: - about Toast
-let commingSoonToastMessage: String = "🚧🚧🚧 공사 중 🚧🚧🚧"
-
-// MARK: - about Calendar
-let marginRange = 3
-let listSize = marginRange * 2 + 1
-
 // MARK: - about Record
 func contentOfGoalHintText(type: String) -> String {
     switch type {

@@ -12,6 +12,24 @@ protocol DailyAlert {
     var messageText: String { get }
 }
 
+enum CountAlert: DailyAlert {
+    case overCountRage
+    
+    var titleText: String {
+        switch self {
+        case .overCountRage:
+            return ""
+        }
+    }
+    
+    var messageText: String {
+        switch self {
+        case .overCountRage:
+            return "1 ~ 10회의 목표를 설정해주세요 😵‍💫"
+        }
+    }
+}
+
 enum ContentAlert: DailyAlert {
     case tooShoertLength
     

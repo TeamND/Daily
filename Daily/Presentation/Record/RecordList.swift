@@ -95,13 +95,13 @@ struct NoRecord: View {
     
     var body: some View {
         VStack {
-            Text(noRecordText)
+            Text(GeneralServices.noRecordText)
             Button {
                 let data = GoalDataModel(date: calendarViewModel.currentDate)
                 let navigationObject = NavigationObject(viewType: .goal, data: data)
                 navigationEnvironment.navigate(navigationObject)
             } label: {
-                Text(goRecordViewText)
+                Text(GeneralServices.goRecordViewText)
                     .foregroundStyle(Colors.daily)
             }
         }

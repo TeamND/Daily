@@ -136,7 +136,7 @@ struct ContentSection: View {
         TextField(
             "",
             text: $content,
-            prompt: Text(contentOfGoalHintText(type: goalType.rawValue))
+            prompt: Text(goalType.contentHint)
         )
         .focused($focusedField, equals: 0)
         .onSubmit {
@@ -173,9 +173,8 @@ struct GoalCountSection: View {
     private func countButton(direction: Direction) -> some View {
         Button {
             let afterCount = goalCount + direction.value
-            if afterCount < GeneralServices.minimumGoalCount ||
-                afterCount > GeneralServices.maximumGoalCount {
-                alertEnvironment.showToast(message: countRangeToastMessageText)
+            if afterCount < GeneralServices.minimumGoalCount || afterCount > GeneralServices.maximumGoalCount {
+                alertEnvironment.showToast(message: CountAlert.overCountRage.messageText)
             } else {
                 goalCount = afterCount
                 goalType = goalCount == 1 ? .check : .count
