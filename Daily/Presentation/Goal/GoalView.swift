@@ -153,7 +153,6 @@ struct GoalCountSection: View {
     @EnvironmentObject var alertEnvironment: AlertEnvironment
     @Binding var goalType: GoalTypes
     @Binding var goalCount: Int
-    @State var isShowAlert: Bool = false
     
     var body: some View {
         HStack {
