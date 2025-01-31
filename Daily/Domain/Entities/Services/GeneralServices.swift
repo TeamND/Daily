@@ -14,6 +14,7 @@ class GeneralServices {
     
     // MARK: - Calendar
     static let today: String = "오늘"
+    static let week: Int = 7
     
     // MARK: - Record
     static let noRecordText: String = "아직 목표가 없어요 😓"

@@ -53,8 +53,8 @@ struct CalendarMonth: View {
         LazyVStack {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack(spacing: 0) {
-                    ForEach (0 ..< 7) { colIndex in
-                        let day: Int = rowIndex * 7 + colIndex - (startOfMonthWeekday - 1) + 1
+                    ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
+                        let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
                         if 1 <= day && day <= lengthOfMonth {
                             Button {
                                 calendarViewModel.setDate(year: date.year, month: date.month, day: day)

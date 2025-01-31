@@ -58,7 +58,7 @@ struct DateSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     private let isModify: Bool
     @Namespace var ns
-    @State var opacity: [Double] = Array(repeating: 0, count: 7)
+    @State var opacity: [Double] = Array(repeating: .zero, count: GeneralServices.week)
     
     init(goalViewModel: GoalViewModel, isModify: Bool = false) {
         self.goalViewModel = goalViewModel

@@ -13,21 +13,22 @@ struct DailyWeekIndicator: View {
     @Query private var records: [DailyRecordModel]
     @Binding var opacity: [Double]
     private let mode: WeekIndicatorMode
+    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
     
-    init(mode: WeekIndicatorMode = .none, opacity: Binding<[Double]> = Binding(get: { Array(repeating: 0, count: 7) }, set: { _ in })) {
+    init(mode: WeekIndicatorMode = .none, opacity: Binding<[Double]> = Binding(get: { Array(repeating: .zero, count: GeneralServices.week) }, set: { _ in })) {
         self.mode = mode
         self._opacity = opacity
     }
     
     init(mode: WeekIndicatorMode, currentDate: Date) {
         self.mode = mode
-        self._opacity = Binding(get: { Array(repeating: 0, count: 7) }, set: { _ in })
+        self._opacity = Binding(get: { Array(repeating: .zero, count: GeneralServices.week) }, set: { _ in })
         _records = Query(CalendarViewModel.recordsForWeekDescriptor(currentDate))
     }
     
     private var ratings: [Double] {
         let calendar = Calendar.current
-        var ratings: [Double] = Array(repeating: 0.0, count: 7)
+        var ratings: [Double] = Array(repeating: .zero, count: GeneralServices.week)
         
         for record in records {
             if let dayIndex = calendar.dateComponents([.weekday], from: record.date).weekday {
@@ -49,7 +50,8 @@ struct DailyWeekIndicator: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(DayOfWeek.allCases, id: \.self) { dayOfWeek in
+            ForEach(0 ..< GeneralServices.week, id: \.self) { index in
+                let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
                 ZStack {
                     let isSelectedDay = calendarViewModel.currentDate.weekday == dayOfWeek.index + 1
                     RoundedRectangle(cornerRadius: 5)

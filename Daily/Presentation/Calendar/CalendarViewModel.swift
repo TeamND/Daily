@@ -138,7 +138,7 @@ class CalendarViewModel: ObservableObject {
         let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : (currentDate.weekday - 1)
         let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
         
-        let maxIndex = type == .year ? 10 : type == .month ? 12 : 7
+        let maxIndex = type == .year ? 10 : type == .month ? 12 : GeneralServices.week
         let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
         
         return (date, direction, date.getSelection(type: type))
@@ -146,7 +146,7 @@ class CalendarViewModel: ObservableObject {
     func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
         let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
         let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let dividerCount = (lengthOfMonth + (startOfMonth.weekday - 1) - 1) / 7
+        let dividerCount = (lengthOfMonth + (startOfMonth.weekday - 1) - 1) / GeneralServices.week
         return (startOfMonth.weekday, lengthOfMonth, dividerCount)
     }
     
@@ -179,7 +179,7 @@ class CalendarViewModel: ObservableObject {
     static func recordsForWeekDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
         let calendar = Calendar.current
         let startDate = calendar.date(byAdding: .day, value: -(date.weekday - 1), to: date)!
-        let endDate = calendar.date(byAdding: .day, value: 7, to: startDate)!
+        let endDate = calendar.date(byAdding: .day, value: GeneralServices.week, to: startDate)!
         
         let predicate = #Predicate<DailyRecordModel> { record in
             startDate <= record.date && record.date < endDate

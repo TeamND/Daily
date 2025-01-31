@@ -20,7 +20,7 @@ struct CalendarDayView: View {
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
-                ForEach(-1 ... 7, id: \.self) { index in
+                ForEach(-1 ... GeneralServices.week, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .day, index: index)
                     Group {
                         if direction == .current { CalendarDay(date: date) }
@@ -86,8 +86,8 @@ struct DailyWeeklySummary: View {
     
     private var ratingsForChart: [RatingOnWeekModel] {
         let calendar = Calendar.current
-        var ratingsForChart = (0 ..< 7).map { index in
-            RatingOnWeekModel(day: DayOfWeek.text(for: index) ?? "", rating: 0.0)
+        var ratingsForChart = (.zero ..< GeneralServices.week).map { index in
+            RatingOnWeekModel(day: DayOfWeek.text(for: index) ?? "", rating: .zero)
         }
         
         let recordsByDay = Dictionary(grouping: records) { record -> Int in
