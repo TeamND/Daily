@@ -44,11 +44,11 @@ class CalendarServices {
     }
     
     // TODO: 추후 수정
-    func getDaysInMonth(date: Date) -> [(date: Date, id: String)] {
+    func getDaysInMonth(date: Date, startDay: Int) -> [(date: Date, id: String)] {
         let interval = calendar.dateInterval(of: .month, for: date)!
         let firstDate = interval.start
         
-        let firstWeekday = calendar.component(.weekday, from: firstDate)
+        let firstWeekday = firstDate.dailyWeekday(startDay: startDay) + 1
         let previousDates = (1..<firstWeekday).map { offset in
             let date = calendar.date(byAdding: .day, value: -offset, to: firstDate)!
             return (date: date, id: "prev_\(offset)_\(date.timeIntervalSince1970)")
