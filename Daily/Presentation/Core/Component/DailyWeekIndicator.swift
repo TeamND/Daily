@@ -27,18 +27,14 @@ struct DailyWeekIndicator: View {
     }
     
     private var ratings: [Double] {
-        let calendar = Calendar.current
         var ratings: [Double] = Array(repeating: .zero, count: GeneralServices.week)
         
         for record in records {
-            if let dayIndex = calendar.dateComponents([.weekday], from: record.date).weekday {
-                let index = dayIndex - 1
-                if record.isSuccess { ratings[index] += 1 }
-            }
+            if record.isSuccess { ratings[record.date.dailyWeekday(startDay: startDay)] += 1 }   // TODO: 아직 한 발 남았다
         }
         
         let recordsByDay = Dictionary(grouping: records) { record -> Int in
-            calendar.dateComponents([.weekday], from: record.date).weekday! - 1
+            record.date.dailyWeekday(startDay: startDay)
         }
         
         for (index, totalRecords) in recordsByDay {
@@ -60,17 +56,17 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(mode == .change ? ratings[dayOfWeek.index] * 0.8 : opacity[dayOfWeek.index]))
+                        .foregroundStyle(Colors.daily.opacity(mode == .change ? ratings[index] * 0.8 : opacity[index]))
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }
                 .onTapGesture {
                     switch mode {
                     case .change:
-                        calendarViewModel.setDate(byAdding: .day, value: dayOfWeek.index - (calendarViewModel.currentDate.weekday - 1))
+                        calendarViewModel.setDate(byAdding: .day, value: index - calendarViewModel.currentDate.dailyWeekday(startDay: startDay))
                     case .select:
                         withAnimation {
-                            opacity[dayOfWeek.index] = opacity[dayOfWeek.index] == 0.8 ? 0 : 0.8
+                            opacity[index] = opacity[index] == 0.8 ? 0 : 0.8
                         }
                     case .none:
                         break

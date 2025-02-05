@@ -79,19 +79,20 @@ struct CalendarDay: View {
 struct DailyWeeklySummary: View {
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Query private var records: [DailyRecordModel]
+    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
     
     init(currentDate: Date) {
         _records = Query(CalendarViewModel.recordsForWeekDescriptor(currentDate))
     }
     
     private var ratingsForChart: [RatingOnWeekModel] {
-        let calendar = Calendar.current
         var ratingsForChart = (.zero ..< GeneralServices.week).map { index in
-            RatingOnWeekModel(day: DayOfWeek.text(for: index) ?? "", rating: .zero)
+            let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: .zero)
         }
         
         let recordsByDay = Dictionary(grouping: records) { record -> Int in
-            calendar.dateComponents([.weekday], from: record.date).weekday! - 1
+            record.date.dailyWeekday(startDay: startDay)
         }
         
         for (index, record) in recordsByDay {
