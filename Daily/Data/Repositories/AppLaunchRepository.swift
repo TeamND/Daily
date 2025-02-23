@@ -7,11 +7,14 @@
 
 import Foundation
 
-class AppLaunchRepository: AppLaunchInterface {
-    func getSubTitle() -> String {
-        return SplashDataSource.shared.getSubTitle()
+final class AppLaunchRepository: AppLaunchInterface {
+    func getCatchPhrase() -> String {
+        SplashDataSource.shared.getCatchPhrase()
     }
-    func setSubTitle(subTitle: String) {
-        SplashDataSource.shared.setSubTitle(subTitle: subTitle)
+    func checkNotice() -> Bool {
+        SplashDataSource.shared.checkNotice()
+    }
+    func loadApp(_ isWait: Bool = true) async -> Bool {
+        await SplashDataSource.shared.loadApp(isWait)
     }
 }

@@ -9,30 +9,42 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject var alertEnvironment: AlertEnvironment
-    @ObservedObject var splashViewModel: SplashViewModel
+    @StateObject private var splashViewModel = SplashViewModel()
     
     var body: some View {
+        splashView
+            .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert) }
+            .onAppear { splashViewModel.onAppear() }
+            .sheet(isPresented: $splashViewModel.isShowNotice) { noticeSheet }
+            .opacity(splashViewModel.isAppLoaded ? 0 : 1)
+            .animation(.easeInOut(duration: 0.5), value: splashViewModel.isAppLoaded)
+    }
+    
+    private var splashView: some View {
         VStack(spacing: 40) {
-            Image(systemName: "d.circle.fill")
-                .resizable()
-                .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
-                .foregroundStyle(Colors.daily)
-            Text(splashViewModel.subTitle)
-                .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+            dailyImage
+            dailyCatchPhrase
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
         .background(Colors.theme)
-        .onAppear {
-            splashViewModel.onAppear()
-            PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert)
-        }
-        .sheet(isPresented: $splashViewModel.isShowNotice) {
-            NoticeSheet()
-                .presentationDetents([.height(CGFloat.fontSize * 65)])
-                .presentationDragIndicator(.visible)
-                .onDisappear {
-                    splashViewModel.isAppLoading = false
-                }
-        }
+    }
+    
+    private var dailyImage: some View {
+        Image(systemName: "d.circle.fill")
+            .resizable()
+            .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
+            .foregroundStyle(Colors.daily)
+    }
+    
+    private var dailyCatchPhrase: some View {
+        Text(splashViewModel.catchPhrase)
+            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+    }
+    
+    private var noticeSheet: some View {
+        NoticeSheet()
+            .presentationDetents([.height(CGFloat.fontSize * 65)])
+            .presentationDragIndicator(.visible)
+            .onDisappear { splashViewModel.loadApp(isWait: false) }
     }
 }

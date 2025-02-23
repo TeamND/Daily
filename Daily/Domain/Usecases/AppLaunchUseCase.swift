@@ -7,18 +7,23 @@
 
 import Foundation
 
-class AppLaunchUseCase {
+final class AppLaunchUseCase {
     private let repository: AppLaunchInterface
     
     init(repository: AppLaunchInterface) {
         self.repository = repository
     }
     
-    func getSubTitle() -> String {
-        return repository.getSubTitle()
+    func getCatchPhrase() -> String {
+        return repository.getCatchPhrase()
     }
-    func setSubTitle(subTitle: String) {
-        repository.setSubTitle(subTitle: subTitle)
+    
+    func checkNotice() -> Bool {
+        return repository.checkNotice()
+    }
+    
+    func loadApp(_ isWait: Bool = true) async -> Bool {
+        return await repository.loadApp(isWait)
     }
 }
 

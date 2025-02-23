@@ -7,11 +7,11 @@
 
 import Foundation
 
-class SplashViewModel: ObservableObject {
+final class SplashViewModel: ObservableObject {
     private let appLaunchUseCase: AppLaunchUseCase
     
-    @Published var subTitle: String = ""
-    @Published var isAppLoading: Bool = true
+    @Published var catchPhrase: String = ""
+    @Published var isAppLoaded: Bool = false
     @Published var isShowNotice: Bool = false
     
     init() {
@@ -20,20 +20,19 @@ class SplashViewModel: ObservableObject {
     }
     
     func onAppear() {
-        self.subTitle = appLaunchUseCase.getSubTitle()
         setUserDefault()
-        
-        if Date() < "2025-01-15".toDate()! { isShowNotice = true }
-        else {
-            DispatchQueue.main.async {
-                Timer.scheduledTimer(withTimeInterval: 2.1, repeats: false) { timer in
-                    self.isAppLoading = false
-                }
-            }
+        catchPhrase = appLaunchUseCase.getCatchPhrase()
+        isShowNotice = appLaunchUseCase.checkNotice()
+        if !isShowNotice { loadApp(isWait: true) }
+    }
+    
+    func loadApp(isWait: Bool = false) {
+        Task { @MainActor in
+            isAppLoaded = await appLaunchUseCase.loadApp(isWait)
         }
     }
     
-    func setUserDefault() {
+    private func setUserDefault() {
         UserDefaultManager.startDay = UserDefaultManager.startDay ?? 0
         UserDefaultManager.language = UserDefaultManager.language ?? "korean"
         UserDefaultManager.dateType = UserDefaultManager.dateType ?? "date"

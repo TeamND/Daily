@@ -8,6 +8,7 @@
 import Foundation
 
 protocol AppLaunchInterface {
-    func getSubTitle() -> String
-    func setSubTitle(subTitle: String)
+    func getCatchPhrase() -> String
+    func checkNotice() -> Bool
+    func loadApp(_ isWait: Bool) async -> Bool
 }
