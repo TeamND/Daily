@@ -7,53 +7,29 @@
 
 import Foundation
 
-class NavigationEnvironment: ObservableObject {
+final class NavigationEnvironment: ObservableObject {
     @Published var navigationPath: [NavigationObject] = []
     
     func navigate(_ navigationObject: NavigationObject) {
-        if self.navigationPath.contains(where: { $0.viewType == navigationObject.viewType }) { return }
-        DispatchQueue.main.async {
-            self.navigationPath.append(navigationObject)
+        if navigationPath.contains(where: { $0.viewType == navigationObject.viewType }) { return }
+        Task { @MainActor in
+            navigationPath.append(navigationObject)
         }
     }
     
     func navigateDirect(from: CalendarType, to: CalendarType = .day) {
-        switch from {
-        case .year:
-            DispatchQueue.main.async {
-                self.navigationPath.append(NavigationObject(viewType: .calendarMonth))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.navigationPath.append(NavigationObject(viewType: .calendarDay))
-                }
+        Task { @MainActor in
+            switch from {
+            case .year:
+                navigate(NavigationObject(viewType: .calendarMonth))
+                if to == .month { return }
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                navigate(NavigationObject(viewType: .calendarDay))
+            case .month:
+                navigate(NavigationObject(viewType: .calendarDay))
+            default:
+                return
             }
-        case .month:
-            DispatchQueue.main.async {
-                self.navigationPath.append(NavigationObject(viewType: .calendarDay))
-            }
-        default:
-            return
         }
     }
-}
-
-protocol Navigatable: Hashable {}
-
-struct NavigationObject: Navigatable {
-    let viewType: ViewTypes
-    let data: AnyHashable?
-    
-    init(viewType: ViewTypes, data: AnyHashable? = nil) {
-        self.viewType = viewType
-        self.data = data
-    }
-}
-
-enum ViewTypes {
-    case calendarMonth
-    case calendarDay
-    
-    case goal
-    case modify
-    
-    case appInfo
 }

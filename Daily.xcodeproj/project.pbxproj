@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA62CC4CADB00FB637F /* Colors.swift */; };
 		F6016DAA2CC4CF1200FB637F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DA82CC4CF1200FB637F /* Colors.swift */; };
-		F6016DC72CC5273B00FB637F /* NetworkEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC62CC5273B00FB637F /* NetworkEndpoint.swift */; };
-		F6016DC92CC52AD600FB637F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DC82CC52AD600FB637F /* NetworkError.swift */; };
-		F6016DCB2CC52E9C00FB637F /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DCA2CC52E9C00FB637F /* ServerResponse.swift */; };
-		F6016DCD2CC534C500FB637F /* ServerNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DCC2CC534C500FB637F /* ServerNetwork.swift */; };
 		F6016DD32CC53BAA00FB637F /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DD22CC53BAA00FB637F /* CalendarViewModel.swift */; };
 		F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DD52CC60A5200FB637F /* SplashView.swift */; };
 		F6016DD92CC60D0400FB637F /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DD82CC60D0400FB637F /* SplashViewModel.swift */; };
@@ -69,6 +65,8 @@
 		F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */; };
 		F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */; };
 		F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */; };
+		F6C6CD8F2D6B700A00772E59 /* ViewTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6CD8E2D6B700A00772E59 /* ViewTypes.swift */; };
+		F6C6CD912D6B703B00772E59 /* NavigationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6CD902D6B703B00772E59 /* NavigationObject.swift */; };
 		F6C758D62CCB123700F9CF91 /* DailyCalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */; };
 		F6C758D82CCB165E00F9CF91 /* LabelStyle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D72CCB165E00F9CF91 /* LabelStyle+extension.swift */; };
 		F6C758DA2CCB45ED00F9CF91 /* DailyAddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */; };
@@ -137,10 +135,6 @@
 /* Begin PBXFileReference section */
 		F6016DA62CC4CADB00FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F6016DA82CC4CF1200FB637F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		F6016DC62CC5273B00FB637F /* NetworkEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkEndpoint.swift; sourceTree = "<group>"; };
-		F6016DC82CC52AD600FB637F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		F6016DCA2CC52E9C00FB637F /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
-		F6016DCC2CC534C500FB637F /* ServerNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerNetwork.swift; sourceTree = "<group>"; };
 		F6016DD22CC53BAA00FB637F /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		F6016DD52CC60A5200FB637F /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F6016DD82CC60D0400FB637F /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
@@ -199,6 +193,8 @@
 		F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoLabel.swift; sourceTree = "<group>"; };
 		F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoContent.swift; sourceTree = "<group>"; };
 		F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheet.swift; sourceTree = "<group>"; };
+		F6C6CD8E2D6B700A00772E59 /* ViewTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTypes.swift; sourceTree = "<group>"; };
+		F6C6CD902D6B703B00772E59 /* NavigationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationObject.swift; sourceTree = "<group>"; };
 		F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarHeader.swift; sourceTree = "<group>"; };
 		F6C758D72CCB165E00F9CF91 /* LabelStyle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabelStyle+extension.swift"; sourceTree = "<group>"; };
 		F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAddGoalButton.swift; sourceTree = "<group>"; };
@@ -302,7 +298,6 @@
 			children = (
 				F6016DBE2CC4E3CA00FB637F /* Repositories */,
 				F6016DBF2CC4E3D300FB637F /* Storages */,
-				F6016DB62CC4DFA400FB637F /* Network */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -354,17 +349,6 @@
 				F6CE8A2C2CD0B1940050A25A /* AppInfoView.swift */,
 			);
 			path = AppInfo;
-			sourceTree = "<group>";
-		};
-		F6016DB62CC4DFA400FB637F /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				F6016DC62CC5273B00FB637F /* NetworkEndpoint.swift */,
-				F6016DC82CC52AD600FB637F /* NetworkError.swift */,
-				F6016DCA2CC52E9C00FB637F /* ServerResponse.swift */,
-				F6016DCC2CC534C500FB637F /* ServerNetwork.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		F6016DB72CC4DFB000FB637F /* Interfaces */ = {
@@ -453,6 +437,7 @@
 				F60B97322CFC170E0015B19B /* ModifyDataModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
 				F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */,
+				F6C6CD902D6B703B00772E59 /* NavigationObject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -587,6 +572,7 @@
 				F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */,
 				F63EEE872D31F70A00C9914F /* DateFormats.swift */,
 				F63EEF0B2D3E554B00C9914F /* NoticeTimes.swift */,
+				F6C6CD8E2D6B700A00772E59 /* ViewTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -779,7 +765,6 @@
 				F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */,
 				F6CE8A1E2CCF5D150050A25A /* DailyNavigationBar.swift in Sources */,
 				F6016DEF2CC616BA00FB637F /* SplashDataSource.swift in Sources */,
-				F6016DCB2CC52E9C00FB637F /* ServerResponse.swift in Sources */,
 				F634D2DE2CC485830014EDB6 /* Date+extension.swift in Sources */,
 				F63EEE882D31F70A00C9914F /* DateFormats.swift in Sources */,
 				F6C758DA2CCB45ED00F9CF91 /* DailyAddGoalButton.swift in Sources */,
@@ -793,7 +778,6 @@
 				F65ACDDF2CC912EF00C67DD1 /* DayOfWeek.swift in Sources */,
 				F6F31DC72CF443FC0090A3B9 /* DailyButton.swift in Sources */,
 				F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */,
-				F6016DC92CC52AD600FB637F /* NetworkError.swift in Sources */,
 				F6016DE52CC6118800FB637F /* NavigationEnvironment.swift in Sources */,
 				F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */,
 				F6CE8A2D2CD0B1940050A25A /* AppInfoView.swift in Sources */,
@@ -811,6 +795,7 @@
 				F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F60B97352CFD97090015B19B /* ModifyView.swift in Sources */,
+				F6C6CD912D6B703B00772E59 /* NavigationObject.swift in Sources */,
 				F6C758D62CCB123700F9CF91 /* DailyCalendarHeader.swift in Sources */,
 				F6C758D82CCB165E00F9CF91 /* LabelStyle+extension.swift in Sources */,
 				F6CE8A162CCF42800050A25A /* DailySection.swift in Sources */,
@@ -822,14 +807,13 @@
 				F6C758E52CCF340400F9CF91 /* DailyDatePicker.swift in Sources */,
 				F6CE8A242CCF60900050A25A /* GoalRepository.swift in Sources */,
 				F69A84642D22E81100AEBD76 /* DailyAlert.swift in Sources */,
-				F6016DCD2CC534C500FB637F /* ServerNetwork.swift in Sources */,
 				F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */,
 				F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */,
 				F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */,
 				F6016DE92CC6161B00FB637F /* AppLaunchInterface.swift in Sources */,
 				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,
-				F6016DC72CC5273B00FB637F /* NetworkEndpoint.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,
+				F6C6CD8F2D6B700A00772E59 /* ViewTypes.swift in Sources */,
 				F6016DEB2CC6162600FB637F /* AppLaunchUseCase.swift in Sources */,
 				F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
