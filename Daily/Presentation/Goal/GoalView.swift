@@ -58,7 +58,7 @@ struct DateSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     private let isModify: Bool
     @Namespace var ns
-    @State var opacity: [Double] = Array(repeating: 0, count: 7)
+    @State var opacity: [Double] = Array(repeating: .zero, count: GeneralServices.week)
     
     init(goalViewModel: GoalViewModel, isModify: Bool = false) {
         self.goalViewModel = goalViewModel
@@ -136,7 +136,7 @@ struct ContentSection: View {
         TextField(
             "",
             text: $content,
-            prompt: Text(contentOfGoalHintText(type: goalType.rawValue))
+            prompt: Text(goalType.contentHint)
         )
         .focused($focusedField, equals: 0)
         .onSubmit {
@@ -153,7 +153,6 @@ struct GoalCountSection: View {
     @EnvironmentObject var alertEnvironment: AlertEnvironment
     @Binding var goalType: GoalTypes
     @Binding var goalCount: Int
-    @State var isShowAlert: Bool = false
     
     var body: some View {
         HStack {
@@ -173,9 +172,8 @@ struct GoalCountSection: View {
     private func countButton(direction: Direction) -> some View {
         Button {
             let afterCount = goalCount + direction.value
-            if afterCount < GeneralServices.shared.minimumGoalCount ||
-                afterCount > GeneralServices.shared.maximumGoalCount {
-                alertEnvironment.showToast(message: countRangeToastMessageText)
+            if afterCount < GeneralServices.minimumGoalCount || afterCount > GeneralServices.maximumGoalCount {
+                alertEnvironment.showToast(message: CountAlert.overCountRage.messageText)
             } else {
                 goalCount = afterCount
                 goalType = goalCount == 1 ? .check : .count

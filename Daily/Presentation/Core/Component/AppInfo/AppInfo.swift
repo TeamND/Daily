@@ -19,7 +19,6 @@ struct AppInfo: View {
             } label: {
                 AppInfoLabel(labelText: "Application", labelImage: "apps.iphone")
             }
-            .padding(.vertical)
         }
     }
 }

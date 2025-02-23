@@ -26,17 +26,21 @@ extension Date {
         Calendar.current.component(.month, from: self)
     }
     public var day: Int {
-         Calendar.current.component(.day, from: self)
+        Calendar.current.component(.day, from: self)
     }
     public var weekOfMonth: Int {
+        Calendar.current.component(.weekOfMonth, from: self)
+    }
+    public func dailyWeekOfMonth(startDay: Int) -> Int {
         var calendar = Calendar.current
-        calendar.firstWeekday = (UserDefaultManager.startDay ?? 0) + 1
+        calendar.firstWeekday = startDay + 1
         return calendar.component(.weekOfMonth, from: self)
     }
     public var weekday: Int {
-        var calendar = Calendar.current
-        calendar.firstWeekday = (UserDefaultManager.startDay ?? 0) + 1
-        return calendar.component(.weekday, from: self)
+        Calendar.current.component(.weekday, from: self)
+    }
+    public func dailyWeekday(startDay: Int) -> Int {
+        (self.weekday - 1 - startDay + GeneralServices.week) % GeneralServices.week
     }
 }
 

@@ -12,6 +12,26 @@ protocol DailyAlert {
     var messageText: String { get }
 }
 
+// MARK: - CountAlert
+enum CountAlert: DailyAlert {
+    case overCountRage
+    
+    var titleText: String {
+        switch self {
+        case .overCountRage:
+            return ""
+        }
+    }
+    
+    var messageText: String {
+        switch self {
+        case .overCountRage:
+            return "1 ~ 10회의 목표를 설정해주세요 😵‍💫"
+        }
+    }
+}
+
+// MARK: - ContentAlert
 enum ContentAlert: DailyAlert {
     case tooShoertLength
     
@@ -30,6 +50,7 @@ enum ContentAlert: DailyAlert {
     }
 }
 
+// MARK: - DateAlert
 enum DateAlert: DailyAlert {
     case wrongDateRange
     case overDateRange
@@ -63,20 +84,47 @@ enum DateAlert: DailyAlert {
     }
 }
 
+// MARK: - NoticeAlert
 enum NoticeAlert: DailyAlert {
+    case denied
     case dateChanged
     case setTimeChanged
     
     var titleText: String {
-        return ""   // TODO: 추후 수정
+        switch self {
+        case .denied:
+            return "알림 설정이 꺼져있어, 일부 기능이 제한된 상태에요 😱"
+        default:
+            return ""
+        }
     }
     
     var messageText: String {
         switch self {
+        case .denied:
+            return "Daily의 알림을 받아보세요 🙌🙌"
         case .dateChanged:
             return "목표 날짜가 변경되어 알림이 삭제되었어요 🫥"
         case .setTimeChanged:
             return "목표 시간이 변경되어 알림이 삭제되었어요 🫥"
+        }
+    }
+    
+    var primaryButtonText: String {
+        switch self {
+        case .denied:
+            return "설정으로 이동"
+        default:
+            return ""
+        }
+    }
+    
+    var secondaryButtonText: String {
+        switch self {
+        case .denied:
+            return "다음에 하기"
+        default:
+            return ""
         }
     }
 }

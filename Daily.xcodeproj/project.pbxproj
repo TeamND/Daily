@@ -43,7 +43,6 @@
 		F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C3B2D2E09DE006B3658 /* DailyUtilities */; };
 		F6442C3E2D2E0A8D006B3658 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C3D2D2E0A8D006B3658 /* AppSetting.swift */; };
 		F6442C402D2E0C59006B3658 /* SettingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */; };
-		F64EE8872952F9620098C785 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64EE8862952F9620098C785 /* Constant.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
 		F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */; };
@@ -91,6 +90,7 @@
 		F6CE8A2D2CD0B1940050A25A /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A2C2CD0B1940050A25A /* AppInfoView.swift */; };
 		F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */; };
 		F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */; };
+		F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E85B9B2D476B61005A3B9B /* Languages.swift */; };
 		F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */; };
 		F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D202BE2477500FAB502 /* SystemModel.swift */; };
 		F6EC3D4C2BEB7A6500FAB502 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6EC3D2E2BEB4EA900FAB502 /* WidgetKit.framework */; };
@@ -169,7 +169,6 @@
 		F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertEnvironment.swift; sourceTree = "<group>"; };
 		F6442C3D2D2E0A8D006B3658 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
 		F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypes.swift; sourceTree = "<group>"; };
-		F64EE8862952F9620098C785 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarType.swift; sourceTree = "<group>"; };
 		F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
 		F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInterface.swift; sourceTree = "<group>"; };
@@ -222,6 +221,7 @@
 		F6CE8A2C2CD0B1940050A25A /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingOnWeekModel.swift; sourceTree = "<group>"; };
 		F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoticeManager.swift; sourceTree = "<group>"; };
+		F6E85B9B2D476B61005A3B9B /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManager.swift; sourceTree = "<group>"; };
 		F6EC3D202BE2477500FAB502 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 		F6EC3D2E2BEB4EA900FAB502 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -449,7 +449,6 @@
 				F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */,
 				F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */,
 				F69A84652D252B9400AEBD76 /* MonthDatas.swift */,
-				F64EE8862952F9620098C785 /* Constant.swift */,
 				F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */,
 				F60B97322CFC170E0015B19B /* ModifyDataModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
@@ -575,6 +574,7 @@
 			children = (
 				F6F31DCA2CF46E260090A3B9 /* Symbols.swift */,
 				F65ACDD62CC8ECEB00C67DD1 /* CalendarType.swift */,
+				F6E85B9B2D476B61005A3B9B /* Languages.swift */,
 				F65ACDDE2CC912EF00C67DD1 /* DayOfWeek.swift */,
 				F6C758DF2CCD356700F9CF91 /* WeekIndicatorMode.swift */,
 				F6C758E62CCF37F200F9CF91 /* DateJoiner.swift */,
@@ -792,7 +792,6 @@
 				F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */,
 				F65ACDDF2CC912EF00C67DD1 /* DayOfWeek.swift in Sources */,
 				F6F31DC72CF443FC0090A3B9 /* DailyButton.swift in Sources */,
-				F64EE8872952F9620098C785 /* Constant.swift in Sources */,
 				F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */,
 				F6016DC92CC52AD600FB637F /* NetworkError.swift in Sources */,
 				F6016DE52CC6118800FB637F /* NavigationEnvironment.swift in Sources */,
@@ -828,6 +827,7 @@
 				F65ACDD72CC8ECEB00C67DD1 /* CalendarType.swift in Sources */,
 				F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */,
 				F6016DE92CC6161B00FB637F /* AppLaunchInterface.swift in Sources */,
+				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,
 				F6016DC72CC5273B00FB637F /* NetworkEndpoint.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,
 				F6016DEB2CC6162600FB637F /* AppLaunchUseCase.swift in Sources */,

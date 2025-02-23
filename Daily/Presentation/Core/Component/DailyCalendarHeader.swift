@@ -84,7 +84,7 @@ struct DailyCalendarHeader: View {
                     calendarViewModel.setDate(date: Date(format: .daily))
                     navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
-                    Label("오늘", systemImage: "chevron.right")
+                    Label(GeneralServices.today, systemImage: "chevron.right")
                         .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))
                         .padding(CGFloat.fontSize * 1.5)
                         .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
