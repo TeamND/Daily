@@ -16,7 +16,7 @@ final class CalendarViewModel: ObservableObject {
 
     @Published var currentDate: Date = Date(format: .daily)
     @Published var yearDictionary: [String: [[Double]]] = [:]
-    @Published var monthDictionary: [String: [MonthDatas]] = [:]
+    @Published var monthDictionary: [String: [MonthDataModel]] = [:]
     @Published var isShowWeeklySummary: Bool = false
     
     func bindSelection(type: CalendarType) -> Binding<String> {
@@ -63,46 +63,6 @@ final class CalendarViewModel: ObservableObject {
             let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
             return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: UserDefaultManager.startDay ?? 0))주차"
         }
-    }
-    
-    // MARK: - onAppear
-    func calendarMonthOnAppear(modelContext: ModelContext, date: Date, selection: String) {
-        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
-        let endOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month + 1, day: 1))!.addingTimeInterval(-1)
-        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let descriptor = FetchDescriptor<DailyRecordModel>(
-            predicate: #Predicate<DailyRecordModel> { record in
-                startOfMonth <= record.date && record.date <= endOfMonth
-            }
-        )
-        
-        guard let records = try? modelContext.fetch(descriptor) else { return }
-        var recordsByDate: [Date: [DailyRecordModel]] = [:]
-        records.forEach { record in
-            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
-            if let normalizedDate = calendar.date(from: components) {
-                recordsByDate[normalizedDate, default: []].append(record)
-            }
-        }
-        
-        var monthDatas: [MonthDatas] = Array(repeating: MonthDatas(), count: lengthOfMonth)
-        for day in 1 ... lengthOfMonth {
-            if let dayDate = calendar.date(from: DateComponents(year: date.year, month: date.month, day: day)),
-               let dayRecords = recordsByDate[dayDate] {
-                
-                var dailySymbols: [DailySymbol] = []
-                dayRecords.forEach { record in
-                    if let goal = record.goal {
-                        dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
-                    }
-                }
-                
-                let rating = dayRecords.isEmpty ? 0.0 : Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
-                monthDatas[day - 1] = MonthDatas(symbol: dailySymbols, rating: rating)
-            }
-        }
-        
-        monthDictionary[selection] = monthDatas
     }
     
     // MARK: - get info func
@@ -164,7 +124,13 @@ final class CalendarViewModel: ObservableObject {
     // MARK: - fetch func
     func fetchYearData(date: Date, selection: String) {
         Task { @MainActor in
-            yearDictionary[selection] = await calendarUseCase.getRatingsOfYear(date: date, selection: selection)
+            yearDictionary[selection] = await calendarUseCase.getRatingsOfYear(date: date)
+        }
+    }
+    
+    func fetchMonthData(date: Date, selection: String) {
+        Task { @MainActor in
+            monthDictionary[selection] = await calendarUseCase.getMonthDatas(date: date)
         }
     }
 }

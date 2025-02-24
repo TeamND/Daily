@@ -1,5 +1,5 @@
 //
-//  MonthDatas.swift
+//  MonthDataModel.swift
 //  Daily
 //
 //  Created by seungyooooong on 1/1/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MonthDatas: Decodable {
+struct MonthDataModel: Decodable {
     let symbol: [DailySymbol]
     let rating: Double
     

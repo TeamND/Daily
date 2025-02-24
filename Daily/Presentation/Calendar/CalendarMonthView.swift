@@ -39,13 +39,12 @@ struct CalendarMonthView: View {
 
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
-    @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let date: Date
     let selection: String
-    var monthDatas: [MonthDatas] {
-        calendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDatas(), count: 31)
+    var monthDatas: [MonthDataModel] {
+        calendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDataModel(), count: 31)
     }
     
     var body: some View {
@@ -74,7 +73,7 @@ struct CalendarMonth: View {
         .cornerRadius(20)
         .vTop()
         .onAppear {
-            calendarViewModel.calendarMonthOnAppear(modelContext: modelContext, date: date, selection: selection)
+            calendarViewModel.fetchMonthData(date: date, selection: selection)
         }
     }
 }
@@ -87,7 +86,7 @@ struct DailyDayOnMonth: View {
     let dailySymbols: [DailySymbol]
     let rating: Double
     
-    init(year: Int = 0, month: Int = 0, day: Int = 0, monthData: MonthDatas = MonthDatas()) {
+    init(year: Int = 0, month: Int = 0, day: Int = 0, monthData: MonthDataModel = MonthDataModel()) {
         self.year = year
         self.month = month
         self.day = day

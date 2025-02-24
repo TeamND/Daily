@@ -8,5 +8,6 @@
 import Foundation
 
 protocol CalendarInterface {
-    func getYearData(date: Date, selection: String) async -> [DailyRecordModel]?
+    func getYearRecords(date: Date) async -> [DailyRecordModel]?
+    func getMonthRecords(date: Date) async -> [DailyRecordModel]?
 }

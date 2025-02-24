@@ -47,7 +47,7 @@
 		F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */; };
 		F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845F2D21072800AEBD76 /* Array+extension.swift */; };
 		F69A84642D22E81100AEBD76 /* DailyAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84632D22E81100AEBD76 /* DailyAlert.swift */; };
-		F69A84662D252B9400AEBD76 /* MonthDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84652D252B9400AEBD76 /* MonthDatas.swift */; };
+		F69A84662D252B9400AEBD76 /* MonthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84652D252B9400AEBD76 /* MonthDataModel.swift */; };
 		F69A84682D27DD8100AEBD76 /* ButtonTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */; };
 		F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */; };
 		F69A846C2D291CB900AEBD76 /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */; };
@@ -171,7 +171,7 @@
 		F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLoadView.swift; sourceTree = "<group>"; };
 		F69A845F2D21072800AEBD76 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		F69A84632D22E81100AEBD76 /* DailyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAlert.swift; sourceTree = "<group>"; };
-		F69A84652D252B9400AEBD76 /* MonthDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDatas.swift; sourceTree = "<group>"; };
+		F69A84652D252B9400AEBD76 /* MonthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDataModel.swift; sourceTree = "<group>"; };
 		F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypes.swift; sourceTree = "<group>"; };
 		F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataModel.swift; sourceTree = "<group>"; };
 		F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalModel.swift; sourceTree = "<group>"; };
@@ -430,7 +430,7 @@
 			children = (
 				F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */,
 				F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */,
-				F69A84652D252B9400AEBD76 /* MonthDatas.swift */,
+				F69A84652D252B9400AEBD76 /* MonthDataModel.swift */,
 				F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */,
 				F60B97322CFC170E0015B19B /* ModifyDataModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
@@ -775,7 +775,7 @@
 				F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */,
 				F6C758E32CCE47BB00F9CF91 /* GoalView.swift in Sources */,
 				F6C758E72CCF37F200F9CF91 /* DateJoiner.swift in Sources */,
-				F69A84662D252B9400AEBD76 /* MonthDatas.swift in Sources */,
+				F69A84662D252B9400AEBD76 /* MonthDataModel.swift in Sources */,
 				F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */,
 				F65ACDDF2CC912EF00C67DD1 /* DayOfWeek.swift in Sources */,
 				F6F31DC72CF443FC0090A3B9 /* DailyButton.swift in Sources */,
