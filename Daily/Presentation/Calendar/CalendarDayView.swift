@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 import Charts
 
 // MARK: - CalendarDayView
@@ -59,9 +58,9 @@ struct CalendarDay: View {
                 NoRecord()
             } else {
                 ViewThatFits(in: .vertical) {
-                    RecordList(date: date, records: records)
+                    RecordList(date: date, selection: selection)
                     ScrollView {
-                        RecordList(date: date, records: records)
+                        RecordList(date: date, selection: selection)
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)

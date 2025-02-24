@@ -67,7 +67,7 @@ extension CalendarUseCase {
     }
 }
 
-// MARK: - get records func
+// MARK: - get records data func
 extension CalendarUseCase {
     func getRatingsOfYear(selection: String) async -> [[Double]] {
         let records = await repository.getYearRecords(selection: selection)
@@ -132,7 +132,17 @@ extension CalendarUseCase {
     }
     
     func getRecords(selection: String) async -> [DailyRecordModel] {
-        return await repository.getDayRecords(selection: selection) ?? []
+        let records = await repository.getDayRecords(selection: selection) ?? []
+        // TODO: 추후 수정
+        return records.sorted {
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
+                return !prevGoal.isSetTime && nextGoal.isSetTime
+            }
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
+                return prevGoal.setTime < nextGoal.setTime
+            }
+            return $0.date < $1.date
+        }
     }
     
     func getWeeklyPercentage(selection: String) async -> Int {
@@ -148,6 +158,32 @@ extension CalendarUseCase {
         let successRate = Double(successCount) / Double(totalRecords) * 100
 
         return Int(round(successRate))
+    }
+}
+
+// MARK: - update or delete records func
+extension CalendarUseCase {
+    func addCount(goal: DailyGoalModel, record: DailyRecordModel) async {
+        record.count += 1
+        record.isSuccess = record.count >= goal.count
+        await repository.updateData()
+    }
+    
+    func setNotice(record: DailyRecordModel, notice: Int?) async {
+        record.notice = notice
+        await repository.updateData()
+    }
+    
+    func deleteRecord(record: DailyRecordModel) async {
+        await repository.deleteRecord(record: record)
+    }
+    
+    func deleteGoal(goal: DailyGoalModel) async {
+        await repository.deleteGoal(goal: goal)
+    }
+    
+    func getDeleteRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
+        return await repository.getDeleteRecords(goal: goal)
     }
 }
 

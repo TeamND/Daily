@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import SwiftData
 
 class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
@@ -102,7 +101,7 @@ class GoalViewModel: ObservableObject {
         }
     }
     
-    func add(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .add) { validateAction(validate); return }
         let newGoal = DailyGoalModel(
             type: goalType,
@@ -116,74 +115,70 @@ class GoalViewModel: ObservableObject {
             isSetTime: isSetTime,
             setTime: setTime.toString(format: .setTime)
         )
-        modelContext.insert(newGoal)
-        try? modelContext.save()
         
-        repeatDates.forEach { repeatDate in
-            guard let date = repeatDate.toDate() else { return }
-            modelContext.insert(DailyRecordModel(goal: newGoal, date: date))
+        Task { @MainActor in
+            await goalUseCase.addGoal(goal: newGoal)
+            await goalUseCase.addRecords(goal: newGoal, dates: repeatDates)
+            successAction(startDate)
         }
-        try? modelContext.save()
-        successAction(startDate)
     }
     
-    func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func modify(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .modify) { validateAction(validate); return }
         if let record = modifyRecord, let goal = record.goal, let modifyType {
             // MARK: date 또는 setTime이 변경되었을 경우 알림 삭제
-            if record.notice != nil && (record.date != startDate || goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime) {
-                record.notice = nil
-                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
-                if record.date != startDate { validateAction(NoticeAlert.dateChanged) }
-                if goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime { validateAction(NoticeAlert.setTimeChanged) }
-            }
-            switch modifyType {
-            case .record:
-                goal.content = content
-                goal.symbol = symbol
-                goal.type = goalType
-                goal.count = goalCount
-                goal.isSetTime = isSetTime
-                goal.setTime = setTime.toString(format: .setTime)
-                record.date = startDate
-                record.count = recordCount
-                record.isSuccess = goalCount <= recordCount
-                try? modelContext.save()
-            case .single:
-                if goal.content != content || goal.symbol != symbol || goal.type != goalType || goal.count != goalCount || goal.isSetTime != isSetTime || goal.setTime != setTime.toString(format: .setTime) {
-                    let newGoal = DailyGoalModel(
-                        type: goalType,
-                        cycleType: cycleType,
-                        content: content,
-                        symbol: symbol,
-                        startDate: startDate,
-                        endDate: endDate,
-                        repeatDates: repeatDates,
-                        count: goalCount,
-                        isSetTime: isSetTime,
-                        setTime: setTime.toString(format: .setTime),
-                        parentGoal: goal
-                    )
-                    modelContext.insert(newGoal)
-                    try? modelContext.save()
-                    goal.childGoals.append(newGoal)
-                    record.goal = newGoal
+            Task { @MainActor in
+                if record.notice != nil && (record.date != startDate || goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime) {
+                    record.notice = nil
+                    PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+                    if record.date != startDate { validateAction(NoticeAlert.dateChanged) }
+                    if goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime { validateAction(NoticeAlert.setTimeChanged) }
                 }
-                record.date = startDate
-                record.count = recordCount
-                record.isSuccess = goalCount <= recordCount
-                try? modelContext.save()
-            case .all:
-                goal.content = content
-                goal.symbol = symbol
-                goal.type = goalType
-                goal.count = goalCount
-                goal.isSetTime = isSetTime
-                goal.setTime = setTime.toString(format: .setTime)
-                record.isSuccess = goalCount <= recordCount
-                try? modelContext.save()
+                switch modifyType {
+                case .record:
+                    goal.content = content
+                    goal.symbol = symbol
+                    goal.type = goalType
+                    goal.count = goalCount
+                    goal.isSetTime = isSetTime
+                    goal.setTime = setTime.toString(format: .setTime)
+                    record.date = startDate
+                    record.count = recordCount
+                    record.isSuccess = goalCount <= recordCount
+                case .single:
+                    if goal.content != content || goal.symbol != symbol || goal.type != goalType || goal.count != goalCount || goal.isSetTime != isSetTime || goal.setTime != setTime.toString(format: .setTime) {
+                        let newGoal = DailyGoalModel(
+                            type: goalType,
+                            cycleType: cycleType,
+                            content: content,
+                            symbol: symbol,
+                            startDate: startDate,
+                            endDate: endDate,
+                            repeatDates: repeatDates,
+                            count: goalCount,
+                            isSetTime: isSetTime,
+                            setTime: setTime.toString(format: .setTime),
+                            parentGoal: goal
+                        )
+                        await goalUseCase.addGoal(goal: newGoal)
+                        goal.childGoals.append(newGoal)
+                        record.goal = newGoal
+                    }
+                    record.date = startDate
+                    record.count = recordCount
+                    record.isSuccess = goalCount <= recordCount
+                case .all:
+                    goal.content = content
+                    goal.symbol = symbol
+                    goal.type = goalType
+                    goal.count = goalCount
+                    goal.isSetTime = isSetTime
+                    goal.setTime = setTime.toString(format: .setTime)
+                    record.isSuccess = goalCount <= recordCount
+                }
+                await goalUseCase.updateData()
+                successAction(startDate)
             }
-            successAction(startDate)
         }
     }
     

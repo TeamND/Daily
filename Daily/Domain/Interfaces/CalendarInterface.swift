@@ -12,4 +12,9 @@ protocol CalendarInterface {
     func getMonthRecords(selection: String) async -> [DailyRecordModel]?
     func getWeekRecords(selection: String) async -> [DailyRecordModel]?
     func getDayRecords(selection: String) async -> [DailyRecordModel]?
+    
+    func updateData() async
+    func deleteRecord(record: DailyRecordModel) async
+    func deleteGoal(goal: DailyGoalModel) async
+    func getDeleteRecords(goal: DailyGoalModel) async -> [DailyRecordModel]
 }

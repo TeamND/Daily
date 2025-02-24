@@ -74,7 +74,17 @@ final class DailyDataSource {
         return try? context.fetch(descriptor)
     }
     
-    func updateRecord() async {
+    func updateData() async {
+        try? context.save()
+    }
+    
+    func addGoal(goal: DailyGoalModel) async {
+        context.insert(goal)
+        try? context.save()
+    }
+    
+    func addRecord(record: DailyRecordModel) async {
+        context.insert(record)
         try? context.save()
     }
     

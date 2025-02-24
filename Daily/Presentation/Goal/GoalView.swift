@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct GoalView: View {
     @StateObject var goalViewModel: GoalViewModel
@@ -254,7 +253,6 @@ struct SymbolSection: View {
 // MARK: - ButtonSection
 struct ButtonSection: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var alertEnvironment: AlertEnvironment
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @ObservedObject var goalViewModel: GoalViewModel
@@ -270,7 +268,6 @@ struct ButtonSection: View {
                 switch buttonType {
                 case .add:
                     goalViewModel.add(
-                        modelContext: modelContext,
                         successAction: {
                             dismiss()
                             if let newDate = $0 { calendarViewModel.setDate(date: newDate) }
@@ -279,7 +276,6 @@ struct ButtonSection: View {
                     )
                 case .modify:
                     goalViewModel.modify(
-                        modelContext: modelContext,
                         successAction: {
                             dismiss()
                             if let newDate = $0 { calendarViewModel.setDate(date: newDate) }

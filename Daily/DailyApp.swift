@@ -11,8 +11,8 @@ import DailyUtilities
 
 @main
 struct DailyApp: App {
-    @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var navigationEnvironment = NavigationEnvironment()
+    @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var calendarViewModel = CalendarViewModel()
     
     let dailyModelContainer: ModelContainer

@@ -8,5 +8,7 @@
 import Foundation
 
 protocol GoalInterface {
-    
+    func updateData() async
+    func addGoal(goal: DailyGoalModel) async
+    func addRecord(record: DailyRecordModel) async
 }

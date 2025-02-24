@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import SwiftData
 
 final class CalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
@@ -97,6 +96,110 @@ extension CalendarViewModel {
     func fetchDayData(selection: String) {
         Task { @MainActor in
             dayDictionary[selection] = await calendarUseCase.getRecords(selection: selection)
+        }
+    }
+}
+
+// MARK: - button action
+extension CalendarViewModel {
+    func actionOfRecordButton(record: DailyRecordModel) {
+        guard let goal = record.goal else { return }
+        
+        Task { @MainActor in
+            switch goal.type {
+            case .check, .count:
+                await calendarUseCase.addCount(goal: goal, record: record)
+                fetchDayData(selection: currentDate.getSelection(type: .day))
+                fetchWeekData(selection: currentDate.getSelection(type: .week))
+            case .timer: // TODO: 추후 구현
+                return
+            }
+        }
+    }
+    
+    func addNotice(goal: DailyGoalModel, record: DailyRecordModel, noticeTime: NoticeTimes, completeAction: @escaping () -> Void) {
+        PushNoticeManager.shared.addNotice(
+            id: String(describing: record.id),
+            content: goal.content,
+            date: record.date,
+            setTime: goal.setTime,
+            noticeTime: noticeTime
+        )
+        
+        Task { @MainActor in
+            await calendarUseCase.setNotice(record: record, notice: noticeTime.rawValue)
+            completeAction()
+        }
+    }
+    
+    func removeNotice(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+        PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+        
+        Task { @MainActor in
+            await calendarUseCase.setNotice(record: record, notice: nil)
+            completeAction()
+        }
+    }
+    
+    func deleteRecord(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+        if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
+        
+        Task { @MainActor in
+            deleteRecordInDictionary(record: record)
+            await calendarUseCase.deleteRecord(record: record)
+            fetchDayData(selection: currentDate.getSelection(type: .day))
+            fetchWeekData(selection: currentDate.getSelection(type: .week))
+        }
+    }
+    
+    func deleteGoal(goal: DailyGoalModel, record: DailyRecordModel? = nil, completeAction: (() -> Void)? = nil) {
+        if let record, let completeAction, record.notice != nil {
+            removeNotice(record: record, completeAction: completeAction)
+        }
+        
+        Task { @MainActor in
+            deleteGoalInDictionary(goal: goal)
+            await calendarUseCase.deleteGoal(goal: goal)
+            fetchDayData(selection: currentDate.getSelection(type: .day))
+            fetchWeekData(selection: currentDate.getSelection(type: .week))
+        }
+    }
+    
+    func deleteRecords(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+        Task { @MainActor in
+            let deleteRecords = await calendarUseCase.getDeleteRecords(goal: goal)
+            deleteRecords.forEach {
+                deleteRecord(record: $0, completeAction: completeAction)
+            }
+        }
+    }
+    
+    func deleteGoals(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+        goal.records.forEach {
+            deleteRecord(record: $0, completeAction: completeAction)
+        }
+        goal.childGoals.forEach { deleteGoal(goal: $0) }
+        deleteGoal(goal: goal)
+    }
+}
+
+// MARK: - in dictionary
+extension CalendarViewModel {
+    func deleteRecordInDictionary(record: DailyRecordModel) {
+        for key in dayDictionary.keys {
+            dayDictionary[key]?.removeAll { $0.id == record.id }
+            if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
+        }
+    }
+    
+    func deleteGoalInDictionary(goal: DailyGoalModel) {
+        for key in dayDictionary.keys {
+            dayDictionary[key]?.removeAll { recordInDictionary in
+                goal.records.contains { record in
+                    recordInDictionary.id == record.id
+                }
+            }
+            if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
         }
     }
 }
