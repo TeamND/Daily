@@ -9,8 +9,9 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-class CalendarViewModel: ObservableObject {
+final class CalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
+    
     private var calendar = Calendar.current
 
     @Published var currentDate: Date = Date(format: .daily)
@@ -25,6 +26,7 @@ class CalendarViewModel: ObservableObject {
         )
     }
     
+    // MARK: - setDate
     func setDate(selection: String) {
         let selections = CalendarServices.shared.separateSelection(selection)
         self.setDate(year: selections[0], month: selections[safe: 1], day: selections[safe: 2])
@@ -64,36 +66,6 @@ class CalendarViewModel: ObservableObject {
     }
     
     // MARK: - onAppear
-    func calendarYearOnAppear(modelContext: ModelContext, date: Date, selection: String) {
-        let startOfYear = calendar.date(from: DateComponents(year: date.year, month: 1, day: 1))!
-        let endOfYear = calendar.date(from: DateComponents(year: date.year, month: 12, day: 31))!
-        let descriptor = FetchDescriptor<DailyRecordModel>(
-            predicate: #Predicate<DailyRecordModel> { record in
-                startOfYear <= record.date && record.date <= endOfYear
-            }
-        )
-        
-        guard let records = try? modelContext.fetch(descriptor) else { return }
-        var recordsByDate: [Date: [DailyRecordModel]] = [:]
-        records.forEach { record in
-            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
-            if let normalizedDate = calendar.date(from: components) {
-                recordsByDate[normalizedDate, default: []].append(record)
-            }
-        }
-        
-        var newRatings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
-        for (date, dayRecords) in recordsByDate {
-            let successCount = dayRecords.filter { $0.isSuccess }.count
-            let totalCount = dayRecords.count
-            
-            if totalCount > 0 {
-                newRatings[date.month - 1][date.day - 1] = Double(successCount) / Double(totalCount)
-            }
-        }
-        
-        yearDictionary[selection] = newRatings
-    }
     func calendarMonthOnAppear(modelContext: ModelContext, date: Date, selection: String) {
         let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
         let endOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month + 1, day: 1))!.addingTimeInterval(-1)
@@ -187,5 +159,12 @@ class CalendarViewModel: ObservableObject {
         }
         
         return FetchDescriptor<DailyRecordModel>(predicate: predicate)
+    }
+    
+    // MARK: - fetch func
+    func fetchYearData(date: Date, selection: String) {
+        Task { @MainActor in
+            yearDictionary[selection] = await calendarUseCase.getRatingsOfYear(date: date, selection: selection)
+        }
     }
 }

@@ -15,8 +15,7 @@ final class SplashViewModel: ObservableObject {
     @Published var isShowNotice: Bool = false
     
     init() {
-        let repository = AppLaunchRepository()
-        self.appLaunchUseCase = AppLaunchUseCase(repository: repository)
+        self.appLaunchUseCase = AppLaunchUseCase()
     }
     
     func onAppear() {

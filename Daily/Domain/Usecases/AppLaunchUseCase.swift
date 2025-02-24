@@ -8,22 +8,23 @@
 import Foundation
 
 final class AppLaunchUseCase {
-    private let repository: AppLaunchInterface
-    
-    init(repository: AppLaunchInterface) {
-        self.repository = repository
-    }
-    
     func getCatchPhrase() -> String {
-        return repository.getCatchPhrase()
+        guard let language = Languages(rawValue: UserDefaultManager.language ?? "korean") else { return "" }
+        switch language {
+        case .korean:
+            return "여러분의 '매일'을 설계하고 🎨\n\n\t\t, 기록하고 📝, 확인해보세요 👏"
+        case .english:
+            return "Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!"
+        }
     }
     
     func checkNotice() -> Bool {
-        return repository.checkNotice()
+        return Date() < "2025-01-15".toDate()!  // TODO: 추후 수정
     }
     
     func loadApp(_ isWait: Bool = true) async -> Bool {
-        return await repository.loadApp(isWait)
+        if isWait { try? await Task.sleep(nanoseconds: 2_100_000_000) }
+        return true
     }
 }
 

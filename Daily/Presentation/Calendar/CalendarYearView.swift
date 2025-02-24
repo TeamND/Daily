@@ -38,7 +38,6 @@ struct CalendarYearView: View {
 
 // MARK: - CalendarYear
 struct CalendarYear: View {
-    @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     let date: Date
@@ -71,7 +70,7 @@ struct CalendarYear: View {
         }
         .vTop()
         .onAppear {
-            calendarViewModel.calendarYearOnAppear(modelContext: modelContext, date: date, selection: selection)
+            calendarViewModel.fetchYearData(date: date, selection: selection)
         }
     }
 }
