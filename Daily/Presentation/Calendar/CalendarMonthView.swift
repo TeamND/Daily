@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -19,7 +19,7 @@ struct CalendarMonthView: View {
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .month)) {
                 ForEach(-1 ... 12, id: \.self) { index in
-                    let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .month, index: index)
+                    let (date, direction, selection) = calendarViewModel.calendarInfo(type: .month, index: index)
                     Group {
                         if direction == .current { CalendarMonth(date: date, selection: selection) }
                         else { CalendarLoadView(type: .month, direction: direction) }
@@ -39,16 +39,18 @@ struct CalendarMonthView: View {
 
 // MARK: - CalendarMonth
 struct CalendarMonth: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
+    
     let date: Date
     let selection: String
-    var monthDatas: [MonthDataModel] {
+    
+    private var monthDatas: [MonthDataModel] {
         calendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDataModel(), count: 31)
     }
     
     var body: some View {
-        let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.getMonthInfo(date: date)
+        let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         LazyVStack {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack(spacing: 0) {
@@ -73,18 +75,18 @@ struct CalendarMonth: View {
         .cornerRadius(20)
         .vTop()
         .onAppear {
-            calendarViewModel.fetchMonthData(date: date, selection: selection)
+            calendarViewModel.fetchMonthData(selection: selection)
         }
     }
 }
 
 // MARK: - DailyDayOnMonth
 struct DailyDayOnMonth: View {
-    let year: Int
-    let month: Int
-    let day: Int
-    let dailySymbols: [DailySymbol]
-    let rating: Double
+    private let year: Int
+    private let month: Int
+    private let day: Int
+    private let dailySymbols: [DailySymbol]
+    private let rating: Double
     
     init(year: Int = 0, month: Int = 0, day: Int = 0, monthData: MonthDataModel = MonthDataModel()) {
         self.year = year

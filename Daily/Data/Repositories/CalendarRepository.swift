@@ -8,11 +8,19 @@
 import Foundation
 
 final class CalendarRepository: CalendarInterface {
-    func getYearRecords(date: Date) async -> [DailyRecordModel]? {
-        return await CalendarDataSource.shared.fetchYearRecords(date: date)
+    func getYearRecords(selection: String) async -> [DailyRecordModel]? {
+        return await CalendarDataSource.shared.fetchYearRecords(selection: selection)
     }
     
-    func getMonthRecords(date: Date) async -> [DailyRecordModel]? {
-        return await CalendarDataSource.shared.fetchMonthRecords(date: date)
+    func getMonthRecords(selection: String) async -> [DailyRecordModel]? {
+        return await CalendarDataSource.shared.fetchMonthRecords(selection: selection)
+    }
+    
+    func getWeekRecords(selection: String) async -> [DailyRecordModel]? {
+        return await CalendarDataSource.shared.fetchWeekRecords(selection: selection)
+    }
+    
+    func getDayRecords(selection: String) async -> [DailyRecordModel]? {
+        return await CalendarDataSource.shared.fetchDayRecords(selection: selection)
     }
 }

@@ -26,6 +26,8 @@ enum DateJoiner: String {
                 joinString = "월"
             case .day:
                 joinString = "일"
+            default:
+                return ""
             }
         }
         if hasSpacing { joinString += " " }

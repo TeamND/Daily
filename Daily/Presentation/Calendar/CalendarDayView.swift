@@ -11,19 +11,19 @@ import Charts
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(mode: .change, currentDate: calendarViewModel.currentDate)
+            DailyWeekIndicator(mode: .change, selection: calendarViewModel.currentDate.getSelection(type: .week))
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... GeneralServices.week, id: \.self) { index in
-                    let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .day, index: index)
+                    let (date, direction, selection) = calendarViewModel.calendarInfo(type: .day, index: index)
                     Group {
-                        if direction == .current { CalendarDay(date: date) }
+                        if direction == .current { CalendarDay(date: date, selection: selection) }
                         else { CalendarLoadView(type: .day, direction: direction) }
                     }
                     .tag(selection)
@@ -37,27 +37,27 @@ struct CalendarDayView: View {
             DailyAddGoalButton()
         }
         .overlay {
-            DailyWeeklySummary(currentDate: calendarViewModel.currentDate)
+            DailyWeeklySummary(selection: calendarViewModel.currentDate.getSelection(type: .week))
         }
     }
 }
 
 // MARK: - CalendarDay
 struct CalendarDay: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
-    @Query private var records: [DailyRecordModel]
-    let date: Date
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    init(date: Date) {
-        self.date = date
-        _records = Query(CalendarViewModel.recordsForDateDescriptor(date))
+    let date: Date
+    let selection: String
+    
+    private var records: [DailyRecordModel] {
+        calendarViewModel.dayDictionary[selection] ?? []
     }
     
     var body: some View {
-        if records.isEmpty {
-            NoRecord()
-        } else {
-            VStack {
+        VStack {
+            if records.isEmpty {
+                NoRecord()
+            } else {
                 ViewThatFits(in: .vertical) {
                     RecordList(date: date, records: records)
                     ScrollView {
@@ -68,6 +68,9 @@ struct CalendarDay: View {
                 Spacer()
             }
         }
+        .onAppear {
+            calendarViewModel.fetchDayData(selection: selection)
+        }
     }
 }
 
@@ -77,44 +80,24 @@ struct CalendarDay: View {
 
 // MARK: - DailyWeeklySummary
 struct DailyWeeklySummary: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
-    @Query private var records: [DailyRecordModel]
-    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    @AppStorage(UserDefaultKey.startDay.rawValue) private var startDay: Int = 0
     
-    init(currentDate: Date) {
-        _records = Query(CalendarViewModel.recordsForWeekDescriptor(currentDate))
+    let selection: String
+    
+    private var records: [Double] {
+        calendarViewModel.weekDictionary[selection] ?? Array(repeating: 0.0, count: 7)
     }
     
     private var ratingsForChart: [RatingOnWeekModel] {
-        var ratingsForChart = (.zero ..< GeneralServices.week).map { index in
+        (.zero ..< GeneralServices.week).map { index in
             let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: .zero)
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: records[index] * 100)
         }
-        
-        let recordsByDay = Dictionary(grouping: records) { record -> Int in
-            record.date.dailyWeekday(startDay: startDay)
-        }
-        
-        for (index, record) in recordsByDay {
-            let successCount = record.filter { $0.isSuccess }.count
-            ratingsForChart[index].rating = Double(successCount) / Double(record.count) * 100
-        }
-        
-        return ratingsForChart
     }
     
     private var ratingOfWeek: Int {
-        let validRecords = records.filter { record in
-            record.date <= Date()
-        }
-        
-        let totalRecords = validRecords.count
-        guard totalRecords > 0 else { return 0 }
-        
-        let successCount = validRecords.filter { $0.isSuccess }.count
-        let successRate = Double(successCount) / Double(totalRecords) * 100
-        
-        return Int(round(successRate))
+        calendarViewModel.weeklyPercentage[selection] ?? 0
     }
     
     var body: some View {
@@ -122,6 +105,9 @@ struct DailyWeeklySummary: View {
             Spacer()
             weeklySummaryHeader
             weeklySummaryBody
+        }
+        .onAppear {
+            calendarViewModel.fetchWeekData(selection: selection)
         }
         .ignoresSafeArea()
         .onTapGesture {

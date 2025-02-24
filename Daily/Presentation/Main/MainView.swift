@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
-    @AppStorage(UserDefaultKey.calendarType.rawValue) var calendarType: String = ""
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
+    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: String = ""
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {

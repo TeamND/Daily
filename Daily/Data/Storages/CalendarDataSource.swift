@@ -20,9 +20,10 @@ final class CalendarDataSource {
         calendar = CalendarManager.shared.getDailyCalendar()
     }
     
-    func fetchYearRecords(date: Date) -> [DailyRecordModel]? {
-        let startOfYear = calendar.date(from: DateComponents(year: date.year, month: 1, day: 1))!
-        let endOfYear = calendar.date(from: DateComponents(year: date.year, month: 12, day: 31))!
+    func fetchYearRecords(selection: String) -> [DailyRecordModel]? {
+        let selections = CalendarServices.shared.separateSelection(selection)
+        let startOfYear = calendar.date(from: DateComponents(year: selections[0], month: 1, day: 1))!
+        let endOfYear = calendar.date(from: DateComponents(year: selections[0], month: 12, day: 31))!
         
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
@@ -33,13 +34,40 @@ final class CalendarDataSource {
         return try? context.fetch(descriptor)
     }
     
-    func fetchMonthRecords(date: Date) -> [DailyRecordModel]? {
-        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
-        let endOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month + 1, day: 1))!.addingTimeInterval(-1)
+    func fetchMonthRecords(selection: String) -> [DailyRecordModel]? {
+        let selections = CalendarServices.shared.separateSelection(selection)
+        let startOfMonth = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: 1))!
+        let endOfMonth = calendar.date(from: DateComponents(year: selections[0], month: selections[1] + 1, day: 1))!.addingTimeInterval(-1)
         
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
                 startOfMonth <= record.date && record.date <= endOfMonth
+            }
+        )
+        
+        return try? context.fetch(descriptor)
+    }
+    
+    func fetchWeekRecords(selection: String) -> [DailyRecordModel]? {
+        let startDay = selection.toDate()!
+        let endDay = calendar.date(byAdding: .day, value: 7, to: startDay)!
+        
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startDay <= record.date && record.date < endDay
+            }
+        )
+        
+        return try? context.fetch(descriptor)
+    }
+    
+    func fetchDayRecords(selection: String) -> [DailyRecordModel]? {
+        let today = selection.toDate()!
+        let tommorow = calendar.date(byAdding: .day, value: 1, to: today)!
+        
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                today <= record.date && record.date < tommorow
             }
         )
         

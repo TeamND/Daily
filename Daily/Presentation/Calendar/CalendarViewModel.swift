@@ -12,12 +12,13 @@ import SwiftData
 final class CalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
     
-    private var calendar = Calendar.current
-
-    @Published var currentDate: Date = Date(format: .daily)
-    @Published var yearDictionary: [String: [[Double]]] = [:]
-    @Published var monthDictionary: [String: [MonthDataModel]] = [:]
-    @Published var isShowWeeklySummary: Bool = false
+    @Published private(set) var currentDate: Date = Date(format: .daily)
+    @Published private(set) var yearDictionary: [String: [[Double]]] = [:]
+    @Published private(set) var monthDictionary: [String: [MonthDataModel]] = [:]
+    @Published private(set) var weekDictionary: [String: [Double]] = [:]
+    @Published private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
+    @Published private(set) var weeklyPercentage: [String: Int] = [:]
+    @Published var isShowWeeklySummary: Bool = false    // TODO: 추후 수정
     
     func bindSelection(type: CalendarType) -> Binding<String> {
         Binding(
@@ -26,7 +27,14 @@ final class CalendarViewModel: ObservableObject {
         )
     }
     
-    // MARK: - setDate
+    init() {
+        let calendarRepository = CalendarRepository()
+        self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
+    }
+}
+
+// MARK: - setDate
+extension CalendarViewModel {
     func setDate(selection: String) {
         let selections = CalendarServices.shared.separateSelection(selection)
         self.setDate(year: selections[0], month: selections[safe: 1], day: selections[safe: 2])
@@ -37,100 +45,58 @@ final class CalendarViewModel: ObservableObject {
         currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date(format: .daily)
     }
     func setDate(byAdding: Calendar.Component, value: Int) {
+        var calendar = Calendar.current
+        calendar.timeZone = .current
         currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date(format: .daily)
     }
     func setDate(date: Date) {
         currentDate = date
     }
-    
-    // MARK: - init
-    init() {
-        self.calendar.timeZone = .current
-        
-        let calendarRepository = CalendarRepository()
-        self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
-    }
-    
-    func loadText(type: CalendarType, direction: Direction) -> String {
-        switch type {
-        case .year:
-            let decade = (currentDate.year / 10 + direction.value) * 10
-            return "\(String(decade))년대"
-        case .month:
-            let year = currentDate.year + direction.value
-            return "\(String(year))년"
-        case .day:
-            let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
-            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: UserDefaultManager.startDay ?? 0))주차"
-        }
-    }
-    
-    // MARK: - get info func
-    func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
-        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
-        
-        let maxIndex = type == .year ? 10 : type == .month ? 12 : GeneralServices.week
-        let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
-        
-        return (date, direction, date.getSelection(type: type))
-    }
-    func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
-        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
-        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let weekday = startOfMonth.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
-        let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
-        return (weekday + 1, lengthOfMonth, dividerCount)
-    }
-    
-    // MARK: - header func
-    func headerText(type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
-        switch type {
-        case .year:
-            return textPosition == .title ? String(self.currentDate.year) + "년" : ""
-        case .month:
-            return textPosition == .title ? String(self.currentDate.month) + "월" : String(self.currentDate.year) + "년"
-        case .day:
-            return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
-        }
-    }
-    
-    // MARK: - record list func
-    
+}
 
-    // MARK: - Query filter
-    static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
-        let tommorow = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-        
-        let predicate = #Predicate<DailyRecordModel> { record in
-            date <= record.date && record.date < tommorow
-        }
-        
-        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
+// MARK: - info
+extension CalendarViewModel {
+    func loadText(type: CalendarType, direction: Direction) -> String {
+        calendarUseCase.getLoadText(currentDate: currentDate, type: type, direction: direction)
     }
     
-    static func recordsForWeekDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
-        let calendar = Calendar.current
-        let startDate = calendar.date(byAdding: .day, value: -date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0), to: date)!
-        let endDate = calendar.date(byAdding: .day, value: GeneralServices.week, to: startDate)!
-        
-        let predicate = #Predicate<DailyRecordModel> { record in
-            startDate <= record.date && record.date < endDate
-        }
-        
-        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
+    func headerText(type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
+        calendarUseCase.getHeaderText(currentDate: currentDate, type: type, textPosition: textPosition)
     }
     
-    // MARK: - fetch func
-    func fetchYearData(date: Date, selection: String) {
+    func calendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
+        calendarUseCase.getCalendarInfo(currentDate: currentDate, type: type, index: index)
+    }
+    
+    func monthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
+        calendarUseCase.getMonthInfo(date: date)
+    }
+}
+
+// MARK: - fetch func
+extension CalendarViewModel {
+    func fetchYearData(selection: String) {
         Task { @MainActor in
-            yearDictionary[selection] = await calendarUseCase.getRatingsOfYear(date: date)
+            yearDictionary[selection] = await calendarUseCase.getRatingsOfYear(selection: selection)
         }
     }
     
-    func fetchMonthData(date: Date, selection: String) {
+    func fetchMonthData(selection: String) {
         Task { @MainActor in
-            monthDictionary[selection] = await calendarUseCase.getMonthDatas(date: date)
+            monthDictionary[selection] = await calendarUseCase.getMonthDatas(selection: selection)
+        }
+    }
+    
+    func fetchWeekData(selection: String) {
+        Task { @MainActor in
+            weekDictionary[selection] = await calendarUseCase.getRatingsOfWeek(selection: selection)
+            weeklyPercentage[selection] = await calendarUseCase.getWeeklyPercentage(selection: selection)
+        }
+    }
+    
+    func fetchDayData(selection: String) {
+        Task { @MainActor in
+            dayDictionary[selection] = await calendarUseCase.getRecords(selection: selection)
         }
     }
 }

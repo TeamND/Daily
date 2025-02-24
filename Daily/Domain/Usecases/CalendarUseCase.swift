@@ -15,9 +15,62 @@ final class CalendarUseCase {
         self.repository = repository
         self.calendar = CalendarManager.shared.getDailyCalendar()
     }
+}
+
+// MARK: - business logic
+extension CalendarUseCase {
+    func getLoadText(currentDate: Date, type: CalendarType, direction: Direction) -> String {
+        switch type {
+        case .year:
+            let decade = (currentDate.year / 10 + direction.value) * 10
+            return "\(String(decade))년대"
+        case .month:
+            let year = currentDate.year + direction.value
+            return "\(String(year))년"
+        case .day:
+            let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
+            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: UserDefaultManager.startDay ?? 0))주차"
+        default:
+            return ""
+        }
+    }
     
-    func getRatingsOfYear(date: Date) async -> [[Double]] {
-        let records = await repository.getYearRecords(date: date)
+    func getHeaderText(currentDate: Date, type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
+        switch type {
+        case .year:
+            return textPosition == .title ? String(currentDate.year) + "년" : ""
+        case .month:
+            return textPosition == .title ? String(currentDate.month) + "월" : String(currentDate.year) + "년"
+        case .day:
+            return textPosition == .title ? String(currentDate.day) + "일" : String(currentDate.month) + "월"
+        default:
+            return ""
+        }
+    }
+    
+    func getCalendarInfo(currentDate: Date, type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
+        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
+        
+        let maxIndex = type == .year ? 10 : type == .month ? 12 : GeneralServices.week
+        let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
+        
+        return (date, direction, date.getSelection(type: type))
+    }
+    
+    func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
+        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        let weekday = startOfMonth.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+        let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
+        return (weekday + 1, lengthOfMonth, dividerCount)
+    }
+}
+
+// MARK: - get records func
+extension CalendarUseCase {
+    func getRatingsOfYear(selection: String) async -> [[Double]] {
+        let records = await repository.getYearRecords(selection: selection)
         let recordsByDate = getRecordsByDate(records: records)
         
         var ratingsOfYear = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
@@ -33,16 +86,17 @@ final class CalendarUseCase {
         return ratingsOfYear
     }
     
-    func getMonthDatas(date: Date) async -> [MonthDataModel] {
-        let records = await repository.getMonthRecords(date: date)
+    func getMonthDatas(selection: String) async -> [MonthDataModel] {
+        let records = await repository.getMonthRecords(selection: selection)
         let recordsByDate = getRecordsByDate(records: records)
         
-        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
+        let selections = CalendarServices.shared.separateSelection(selection)
+        let startOfMonth = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: 1))!
         let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
         
         var monthDatas: [MonthDataModel] = Array(repeating: MonthDataModel(), count: lengthOfMonth)
         for day in 1 ... lengthOfMonth {
-            if let dayDate = calendar.date(from: DateComponents(year: date.year, month: date.month, day: day)),
+            if let dayDate = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: day)),
                let dayRecords = recordsByDate[dayDate] {
                 
                 var dailySymbols: [DailySymbol] = []
@@ -58,6 +112,42 @@ final class CalendarUseCase {
         }
         
         return monthDatas
+    }
+    
+    func getRatingsOfWeek(selection: String) async -> [Double] {
+        let records = await repository.getWeekRecords(selection: selection)
+        let recordsByDate = getRecordsByDate(records: records)
+        
+        var ratingsOfWeek = Array(repeating: 0.0, count: 7)
+        for (date, dayRecords) in recordsByDate {
+            let successCount = dayRecords.filter { $0.isSuccess }.count
+            let totalCount = dayRecords.count
+            
+            if totalCount > 0 {
+                ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)] = Double(successCount) / Double(totalCount)
+            }
+        }
+        
+        return ratingsOfWeek
+    }
+    
+    func getRecords(selection: String) async -> [DailyRecordModel] {
+        return await repository.getDayRecords(selection: selection) ?? []
+    }
+    
+    func getWeeklyPercentage(selection: String) async -> Int {
+        let records = await repository.getWeekRecords(selection: selection)
+        
+        let validRecords = records?.filter { record in
+            record.date <= Date()
+        }
+
+        guard let totalRecords = validRecords?.count, totalRecords > 0 else { return 0 }
+
+        guard let successCount = validRecords?.filter({ $0.isSuccess }).count else { return 0 }
+        let successRate = Double(successCount) / Double(totalRecords) * 100
+
+        return Int(round(successRate))
     }
 }
 
@@ -76,4 +166,3 @@ extension CalendarUseCase {
         return recordsByDate
     }
 }
-

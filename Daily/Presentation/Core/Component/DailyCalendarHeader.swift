@@ -54,7 +54,7 @@ struct DailyCalendarHeader: View {
                                 Text("\(String(month)) 월")
                             }
                         }
-                    case .day:
+                    case .week, .day:
                         let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: calendarViewModel.currentDate)?.count ?? 0
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
                             Button {
