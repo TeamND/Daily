@@ -1,5 +1,5 @@
 //
-//  CalendarType.swift
+//  CalendarTypes.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/23/24.
@@ -7,9 +7,10 @@
 
 import Foundation
 
-enum CalendarType: String, CaseIterable {
+enum CalendarTypes: String, CaseIterable {
     case year
     case month
+    case week
     case day
     
     var byAdding: Calendar.Component {
@@ -18,7 +19,7 @@ enum CalendarType: String, CaseIterable {
             return .year
         case .month:
             return .month
-        case .day:
+        case .week, .day:
             return .day
         }
     }

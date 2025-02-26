@@ -66,12 +66,17 @@ extension Date {
         dateFormatter.dateFormat = format.rawValue
         return dateFormatter.string(from: self)
     }
-    func getSelection(type: CalendarType = .day) -> String {
+    func getSelection(type: CalendarTypes = .day) -> String {
         switch type {
         case .year:
             return CalendarServices.shared.formatDateString(year: self.year)
         case .month:
             return CalendarServices.shared.formatDateString(year: self.year, month: self.month)
+        case .week:
+            let calendar = CalendarManager.shared.getDailyCalendar()
+            let weekday = self.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+            let startDate = calendar.date(byAdding: .day, value: -weekday, to: self) ?? Date()
+            return CalendarServices.shared.formatDateString(year: startDate.year, month: startDate.month, day: startDate.day)
         case .day:
             return CalendarServices.shared.formatDateString(year: self.year, month: self.month, day: self.day)
         }

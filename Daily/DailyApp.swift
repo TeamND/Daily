@@ -11,10 +11,9 @@ import DailyUtilities
 
 @main
 struct DailyApp: App {
-    @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var navigationEnvironment = NavigationEnvironment()
+    @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var calendarViewModel = CalendarViewModel()
-    @StateObject var splashViewModel = SplashViewModel()
     
     let dailyModelContainer: ModelContainer
     
@@ -38,14 +37,10 @@ struct DailyApp: App {
     private var daily: some View {
         ZStack {
             MainView()
-            if splashViewModel.isAppLoading {
-                SplashView(splashViewModel: splashViewModel)
-            }
+            SplashView()
             alertEnvironment.toastView
         }
-        .alert(isPresented: $alertEnvironment.isShowAlert) {
-            dailyAlert(noticeAlert: .denied)
-        }
+        .alert(isPresented: $alertEnvironment.isShowAlert) { dailyAlert(noticeAlert: .denied) }
     }
     
     private func dailyAlert(noticeAlert: NoticeAlert) -> Alert {

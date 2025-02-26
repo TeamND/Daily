@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -18,7 +18,7 @@ struct CalendarYearView: View {
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .year)) {
                 ForEach(-1 ... 10, id: \.self) { index in
-                    let (date, direction, selection) = calendarViewModel.getCalendarInfo(type: .year, index: index)
+                    let (date, direction, selection) = calendarViewModel.calendarInfo(type: .year, index: index)
                     Group {
                         if direction == .current { CalendarYear(date: date, selection: selection) }
                         else { CalendarLoadView(type: .year, direction: direction) }
@@ -38,12 +38,13 @@ struct CalendarYearView: View {
 
 // MARK: - CalendarYear
 struct CalendarYear: View {
-    @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
-    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
+    
     let date: Date
     let selection: String
-    var ratingsOfYear: [[Double]] {
+    
+    private var ratingsOfYear: [[Double]] {
         calendarViewModel.yearDictionary[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
     }
     
@@ -71,17 +72,18 @@ struct CalendarYear: View {
         }
         .vTop()
         .onAppear {
-            calendarViewModel.calendarYearOnAppear(modelContext: modelContext, date: date, selection: selection)
+            calendarViewModel.fetchYearData(selection: selection)
         }
     }
 }
 
 // MARK: - DailyMonthOnYear
 struct DailyMonthOnYear: View {
+    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
+    
     let year: Int
     let month: Int
     let ratingsOfMonth: [Double]
-    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
     
     var body: some View {
         VStack(alignment: .leading) {

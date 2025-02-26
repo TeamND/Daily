@@ -18,7 +18,7 @@ extension Int {
         return String(format: "%d:%02d:%02d", self / 3600, self % 3600 / 60, self % 60)
     }
     
-    func formatDateString(type: CalendarType) -> String {
+    func formatDateString(type: CalendarTypes) -> String {
         switch type {
         case .year:
             return String(format: "%04d", self)

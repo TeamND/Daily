@@ -7,24 +7,33 @@
 
 import Foundation
 import SwiftUI
-import SwiftData
 
-class CalendarViewModel: ObservableObject {
+final class CalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
-    private var calendar = Calendar.current
-
-    @Published var currentDate: Date = Date(format: .daily)
-    @Published var yearDictionary: [String: [[Double]]] = [:]
-    @Published var monthDictionary: [String: [MonthDatas]] = [:]
-    @Published var isShowWeeklySummary: Bool = false
     
-    func bindSelection(type: CalendarType) -> Binding<String> {
+    @Published private(set) var currentDate: Date = Date(format: .daily)
+    @Published private(set) var yearDictionary: [String: [[Double]]] = [:]
+    @Published private(set) var monthDictionary: [String: [MonthDataModel]] = [:]
+    @Published private(set) var weekDictionary: [String: [Double]] = [:]
+    @Published private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
+    @Published private(set) var weeklyPercentage: [String: Int] = [:]
+    @Published var isShowWeeklySummary: Bool = false    // TODO: 추후 수정
+    
+    func bindSelection(type: CalendarTypes) -> Binding<String> {
         Binding(
             get: { self.currentDate.getSelection(type: type) },
             set: { self.setDate(selection: $0) }
         )
     }
     
+    init() {
+        let calendarRepository = CalendarRepository()
+        self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
+    }
+}
+
+// MARK: - setDate
+extension CalendarViewModel {
     func setDate(selection: String) {
         let selections = CalendarServices.shared.separateSelection(selection)
         self.setDate(year: selections[0], month: selections[safe: 1], day: selections[safe: 2])
@@ -35,157 +44,154 @@ class CalendarViewModel: ObservableObject {
         currentDate = CalendarServices.shared.getDate(year: year, month: month, day: day) ?? Date(format: .daily)
     }
     func setDate(byAdding: Calendar.Component, value: Int) {
+        var calendar = Calendar.current
+        calendar.timeZone = .current
         currentDate = calendar.date(byAdding: byAdding, value: value, to: currentDate) ?? Date(format: .daily)
     }
     func setDate(date: Date) {
         currentDate = date
     }
-    
-    // MARK: - init
-    init() {
-        self.calendar.timeZone = .current
-        
-        let calendarRepository = CalendarRepository()
-        self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
-    }
-    
-    func loadText(type: CalendarType, direction: Direction) -> String {
-        switch type {
-        case .year:
-            let decade = (currentDate.year / 10 + direction.value) * 10
-            return "\(String(decade))년대"
-        case .month:
-            let year = currentDate.year + direction.value
-            return "\(String(year))년"
-        case .day:
-            let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
-            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: UserDefaultManager.startDay ?? 0))주차"
-        }
-    }
-    
-    // MARK: - onAppear
-    func calendarYearOnAppear(modelContext: ModelContext, date: Date, selection: String) {
-        let startOfYear = calendar.date(from: DateComponents(year: date.year, month: 1, day: 1))!
-        let endOfYear = calendar.date(from: DateComponents(year: date.year, month: 12, day: 31))!
-        let descriptor = FetchDescriptor<DailyRecordModel>(
-            predicate: #Predicate<DailyRecordModel> { record in
-                startOfYear <= record.date && record.date <= endOfYear
-            }
-        )
-        
-        guard let records = try? modelContext.fetch(descriptor) else { return }
-        var recordsByDate: [Date: [DailyRecordModel]] = [:]
-        records.forEach { record in
-            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
-            if let normalizedDate = calendar.date(from: components) {
-                recordsByDate[normalizedDate, default: []].append(record)
-            }
-        }
-        
-        var newRatings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
-        for (date, dayRecords) in recordsByDate {
-            let successCount = dayRecords.filter { $0.isSuccess }.count
-            let totalCount = dayRecords.count
-            
-            if totalCount > 0 {
-                newRatings[date.month - 1][date.day - 1] = Double(successCount) / Double(totalCount)
-            }
-        }
-        
-        yearDictionary[selection] = newRatings
-    }
-    func calendarMonthOnAppear(modelContext: ModelContext, date: Date, selection: String) {
-        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
-        let endOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month + 1, day: 1))!.addingTimeInterval(-1)
-        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let descriptor = FetchDescriptor<DailyRecordModel>(
-            predicate: #Predicate<DailyRecordModel> { record in
-                startOfMonth <= record.date && record.date <= endOfMonth
-            }
-        )
-        
-        guard let records = try? modelContext.fetch(descriptor) else { return }
-        var recordsByDate: [Date: [DailyRecordModel]] = [:]
-        records.forEach { record in
-            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
-            if let normalizedDate = calendar.date(from: components) {
-                recordsByDate[normalizedDate, default: []].append(record)
-            }
-        }
-        
-        var monthDatas: [MonthDatas] = Array(repeating: MonthDatas(), count: lengthOfMonth)
-        for day in 1 ... lengthOfMonth {
-            if let dayDate = calendar.date(from: DateComponents(year: date.year, month: date.month, day: day)),
-               let dayRecords = recordsByDate[dayDate] {
-                
-                var dailySymbols: [DailySymbol] = []
-                dayRecords.forEach { record in
-                    if let goal = record.goal {
-                        dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
-                    }
-                }
-                
-                let rating = dayRecords.isEmpty ? 0.0 : Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
-                monthDatas[day - 1] = MonthDatas(symbol: dailySymbols, rating: rating)
-            }
-        }
-        
-        monthDictionary[selection] = monthDatas
-    }
-    
-    // MARK: - get info func
-    func getCalendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
-        let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
-        
-        let maxIndex = type == .year ? 10 : type == .month ? 12 : GeneralServices.week
-        let direction: Direction = index < 0 ? .prev : index < maxIndex ? .current : .next
-        
-        return (date, direction, date.getSelection(type: type))
-    }
-    func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
-        let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
-        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let weekday = startOfMonth.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
-        let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
-        return (weekday + 1, lengthOfMonth, dividerCount)
-    }
-    
-    // MARK: - header func
-    func headerText(type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
-        switch type {
-        case .year:
-            return textPosition == .title ? String(self.currentDate.year) + "년" : ""
-        case .month:
-            return textPosition == .title ? String(self.currentDate.month) + "월" : String(self.currentDate.year) + "년"
-        case .day:
-            return textPosition == .title ? String(self.currentDate.day) + "일" : String(self.currentDate.month) + "월"
-        }
-    }
-    
-    // MARK: - record list func
-    
+}
 
-    // MARK: - Query filter
-    static func recordsForDateDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
-        let tommorow = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-        
-        let predicate = #Predicate<DailyRecordModel> { record in
-            date <= record.date && record.date < tommorow
-        }
-        
-        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
+// MARK: - info
+extension CalendarViewModel {
+    func loadText(type: CalendarTypes, direction: Direction) -> String {
+        calendarUseCase.getLoadText(currentDate: currentDate, type: type, direction: direction)
     }
     
-    static func recordsForWeekDescriptor(_ date: Date) -> FetchDescriptor<DailyRecordModel> {
-        let calendar = Calendar.current
-        let startDate = calendar.date(byAdding: .day, value: -date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0), to: date)!
-        let endDate = calendar.date(byAdding: .day, value: GeneralServices.week, to: startDate)!
+    func headerText(type: CalendarTypes, textPosition: TextPositionInHeader = .title) -> String {
+        calendarUseCase.getHeaderText(currentDate: currentDate, type: type, textPosition: textPosition)
+    }
+    
+    func calendarInfo(type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
+        calendarUseCase.getCalendarInfo(currentDate: currentDate, type: type, index: index)
+    }
+    
+    func monthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
+        calendarUseCase.getMonthInfo(date: date)
+    }
+}
+
+// MARK: - fetch func
+extension CalendarViewModel {
+    func fetchYearData(selection: String) {
+        Task { @MainActor in
+            yearDictionary[selection] = await calendarUseCase.getRatingsOfYear(selection: selection)
+        }
+    }
+    
+    func fetchMonthData(selection: String) {
+        Task { @MainActor in
+            monthDictionary[selection] = await calendarUseCase.getMonthDatas(selection: selection)
+        }
+    }
+    
+    func fetchWeekData(selection: String) {
+        Task { @MainActor in
+            weekDictionary[selection] = await calendarUseCase.getRatingsOfWeek(selection: selection)
+            weeklyPercentage[selection] = await calendarUseCase.getWeeklyPercentage(selection: selection)
+        }
+    }
+    
+    func fetchDayData(selection: String) {
+        Task { @MainActor in
+            dayDictionary[selection] = await calendarUseCase.getRecords(selection: selection)
+        }
+    }
+}
+
+// MARK: - button action
+extension CalendarViewModel {
+    func actionOfRecordButton(record: DailyRecordModel) {
+        guard let goal = record.goal else { return }
         
-        let predicate = #Predicate<DailyRecordModel> { record in
-            startDate <= record.date && record.date < endDate
+        Task { @MainActor in
+            switch goal.type {
+            case .check, .count:
+                await calendarUseCase.addCount(goal: goal, record: record)
+                fetchDayData(selection: currentDate.getSelection(type: .day))
+                fetchWeekData(selection: currentDate.getSelection(type: .week))
+            case .timer: // TODO: 추후 구현
+                return
+            }
+        }
+    }
+    
+    func addNotice(goal: DailyGoalModel, record: DailyRecordModel, noticeTime: NoticeTimes, completeAction: @escaping () -> Void) {
+        PushNoticeManager.shared.addNotice(
+            id: String(describing: record.id),
+            content: goal.content,
+            date: record.date,
+            setTime: goal.setTime,
+            noticeTime: noticeTime
+        )
+        
+        Task { @MainActor in
+            await calendarUseCase.setNotice(record: record, notice: noticeTime.rawValue)
+            completeAction()
+        }
+    }
+    
+    func removeNotice(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+        PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+        
+        Task { @MainActor in
+            await calendarUseCase.setNotice(record: record, notice: nil)
+            completeAction()
+        }
+    }
+    
+    func deleteRecord(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+        if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
+        
+        Task { @MainActor in
+            deleteRecordInDictionary(record: record)
+            await calendarUseCase.deleteRecord(record: record)
+            fetchDayData(selection: currentDate.getSelection(type: .day))
+            fetchWeekData(selection: currentDate.getSelection(type: .week))
+        }
+    }
+    
+    func deleteGoal(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+        goal.records.forEach { record in
+            if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
         }
         
-        return FetchDescriptor<DailyRecordModel>(predicate: predicate)
+        Task { @MainActor in
+            deleteGoalInDictionary(goal: goal)
+            await calendarUseCase.deleteGoal(goal: goal)
+            fetchDayData(selection: currentDate.getSelection(type: .day))
+            fetchWeekData(selection: currentDate.getSelection(type: .week))
+        }
+    }
+    
+    func deleteRecords(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+        Task { @MainActor in
+            let deleteRecords = await calendarUseCase.getDeleteRecords(goal: goal)
+            deleteRecords.forEach {
+                deleteRecord(record: $0, completeAction: completeAction)
+            }
+        }
+    }
+}
+
+// MARK: - in dictionary
+extension CalendarViewModel {
+    func deleteRecordInDictionary(record: DailyRecordModel) {
+        for key in dayDictionary.keys {
+            dayDictionary[key]?.removeAll { $0.id == record.id }
+            if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
+        }
+    }
+    
+    func deleteGoalInDictionary(goal: DailyGoalModel) {
+        for key in dayDictionary.keys {
+            dayDictionary[key]?.removeAll { recordInDictionary in
+                goal.records.contains { record in
+                    recordInDictionary.id == record.id
+                }
+            }
+            if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
+        }
     }
 }

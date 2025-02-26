@@ -7,44 +7,43 @@
 
 import Foundation
 import SwiftUI
-import SwiftData
 
 class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
-    private var calendar = Calendar.current
+    private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
-    @Published var cycleType: CycleTypes = .date
+    var originalDate: Date = Date(format: .daily)
+    var modifyType: ModifyTypes?
+    
+    var originalGoal: DailyGoalModel = DailyGoalModel()
+    var originalRecord: DailyRecordModel = DailyRecordModel()
+    
+    @Published var goal: DailyGoalModel = DailyGoalModel()
+    @Published var record: DailyRecordModel = DailyRecordModel()
+    
     @Published var startDate: Date = Date(format: .daily)
     @Published var endDate: Date = Date(format: .daily).monthLater()
-    var selectedWeekday: [Int] = []
+    @Published var selectedWeekday: [Double] = Array(repeating: .zero, count: GeneralServices.week)
+    
     var repeatDates: [String] {
-        switch cycleType {
+        switch goal.cycleType {
         case .date:
             return [startDate.getSelection()]
         case .rept:
-            return stride(from: startDate, through: endDate, by: 24 * 60 * 60)
-                .compactMap { selectedWeekday.contains(calendar.component(.weekday, from: $0)) ? $0.getSelection() : nil }
+            return stride(from: startDate, through: endDate, by: 24 * 60 * 60).compactMap {
+                selectedWeekday[calendar.component(.weekday, from: $0) - 1] > 0 ? $0.getSelection() : nil
+            }
         }
     }
     
-    @Published var isSetTime: Bool = false
-    @Published var setTime: Date = "00:00".toDate(format: .setTime) ?? Date(format: .daily)
+    var setTime: Binding<Date> {
+        Binding(
+            get: { self.goal.setTime.toDate(format: .setTime) ?? Date(format: .daily) },
+            set: { self.goal.setTime = $0.toString(format: .setTime) }
+        )
+    }
     
-    @Published var content: String = ""
-    @Published var goalType: GoalTypes = .check
-    @Published var recordCount: Int = 0
-    @Published var goalCount: Int = 1
-    @Published var symbol: Symbols = .check
-    
-    @Published var modifyRecord: DailyRecordModel? = nil
-    @Published var modifyType: ModifyTypes? = nil
-    private var beforeDate: Date = Date(format: .daily)
-    private var beforeRecord: Int = 0
-    
-    // TODO: 추후 GoalView로 이동시 Data에 날짜 데이터 추가, Date 변수들 조정
     init() {
-        self.calendar.timeZone = .current
-        
         let goalRepository = GoalRepository()
         self.goalUseCase = GoalUseCase(repository: goalRepository)
     }
@@ -52,154 +51,112 @@ class GoalViewModel: ObservableObject {
     convenience init(goalData: GoalDataModel) {
         self.init()
         
-        self.beforeDate = goalData.date
-        self.startDate = self.beforeDate
-        self.endDate = self.beforeDate.monthLater()
+        self.originalDate = goalData.date
+        
+        self.startDate = originalDate
+        self.endDate = originalDate.monthLater()
+        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
+        
+        self.originalGoal = goal.copy()
     }
     
     convenience init(modifyData: ModifyDataModel) {
         self.init()
         
-        self.setRecord(record: modifyData.modifyRecord)
-        self.modifyRecord = modifyData.modifyRecord
+        self.originalDate = modifyData.date
         self.modifyType = modifyData.modifyType
-        self.cycleType = modifyData.modifyType == .all ? .rept : .date
-        self.beforeDate = modifyData.date
-        self.startDate = self.beforeDate
-        self.beforeRecord = modifyData.modifyRecord.count
-        self.recordCount = self.beforeRecord
-    }
-    
-    // MARK: - set
-    func setRecord(record: DailyRecordModel) {
-        if let goal = record.goal {
-            self.cycleType = goal.cycleType
-            self.isSetTime = goal.isSetTime
-            self.setTime = goal.setTime.toDate(format: .setTime) ?? Date(format: .daily)
-            self.content = goal.content
-            self.goalCount = goal.count
-            self.symbol = goal.symbol
-        }
-    }
-    
-    // MARK: - button func
-    func reset() {
-        if let modifyRecord {
-            self.setRecord(record: modifyRecord)
-            startDate = beforeDate
-            recordCount = beforeRecord
-        } else {
-            content = ""
-            symbol = .check
-            goalType = .check
-            startDate = beforeDate
-            endDate = beforeDate.monthLater()
-            cycleType = .date
-            selectedWeekday = []
-            goalCount = 1
-            isSetTime = false
-            setTime = "00:00".toDate(format: .setTime) ?? Date(format: .daily)
-        }
-    }
-    
-    func add(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
-        if let validate = validate(validateType: .add) { validateAction(validate); return }
-        let newGoal = DailyGoalModel(
-            type: goalType,
-            cycleType: cycleType,
-            content: content,
-            symbol: symbol,
-            startDate: startDate,
-            endDate: endDate,
-            repeatDates: repeatDates,
-            count: goalCount,
-            isSetTime: isSetTime,
-            setTime: setTime.toString(format: .setTime)
-        )
-        modelContext.insert(newGoal)
-        try? modelContext.save()
         
-        repeatDates.forEach { repeatDate in
-            guard let date = repeatDate.toDate() else { return }
-            modelContext.insert(DailyRecordModel(goal: newGoal, date: date))
+        self.goal = modifyData.modifyRecord.goal ?? DailyGoalModel()
+        self.record = modifyData.modifyRecord
+        
+        self.originalGoal = goal.copy()
+        self.originalRecord = record.copy()
+    }
+}
+
+// MARK: - button func
+extension GoalViewModel {
+    func reset(exceptGoal: Bool = false, exceptRecord: Bool = false) {
+        if !exceptGoal {
+            self.goal.type = originalGoal.type
+            self.goal.cycleType = originalGoal.cycleType
+            self.goal.content = originalGoal.content
+            self.goal.symbol = originalGoal.symbol
+            self.goal.count = originalGoal.count
+            self.goal.isSetTime = originalGoal.isSetTime
+            self.goal.setTime = originalGoal.setTime
         }
-        try? modelContext.save()
-        successAction(startDate)
+        
+        if !exceptRecord {
+            self.record.date = originalDate
+            self.record.isSuccess = originalRecord.isSuccess
+            self.record.count = originalRecord.count
+            self.record.notice = originalRecord.notice
+        }
+        
+        self.startDate = originalDate
+        self.endDate = originalDate.monthLater()
+        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
     }
     
-    func modify(modelContext: ModelContext, successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
-        if let validate = validate(validateType: .modify) { validateAction(validate); return }
-        if let record = modifyRecord, let goal = record.goal, let modifyType {
-            // MARK: date 또는 setTime이 변경되었을 경우 알림 삭제
-            if record.notice != nil && (record.date != startDate || goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime) {
-                record.notice = nil
-                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
-                if record.date != startDate { validateAction(NoticeAlert.dateChanged) }
-                if goal.setTime != setTime.toString(format: .setTime) || goal.isSetTime != isSetTime { validateAction(NoticeAlert.setTimeChanged) }
-            }
-            switch modifyType {
-            case .record:
-                goal.content = content
-                goal.symbol = symbol
-                goal.type = goalType
-                goal.count = goalCount
-                goal.isSetTime = isSetTime
-                goal.setTime = setTime.toString(format: .setTime)
-                record.date = startDate
-                record.count = recordCount
-                record.isSuccess = goalCount <= recordCount
-                try? modelContext.save()
-            case .single:
-                if goal.content != content || goal.symbol != symbol || goal.type != goalType || goal.count != goalCount || goal.isSetTime != isSetTime || goal.setTime != setTime.toString(format: .setTime) {
-                    let newGoal = DailyGoalModel(
-                        type: goalType,
-                        cycleType: cycleType,
-                        content: content,
-                        symbol: symbol,
-                        startDate: startDate,
-                        endDate: endDate,
-                        repeatDates: repeatDates,
-                        count: goalCount,
-                        isSetTime: isSetTime,
-                        setTime: setTime.toString(format: .setTime),
-                        parentGoal: goal
-                    )
-                    modelContext.insert(newGoal)
-                    try? modelContext.save()
-                    goal.childGoals.append(newGoal)
-                    record.goal = newGoal
-                }
-                record.date = startDate
-                record.count = recordCount
-                record.isSuccess = goalCount <= recordCount
-                try? modelContext.save()
-            case .all:
-                goal.content = content
-                goal.symbol = symbol
-                goal.type = goalType
-                goal.count = goalCount
-                goal.isSetTime = isSetTime
-                goal.setTime = setTime.toString(format: .setTime)
-                record.isSuccess = goalCount <= recordCount
-                try? modelContext.save()
-            }
+    func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+        if let validate = validate(validateType: .add) { validateAction(validate); return }
+        Task { @MainActor in
+            await goalUseCase.addGoal(goal: goal)
+            await goalUseCase.addRecords(goal: goal, dates: repeatDates)
             successAction(startDate)
         }
     }
     
-    // MARK: - validate func
+    func modify(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+        guard let modifyType else { return }
+        if let validate = validate(validateType: .modify) { validateAction(validate); return }
+        if record.notice != nil && (
+            record.date != originalDate ||
+            originalGoal.setTime != goal.setTime ||
+            originalGoal.isSetTime != goal.isSetTime
+        ) {
+            goalUseCase.removeNotice(record: record)
+            if record.date != originalDate { validateAction(NoticeAlert.dateChanged) }
+            if originalGoal.setTime != goal.setTime || originalGoal.isSetTime != goal.isSetTime {
+                validateAction(NoticeAlert.setTimeChanged)
+            }
+        }
+        
+        Task { @MainActor in
+            // TODO: 추후 개선
+            if modifyType == .single {
+                let newGoal = goal.copy(cycleType: .date)
+                await goalUseCase.addGoal(goal: newGoal)
+                
+                reset(exceptRecord: true)
+                goal.records.removeAll { $0 == record }
+                record.goal = newGoal
+                record.isSuccess = newGoal.count <= record.count
+            } else {
+                record.isSuccess = goal.count <= record.count
+            }
+            await goalUseCase.updateData()
+            successAction(record.date)
+        }
+    }
+    
+}
+    
+// MARK: - validate func
+extension GoalViewModel {
     private func validate(validateType: ButtonTypes) -> DailyAlert? {
         if validateContent() { return ContentAlert.tooShoertLength }
-        if validateType == .add && cycleType == .rept {
-            if selectedWeekday.count == 0 { return DateAlert.emptySelectedWeekday }
+        if validateType == .add && goal.cycleType == .rept {
             if startDate > endDate { return DateAlert.wrongDateRange }
             if validateDateRange() { return DateAlert.overDateRange }
+            if selectedWeekday.allSatisfy({ $0 == .zero }) { return DateAlert.emptySelectedWeekday }
             if repeatDates.count == 0 { return DateAlert.emptyRepeatDates }
         }
         return nil
     }
     private func validateContent() -> Bool {
-        return content.count < 2
+        return goal.content.count < 2
     }
     private func validateDateRange() -> Bool {
         let gap = calendar.dateComponents([.year,.month,.day], from: startDate, to: endDate)

@@ -6,42 +6,39 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct DailyWeekIndicator: View {
     @EnvironmentObject var calendarViewModel: CalendarViewModel
-    @Query private var records: [DailyRecordModel]
-    @Binding var opacity: [Double]
-    private let mode: WeekIndicatorMode
     @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
+    @Binding var opacity: [Double]
     
-    init(mode: WeekIndicatorMode = .none, opacity: Binding<[Double]> = Binding(get: { Array(repeating: .zero, count: GeneralServices.week) }, set: { _ in })) {
+    private let mode: WeekIndicatorModes
+    private let selection: String?
+    
+    private var records: [Double] {
+        guard let selection,
+              let records = calendarViewModel.weekDictionary[selection] else {
+            return Array(repeating: .zero, count: GeneralServices.week)
+        }
+        return records
+    }
+    
+    init(
+        mode: WeekIndicatorModes = .none,
+        opacity: Binding<[Double]> = Binding(
+            get: { Array(repeating: .zero, count: GeneralServices.week) },
+            set: { _ in }
+        )
+    ) {
         self.mode = mode
+        self.selection = nil
         self._opacity = opacity
     }
     
-    init(mode: WeekIndicatorMode, currentDate: Date) {
+    init(mode: WeekIndicatorModes, selection: String) {
         self.mode = mode
+        self.selection = selection
         self._opacity = Binding(get: { Array(repeating: .zero, count: GeneralServices.week) }, set: { _ in })
-        _records = Query(CalendarViewModel.recordsForWeekDescriptor(currentDate))
-    }
-    
-    private var ratings: [Double] {
-        var ratings: [Double] = Array(repeating: .zero, count: GeneralServices.week)
-        
-        for record in records {
-            if record.isSuccess { ratings[record.date.dailyWeekday(startDay: startDay)] += 1 }   // TODO: 아직 한 발 남았다
-        }
-        
-        let recordsByDay = Dictionary(grouping: records) { record -> Int in
-            record.date.dailyWeekday(startDay: startDay)
-        }
-        
-        for (index, totalRecords) in recordsByDay {
-            ratings[index] = ratings[index] / Double(totalRecords.count)
-        }
-        
-        return ratings
     }
     
     var body: some View {
@@ -56,7 +53,7 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(mode == .change ? ratings[index] * 0.8 : opacity[index]))
+                        .foregroundStyle(Colors.daily.opacity(mode == .change ? records[index] * 0.8 : opacity[index]))
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }

@@ -11,7 +11,7 @@ struct DailyCalendarHeader: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Environment(\.dismiss) var dismiss
-    let type: CalendarType
+    let type: CalendarTypes
     
     var body: some View {
         HStack {
@@ -54,7 +54,7 @@ struct DailyCalendarHeader: View {
                                 Text("\(String(month)) 월")
                             }
                         }
-                    case .day:
+                    case .week, .day:
                         let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: calendarViewModel.currentDate)?.count ?? 0
                         ForEach(1 ... lengthOfMonth, id: \.self) { day in
                             Button {
@@ -114,5 +114,5 @@ enum TextPositionInHeader {
 }
 
 #Preview {
-    DailyCalendarHeader(type: CalendarType.day)
+    DailyCalendarHeader(type: CalendarTypes.day)
 }

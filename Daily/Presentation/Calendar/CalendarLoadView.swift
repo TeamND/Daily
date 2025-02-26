@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarLoadView: View {
     @EnvironmentObject var calendarViewModel: CalendarViewModel
-    let type: CalendarType
+    let type: CalendarTypes
     let direction: Direction
     
     var body: some View {
