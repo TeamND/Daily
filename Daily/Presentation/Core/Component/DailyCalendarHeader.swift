@@ -11,7 +11,7 @@ struct DailyCalendarHeader: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Environment(\.dismiss) var dismiss
-    let type: CalendarType
+    let type: CalendarTypes
     
     var body: some View {
         HStack {
@@ -114,5 +114,5 @@ enum TextPositionInHeader {
 }
 
 #Preview {
-    DailyCalendarHeader(type: CalendarType.day)
+    DailyCalendarHeader(type: CalendarTypes.day)
 }

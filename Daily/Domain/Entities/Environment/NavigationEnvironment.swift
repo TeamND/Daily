@@ -17,7 +17,7 @@ final class NavigationEnvironment: ObservableObject {
         }
     }
     
-    func navigateDirect(from: CalendarType, to: CalendarType = .day) {
+    func navigateDirect(from: CalendarTypes, to: CalendarTypes = .day) {
         Task { @MainActor in
             switch from {
             case .year:

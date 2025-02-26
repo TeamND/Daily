@@ -66,7 +66,7 @@ extension Date {
         dateFormatter.dateFormat = format.rawValue
         return dateFormatter.string(from: self)
     }
-    func getSelection(type: CalendarType = .day) -> String {
+    func getSelection(type: CalendarTypes = .day) -> String {
         switch type {
         case .year:
             return CalendarServices.shared.formatDateString(year: self.year)

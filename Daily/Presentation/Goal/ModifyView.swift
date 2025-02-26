@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ModifyView: View {
-    @EnvironmentObject var alertEnvironment: AlertEnvironment
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @StateObject var goalViewModel: GoalViewModel
     
     init(modifyData: ModifyDataModel) {
@@ -60,7 +58,7 @@ struct ModifyView: View {
     
     private var originalRecord: some View {
         VStack {
-            Label("\(CalendarServices.shared.formatDateString(date: calendarViewModel.currentDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(calendarViewModel.currentDate.getKoreaDOW())", systemImage: "calendar")
+            Label("\(CalendarServices.shared.formatDateString(date: goalViewModel.originalDate, joiner: .dot, hasSpacing: true, hasLastJoiner: true))\(goalViewModel.originalDate.getKoreaDOW())", systemImage: "calendar")
                 .font(.system(size: CGFloat.fontSize * 2.5))
                 .hLeading()
                 .padding(.horizontal)

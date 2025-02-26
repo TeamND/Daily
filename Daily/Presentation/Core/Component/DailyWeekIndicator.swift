@@ -12,7 +12,7 @@ struct DailyWeekIndicator: View {
     @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
     @Binding var opacity: [Double]
     
-    private let mode: WeekIndicatorMode
+    private let mode: WeekIndicatorModes
     private let selection: String?
     
     private var records: [Double] {
@@ -24,7 +24,7 @@ struct DailyWeekIndicator: View {
     }
     
     init(
-        mode: WeekIndicatorMode = .none,
+        mode: WeekIndicatorModes = .none,
         opacity: Binding<[Double]> = Binding(
             get: { Array(repeating: .zero, count: GeneralServices.week) },
             set: { _ in }
@@ -35,7 +35,7 @@ struct DailyWeekIndicator: View {
         self._opacity = opacity
     }
     
-    init(mode: WeekIndicatorMode, selection: String) {
+    init(mode: WeekIndicatorModes, selection: String) {
         self.mode = mode
         self.selection = selection
         self._opacity = Binding(get: { Array(repeating: .zero, count: GeneralServices.week) }, set: { _ in })

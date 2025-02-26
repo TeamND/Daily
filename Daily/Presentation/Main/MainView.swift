@@ -18,7 +18,7 @@ struct MainView: View {
                     AnyView(navigationObject.dailyView()).navigationBarHidden(true)
                 }
         }
-        .onAppear { navigationEnvironment.navigateDirect(from: .year, to: CalendarType(rawValue: calendarType) ?? .month) }
+        .onAppear { navigationEnvironment.navigateDirect(from: .year, to: CalendarTypes(rawValue: calendarType) ?? .month) }
         .onOpenURL { openUrl in
             guard let url = openUrl.absoluteString.removingPercentEncoding else { return }
             if url.contains("widget") { navigationEnvironment.navigateDirect(from: .year) }

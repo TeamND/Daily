@@ -16,7 +16,13 @@ class DailyRecordModel: Navigatable {
     var count: Int
     var notice: Int?
     
-    init(goal: DailyGoalModel? = nil, date: Date = Date(format: .daily), isSuccess: Bool = false, count: Int = 0, notice: Int? = nil) {
+    init(
+        goal: DailyGoalModel? = nil,
+        date: Date = Date(format: .daily),
+        isSuccess: Bool = false,
+        count: Int = 0,
+        notice: Int? = nil
+    ) {
         self.goal = goal
         self.date = date
         self.isSuccess = isSuccess
@@ -24,13 +30,19 @@ class DailyRecordModel: Navigatable {
         self.notice = notice
     }
     
-    func copy() -> DailyRecordModel {
-        return DailyRecordModel(
-            goal: self.goal,
-            date: self.date,
-            isSuccess: self.isSuccess,
-            count: self.count,
-            notice: self.notice
+    func copy(
+        goal: DailyGoalModel? = nil,
+        date: Date? = nil,
+        isSuccess: Bool? = nil,
+        count: Int? = nil,
+        notice: Int? = nil
+    ) -> DailyRecordModel {
+        DailyRecordModel(
+            goal: goal ?? self.goal,
+            date: date ?? self.date,
+            isSuccess: isSuccess ?? self.isSuccess,
+            count: count ?? self.count,
+            notice: notice ?? self.notice
         )
     }
 }

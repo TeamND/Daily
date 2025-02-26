@@ -19,7 +19,7 @@ final class CalendarViewModel: ObservableObject {
     @Published private(set) var weeklyPercentage: [String: Int] = [:]
     @Published var isShowWeeklySummary: Bool = false    // TODO: 추후 수정
     
-    func bindSelection(type: CalendarType) -> Binding<String> {
+    func bindSelection(type: CalendarTypes) -> Binding<String> {
         Binding(
             get: { self.currentDate.getSelection(type: type) },
             set: { self.setDate(selection: $0) }
@@ -55,15 +55,15 @@ extension CalendarViewModel {
 
 // MARK: - info
 extension CalendarViewModel {
-    func loadText(type: CalendarType, direction: Direction) -> String {
+    func loadText(type: CalendarTypes, direction: Direction) -> String {
         calendarUseCase.getLoadText(currentDate: currentDate, type: type, direction: direction)
     }
     
-    func headerText(type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
+    func headerText(type: CalendarTypes, textPosition: TextPositionInHeader = .title) -> String {
         calendarUseCase.getHeaderText(currentDate: currentDate, type: type, textPosition: textPosition)
     }
     
-    func calendarInfo(type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
+    func calendarInfo(type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
         calendarUseCase.getCalendarInfo(currentDate: currentDate, type: type, index: index)
     }
     

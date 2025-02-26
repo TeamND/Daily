@@ -1,5 +1,5 @@
 //
-//  SectionType.swift
+//  SectionTypes.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/28/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SectionType {
+enum SectionTypes {
     case date
     case time
     case content

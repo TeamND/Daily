@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailySection<Content: View>: View {
-    var type: SectionType
+    var type: SectionTypes
     var essentialConditions: Bool = false
     @State var isShowEssentialConditions: Bool = false
     var isModify: Bool = false

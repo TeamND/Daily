@@ -10,7 +10,7 @@ import SwiftUI
 
 class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
-    private var calendar = Calendar.current
+    private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
     var originalDate: Date = Date(format: .daily)
     var modifyType: ModifyTypes?
@@ -44,8 +44,6 @@ class GoalViewModel: ObservableObject {
     }
     
     init() {
-        self.calendar.timeZone = .current
-        
         let goalRepository = GoalRepository()
         self.goalUseCase = GoalUseCase(repository: goalRepository)
     }
@@ -54,7 +52,11 @@ class GoalViewModel: ObservableObject {
         self.init()
         
         self.originalDate = goalData.date
-        self.reset(exceptGoal: true, exceptRecord: true)
+        
+        self.startDate = originalDate
+        self.endDate = originalDate.monthLater()
+        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
+        
         self.originalGoal = goal.copy()
     }
     
@@ -70,8 +72,10 @@ class GoalViewModel: ObservableObject {
         self.originalGoal = goal.copy()
         self.originalRecord = record.copy()
     }
-    
-    // MARK: - button func
+}
+
+// MARK: - button func
+extension GoalViewModel {
     func reset(exceptGoal: Bool = false, exceptRecord: Bool = false) {
         if !exceptGoal {
             self.goal.type = originalGoal.type
@@ -112,8 +116,7 @@ class GoalViewModel: ObservableObject {
             originalGoal.setTime != goal.setTime ||
             originalGoal.isSetTime != goal.isSetTime
         ) {
-            record.notice = nil
-            PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+            goalUseCase.removeNotice(record: record)
             if record.date != originalDate { validateAction(NoticeAlert.dateChanged) }
             if originalGoal.setTime != goal.setTime || originalGoal.isSetTime != goal.isSetTime {
                 validateAction(NoticeAlert.setTimeChanged)
@@ -123,9 +126,9 @@ class GoalViewModel: ObservableObject {
         Task { @MainActor in
             // TODO: 추후 개선
             if modifyType == .single {
-                let newGoal = goal.copy()
-                newGoal.cycleType = .date
+                let newGoal = goal.copy(cycleType: .date)
                 await goalUseCase.addGoal(goal: newGoal)
+                
                 reset(exceptRecord: true)
                 goal.records.removeAll { $0 == record }
                 record.goal = newGoal
@@ -138,7 +141,10 @@ class GoalViewModel: ObservableObject {
         }
     }
     
-    // MARK: - validate func
+}
+    
+// MARK: - validate func
+extension GoalViewModel {
     private func validate(validateType: ButtonTypes) -> DailyAlert? {
         if validateContent() { return ContentAlert.tooShoertLength }
         if validateType == .add && goal.cycleType == .rept {

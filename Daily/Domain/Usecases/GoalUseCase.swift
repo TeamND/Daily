@@ -32,4 +32,9 @@ class GoalUseCase {
             await addRecord(goal: goal, date: date)
         }
     }
+    
+    func removeNotice(record: DailyRecordModel) {
+        record.notice = nil
+        PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+    }
 }

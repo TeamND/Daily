@@ -9,17 +9,16 @@ import Foundation
 
 final class CalendarUseCase {
     private let repository: CalendarInterface
-    private let calendar: Calendar
+    private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
     init(repository: CalendarInterface) {
         self.repository = repository
-        self.calendar = CalendarManager.shared.getDailyCalendar()
     }
 }
 
 // MARK: - business logic
 extension CalendarUseCase {
-    func getLoadText(currentDate: Date, type: CalendarType, direction: Direction) -> String {
+    func getLoadText(currentDate: Date, type: CalendarTypes, direction: Direction) -> String {
         switch type {
         case .year:
             let decade = (currentDate.year / 10 + direction.value) * 10
@@ -35,7 +34,7 @@ extension CalendarUseCase {
         }
     }
     
-    func getHeaderText(currentDate: Date, type: CalendarType, textPosition: TextPositionInHeader = .title) -> String {
+    func getHeaderText(currentDate: Date, type: CalendarTypes, textPosition: TextPositionInHeader = .title) -> String {
         switch type {
         case .year:
             return textPosition == .title ? String(currentDate.year) + "년" : ""
@@ -48,7 +47,7 @@ extension CalendarUseCase {
         }
     }
     
-    func getCalendarInfo(currentDate: Date, type: CalendarType, index: Int) -> (date: Date, direction: Direction, selection: String) {
+    func getCalendarInfo(currentDate: Date, type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
         let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
         let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
         

@@ -13,7 +13,7 @@ enum DateJoiner: String {
     case hyphen = "-"
     case korean = "k"
     
-    func joinString(type: CalendarType, hasSpacing: Bool) -> String {
+    func joinString(type: CalendarTypes, hasSpacing: Bool) -> String {
         var joinString: String = ""
         switch self {
         case .none, .dot, .hyphen:

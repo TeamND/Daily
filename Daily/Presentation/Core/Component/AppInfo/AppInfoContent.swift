@@ -48,7 +48,7 @@ struct AppInfoContent: View {
                                 }
                             case .calendarType:
                                 Picker("", selection: Binding(get: { calendarType }, set: { UserDefaultManager.calendarType = $0 })) {
-                                    ForEach(CalendarType.allCases, id: \.self) { calendarType in
+                                    ForEach(CalendarTypes.allCases, id: \.self) { calendarType in
                                         Text("\(calendarType)").tag(calendarType.rawValue)
                                     }
                                 }
