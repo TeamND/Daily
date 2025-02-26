@@ -102,7 +102,7 @@ final class DailyDataSource {
         guard let totalRecords = try? context.fetch(FetchDescriptor<DailyRecordModel>()) else { return [] }
         return totalRecords.filter { currentRecord in
             guard let currentGoal = currentRecord.goal else { return false }
-            return currentGoal.parentGoal?.id ?? currentGoal.id == goal.id && currentRecord.date > Date(format: .daily)
+            return currentGoal.id == goal.id && currentRecord.date > Date(format: .daily)
         }
     }
 }

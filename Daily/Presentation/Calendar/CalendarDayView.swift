@@ -12,10 +12,14 @@ import Charts
 struct CalendarDayView: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
+    private var weekSelection: String {
+        calendarViewModel.currentDate.getSelection(type: .week)
+    }
+    
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            DailyWeekIndicator(mode: .change, selection: calendarViewModel.currentDate.getSelection(type: .week))
+            DailyWeekIndicator(mode: .change, selection: weekSelection)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
@@ -36,7 +40,7 @@ struct CalendarDayView: View {
             DailyAddGoalButton()
         }
         .overlay {
-            DailyWeeklySummary(selection: calendarViewModel.currentDate.getSelection(type: .week))
+            DailyWeeklySummary(selection: weekSelection)
         }
     }
 }

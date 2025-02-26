@@ -49,9 +49,9 @@ struct DailyRecord: View {
     private let goal: DailyGoalModel
     private let isButtonDisabled: Bool
     
-    init(record: DailyRecordModel, isButtonDisabled: Bool = false) {
+    init(record: DailyRecordModel, goal: DailyGoalModel? = nil, isButtonDisabled: Bool = false) {
         self.record = record
-        self.goal = record.goal!
+        self.goal = goal ?? record.goal!
         self.isButtonDisabled = isButtonDisabled
     }
     

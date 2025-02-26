@@ -16,11 +16,20 @@ struct DailyWeekIndicator: View {
     private let selection: String?
     
     private var records: [Double] {
-        guard let selection, let records = calendarViewModel.weekDictionary[selection] else { return Array(repeating: 0.0, count: 7) }
+        guard let selection,
+              let records = calendarViewModel.weekDictionary[selection] else {
+            return Array(repeating: .zero, count: GeneralServices.week)
+        }
         return records
     }
     
-    init(mode: WeekIndicatorMode = .none, opacity: Binding<[Double]> = Binding(get: { Array(repeating: .zero, count: GeneralServices.week) }, set: { _ in })) {
+    init(
+        mode: WeekIndicatorMode = .none,
+        opacity: Binding<[Double]> = Binding(
+            get: { Array(repeating: .zero, count: GeneralServices.week) },
+            set: { _ in }
+        )
+    ) {
         self.mode = mode
         self.selection = nil
         self._opacity = opacity

@@ -72,7 +72,7 @@ struct DailyMenu: View {
     // MARK: ModifyGoal
     private var modifyGoal: some View {
         Group {
-            if goal.cycleType == .date || goal.parentGoal != nil {
+            if goal.cycleType == .date {
                 Button {
                     let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .record)
                     let navigationObject = NavigationObject(viewType: .modify, data: data)
@@ -109,7 +109,7 @@ struct DailyMenu: View {
             if goal.cycleType == .date {
                 Button {
                     calendarViewModel.deleteGoal(
-                        goal: goal, record: record,
+                        goal: goal,
                         completeAction: {
                             alertEnvironment.showToast(message: "알림이 함께 삭제되었어요 🫥")
                         }
@@ -141,7 +141,7 @@ struct DailyMenu: View {
                             Text("오늘 이후의 목표만 삭제")
                         }
                         Button {
-                            calendarViewModel.deleteGoals(
+                            calendarViewModel.deleteGoal(
                                 goal: goal,
                                 completeAction: {
                                     alertEnvironment.showToast(message: "알림이 함께 삭제되었어요 🫥")

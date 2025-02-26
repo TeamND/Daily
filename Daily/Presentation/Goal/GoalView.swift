@@ -23,20 +23,20 @@ struct GoalView: View {
                     DateSection(goalViewModel: goalViewModel)
                 }
                 DailySection(type: .time) {
-                    TimeSection(isSetTime: $goalViewModel.isSetTime, setTime: $goalViewModel.setTime)
+                    TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
                 }
-                DailySection(type: .content, essentialConditions: goalViewModel.content.count >= 2) {
-                    ContentSection(content: $goalViewModel.content, goalType: $goalViewModel.goalType)
+                DailySection(type: .content, essentialConditions: goalViewModel.goal.content.count >= 2) {
+                    ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
                 }
                 HStack {
                     DailySection(type: .goalCount) {
                         GoalCountSection(
-                            goalType: $goalViewModel.goalType,
-                            goalCount: $goalViewModel.goalCount
+                            goalType: $goalViewModel.goal.type,
+                            goalCount: $goalViewModel.goal.count
                         )
                     }
                     DailySection(type: .symbol) {
-                        SymbolSection(symbol: $goalViewModel.symbol)
+                        SymbolSection(symbol: $goalViewModel.goal.symbol)
                     }
                 }
                 ButtonSection(goalViewModel: goalViewModel, buttonType: .add)
@@ -46,40 +46,47 @@ struct GoalView: View {
             .padding()
         }
         .background(Colors.theme)
-        .onTapGesture {
-            hideKeyboard()
-        }
+        .onTapGesture { hideKeyboard() }
     }
 }
 
 // MARK: - DateSection
 struct DateSection: View {
-    @ObservedObject var goalViewModel: GoalViewModel
-    private let isModify: Bool
-    @Namespace var ns
-    @State var opacity: [Double] = Array(repeating: .zero, count: GeneralServices.week)
+    @ObservedObject private var goalViewModel: GoalViewModel
+    @Namespace private var ns
     
-    init(goalViewModel: GoalViewModel, isModify: Bool = false) {
+    init(goalViewModel: GoalViewModel) {
         self.goalViewModel = goalViewModel
-        self.isModify = isModify
     }
     
     var body: some View {
-        if let modifyType = goalViewModel.modifyType, modifyType == .all { EmptyView() }
-        else {
+        if let modifyType = goalViewModel.modifyType {
+            switch modifyType {
+            case .all:
+                EmptyView()
+            case .record, .single:
+                HStack {
+                    DailyCycleTypePicker(cycleType: Binding(get: { .date }, set: { _ in }), isDisabled: true)
+                    Spacer()
+                    DailyDatePicker(currentDate: $goalViewModel.record.date)
+                        .matchedGeometryEffect(id: "start_date", in: ns)
+                        .matchedGeometryEffect(id: "end_date", in: ns)
+                }
+            }
+        } else {
             VStack {
                 HStack {
-                    DailyCycleTypePicker(cycleType: $goalViewModel.cycleType, isModify: isModify)
+                    DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType, isDisabled: false)
                     Spacer()
-                    if goalViewModel.cycleType == .date {
+                    if goalViewModel.goal.cycleType == .date {
                         DailyDatePicker(currentDate: $goalViewModel.startDate)
                             .matchedGeometryEffect(id: "start_date", in: ns)
                             .matchedGeometryEffect(id: "end_date", in: ns)
-                    } else if goalViewModel.cycleType == .rept {
-                        DailyWeekIndicator(mode: .select, opacity: $opacity)
+                    } else if goalViewModel.goal.cycleType == .rept {
+                        DailyWeekIndicator(mode: .select, opacity: $goalViewModel.selectedWeekday)
                     }
                 }
-                if goalViewModel.cycleType == .rept {
+                if goalViewModel.goal.cycleType == .rept {
                     HStack {
                         DailyDatePicker(currentDate: $goalViewModel.startDate)
                             .matchedGeometryEffect(id: "start_date", in: ns)
@@ -90,9 +97,6 @@ struct DateSection: View {
                             .matchedGeometryEffect(id: "end_date", in: ns)
                     }
                 }
-            }
-            .onChange(of: opacity) { _, opacity in
-                goalViewModel.selectedWeekday = opacity.enumerated().compactMap { $1 == 0.8 ? $0 + 1 : nil }
             }
         }
     }

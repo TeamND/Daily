@@ -152,9 +152,9 @@ extension CalendarViewModel {
         }
     }
     
-    func deleteGoal(goal: DailyGoalModel, record: DailyRecordModel? = nil, completeAction: (() -> Void)? = nil) {
-        if let record, let completeAction, record.notice != nil {
-            removeNotice(record: record, completeAction: completeAction)
+    func deleteGoal(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+        goal.records.forEach { record in
+            if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
         }
         
         Task { @MainActor in
@@ -172,14 +172,6 @@ extension CalendarViewModel {
                 deleteRecord(record: $0, completeAction: completeAction)
             }
         }
-    }
-    
-    func deleteGoals(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
-        goal.records.forEach {
-            deleteRecord(record: $0, completeAction: completeAction)
-        }
-        goal.childGoals.forEach { deleteGoal(goal: $0) }
-        deleteGoal(goal: goal)
     }
 }
 
