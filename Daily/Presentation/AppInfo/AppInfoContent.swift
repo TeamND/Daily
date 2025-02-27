@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct AppInfoContent: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
+    @AppStorage(UserDefaultKey.startDay.rawValue) private var startDay: Int = 0
+    @AppStorage(UserDefaultKey.language.rawValue) private var language: String = ""
+    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: String = ""
+    
     var name: String
     var content: String? = nil
     var linkLabel: String? = nil
     var linkDestination: String? = nil
     var settingType: SettingTypes? = nil
-    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
-    @AppStorage(UserDefaultKey.language.rawValue) var language: String = ""
-    @AppStorage(UserDefaultKey.calendarType.rawValue) var calendarType: String = ""
     
     var body: some View {
         VStack {
@@ -48,7 +50,7 @@ struct AppInfoContent: View {
                                 }
                             case .calendarType:
                                 Picker("", selection: Binding(get: { calendarType }, set: { UserDefaultManager.calendarType = $0 })) {
-                                    ForEach(CalendarTypes.allCases, id: \.self) { calendarType in
+                                    ForEach(CalendarTypes.allCases.filter { $0 != .week }, id: \.self) { calendarType in
                                         Text("\(calendarType)").tag(calendarType.rawValue)
                                     }
                                 }

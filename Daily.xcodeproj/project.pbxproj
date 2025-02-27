@@ -343,6 +343,8 @@
 			isa = PBXGroup;
 			children = (
 				F6CE8A2C2CD0B1940050A25A /* AppInfoView.swift */,
+				F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */,
+				F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */,
 			);
 			path = AppInfo;
 			sourceTree = "<group>";
@@ -506,7 +508,6 @@
 		F6C0F8032919042B00984457 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				F6C6B02E2BB424A000C578C1 /* AppInfo */,
 				F6D062492925B84B00B825EF /* Custom */,
 				F6CE8A1D2CCF5D150050A25A /* DailyNavigationBar.swift */,
 				F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */,
@@ -520,15 +521,6 @@
 				F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */,
 			);
 			path = Component;
-			sourceTree = "<group>";
-		};
-		F6C6B02E2BB424A000C578C1 /* AppInfo */ = {
-			isa = PBXGroup;
-			children = (
-				F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */,
-				F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */,
-			);
-			path = AppInfo;
 			sourceTree = "<group>";
 		};
 		F6CC15992BA192A900689A02 /* Extension */ = {

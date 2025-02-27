@@ -21,11 +21,13 @@ final class NavigationEnvironment: ObservableObject {
         Task { @MainActor in
             switch from {
             case .year:
+                if to == .year { return }
                 navigate(NavigationObject(viewType: .calendarMonth))
                 if to == .month { return }
                 try? await Task.sleep(nanoseconds: 100_000_000)
                 navigate(NavigationObject(viewType: .calendarDay))
             case .month:
+                if to == .month { return }
                 navigate(NavigationObject(viewType: .calendarDay))
             default:
                 return
