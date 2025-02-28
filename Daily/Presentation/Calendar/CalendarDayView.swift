@@ -71,8 +71,8 @@ struct CalendarDay: View {
                 Spacer()
             }
         }
-        .onAppear {
-            calendarViewModel.fetchDayData(selection: selection)
+        .task {
+            await calendarViewModel.fetchDayData(selection: selection)
         }
     }
 }
@@ -109,8 +109,8 @@ struct DailyWeeklySummary: View {
             weeklySummaryHeader
             weeklySummaryBody
         }
-        .onAppear {
-            calendarViewModel.fetchWeekData(selection: selection)
+        .task {
+            await calendarViewModel.fetchWeekData(selection: selection)
         }
         .ignoresSafeArea()
         .onTapGesture {

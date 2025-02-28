@@ -65,6 +65,7 @@
 		F6C6CD932D6BFB5000772E59 /* DailyDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6CD922D6BFB5000772E59 /* DailyDataSource.swift */; };
 		F6C6CD952D6C01CB00772E59 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6CD942D6C01CB00772E59 /* SwiftDataManager.swift */; };
 		F6C6CD972D6C36FA00772E59 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6CD962D6C36FA00772E59 /* CalendarManager.swift */; };
+		F6C6CDA12D71962B00772E59 /* TaskQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6CDA02D71962B00772E59 /* TaskQueueManager.swift */; };
 		F6C758D62CCB123700F9CF91 /* DailyCalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */; };
 		F6C758D82CCB165E00F9CF91 /* LabelStyle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D72CCB165E00F9CF91 /* LabelStyle+extension.swift */; };
 		F6C758DA2CCB45ED00F9CF91 /* DailyAddGoalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */; };
@@ -191,6 +192,7 @@
 		F6C6CD922D6BFB5000772E59 /* DailyDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDataSource.swift; sourceTree = "<group>"; };
 		F6C6CD942D6C01CB00772E59 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		F6C6CD962D6C36FA00772E59 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		F6C6CDA02D71962B00772E59 /* TaskQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskQueueManager.swift; sourceTree = "<group>"; };
 		F6C758D52CCB123700F9CF91 /* DailyCalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarHeader.swift; sourceTree = "<group>"; };
 		F6C758D72CCB165E00F9CF91 /* LabelStyle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabelStyle+extension.swift"; sourceTree = "<group>"; };
 		F6C758D92CCB45ED00F9CF91 /* DailyAddGoalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAddGoalButton.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 		F68B39E02CE72EC800C458B7 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				F6C6CDA02D71962B00772E59 /* TaskQueueManager.swift */,
 				F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */,
 				F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */,
 				F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */,
@@ -729,6 +732,7 @@
 				F634D2D62CC483C90014EDB6 /* CGFloat+extension.swift in Sources */,
 				F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */,
 				F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */,
+				F6C6CDA12D71962B00772E59 /* TaskQueueManager.swift in Sources */,
 				F60B97332CFC170E0015B19B /* ModifyDataModel.swift in Sources */,
 				F6C758DC2CCD33E400F9CF91 /* DailyWeekIndicator.swift in Sources */,
 				F6016DE22CC610CD00FB637F /* MainView.swift in Sources */,
