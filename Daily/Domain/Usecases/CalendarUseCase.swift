@@ -93,7 +93,7 @@ extension CalendarUseCase {
         let startOfMonth = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: 1))!
         let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
         
-        var monthDatas: [MonthDataModel] = Array(repeating: MonthDataModel(), count: lengthOfMonth)
+        var monthDatas: [MonthDataModel] = Array(repeating: MonthDataModel(), count: 31)
         for day in 1 ... lengthOfMonth {
             if let dayDate = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: day)),
                let dayRecords = recordsByDate[dayDate] {
@@ -106,7 +106,7 @@ extension CalendarUseCase {
                 }
                 
                 let rating = dayRecords.isEmpty ? 0.0 : Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
-                monthDatas[day - 1] = MonthDataModel(symbol: dailySymbols, rating: rating)
+                monthDatas[day - 1] = MonthDataModel(symbols: dailySymbols, rating: rating)
             }
         }
         

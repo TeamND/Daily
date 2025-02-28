@@ -8,11 +8,11 @@
 import Foundation
 
 struct MonthDataModel: Decodable {
-    let symbol: [DailySymbol]
+    let symbols: [DailySymbol]
     let rating: Double
     
-    init(symbol: [DailySymbol] = [], rating: Double = 0.0) {
-        self.symbol = symbol
+    init(symbols: [DailySymbol] = [], rating: Double = 0.0) {
+        self.symbols = symbols
         self.rating = rating
     }
 }

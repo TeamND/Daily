@@ -92,7 +92,7 @@ struct DailyDayOnMonth: View {
         self.year = year
         self.month = month
         self.day = day
-        self.dailySymbols = monthData.symbol
+        self.dailySymbols = monthData.symbols
         self.rating = monthData.rating
     }
     
@@ -109,8 +109,8 @@ struct DailyDayOnMonth: View {
             .padding(CGFloat.fontSize)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: .zero), count: 2), spacing: CGFloat.fontSize * 2) {
-                ForEach(0 ..< 4, id: \.self) { symbolIndex in
-                    if symbolIndex < min(maxSymbolNum, dailySymbols.count) {
+                ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
+                    if symbolIndex < dailySymbols.count {
                         DailySymbolOnMonth(
                             dailySymbol: dailySymbols[symbolIndex],
                             isEllipsis: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
