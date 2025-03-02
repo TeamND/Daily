@@ -14,9 +14,6 @@ class CalendarServices {
         calendar.timeZone = .current
     }
     
-    func isToday(year: Int, month: Int, day: Int) -> Bool {
-        return Date(format: .daily).year == year && Date(format: .daily).month == month && Date(format: .daily).day == day
-    }
     func formatDateString(date: Date = Date(format: .daily), joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
         self.formatDateString(year: date.year, month: date.month, day: date.day, joiner: joiner, hasSpacing: hasSpacing, hasLastJoiner: hasLastJoiner)
     }

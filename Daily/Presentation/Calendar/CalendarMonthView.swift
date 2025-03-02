@@ -97,34 +97,35 @@ struct DailyDayOnMonth: View {
     }
     
     var body: some View {
-        let maxSymbolNum = UIDevice.current.model == "iPad" ? 6 : 4
-        VStack(alignment: .leading, spacing: .zero) {
-            ZStack {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: CGFloat.fontSize * 4))
-                    .foregroundStyle(Colors.daily.opacity(rating * 0.8))
-                Text("\(day)")
-                    .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-            }
-            .padding(CGFloat.fontSize)
-            
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: .zero), count: 2), spacing: CGFloat.fontSize * 2) {
-                ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
-                    if symbolIndex < dailySymbols.count {
-                        DailySymbolOnMonth(
-                            dailySymbol: dailySymbols[symbolIndex],
-                            isEllipsis: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
-                        )
-                    } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isEllipsis: false) }
+        TimelineView(.everyDay) { context in
+            let maxSymbolNum = UIDevice.current.model == "iPad" ? 6 : 4
+            VStack(alignment: .leading, spacing: .zero) {
+                ZStack {
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: CGFloat.fontSize * 4))
+                        .foregroundStyle(Colors.daily.opacity(rating * 0.8))
+                    Text("\(day)")
+                        .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                 }
+                .padding(CGFloat.fontSize)
+                
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: .zero), count: 2), spacing: CGFloat.fontSize * 2) {
+                    ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
+                        if symbolIndex < dailySymbols.count {
+                            DailySymbolOnMonth(
+                                dailySymbol: dailySymbols[symbolIndex],
+                                isEllipsis: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
+                            )
+                        } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isEllipsis: false) }
+                    }
+                }
+                .padding(.vertical, CGFloat.fontSize)
             }
-            .padding(.vertical, CGFloat.fontSize)
-        }
-        .overlay {
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(.green, lineWidth: 2)
-                .opacity(year == Date().year && month == Date().month && day == Date().day ? 1 : 0)
-//                .opacity(CalendarServices.shared.isToday(year: year, month: month, day: day) ? 1 : 0) // TODO: 추후 적용
+            .overlay {
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(.green, lineWidth: 2)
+                    .opacity(year == context.date.year && month == context.date.month && day == context.date.day ? 1 : 0)
+            }
         }
     }
 }
