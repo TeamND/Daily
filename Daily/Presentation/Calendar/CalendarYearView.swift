@@ -71,8 +71,8 @@ struct CalendarYear: View {
             .cornerRadius(20)
         }
         .vTop()
-        .task {
-            await calendarViewModel.fetchYearData(selection: selection)
+        .onAppear {
+            calendarViewModel.fetchYearData(selection: selection)
         }
     }
 }

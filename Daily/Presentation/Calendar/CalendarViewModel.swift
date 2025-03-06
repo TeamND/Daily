@@ -74,35 +74,43 @@ extension CalendarViewModel {
 
 // MARK: - fetch func
 extension CalendarViewModel {
-    func fetchYearData(selection: String) async {
-        await TaskQueueManager.shared.add {
-            let ratingsOfYear = await self.calendarUseCase.getRatingsOfYear(selection: selection)
-            await MainActor.run { self.yearDictionary[selection] = ratingsOfYear }
-        }
-    }
-    
-    func fetchMonthData(selection: String) async {
-        await TaskQueueManager.shared.add {
-            let monthDatas = await self.calendarUseCase.getMonthDatas(selection: selection)
-            await MainActor.run { self.monthDictionary[selection] = monthDatas }
-        }
-    }
-    
-    func fetchWeekData(selection: String) async {
-        await TaskQueueManager.shared.add {
-            let ratingsOfWeek = await self.calendarUseCase.getRatingsOfWeek(selection: selection)
-            let weeklyPercentage = await self.calendarUseCase.getWeeklyPercentage(selection: selection)
-            await MainActor.run {
-                self.weekDictionary[selection] = ratingsOfWeek
-                self.weeklyPercentage[selection] = weeklyPercentage
+    func fetchYearData(selection: String) {
+        Task {
+            await TaskQueueManager.shared.add {
+                let ratingsOfYear = await self.calendarUseCase.getRatingsOfYear(selection: selection)
+                await MainActor.run { self.yearDictionary[selection] = ratingsOfYear }
             }
         }
     }
     
-    func fetchDayData(selection: String) async {
-        await TaskQueueManager.shared.add {
-            let records = await self.calendarUseCase.getRecords(selection: selection)
-            await MainActor.run { self.dayDictionary[selection] = records }
+    func fetchMonthData(selection: String) {
+        Task {
+            await TaskQueueManager.shared.add {
+                let monthDatas = await self.calendarUseCase.getMonthDatas(selection: selection)
+                await MainActor.run { self.monthDictionary[selection] = monthDatas }
+            }
+        }
+    }
+    
+    func fetchWeekData(selection: String) {
+        Task {
+            await TaskQueueManager.shared.add {
+                let ratingsOfWeek = await self.calendarUseCase.getRatingsOfWeek(selection: selection)
+                let weeklyPercentage = await self.calendarUseCase.getWeeklyPercentage(selection: selection)
+                await MainActor.run {
+                    self.weekDictionary[selection] = ratingsOfWeek
+                    self.weeklyPercentage[selection] = weeklyPercentage
+                }
+            }
+        }
+    }
+    
+    func fetchDayData(selection: String) {
+        Task {
+            await TaskQueueManager.shared.add {
+                let records = await self.calendarUseCase.getRecords(selection: selection)
+                await MainActor.run { self.dayDictionary[selection] = records }
+            }
         }
     }
 }
@@ -116,8 +124,8 @@ extension CalendarViewModel {
             switch goal.type {
             case .check, .count:
                 await calendarUseCase.addCount(goal: goal, record: record)
-                await fetchDayData(selection: currentDate.getSelection(type: .day))
-                await fetchWeekData(selection: currentDate.getSelection(type: .week))
+                fetchDayData(selection: currentDate.getSelection(type: .day))
+                fetchWeekData(selection: currentDate.getSelection(type: .week))
             case .timer: // TODO: 추후 구현
                 return
             }
@@ -154,8 +162,8 @@ extension CalendarViewModel {
         Task { @MainActor in
             deleteRecordInDictionary(record: record)
             await calendarUseCase.deleteRecord(record: record)
-            await fetchDayData(selection: currentDate.getSelection(type: .day))
-            await fetchWeekData(selection: currentDate.getSelection(type: .week))
+            fetchDayData(selection: currentDate.getSelection(type: .day))
+            fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
     }
     
@@ -167,8 +175,8 @@ extension CalendarViewModel {
         Task { @MainActor in
             deleteGoalInDictionary(goal: goal)
             await calendarUseCase.deleteGoal(goal: goal)
-            await fetchDayData(selection: currentDate.getSelection(type: .day))
-            await fetchWeekData(selection: currentDate.getSelection(type: .week))
+            fetchDayData(selection: currentDate.getSelection(type: .day))
+            fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
     }
     

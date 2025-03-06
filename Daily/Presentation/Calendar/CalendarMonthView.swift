@@ -74,8 +74,8 @@ struct CalendarMonth: View {
         .background(Colors.background)
         .cornerRadius(20)
         .vTop()
-        .task {
-            await calendarViewModel.fetchMonthData(selection: selection)
+        .onAppear {
+            calendarViewModel.fetchMonthData(selection: selection)
         }
     }
 }
