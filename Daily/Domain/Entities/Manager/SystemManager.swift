@@ -33,7 +33,6 @@ struct System {
     }
     
     func openAppStore() {
-        // TODO: 앱스토어로 연결 안되는 문제 추후 해결
         guard let url = URL(string: System.appStoreOpenUrlString) else { return }
         if UIApplication.shared.canOpenURL(url) {
             DispatchQueue.main.async {
