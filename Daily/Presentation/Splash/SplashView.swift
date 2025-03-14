@@ -16,6 +16,7 @@ struct SplashView: View {
             .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert) }
             .onAppear { splashViewModel.onAppear() }
             .sheet(isPresented: $splashViewModel.isShowNotice) { noticeSheet }
+            .alert(isPresented: $splashViewModel.isNeedUpdate) { updateAlert }
             .opacity(splashViewModel.isAppLoaded ? 0 : 1)
             .animation(.easeInOut(duration: 0.5), value: splashViewModel.isAppLoaded)
     }
@@ -46,5 +47,19 @@ struct SplashView: View {
             .presentationDetents([.height(CGFloat.fontSize * 65)])
             .presentationDragIndicator(.visible)
             .onDisappear { splashViewModel.loadApp(isWait: false) }
+    }
+    
+    private var updateAlert: Alert {
+        Alert(
+            title: Text("새로운 버전이 출시되었습니다."),
+            message: Text("데일리 스케쥴러를 업데이트 해주세요"),
+            dismissButton: .default(Text("확인"), action: {
+                System().openAppStore()
+                
+//                // TODO: 추후 개선
+//                splashViewModel.isNeedUpdate = false
+//                splashViewModel.onAppear()
+            })
+        )
     }
 }

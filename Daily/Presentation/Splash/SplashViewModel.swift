@@ -13,16 +13,21 @@ final class SplashViewModel: ObservableObject {
     @Published var catchPhrase: String = ""
     @Published var isAppLoaded: Bool = false
     @Published var isShowNotice: Bool = false
+    @Published var isNeedUpdate: Bool = false
     
     init() {
         self.appLaunchUseCase = AppLaunchUseCase()
     }
-    
+
     func onAppear() {
         setUserDefault()
-        catchPhrase = appLaunchUseCase.getCatchPhrase()
-        isShowNotice = appLaunchUseCase.checkNotice()
-        if !isShowNotice { loadApp(isWait: true) }
+        Task { @MainActor in
+            catchPhrase = appLaunchUseCase.getCatchPhrase()
+            isShowNotice = appLaunchUseCase.checkNotice()
+            isNeedUpdate = await appLaunchUseCase.checkUpdate()
+            
+            if !isNeedUpdate && !isShowNotice { loadApp(isWait: true) }
+        }
     }
     
     func loadApp(isWait: Bool = false) {

@@ -13,14 +13,17 @@ struct System {
     static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     static let appStoreOpenUrlString = "itms-apps://itunes.apple.com/app/apple-store/\(System.appleID)"
     
-//    func getStoreVersion(complete: @escaping (String) -> Void) {
-//        HTTPManager.requestGET(url: "http://itunes.apple.com/lookup?id=\(System.appleID)&country=kr") { data in
-//            guard let data: SystemModel = JSONConverter.decodeJson(data: data) else {
-//                return
-//            }
-//            complete(data.results[0].version)
-//        }
-//    }
+    static func getStoreVersion() async throws -> String {
+        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(System.appleID)&country=kr") else { throw URLError(.badURL) }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let decodedData = try JSONDecoder().decode(SystemModel.self, from: data)
+        
+        return decodedData.results[0].version
+    }
     
     func terminateApp() {
         UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
@@ -30,6 +33,7 @@ struct System {
     }
     
     func openAppStore() {
+        // TODO: 앱스토어로 연결 안되는 문제 추후 해결
         guard let url = URL(string: System.appStoreOpenUrlString) else { return }
         if UIApplication.shared.canOpenURL(url) {
             DispatchQueue.main.async {
