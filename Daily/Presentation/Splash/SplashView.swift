@@ -11,6 +11,12 @@ struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
     @StateObject private var splashViewModel = SplashViewModel()
     
+    private var catchPhraseString: AttributedString {
+        splashViewModel.catchPhrase.accent(keywords: ["daily", "scheduler", "데일리", "스케쥴러"]) {
+            $0.font = .body.bold()
+        }
+    }
+    
     var body: some View {
         splashView
             .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert) }
@@ -21,7 +27,7 @@ struct SplashView: View {
     }
     
     private var splashView: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: 25) {
             dailyImage
             dailyCatchPhrase
         }
@@ -35,15 +41,14 @@ struct SplashView: View {
     }
     
     private var dailyImage: some View {
-        Image(systemName: "d.circle.fill")
+        Image(.dailyIcon)
             .resizable()
-            .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
-            .foregroundStyle(Colors.daily)
+            .frame(width: 113, height: 113)
     }
     
     private var dailyCatchPhrase: some View {
-        Text(splashViewModel.catchPhrase)
-            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+        Text(catchPhraseString)
+            .multilineTextAlignment(.center)
     }
     
     private var updateButton: some View {

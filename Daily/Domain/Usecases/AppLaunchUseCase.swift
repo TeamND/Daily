@@ -12,9 +12,9 @@ final class AppLaunchUseCase {
         guard let language = Languages(rawValue: UserDefaultManager.language ?? "korean") else { return "" }
         switch language {
         case .korean:
-            return "여러분의 '매일'을 설계하고 🎨\n\n\t\t, 기록하고 📝, 확인해보세요 👏"
+            return "데일리를 관리하는\n가장 체계적인 스케쥴러"
         case .english:
-            return "Design 🎨, Record 📝\n\n\t\t, and Check 👏 'Daily'!!"
+            return "To organize your daily life,\nuse the most structured scheduler"
         }
     }
     
