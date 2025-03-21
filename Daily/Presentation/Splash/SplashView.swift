@@ -41,7 +41,7 @@ struct SplashView: View {
     }
     
     private var dailyImage: some View {
-        Image(.dailyIcon)
+        Image(.appIcon)
             .resizable()
             .frame(width: 113, height: 113)
     }
