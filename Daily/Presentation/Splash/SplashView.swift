@@ -12,8 +12,8 @@ struct SplashView: View {
     @StateObject private var splashViewModel = SplashViewModel()
     
     private var catchPhraseString: AttributedString {
-        splashViewModel.catchPhrase.accent(keywords: ["daily", "scheduler", "데일리", "스케쥴러"]) {
-            $0.font = .body.bold()
+        splashViewModel.catchPhrase.accent(keywords: ["데일리를 관리하는", "To organize your daily life,"]) {
+            $0.foregroundColor = .green
         }
     }
     
@@ -27,7 +27,7 @@ struct SplashView: View {
     }
     
     private var splashView: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 24) {
             dailyImage
             dailyCatchPhrase
         }
@@ -43,12 +43,14 @@ struct SplashView: View {
     private var dailyImage: some View {
         Image(.appIcon)
             .resizable()
-            .frame(width: 113, height: 113)
+            .scaledToFit()
+            .frame(minWidth: 104, idealWidth: 140, maxWidth: 180)
     }
     
     private var dailyCatchPhrase: some View {
         Text(catchPhraseString)
             .multilineTextAlignment(.center)
+            .font(Fonts.pretendardMedium(size: 20))
     }
     
     private var updateButton: some View {
