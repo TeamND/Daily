@@ -27,6 +27,11 @@ struct SplashView: View {
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
         .background(Colors.theme)
+        .if(splashViewModel.isNeedUpdate, transform: { view in
+            view.overlay {
+                updateButton
+            }
+        })
     }
     
     private var dailyImage: some View {
@@ -45,8 +50,17 @@ struct SplashView: View {
         Button {
             System().openAppStore()
         } label: {
-            // TODO: 추후 버튼 문구와 위치 등 UI 추후 조정
+            // TODO: 추후 버튼 폰트 및 색상 등 조정
+            Text("업데이트 하러가기")
+                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                .foregroundStyle(Colors.theme)
+                .frame(maxWidth: .infinity, maxHeight: 50)
         }
+        .background(Colors.daily)
+        .cornerRadius(8)
+        .padding(.bottom, 12)
+        .padding(.horizontal, 16)
+        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     private var noticeSheet: some View {
