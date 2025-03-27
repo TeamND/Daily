@@ -26,5 +26,16 @@ final class AppLaunchUseCase {
         if isWait { try? await Task.sleep(nanoseconds: 2_100_000_000) }
         return true
     }
+    
+    func checkUpdate() async -> Bool {
+        do {
+            let storeVersion = try await System.getStoreVersion().split(separator: ".").map {$0}
+            let appVersion = System.appVersion!.split(separator: ".").map {$0}
+            
+            return ((storeVersion[0] > appVersion[0]) || (storeVersion[1] > appVersion[1]))
+        } catch {
+            return false
+        }
+    }
 }
 
