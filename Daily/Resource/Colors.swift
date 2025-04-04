@@ -13,4 +13,7 @@ enum Colors {
     static let background = Color("BackgroundColor")
     static let theme = Color("ThemeColor")
     static let reverse = Color("ReverseColor")
+    
+    static let dailyGreen = Color("DailyGreen")
+    static let dailyBackground = Color("DailyBackgroundColor")
 }

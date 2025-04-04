@@ -40,5 +40,21 @@ enum Fonts {
     static func pretendardVariable(size: CGFloat) -> Font {
         return .custom("PretendardVariable", fixedSize: size)
     }
+    
+    // daily scheduler
+    static let headingXlBold = pretendardBold(size: 32)
+    static let headingLgBold = pretendardBold(size: 28)
+    static let headingMdBold = pretendardBold(size: 24)
+    
+    static let headingSmSemiBold = pretendardSemiBold(size: 22)
+    static let bodyLgSemiBold = pretendardSemiBold(size: 20)
+    static let bodyMdSemiBold = pretendardSemiBold(size: 18)
+    
+    static let bodyXlMedium = pretendardMedium(size: 22)
+    static let bodyLgMedium = pretendardMedium(size: 20)
+    
+    static let bodyLgRegular = pretendardRegular(size: 20)
+    static let bodyMdRegular = pretendardRegular(size: 18)
+    static let bodySmRegular = pretendardRegular(size: 16)
 }
 

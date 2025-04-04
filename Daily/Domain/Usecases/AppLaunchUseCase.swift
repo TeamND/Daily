@@ -9,12 +9,12 @@ import Foundation
 
 final class AppLaunchUseCase {
     func getCatchPhrase() -> String {
-        guard let language = Languages(rawValue: UserDefaultManager.language ?? "korean") else { return "" }
+        let language = Languages(rawValue: UserDefaultManager.language ?? "korean") ?? .korean
         switch language {
         case .korean:
-            return "데일리를 관리하는\n가장 체계적인 스케쥴러"
+            return "매일을 더 체계적으로"
         case .english:
-            return "To organize your daily life,\nuse the most structured scheduler"
+            return "Struct your\nevery day"
         }
     }
     
@@ -35,6 +35,16 @@ final class AppLaunchUseCase {
             return ((storeVersion[0] > appVersion[0]) || (storeVersion[1] > appVersion[1]))
         } catch {
             return false
+        }
+    }
+    
+    func getUpdateNotice() -> (String, String) {
+        let language = Languages(rawValue: UserDefaultManager.language ?? "korean") ?? .korean
+        switch language {
+        case .korean:
+            return ("업데이트 알림", "보다 원활한 서비스 이용을 위해\n최신 버전으로 업데이트 해주세요")
+        case .english:
+            return ("Update Available", "To ensure a smoother experience,\nplease update to the latest version.")
         }
     }
 }

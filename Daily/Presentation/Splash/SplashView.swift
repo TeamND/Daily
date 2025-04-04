@@ -11,12 +11,6 @@ struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
     @StateObject private var splashViewModel = SplashViewModel()
     
-    private var catchPhraseString: AttributedString {
-        splashViewModel.catchPhrase.accent(keywords: ["데일리를 관리하는", "To organize your daily life,"]) {
-            $0.foregroundColor = .green
-        }
-    }
-    
     var body: some View {
         splashView
             .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert) }
@@ -28,46 +22,55 @@ struct SplashView: View {
     
     private var splashView: some View {
         VStack(spacing: 24) {
+            Spacer()
             dailyImage
             dailyCatchPhrase
+            if splashViewModel.isNeedUpdate {
+                updateNotice
+                Spacer()
+                updateButton
+            } else { Spacer() }
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
-        .background(Colors.theme)
-        .if(splashViewModel.isNeedUpdate, transform: { view in
-            view.overlay {
-                updateButton
-            }
-        })
+        .background(Colors.dailyBackground) // FIXME: 네이밍 수정
+        .animation(.easeInOut, value: splashViewModel.isNeedUpdate)
     }
     
     private var dailyImage: some View {
         Image(.appIcon)
             .resizable()
             .scaledToFit()
-            .frame(minWidth: 104, idealWidth: 140, maxWidth: 180)
+            .frame(width: 160)
     }
     
     private var dailyCatchPhrase: some View {
-        Text(catchPhraseString)
+        Text(splashViewModel.catchPhrase)
+            // TODO: 색상 추가
+            .font(Fonts.headingLgBold)
             .multilineTextAlignment(.center)
-            .font(Fonts.pretendardMedium(size: 20))
+    }
+    
+    private var updateNotice: some View {
+        Text(splashViewModel.updateNotice)
+            // TODO: 색상 추가
+            .font(Fonts.bodyLgRegular)
+            .multilineTextAlignment(.center)
     }
     
     private var updateButton: some View {
         Button {
             System().openAppStore()
         } label: {
-            // TODO: 추후 버튼 폰트 및 색상 등 조정
             Text("업데이트 하러가기")
-                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                // FIXME: 색상 수정
+                .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.theme)
                 .frame(maxWidth: .infinity, maxHeight: 50)
         }
-        .background(Colors.daily)
+        .background(Colors.dailyGreen)
         .cornerRadius(8)
-        .padding(.bottom, 12)
+        .padding(.bottom, 16)
         .padding(.horizontal, 16)
-        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     private var noticeSheet: some View {
