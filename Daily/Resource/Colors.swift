@@ -9,11 +9,35 @@ import Foundation
 import SwiftUI
 
 enum Colors {
+    // FIXME: 2.1.0 배포 전 삭제
     static let daily = Color("DailyColor")
     static let background = Color("BackgroundColor")
     static let theme = Color("ThemeColor")
     static let reverse = Color("ReverseColor")
     
-    static let dailyGreen = Color("DailyGreen")
-    static let dailyBackground = Color("DailyBackgroundColor")
+    enum Brand {
+        static let primary = Color("brandPrimary")
+        static let secondary = Color("brandSecondary")
+    }
+    
+    enum Background {
+        static let primary = Color("backgroundPrimary")
+        static let secondary = Color("backgroundSecondary")
+    }
+    
+    enum Text {
+        static let primary = Color("textPrimary")
+        static let secondary = Color("textSecondary")
+        static let tertiaryu = Color("textTertiary")
+        static let inverse = Color("textInverse")
+        static let point = Color("textPoint")
+    }
+    
+    enum Border {
+        static let primary = Color("borderPrimary")
+    }
+    
+    enum Icon {
+        static let primary = Color("iconPrimary")
+    }
 }

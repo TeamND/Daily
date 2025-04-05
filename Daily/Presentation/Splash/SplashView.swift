@@ -21,18 +21,20 @@ struct SplashView: View {
     }
     
     private var splashView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: .zero) {
             Spacer()
             dailyImage
+            Spacer().frame(height: 28)
             dailyCatchPhrase
             if splashViewModel.isNeedUpdate {
+                Spacer().frame(height: 24)
                 updateNotice
                 Spacer()
                 updateButton
             } else { Spacer() }
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
-        .background(Colors.dailyBackground) // FIXME: 네이밍 수정
+        .background(Colors.Background.primary)
         .animation(.easeInOut, value: splashViewModel.isNeedUpdate)
     }
     
@@ -45,14 +47,14 @@ struct SplashView: View {
     
     private var dailyCatchPhrase: some View {
         Text(splashViewModel.catchPhrase)
-            // TODO: 색상 추가
+            .foregroundStyle(Colors.Text.point)
             .font(Fonts.headingLgBold)
             .multilineTextAlignment(.center)
     }
     
     private var updateNotice: some View {
         Text(splashViewModel.updateNotice)
-            // TODO: 색상 추가
+            .foregroundStyle(Colors.Text.secondary)
             .font(Fonts.bodyLgRegular)
             .multilineTextAlignment(.center)
     }
@@ -62,12 +64,11 @@ struct SplashView: View {
             System().openAppStore()
         } label: {
             Text("업데이트 하러가기")
-                // FIXME: 색상 수정
+                .foregroundStyle(Colors.Text.inverse)
                 .font(Fonts.bodyLgSemiBold)
-                .foregroundStyle(Colors.theme)
                 .frame(maxWidth: .infinity, maxHeight: 50)
         }
-        .background(Colors.dailyGreen)
+        .background(Colors.Brand.primary)
         .cornerRadius(8)
         .padding(.bottom, 16)
         .padding(.horizontal, 16)
