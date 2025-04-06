@@ -39,5 +39,9 @@ enum Colors {
     
     enum Icon {
         static let primary = Color("iconPrimary")
+        static let secondary = Color("iconSecondary")
+        static let interactiveDefault = Color("iconInteractiveDefault")
+        static let interactivePressed = Color("iconInteractivePressed")
+        static let inverse = Color("iconInverse")
     }
 }
