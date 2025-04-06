@@ -126,7 +126,7 @@ extension GoalViewModel {
         Task { @MainActor in
             // TODO: 추후 개선
             if modifyType == .single {
-                let newGoal = goal.copy(cycleType: .date)
+                let newGoal = goal.copy(cycleType: .date, records: [])
                 await goalUseCase.addGoal(goal: newGoal)
                 
                 reset(exceptRecord: true)
@@ -136,6 +136,7 @@ extension GoalViewModel {
             } else {
                 record.isSuccess = goal.count <= record.count
             }
+            
             await goalUseCase.updateData()
             successAction(record.date)
         }
