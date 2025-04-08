@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: String = ""
     
@@ -21,7 +22,10 @@ struct MainView: View {
         .onAppear { navigationEnvironment.navigateDirect(from: .year, to: CalendarTypes(rawValue: calendarType) ?? .month) }
         .onOpenURL { openUrl in
             guard let url = openUrl.absoluteString.removingPercentEncoding else { return }
-            if url.contains("widget") { navigationEnvironment.navigateDirect(from: .year) }
+            if url.contains("widget") {
+                calendarViewModel.setDate(date: Date(format: .daily))
+                navigationEnvironment.navigateDirect(from: .year)
+            }
         }
     }
 }
