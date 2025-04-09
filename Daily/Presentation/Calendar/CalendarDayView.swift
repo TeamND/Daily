@@ -19,6 +19,23 @@ struct CalendarDayView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
+            
+            Menu {
+                ForEach(Filters.allCases, id: \.self) { filter in
+                    Button {
+                        calendarViewModel.filter = filter
+                    } label: {
+                        Text(filter.rawValue)
+                    }
+                }
+            } label: {
+                Text(calendarViewModel.filter.rawValue)
+                    .foregroundStyle(.white)
+                    .frame(width: 60, height: 30)
+                    .background(Colors.daily)
+                    .cornerRadius(8)
+            }
+            
             DailyWeekIndicator(mode: .change, selection: weekSelection)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
@@ -53,7 +70,11 @@ struct CalendarDay: View {
     let selection: String
     
     private var records: [DailyRecordModel] {
-        calendarViewModel.dayDictionary[selection] ?? []
+        var records = calendarViewModel.dayDictionary[selection] ?? []
+        if calendarViewModel.filter == .training {
+            records = records.filter { $0.goal?.symbol == .training }
+        }
+        return records
     }
     
     var body: some View {

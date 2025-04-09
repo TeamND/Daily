@@ -8,8 +8,15 @@
 import Foundation
 import SwiftUI
 
+enum Filters: String, CaseIterable {
+    case all = "all"
+    case training = "training"
+}
+
 final class CalendarViewModel: ObservableObject {
     private let calendarUseCase: CalendarUseCase
+    
+    @Published var filter: Filters = .all
     
     @Published private(set) var currentDate: Date = Date(format: .daily)
     @Published private(set) var yearDictionary: [String: [[Double]]] = [:]
