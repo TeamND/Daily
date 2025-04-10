@@ -42,19 +42,20 @@ enum Fonts {
     }
     
     // daily scheduler
-    static let headingXlBold = pretendardBold(size: 32)
-    static let headingLgBold = pretendardBold(size: 28)
-    static let headingMdBold = pretendardBold(size: 24)
+    static let headingXlBold = pretendardBold(size: 28)
+    static let headingLgBold = pretendardBold(size: 24)
+    static let headingMdBold = pretendardBold(size: 20)
     
-    static let headingSmSemiBold = pretendardSemiBold(size: 22)
-    static let bodyLgSemiBold = pretendardSemiBold(size: 20)
-    static let bodyMdSemiBold = pretendardSemiBold(size: 18)
+    static let headingSmSemiBold = pretendardSemiBold(size: 18)
+    static let bodyLgSemiBold = pretendardSemiBold(size: 16)
+    static let bodyMdSemiBold = pretendardSemiBold(size: 14)
     
-    static let bodyXlMedium = pretendardMedium(size: 22)
-    static let bodyLgMedium = pretendardMedium(size: 20)
+    static let bodyXlMedium = pretendardMedium(size: 18)
+    static let bodyLgMedium = pretendardMedium(size: 16)
     
-    static let bodyLgRegular = pretendardRegular(size: 20)
-    static let bodyMdRegular = pretendardRegular(size: 18)
-    static let bodySmRegular = pretendardRegular(size: 16)
+    static let bodyLgRegular = pretendardRegular(size: 16)
+    static let bodyMdRegular = pretendardRegular(size: 14)
+    static let bodySmRegular = pretendardRegular(size: 12)
+    static let bodyXsmRegular = pretendardRegular(size: 9)
 }
 

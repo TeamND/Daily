@@ -42,7 +42,7 @@ final class AppLaunchUseCase {
         let language = Languages(rawValue: UserDefaultManager.language ?? "korean") ?? .korean
         switch language {
         case .korean:
-            return ("업데이트 알림", "보다 원활한 서비스 이용을 위해\n최신 버전으로 업데이트 해주세요")
+            return ("업데이트 알림", "보다 원활한 서비스 이용을 위해\n최신 버전으로 업데이트 해주세요.")
         case .english:
             return ("Update Available", "To ensure a smoother experience,\nplease update to the latest version.")
         }
