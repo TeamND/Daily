@@ -11,6 +11,7 @@ final class SplashViewModel: ObservableObject {
     private let appLaunchUseCase: AppLaunchUseCase
     
     @Published var catchPhrase: String = ""
+    @Published var updateNotice: String = ""
     @Published var isAppLoaded: Bool = false
     @Published var isShowNotice: Bool = false
     @Published var isNeedUpdate: Bool = false
@@ -26,9 +27,7 @@ final class SplashViewModel: ObservableObject {
             isShowNotice = appLaunchUseCase.checkNotice()
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
             // MARK: 2.0.6 한정 임시 문구
-            if isNeedUpdate {
-                catchPhrase = "보다 원활한 서비스 이용을 위해\n\n\t\t최신 버전으로 업데이트 해주세요."
-            }
+            if isNeedUpdate { (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice() }
             
             if !isNeedUpdate && !isShowNotice { loadApp(isWait: true) }
         }

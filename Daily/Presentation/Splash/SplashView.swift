@@ -21,46 +21,57 @@ struct SplashView: View {
     }
     
     private var splashView: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: .zero) {
+            Spacer()
             dailyImage
+            Spacer().frame(height: 24)
             dailyCatchPhrase
+            if splashViewModel.isNeedUpdate {
+                Spacer().frame(height: 20)
+                updateNotice
+                Spacer()
+                updateButton
+            } else { Spacer() }
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
-        .background(Colors.theme)
-        .if(splashViewModel.isNeedUpdate, transform: { view in
-            view.overlay {
-                updateButton
-            }
-        })
+        .background(Colors.Background.primary)
+        .animation(.easeInOut, value: splashViewModel.isNeedUpdate)
     }
     
     private var dailyImage: some View {
-        Image(systemName: "d.circle.fill")
+        Image(.appIcon)
             .resizable()
-            .frame(width: CGFloat.fontSize * 50, height: CGFloat.fontSize * 50)
-            .foregroundStyle(Colors.daily)
+            .scaledToFit()
+            .frame(width: 160)
     }
     
     private var dailyCatchPhrase: some View {
         Text(splashViewModel.catchPhrase)
-            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+            .foregroundStyle(Colors.Text.point)
+            .font(Fonts.headingLgBold)
+            .multilineTextAlignment(.center)
+    }
+    
+    private var updateNotice: some View {
+        Text(splashViewModel.updateNotice)
+            .foregroundStyle(Colors.Text.secondary)
+            .font(Fonts.bodyLgRegular)
+            .multilineTextAlignment(.center)
     }
     
     private var updateButton: some View {
         Button {
             System().openAppStore()
         } label: {
-            // TODO: 추후 버튼 폰트 및 색상 등 조정
             Text("업데이트 하러가기")
-                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                .foregroundStyle(Colors.theme)
+                .foregroundStyle(Colors.Text.inverse)
+                .font(Fonts.bodyLgSemiBold)
                 .frame(maxWidth: .infinity, maxHeight: 50)
         }
-        .background(Colors.daily)
+        .background(Colors.Brand.primary)
         .cornerRadius(8)
-        .padding(.bottom, 12)
+        .padding(.bottom, 16)
         .padding(.horizontal, 16)
-        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     private var noticeSheet: some View {
