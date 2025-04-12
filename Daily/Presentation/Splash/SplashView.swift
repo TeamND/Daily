@@ -24,10 +24,10 @@ struct SplashView: View {
         VStack(spacing: .zero) {
             Spacer()
             dailyImage
-            Spacer().frame(height: 28)
+            Spacer().frame(height: 24)
             dailyCatchPhrase
             if splashViewModel.isNeedUpdate {
-                Spacer().frame(height: 24)
+                Spacer().frame(height: 20)
                 updateNotice
                 Spacer()
                 updateButton
