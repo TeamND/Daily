@@ -8,6 +8,7 @@
 import Foundation
 
 enum Symbols: String, CaseIterable, Codable {
+    case all = "전체"
     case check = "체크"
     case training = "운동"
     case running = "런닝"
@@ -20,6 +21,8 @@ enum Symbols: String, CaseIterable, Codable {
     
     var imageName: String {
         switch self {
+        case .all:
+            return ""
         case .check:
             return "checkmark.circle"
         case .training:

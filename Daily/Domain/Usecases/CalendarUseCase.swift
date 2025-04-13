@@ -68,8 +68,23 @@ extension CalendarUseCase {
 
 // MARK: - get records data func
 extension CalendarUseCase {
-    func getRatingsOfYear(selection: String) async -> [[Double]] {
-        let records = await repository.getYearRecords(selection: selection)
+    func getYearRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getYearRecords(selection: selection) ?? []
+    }
+    
+    func getMonthRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getMonthRecords(selection: selection) ?? []
+    }
+    
+    func getWeekRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getWeekRecords(selection: selection) ?? []
+    }
+    
+    func getDayRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getDayRecords(selection: selection) ?? []
+    }
+    
+    func getRatingsOfYear(records: [DailyRecordModel]) -> [[Double]] {
         let recordsByDate = getRecordsByDate(records: records)
         
         var ratingsOfYear = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
@@ -85,8 +100,7 @@ extension CalendarUseCase {
         return ratingsOfYear
     }
     
-    func getMonthDatas(selection: String) async -> [MonthDataModel] {
-        let records = await repository.getMonthRecords(selection: selection)
+    func getMonthDatas(records: [DailyRecordModel], selection: String) -> [MonthDataModel] {
         let recordsByDate = getRecordsByDate(records: records)
         
         let selections = CalendarServices.shared.separateSelection(selection)
@@ -113,8 +127,7 @@ extension CalendarUseCase {
         return monthDatas
     }
     
-    func getRatingsOfWeek(selection: String) async -> [Double] {
-        let records = await repository.getWeekRecords(selection: selection)
+    func getRatingsOfWeek(records: [DailyRecordModel]) -> [Double] {
         let recordsByDate = getRecordsByDate(records: records)
         
         var ratingsOfWeek = Array(repeating: 0.0, count: 7)
@@ -130,33 +143,13 @@ extension CalendarUseCase {
         return ratingsOfWeek
     }
     
-    func getRecords(selection: String) async -> [DailyRecordModel] {
-        let records = await repository.getDayRecords(selection: selection) ?? []
-        // TODO: 추후 수정
-        return records.sorted {
-            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
-                return !prevGoal.isSetTime && nextGoal.isSetTime
-            }
-            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
-                return prevGoal.setTime < nextGoal.setTime
-            }
-            return $0.date < $1.date
-        }
-    }
-    
-    func getWeeklyPercentage(selection: String) async -> Int {
-        let records = await repository.getWeekRecords(selection: selection)
-        
-        let validRecords = records?.filter { record in
-            record.date <= Date()
-        }
+    func getRatingOfWeek(records: [DailyRecordModel]) -> Int {
+        let validRecords = records.filter { $0.date <= Date() }
 
-        guard let totalRecords = validRecords?.count, totalRecords > 0 else { return 0 }
+        let totalRecords = validRecords.count
+        let successCount = validRecords.filter({ $0.isSuccess }).count
 
-        guard let successCount = validRecords?.filter({ $0.isSuccess }).count else { return 0 }
-        let successRate = Double(successCount) / Double(totalRecords) * 100
-
-        return Int(round(successRate))
+        return validRecords.count == 0 ? 0 : Int(round(Double(successCount) / Double(totalRecords) * 100))
     }
 }
 
@@ -186,8 +179,24 @@ extension CalendarUseCase {
     }
 }
 
-// MARK: - private func
+// MARK: - 2.1.0
 extension CalendarUseCase {
+    func filterRecords(records: [DailyRecordModel], filter: Symbols) -> [DailyRecordModel] {
+        return records.filter { filter == .all || $0.goal?.symbol == filter }
+    }
+    
+    func sortRecordsBySetTime(records: [DailyRecordModel]) -> [DailyRecordModel] {
+        records.sorted {
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
+                return !prevGoal.isSetTime && nextGoal.isSetTime
+            }
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
+                return prevGoal.setTime < nextGoal.setTime
+            }
+            return $0.date < $1.date
+        }
+    }
+    
     private func getRecordsByDate(records: [DailyRecordModel]?) -> [Date: [DailyRecordModel]] {
         var recordsByDate: [Date: [DailyRecordModel]] = [:]
         

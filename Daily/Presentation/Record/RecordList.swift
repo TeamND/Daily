@@ -15,11 +15,10 @@ struct RecordList: View {
     let selection: String
     
     private var records: [DailyRecordModel] {
-        var records = calendarViewModel.dayDictionary[selection] ?? []
-        if calendarViewModel.filter == .training {
-            records = records.filter { $0.goal?.symbol == .training }
-        }
-        return records
+        let records = calendarViewModel.dayDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let sortedRecords = calendarViewModel.sortRecords(records: filteredRecords)
+        return sortedRecords
     }
     
     private var processedRecords: [(record: DailyRecordModel, showTimeline: Bool)] {

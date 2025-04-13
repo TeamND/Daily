@@ -15,12 +15,14 @@ struct DailyWeekIndicator: View {
     private let mode: WeekIndicatorModes
     private let selection: String?
     
-    private var records: [Double] {
+    private var ratingsOfWeek: [Double] {
         guard let selection,
               let records = calendarViewModel.weekDictionary[selection] else {
             return Array(repeating: .zero, count: GeneralServices.week)
         }
-        return records
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let ratingsOfWeek = calendarViewModel.getRatingsOfWeek(records: filteredRecords)
+        return ratingsOfWeek
     }
     
     init(
@@ -53,7 +55,7 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(mode == .change ? records[index] * 0.8 : opacity[index]))
+                        .foregroundStyle(Colors.daily.opacity(mode == .change ? ratingsOfWeek[index] * 0.8 : opacity[index]))
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }

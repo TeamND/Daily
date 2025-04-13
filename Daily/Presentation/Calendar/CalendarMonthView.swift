@@ -46,7 +46,10 @@ struct CalendarMonth: View {
     let selection: String
     
     private var monthDatas: [MonthDataModel] {
-        calendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDataModel(), count: 31)
+        let records = calendarViewModel.monthDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let monthDatas = calendarViewModel.getMonthDatas(records: filteredRecords, selection: selection)
+        return monthDatas
     }
     
     var body: some View {

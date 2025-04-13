@@ -21,9 +21,9 @@ struct CalendarDayView: View {
             DailyCalendarHeader(type: .day)
             
             Menu {
-                ForEach(Filters.allCases, id: \.self) { filter in
+                ForEach(Symbols.allCases, id: \.self) { filter in
                     Button {
-                        calendarViewModel.filter = filter
+                        calendarViewModel.setFilter(filter: filter)
                     } label: {
                         Text(filter.rawValue)
                     }
@@ -70,15 +70,14 @@ struct CalendarDay: View {
     let selection: String
     
     private var records: [DailyRecordModel] {
-        var records = calendarViewModel.dayDictionary[selection] ?? []
-        if calendarViewModel.filter == .training {
-            records = records.filter { $0.goal?.symbol == .training }
-        }
-        return records
+        let records = calendarViewModel.dayDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        return filteredRecords
     }
     
     var body: some View {
         VStack {
+            // TODO: 추후 records.isEmpty or filteredRecords.isEmpty 구분
             if records.isEmpty {
                 NoRecord()
             } else {
@@ -109,19 +108,25 @@ struct DailyWeeklySummary: View {
     
     let selection: String
     
-    private var records: [Double] {
-        calendarViewModel.weekDictionary[selection] ?? Array(repeating: 0.0, count: 7)
+    private var ratingsOfWeek: [Double] {
+        let records = calendarViewModel.weekDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let ratingsOfWeek = calendarViewModel.getRatingsOfWeek(records: filteredRecords)
+        return ratingsOfWeek
     }
     
     private var ratingsForChart: [RatingOnWeekModel] {
         (.zero ..< GeneralServices.week).map { index in
             let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: records[index] * 100)
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] * 100)
         }
     }
     
     private var ratingOfWeek: Int {
-        calendarViewModel.weeklyPercentage[selection] ?? 0
+        let records = calendarViewModel.weekDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let ratingOfWeek = calendarViewModel.getRatingOfWeek(records: filteredRecords)
+        return ratingOfWeek
     }
     
     var body: some View {
