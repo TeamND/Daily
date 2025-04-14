@@ -198,14 +198,14 @@ extension CalendarViewModel {
 
 // MARK: - in dictionary
 extension CalendarViewModel {
-    func deleteRecordInDictionary(record: DailyRecordModel) {
+    private func deleteRecordInDictionary(record: DailyRecordModel) {
         for key in dayDictionary.keys {
             dayDictionary[key]?.removeAll { $0.id == record.id }
             if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
         }
     }
     
-    func deleteGoalInDictionary(goal: DailyGoalModel) {
+    private func deleteGoalInDictionary(goal: DailyGoalModel) {
         for key in dayDictionary.keys {
             dayDictionary[key]?.removeAll { recordInDictionary in
                 goal.records.contains { record in
@@ -217,7 +217,7 @@ extension CalendarViewModel {
     }
 }
 
-// MARK: - 2.1.0
+// MARK: - records formatting func
 extension CalendarViewModel {
     func filterRecords(records: [DailyRecordModel]) -> [DailyRecordModel] {
         calendarUseCase.filterRecords(records: records, filter: filter)
@@ -231,8 +231,8 @@ extension CalendarViewModel {
         calendarUseCase.getRatingsOfYear(records: records)
     }
     
-    func getMonthDatas(records: [DailyRecordModel], selection: String) -> [MonthDataModel] {
-        calendarUseCase.getMonthDatas(records: records, selection: selection)
+    func getMonthDatas(records: [DailyRecordModel]) -> [MonthDataModel] {
+        calendarUseCase.getMonthDatas(records: records)
     }
     
     func getRatingsOfWeek(records: [DailyRecordModel]) -> [Double] {
