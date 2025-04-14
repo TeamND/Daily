@@ -14,6 +14,7 @@ struct CalendarMonthView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .month)
+            DailySymbolFilter()
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
@@ -46,7 +47,11 @@ struct CalendarMonth: View {
     let selection: String
     
     private var monthDatas: [MonthDataModel] {
-        calendarViewModel.monthDictionary[selection] ?? Array(repeating: MonthDataModel(), count: 31)
+        let records = calendarViewModel.monthDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let sortedRecords = calendarViewModel.sortRecords(records: filteredRecords)
+        let monthDatas = calendarViewModel.getMonthDatas(records: sortedRecords)
+        return monthDatas
     }
     
     var body: some View {

@@ -19,6 +19,7 @@ struct CalendarDayView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
+            DailySymbolFilter()
             DailyWeekIndicator(mode: .change, selection: weekSelection)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
@@ -53,11 +54,14 @@ struct CalendarDay: View {
     let selection: String
     
     private var records: [DailyRecordModel] {
-        calendarViewModel.dayDictionary[selection] ?? []
+        let records = calendarViewModel.dayDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        return filteredRecords
     }
     
     var body: some View {
         VStack {
+            // TODO: 추후 records.isEmpty or filteredRecords.isEmpty 구분
             if records.isEmpty {
                 NoRecord()
             } else {
@@ -88,19 +92,25 @@ struct DailyWeeklySummary: View {
     
     let selection: String
     
-    private var records: [Double] {
-        calendarViewModel.weekDictionary[selection] ?? Array(repeating: 0.0, count: 7)
+    private var ratingsOfWeek: [Double] {
+        let records = calendarViewModel.weekDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let ratingsOfWeek = calendarViewModel.getRatingsOfWeek(records: filteredRecords)
+        return ratingsOfWeek
     }
     
     private var ratingsForChart: [RatingOnWeekModel] {
         (.zero ..< GeneralServices.week).map { index in
             let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: records[index] * 100)
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] * 100)
         }
     }
     
     private var ratingOfWeek: Int {
-        calendarViewModel.weeklyPercentage[selection] ?? 0
+        let records = calendarViewModel.weekDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let ratingOfWeek = calendarViewModel.getRatingOfWeek(records: filteredRecords)
+        return ratingOfWeek
     }
     
     var body: some View {

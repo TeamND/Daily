@@ -14,6 +14,7 @@ struct CalendarYearView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .year)
+            DailySymbolFilter()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .year)) {
@@ -45,7 +46,10 @@ struct CalendarYear: View {
     let selection: String
     
     private var ratingsOfYear: [[Double]] {
-        calendarViewModel.yearDictionary[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        let records = calendarViewModel.yearDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let ratingsOfYear = calendarViewModel.getRatingsOfYear(records: filteredRecords)
+        return ratingsOfYear
     }
     
     var body: some View {

@@ -13,7 +13,7 @@ struct SymbolsSheet: View {
     
     var body: some View {
         List {
-            ForEach(Symbols.allCases, id: \.self) { symbol in
+            ForEach(Symbols.allCases.filter { $0 != .all }, id: \.self) { symbol in
                 Button {
                     self.symbol = symbol
                     dismiss()

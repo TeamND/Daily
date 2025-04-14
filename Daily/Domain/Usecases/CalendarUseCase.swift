@@ -66,97 +66,22 @@ extension CalendarUseCase {
     }
 }
 
-// MARK: - get records data func
+// MARK: - get records func
 extension CalendarUseCase {
-    func getRatingsOfYear(selection: String) async -> [[Double]] {
-        let records = await repository.getYearRecords(selection: selection)
-        let recordsByDate = getRecordsByDate(records: records)
-        
-        var ratingsOfYear = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
-        for (date, dayRecords) in recordsByDate {
-            let successCount = dayRecords.filter { $0.isSuccess }.count
-            let totalCount = dayRecords.count
-            
-            if totalCount > 0 {
-                ratingsOfYear[date.month - 1][date.day - 1] = Double(successCount) / Double(totalCount)
-            }
-        }
-        
-        return ratingsOfYear
+    func getYearRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getYearRecords(selection: selection) ?? []
     }
     
-    func getMonthDatas(selection: String) async -> [MonthDataModel] {
-        let records = await repository.getMonthRecords(selection: selection)
-        let recordsByDate = getRecordsByDate(records: records)
-        
-        let selections = CalendarServices.shared.separateSelection(selection)
-        let startOfMonth = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: 1))!
-        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        
-        var monthDatas: [MonthDataModel] = Array(repeating: MonthDataModel(), count: 31)
-        for day in 1 ... lengthOfMonth {
-            if let dayDate = calendar.date(from: DateComponents(year: selections[0], month: selections[1], day: day)),
-               let dayRecords = recordsByDate[dayDate] {
-                
-                var dailySymbols: [DailySymbol] = []
-                dayRecords.forEach { record in
-                    if let goal = record.goal {
-                        dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
-                    }
-                }
-                
-                let rating = dayRecords.isEmpty ? 0.0 : Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
-                monthDatas[day - 1] = MonthDataModel(symbols: dailySymbols, rating: rating)
-            }
-        }
-        
-        return monthDatas
+    func getMonthRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getMonthRecords(selection: selection) ?? []
     }
     
-    func getRatingsOfWeek(selection: String) async -> [Double] {
-        let records = await repository.getWeekRecords(selection: selection)
-        let recordsByDate = getRecordsByDate(records: records)
-        
-        var ratingsOfWeek = Array(repeating: 0.0, count: 7)
-        for (date, dayRecords) in recordsByDate {
-            let successCount = dayRecords.filter { $0.isSuccess }.count
-            let totalCount = dayRecords.count
-            
-            if totalCount > 0 {
-                ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)] = Double(successCount) / Double(totalCount)
-            }
-        }
-        
-        return ratingsOfWeek
+    func getWeekRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getWeekRecords(selection: selection) ?? []
     }
     
-    func getRecords(selection: String) async -> [DailyRecordModel] {
-        let records = await repository.getDayRecords(selection: selection) ?? []
-        // TODO: 추후 수정
-        return records.sorted {
-            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
-                return !prevGoal.isSetTime && nextGoal.isSetTime
-            }
-            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
-                return prevGoal.setTime < nextGoal.setTime
-            }
-            return $0.date < $1.date
-        }
-    }
-    
-    func getWeeklyPercentage(selection: String) async -> Int {
-        let records = await repository.getWeekRecords(selection: selection)
-        
-        let validRecords = records?.filter { record in
-            record.date <= Date()
-        }
-
-        guard let totalRecords = validRecords?.count, totalRecords > 0 else { return 0 }
-
-        guard let successCount = validRecords?.filter({ $0.isSuccess }).count else { return 0 }
-        let successRate = Double(successCount) / Double(totalRecords) * 100
-
-        return Int(round(successRate))
+    func getDayRecords(selection: String) async -> [DailyRecordModel] {
+        await repository.getDayRecords(selection: selection) ?? []
     }
 }
 
@@ -186,18 +111,82 @@ extension CalendarUseCase {
     }
 }
 
-// MARK: - private func
+// MARK: - records formatting func
 extension CalendarUseCase {
+    func filterRecords(records: [DailyRecordModel], filter: Symbols) -> [DailyRecordModel] {
+        records.filter { filter == .all || $0.goal?.symbol == filter }
+    }
+    
+    func sortRecords(records: [DailyRecordModel]) -> [DailyRecordModel] {
+        records.sorted {
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
+                return !prevGoal.isSetTime && nextGoal.isSetTime
+            }
+            if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
+                return prevGoal.setTime < nextGoal.setTime
+            }
+            return $0.date < $1.date
+        }
+    }
+    
     private func getRecordsByDate(records: [DailyRecordModel]?) -> [Date: [DailyRecordModel]] {
         var recordsByDate: [Date: [DailyRecordModel]] = [:]
         
         records?.forEach { record in
             let components = calendar.dateComponents([.year, .month, .day], from: record.date)
-            if let normalizedDate = calendar.date(from: components) {
-                recordsByDate[normalizedDate, default: []].append(record)
+            if let date = calendar.date(from: components) {
+                recordsByDate[date, default: []].append(record)
             }
         }
         
         return recordsByDate
+    }
+    
+    private func getRating(records: [DailyRecordModel]) -> Double {
+        return records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
+    }
+    
+    func getRatingsOfYear(records: [DailyRecordModel]) -> [[Double]] {
+        let recordsByDate = getRecordsByDate(records: records)
+        
+        var ratingsOfYear = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        for (date, dayRecords) in recordsByDate {
+            ratingsOfYear[date.month - 1][date.day - 1] = getRating(records: dayRecords)
+        }
+        
+        return ratingsOfYear
+    }
+    
+    func getMonthDatas(records: [DailyRecordModel]) -> [MonthDataModel] {
+        let recordsByDate = getRecordsByDate(records: records)
+        
+        var monthDatas: [MonthDataModel] = Array(repeating: MonthDataModel(), count: 31)
+        for (date, dayRecords) in recordsByDate {
+            var dailySymbols: [DailySymbol] = []
+            dayRecords.forEach { record in
+                guard let goal = record.goal else { return }
+                dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
+            }
+            monthDatas[date.day - 1] = MonthDataModel(symbols: dailySymbols, rating: getRating(records: dayRecords))
+        }
+        
+        return monthDatas
+    }
+    
+    func getRatingsOfWeek(records: [DailyRecordModel]) -> [Double] {
+        let recordsByDate = getRecordsByDate(records: records)
+        
+        var ratingsOfWeek = Array(repeating: 0.0, count: 7)
+        for (date, dayRecords) in recordsByDate {
+            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)] = getRating(records: dayRecords)
+        }
+        
+        return ratingsOfWeek
+    }
+    
+    func getRatingOfWeek(records: [DailyRecordModel]) -> Int {
+        let validRecords = records.filter { $0.date <= Date() }
+        let roundedRatingPercentage = round(getRating(records: validRecords) * 100)
+        return Int(roundedRatingPercentage)
     }
 }

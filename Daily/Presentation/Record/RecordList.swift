@@ -15,7 +15,10 @@ struct RecordList: View {
     let selection: String
     
     private var records: [DailyRecordModel] {
-        calendarViewModel.dayDictionary[selection] ?? []
+        let records = calendarViewModel.dayDictionary[selection] ?? []
+        let filteredRecords = calendarViewModel.filterRecords(records: records)
+        let sortedRecords = calendarViewModel.sortRecords(records: filteredRecords)
+        return sortedRecords
     }
     
     private var processedRecords: [(record: DailyRecordModel, showTimeline: Bool)] {
