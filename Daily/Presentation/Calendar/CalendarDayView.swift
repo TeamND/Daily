@@ -19,23 +19,7 @@ struct CalendarDayView: View {
     var body: some View {
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
-            
-            Menu {
-                ForEach(Symbols.allCases, id: \.self) { filter in
-                    Button {
-                        calendarViewModel.setFilter(filter: filter)
-                    } label: {
-                        Text(filter.rawValue)
-                    }
-                }
-            } label: {
-                Text(calendarViewModel.filter.rawValue)
-                    .foregroundStyle(.white)
-                    .frame(width: 60, height: 30)
-                    .background(Colors.daily)
-                    .cornerRadius(8)
-            }
-            
+            DailySymbolFilter()
             DailyWeekIndicator(mode: .change, selection: weekSelection)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)

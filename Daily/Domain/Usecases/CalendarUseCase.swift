@@ -114,10 +114,10 @@ extension CalendarUseCase {
 // MARK: - records formatting func
 extension CalendarUseCase {
     func filterRecords(records: [DailyRecordModel], filter: Symbols) -> [DailyRecordModel] {
-        return records.filter { filter == .all || $0.goal?.symbol == filter }
+        records.filter { filter == .all || $0.goal?.symbol == filter }
     }
     
-    func sortRecordsBySetTime(records: [DailyRecordModel]) -> [DailyRecordModel] {
+    func sortRecords(records: [DailyRecordModel]) -> [DailyRecordModel] {
         records.sorted {
             if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
                 return !prevGoal.isSetTime && nextGoal.isSetTime

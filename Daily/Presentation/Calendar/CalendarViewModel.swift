@@ -224,7 +224,7 @@ extension CalendarViewModel {
     }
     
     func sortRecords(records: [DailyRecordModel]) -> [DailyRecordModel] {
-        calendarUseCase.sortRecordsBySetTime(records: records)
+        calendarUseCase.sortRecords(records: records)
     }
     
     func getRatingsOfYear(records: [DailyRecordModel]) -> [[Double]] {
