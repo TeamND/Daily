@@ -14,10 +14,14 @@ final class CalendarViewModel: ObservableObject {
     @Published private(set) var filter: Symbols = .all
     @Published private(set) var currentDate: Date = Date(format: .daily)
     
-    @Published private(set) var yearDictionary: [String: [DailyRecordModel]] = [:]
-    @Published private(set) var monthDictionary: [String: [DailyRecordModel]] = [:]
-    @Published private(set) var weekDictionary: [String: [DailyRecordModel]] = [:]
-    @Published private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
+    @Published private(set) var yearData: [String: [[Double]]] = [:]
+    @Published private(set) var monthData: [String: [MonthDataModel]] = [:]
+    @Published private(set) var weekDictionary: [String: [DailyRecordModel]] = [:]  // FIXME: 차트는 페이지가 분리될 예정이라 추후 수정
+    @Published private(set) var dayData: [String: [DailyRecordModel]] = [:]
+    
+    private var yearDictionary: [String: [DailyRecordModel]] = [:]
+    private var monthDictionary: [String: [DailyRecordModel]] = [:]
+    private var dayDictionary: [String: [DailyRecordModel]] = [:]
     
     @Published var isShowWeeklySummary: Bool = false    // TODO: 추후 수정
     
@@ -56,6 +60,28 @@ extension CalendarViewModel {
     
     func setFilter(filter: Symbols) {
         self.filter = filter
+        
+        yearData.forEach {
+            let records = yearDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let ratingsOfYear = getRatingsOfYear(records: filteredRecords)
+            yearData[$0.key] = ratingsOfYear
+        }
+        
+        monthData.forEach {
+            let records = monthDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let sortedRecords = sortRecords(records: filteredRecords)
+            let monthDatas = getMonthDatas(records: sortedRecords)
+            monthData[$0.key] = monthDatas
+        }
+        
+        dayData.forEach {
+            let records = dayDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let sortedRecords = sortRecords(records: filteredRecords)
+            dayData[$0.key] = sortedRecords
+        }
     }
 }
 
@@ -85,8 +111,13 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getYearRecords(selection: selection)
+                
                 if self.yearDictionary[selection] == records { return }
-                await MainActor.run { self.yearDictionary[selection] = records }
+                self.yearDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let ratingsOfYear = getRatingsOfYear(records: filteredRecords)
+                await MainActor.run { self.yearData[selection] = ratingsOfYear }
             }
         }
     }
@@ -96,8 +127,14 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getMonthRecords(selection: selection)
+                
                 if self.monthDictionary[selection] == records { return }
-                await MainActor.run { self.monthDictionary[selection] = records }
+                self.monthDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let sortedRecords = sortRecords(records: filteredRecords)
+                let monthDatas = getMonthDatas(records: sortedRecords)
+                await MainActor.run { self.monthData[selection] = monthDatas }
             }
         }
     }
@@ -118,8 +155,13 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getDayRecords(selection: selection)
+                
                 if self.dayDictionary[selection] == records { return }
-                await MainActor.run { self.dayDictionary[selection] = records }
+                self.dayDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let sortedRecords = sortRecords(records: filteredRecords)
+                await MainActor.run { self.dayData[selection] = sortedRecords }
             }
         }
     }

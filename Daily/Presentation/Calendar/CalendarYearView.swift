@@ -45,14 +45,8 @@ struct CalendarYear: View {
     let date: Date
     let selection: String
     
-    private var ratingsOfYear: [[Double]] {
-        let records = calendarViewModel.yearDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let ratingsOfYear = calendarViewModel.getRatingsOfYear(records: filteredRecords)
-        return ratingsOfYear
-    }
-    
     var body: some View {
+        let ratingsOfYear = calendarViewModel.yearData[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
         LazyVStack(spacing: .zero) {
             VStack(spacing: CGFloat.fontSize * 2) {
                 ForEach(0 ..< 4) { row in

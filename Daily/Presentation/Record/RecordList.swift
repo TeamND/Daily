@@ -13,14 +13,9 @@ struct RecordList: View {
     
     let date: Date
     let selection: String
+    let records: [DailyRecordModel]
     
-    private var records: [DailyRecordModel] {
-        let records = calendarViewModel.dayDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let sortedRecords = calendarViewModel.sortRecords(records: filteredRecords)
-        return sortedRecords
-    }
-    
+    // FIXME: 캘린더별 데이터 구조를 통일하면서 showTimeline을 해당 객체 안으로 이동
     private var processedRecords: [(record: DailyRecordModel, showTimeline: Bool)] {
         return records.reduce(into: [(record: DailyRecordModel, showTimeline: Bool)]()) { result, record in
             let prevGoal = result.last?.record.goal

@@ -12,11 +12,8 @@ import Charts
 struct CalendarDayView: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    private var weekSelection: String {
-        calendarViewModel.currentDate.getSelection(type: .week)
-    }
-    
     var body: some View {
+        let weekSelection = calendarViewModel.currentDate.getSelection(type: .week)
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
             DailySymbolFilter()
@@ -53,22 +50,17 @@ struct CalendarDay: View {
     let date: Date
     let selection: String
     
-    private var records: [DailyRecordModel] {
-        let records = calendarViewModel.dayDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        return filteredRecords
-    }
-    
     var body: some View {
+        let records = calendarViewModel.dayData[selection] ?? []
         VStack {
             // TODO: 추후 records.isEmpty or filteredRecords.isEmpty 구분
             if records.isEmpty {
                 NoRecord()
             } else {
                 ViewThatFits(in: .vertical) {
-                    RecordList(date: date, selection: selection)
+                    RecordList(date: date, selection: selection, records: records)
                     ScrollView {
-                        RecordList(date: date, selection: selection)
+                        RecordList(date: date, selection: selection, records: records)
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)
@@ -92,6 +84,7 @@ struct DailyWeeklySummary: View {
     
     let selection: String
     
+    // FIXME: 차트는 페이지가 분리될 예정이라 추후 수정
     private var ratingsOfWeek: [Double] {
         let records = calendarViewModel.weekDictionary[selection] ?? []
         let filteredRecords = calendarViewModel.filterRecords(records: records)
