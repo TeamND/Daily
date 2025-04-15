@@ -85,6 +85,7 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getYearRecords(selection: selection)
+                if self.yearDictionary[selection] == records { return }
                 await MainActor.run { self.yearDictionary[selection] = records }
             }
         }
@@ -95,6 +96,7 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getMonthRecords(selection: selection)
+                if self.monthDictionary[selection] == records { return }
                 await MainActor.run { self.monthDictionary[selection] = records }
             }
         }
@@ -105,6 +107,7 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getWeekRecords(selection: selection)
+                if self.weekDictionary[selection] == records { return }
                 await MainActor.run { self.weekDictionary[selection] = records }
             }
         }
@@ -115,6 +118,7 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getDayRecords(selection: selection)
+                if self.dayDictionary[selection] == records { return }
                 await MainActor.run { self.dayDictionary[selection] = records }
             }
         }
