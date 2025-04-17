@@ -15,16 +15,6 @@ struct DailyWeekIndicator: View {
     private let mode: WeekIndicatorModes
     private let selection: String?
     
-    private var ratingsOfWeek: [Double] {
-        guard let selection,
-              let records = calendarViewModel.weekDictionary[selection] else {
-            return Array(repeating: .zero, count: GeneralServices.week)
-        }
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let ratingsOfWeek = calendarViewModel.getRatingsOfWeek(records: filteredRecords)
-        return ratingsOfWeek
-    }
-    
     init(
         mode: WeekIndicatorModes = .none,
         opacity: Binding<[Double]> = Binding(
@@ -44,6 +34,7 @@ struct DailyWeekIndicator: View {
     }
     
     var body: some View {
+        let weekData = calendarViewModel.weekData[selection ?? ""] ?? WeekDataModel()
         HStack(spacing: 0) {
             ForEach(0 ..< GeneralServices.week, id: \.self) { index in
                 let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
@@ -55,7 +46,7 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(mode == .change ? ratingsOfWeek[index] * 0.8 : opacity[index]))
+                        .foregroundStyle(Colors.daily.opacity(mode == .change ? weekData.ratingsOfWeek[index] * 0.8 : opacity[index]))
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }

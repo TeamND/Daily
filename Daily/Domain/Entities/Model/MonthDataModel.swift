@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MonthDataModel: Decodable {
+struct MonthDataModel {
     let symbols: [DailySymbol]
     let rating: Double
     
@@ -17,7 +17,7 @@ struct MonthDataModel: Decodable {
     }
 }
 
-struct DailySymbol: Decodable {
+struct DailySymbol {
     let symbol: Symbols?
     let isSuccess: Bool
     

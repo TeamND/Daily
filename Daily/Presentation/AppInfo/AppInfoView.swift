@@ -44,7 +44,7 @@ struct AppInfoView: View {
         VStack {
             GroupBox {
                 AppInfoContent(name: "Developer", content: "TeamND")
-                AppInfoContent(name: "Compatibility", content: "iOS16.0")
+                AppInfoContent(name: "Compatibility", content: "iOS 17.0")
                 AppInfoContent(name: "Version", content: System.appVersion)
                 AppInfoContent(name: "Notion", linkLabel: "Go to Manual", linkDestination: "seungyooooong.notion.site/Daily-44127143818b4a8f8d9e864d992b549f?pvs=4")
                 AppInfoContent(name: "Github", linkLabel: "Go to Repository", linkDestination: "github.com/TeamND/Daily")

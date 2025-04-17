@@ -46,7 +46,7 @@ struct CalendarYear: View {
     let selection: String
     
     var body: some View {
-        let ratingsOfYear = calendarViewModel.yearData[selection] ?? Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        let yearData = calendarViewModel.yearData[selection] ?? YearDataModel()
         LazyVStack(spacing: .zero) {
             VStack(spacing: CGFloat.fontSize * 2) {
                 ForEach(0 ..< 4) { row in
@@ -57,7 +57,7 @@ struct CalendarYear: View {
                                 calendarViewModel.setDate(year: date.year, month: month)
                                 navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
                             } label: {
-                                DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: ratingsOfYear[month - 1])
+                                DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: yearData.ratings[month - 1])
                             }
                         }
                     }
