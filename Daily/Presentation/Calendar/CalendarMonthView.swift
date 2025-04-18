@@ -46,16 +46,9 @@ struct CalendarMonth: View {
     let date: Date
     let selection: String
     
-    private var monthDatas: [MonthDataModel] {
-        let records = calendarViewModel.monthDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let sortedRecords = calendarViewModel.sortRecords(records: filteredRecords)
-        let monthDatas = calendarViewModel.getMonthDatas(records: sortedRecords)
-        return monthDatas
-    }
-    
     var body: some View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
+        let monthDatas = calendarViewModel.monthData[selection] ?? Array(repeating: MonthDataModel(), count: lengthOfMonth)
         LazyVStack {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack(spacing: 0) {

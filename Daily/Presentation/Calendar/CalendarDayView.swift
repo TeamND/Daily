@@ -12,11 +12,8 @@ import Charts
 struct CalendarDayView: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    private var weekSelection: String {
-        calendarViewModel.currentDate.getSelection(type: .week)
-    }
-    
     var body: some View {
+        let weekSelection = calendarViewModel.currentDate.getSelection(type: .week)
         VStack(spacing: .zero) {
             DailyCalendarHeader(type: .day)
             DailySymbolFilter()
@@ -53,22 +50,17 @@ struct CalendarDay: View {
     let date: Date
     let selection: String
     
-    private var records: [DailyRecordModel] {
-        let records = calendarViewModel.dayDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        return filteredRecords
-    }
-    
     var body: some View {
+        let dayData = calendarViewModel.dayData[selection] ?? DayDataModel()
         VStack {
             // TODO: 추후 records.isEmpty or filteredRecords.isEmpty 구분
-            if records.isEmpty {
+            if dayData.recordsInList.isEmpty {
                 NoRecord()
             } else {
                 ViewThatFits(in: .vertical) {
-                    RecordList(date: date, selection: selection)
+                    RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
                     ScrollView {
-                        RecordList(date: date, selection: selection)
+                        RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
                     }
                 }
                 Spacer().frame(height: CGFloat.fontSize * 15)
@@ -91,27 +83,6 @@ struct DailyWeeklySummary: View {
     @AppStorage(UserDefaultKey.startDay.rawValue) private var startDay: Int = 0
     
     let selection: String
-    
-    private var ratingsOfWeek: [Double] {
-        let records = calendarViewModel.weekDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let ratingsOfWeek = calendarViewModel.getRatingsOfWeek(records: filteredRecords)
-        return ratingsOfWeek
-    }
-    
-    private var ratingsForChart: [RatingOnWeekModel] {
-        (.zero ..< GeneralServices.week).map { index in
-            let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] * 100)
-        }
-    }
-    
-    private var ratingOfWeek: Int {
-        let records = calendarViewModel.weekDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let ratingOfWeek = calendarViewModel.getRatingOfWeek(records: filteredRecords)
-        return ratingOfWeek
-    }
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -172,11 +143,12 @@ struct DailyWeeklySummary: View {
     
     private var weeklySummaryBody: some View {
         Group {
+            let weekData = calendarViewModel.weekData[selection] ?? WeekDataModel()
             VStack(alignment: .center, spacing: CGFloat.fontSize * 3) {
                 Text("\(calendarViewModel.currentDate.month)월 \(calendarViewModel.currentDate.weekOfMonth)주차 목표 달성률")
                     .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 Chart {
-                    ForEach(ratingsForChart) { data in
+                    ForEach(weekData.ratingsForChart) { data in
                         BarMark(
                             x: .value("Day", data.day),
                             y: .value("Rating", data.rating)
@@ -184,8 +156,8 @@ struct DailyWeeklySummary: View {
                         .opacity(0.3)
                         .annotation(position: .top, alignment: .center) {
                             let isLeadingPosition = data.day == "일" || data.day == "월" || data.day == "화"
-                            let isSameRating = Int(round(data.rating)) == ratingOfWeek
-                            let isNotZero = ratingOfWeek != 0
+                            let isSameRating = Int(round(data.rating)) == weekData.ratingOfWeek
+                            let isNotZero = weekData.ratingOfWeek != 0
                             if isLeadingPosition && isSameRating && isNotZero {
                                 EmptyView()
                             } else {
@@ -193,11 +165,11 @@ struct DailyWeeklySummary: View {
                                     .font(.system(size: CGFloat.fontSize * 1.5))
                             }
                         }
-                        if ratingOfWeek > 0 {
-                            RuleMark(y: .value("RatingOfWeek", ratingOfWeek))
+                        if weekData.ratingOfWeek > 0 {
+                            RuleMark(y: .value("RatingOfWeek", weekData.ratingOfWeek))
                                 .lineStyle(StrokeStyle(lineWidth: 2))
                                 .annotation(position: .top, alignment: .leading) {
-                                    Text(" 주간 달성률 : \(ratingOfWeek)%")
+                                    Text(" 주간 달성률 : \(weekData.ratingOfWeek)%")
                                         .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
                                 }
                         }

@@ -26,6 +26,7 @@ struct DailySymbolFilter: View {
                     }
                 }
             }
+            .padding(4)
         }
     }
 }

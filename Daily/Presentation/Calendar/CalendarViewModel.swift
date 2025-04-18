@@ -14,10 +14,15 @@ final class CalendarViewModel: ObservableObject {
     @Published private(set) var filter: Symbols = .all
     @Published private(set) var currentDate: Date = Date(format: .daily)
     
-    @Published private(set) var yearDictionary: [String: [DailyRecordModel]] = [:]
-    @Published private(set) var monthDictionary: [String: [DailyRecordModel]] = [:]
-    @Published private(set) var weekDictionary: [String: [DailyRecordModel]] = [:]
-    @Published private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
+    @Published private(set) var yearData: [String: YearDataModel] = [:]
+    @Published private(set) var monthData: [String: [MonthDataModel]] = [:]
+    @Published private(set) var weekData: [String: WeekDataModel] = [:]
+    @Published private(set) var dayData: [String: DayDataModel] = [:]
+    
+    private var yearDictionary: [String: [DailyRecordModel]] = [:]
+    private var monthDictionary: [String: [DailyRecordModel]] = [:]
+    private var weekDictionary: [String: [DailyRecordModel]] = [:]
+    private var dayDictionary: [String: [DailyRecordModel]] = [:]
     
     @Published var isShowWeeklySummary: Bool = false    // TODO: 추후 수정
     
@@ -56,6 +61,36 @@ extension CalendarViewModel {
     
     func setFilter(filter: Symbols) {
         self.filter = filter
+        
+        yearData.forEach {
+            let records = yearDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let yearDatas = getYearDatas(records: filteredRecords)
+            yearData[$0.key] = yearDatas
+        }
+        
+        monthData.forEach {
+            let records = monthDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let sortedRecords = sortRecords(records: filteredRecords)
+            let monthDatas = getMonthDatas(records: sortedRecords)
+            monthData[$0.key] = monthDatas
+        }
+        
+        weekData.forEach {
+            let records = weekDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let weekDatas = getWeekDatas(records: filteredRecords)
+            weekData[$0.key] = weekDatas
+        }
+        
+        dayData.forEach {
+            let records = dayDictionary[$0.key] ?? []
+            let filteredRecords = filterRecords(records: records)
+            let sortedRecords = sortRecords(records: filteredRecords)
+            let dayDatas = getDayDatas(records: sortedRecords)
+            dayData[$0.key] = dayDatas
+        }
     }
 }
 
@@ -80,12 +115,18 @@ extension CalendarViewModel {
 
 // MARK: - fetch func
 extension CalendarViewModel {
+    // TODO: self.dictionary[selection] == reocrds 로 record 내부 데이터 변경을 감지하지 못하는 경우가 있음, 추후 캐싱 및 최적화 로직을 개선
+    
     func fetchYearData(selection: String) {
         Task {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getYearRecords(selection: selection)
-                await MainActor.run { self.yearDictionary[selection] = records }
+                self.yearDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let yearDatas = getYearDatas(records: filteredRecords)
+                await MainActor.run { self.yearData[selection] = yearDatas }
             }
         }
     }
@@ -95,7 +136,12 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getMonthRecords(selection: selection)
-                await MainActor.run { self.monthDictionary[selection] = records }
+                self.monthDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let sortedRecords = sortRecords(records: filteredRecords)
+                let monthDatas = getMonthDatas(records: sortedRecords)
+                await MainActor.run { self.monthData[selection] = monthDatas }
             }
         }
     }
@@ -105,7 +151,11 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getWeekRecords(selection: selection)
-                await MainActor.run { self.weekDictionary[selection] = records }
+                self.weekDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let weekDatas = getWeekDatas(records: filteredRecords)
+                await MainActor.run { self.weekData[selection] = weekDatas }
             }
         }
     }
@@ -115,7 +165,12 @@ extension CalendarViewModel {
             await TaskQueueManager.shared.add { [weak self] in
                 guard let self else { return }
                 let records = await self.calendarUseCase.getDayRecords(selection: selection)
-                await MainActor.run { self.dayDictionary[selection] = records }
+                self.dayDictionary[selection] = records
+                
+                let filteredRecords = filterRecords(records: records)
+                let sortedRecords = sortRecords(records: filteredRecords)
+                let dayDatas = getDayDatas(records: sortedRecords)
+                await MainActor.run { self.dayData[selection] = dayDatas }
             }
         }
     }
@@ -126,7 +181,7 @@ extension CalendarViewModel {
     func actionOfRecordButton(record: DailyRecordModel) {
         guard let goal = record.goal else { return }
         
-        Task { @MainActor in
+        Task {
             switch goal.type {
             case .check, .count:
                 await calendarUseCase.addCount(goal: goal, record: record)
@@ -147,7 +202,7 @@ extension CalendarViewModel {
             noticeTime: noticeTime
         )
         
-        Task { @MainActor in
+        Task {
             await calendarUseCase.setNotice(record: record, notice: noticeTime.rawValue)
             completeAction()
         }
@@ -156,7 +211,7 @@ extension CalendarViewModel {
     func removeNotice(record: DailyRecordModel, completeAction: @escaping () -> Void) {
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
         
-        Task { @MainActor in
+        Task {
             await calendarUseCase.setNotice(record: record, notice: nil)
             completeAction()
         }
@@ -165,7 +220,7 @@ extension CalendarViewModel {
     func deleteRecord(record: DailyRecordModel, completeAction: @escaping () -> Void) {
         if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
         
-        Task { @MainActor in
+        Task {
             deleteRecordInDictionary(record: record)
             await calendarUseCase.deleteRecord(record: record)
             fetchDayData(selection: currentDate.getSelection(type: .day))
@@ -178,7 +233,7 @@ extension CalendarViewModel {
             if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
         }
         
-        Task { @MainActor in
+        Task {
             deleteGoalInDictionary(goal: goal)
             await calendarUseCase.deleteGoal(goal: goal)
             fetchDayData(selection: currentDate.getSelection(type: .day))
@@ -187,7 +242,7 @@ extension CalendarViewModel {
     }
     
     func deleteRecords(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
-        Task { @MainActor in
+        Task {
             let deleteRecords = await calendarUseCase.getDeleteRecords(goal: goal)
             deleteRecords.forEach {
                 deleteRecord(record: $0, completeAction: completeAction)
@@ -227,19 +282,19 @@ extension CalendarViewModel {
         calendarUseCase.sortRecords(records: records)
     }
     
-    func getRatingsOfYear(records: [DailyRecordModel]) -> [[Double]] {
-        calendarUseCase.getRatingsOfYear(records: records)
+    func getYearDatas(records: [DailyRecordModel]) -> YearDataModel {
+        calendarUseCase.getYearDatas(records: records)
     }
     
     func getMonthDatas(records: [DailyRecordModel]) -> [MonthDataModel] {
         calendarUseCase.getMonthDatas(records: records)
     }
     
-    func getRatingsOfWeek(records: [DailyRecordModel]) -> [Double] {
-        calendarUseCase.getRatingsOfWeek(records: records)
+    func getWeekDatas(records: [DailyRecordModel]) -> WeekDataModel {
+        calendarUseCase.getWeekDatas(records: records)
     }
     
-    func getRatingOfWeek(records: [DailyRecordModel]) -> Int {
-        calendarUseCase.getRatingOfWeek(records: records)
+    func getDayDatas(records: [DailyRecordModel]) -> DayDataModel {
+        calendarUseCase.getDayDatas(records: records)
     }
 }

@@ -146,15 +146,15 @@ extension CalendarUseCase {
         return records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
     }
     
-    func getRatingsOfYear(records: [DailyRecordModel]) -> [[Double]] {
+    func getYearDatas(records: [DailyRecordModel]) -> YearDataModel {
         let recordsByDate = getRecordsByDate(records: records)
         
-        var ratingsOfYear = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        var ratings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
         for (date, dayRecords) in recordsByDate {
-            ratingsOfYear[date.month - 1][date.day - 1] = getRating(records: dayRecords)
+            ratings[date.month - 1][date.day - 1] = getRating(records: dayRecords)
         }
         
-        return ratingsOfYear
+        return YearDataModel(ratings: ratings)
     }
     
     func getMonthDatas(records: [DailyRecordModel]) -> [MonthDataModel] {
@@ -173,20 +173,34 @@ extension CalendarUseCase {
         return monthDatas
     }
     
-    func getRatingsOfWeek(records: [DailyRecordModel]) -> [Double] {
-        let recordsByDate = getRecordsByDate(records: records)
+    func getWeekDatas(records: [DailyRecordModel]) -> WeekDataModel {
+        let validRecords = records.filter { $0.date <= Date() }
+        let roundedRatingPercentage = round(getRating(records: validRecords) * 100)
+        let ratingOfWeek = Int(roundedRatingPercentage)
         
+        let recordsByDate = getRecordsByDate(records: records)
         var ratingsOfWeek = Array(repeating: 0.0, count: 7)
         for (date, dayRecords) in recordsByDate {
             ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)] = getRating(records: dayRecords)
         }
         
-        return ratingsOfWeek
+        let ratingsForChart = (.zero ..< GeneralServices.week).map { index in
+            let dayOfWeek = DayOfWeek.allCases[(index + (UserDefaultManager.startDay ?? 0)) % GeneralServices.week]
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] * 100)
+        }
+        
+        return WeekDataModel(ratingOfWeek: ratingOfWeek, ratingsOfWeek: ratingsOfWeek, ratingsForChart: ratingsForChart)
     }
     
-    func getRatingOfWeek(records: [DailyRecordModel]) -> Int {
-        let validRecords = records.filter { $0.date <= Date() }
-        let roundedRatingPercentage = round(getRating(records: validRecords) * 100)
-        return Int(roundedRatingPercentage)
+    func getDayDatas(records: [DailyRecordModel]) -> DayDataModel {
+        let recordsInList = records.reduce(into: [DailyRecordInList]()) { result, record in
+            let prevGoal = result.last?.record.goal
+            let isShowTimeline = record.goal.map { goal in
+                if goal.isSetTime { return prevGoal.map { !$0.isSetTime || $0.setTime != goal.setTime } ?? true }
+                return false
+            } ?? false
+            result.append(DailyRecordInList(record: record, isShowTimeline: isShowTimeline))
+        }
+        return DayDataModel(recordsInList: recordsInList)
     }
 }

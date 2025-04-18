@@ -99,6 +99,9 @@
 		F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */; };
 		F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */; };
 		F6E1CCB32DACF830009E25DA /* DailySymbolFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E1CCB22DACF830009E25DA /* DailySymbolFilter.swift */; };
+		F6E1CCDA2DAEAF88009E25DA /* YearDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E1CCD92DAEAF88009E25DA /* YearDataModel.swift */; };
+		F6E1CCDC2DAEB04A009E25DA /* WeekDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E1CCDB2DAEB04A009E25DA /* WeekDataModel.swift */; };
+		F6E1CCDE2DAEB075009E25DA /* DayDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E1CCDD2DAEB075009E25DA /* DayDataModel.swift */; };
 		F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E85B9B2D476B61005A3B9B /* Languages.swift */; };
 		F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */; };
 		F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D202BE2477500FAB502 /* SystemModel.swift */; };
@@ -239,6 +242,9 @@
 		F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingOnWeekModel.swift; sourceTree = "<group>"; };
 		F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoticeManager.swift; sourceTree = "<group>"; };
 		F6E1CCB22DACF830009E25DA /* DailySymbolFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySymbolFilter.swift; sourceTree = "<group>"; };
+		F6E1CCD92DAEAF88009E25DA /* YearDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearDataModel.swift; sourceTree = "<group>"; };
+		F6E1CCDB2DAEB04A009E25DA /* WeekDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDataModel.swift; sourceTree = "<group>"; };
+		F6E1CCDD2DAEB075009E25DA /* DayDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDataModel.swift; sourceTree = "<group>"; };
 		F6E85B9B2D476B61005A3B9B /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		F6EC3D1E2BE2409B00FAB502 /* SystemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemManager.swift; sourceTree = "<group>"; };
 		F6EC3D202BE2477500FAB502 /* SystemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
@@ -456,7 +462,10 @@
 			children = (
 				F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */,
 				F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */,
+				F6E1CCD92DAEAF88009E25DA /* YearDataModel.swift */,
 				F69A84652D252B9400AEBD76 /* MonthDataModel.swift */,
+				F6E1CCDB2DAEB04A009E25DA /* WeekDataModel.swift */,
+				F6E1CCDD2DAEB075009E25DA /* DayDataModel.swift */,
 				F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */,
 				F60B97322CFC170E0015B19B /* ModifyDataModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
@@ -804,6 +813,7 @@
 				F6CE8A182CCF431B0050A25A /* SectionTypes.swift in Sources */,
 				F6016DD32CC53BAA00FB637F /* CalendarViewModel.swift in Sources */,
 				F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */,
+				F6E1CCDC2DAEB04A009E25DA /* WeekDataModel.swift in Sources */,
 				F634D2E22CC485D70014EDB6 /* Double+extension.swift in Sources */,
 				F6CE8A222CCF606B0050A25A /* GoalInterface.swift in Sources */,
 				F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */,
@@ -841,6 +851,7 @@
 				F6C758D62CCB123700F9CF91 /* DailyCalendarHeader.swift in Sources */,
 				F6C758D82CCB165E00F9CF91 /* LabelStyle+extension.swift in Sources */,
 				F6CE8A162CCF42800050A25A /* DailySection.swift in Sources */,
+				F6E1CCDA2DAEAF88009E25DA /* YearDataModel.swift in Sources */,
 				F65ACDE22CC91CEC00C67DD1 /* CalendarServices.swift in Sources */,
 				F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */,
 				F634D2E02CC485C90014EDB6 /* Int+extension.swift in Sources */,
@@ -853,6 +864,7 @@
 				F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */,
 				F65ACDD72CC8ECEB00C67DD1 /* CalendarTypes.swift in Sources */,
 				F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */,
+				F6E1CCDE2DAEB075009E25DA /* DayDataModel.swift in Sources */,
 				F6D9926A2D9123480059A202 /* Fonts.swift in Sources */,
 				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,

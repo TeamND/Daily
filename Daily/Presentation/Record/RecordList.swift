@@ -13,31 +13,14 @@ struct RecordList: View {
     
     let date: Date
     let selection: String
-    
-    private var records: [DailyRecordModel] {
-        let records = calendarViewModel.dayDictionary[selection] ?? []
-        let filteredRecords = calendarViewModel.filterRecords(records: records)
-        let sortedRecords = calendarViewModel.sortRecords(records: filteredRecords)
-        return sortedRecords
-    }
-    
-    private var processedRecords: [(record: DailyRecordModel, showTimeline: Bool)] {
-        return records.reduce(into: [(record: DailyRecordModel, showTimeline: Bool)]()) { result, record in
-            let prevGoal = result.last?.record.goal
-            let showTimeline = record.goal.map { goal in
-                if goal.isSetTime { return prevGoal.map { !$0.isSetTime || $0.setTime != goal.setTime } ?? true }
-                return false
-            } ?? false
-            result.append((record, showTimeline))
-        }
-    }
+    let recordsInList: [DailyRecordInList]
     
     var body: some View {
         VStack {
-            ForEach(processedRecords, id: \.record.id) { processed in
-                let record = processed.record
+            ForEach(recordsInList, id: \.record.id) { recordInList in
+                let record = recordInList.record
                 if let goal = record.goal {
-                    if processed.showTimeline { DailyTimeLine(setTime: goal.setTime) }
+                    if recordInList.isShowTimeline { DailyTimeLine(setTime: goal.setTime) }
                     DailyRecord(record: record)
                         .contextMenu { DailyMenu(record: record, date: date) }
                 }
