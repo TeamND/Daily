@@ -24,6 +24,10 @@ final class CalendarRepository: CalendarInterface {
         return await DailyDataSource.shared.fetchDayRecords(selection: selection)
     }
     
+    func getFutureRecords() async -> [DailyRecordModel]? {
+        return await DailyDataSource.shared.fetchFutureRecords()
+    }
+    
     func updateData() async {
         await DailyDataSource.shared.updateData()
     }
@@ -34,9 +38,5 @@ final class CalendarRepository: CalendarInterface {
     
     func deleteGoal(goal: DailyGoalModel) async {
         await DailyDataSource.shared.deleteGoal(goal: goal)
-    }
-    
-    func getDeleteRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
-        return await DailyDataSource.shared.getDeleteRecords(goal: goal)
     }
 }

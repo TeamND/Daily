@@ -74,6 +74,18 @@ final class DailyDataSource {
         return try? context.fetch(descriptor)
     }
     
+    func fetchFutureRecords() -> [DailyRecordModel]? {
+        let today = Date(format: .daily)
+        
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                today < record.date
+            }
+        )
+        
+        return try? context.fetch(descriptor)
+    }
+    
     func updateData() async {
         try? context.save()
     }
@@ -96,13 +108,5 @@ final class DailyDataSource {
     func deleteGoal(goal: DailyGoalModel) async {
         context.delete(goal)
         try? context.save()
-    }
-    
-    func getDeleteRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
-        guard let totalRecords = try? context.fetch(FetchDescriptor<DailyRecordModel>()) else { return [] }
-        return totalRecords.filter { currentRecord in
-            guard let currentGoal = currentRecord.goal else { return false }
-            return currentGoal.id == goal.id && currentRecord.date > Date(format: .daily)
-        }
     }
 }
