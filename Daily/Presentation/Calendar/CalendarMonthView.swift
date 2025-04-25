@@ -13,7 +13,7 @@ struct CalendarMonthView: View {
     
     var body: some View {
         VStack(spacing: .zero) {
-            DailyCalendarHeader(type: .month)
+            CalendarHeader(type: .month)
             DailySymbolFilter()
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)

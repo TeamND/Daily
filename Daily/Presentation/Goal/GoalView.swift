@@ -16,7 +16,7 @@ struct GoalView: View {
     
     var body: some View {
         VStack {
-            DailyNavigationBar(title: "목표추가")
+            NavigationHeader(title: "목표추가")
             VStack(spacing: .zero) {
                 Spacer()
                 DailySection(type: .date) {

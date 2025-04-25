@@ -16,7 +16,7 @@ struct ModifyView: View {
     
     var body: some View {
         VStack {
-            DailyNavigationBar(title: "목표수정")
+            NavigationHeader(title: "목표수정")
             originalRecord
             VStack(spacing: .zero) {
                 Spacer()

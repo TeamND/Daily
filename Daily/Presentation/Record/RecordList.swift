@@ -45,7 +45,8 @@ struct DailyRecord: View {
         HStack(spacing: 12) {
             Image(goal.symbol.icon(isSuccess: record.isSuccess))
                 .resizable()
-                .frame(width: 36, height: 36)
+                .scaledToFit()
+                .frame(width: 36)
             Text(goal.content)
             Spacer()
             RecordButton(record: record, color: isButtonDisabled ? Colors.reverse : Colors.daily)

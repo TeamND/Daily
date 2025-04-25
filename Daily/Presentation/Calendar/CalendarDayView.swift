@@ -15,7 +15,7 @@ struct CalendarDayView: View {
     var body: some View {
         let weekSelection = calendarViewModel.currentDate.getSelection(type: .week)
         VStack(spacing: .zero) {
-            DailyCalendarHeader(type: .day)
+            CalendarHeader(type: .day)
             DailySymbolFilter()
             DailyWeekIndicator(mode: .change, selection: weekSelection)
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)

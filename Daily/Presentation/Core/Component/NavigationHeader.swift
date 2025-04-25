@@ -1,5 +1,5 @@
 //
-//  DailyNavigationBar.swift
+//  NavigationHeader.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/28/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DailyNavigationBar: View {
+struct NavigationHeader: View {
     @Environment(\.dismiss) var dismiss
     let title: String
     
@@ -17,30 +17,27 @@ struct DailyNavigationBar: View {
     
     var body: some View {
         HStack {
-            // MARK: - leading
             Button {
                 dismiss()
             } label: {
                 Label("이전", systemImage: "chevron.left")
-                    .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                    .font(Fonts.bodyXlMedium)
             }
-            .foregroundStyle(Colors.daily)
-            .padding(CGFloat.fontSize)
+            .foregroundStyle(Colors.Text.point)
             .frame(maxWidth:. infinity, alignment: .leading)
             
-            // MARK: - center
             Text(title)
-                .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                .foregroundStyle(Colors.reverse)
+                .font(Fonts.headingMdBold)
+                .foregroundStyle(Colors.Text.primary)
                 .frame(maxWidth: .infinity, alignment: .center)
             
-            // MARK: - trailing
-            Text("")
-                .frame(maxWidth: .infinity, alignment: .trailing)
+            Spacer().frame(maxWidth: .infinity)
         }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
     }
 }
 
 #Preview {
-    DailyNavigationBar()
+    NavigationHeader()
 }

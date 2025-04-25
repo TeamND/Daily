@@ -13,7 +13,7 @@ struct CalendarYearView: View {
     
     var body: some View {
         VStack(spacing: .zero) {
-            DailyCalendarHeader(type: .year)
+            CalendarHeader(type: .year)
             DailySymbolFilter()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)

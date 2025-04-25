@@ -41,7 +41,7 @@ extension CalendarUseCase {
         case .month:
             return textPosition == .title ? String(currentDate.month) + "월" : String(currentDate.year) + "년"
         case .day:
-            return textPosition == .title ? String(currentDate.day) + "일" : String(currentDate.month) + "월"
+            return textPosition == .title ? String(currentDate.month) + "월 " + String(currentDate.day) + "일" : String(currentDate.month) + "월"
         default:
             return ""
         }
