@@ -19,6 +19,7 @@ struct CalendarDayView: View {
             Spacer().frame(height: 12)
             SymbolFilter()
             Spacer().frame(height: 12)
+            WeekIndicator(mode: .change)
             DailyWeekIndicator(mode: .change, selection: weekSelection)
             Spacer().frame(height: 20)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {

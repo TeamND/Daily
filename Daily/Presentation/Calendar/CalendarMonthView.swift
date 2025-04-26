@@ -17,6 +17,7 @@ struct CalendarMonthView: View {
             Spacer().frame(height: 12)
             SymbolFilter()
             Spacer().frame(height: 12)
+            WeekIndicator(mode: .none)
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
