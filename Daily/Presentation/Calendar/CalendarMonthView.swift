@@ -35,7 +35,7 @@ struct CalendarMonthView: View {
             .background(Colors.theme)
         }
         .overlay {
-            DailyAddGoalButton()
+            AddGoalButton()
         }
     }
 }

@@ -32,7 +32,7 @@ struct CalendarYearView: View {
             .background(Colors.theme)
         }
         .overlay {
-            DailyAddGoalButton()
+            AddGoalButton()
         }
     }
 }

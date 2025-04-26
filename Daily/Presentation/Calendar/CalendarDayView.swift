@@ -36,7 +36,7 @@ struct CalendarDayView: View {
             .background(Colors.theme)
         }
         .overlay {
-            DailyAddGoalButton()
+            AddGoalButton()
         }
         .overlay {
             DailyWeeklySummary(selection: weekSelection)
