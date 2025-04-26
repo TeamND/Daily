@@ -14,9 +14,9 @@ struct CalendarYearView: View {
     var body: some View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .year)
-            DailySymbolFilter()
-            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
-            Spacer().frame(height: CGFloat.fontSize)
+            Spacer().frame(height: 12)
+            SymbolFilter()
+            Spacer().frame(height: 16)  // FIXME: 디자인 vertical trim 제거되면 다시 수정
             TabView(selection: calendarViewModel.bindSelection(type: .year)) {
                 ForEach(-1 ... 10, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.calendarInfo(type: .year, index: index)

@@ -16,10 +16,11 @@ struct CalendarDayView: View {
         let weekSelection = calendarViewModel.currentDate.getSelection(type: .week)
         VStack(spacing: .zero) {
             CalendarHeader(type: .day)
-            DailySymbolFilter()
+            Spacer().frame(height: 12)
+            SymbolFilter()
+            Spacer().frame(height: 12)
             DailyWeekIndicator(mode: .change, selection: weekSelection)
-            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
-            Spacer().frame(height: CGFloat.fontSize)
+            Spacer().frame(height: 20)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... GeneralServices.week, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.calendarInfo(type: .day, index: index)

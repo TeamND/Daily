@@ -28,7 +28,7 @@ enum Colors {
     enum Text {
         static let primary = Color("textPrimary")
         static let secondary = Color("textSecondary")
-        static let tertiaryu = Color("textTertiary")
+        static let tertiary = Color("textTertiary")
         static let inverse = Color("textInverse")
         static let point = Color("textPoint")
     }

@@ -15,7 +15,7 @@ struct DailyApp: App {
     @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var calendarViewModel = CalendarViewModel()
     
-    let dailyModelContainer: ModelContainer
+    private let dailyModelContainer: ModelContainer
     
     init() {
         dailyModelContainer = try! ModelContainer(

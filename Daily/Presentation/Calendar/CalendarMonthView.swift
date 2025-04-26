@@ -14,7 +14,9 @@ struct CalendarMonthView: View {
     var body: some View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .month)
-            DailySymbolFilter()
+            Spacer().frame(height: 12)
+            SymbolFilter()
+            Spacer().frame(height: 12)
             DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)

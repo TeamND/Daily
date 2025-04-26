@@ -26,10 +26,9 @@ final class SplashViewModel: ObservableObject {
             catchPhrase = appLaunchUseCase.getCatchPhrase()
             isShowNotice = appLaunchUseCase.checkNotice()
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
-            // MARK: 2.0.6 한정 임시 문구
-            if isNeedUpdate { (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice() }
             
-            if !isNeedUpdate && !isShowNotice { loadApp(isWait: true) }
+            if isNeedUpdate { (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice() }
+            else if !isShowNotice { loadApp(isWait: true) }
         }
     }
     
