@@ -7,7 +7,17 @@
 
 import Foundation
 
-struct MonthDataModel {
+struct MonthDataModel: DailyDataModel {
+    let daysOnMonth: [DayOnMonth]
+    let filterData: [Symbols: Int]
+    
+    init(daysOnMonth: [DayOnMonth] = Array(repeating: DayOnMonth(), count: 31), filterData: [Symbols: Int] = [:]) {
+        self.daysOnMonth = daysOnMonth
+        self.filterData = filterData
+    }
+}
+
+struct DayOnMonth {
     let symbols: [DailySymbol]
     let rating: Double
     

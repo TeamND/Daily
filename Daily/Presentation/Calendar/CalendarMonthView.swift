@@ -15,7 +15,7 @@ struct CalendarMonthView: View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .month)
             Spacer().frame(height: 12)
-            SymbolFilter()
+            SymbolFilter(type: .month)
             Spacer().frame(height: 12)
             WeekIndicator(mode: .none)
             DailyWeekIndicator()
@@ -51,7 +51,7 @@ struct CalendarMonth: View {
     
     var body: some View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
-        let monthDatas = calendarViewModel.monthData[selection] ?? Array(repeating: MonthDataModel(), count: lengthOfMonth)
+        let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
         LazyVStack {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack(spacing: 0) {
@@ -62,7 +62,7 @@ struct CalendarMonth: View {
                                 calendarViewModel.setDate(year: date.year, month: date.month, day: day)
                                 navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
                             } label: {
-                                DailyDayOnMonth(year: date.year, month: date.month, day: day, monthData: monthDatas[day - 1])
+                                DailyDayOnMonth(year: date.year, month: date.month, day: day, dayOnMonth: monthData.daysOnMonth[day - 1])
                             }
                         } else { DailyDayOnMonth().opacity(0) }
                     }
@@ -89,12 +89,12 @@ struct DailyDayOnMonth: View {
     private let dailySymbols: [DailySymbol]
     private let rating: Double
     
-    init(year: Int = 0, month: Int = 0, day: Int = 0, monthData: MonthDataModel = MonthDataModel()) {
+    init(year: Int = 0, month: Int = 0, day: Int = 0, dayOnMonth: DayOnMonth = DayOnMonth()) {
         self.year = year
         self.month = month
         self.day = day
-        self.dailySymbols = monthData.symbols
-        self.rating = monthData.rating
+        self.dailySymbols = dayOnMonth.symbols
+        self.rating = dayOnMonth.rating
     }
     
     var body: some View {

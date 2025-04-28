@@ -10,6 +10,8 @@ import SwiftUI
 struct SymbolFilter: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
+    let type: CalendarTypes
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 4) {
@@ -29,7 +31,7 @@ struct SymbolFilter: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 16)
-                                    Text("\(calendarViewModel.filterData[filter] ?? 0)")
+                                    Text("\(calendarViewModel.getData(type: type)?.filterData[filter] ?? 0)")
                                         .font(Fonts.bodyMdSemiBold)
                                         .foregroundStyle(isCurrentFilter ? Colors.Text.point : Colors.Text.tertiary)
                                 }

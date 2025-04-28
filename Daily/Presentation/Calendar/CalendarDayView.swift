@@ -17,7 +17,7 @@ struct CalendarDayView: View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .day)
             Spacer().frame(height: 12)
-            SymbolFilter()
+            SymbolFilter(type: .day)
             Spacer().frame(height: 12)
             WeekIndicator(mode: .change)
             DailyWeekIndicator(mode: .change, selection: weekSelection)
@@ -93,6 +93,7 @@ struct DailyWeeklySummary: View {
             weeklySummaryBody
         }
         .onAppear {
+            // FIXME: 호출 타이밍이 애매함 추후 수정 필요
             calendarViewModel.fetchWeekData(selection: selection)
         }
         .ignoresSafeArea()

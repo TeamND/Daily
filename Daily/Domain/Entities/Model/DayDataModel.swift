@@ -7,11 +7,13 @@
 
 import Foundation
 
-struct DayDataModel {
+struct DayDataModel: DailyDataModel {
     let recordsInList: [DailyRecordInList]
+    let filterData: [Symbols: Int]
     
-    init(recordsInList: [DailyRecordInList] = []) {
+    init(recordsInList: [DailyRecordInList] = [], filterData: [Symbols: Int] = [:]) {
         self.recordsInList = recordsInList
+        self.filterData = filterData
     }
 }
 
