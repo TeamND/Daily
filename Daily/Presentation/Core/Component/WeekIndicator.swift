@@ -26,7 +26,7 @@ struct WeekIndicator: View {
                 DayOfWeekView(dayOfWeek: DayOfWeek.allCases[(index + startDay) % GeneralServices.week]).frame(minWidth: 33)
             }
         }
-        .padding(18)
+        .padding(.horizontal, 18)
         .onAppear {
             calendarViewModel.fetchWeekData(selection: selection)
         }

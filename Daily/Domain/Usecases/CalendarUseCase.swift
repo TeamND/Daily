@@ -225,6 +225,6 @@ extension CalendarUseCase {
             result.append(DailyRecordInList(record: record, isShowTimeline: isShowTimeline))
         }
         
-        return DayDataModel(recordsInList: recordsInList, filterData: filterData)
+        return DayDataModel(isEmpty: records.isEmpty, recordsInList: recordsInList, filterData: filterData)
     }
 }

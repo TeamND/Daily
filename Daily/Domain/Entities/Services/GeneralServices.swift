@@ -17,6 +17,12 @@ class GeneralServices {
     static let week: Int = 7
     
     // MARK: - Record
-    static let noRecordText: String = "아직 목표가 없어요 😓"
-    static let goRecordViewText: String = "목표 세우러 가기"
+    static func noRecordText(isEmpty: Bool) -> String {
+        if isEmpty { return "아직 목표가 없어요" }
+        else { return "해당 조건에 맞는 목표가 없어요" }
+    }
+    static func noRecordDescriptionText(isEmpty: Bool) -> String {
+        if isEmpty { return "오늘의 목표를 추가해보세요" }
+        else { return "목표를 하나 더 추가해볼까요?" }
+    }
 }

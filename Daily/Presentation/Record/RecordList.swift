@@ -16,7 +16,7 @@ struct RecordList: View {
     let recordsInList: [DailyRecordInList]
     
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             ForEach(recordsInList, id: \.record.id) { recordInList in
                 let record = recordInList.record
                 if let goal = record.goal {
@@ -47,28 +47,27 @@ struct DailyRecord: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 36)
-            Text(goal.content)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(goal.content)
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
+                let recordCount = goal.type == .timer ? record.count.timerFormat() : String(record.count)
+                let goalCount = goal.type == .timer ? goal.count.timerFormat() : String(goal.count)
+                Text("\(recordCount) / \(goalCount)")
+                    .font(Fonts.bodyMdRegular)
+                    .foregroundStyle(Colors.Text.secondary)
+            }
             Spacer()
-            RecordButton(record: record, color: isButtonDisabled ? Colors.reverse : Colors.daily)
+            RecordButton(record: record, disabled: isButtonDisabled)
                 .frame(maxHeight: 40)
                 .disabled(isButtonDisabled)
         }
-        .frame(height: 60)
-        .overlay {
-            let recordCount = goal.type == .timer ? record.count.timerFormat() : String(record.count)
-            let goalCount = goal.type == .timer ? goal.count.timerFormat() : String(goal.count)
-            Text("\(recordCount) / \(goalCount)")
-                .font(.system(size : CGFloat.fontSize * 2))
-                .padding(.top, CGFloat.fontSize)
-                .padding(.trailing, 40)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-        }
-        .padding(.horizontal, CGFloat.fontSize * 2)
-        .foregroundStyle(Colors.reverse)
+        .frame(height: 72)
+        .padding(.horizontal, 16)
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
+            RoundedRectangle(cornerRadius: 8).fill(Colors.Background.secondary)
         }
-        .padding(.horizontal, CGFloat.fontSize / 2)
+        .grayscale(isButtonDisabled ? 1 : 0)
     }
 }
 
@@ -77,20 +76,22 @@ struct NoRecord: View {
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
+    let isEmpty: Bool
+    
     var body: some View {
-        VStack {
-            Text(GeneralServices.noRecordText)
-            Button {
-                let data = GoalDataModel(date: calendarViewModel.currentDate)
-                let navigationObject = NavigationObject(viewType: .goal, data: data)
-                navigationEnvironment.navigate(navigationObject)
-            } label: {
-                Text(GeneralServices.goRecordViewText)
-                    .foregroundStyle(Colors.daily)
-            }
+        VStack(spacing: .zero) {
+            Spacer()
+            Image(isEmpty ? .recordYetNormal : .recordYetFilter)
+            Spacer().frame(height: 20)
+            Text(GeneralServices.noRecordText(isEmpty: isEmpty))
+                .font(Fonts.headingSmSemiBold)
+                .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 4)
+            Text(GeneralServices.noRecordDescriptionText(isEmpty: isEmpty))
+                .font(Fonts.bodyLgRegular)
+                .foregroundStyle(Colors.Text.tertiary)
+            Spacer()
+            Spacer()
         }
-        .padding()
-        .padding(.bottom, CGFloat.screenHeight * 0.25)
-        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
     }
 }

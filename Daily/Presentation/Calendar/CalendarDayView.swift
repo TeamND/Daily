@@ -32,15 +32,12 @@ struct CalendarDayView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, CGFloat.fontSize)
-            .background(Colors.theme)
+            .padding(.horizontal, 16)
         }
         .overlay {
             AddGoalButton()
         }
-        .overlay {
-            DailyWeeklySummary(selection: weekSelection)
-        }
+        .background(Colors.Background.primary)
     }
 }
 
@@ -53,18 +50,18 @@ struct CalendarDay: View {
     
     var body: some View {
         let dayData = calendarViewModel.dayData[selection] ?? DayDataModel()
-        VStack {
-            // TODO: 추후 records.isEmpty or filteredRecords.isEmpty 구분
+        VStack(spacing: .zero) {
             if dayData.recordsInList.isEmpty {
-                NoRecord()
+                NoRecord(isEmpty: dayData.isEmpty)
             } else {
                 ViewThatFits(in: .vertical) {
                     RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
                     ScrollView {
                         RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
+                        Spacer().frame(height: 24)  // FIXME: 디자인 확인 후 수정
                     }
                 }
-                Spacer().frame(height: CGFloat.fontSize * 15)
+                Spacer().frame(height: 32)
                 Spacer()
             }
         }
