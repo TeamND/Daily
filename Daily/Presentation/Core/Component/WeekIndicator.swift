@@ -12,19 +12,52 @@ struct WeekIndicator: View {
     @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
     
     let mode: WeekIndicatorModes
+    let selection: String
+    
+    init(mode: WeekIndicatorModes, selection: String = "") {
+        self.mode = mode
+        self.selection = selection
+    }
     
     var body: some View {
         HStack(spacing: .zero) {
-            Spacer()
             ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
-                let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
-                let isNow = calendarViewModel.currentDate.weekday == dayOfWeek.index + 1
-                Text(dayOfWeek.text)
-                    .font(Fonts.bodySmRegular)
-                    .foregroundStyle(mode == .change && isNow ? Colors.Text.point : Colors.Text.primary)
-                Spacer()
+                if .zero < index { Spacer() }
+                DayOfWeekView(dayOfWeek: DayOfWeek.allCases[(index + startDay) % GeneralServices.week]).frame(minWidth: 33)
             }
         }
-        .frame(height: 16)
+        .padding(18)
+        .onAppear {
+            calendarViewModel.fetchWeekData(selection: selection)
+        }
+        .onChange(of: selection) { _, newValue in
+            calendarViewModel.fetchWeekData(selection: newValue)
+        }
+    }
+    
+    private func DayOfWeekView(dayOfWeek: DayOfWeek) -> some View {
+        let isNow = calendarViewModel.currentDate.weekday == dayOfWeek.index + 1
+        let date = selection.toDate()?.dayLater(value: dayOfWeek.index) ?? Date(format: .daily)
+        
+        return VStack(spacing: 6) {
+            Text(dayOfWeek.text)
+                .font(Fonts.bodySmRegular)
+                .foregroundStyle(mode.hasPointText && isNow ? Colors.Text.point : Colors.Text.primary)
+            if mode == .change {
+                TimelineView(.everyDay) { context in
+                    let rating = calendarViewModel.weekData[selection]?.ratingsOfWeek[dayOfWeek.index]
+                    let isToday = date == context.date
+                    DayIndicator(day: date.day, rating: rating, isToday: isToday)
+                }
+            }
+        }
+        .onTapGesture {
+            switch mode {
+            case .change:
+                calendarViewModel.setDate(date: date)
+            case .select, .none:
+                break
+            }
+        }
     }
 }

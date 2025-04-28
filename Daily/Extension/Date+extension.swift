@@ -85,9 +85,10 @@ extension Date {
 
 // MARK: - return Date
 extension Date {
-    func monthLater(timeZone: TimeZone = .current) -> Date {
-        var calendar = Calendar.current
-        calendar.timeZone = timeZone
-        return calendar.date(byAdding: .month, value: 1, to: self)!
+    func monthLater(value: Int = 1) -> Date {
+        Calendar.current.date(byAdding: .month, value: value, to: self)!
+    }
+    func dayLater(value: Int = 1) -> Date {
+        Calendar.current.date(byAdding: .day, value: value, to: self)!
     }
 }

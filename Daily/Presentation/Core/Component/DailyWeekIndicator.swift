@@ -46,7 +46,7 @@ struct DailyWeekIndicator: View {
                         .padding(CGFloat.fontSize / 3)
                     Image(systemName: "circle.fill")
                         .font(.system(size: CGFloat.fontSize * 5))
-                        .foregroundStyle(Colors.daily.opacity(mode == .change ? weekData.ratingsOfWeek[index] * 0.8 : opacity[index]))
+                        .foregroundStyle(Colors.daily.opacity(mode == .change ? weekData.ratingsOfWeek[index] ?? 0.0 * 0.8 : opacity[index]))
                     Text(dayOfWeek.text)
                         .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
                 }

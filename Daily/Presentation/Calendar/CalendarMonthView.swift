@@ -18,7 +18,6 @@ struct CalendarMonthView: View {
             SymbolFilter(type: .month)
             Spacer().frame(height: 12)
             WeekIndicator(mode: .none)
-            DailyWeekIndicator()
             CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
             Spacer().frame(height: CGFloat.fontSize)
             TabView(selection: calendarViewModel.bindSelection(type: .month)) {

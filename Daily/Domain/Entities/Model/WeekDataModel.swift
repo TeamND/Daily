@@ -9,13 +9,13 @@ import Foundation
 
 struct WeekDataModel: DailyDataModel {
     let ratingOfWeek: Int
-    let ratingsOfWeek: [Double]
+    let ratingsOfWeek: [Double?]
     let ratingsForChart: [RatingOnWeekModel]
     let filterData: [Symbols: Int]
     
     init(
         ratingOfWeek: Int = 0,
-        ratingsOfWeek: [Double] = Array(repeating: 0.0, count: GeneralServices.week),
+        ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week),
         ratingsForChart: [RatingOnWeekModel] = [],
         filterData: [Symbols: Int] = [:]
     ) {

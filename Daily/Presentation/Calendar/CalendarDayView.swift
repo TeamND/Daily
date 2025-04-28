@@ -19,8 +19,7 @@ struct CalendarDayView: View {
             Spacer().frame(height: 12)
             SymbolFilter(type: .day)
             Spacer().frame(height: 12)
-            WeekIndicator(mode: .change)
-            DailyWeekIndicator(mode: .change, selection: weekSelection)
+            WeekIndicator(mode: .change, selection: weekSelection)
             Spacer().frame(height: 20)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... GeneralServices.week, id: \.self) { index in
@@ -91,10 +90,6 @@ struct DailyWeeklySummary: View {
             Spacer()
             weeklySummaryHeader
             weeklySummaryBody
-        }
-        .onAppear {
-            // FIXME: 호출 타이밍이 애매함 추후 수정 필요
-            calendarViewModel.fetchWeekData(selection: selection)
         }
         .ignoresSafeArea()
         .onTapGesture {

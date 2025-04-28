@@ -197,14 +197,14 @@ extension CalendarUseCase {
         let roundedRatingPercentage = round(getRating(records: validRecords) * 100)
         let ratingOfWeek = Int(roundedRatingPercentage)
         
-        var ratingsOfWeek = Array(repeating: 0.0, count: 7)
+        var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)
         for (date, dayRecords) in recordsByDate {
-            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)] = getRating(records: dayRecords)
+            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = getRating(records: dayRecords)
         }
         
         let ratingsForChart = (.zero ..< GeneralServices.week).map { index in
             let dayOfWeek = DayOfWeek.allCases[(index + (UserDefaultManager.startDay ?? 0)) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] * 100)
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] ?? .zero * 100)
         }
         
         return WeekDataModel(ratingOfWeek: ratingOfWeek, ratingsOfWeek: ratingsOfWeek, ratingsForChart: ratingsForChart, filterData: filterData)
