@@ -29,7 +29,7 @@ struct AddGoalButton: View {
             }
             .padding(16)
         }
-        .padding(0) // FIXME: 디자인 요청 응답오면 수정
+        .padding(8)
     }
 }
 

@@ -47,8 +47,9 @@ struct SymbolFilter: View {
                 }
             }
             .frame(height: 28)
-            .padding(.horizontal, 1)    // MARK: border 표시를 위한 padding
+            .padding(.leading, 16)
+            .padding(.trailing, 1)  // MARK: border 표시를 위한 padding
         }
-        .padding(.horizontal, 16)
+        .padding(.trailing, 16)
     }
 }

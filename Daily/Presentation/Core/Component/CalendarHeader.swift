@@ -39,7 +39,7 @@ struct CalendarHeader: View {
                         dismiss()
                     } label: {
                         Label(calendarViewModel.headerText(type: type, textPosition: .backButton), systemImage: "chevron.left")
-                            .font(Fonts.bodyXlMedium)
+                            .font(Fonts.bodyLgMedium)
                     }
                     .foregroundStyle(Colors.Text.point)
                 }
