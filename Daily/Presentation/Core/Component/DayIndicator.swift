@@ -11,6 +11,7 @@ struct DayIndicator: View {
     let day: Int
     let rating: Double?
     let isToday: Bool
+    let isNow: Bool
     
     var body: some View {
         ZStack {
@@ -18,7 +19,7 @@ struct DayIndicator: View {
             if isToday { Circle().fill(Colors.Icon.interactivePressed).padding(1) }
             Text(String(day))
                 .font(Fonts.bodyMdSemiBold)
-                .foregroundStyle(isToday ? Colors.Text.inverse : Colors.Text.secondary)
+                .foregroundStyle(isToday ? Colors.Text.inverse : isNow ? Colors.Text.point : Colors.Text.secondary)
         }
         .frame(width: 33, height: 33)
     }

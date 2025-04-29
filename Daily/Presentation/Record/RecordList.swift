@@ -25,6 +25,7 @@ struct RecordList: View {
                         .contextMenu { DailyMenu(record: record, date: date) }
                 }
             }
+            Spacer()
         }
     }
 }
@@ -58,7 +59,7 @@ struct DailyRecord: View {
                     .foregroundStyle(Colors.Text.secondary)
             }
             Spacer()
-            RecordButton(record: record, disabled: isButtonDisabled)
+            RecordButton(record: record, goal: goal, disabled: isButtonDisabled)
                 .frame(maxHeight: 40)
                 .disabled(isButtonDisabled)
         }

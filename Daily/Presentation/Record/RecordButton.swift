@@ -11,6 +11,7 @@ struct RecordButton: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     let record: DailyRecordModel
+    let goal: DailyGoalModel
     let disabled: Bool
     
     var body: some View {
@@ -19,16 +20,16 @@ struct RecordButton: View {
             calendarViewModel.actionOfRecordButton(record: record)
         } label: {
             ZStack {
-                // FIXME: 아이콘 추가 후 수정
                 if record.isSuccess {
                     Image(.success)
                         .resizable()
                         .scaledToFit()
-                } else {    // TODO: 추후 timer 추가 시 수정
-                    Image(.start)
+                } else if goal.type == .timer {
+                    Image(true ? .start : .pause)    // TODO: 추후 timer 추가 시 수정
                         .resizable()
                         .scaledToFit()
                 }
+                RatingIndicator(rating: Double(record.count) / Double(goal.count))
             }
             .frame(width: 40, height: 40)
         }

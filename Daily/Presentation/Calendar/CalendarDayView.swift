@@ -17,10 +17,10 @@ struct CalendarDayView: View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .day)
             Spacer().frame(height: 12)
+            WeekIndicator(mode: .change, selection: weekSelection)
+            Spacer().frame(height: 24)
             SymbolFilter(type: .day)
             Spacer().frame(height: 12)
-            WeekIndicator(mode: .change, selection: weekSelection)
-            Spacer().frame(height: 20)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... GeneralServices.week, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.calendarInfo(type: .day, index: index)
@@ -58,11 +58,9 @@ struct CalendarDay: View {
                     RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
                     ScrollView {
                         RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
-                        Spacer().frame(height: 24)  // FIXME: 디자인 확인 후 수정
                     }
                 }
                 Spacer().frame(height: 32)
-                Spacer()
             }
         }
         .onAppear {

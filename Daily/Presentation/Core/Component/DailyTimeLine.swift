@@ -11,20 +11,11 @@ struct DailyTimeLine: View {
     let setTime: String
     
     var body: some View {
-        CustomDivider(
-            color: Colors.reverse.opacity(0.8),
-            height: CGFloat.fontSize / 3,
-            hPadding: CGFloat.fontSize
-        )
-        .overlay {
+        HStack(spacing: 8) {
             Text(setTime)
-                .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-                .padding(.horizontal, CGFloat.fontSize * 2)
-                .background(Colors.theme)
-                .hLeading()
-                .padding(.leading, CGFloat.fontSize * 7)
+                .font(Fonts.bodySmRegular)
+                .foregroundStyle(Colors.Text.secondary)
+            CustomDivider(color: Colors.Border.primary, height: 1)
         }
-        .frame(height: CGFloat.fontSize * 3)
-        .padding(.bottom, -CGFloat.fontSize * 1.5)
     }
 }

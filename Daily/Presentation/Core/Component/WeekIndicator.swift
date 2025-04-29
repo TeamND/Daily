@@ -47,7 +47,7 @@ struct WeekIndicator: View {
                 TimelineView(.everyDay) { context in
                     let rating = calendarViewModel.weekData[selection]?.ratingsOfWeek[dayOfWeek.index]
                     let isToday = date == context.date
-                    DayIndicator(day: date.day, rating: rating, isToday: isToday)
+                    DayIndicator(day: date.day, rating: rating, isToday: isToday, isNow: isNow)
                 }
             }
         }

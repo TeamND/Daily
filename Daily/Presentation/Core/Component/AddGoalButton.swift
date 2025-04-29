@@ -26,10 +26,10 @@ struct AddGoalButton: View {
                         .scaledToFit()
                         .frame(width: 48)
                 }
+                Spacer().frame(width: 16)
             }
-            .padding(16)
+            Spacer().frame(height: 8)
         }
-        .padding(8)
     }
 }
 
