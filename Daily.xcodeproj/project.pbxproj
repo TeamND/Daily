@@ -56,7 +56,7 @@
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
-		F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F812291BFC9300984457 /* CustomDivider.swift */; };
+		F6C0F813291BFC9300984457 /* DailyDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C0F812291BFC9300984457 /* DailyDivider.swift */; };
 		F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */; };
 		F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */; };
 		F6C6B0362BB4493A00C578C1 /* CalendarSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */; };
@@ -202,7 +202,7 @@
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6BEC93A290F5895005EAF28 /* Daily.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Daily.entitlements; sourceTree = "<group>"; };
 		F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F6C0F812291BFC9300984457 /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
+		F6C0F812291BFC9300984457 /* DailyDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDivider.swift; sourceTree = "<group>"; };
 		F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoLabel.swift; sourceTree = "<group>"; };
 		F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoContent.swift; sourceTree = "<group>"; };
 		F6C6B0352BB4493A00C578C1 /* CalendarSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheet.swift; sourceTree = "<group>"; };
@@ -555,7 +555,7 @@
 		F6C0F8032919042B00984457 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				F6D062492925B84B00B825EF /* Custom */,
+				F6C0F812291BFC9300984457 /* DailyDivider.swift */,
 				F6CE8A1D2CCF5D150050A25A /* NavigationHeader.swift */,
 				F6C758D52CCB123700F9CF91 /* CalendarHeader.swift */,
 				F6E1CCB22DACF830009E25DA /* SymbolFilter.swift */,
@@ -623,14 +623,6 @@
 				F679B9A42C4ACA960027608D /* NoticeSheet.swift */,
 			);
 			path = Sheet;
-			sourceTree = "<group>";
-		};
-		F6D062492925B84B00B825EF /* Custom */ = {
-			isa = PBXGroup;
-			children = (
-				F6C0F812291BFC9300984457 /* CustomDivider.swift */,
-			);
-			path = Custom;
 			sourceTree = "<group>";
 		};
 		F6D992562D9121C80059A202 /* Pretendard */ = {
@@ -857,7 +849,7 @@
 				F6F31DF52CF96DC60090A3B9 /* RecordList.swift in Sources */,
 				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */,
-				F6C0F813291BFC9300984457 /* CustomDivider.swift in Sources */,
+				F6C0F813291BFC9300984457 /* DailyDivider.swift in Sources */,
 				F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */,
 				F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,

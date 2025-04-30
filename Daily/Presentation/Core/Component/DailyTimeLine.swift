@@ -15,7 +15,7 @@ struct DailyTimeLine: View {
             Text(setTime)
                 .font(Fonts.bodySmRegular)
                 .foregroundStyle(Colors.Text.secondary)
-            CustomDivider(color: Colors.Border.primary, height: 1)
+            DailyDivider(color: Colors.Border.primary, height: 1)
         }
     }
 }

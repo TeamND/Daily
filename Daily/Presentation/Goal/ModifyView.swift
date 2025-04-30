@@ -64,7 +64,7 @@ struct ModifyView: View {
                 .padding(.horizontal)
             if goalViewModel.originalGoal.isSetTime { DailyTimeLine(setTime: goalViewModel.originalGoal.setTime) }
             DailyRecord(record: goalViewModel.originalRecord, goal: goalViewModel.originalGoal, isButtonDisabled: true)
-            CustomDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
+            DailyDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
         }
     }
 }

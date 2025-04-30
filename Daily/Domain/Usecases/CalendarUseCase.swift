@@ -149,8 +149,8 @@ extension CalendarUseCase {
         return recordsByDate
     }
     
-    private func getRating(records: [DailyRecordModel]) -> Double {
-        return records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
+    private func getRating(records: [DailyRecordModel]) -> Double? {
+        return records.isEmpty ? nil : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
     }
     
     func getYearDatas(records: [DailyRecordModel], filter: Symbols) -> YearDataModel {
@@ -159,7 +159,7 @@ extension CalendarUseCase {
         let filteredRecords = filterRecords(records: records, filter: filter)
         let recordsByDate = getRecordsByDate(records: filteredRecords)
         
-        var ratings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        var ratings: [[Double?]] = Array(repeating: Array(repeating: nil, count: 31), count: 12)
         for (date, dayRecords) in recordsByDate {
             ratings[date.month - 1][date.day - 1] = getRating(records: dayRecords)
         }
@@ -194,7 +194,7 @@ extension CalendarUseCase {
         let recordsByDate = getRecordsByDate(records: filteredRecords)
         
         let validRecords = filteredRecords.filter { $0.date <= Date() }
-        let roundedRatingPercentage = round(getRating(records: validRecords) * 100)
+        let roundedRatingPercentage = round(getRating(records: validRecords) ?? 0 * 100)
         let ratingOfWeek = Int(roundedRatingPercentage)
         
         var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)

@@ -18,8 +18,7 @@ struct CalendarMonthView: View {
             SymbolFilter(type: .month)
             Spacer().frame(height: 12)
             WeekIndicator(mode: .none)
-            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
-            Spacer().frame(height: CGFloat.fontSize)
+            Spacer().frame(height: 6)
             TabView(selection: calendarViewModel.bindSelection(type: .month)) {
                 ForEach(-1 ... 12, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.calendarInfo(type: .month, index: index)
@@ -31,12 +30,12 @@ struct CalendarMonthView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, CGFloat.fontSize)
-            .background(Colors.theme)
+            .padding(.horizontal, 16)
         }
         .overlay {
             AddGoalButton()
         }
+        .background(Colors.Background.primary)
     }
 }
 
@@ -53,8 +52,9 @@ struct CalendarMonth: View {
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
         LazyVStack {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
-                HStack(spacing: 0) {
+                HStack(spacing: 4) {
                     ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
+                        if .zero < colIndex { Spacer() }
                         let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
                         if 1 <= day && day <= lengthOfMonth {
                             Button {
@@ -66,13 +66,10 @@ struct CalendarMonth: View {
                         } else { DailyDayOnMonth().opacity(0) }
                     }
                 }
-                if rowIndex < dividerCount { CustomDivider(hPadding: 20) }
+                .padding(.horizontal, 2)
+                if rowIndex < dividerCount { DailyDivider(color: Colors.Border.secondary, height: 1) }
             }
         }
-        .padding(CGFloat.fontSize)
-        .foregroundStyle(Colors.reverse)
-        .background(Colors.background)
-        .cornerRadius(20)
         .vTop()
         .onAppear {
             calendarViewModel.fetchMonthData(selection: selection)
@@ -86,7 +83,7 @@ struct DailyDayOnMonth: View {
     private let month: Int
     private let day: Int
     private let dailySymbols: [DailySymbol]
-    private let rating: Double
+    private let rating: Double?
     
     init(year: Int = 0, month: Int = 0, day: Int = 0, dayOnMonth: DayOnMonth = DayOnMonth()) {
         self.year = year
@@ -98,18 +95,12 @@ struct DailyDayOnMonth: View {
     
     var body: some View {
         TimelineView(.everyDay) { context in
-            let maxSymbolNum = UIDevice.current.model == "iPad" ? 6 : 4
-            VStack(alignment: .leading, spacing: .zero) {
-                ZStack {
-                    Image(systemName: "circle.fill")
-                        .font(.system(size: CGFloat.fontSize * 4))
-                        .foregroundStyle(Colors.daily.opacity(rating * 0.8))
-                    Text("\(day)")
-                        .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-                }
-                .padding(CGFloat.fontSize)
+            let maxSymbolNum = 6/*UIDevice.current.model == "iPad" ? 6 : 4*/
+            let isToday = year == context.date.year && month == context.date.month && day == context.date.day
+            VStack(spacing: .zero) {
+                DayIndicator(day: day, rating: rating, isToday: isToday)
                 
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: .zero), count: 2), spacing: CGFloat.fontSize * 2) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 1), count: 2), spacing: 1) {
                     ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
                         if symbolIndex < dailySymbols.count {
                             DailySymbolOnMonth(
@@ -119,13 +110,10 @@ struct DailyDayOnMonth: View {
                         } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isEllipsis: false) }
                     }
                 }
-                .padding(.vertical, CGFloat.fontSize)
+                .padding(.horizontal, 2)
+                .padding(.vertical, 6)
             }
-            .overlay {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(.green, lineWidth: 2)
-                    .opacity(year == context.date.year && month == context.date.month && day == context.date.day ? 1 : 0)
-            }
+            .frame(width: 33)   // FIXME: (아마 LazyVGrid의 특성 때문에) width의 사용이 강제되고 symbolGrid자체에도 horizontal padding이 강제됨, 추후 minWidth를 사용하고 자식뷰로부터 너비를 가져오도록 수정
         }
     }
 }
@@ -136,15 +124,17 @@ struct DailySymbolOnMonth: View {
     let isEllipsis: Bool
     
     var body: some View {
-        VStack {
-            if isEllipsis { Image(systemName: "ellipsis") }
+        Group {
+            if isEllipsis { Image(systemName: "ellipsis") } // FIXME: 추후 디자인 아이콘으로 수정
             else if let symbol = dailySymbol.symbol {
-                Image(systemName: "\(symbol.imageName)\(dailySymbol.isSuccess ? ".fill" : "")")
+                Image(symbol.icon(isSuccess: dailySymbol.isSuccess))
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                Spacer()
             }
         }
-        .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-        .frame(maxWidth: .infinity)
-        .frame(height: CGFloat.fontSize * 2)
+        .frame(width: 14, height: 14)
     }
 }
 

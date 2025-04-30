@@ -49,9 +49,17 @@ struct SymbolFilter: View {
                 }
             }
             .frame(height: 28)
-            .padding(.leading, 16)
-            .padding(.trailing, 1)  // MARK: border 표시를 위한 padding
+            .padding(.horizontal, 16)
         }
-        .padding(.trailing, 16)
+        .overlay {
+            HStack {
+                let colors = [Colors.Background.primary, Colors.Background.primary.opacity(0)]
+                let leadingGradient = LinearGradient(gradient: Gradient(colors: colors), startPoint: .leading, endPoint: .trailing)
+                let trailingGradient = LinearGradient(gradient: Gradient(colors: colors), startPoint: .trailing, endPoint: .leading)
+                Rectangle().fill(leadingGradient).frame(width: 16)
+                Spacer()
+                Rectangle().fill(trailingGradient).frame(width: 16)
+            }
+        }
     }
 }

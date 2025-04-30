@@ -19,9 +19,9 @@ struct MonthDataModel: DailyDataModel {
 
 struct DayOnMonth {
     let symbols: [DailySymbol]
-    let rating: Double
+    let rating: Double?
     
-    init(symbols: [DailySymbol] = [], rating: Double = 0.0) {
+    init(symbols: [DailySymbol] = [], rating: Double? = nil) {
         self.symbols = symbols
         self.rating = rating
     }

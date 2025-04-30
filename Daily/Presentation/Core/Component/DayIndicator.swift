@@ -8,15 +8,23 @@
 import SwiftUI
 
 struct DayIndicator: View {
-    let day: Int
-    let rating: Double?
-    let isToday: Bool
-    let isNow: Bool
+    private let day: Int
+    private let rating: Double?
+    private let isToday: Bool
+    private let isNow: Bool
+    
+    init(day: Int, rating: Double?, isToday: Bool, isNow: Bool = false) {
+        self.day = day
+        self.rating = rating
+        self.isToday = isToday
+        self.isNow = isNow
+    }
     
     var body: some View {
         ZStack {
-            if let rating { RatingIndicator(rating: rating) }
-            if isToday { Circle().fill(Colors.Icon.interactivePressed).padding(1) }
+            // MARK: UI 디테일을 위한 padding 포함
+            if let rating { RatingIndicator(rating: rating).padding(1) }
+            if isToday { Circle().fill(Colors.Icon.interactivePressed).padding(2) }
             Text(String(day))
                 .font(Fonts.bodyMdSemiBold)
                 .foregroundStyle(isToday ? Colors.Text.inverse : isNow ? Colors.Text.point : Colors.Text.secondary)

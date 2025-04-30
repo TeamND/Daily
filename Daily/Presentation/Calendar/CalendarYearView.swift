@@ -81,7 +81,7 @@ struct DailyMonthOnYear: View {
     
     let year: Int
     let month: Int
-    let ratingsOfMonth: [Double]
+    let ratingsOfMonth: [Double?]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -105,7 +105,7 @@ struct DailyMonthOnYear: View {
 // MARK: - DailyDayOnYear
 struct DailyDayOnYear: View {
     let day: Int
-    let rating: Double
+    let rating: Double?
     
     var body: some View {
         Text("\(day)")
@@ -113,7 +113,7 @@ struct DailyDayOnYear: View {
             .background {
                 Image(systemName: "circle.fill")
                     .font(.system(size: CGFloat.fontSize * 2))
-                    .foregroundStyle(Colors.daily.opacity(rating * 0.8))
+                    .foregroundStyle(Colors.daily.opacity(rating ?? 0 * 0.8))
             }
             .padding(.vertical, CGFloat.fontSize / 2)
     }
