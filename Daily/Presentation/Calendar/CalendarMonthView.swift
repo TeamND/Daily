@@ -95,7 +95,7 @@ struct DailyDayOnMonth: View {
     
     var body: some View {
         TimelineView(.everyDay) { context in
-            let maxSymbolNum = 6/*UIDevice.current.model == "iPad" ? 6 : 4*/
+            let maxSymbolNum = UIScreen.main.bounds.height > 780 ? 6 : 4
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
             VStack(spacing: .zero) {
                 DayIndicator(day: day, rating: rating, isToday: isToday)
@@ -105,9 +105,9 @@ struct DailyDayOnMonth: View {
                         if symbolIndex < dailySymbols.count {
                             DailySymbolOnMonth(
                                 dailySymbol: dailySymbols[symbolIndex],
-                                isEllipsis: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
+                                isMore: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
                             )
-                        } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isEllipsis: false) }
+                        } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isMore: false) }
                     }
                 }
                 .padding(.horizontal, 2)
@@ -121,12 +121,15 @@ struct DailyDayOnMonth: View {
 // MARK: - DailySymbolOnMonth
 struct DailySymbolOnMonth: View {
     let dailySymbol: DailySymbol
-    let isEllipsis: Bool
+    let isMore: Bool
     
     var body: some View {
         Group {
-            if isEllipsis { Image(systemName: "ellipsis") } // FIXME: 추후 디자인 아이콘으로 수정
-            else if let symbol = dailySymbol.symbol {
+            if isMore {
+                Image(.more)
+                    .resizable()
+                    .scaledToFit()
+            } else if let symbol = dailySymbol.symbol {
                 Image(symbol.icon(isSuccess: dailySymbol.isSuccess))
                     .resizable()
                     .scaledToFit()

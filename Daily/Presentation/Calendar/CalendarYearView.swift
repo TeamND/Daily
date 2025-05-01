@@ -28,12 +28,13 @@ struct CalendarYearView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, CGFloat.fontSize)
-            .background(Colors.theme)
+            .padding(.horizontal, 16)
+            Spacer().frame(height: 41)
         }
         .overlay {
             AddGoalButton()
         }
+        .background(Colors.Background.primary)
     }
 }
 
@@ -47,28 +48,23 @@ struct CalendarYear: View {
     
     var body: some View {
         let yearData = calendarViewModel.yearData[selection] ?? YearDataModel()
-        LazyVStack(spacing: .zero) {
-            VStack(spacing: CGFloat.fontSize * 2) {
-                ForEach(0 ..< 4) { row in
-                    HStack(spacing: .zero) {
-                        ForEach(0 ..< 3) { col in
-                            let month = row * 3 + col + 1
-                            Button {
-                                calendarViewModel.setDate(year: date.year, month: month)
-                                navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
-                            } label: {
-                                DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: yearData.ratings[month - 1])
-                            }
+        VStack(spacing: .zero) {
+            ForEach(0 ..< 4) { row in
+                if .zero < row { Spacer() }
+                HStack(spacing: .zero) {
+                    ForEach(0 ..< 3) { col in
+                        if .zero < col { Spacer() }
+                        let month = row * 3 + col + 1
+                        Button {
+                            calendarViewModel.setDate(year: date.year, month: month)
+                            navigationEnvironment.navigate(NavigationObject(viewType: .calendarMonth))
+                        } label: {
+                            DailyMonthOnYear(year: date.year, month: month, ratingsOfMonth: yearData.ratings[month - 1])
                         }
                     }
                 }
             }
-            .padding(CGFloat.fontSize)
-            .foregroundStyle(Colors.reverse)
-            .background(Colors.background)
-            .cornerRadius(20)
         }
-        .vTop()
         .onAppear {
             calendarViewModel.fetchYearData(selection: selection)
         }
@@ -84,38 +80,49 @@ struct DailyMonthOnYear: View {
     let ratingsOfMonth: [Double?]
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             Text("\(month)월")
-                .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
-                .padding(CGFloat.fontSize)
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: GeneralServices.week), spacing: .zero) {
+                .font(Fonts.headingSmSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+            
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: GeneralServices.week), spacing: 4) {
                 let date: Date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
                 ForEach(CalendarServices.shared.getDaysInMonth(date: date, startDay: startDay), id: \.id) { item in
                     if item.date.month == month {
                         let day = item.date.day
                         DailyDayOnYear(day: day, rating: ratingsOfMonth[day - 1])
-                    } else { Spacer() }
+                    } else { DailyDayOnYear().opacity(0) }
                 }
             }
         }
-        .padding(.horizontal, CGFloat.fontSize)
     }
 }
 
 // MARK: - DailyDayOnYear
 struct DailyDayOnYear: View {
-    let day: Int
-    let rating: Double?
+    private let day: Int
+    private let rating: Double?
+    
+    init(day: Int = 0, rating: Double? = nil) {
+        self.day = day
+        self.rating = rating
+    }
     
     var body: some View {
         Text("\(day)")
-            .font(.system(size: CGFloat.fontSize, weight: .bold))
-            .background {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: CGFloat.fontSize * 2))
-                    .foregroundStyle(Colors.daily.opacity(rating ?? 0 * 0.8))
+            .font(Fonts.bodyXsmRegular)
+            .foregroundStyle(rating ?? .zero < 1.0 ? Colors.Text.primary : Colors.Text.inverse)
+            .frame(width: 13, height: 13)
+            .if(rating != nil) { view in
+                view.background {
+                    Circle().stroke(Colors.Icon.interactivePressed, style: StrokeStyle(lineWidth: 1, lineCap: .round))
+                }
             }
-            .padding(.vertical, CGFloat.fontSize / 2)
+            .if(rating ?? .zero >= 1.0) { view in
+                view.background {
+                    Circle().fill(Colors.Icon.interactivePressed)
+                }
+            }
     }
 }
 
