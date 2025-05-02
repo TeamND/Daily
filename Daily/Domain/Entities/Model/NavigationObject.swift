@@ -32,7 +32,7 @@ struct NavigationObject: Navigatable {
             let data = data as! ModifyDataModel
             return ModifyView(modifyData: data)
         case .appInfo:
-            return AppInfoView()
+            return SettingView()
         }
     }
 }

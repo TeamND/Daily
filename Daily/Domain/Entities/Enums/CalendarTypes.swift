@@ -5,7 +5,7 @@
 //  Created by seungyooooong on 10/23/24.
 //
 
-import Foundation
+import SwiftUI
 
 enum CalendarTypes: String, CaseIterable {
     case year
@@ -21,6 +21,28 @@ enum CalendarTypes: String, CaseIterable {
             return .month
         case .week, .day:
             return .day
+        }
+    }
+    
+    func icon(isSelected: Bool) -> ImageResource {
+        switch self {
+        case .year:
+            return isSelected ? .yearSelected : .year
+        case .month:
+            return isSelected ? .monthSelected : .month
+        case .week, .day:
+            return isSelected ? .daySelected : .day
+        }
+    }
+    
+    var text: String {
+        switch self {
+        case .year:
+            return "연간"
+        case .month:
+            return "월간"
+        case .week, .day:
+            return "일간"
         }
     }
 }
