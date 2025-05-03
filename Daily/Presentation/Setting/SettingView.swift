@@ -25,7 +25,7 @@ struct SettingView: View {
     private var settingView: some View {
         VStack(spacing: 30) {
             initialCalendarSetting
-            if true { serviceEnvironmentSetting }  // FIXME: 구현 후 추가
+            if false { serviceEnvironmentSetting }  // FIXME: 구현 후 추가
             appInfo
             // TODO: 추후 튜토리얼 추가
             Spacer()
@@ -71,79 +71,20 @@ struct SettingView: View {
         }
     }
     
-    enum ServiceEnvironmentSetting: CaseIterable {
-        case language
-        case startWeekday
-        case filterAlignment
-        
-        var text: String {
-            switch self {
-            case .language:
-                return "언어"
-            case .startWeekday:
-                return "시작 요일"
-            case .filterAlignment:
-                return "필터 순서"
-            }
-        }
-    }
-    
     private var serviceEnvironmentSetting: some View {
         VStack(alignment: .leading, spacing: 16) {
-            AppInfoLabel(text: "서비스 환경")
-            ForEach(ServiceEnvironmentSetting.allCases, id: \.self) { serviceEnvironment in
-                AppInfoContent(name: serviceEnvironment.text)
+            AppInfoLabel(text: Settings.serviceEnvironment.label)
+            ForEach(Settings.ServiceEnvironmentSetting.allCases, id: \.self) { serviceEnvironment in
+                AppInfoContent(name: serviceEnvironment.text, serviceEnvironment: serviceEnvironment)
                 DailyDivider(color: Colors.Border.secondary, height: 1)
-            }
-        }
-    }
-    
-    enum AppInfo: CaseIterable {
-        case targetOS
-        case version
-        case notion
-        case github
-        
-        var text: String {
-            switch self {
-            case .targetOS:
-                return "호환성"
-            case .version:
-                return "버전"
-            case .notion:
-                return "사용설명서"
-            case .github:
-                return "Github"
-            }
-        }
-        
-        var content: String? {
-            switch self {
-            case .targetOS:
-                return "iOS 17.0"
-            case .version:
-                return System.appVersion
-            default:
-                return nil
-            }
-        }
-        
-        var link: String? {
-            switch self {
-            case .notion:
-                return "seungyooooong.notion.site/Daily-44127143818b4a8f8d9e864d992b549f?pvs=4"
-            case .github:
-                return "github.com/TeamND/Daily"
-            default:
-                return nil
             }
         }
     }
     
     private var appInfo: some View {
         VStack(alignment: .leading, spacing: 16) {
-            AppInfoLabel(text: "앱 정보")
-            ForEach(AppInfo.allCases, id: \.self) { appInfo in
+            AppInfoLabel(text: Settings.appInfo.label)
+            ForEach(Settings.AppInfo.allCases, id: \.self) { appInfo in
                 AppInfoContent(name: appInfo.text, content: appInfo.content, link: appInfo.link)
                 DailyDivider(color: Colors.Border.secondary, height: 1)
             }

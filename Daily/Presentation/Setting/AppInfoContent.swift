@@ -14,6 +14,7 @@ struct AppInfoContent: View {
     var name: String
     var content: String? = nil
     var link: String? = nil
+    var serviceEnvironment: Settings.ServiceEnvironmentSetting? = nil
     
     var body: some View {
         HStack {
@@ -33,10 +34,10 @@ struct AppInfoContent: View {
                         .frame(width: 24)
                         .padding(-4)
                 }
-            } else {
+            } else if let serviceEnvironment {
                 // FIXME: 추후 구현
-//                switch serviceEnvironment {
-//                case .language:
+                switch serviceEnvironment {
+                case .language:
                     HStack(spacing: .zero) {
                         ForEach(Languages.allCases, id: \.self) { lang in
                             Button {
@@ -46,8 +47,7 @@ struct AppInfoContent: View {
                                     .font(Fonts.bodyMdSemiBold)
                                     .foregroundStyle(lang.rawValue == language ? Colors.Text.point : Colors.Text.tertiary)
                             }
-                            .padding(.horizontal, 10.5)
-                            .padding(.vertical, 5.5)
+                            .frame(width: 60, height: 30)
                             .background {
                                 RoundedRectangle(cornerRadius: 99)
                                     .fill(lang.rawValue == language ? Colors.Background.primary : .clear)
@@ -60,18 +60,39 @@ struct AppInfoContent: View {
                         RoundedRectangle(cornerRadius: 99)
                             .fill(Colors.Background.secondary)
                     }
-                    .padding(-6)
+                    .padding(-5)
                     
-//                case .startWeekday:
-//                    Text("test12")
-//                        Picker("", selection: Binding(get: { startDay }, set: { UserDefaultManager.startDay = $0 })) {
-//                            Text("\(DayOfWeek.sun)").tag(DayOfWeek.sun.index)
-//                            Text("\(DayOfWeek.mon)").tag(DayOfWeek.mon.index)
-//                        }
+                case .startWeekday:
+                    HStack(spacing: .zero) {
+                        ForEach([DayOfWeek.sun, DayOfWeek.mon], id: \.self) { dow in
+                            Button {
+                                startDay = dow.index
+                            } label: {
+                                Text(dow.fullText)
+                                    .font(Fonts.bodyMdSemiBold)
+                                    .foregroundStyle(dow.index == startDay ? Colors.Text.point : Colors.Text.tertiary)
+                            }
+                            .frame(width: 60, height: 30)
+                            .background {
+                                RoundedRectangle(cornerRadius: 99)
+                                    .fill(dow.index == startDay ? Colors.Background.primary : .clear)
+                                    .stroke(dow.index == startDay ? Colors.Brand.primary : .clear, lineWidth: 1)
+                            }
+                        }
+                    }
+                    .padding(4)
+                    .background {
+                        RoundedRectangle(cornerRadius: 99)
+                            .fill(Colors.Background.secondary)
+                    }
+                    .padding(-5)
                     
-//                case .filterAlignment:
-//                    Text("test")
-//                }
+                case .filterAlignment:
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(Colors.Icon.secondary)
+                        .frame(width: 24, height: 24)
+                        .padding(-2)
+                }
             }
         }
     }
