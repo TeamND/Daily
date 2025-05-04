@@ -31,8 +31,10 @@ struct NavigationObject: Navigatable {
         case .modify:
             let data = data as! ModifyDataModel
             return ModifyView(modifyData: data)
-        case .appInfo:
+        case .setting:
             return SettingView()
+        case .chart:
+            return ChartView()
         }
     }
 }

@@ -14,7 +14,8 @@ enum ViewTypes {
     case goal
     case modify
     
-    case appInfo
+    case setting
+    case chart
     
     var isCalendar: Bool {
         switch self {
