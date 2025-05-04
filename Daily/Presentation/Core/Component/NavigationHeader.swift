@@ -27,7 +27,7 @@ struct NavigationHeader: View {
             .frame(maxWidth:. infinity, alignment: .leading)
             
             Text(title)
-                .font(Fonts.headingMdBold)
+                .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
                 .frame(maxWidth: .infinity, alignment: .center)
             
