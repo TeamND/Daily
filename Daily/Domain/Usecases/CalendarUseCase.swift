@@ -41,7 +41,7 @@ extension CalendarUseCase {
         case .month:
             return textPosition == .title ? String(currentDate.month) + "월" : String(currentDate.year) + "년"
         case .day:
-            return textPosition == .title ? String(currentDate.day) + "일" : String(currentDate.month) + "월"
+            return textPosition == .title ? String(currentDate.month) + "월 " + String(currentDate.day) + "일" : String(currentDate.month) + "월"
         default:
             return ""
         }
@@ -130,6 +130,12 @@ extension CalendarUseCase {
         }
     }
     
+    private func setFilterData(records: [DailyRecordModel]) -> [Symbols: Int] {
+        Symbols.allCases.reduce(into: [:]) { result, symbol in
+            result[symbol] = filterRecords(records: records, filter: symbol).count
+        }
+    }
+    
     private func getRecordsByDate(records: [DailyRecordModel]?) -> [Date: [DailyRecordModel]] {
         var recordsByDate: [Date: [DailyRecordModel]] = [:]
         
@@ -143,58 +149,74 @@ extension CalendarUseCase {
         return recordsByDate
     }
     
-    private func getRating(records: [DailyRecordModel]) -> Double {
-        return records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
+    private func getRating(records: [DailyRecordModel]) -> Double? {
+        return records.isEmpty ? nil : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
     }
     
-    func getYearDatas(records: [DailyRecordModel]) -> YearDataModel {
-        let recordsByDate = getRecordsByDate(records: records)
+    func getYearDatas(records: [DailyRecordModel], filter: Symbols) -> YearDataModel {
+        let filterData = setFilterData(records: records)
         
-        var ratings = Array(repeating: Array(repeating: 0.0, count: 31), count: 12)
+        let filteredRecords = filterRecords(records: records, filter: filter)
+        let recordsByDate = getRecordsByDate(records: filteredRecords)
+        
+        var ratings: [[Double?]] = Array(repeating: Array(repeating: nil, count: 31), count: 12)
         for (date, dayRecords) in recordsByDate {
             ratings[date.month - 1][date.day - 1] = getRating(records: dayRecords)
         }
         
-        return YearDataModel(ratings: ratings)
+        return YearDataModel(ratings: ratings, filterData: filterData)
     }
     
-    func getMonthDatas(records: [DailyRecordModel]) -> [MonthDataModel] {
-        let recordsByDate = getRecordsByDate(records: records)
+    func getMonthDatas(records: [DailyRecordModel], filter: Symbols) -> MonthDataModel {
+        let filterData = setFilterData(records: records)
         
-        var monthDatas: [MonthDataModel] = Array(repeating: MonthDataModel(), count: 31)
+        let filteredRecords = filterRecords(records: records, filter: filter)
+        let sortedRecords = sortRecords(records: filteredRecords)
+        let recordsByDate = getRecordsByDate(records: sortedRecords)
+        
+        var daysOnMonth: [DayOnMonth] = Array(repeating: DayOnMonth(), count: 31)
         for (date, dayRecords) in recordsByDate {
             var dailySymbols: [DailySymbol] = []
             dayRecords.forEach { record in
                 guard let goal = record.goal else { return }
                 dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
             }
-            monthDatas[date.day - 1] = MonthDataModel(symbols: dailySymbols, rating: getRating(records: dayRecords))
+            daysOnMonth[date.day - 1] = DayOnMonth(symbols: dailySymbols, rating: getRating(records: dayRecords))
         }
         
-        return monthDatas
+        return MonthDataModel(daysOnMonth: daysOnMonth, filterData: filterData)
     }
     
-    func getWeekDatas(records: [DailyRecordModel]) -> WeekDataModel {
-        let validRecords = records.filter { $0.date <= Date() }
-        let roundedRatingPercentage = round(getRating(records: validRecords) * 100)
+    func getWeekDatas(records: [DailyRecordModel], filter: Symbols) -> WeekDataModel {
+        let filterData = setFilterData(records: records)
+        
+        let filteredRecords = filterRecords(records: records, filter: filter)
+        let recordsByDate = getRecordsByDate(records: filteredRecords)
+        
+        let validRecords = filteredRecords.filter { $0.date <= Date() }
+        let roundedRatingPercentage = round(getRating(records: validRecords) ?? 0 * 100)
         let ratingOfWeek = Int(roundedRatingPercentage)
         
-        let recordsByDate = getRecordsByDate(records: records)
-        var ratingsOfWeek = Array(repeating: 0.0, count: 7)
+        var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)
         for (date, dayRecords) in recordsByDate {
-            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)] = getRating(records: dayRecords)
+            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = getRating(records: dayRecords)
         }
         
         let ratingsForChart = (.zero ..< GeneralServices.week).map { index in
             let dayOfWeek = DayOfWeek.allCases[(index + (UserDefaultManager.startDay ?? 0)) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] * 100)
+            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] ?? .zero * 100)
         }
         
-        return WeekDataModel(ratingOfWeek: ratingOfWeek, ratingsOfWeek: ratingsOfWeek, ratingsForChart: ratingsForChart)
+        return WeekDataModel(ratingOfWeek: ratingOfWeek, ratingsOfWeek: ratingsOfWeek, ratingsForChart: ratingsForChart, filterData: filterData)
     }
     
-    func getDayDatas(records: [DailyRecordModel]) -> DayDataModel {
-        let recordsInList = records.reduce(into: [DailyRecordInList]()) { result, record in
+    func getDayDatas(records: [DailyRecordModel], filter: Symbols) -> DayDataModel {
+        let filterData = setFilterData(records: records)
+        
+        let filteredRecords = filterRecords(records: records, filter: filter)
+        let sortedRecords = sortRecords(records: filteredRecords)
+        
+        let recordsInList = sortedRecords.reduce(into: [DailyRecordInList]()) { result, record in
             let prevGoal = result.last?.record.goal
             let isShowTimeline = record.goal.map { goal in
                 if goal.isSetTime { return prevGoal.map { !$0.isSetTime || $0.setTime != goal.setTime } ?? true }
@@ -202,6 +224,7 @@ extension CalendarUseCase {
             } ?? false
             result.append(DailyRecordInList(record: record, isShowTimeline: isShowTimeline))
         }
-        return DayDataModel(recordsInList: recordsInList)
+        
+        return DayDataModel(isEmpty: records.isEmpty, recordsInList: recordsInList, filterData: filterData)
     }
 }

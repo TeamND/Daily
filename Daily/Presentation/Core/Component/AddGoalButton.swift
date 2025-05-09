@@ -1,5 +1,5 @@
 //
-//  DailyAddGoalButton.swift
+//  AddGoalButton.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/25/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DailyAddGoalButton: View {
+struct AddGoalButton: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
@@ -16,26 +16,23 @@ struct DailyAddGoalButton: View {
             Spacer()
             HStack {
                 Spacer()
-                // TODO: 추후 DailyButton으로 통일
                 Button {
                     let data = GoalDataModel(date: calendarViewModel.currentDate)
                     let navigationObject = NavigationObject(viewType: .goal, data: data)
                     navigationEnvironment.navigate(navigationObject)
                 } label: {
-                    Label("목표 추가", systemImage: "plus")
-                        .foregroundStyle(.white)
-                        .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                    Image(.circlePlus)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 48)
                 }
-                .padding()
-                .background(Colors.daily)
-                .cornerRadius(20)
+                Spacer().frame(width: 16)
             }
-            .padding()
+            Spacer().frame(height: 8)
         }
-        .padding()
     }
 }
 
 #Preview {
-    DailyAddGoalButton()
+    AddGoalButton()
 }

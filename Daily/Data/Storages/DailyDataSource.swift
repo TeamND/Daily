@@ -49,7 +49,7 @@ final class DailyDataSource {
     }
     
     func fetchWeekRecords(selection: String) -> [DailyRecordModel]? {
-        let startDay = selection.toDate()!
+        guard let startDay = selection.toDate() else { return nil }
         let endDay = calendar.date(byAdding: .day, value: 7, to: startDay)!
         
         let descriptor = FetchDescriptor<DailyRecordModel>(
@@ -62,7 +62,7 @@ final class DailyDataSource {
     }
     
     func fetchDayRecords(selection: String) -> [DailyRecordModel]? {
-        let today = selection.toDate()!
+        guard let today = selection.toDate() else { return nil }
         let tommorow = calendar.date(byAdding: .day, value: 1, to: today)!
         
         let descriptor = FetchDescriptor<DailyRecordModel>(

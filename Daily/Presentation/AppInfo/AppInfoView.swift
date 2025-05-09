@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AppInfoView: View {
     var body: some View {
-        DailyNavigationBar(title: "어플정보")
+        NavigationHeader(title: "어플정보")
         ViewThatFits(in: .vertical) {
             appInfoView
             ScrollView(.vertical, showsIndicators: false) {

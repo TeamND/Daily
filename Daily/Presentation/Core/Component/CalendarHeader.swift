@@ -1,5 +1,5 @@
 //
-//  DailyCalendarHeader.swift
+//  CalendarHeader.swift
 //  Daily
 //
 //  Created by seungyooooong on 10/25/24.
@@ -7,35 +7,83 @@
 
 import SwiftUI
 
-struct DailyCalendarHeader: View {
+enum TextPositionInHeader {
+    case backButton
+    case title
+}
+
+struct CalendarHeader: View {
     @EnvironmentObject var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @Environment(\.dismiss) var dismiss
+    
     let type: CalendarTypes
     
     var body: some View {
+        VStack(spacing: .zero) {
+            Spacer().frame(height: 8)
+            navigationArea.frame(height: 24)
+            Spacer().frame(height: 12)
+            dateArea.frame(height: 26)
+            Spacer().frame(height: 16)
+        }
+        .padding(.horizontal, 16)
+        .background(Colors.Background.secondary)
+    }
+    
+    private var navigationArea: some View {
         HStack {
-            // MARK: - leading
-            HStack {
+            HStack(alignment: .center) {
                 if type != .year {
                     Button {
                         dismiss()
                     } label: {
                         Label(calendarViewModel.headerText(type: type, textPosition: .backButton), systemImage: "chevron.left")
-                            .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
+                            .font(Fonts.bodyLgMedium)
                     }
-                    .padding(CGFloat.fontSize)
+                    .foregroundStyle(Colors.Text.point)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            // MARK: - center
-            HStack {
+            HStack(spacing: 16) {
+                Button {
+                    // FIXME: 추후 차트 페이지로 이동하도록 구현
+                    print("go chart page")
+                } label: {
+                    Image(.chart)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                }
+                
+                Button {
+                    navigationEnvironment.navigate(NavigationObject(viewType: .appInfo))
+                } label: {
+                    Image(.setting)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+    }
+    
+    private var dateArea: some View {
+        HStack {
+            Spacer().frame(maxWidth: .infinity)
+            
+            HStack(spacing: 12) {
                 Button {
                     calendarViewModel.setDate(byAdding: type.byAdding, value: Direction.prev.value)
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image(.circleChevronLeft)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
                 }
+                
                 Menu {
                     switch type {
                     case .year:
@@ -66,53 +114,43 @@ struct DailyCalendarHeader: View {
                     }
                 } label: {
                     Text(calendarViewModel.headerText(type: type, textPosition: .title))
-                        .foregroundStyle(Colors.reverse)
+                        .font(Fonts.headingMdBold)
                         .fixedSize(horizontal: true, vertical: false)   // MARK: 텍스트가 줄어들지 않도록 설정
                 }
+                .foregroundStyle(Colors.Text.primary)
+                
                 Button {
                     calendarViewModel.setDate(byAdding: type.byAdding, value: Direction.next.value)
                 } label: {
-                    Image(systemName: "chevron.right")
+                    Image(.circleChevronRight)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
             
-            // MARK: - trailing
-            HStack(spacing: 0) {
+            HStack {
                 Button {
                     calendarViewModel.setDate(date: Date(format: .daily))
                     navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
-                    Label(GeneralServices.today, systemImage: "chevron.right")
-                        .labelStyle(.trailingIcon(spacing: CGFloat.fontSize / 2))
-                        .padding(CGFloat.fontSize * 1.5)
-                        .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-                        .foregroundStyle(Colors.reverse)
+                    Text(GeneralServices.today)
+                        .font(Fonts.bodyMdSemiBold)
+                        .foregroundStyle(Colors.Text.point)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Colors.reverse, lineWidth: 1)
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Colors.Brand.primary, lineWidth: 1)
                         )
-                }
-                Button {
-                    navigationEnvironment.navigate(NavigationObject(viewType: .appInfo))
-                } label: {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: CGFloat.fontSize * 2.5))
-                        .padding(CGFloat.fontSize * 2)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
-        .foregroundStyle(Colors.daily)
     }
 }
 
-enum TextPositionInHeader {
-    case backButton
-    case title
-}
-
 #Preview {
-    DailyCalendarHeader(type: CalendarTypes.day)
+    CalendarHeader(type: CalendarTypes.day)
 }

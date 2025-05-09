@@ -15,11 +15,12 @@ struct CalendarDayView: View {
     var body: some View {
         let weekSelection = calendarViewModel.currentDate.getSelection(type: .week)
         VStack(spacing: .zero) {
-            DailyCalendarHeader(type: .day)
-            DailySymbolFilter()
-            DailyWeekIndicator(mode: .change, selection: weekSelection)
-            CustomDivider(color: Colors.reverse, height: 2, hPadding: CGFloat.fontSize * 2)
-            Spacer().frame(height: CGFloat.fontSize)
+            CalendarHeader(type: .day)
+            Spacer().frame(height: 12)
+            WeekIndicator(mode: .change, selection: weekSelection)
+            Spacer().frame(height: 20)
+            SymbolFilter(type: .day)
+            Spacer().frame(height: 12)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... GeneralServices.week, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.calendarInfo(type: .day, index: index)
@@ -31,15 +32,11 @@ struct CalendarDayView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, CGFloat.fontSize)
-            .background(Colors.theme)
         }
         .overlay {
-            DailyAddGoalButton()
+            AddGoalButton()
         }
-        .overlay {
-            DailyWeeklySummary(selection: weekSelection)
-        }
+        .background(Colors.Background.primary)
     }
 }
 
@@ -52,10 +49,9 @@ struct CalendarDay: View {
     
     var body: some View {
         let dayData = calendarViewModel.dayData[selection] ?? DayDataModel()
-        VStack {
-            // TODO: 추후 records.isEmpty or filteredRecords.isEmpty 구분
+        VStack(spacing: .zero) {
             if dayData.recordsInList.isEmpty {
-                NoRecord()
+                NoRecord(isEmpty: dayData.isEmpty)
             } else {
                 ViewThatFits(in: .vertical) {
                     RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
@@ -63,10 +59,10 @@ struct CalendarDay: View {
                         RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
                     }
                 }
-                Spacer().frame(height: CGFloat.fontSize * 15)
-                Spacer()
+                Spacer().frame(height: 32)
             }
         }
+        .padding(.horizontal, 16)
         .onAppear {
             calendarViewModel.fetchDayData(selection: selection)
         }
@@ -89,9 +85,6 @@ struct DailyWeeklySummary: View {
             Spacer()
             weeklySummaryHeader
             weeklySummaryBody
-        }
-        .onAppear {
-            calendarViewModel.fetchWeekData(selection: selection)
         }
         .ignoresSafeArea()
         .onTapGesture {

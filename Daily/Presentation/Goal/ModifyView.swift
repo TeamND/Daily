@@ -16,7 +16,7 @@ struct ModifyView: View {
     
     var body: some View {
         VStack {
-            DailyNavigationBar(title: "목표수정")
+            NavigationHeader(title: "목표수정")
             originalRecord
             VStack(spacing: .zero) {
                 Spacer()
@@ -64,7 +64,7 @@ struct ModifyView: View {
                 .padding(.horizontal)
             if goalViewModel.originalGoal.isSetTime { DailyTimeLine(setTime: goalViewModel.originalGoal.setTime) }
             DailyRecord(record: goalViewModel.originalRecord, goal: goalViewModel.originalGoal, isButtonDisabled: true)
-            CustomDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
+            DailyDivider(color: Colors.reverse, height: 1, hPadding: CGFloat.fontSize)
         }
     }
 }

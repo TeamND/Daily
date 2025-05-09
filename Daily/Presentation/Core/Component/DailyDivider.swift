@@ -1,5 +1,5 @@
 //
-//  CustomDivider.swift
+//  DailyDivider.swift
 //  Daily
 //
 //  Created by 최승용 on 2022/11/10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomDivider: View {
+struct DailyDivider: View {
     let color: Color
     let height: CGFloat
     let hPadding: CGFloat

@@ -7,11 +7,21 @@
 
 import Foundation
 
-struct MonthDataModel {
-    let symbols: [DailySymbol]
-    let rating: Double
+struct MonthDataModel: DailyDataModel {
+    let daysOnMonth: [DayOnMonth]
+    let filterData: [Symbols: Int]
     
-    init(symbols: [DailySymbol] = [], rating: Double = 0.0) {
+    init(daysOnMonth: [DayOnMonth] = Array(repeating: DayOnMonth(), count: 31), filterData: [Symbols: Int] = [:]) {
+        self.daysOnMonth = daysOnMonth
+        self.filterData = filterData
+    }
+}
+
+struct DayOnMonth {
+    let symbols: [DailySymbol]
+    let rating: Double?
+    
+    init(symbols: [DailySymbol] = [], rating: Double? = nil) {
         self.symbols = symbols
         self.rating = rating
     }
