@@ -30,7 +30,6 @@ struct CalendarMonthView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, 16)
         }
         .overlay {
             AddGoalButton()
@@ -50,9 +49,9 @@ struct CalendarMonth: View {
     var body: some View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
-        LazyVStack {
+        VStack(spacing: 4) {
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
-                HStack(spacing: 4) {
+                HStack(spacing: .zero) {
                     ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
                         if .zero < colIndex { Spacer() }
                         let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
@@ -71,6 +70,7 @@ struct CalendarMonth: View {
             }
         }
         .vTop()
+        .padding(.horizontal, 16)
         .onAppear {
             calendarViewModel.fetchMonthData(selection: selection)
         }
@@ -95,6 +95,7 @@ struct DailyDayOnMonth: View {
     
     var body: some View {
         TimelineView(.everyDay) { context in
+            // TODO: 좀 더 확실한 분기처리 방식을 찾아 적용
             let maxSymbolNum = UIScreen.main.bounds.height > 780 ? 6 : 4
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
             VStack(spacing: .zero) {

@@ -31,6 +31,7 @@
 		F63EEE882D31F70A00C9914F /* DateFormats.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63EEE872D31F70A00C9914F /* DateFormats.swift */; };
 		F63EEF0C2D3E554B00C9914F /* NoticeTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63EEF0B2D3E554B00C9914F /* NoticeTimes.swift */; };
 		F63EEF0E2D3E5BC300C9914F /* DailyMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */; };
+		F63F32EC2DCE52D100C1A445 /* DailySpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F32EB2DCE52D100C1A445 /* DailySpacer.swift */; };
 		F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */; };
 		F6442C3A2D2E09D2006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C392D2E09D2006B3658 /* DailyUtilities */; };
 		F6442C3C2D2E09DE006B3658 /* DailyUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = F6442C3B2D2E09DE006B3658 /* DailyUtilities */; };
@@ -175,6 +176,7 @@
 		F63EEE872D31F70A00C9914F /* DateFormats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormats.swift; sourceTree = "<group>"; };
 		F63EEF0B2D3E554B00C9914F /* NoticeTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTimes.swift; sourceTree = "<group>"; };
 		F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMenu.swift; sourceTree = "<group>"; };
+		F63F32EB2DCE52D100C1A445 /* DailySpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySpacer.swift; sourceTree = "<group>"; };
 		F6442C302D2BCB61006B3658 /* AlertEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertEnvironment.swift; sourceTree = "<group>"; };
 		F6442C3F2D2E0C59006B3658 /* SettingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypes.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTypes.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C0F812291BFC9300984457 /* DailyDivider.swift */,
+				F63F32EB2DCE52D100C1A445 /* DailySpacer.swift */,
 				F6CE8A1D2CCF5D150050A25A /* NavigationHeader.swift */,
 				F6C758D52CCB123700F9CF91 /* CalendarHeader.swift */,
 				F6E1CCB22DACF830009E25DA /* SymbolFilter.swift */,
@@ -851,6 +854,7 @@
 				F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */,
 				F6C0F813291BFC9300984457 /* DailyDivider.swift in Sources */,
 				F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */,
+				F63F32EC2DCE52D100C1A445 /* DailySpacer.swift in Sources */,
 				F6EC3D212BE2477500FAB502 /* SystemModel.swift in Sources */,
 				F6C6B0342BB424DD00C578C1 /* AppInfoContent.swift in Sources */,
 				F60B97352CFD97090015B19B /* ModifyView.swift in Sources */,

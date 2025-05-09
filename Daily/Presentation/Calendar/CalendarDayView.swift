@@ -32,7 +32,6 @@ struct CalendarDayView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, 16)
         }
         .overlay {
             AddGoalButton()
@@ -63,6 +62,7 @@ struct CalendarDay: View {
                 Spacer().frame(height: 32)
             }
         }
+        .padding(.horizontal, 16)
         .onAppear {
             calendarViewModel.fetchDayData(selection: selection)
         }

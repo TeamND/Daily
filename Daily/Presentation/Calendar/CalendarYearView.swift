@@ -28,8 +28,7 @@ struct CalendarYearView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.horizontal, 16)
-            Spacer().frame(height: 41)
+            Spacer().frame(height: 48)
         }
         .overlay {
             AddGoalButton()
@@ -50,10 +49,10 @@ struct CalendarYear: View {
         let yearData = calendarViewModel.yearData[selection] ?? YearDataModel()
         VStack(spacing: .zero) {
             ForEach(0 ..< 4) { row in
-                if .zero < row { Spacer() }
+                if .zero < row { DailySpacer() }
                 HStack(spacing: .zero) {
                     ForEach(0 ..< 3) { col in
-                        if .zero < col { Spacer() }
+                        if .zero < col { DailySpacer() }
                         let month = row * 3 + col + 1
                         Button {
                             calendarViewModel.setDate(year: date.year, month: month)
@@ -65,6 +64,7 @@ struct CalendarYear: View {
                 }
             }
         }
+        .padding(.horizontal, 16)
         .onAppear {
             calendarViewModel.fetchYearData(selection: selection)
         }
@@ -79,19 +79,30 @@ struct DailyMonthOnYear: View {
     let month: Int
     let ratingsOfMonth: [Double?]
     
+    // TODO: 좀 더 확실한 분기처리 방식을 찾아 적용
+    let spacing = (UIScreen.main.bounds.width - 16 * 2 - 13 * 7 * 3) / 22
+    let ratio = UIScreen.main.bounds.height / UIScreen.main.bounds.width
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: max(spacing, spacing * (ratio - 1))) {
             Text("\(month)월")
-                .font(Fonts.headingSmSemiBold)
+                .font(ratio < 2 ? Fonts.bodyLgSemiBold : Fonts.headingSmSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: GeneralServices.week), spacing: 4) {
-                let date: Date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
-                ForEach(CalendarServices.shared.getDaysInMonth(date: date, startDay: startDay), id: \.id) { item in
-                    if item.date.month == month {
-                        let day = item.date.day
-                        DailyDayOnYear(day: day, rating: ratingsOfMonth[day - 1])
-                    } else { DailyDayOnYear().opacity(0) }
+            VStack(spacing: spacing * (ratio - 1)) {
+                let date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
+                let startWeekday = date.dailyWeekday(startDay: startDay)
+                let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: date)?.count ?? 0
+                
+                ForEach(0 ..< 6) { row in
+                    HStack(spacing: spacing) {
+                        ForEach(0 ..< 7) { col in
+                            let day = row * 7 + col + 1 - startWeekday
+                            if 1 <= day && day <= lengthOfMonth {
+                                DailyDayOnYear(day: day, rating: ratingsOfMonth[day - 1])
+                            } else { DailyDayOnYear().opacity(0) }
+                        }
+                    }
                 }
             }
         }
