@@ -5,7 +5,7 @@
 //  Created by seungyooooong on 11/18/24.
 //
 
-import Foundation
+import SwiftUI
 
 enum Direction: String {
     case prev = "<"
@@ -23,6 +23,17 @@ enum Direction: String {
             return 0
         case .next, .plus:
             return 1
+        }
+    }
+    
+    var image: ImageResource {
+        switch self {
+        case .prev:
+            return .arrowLeft
+        case .next:
+            return .arrowRight
+        default:
+            return .success
         }
     }
     

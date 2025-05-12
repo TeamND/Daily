@@ -13,21 +13,27 @@ struct CalendarLoadView: View {
     let direction: Direction
     
     var body: some View {
-        HStack {
+        HStack(spacing: 6) {
             if direction == .prev {
                 Spacer()
-                Image(systemName: direction.imageName)
+                Image(direction.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
             }
             Text(calendarViewModel.loadText(type: type, direction: direction))
-                .font(.system(size: CGFloat.fontSize * 3, weight: .bold))
+                .font(Fonts.bodyLgSemiBold)
             if direction == .next {
-                Image(systemName: direction.imageName)
+                Image(direction.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
                 Spacer()
             }
         }
-        .padding()
+        .padding(24)
         .padding(.bottom, CGFloat.screenHeight * 0.25)
-        .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+        .foregroundStyle(Colors.Text.point)
     }
 }
 
