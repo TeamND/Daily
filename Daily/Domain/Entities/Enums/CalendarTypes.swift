@@ -47,4 +47,34 @@ enum CalendarTypes: String, CaseIterable {
             return "일간"
         }
     }
+    
+    var navigationCount: Int {
+        switch self {
+        case .year:
+            return 1
+        case .month:
+            return 2
+        case .week, .day:
+            return 3
+        }
+    }
+    
+    var chartUnit: String {
+        switch self {
+        case .year:
+            return "올해"
+        case .month:
+            return "이번달"
+        case .week:
+            return "이번주"
+        case .day:
+            return "오늘"
+        }
+    }
+}
+
+extension CalendarTypes {
+    static func from(navigationCount: Int) -> CalendarTypes {
+        return Self.allCases.reversed().first { $0.navigationCount == navigationCount } ?? .day
+    }
 }

@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import Charts
 
 struct ChartView: View {
+    @EnvironmentObject var navigationEnvironment: NavigationEnvironment
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    
     @StateObject private var chartViewModel = ChartViewModel()
     
     var body: some View {
@@ -28,11 +32,14 @@ struct ChartView: View {
             Spacer()
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            chartViewModel.onAppear(navigationPath: navigationEnvironment.navigationPath)
+        }
     }
     
     private var typeIndicator: some View {
         HStack(spacing: .zero) {
-            ForEach(CalendarTypes.allCases, id: \.self) { type in
+            ForEach(CalendarTypes.allCases.reversed(), id: \.self) { type in
                 Button {
                     chartViewModel.type = type
                 } label: {
@@ -61,19 +68,17 @@ struct ChartView: View {
                 Text("전체")
                     .font(Fonts.bodyMdRegular)
                     .foregroundStyle(Colors.Text.secondary)
-                Text("50개")
+                Text("\(chartViewModel.totalCount)개")
                     .font(Fonts.headingMdBold)
                     .foregroundStyle(Colors.Text.point)
             }
             .frame(maxWidth: .infinity)
-//                DailyDivider(color: Colors.Border.primary)
-//                    .frame(width: 1)
-//                    .frame(maxHeight: .infinity)
+            Rectangle().fill(Colors.Border.primary).frame(width: 1, height: 44)
             VStack(spacing: 4) {
                 Text("완료")
                     .font(Fonts.bodyMdRegular)
                     .foregroundStyle(Colors.Text.secondary)
-                Text("0개")
+                Text("\(chartViewModel.successCount)개")
                     .font(Fonts.headingMdBold)
                     .foregroundStyle(Colors.Text.point)
             }
@@ -87,6 +92,53 @@ struct ChartView: View {
     }
     
     private var chartView: some View {
-        Rectangle().fill(.red).frame(maxWidth: .infinity).frame(height: 371)
+        VStack(spacing: .zero) {
+            Chart {
+                ForEach(calendarViewModel.weekData["2025-05-11"]!.ratingsForChart) { data in
+                    BarMark(
+                        x: .value("Day", data.day),
+                        y: .value("Rating", data.rating)
+                    )
+                    .annotation(position: .top, alignment: .center) {
+                        let isLeadingPosition = data.day == "일" || data.day == "월" || data.day == "화"
+                        let isSameRating = Int(round(data.rating)) == calendarViewModel.weekData["2025-05-11"]!.ratingOfWeek
+                        let isNotZero = calendarViewModel.weekData["2025-05-11"]!.ratingOfWeek != 0
+                        if isLeadingPosition && isSameRating && isNotZero {
+                            EmptyView()
+                        } else {
+                            Text(data.rating.percentFormat())
+                                .font(.system(size: CGFloat.fontSize * 1.5))
+                        }
+                    }
+//                    if weekData.ratingOfWeek > 0 {
+//                        RuleMark(y: .value("RatingOfWeek", weekData.ratingOfWeek))
+//                            .lineStyle(StrokeStyle(lineWidth: 2))
+//                            .annotation(position: .top, alignment: .leading) {
+//                                Text(" 주간 달성률 : \(weekData.ratingOfWeek)%")
+//                                    .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
+//                            }
+//                    }
+                }
+            }
+            .chartYScale(domain: 0 ... 100)
+            .foregroundStyle(Colors.Brand.primary)
+            .frame(height: 326)
+            Spacer().frame(height: 3)
+            
+            Image(.commentTail)
+                .resizable()
+                .frame(width: 14, height: 14)
+                .padding(.bottom, -5)
+            Text(chartViewModel.type.chartUnit)
+                .font(Fonts.bodyMdSemiBold)
+                .foregroundStyle(Colors.Text.inverse)
+                .padding(.vertical, 4)
+                .frame(width: 45)
+                .background {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Colors.Icon.interactivePressed)
+                }
+        }
+        
     }
 }

@@ -21,7 +21,7 @@ struct NavigationHeader: View {
                 dismiss()
             } label: {
                 Label("이전", systemImage: "chevron.left")
-                    .font(Fonts.bodyXlMedium)
+                    .font(Fonts.bodyLgMedium)
             }
             .foregroundStyle(Colors.Text.point)
             .frame(maxWidth:. infinity, alignment: .leading)
