@@ -41,7 +41,9 @@ enum CalendarTypes: String, CaseIterable {
             return "연간"
         case .month:
             return "월간"
-        case .week, .day:
+        case .week:
+            return "주간"
+        case .day:
             return "일간"
         }
     }
