@@ -94,51 +94,90 @@ struct ChartView: View {
     private var chartView: some View {
         VStack(spacing: .zero) {
             Chart {
+                ForEach([25.0, 50.0, 75.0], id: \.self) { y in
+                    RuleMark(y: .value("Y", y))
+                        .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
+                        .foregroundStyle(Colors.Border.primary)
+                }
+                
                 ForEach(calendarViewModel.weekData["2025-05-11"]!.ratingsForChart) { data in
                     BarMark(
-                        x: .value("Day", data.day),
-                        y: .value("Rating", data.rating)
+                        x: .value("", data.day),
+                        y: .value("Rating", data.rating * 100)
                     )
-                    .annotation(position: .top, alignment: .center) {
-                        let isLeadingPosition = data.day == "일" || data.day == "월" || data.day == "화"
-                        let isSameRating = Int(round(data.rating)) == calendarViewModel.weekData["2025-05-11"]!.ratingOfWeek
-                        let isNotZero = calendarViewModel.weekData["2025-05-11"]!.ratingOfWeek != 0
-                        if isLeadingPosition && isSameRating && isNotZero {
-                            EmptyView()
-                        } else {
-                            Text(data.rating.percentFormat())
-                                .font(.system(size: CGFloat.fontSize * 1.5))
+                    .cornerRadius(8, style: .continuous)
+                    // TODO: 로직 정리 회의 필요
+                    .annotation(position: .overlay, alignment: .bottom) {
+                        Text((data.rating * 100).percentFormat())
+                            .font(Fonts.bodySmRegular)
+                            .foregroundStyle(Colors.Text.inverse)
+                            .padding(.horizontal, -10)
+                    }
+                    .annotation(position: .top) {
+                        if data.rating == .zero {
+                            Text((data.rating * 100).percentFormat())
+                                .font(Fonts.bodySmRegular)
+                                .foregroundStyle(Colors.Text.tertiary)
                         }
                     }
-//                    if weekData.ratingOfWeek > 0 {
-//                        RuleMark(y: .value("RatingOfWeek", weekData.ratingOfWeek))
-//                            .lineStyle(StrokeStyle(lineWidth: 2))
-//                            .annotation(position: .top, alignment: .leading) {
-//                                Text(" 주간 달성률 : \(weekData.ratingOfWeek)%")
-//                                    .font(.system(size: CGFloat.fontSize * 2, weight: .bold))
-//                            }
-//                    }
                 }
             }
+            .chartXAxis(.hidden)
             .chartYScale(domain: 0 ... 100)
+            .chartYAxisStyle { style in
+                style
+                    .font(Fonts.bodySmRegular)
+                    .foregroundStyle(Colors.Text.tertiary)
+            }
+            .chartPlotStyle { plotArea in
+                plotArea
+                    .background(Colors.Background.primary)
+                    .border(Colors.Border.primary, width: 1)
+            }
             .foregroundStyle(Colors.Brand.primary)
-            .frame(height: 326)
-            Spacer().frame(height: 3)
+            .frame(height: 277)
             
-            Image(.commentTail)
-                .resizable()
-                .frame(width: 14, height: 14)
-                .padding(.bottom, -5)
-            Text(chartViewModel.type.chartUnit)
-                .font(Fonts.bodyMdSemiBold)
-                .foregroundStyle(Colors.Text.inverse)
-                .padding(.vertical, 4)
-                .frame(width: 45)
-                .background {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Colors.Icon.interactivePressed)
-                }
+            Spacer().frame(height: 10)
+            
+            chartXAxis
         }
-        
     }
+    
+    private var chartXAxis: some View {
+        HStack(alignment: .top, spacing: .zero) {
+            ForEach(calendarViewModel.weekData["2025-05-11"]!.ratingsForChart) { data in
+                if data.day != "일" { Spacer() }
+                VStack(spacing: 3) {
+                    if chartViewModel.type == .day {
+                        Text(data.day)
+                            .font(Fonts.bodyMdSemiBold)
+                            .foregroundStyle(data.day == "화" ? Colors.Text.point : Colors.Text.primary)
+                    }
+                    
+                    Text("4.1")
+                        .font(data.day == "화" ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
+                        .foregroundStyle(data.day == "화" ? Colors.Text.point : Colors.Text.secondary)
+                    
+                    if data.day == "화" {
+                        Image(.commentTail)
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                            .padding(.bottom, -5)
+                        Text(chartViewModel.type.chartUnit)
+                            .font(Fonts.bodyMdSemiBold)
+                            .foregroundStyle(Colors.Text.inverse)
+                            .padding(.vertical, 4)
+                            .frame(width: 45)
+                            .background {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Colors.Icon.interactivePressed)
+                            }
+                    }
+                }
+            }
+        }
+        .padding(.leading, 24)
+        .padding(.trailing, 45)
+    }
+    
 }
