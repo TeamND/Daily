@@ -106,19 +106,10 @@ struct ChartView: View {
                         y: .value("Rating", data.rating * 100)
                     )
                     .cornerRadius(8, style: .continuous)
-                    // TODO: 로직 정리 회의 필요
-                    .annotation(position: .overlay, alignment: .bottom) {
+                    .annotation(position: .top, alignment: .center) {
                         Text((data.rating * 100).percentFormat())
                             .font(Fonts.bodySmRegular)
-                            .foregroundStyle(Colors.Text.inverse)
-                            .padding(.horizontal, -10)
-                    }
-                    .annotation(position: .top) {
-                        if data.rating == .zero {
-                            Text((data.rating * 100).percentFormat())
-                                .font(Fonts.bodySmRegular)
-                                .foregroundStyle(Colors.Text.tertiary)
-                        }
+                            .foregroundStyle(Colors.Text.tertiary)
                     }
                 }
             }
@@ -146,7 +137,6 @@ struct ChartView: View {
     private var chartXAxis: some View {
         HStack(alignment: .top, spacing: .zero) {
             ForEach(calendarViewModel.weekData["2025-05-11"]!.ratingsForChart) { data in
-                if data.day != "일" { Spacer() }
                 VStack(spacing: 3) {
                     if chartViewModel.type == .day {
                         Text(data.day)
@@ -174,10 +164,10 @@ struct ChartView: View {
                             }
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
         }
-        .padding(.leading, 24)
-        .padding(.trailing, 45)
+        .padding(.trailing, 25)
     }
     
 }
