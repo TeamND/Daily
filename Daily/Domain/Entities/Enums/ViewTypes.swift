@@ -15,4 +15,13 @@ enum ViewTypes {
     case modify
     
     case appInfo
+    
+    var isCalendar: Bool {
+        switch self {
+        case .calendarMonth, .calendarDay:
+            return true
+        default:
+            return false
+        }
+    }
 }

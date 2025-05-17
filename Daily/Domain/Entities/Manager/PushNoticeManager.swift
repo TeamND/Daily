@@ -8,6 +8,8 @@
 import UserNotifications
 
 class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
+    private(set) var noticeTouchAction: (() -> Void)?
+    
     static let shared = PushNoticeManager()
     private override init() {
         super.init()
@@ -26,6 +28,15 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         completionHandler([.banner, .sound])
+    }
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        noticeTouchAction?()
+        completionHandler()
     }
     
     // MARK: - Default
@@ -71,6 +82,10 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     func removeNotice(id: String) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
+    }
+    
+    func setNoticeTouchAction(noticeTouchAction: @escaping () -> Void) {
+        self.noticeTouchAction = noticeTouchAction
     }
     
     // MARK: - remove

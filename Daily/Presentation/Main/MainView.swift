@@ -19,14 +19,20 @@ struct MainView: View {
                     AnyView(navigationObject.dailyView()).navigationBarHidden(true)
                 }
         }
-        .onAppear { navigationEnvironment.navigateDirect(from: .year, to: CalendarTypes(rawValue: calendarType) ?? .month) }
+        .onAppear {
+            navigationEnvironment.navigateDirect(from: .year, to: CalendarTypes(rawValue: calendarType) ?? .month)
+            PushNoticeManager.shared.setNoticeTouchAction(noticeTouchAction: goToday)
+        }
         .onOpenURL { openUrl in
             guard let url = openUrl.absoluteString.removingPercentEncoding else { return }
-            if url.contains("widget") {
-                calendarViewModel.setDate(date: Date(format: .daily))
-                navigationEnvironment.navigateDirect(from: .year)
-            }
+            if url.contains("widget") { goToday() }
         }
+    }
+    
+    private func goToday() {
+        if let currentPage = navigationEnvironment.navigationPath.last, !currentPage.viewType.isCalendar { return }
+        calendarViewModel.setDate(date: Date(format: .daily))
+        navigationEnvironment.navigateDirect(from: .year)
     }
 }
 
