@@ -102,8 +102,12 @@ extension GoalViewModel {
     func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .add) { validateAction(validate); return }
         Task { @MainActor in
+            let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!) }
+            for record in records { await goalUseCase.addRecord(record: record) }
+            
+            goal.records = records
             await goalUseCase.addGoal(goal: goal)
-            await goalUseCase.addRecords(goal: goal, dates: repeatDates)
+            
             successAction(startDate)
         }
     }

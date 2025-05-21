@@ -63,11 +63,11 @@ final class DailyDataSource {
     
     func fetchDayRecords(selection: String) -> [DailyRecordModel]? {
         guard let today = selection.toDate() else { return nil }
-        let tommorow = calendar.date(byAdding: .day, value: 1, to: today)!
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
         
         let descriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
-                today <= record.date && record.date < tommorow
+                today <= record.date && record.date < tomorrow
             }
         )
         

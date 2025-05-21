@@ -206,24 +206,22 @@ extension CalendarViewModel {
     }
     
     func deleteRecord(record: DailyRecordModel, completeAction: @escaping () -> Void) {
-        if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
-        
         Task {
-            deleteRecordInDictionary(record: record)
-            await calendarUseCase.deleteRecord(record: record)
+            await resetData()
+            await deleteRecordContainNotice(record: record, completeAction: completeAction)
+            
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
     }
     
+    // TODO: 추후 최적화 필요
     func deleteGoal(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
-        goal.records.forEach { record in
-            if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
-        }
-        
         Task {
-            deleteGoalInDictionary(goal: goal)
+            await resetData()
             await calendarUseCase.deleteGoal(goal: goal)
+            for record in goal.records { await deleteRecordContainNotice(record: record, completeAction: completeAction) }
+            
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
@@ -233,36 +231,11 @@ extension CalendarViewModel {
         Task {
             let deleteRecords = await calendarUseCase.getDeleteRecords(goal: goal)
             
-            for record in deleteRecords {
-                if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
-                
-                deleteRecordInDictionary(record: record)
-                await calendarUseCase.deleteRecord(record: record)
-            }
+            await resetData()
+            for record in deleteRecords { await deleteRecordContainNotice(record: record, completeAction: completeAction) }
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
-        }
-    }
-}
-
-// MARK: - in dictionary
-extension CalendarViewModel {
-    private func deleteRecordInDictionary(record: DailyRecordModel) {
-        for key in dayDictionary.keys {
-            dayDictionary[key]?.removeAll { $0.id == record.id }
-            if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
-        }
-    }
-    
-    private func deleteGoalInDictionary(goal: DailyGoalModel) {
-        for key in dayDictionary.keys {
-            dayDictionary[key]?.removeAll { recordInDictionary in
-                goal.records.contains { record in
-                    recordInDictionary.id == record.id
-                }
-            }
-            if dayDictionary[key]?.isEmpty ?? false { dayDictionary.removeValue(forKey: key) }
         }
     }
 }
@@ -296,5 +269,16 @@ extension CalendarViewModel {
         case .day:
             return dayData[currentDate.getSelection(type: type)]
         }
+    }
+    
+    @MainActor
+    private func resetData() {
+        weekData = [:]
+        dayData = [:]
+    }
+    
+    private func deleteRecordContainNotice(record: DailyRecordModel, completeAction: @escaping () -> Void) async {
+        if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
+        await calendarUseCase.deleteRecord(record: record)
     }
 }
