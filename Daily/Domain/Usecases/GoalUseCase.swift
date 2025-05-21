@@ -22,15 +22,8 @@ class GoalUseCase {
         await repository.addGoal(goal: goal)
     }
     
-    func addRecord(goal: DailyGoalModel, date: Date) async {
-        await repository.addRecord(record: DailyRecordModel(goal: goal, date: date))
-    }
-    
-    func addRecords(goal: DailyGoalModel, dates: [String]) async {
-        for date in dates {
-            guard let date = date.toDate() else { return }
-            await addRecord(goal: goal, date: date)
-        }
+    func addRecord(record: DailyRecordModel) async {
+        await repository.addRecord(record: record)
     }
     
     func removeNotice(record: DailyRecordModel) {
