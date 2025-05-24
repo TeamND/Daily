@@ -71,6 +71,19 @@ enum CalendarTypes: String, CaseIterable {
             return "오늘"
         }
     }
+    
+    var dateFormat: DateFormats {
+        switch self {
+        case .year:
+            return .year
+        case .month:
+            return .month
+        case .week:
+            return .week
+        case .day:
+            return .day
+        }
+    }
 }
 
 extension CalendarTypes {

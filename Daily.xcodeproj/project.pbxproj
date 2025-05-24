@@ -56,6 +56,9 @@
 		F69A846C2D291CB900AEBD76 /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */; };
 		F69A846E2D291CCA00AEBD76 /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846D2D291CCA00AEBD76 /* DailyRecordModel.swift */; };
 		F69A84702D291D5500AEBD76 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846F2D291D5500AEBD76 /* Enums.swift */; };
+		F6A326702DDEEC2700243B23 /* ChartDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A3266F2DDEEC2700243B23 /* ChartDataModel.swift */; };
+		F6A326722DDEECCF00243B23 /* ChartInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A326712DDEECCF00243B23 /* ChartInterface.swift */; };
+		F6A326742DDEECDF00243B23 /* ChartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A326732DDEECDF00243B23 /* ChartRepository.swift */; };
 		F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
@@ -204,6 +207,9 @@
 		F69A846F2D291D5500AEBD76 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		F69A84712D29247F00AEBD76 /* DailyWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyWidgetExtension.entitlements; sourceTree = "<group>"; };
 		F69A84822D293A2E00AEBD76 /* DailyUtilities */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DailyUtilities; sourceTree = SOURCE_ROOT; };
+		F6A3266F2DDEEC2700243B23 /* ChartDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataModel.swift; sourceTree = "<group>"; };
+		F6A326712DDEECCF00243B23 /* ChartInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInterface.swift; sourceTree = "<group>"; };
+		F6A326732DDEECDF00243B23 /* ChartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRepository.swift; sourceTree = "<group>"; };
 		F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
@@ -405,6 +411,7 @@
 			children = (
 				F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */,
 				F6CE8A212CCF606B0050A25A /* GoalInterface.swift */,
+				F6A326712DDEECCF00243B23 /* ChartInterface.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -437,6 +444,7 @@
 			children = (
 				F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */,
 				F6CE8A232CCF60900050A25A /* GoalRepository.swift */,
+				F6A326732DDEECDF00243B23 /* ChartRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -490,6 +498,7 @@
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
 				F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */,
 				F6C6CD902D6B703B00772E59 /* NavigationObject.swift */,
+				F6A3266F2DDEEC2700243B23 /* ChartDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -822,6 +831,7 @@
 				F6C6CDA12D71962B00772E59 /* TaskQueueManager.swift in Sources */,
 				F60B97332CFC170E0015B19B /* ModifyDataModel.swift in Sources */,
 				F6C758DC2CCD33E400F9CF91 /* DailyWeekIndicator.swift in Sources */,
+				F6A326722DDEECCF00243B23 /* ChartInterface.swift in Sources */,
 				F6016DE22CC610CD00FB637F /* MainView.swift in Sources */,
 				F69A84682D27DD8100AEBD76 /* ButtonTypes.swift in Sources */,
 				F65ACDDD2CC8FB8900C67DD1 /* CalendarRepository.swift in Sources */,
@@ -849,6 +859,7 @@
 				F634D2DE2CC485830014EDB6 /* Date+extension.swift in Sources */,
 				F63EEE882D31F70A00C9914F /* DateFormats.swift in Sources */,
 				F6C758DA2CCB45ED00F9CF91 /* AddGoalButton.swift in Sources */,
+				F6A326702DDEEC2700243B23 /* ChartDataModel.swift in Sources */,
 				F6C6CD932D6BFB5000772E59 /* DailyDataSource.swift in Sources */,
 				F6C758E92CCF3E1300F9CF91 /* GoalViewModel.swift in Sources */,
 				F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */,
@@ -896,6 +907,7 @@
 				F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */,
 				F65ACDD72CC8ECEB00C67DD1 /* CalendarTypes.swift in Sources */,
 				F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */,
+				F6A326742DDEECDF00243B23 /* ChartRepository.swift in Sources */,
 				F6E1CCDE2DAEB075009E25DA /* DayDataModel.swift in Sources */,
 				F6D9926A2D9123480059A202 /* Fonts.swift in Sources */,
 				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,

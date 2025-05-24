@@ -86,6 +86,16 @@ final class DailyDataSource {
         return try? context.fetch(descriptor)
     }
     
+    func fetchRecords(startDate: Date, endDate: Date) -> [DailyRecordModel]? {
+        let descriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startDate <= record.date && record.date <= endDate
+            }
+        )
+        
+        return try? context.fetch(descriptor)
+    }
+    
     func updateData() async {
         try? context.save()
     }

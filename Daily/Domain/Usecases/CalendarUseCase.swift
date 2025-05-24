@@ -149,10 +149,6 @@ extension CalendarUseCase {
         return recordsByDate
     }
     
-    private func getRating(records: [DailyRecordModel]) -> Double? {
-        return records.isEmpty ? nil : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
-    }
-    
     func getYearDatas(records: [DailyRecordModel], filter: Symbols) -> YearDataModel {
         let filterData = setFilterData(records: records)
         
@@ -161,7 +157,7 @@ extension CalendarUseCase {
         
         var ratings: [[Double?]] = Array(repeating: Array(repeating: nil, count: 31), count: 12)
         for (date, dayRecords) in recordsByDate {
-            ratings[date.month - 1][date.day - 1] = getRating(records: dayRecords)
+            ratings[date.month - 1][date.day - 1] = CalendarServices.shared.getRating(records: dayRecords)
         }
         
         return YearDataModel(ratings: ratings, filterData: filterData)
@@ -181,7 +177,7 @@ extension CalendarUseCase {
                 guard let goal = record.goal else { return }
                 dailySymbols.append(DailySymbol(symbol: goal.symbol, isSuccess: record.isSuccess))
             }
-            daysOnMonth[date.day - 1] = DayOnMonth(symbols: dailySymbols, rating: getRating(records: dayRecords))
+            daysOnMonth[date.day - 1] = DayOnMonth(symbols: dailySymbols, rating: CalendarServices.shared.getRating(records: dayRecords))
         }
         
         return MonthDataModel(daysOnMonth: daysOnMonth, filterData: filterData)
@@ -194,12 +190,12 @@ extension CalendarUseCase {
         let recordsByDate = getRecordsByDate(records: filteredRecords)
         
         let validRecords = filteredRecords.filter { $0.date <= Date() }
-        let roundedRatingPercentage = round(getRating(records: validRecords) ?? 0 * 100)
+        let roundedRatingPercentage = round(CalendarServices.shared.getRating(records: validRecords) ?? 0 * 100)
         let ratingOfWeek = Int(roundedRatingPercentage)
         
         var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)
         for (date, dayRecords) in recordsByDate {
-            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = getRating(records: dayRecords)
+            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = CalendarServices.shared.getRating(records: dayRecords)
         }
         
         let ratingsForChart = (.zero ..< GeneralServices.week).map { index in

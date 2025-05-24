@@ -41,7 +41,7 @@ struct ChartView: View {
         HStack(spacing: .zero) {
             ForEach(CalendarTypes.allCases.reversed(), id: \.self) { type in
                 Button {
-                    chartViewModel.type = type
+                    chartViewModel.setType(type: type)
                 } label: {
                     Text(type.text)
                         .font(Fonts.bodyLgSemiBold)
@@ -100,14 +100,14 @@ struct ChartView: View {
                         .foregroundStyle(Colors.Border.primary)
                 }
                 
-                ForEach(calendarViewModel.weekData["2025-05-11"]!.ratingsForChart) { data in
+                ForEach(chartViewModel.chartDatas) { data in
                     BarMark(
-                        x: .value("", data.day),
-                        y: .value("Rating", data.rating * 100)
+                        x: .value("", data.unit.string),
+                        y: .value("Rating", data.rating ?? 0.0)
                     )
                     .cornerRadius(8, style: .continuous)
                     .annotation(position: .top, alignment: .center) {
-                        Text((data.rating * 100).percentFormat())
+                        Text(data.rating?.percentFormat() ?? "0%")
                             .font(Fonts.bodySmRegular)
                             .foregroundStyle(Colors.Text.tertiary)
                     }
@@ -136,19 +136,28 @@ struct ChartView: View {
     
     private var chartXAxis: some View {
         HStack(alignment: .top, spacing: .zero) {
-            ForEach(calendarViewModel.weekData["2025-05-11"]!.ratingsForChart) { data in
+            ForEach(chartViewModel.chartDatas) { data in
                 VStack(spacing: 3) {
+                    let todayWeekday = DayOfWeek.text(for: Date().weekday - 1) ?? ""
+                    let todayString = Date().toString(format: chartViewModel.type.dateFormat)
+                    
                     if chartViewModel.type == .day {
-                        Text(data.day)
+                        Text(data.unit.weekday)
                             .font(Fonts.bodyMdSemiBold)
-                            .foregroundStyle(data.day == "화" ? Colors.Text.point : Colors.Text.primary)
+                            .foregroundStyle(
+                                data.unit.weekday == todayWeekday ? Colors.Text.point :
+                                    data.rating == nil ? Colors.Text.tertiary : Colors.Text.primary
+                            )
                     }
                     
-                    Text("4.1")
-                        .font(data.day == "화" ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
-                        .foregroundStyle(data.day == "화" ? Colors.Text.point : Colors.Text.secondary)
+                    Text(data.unit.string)
+                        .font(data.unit.string == todayString ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
+                        .foregroundStyle(
+                            data.unit.string == todayString ? Colors.Text.point :
+                                data.rating == nil ? Colors.Text.tertiary : Colors.Text.secondary
+                        )
                     
-                    if data.day == "화" {
+                    if data.isNow {
                         Image(.commentTail)
                             .resizable()
                             .frame(width: 14, height: 14)
