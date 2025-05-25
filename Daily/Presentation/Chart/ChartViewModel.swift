@@ -38,8 +38,12 @@ extension ChartViewModel {
         Task { [weak self] in
             guard let self else { return }
             
-            let chartDatas = await chartUseCase.getChartDatas(type: type)
-            await MainActor.run { self.chartDatas = chartDatas }
+            let (chartDatas, totalCount, successCount) = await chartUseCase.getChartDatas(type: type)
+            await MainActor.run {
+                self.chartDatas = chartDatas
+                self.totalCount = totalCount
+                self.successCount = successCount
+            }
         }
     }
 }
