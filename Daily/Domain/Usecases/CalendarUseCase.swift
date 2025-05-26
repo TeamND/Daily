@@ -184,26 +184,15 @@ extension CalendarUseCase {
     }
     
     func getWeekDatas(records: [DailyRecordModel], filter: Symbols) -> WeekDataModel {
-        let filterData = setFilterData(records: records)
-        
         let filteredRecords = filterRecords(records: records, filter: filter)
         let recordsByDate = getRecordsByDate(records: filteredRecords)
-        
-        let validRecords = filteredRecords.filter { $0.date <= Date() }
-        let roundedRatingPercentage = round(CalendarServices.shared.getRating(records: validRecords) ?? 0 * 100)
-        let ratingOfWeek = Int(roundedRatingPercentage)
         
         var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)
         for (date, dayRecords) in recordsByDate {
             ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = CalendarServices.shared.getRating(records: dayRecords)
         }
         
-        let ratingsForChart = (.zero ..< GeneralServices.week).map { index in
-            let dayOfWeek = DayOfWeek.allCases[(index + (UserDefaultManager.startDay ?? 0)) % GeneralServices.week]
-            return RatingOnWeekModel(day: dayOfWeek.text, rating: ratingsOfWeek[index] ?? .zero * 100)
-        }
-        
-        return WeekDataModel(ratingOfWeek: ratingOfWeek, ratingsOfWeek: ratingsOfWeek, ratingsForChart: ratingsForChart, filterData: filterData)
+        return WeekDataModel(ratingsOfWeek: ratingsOfWeek)
     }
     
     func getDayDatas(records: [DailyRecordModel], filter: Symbols) -> DayDataModel {

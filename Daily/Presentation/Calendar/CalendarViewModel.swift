@@ -24,8 +24,6 @@ final class CalendarViewModel: ObservableObject {
     private(set) var weekDictionary: [String: [DailyRecordModel]] = [:]
     private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
     
-    @Published var isShowWeeklySummary: Bool = false    // TODO: 추후 수정
-    
     func bindSelection(type: CalendarTypes) -> Binding<String> {
         Binding(
             get: { self.currentDate.getSelection(type: type) },
@@ -265,7 +263,7 @@ extension CalendarViewModel {
         case .month:
             return monthData[currentDate.getSelection(type: type)]
         case .week:
-            return weekData[currentDate.getSelection(type: type)]
+            return nil
         case .day:
             return dayData[currentDate.getSelection(type: type)]
         }
