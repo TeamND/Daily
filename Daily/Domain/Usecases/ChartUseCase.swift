@@ -17,9 +17,13 @@ final class ChartUseCase {
 }
 
 extension ChartUseCase {
-    func getChartDatas(type: CalendarTypes) async -> (chartDatas: [ChartDataModel], totalCount: Int, successCount: Int) {
-        var chartDatas: [ChartDataModel] = []
+    func getChartDatas(type: CalendarTypes, filter: Symbols) async -> (
+        chartDatas: [ChartDataModel], filterDatas: [Symbols: Int], totalCount: Int, successCount: Int
+    ) {
         var originDate = calendar.date(byAdding: .day, value: 1, to: Date(format: .daily)) ?? Date(format: .daily)
+        
+        var chartDatas: [ChartDataModel] = []
+        var filterDatas: [Symbols: Int] = Dictionary(uniqueKeysWithValues: Symbols.allCases.map { ($0, 0) })
         var totalCount = 0
         var successCount = 0
         
@@ -28,20 +32,25 @@ extension ChartUseCase {
             
             guard let startDate = calculateStartDate(type: type, endDate: endDate),
                   let records = await repository.getRecords(startDate: startDate, endDate: endDate),
-                  let weekday = DayOfWeek.text(for: startDate.weekday - 1) else { continue }
+                  let weekday = DayOfWeek.text(for: endDate.weekday - 1) else { continue }
             
             originDate = startDate
-            totalCount += records.count
-            successCount += records.filter{ $0.isSuccess }.count
+            filterDatas = Symbols.allCases.reduce(into: filterDatas) { result, symbol in
+                result[symbol]! += records.filter { symbol == .all || $0.goal?.symbol == symbol }.count
+            }
+            
+            let filteredRecords = records.filter { filter == .all || $0.goal?.symbol == filter }
+            totalCount += filteredRecords.count
+            successCount += filteredRecords.filter{ $0.isSuccess }.count
             
             let chartData = ChartDataModel(isNow: index == 0,
                                            unit: ChartUnit(weekday: weekday, string: endDate.toString(format: type.dateFormat)),
-                                           rating: CalendarServices.shared.getRating(records: records).map { $0 * 100 })
+                                           rating: CalendarServices.shared.getRating(records: filteredRecords).map { $0 * 100 })
             
             chartDatas.insert(chartData, at: 0)
         }
         
-        return (chartDatas, totalCount, successCount)
+        return (chartDatas, filterDatas, totalCount, successCount)
     }
     
     private func calculateStartDate(type: CalendarTypes, endDate: Date) -> Date? {

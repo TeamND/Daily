@@ -25,7 +25,7 @@ struct ChartView: View {
             summaryIndicator.padding(.horizontal, 16)
             Spacer().frame(height: 32)
             
-            SymbolFilter(type: chartViewModel.type)
+            SymbolFilter(chartViewModel: chartViewModel)
             Spacer().frame(height: 24)
             
             chartView.padding(.horizontal, 16)
@@ -33,7 +33,7 @@ struct ChartView: View {
         }
         .background(Colors.Background.primary)
         .onAppear {
-            chartViewModel.onAppear(navigationPath: navigationEnvironment.navigationPath)
+            chartViewModel.onAppear(navigationPath: navigationEnvironment.navigationPath, filter: calendarViewModel.filter)
         }
     }
     
@@ -73,7 +73,9 @@ struct ChartView: View {
                     .foregroundStyle(Colors.Text.point)
             }
             .frame(maxWidth: .infinity)
+            
             Rectangle().fill(Colors.Border.primary).frame(width: 1, height: 44)
+            
             VStack(spacing: 4) {
                 Text("완료")
                     .font(Fonts.bodyMdRegular)
@@ -103,7 +105,7 @@ struct ChartView: View {
                 ForEach(chartViewModel.chartDatas) { data in
                     BarMark(
                         x: .value("", data.unit.string),
-                        y: .value("Rating", data.rating ?? 0.0)
+                        y: .value("Rating", data.rating ?? 0.0) // TODO: 추후 y축 애니메이션을 고려
                     )
                     .cornerRadius(8, style: .continuous)
                     .annotation(position: .top, alignment: .center) {
