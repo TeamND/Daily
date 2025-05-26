@@ -48,8 +48,7 @@ struct CalendarHeader: View {
             
             HStack(spacing: 16) {
                 Button {
-                    // FIXME: 추후 차트 페이지로 이동하도록 구현
-                    print("go chart page")
+                    navigationEnvironment.navigate(NavigationObject(viewType: .chart))
                 } label: {
                     Image(.chart)
                         .resizable()
@@ -58,7 +57,7 @@ struct CalendarHeader: View {
                 }
                 
                 Button {
-                    navigationEnvironment.navigate(NavigationObject(viewType: .appInfo))
+                    navigationEnvironment.navigate(NavigationObject(viewType: .setting))
                 } label: {
                     Image(.setting)
                         .resizable()

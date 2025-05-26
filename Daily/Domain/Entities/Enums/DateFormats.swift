@@ -10,4 +10,9 @@ import Foundation
 enum DateFormats: String {
     case daily = "yyyy-MM-dd"
     case setTime = "HH:mm"
+    
+    case year = "yyyy"
+    case month = "M월"
+    case week = "~M.d"
+    case day = "M.d"
 }

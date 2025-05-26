@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GoalUseCase {
+final class GoalUseCase {
     private let repository: GoalInterface
     
     init(repository: GoalInterface) {

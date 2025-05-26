@@ -16,7 +16,6 @@ enum DayOfWeek: String, CaseIterable {
     case fri
     case sat
     
-    // TODO: 추후 UserDefaults 추가 시 세분화
     var text: String {
         switch self {
         case .sun:
@@ -52,6 +51,17 @@ enum DayOfWeek: String, CaseIterable {
             return 5
         case .sat:
             return 6
+        }
+    }
+    
+    var fullText: String {
+        switch self {
+        case .sun:
+            return "일요일"
+        case .mon:
+            return "월요일"
+        default:
+            return ""
         }
     }
 }

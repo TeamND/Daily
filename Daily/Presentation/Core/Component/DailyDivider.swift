@@ -17,6 +17,7 @@ struct DailyDivider: View {
         self.height = height
         self.hPadding = hPadding
     }
+    
     var body: some View {
         Rectangle()
             .fill(color)

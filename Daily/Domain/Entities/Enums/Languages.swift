@@ -10,4 +10,13 @@ import Foundation
 enum Languages: String, CaseIterable {
     case korean
     case english
+    
+    var text: String {
+        switch self {
+        case .korean:
+            return "한국어"
+        case .english:
+            return "English"
+        }
+    }
 }

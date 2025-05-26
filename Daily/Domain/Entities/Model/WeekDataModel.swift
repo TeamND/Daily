@@ -7,21 +7,10 @@
 
 import Foundation
 
-struct WeekDataModel: DailyDataModel {
-    let ratingOfWeek: Int
+struct WeekDataModel {
     let ratingsOfWeek: [Double?]
-    let ratingsForChart: [RatingOnWeekModel]
-    let filterData: [Symbols: Int]
     
-    init(
-        ratingOfWeek: Int = 0,
-        ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week),
-        ratingsForChart: [RatingOnWeekModel] = [],
-        filterData: [Symbols: Int] = [:]
-    ) {
-        self.ratingOfWeek = ratingOfWeek
+    init(ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)) {
         self.ratingsOfWeek = ratingsOfWeek
-        self.ratingsForChart = ratingsForChart
-        self.filterData = filterData
     }
 }

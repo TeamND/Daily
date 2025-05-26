@@ -83,3 +83,10 @@ class CalendarServices {
         return calendar.date(from: components)?.addingTimeInterval(TimeInterval(-notice * 60))
     }
 }
+
+// MARK: Daily Custom
+extension CalendarServices {
+    func getRating(records: [DailyRecordModel]) -> Double? {
+        return records.isEmpty ? nil : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
+    }
+}

@@ -9,16 +9,27 @@ import SwiftUI
 
 struct SymbolFilter: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    @ObservedObject private var chartViewModel: ChartViewModel
     
-    let type: CalendarTypes
+    let type: CalendarTypes?
+    
+    init(type: CalendarTypes? = nil, chartViewModel: ChartViewModel = ChartViewModel()) {
+        self.type = type    // MARK: type == nil ? chartView : calendarView
+        self.chartViewModel = chartViewModel
+    }
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 4) {
                 ForEach(Symbols.allCases, id: \.self) { filter in
-                    let isCurrentFilter = calendarViewModel.filter == filter
+                    let isCurrentFilter = type == nil ? chartViewModel.filter == filter : calendarViewModel.filter == filter
+                    let filterNumber = type == nil ? chartViewModel.filterDatas[filter] : calendarViewModel.getData(type: type!)?.filterData[filter]
                     Button {
-                        calendarViewModel.setFilter(filter: filter)
+                        if type == nil {
+                            chartViewModel.setFilter(filter: filter)
+                        } else {
+                            calendarViewModel.setFilter(filter: filter)
+                        }
                     } label: {
                         Group {
                             if filter == .all {
@@ -31,7 +42,7 @@ struct SymbolFilter: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 16)
-                                    Text("\(calendarViewModel.getData(type: type)?.filterData[filter] ?? 0)")
+                                    Text("\(filterNumber ?? 0)")
                                         .font(Fonts.bodyMdSemiBold)
                                         .foregroundStyle(isCurrentFilter ? Colors.Text.point : Colors.Text.tertiary)
                                 }
