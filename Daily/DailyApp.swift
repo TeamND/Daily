@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import DailyUtilities
 
 @main
 struct DailyApp: App {

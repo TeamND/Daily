@@ -80,6 +80,8 @@ struct SimpleRecordModel: Codable {
     let isSuccess: Bool
     let isSetTime: Bool
     let setTime: String
+    let goalCount: Int
+    let recordCount: Int
     
     init(isEmpty: Bool = true) {
         self.content = ""
@@ -87,6 +89,8 @@ struct SimpleRecordModel: Codable {
         self.isSuccess = false
         self.isSetTime = false
         self.setTime = "00:00"
+        self.goalCount = 0
+        self.recordCount = 0
     }
     
     init(record: DailyRecordModel) {
@@ -95,6 +99,8 @@ struct SimpleRecordModel: Codable {
         self.isSuccess = record.isSuccess
         self.isSetTime = record.goal?.isSetTime ?? false
         self.setTime = record.goal?.setTime ?? "00:00"
+        self.goalCount = record.goal?.count ?? 0
+        self.recordCount = record.count
     }
 }
 
@@ -112,17 +118,62 @@ struct DailyWidgetEntryView: View {
     var body: some View {
         switch family {
         case .systemSmall:
-            VStack(alignment: .leading) {
-                SimpleDayRating(day: entry.day, rating: entry.rating)
-                SymbolListInSmallWidget(records: entry.records)
+            VStack {
+                Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
+                    .font(Fonts.headingSmSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+                Spacer()
+                ZStack {
+                    RatingIndicator(rating: entry.rating, lineWidth: 5).padding(1)
+                    Text("\((entry.rating * 100).percentFormat())")
+                        .font(Fonts.headingMdBold)
+                        .foregroundStyle(Colors.Text.primary)
+                }
+                .frame(width: 80, height: 80)
+                Spacer()
+//                SimpleDayRating(day: entry.day, rating: entry.rating)
+//                SymbolListInSmallWidget(records: entry.records)
             }
-            .font(.system(size: CGFloat.fontSize))
         default:
-            HStack(alignment: .top) {
-                SimpleDayRating(day: entry.day, rating: entry.rating)
-                SimpleRecordList(records: entry.records)
+            VStack(spacing: .zero) {
+                Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
+                    .font(Fonts.headingSmSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer().frame(height: 6)
+                
+                ForEach(Array(entry.records.enumerated()), id: \.offset) { index, record in
+                    Spacer().frame(height: 8)
+                    HStack {
+                        VStack(spacing: .zero) {
+                            Text(record.content)
+                                .font(Fonts.bodyMdSemiBold)
+                                .foregroundStyle(Colors.Text.primary)
+                            Text("\(record.recordCount)/\(record.goalCount)")
+                                .font(Fonts.bodySmRegular)
+                                .foregroundStyle(Colors.Text.tertiary)
+                        }
+                        Spacer()
+                        Image(record.symbol.icon(isSuccess: record.isSuccess))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32)
+//                        Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
+//                        Text(record.content)
+//                            .lineLimit(1)
+//                        Spacer()
+//                        if record.isSetTime { Text(record.setTime) }
+                    }
+                }
+                Spacer()
             }
-            .font(.system(size: CGFloat.fontSize))
+//            HStack(alignment: .top) {
+//                SimpleDayRating(day: entry.day, rating: entry.rating)
+//                SimpleRecordList(records: entry.records)
+//            }
+//            .font(.system(size: CGFloat.fontSize))
         }
     }
 }
@@ -135,7 +186,7 @@ struct SimpleDayRating: View {
         ZStack {
             Image(systemName: "circle.fill")
                 .font(.system(size: CGFloat.fontSize * 2))
-                .foregroundColor(Colors.daily.opacity(rating * 0.8))
+//                .foregroundColor(Colors.daily.opacity(rating * 0.8))
             Text(day)
                 .font(.system(size: CGFloat.fontSize, weight: .bold))
                 .foregroundColor(.primary)
@@ -166,7 +217,7 @@ struct SymbolListInSmallWidget: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
+//            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
     }
 }
@@ -194,7 +245,7 @@ struct SimpleRecordList: View {
             } else {
                 SimpleText()
                     .background {
-                        RoundedRectangle(cornerRadius: 15).fill(Colors.background)
+//                        RoundedRectangle(cornerRadius: 15).fill(Colors.background)
                     }
             }
         }
@@ -216,7 +267,7 @@ struct SimpleRecordOnList: View {
         }
         .padding(10)
         .background {
-            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
+//            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
         }
     }
 }
@@ -229,7 +280,7 @@ struct SimpleText: View {
             Text("아직 목표가 없어요 😓")
             if family != .systemSmall {
                 Text("목표 세우러 가기")
-                    .foregroundColor(Colors.daily)
+//                    .foregroundColor(Colors.daily)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -243,7 +294,7 @@ struct DailyWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             DailyWidgetEntryView(entry: entry)
-                .containerBackground(Colors.theme, for: .widget)
+//                .containerBackground(Colors.theme, for: .widget)
                 .widgetURL(URL(string: "widget://daily")!)
         }
         .configurationDisplayName("Daily Widget")
