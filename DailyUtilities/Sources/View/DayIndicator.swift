@@ -7,20 +7,21 @@
 
 import SwiftUI
 
-struct DayIndicator: View {
-    private let day: Int
-    private let rating: Double?
-    private let isToday: Bool
-    private let isNow: Bool
+@available(iOS 15.0, *)
+public struct DayIndicator: View {
+    public let day: Int
+    public let rating: Double?
+    public let isToday: Bool
+    public let isNow: Bool
     
-    init(day: Int, rating: Double?, isToday: Bool, isNow: Bool = false) {
+    public init(day: Int, rating: Double?, isToday: Bool, isNow: Bool = false) {
         self.day = day
         self.rating = rating
         self.isToday = isToday
         self.isNow = isNow
     }
     
-    var body: some View {
+    public var body: some View {
         ZStack {
             // MARK: UI 디테일을 위한 padding 포함
             if let rating { RatingIndicator(rating: rating).padding(1) }

@@ -116,65 +116,97 @@ struct DailyWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        switch family {
-        case .systemSmall:
-            VStack {
-                Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
-                    .font(Fonts.headingSmSemiBold)
-                    .foregroundStyle(Colors.Text.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Spacer()
-                Spacer()
-                ZStack {
-                    RatingIndicator(rating: entry.rating, lineWidth: 5).padding(1)
-                    Text("\((entry.rating * 100).percentFormat())")
-                        .font(Fonts.headingMdBold)
+        Group {
+            switch family {
+            case .systemSmall:
+                VStack {
+                    Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
+                        .font(Fonts.headingSmSemiBold)
                         .foregroundStyle(Colors.Text.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                    Spacer()
+                    ZStack {
+                        RatingIndicator(rating: entry.rating, lineWidth: 5).padding(1)
+                        Text("\((entry.rating * 100).percentFormat())")
+                            .font(Fonts.headingMdBold)
+                            .foregroundStyle(Colors.Text.primary)
+                    }
+                    .frame(width: 80, height: 80)
+                    Spacer()
+                    //                SimpleDayRating(day: entry.day, rating: entry.rating)
+                    //                SymbolListInSmallWidget(records: entry.records)
                 }
-                .frame(width: 80, height: 80)
-                Spacer()
-//                SimpleDayRating(day: entry.day, rating: entry.rating)
-//                SymbolListInSmallWidget(records: entry.records)
-            }
-        default:
-            VStack(spacing: .zero) {
-                Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
-                    .font(Fonts.headingSmSemiBold)
-                    .foregroundStyle(Colors.Text.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Spacer().frame(height: 6)
-                
-                ForEach(Array(entry.records.enumerated()), id: \.offset) { index, record in
-                    Spacer().frame(height: 8)
-                    HStack {
-                        VStack(spacing: .zero) {
-                            Text(record.content)
-                                .font(Fonts.bodyMdSemiBold)
-                                .foregroundStyle(Colors.Text.primary)
-                            Text("\(record.recordCount)/\(record.goalCount)")
-                                .font(Fonts.bodySmRegular)
-                                .foregroundStyle(Colors.Text.tertiary)
+            case .systemMedium:
+                VStack(spacing: .zero) {
+                    Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
+                        .font(Fonts.headingSmSemiBold)
+                        .foregroundStyle(Colors.Text.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer().frame(height: 6)
+                    
+                    ForEach(Array(entry.records.enumerated()), id: \.offset) { index, record in
+                        Spacer().frame(height: 8)
+                        HStack {
+                            VStack(alignment: .leading, spacing: .zero) {
+                                Text(record.content)
+                                    .font(Fonts.bodyMdSemiBold)
+                                    .foregroundStyle(Colors.Text.primary)
+                                Text("\(record.recordCount)/\(record.goalCount)")
+                                    .font(Fonts.bodySmRegular)
+                                    .foregroundStyle(Colors.Text.tertiary)
+                            }
+                            Spacer()
+                            Image(record.symbol.icon(isSuccess: record.isSuccess))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 32)
+                            //                        Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
+                            //                        Text(record.content)
+                            //                            .lineLimit(1)
+                            //                        Spacer()
+                            //                        if record.isSetTime { Text(record.setTime) }
                         }
-                        Spacer()
-                        Image(record.symbol.icon(isSuccess: record.isSuccess))
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32)
-//                        Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
-//                        Text(record.content)
-//                            .lineLimit(1)
-//                        Spacer()
-//                        if record.isSetTime { Text(record.setTime) }
+                    }
+                    Spacer()
+                }
+                //            HStack(alignment: .top) {
+                //                SimpleDayRating(day: entry.day, rating: entry.rating)
+                //                SimpleRecordList(records: entry.records)
+                //            }
+                //            .font(.system(size: CGFloat.fontSize))
+                
+            default:
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("\(String(Calendar.current.component(.month, from: Date())))월")
+                        .font(Fonts.headingSmSemiBold)
+                        .foregroundStyle(Colors.Text.primary)
+                    
+                    Spacer().frame(height: 4)
+                    
+                    HStack {
+                        ForEach(0 ..< 7) { index in
+                            Text("\(DayOfWeek.text(for: index) ?? "")")
+                                .font(Fonts.bodySmRegular)
+                                .foregroundStyle(Colors.Text.primary)
+                                .frame(width: 33)
+                        }
+                    }
+                    
+                    ForEach(0 ..< 6) { row in
+                        HStack {
+                            ForEach(0 ..< 7) { col in
+                                let day = row * 7 + col
+                                let rating = col < 4 ? nil : row > 2 ? 0.5 : 0
+                                DayIndicator(day: day, rating: rating, isToday: String(day) == entry.day)
+                            }
+                        }
+                        if row < 5 { DailyDivider(color: Colors.Border.secondary, height: 1) }
                     }
                 }
-                Spacer()
             }
-//            HStack(alignment: .top) {
-//                SimpleDayRating(day: entry.day, rating: entry.rating)
-//                SimpleRecordList(records: entry.records)
-//            }
-//            .font(.system(size: CGFloat.fontSize))
         }
+        .widgetURL(URL(string: "widget://daily?family=\(family.rawValue)")!)
     }
 }
 
@@ -295,7 +327,6 @@ struct DailyWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             DailyWidgetEntryView(entry: entry)
 //                .containerBackground(Colors.theme, for: .widget)
-                .widgetURL(URL(string: "widget://daily")!)
         }
         .configurationDisplayName("Daily Widget")
         .description("위젯으로 더욱 간편하게! :D")

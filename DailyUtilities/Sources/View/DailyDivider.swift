@@ -7,18 +7,19 @@
 
 import SwiftUI
 
-struct DailyDivider: View {
-    let color: Color
-    let height: CGFloat
-    let hPadding: CGFloat
+@available(iOS 17.0, *)
+public struct DailyDivider: View {
+    public let color: Color
+    public let height: CGFloat
+    public let hPadding: CGFloat
 
-    init(color: Color = .gray.opacity(0.5), height: CGFloat = 0.5, hPadding: CGFloat = 0) {
+    public init(color: Color = .gray.opacity(0.5), height: CGFloat = 0.5, hPadding: CGFloat = 0) {
         self.color = color
         self.height = height
         self.hPadding = hPadding
     }
     
-    var body: some View {
+    public var body: some View {
         Rectangle()
             .fill(color)
             .frame(height: height)
