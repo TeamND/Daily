@@ -47,12 +47,16 @@ extension ChartViewModel {
         Task { [weak self] in
             guard let self else { return }
             
-            let (chartDatas, filterDatas, totalCount, successCount) = await chartUseCase.getChartDatas(type: type, filter: filter)
-            await MainActor.run {
-                self.chartDatas = chartDatas
-                self.filterDatas = filterDatas
-                self.totalCount = totalCount
-                self.successCount = successCount
+            await TaskQueueManager.shared.add { [weak self] in
+                guard let self else { return }
+                
+                let (chartDatas, filterDatas, totalCount, successCount) = await chartUseCase.getChartDatas(type: type, filter: filter)
+                await MainActor.run {
+                    self.chartDatas = chartDatas
+                    self.filterDatas = filterDatas
+                    self.totalCount = totalCount
+                    self.successCount = successCount
+                }
             }
         }
     }
