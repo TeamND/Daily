@@ -21,27 +21,33 @@ struct Provider: TimelineProvider {
     }
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), rating: 0, day: String(Calendar.current.component(.day, from: Date())), records: [])
+        SimpleEntry(date: Date(), rating: 0, records: [], ratings:
+                        Array(repeating: nil, count: Calendar.current.range(of: .day, in: .month, for: Date())?.count ?? 0)
+                    )
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), rating: 0, day: String(Calendar.current.component(.day, from: Date())), records: [])
+        let entry = SimpleEntry(date: Date(), rating: 0, records: [], ratings:
+                                    Array(repeating: nil, count: Calendar.current.range(of: .day, in: .month, for: Date())?.count ?? 0)
+                                )
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         let context = ModelContext(dailyModelContainer)
-        
         let calendar = Calendar.current
+        
+        // MARK: - for systemSmall & systemMedium
         let today = calendar.startOfDay(for: Date())
         let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
-        let descriptor = FetchDescriptor<DailyRecordModel>(
+        
+        let recordsDescriptor = FetchDescriptor<DailyRecordModel>(
             predicate: #Predicate<DailyRecordModel> { record in
                 today <= record.date && record.date < tomorrow
             }
         )
         
-        guard let recordsQuery = try? context.fetch(descriptor) else { return }
+        guard let recordsQuery = try? context.fetch(recordsDescriptor) else { return }
         let records = recordsQuery.sorted {
             if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
                 return !prevGoal.isSetTime && nextGoal.isSetTime
@@ -54,17 +60,44 @@ struct Provider: TimelineProvider {
             }
             return $0.date < $1.date
         }
-        let simpleRecords = records.map { SimpleRecordModel(record: $0) }
         let rating = records.isEmpty ? 0.0 : Double(records.filter { $0.isSuccess }.count) / Double(records.count)
+        let simpleRecords = records.map { SimpleRecordModel(record: $0) }
         
+        // MARK: - for systemLarge
+        let startOfMonth = calendar.date(from: DateComponents(year: Date().year, month: Date().month, day: 1))!
+        let endOfMonth = calendar.date(from: DateComponents(year: Date().year, month: Date().month + 1, day: 1))!.addingTimeInterval(-1)
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        var ratings: [Double?] = Array(repeating: nil, count: lengthOfMonth)
+        
+        let ratingsDescriptor = FetchDescriptor<DailyRecordModel>(
+            predicate: #Predicate<DailyRecordModel> { record in
+                startOfMonth <= record.date && record.date < endOfMonth
+            }
+        )
+        
+        guard let ratingsQuery = try? context.fetch(ratingsDescriptor) else { return }
+        var recordsByDate: [Date: [DailyRecordModel]] = [:]
+        ratingsQuery.forEach { record in
+            let components = calendar.dateComponents([.year, .month, .day], from: record.date)
+            if let date = calendar.date(from: components) {
+                recordsByDate[date, default: []].append(record)
+            }
+        }
+        
+        for (date, dayRecords) in recordsByDate {
+            if dayRecords.isEmpty { continue }
+            ratings[date.day - 1] = Double(dayRecords.filter { $0.isSuccess }.count) / Double(dayRecords.count)
+        }
+        
+        // MARK: - entry
         var entries: [SimpleEntry] = []
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .minute, value: hourOffset, to: Date())!
             let entry = SimpleEntry(
                 date: entryDate,
                 rating: rating,
-                day: String(Calendar.current.component(.day, from: Date())),
-                records: simpleRecords
+                records: simpleRecords,
+                ratings: ratings
             )
             entries.append(entry)
         }
@@ -107,8 +140,8 @@ struct SimpleRecordModel: Codable {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let rating: Double
-    let day: String
     let records: [SimpleRecordModel]
+    let ratings: [Double?]
 }
 
 struct DailyWidgetEntryView: View {
@@ -120,7 +153,7 @@ struct DailyWidgetEntryView: View {
             switch family {
             case .systemSmall:
                 VStack {
-                    Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
+                    Text("\(Date().month)월 \(Date().day)일")
                         .font(Fonts.headingSmSemiBold)
                         .foregroundStyle(Colors.Text.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -139,11 +172,23 @@ struct DailyWidgetEntryView: View {
                 }
             case .systemMedium:
                 VStack(spacing: .zero) {
-                    Text("\(String(Calendar.current.component(.month, from: Date())))월 \(entry.day)일")
+                    Text("\(Date().month)월 \(Date().day)일")
                         .font(Fonts.headingSmSemiBold)
                         .foregroundStyle(Colors.Text.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer().frame(height: 14)
+                    
+                    if entry.records.isEmpty {
+                        VStack(spacing: 4) {
+                            Text("아직 목표가 없어요")
+                                .font(Fonts.headingSmSemiBold)
+                                .foregroundStyle(Colors.Text.secondary)
+                            Text("오늘의 목표를 추가해보세요")
+                                .font(Fonts.bodyLgRegular)
+                                .foregroundStyle(Colors.Text.tertiary)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
                     
                     ForEach(Array(entry.records.enumerated()), id: \.offset) { index, record in
                         HStack {
@@ -177,7 +222,7 @@ struct DailyWidgetEntryView: View {
                 
             default:
                 VStack(alignment: .leading, spacing: .zero) {
-                    Text("\(String(Calendar.current.component(.month, from: Date())))월")
+                    Text("\(Date().month)월")
                         .font(Fonts.headingSmSemiBold)
                         .foregroundStyle(Colors.Text.primary)
                         .frame(maxHeight: .infinity)
@@ -194,21 +239,29 @@ struct DailyWidgetEntryView: View {
                         }
                     }
                     
+                    let calendar = Calendar.current
+                    let startOfMonth = calendar.date(from: DateComponents(year: Date().year, month: Date().month, day: 1))!
+                    let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+                    let dividerCount = (lengthOfMonth + startOfMonth.weekday - 1 - 1) / 7
+                    
                     ForEach(0 ..< 6) { row in
                         DailySpacer()
                         HStack {
                             ForEach(0 ..< 7) { col in
                                 if col > 0 { Spacer() }
                                 
-                                let day = row * 7 + col
-                                let rating = col < 4 ? nil : row > 2 ? 0.5 : 0
-                                DayIndicator(day: day, rating: rating, isToday: String(day) == entry.day)
+                                let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
+                                if 0 < day && day <= lengthOfMonth {
+                                    DayIndicator(day: day, rating: entry.ratings[day - 1], isToday: day == Date().day)
+                                } else {
+                                    DayIndicator(day: 0, rating: nil, isToday: false).opacity(0)
+                                }
                             }
                         }
                         
                         if row < 5 {
                             DailySpacer()
-                            DailyDivider(color: Colors.Border.secondary, height: 1)
+                            DailyDivider(color: Colors.Border.secondary, height: 1).opacity(row < dividerCount ? 1 : 0)
                         }
                     }
                 }
