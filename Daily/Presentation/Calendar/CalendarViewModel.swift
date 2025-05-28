@@ -215,10 +215,11 @@ extension CalendarViewModel {
     
     // TODO: 추후 최적화 필요
     func deleteGoal(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+        let records = goal.records
         Task {
             await resetData()
             await calendarUseCase.deleteGoal(goal: goal)
-            for record in goal.records { await deleteRecordContainNotice(record: record, completeAction: completeAction) }
+            for record in records { await deleteRecordContainNotice(record: record, completeAction: completeAction) }
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
