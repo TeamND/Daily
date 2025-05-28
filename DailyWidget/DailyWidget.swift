@@ -143,12 +143,11 @@ struct DailyWidgetEntryView: View {
                         .font(Fonts.headingSmSemiBold)
                         .foregroundStyle(Colors.Text.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Spacer().frame(height: 6)
+                    Spacer().frame(height: 14)
                     
                     ForEach(Array(entry.records.enumerated()), id: \.offset) { index, record in
-                        Spacer().frame(height: 8)
                         HStack {
-                            VStack(alignment: .leading, spacing: .zero) {
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(record.content)
                                     .font(Fonts.bodyMdSemiBold)
                                     .foregroundStyle(Colors.Text.primary)
@@ -167,8 +166,8 @@ struct DailyWidgetEntryView: View {
                             //                        Spacer()
                             //                        if record.isSetTime { Text(record.setTime) }
                         }
+                        Spacer()
                     }
-                    Spacer()
                 }
                 //            HStack(alignment: .top) {
                 //                SimpleDayRating(day: entry.day, rating: entry.rating)
@@ -177,15 +176,17 @@ struct DailyWidgetEntryView: View {
                 //            .font(.system(size: CGFloat.fontSize))
                 
             default:
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .zero) {
                     Text("\(String(Calendar.current.component(.month, from: Date())))월")
                         .font(Fonts.headingSmSemiBold)
                         .foregroundStyle(Colors.Text.primary)
+                        .frame(maxHeight: .infinity)
                     
-                    Spacer().frame(height: 4)
+                    Spacer().frame(height: 20)
                     
                     HStack {
                         ForEach(0 ..< 7) { index in
+                            if index > 0 { Spacer() }
                             Text("\(DayOfWeek.text(for: index) ?? "")")
                                 .font(Fonts.bodySmRegular)
                                 .foregroundStyle(Colors.Text.primary)
@@ -194,14 +195,21 @@ struct DailyWidgetEntryView: View {
                     }
                     
                     ForEach(0 ..< 6) { row in
+                        DailySpacer()
                         HStack {
                             ForEach(0 ..< 7) { col in
+                                if col > 0 { Spacer() }
+                                
                                 let day = row * 7 + col
                                 let rating = col < 4 ? nil : row > 2 ? 0.5 : 0
                                 DayIndicator(day: day, rating: rating, isToday: String(day) == entry.day)
                             }
                         }
-                        if row < 5 { DailyDivider(color: Colors.Border.secondary, height: 1) }
+                        
+                        if row < 5 {
+                            DailySpacer()
+                            DailyDivider(color: Colors.Border.secondary, height: 1)
+                        }
                     }
                 }
             }

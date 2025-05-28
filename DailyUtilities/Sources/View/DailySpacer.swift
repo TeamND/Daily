@@ -7,8 +7,12 @@
 
 import SwiftUI
 
-struct DailySpacer: View {
-    var body: some View {
+@available(iOS 13.0, *)
+public struct DailySpacer: View {
+    
+    public init() { }
+    
+    public var body: some View {
         Color.clear.frame(maxHeight: .infinity)
     }
 }

@@ -12,5 +12,6 @@ typealias Fonts = DailyUtilities.Fonts
 typealias DayOfWeek = DailyUtilities.DayOfWeek
 
 typealias DailyDivider = DailyUtilities.DailyDivider
+typealias DailySpacer = DailyUtilities.DailySpacer
 typealias DayIndicator = DailyUtilities.DayIndicator
 typealias RatingIndicator = DailyUtilities.RatingIndicator
