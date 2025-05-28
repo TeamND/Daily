@@ -23,7 +23,7 @@ final class AppLaunchUseCase {
     }
     
     func loadApp(_ isWait: Bool = true) async -> Bool {
-        if isWait { try? await Task.sleep(nanoseconds: 2_100_000_000) }
+        if isWait { try? await Task.sleep(nanoseconds: 1_000_000_000) }
         return true
     }
     

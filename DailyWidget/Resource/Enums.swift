@@ -5,7 +5,7 @@
 //  Created by seungyooooong on 1/4/25.
 //
 
-import Foundation
+import SwiftUI
 
 protocol Navigatable: Hashable {}
 
@@ -30,6 +30,7 @@ enum CycleTypes: String, CaseIterable, Codable {
 }
 
 enum Symbols: String, CaseIterable, Codable {
+    case all = "전체"
     case check = "체크"
     case training = "운동"
     case running = "런닝"
@@ -42,6 +43,8 @@ enum Symbols: String, CaseIterable, Codable {
     
     var imageName: String {
         switch self {
+        case .all:
+            return ""
         case .check:
             return "checkmark.circle"
         case .training:
@@ -60,6 +63,31 @@ enum Symbols: String, CaseIterable, Codable {
             return "person.2.crop.square.stack"
         case .people:
             return "person.3"
+        }
+    }
+    
+    func icon(isSuccess: Bool) -> ImageResource {
+        switch self {
+        case .check:
+            return isSuccess ? .check : .checkYet
+        case .training:
+            return isSuccess ? .training : .trainingYet
+        case .running:
+            return isSuccess ? .running : .runningYet
+        case .study:
+            return isSuccess ? .study : .studyYet
+        case .keyboard:
+            return isSuccess ? .keyboard : .keyboardYet
+        case .heart:
+            return isSuccess ? .heart : .heartYet
+        case .star:
+            return isSuccess ? .star : .starYet
+        case .couple:
+            return isSuccess ? .couple : .coupleYet
+        case .people:
+            return isSuccess ? .group : .groupYet
+        default:
+            return isSuccess ? .check : .checkYet
         }
     }
 }
