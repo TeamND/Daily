@@ -107,6 +107,7 @@ struct Provider: TimelineProvider {
     }
 }
 
+// MARK: - Model
 struct SimpleRecordModel: Codable {
     let content: String
     let symbol: Symbols
@@ -137,6 +138,7 @@ struct SimpleRecordModel: Codable {
     }
 }
 
+// MARK: Emtry
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let rating: Double
@@ -144,260 +146,159 @@ struct SimpleEntry: TimelineEntry {
     let ratings: [Double?]
 }
 
+// MARK: - EntryView
 struct DailyWidgetEntryView: View {
     @Environment(\.widgetFamily) private var family
     var entry: Provider.Entry
 
     var body: some View {
-        Group {
+        VStack(spacing: .zero) {
             switch family {
             case .systemSmall:
-                VStack {
-                    Text("\(Date().month)월 \(Date().day)일")
-                        .font(Fonts.headingSmSemiBold)
-                        .foregroundStyle(Colors.Text.primary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Spacer()
-                    Spacer()
-                    ZStack {
-                        RatingIndicator(rating: entry.rating, lineWidth: 5).padding(1)
-                        Text("\((entry.rating * 100).percentFormat())")
-                            .font(Fonts.headingMdBold)
-                            .foregroundStyle(Colors.Text.primary)
-                    }
-                    .frame(width: 80, height: 80)
-                    Spacer()
-                    //                SimpleDayRating(day: entry.day, rating: entry.rating)
-                    //                SymbolListInSmallWidget(records: entry.records)
-                }
-            case .systemMedium:
-                VStack(spacing: .zero) {
-                    Text("\(Date().month)월 \(Date().day)일")
-                        .font(Fonts.headingSmSemiBold)
-                        .foregroundStyle(Colors.Text.primary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Spacer().frame(height: 14)
-                    
-                    if entry.records.isEmpty {
-                        VStack(spacing: 4) {
-                            Text("아직 목표가 없어요")
-                                .font(Fonts.headingSmSemiBold)
-                                .foregroundStyle(Colors.Text.secondary)
-                            Text("오늘의 목표를 추가해보세요")
-                                .font(Fonts.bodyLgRegular)
-                                .foregroundStyle(Colors.Text.tertiary)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                    
-                    ForEach(Array(entry.records.enumerated()), id: \.offset) { index, record in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(record.content)
-                                    .font(Fonts.bodyMdSemiBold)
-                                    .foregroundStyle(Colors.Text.primary)
-                                Text("\(record.recordCount)/\(record.goalCount)")
-                                    .font(Fonts.bodySmRegular)
-                                    .foregroundStyle(Colors.Text.tertiary)
-                            }
-                            Spacer()
-                            Image(record.symbol.icon(isSuccess: record.isSuccess))
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 32)
-                            //                        Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
-                            //                        Text(record.content)
-                            //                            .lineLimit(1)
-                            //                        Spacer()
-                            //                        if record.isSetTime { Text(record.setTime) }
-                        }
-                        Spacer()
-                    }
-                }
-                //            HStack(alignment: .top) {
-                //                SimpleDayRating(day: entry.day, rating: entry.rating)
-                //                SimpleRecordList(records: entry.records)
-                //            }
-                //            .font(.system(size: CGFloat.fontSize))
+                dailyWidgetDateText
+                Spacer()
+                Spacer()
                 
+                SmallWidgetView(rating: entry.rating)
+                Spacer()
+            case .systemMedium:
+                dailyWidgetDateText
+                Spacer().frame(height: 14)
+                
+                if entry.records.isEmpty { dailyWidgetNoRecordText }
+                MediumWidgetView(records: entry.records)
             default:
-                VStack(alignment: .leading, spacing: .zero) {
-                    Text("\(Date().month)월")
-                        .font(Fonts.headingSmSemiBold)
-                        .foregroundStyle(Colors.Text.primary)
-                        .frame(maxHeight: .infinity)
-                    
-                    Spacer().frame(height: 20)
-                    
-                    HStack {
-                        ForEach(0 ..< 7) { index in
-                            if index > 0 { Spacer() }
-                            Text("\(DayOfWeek.text(for: index) ?? "")")
-                                .font(Fonts.bodySmRegular)
-                                .foregroundStyle(Colors.Text.primary)
-                                .frame(width: 33)
-                        }
-                    }
-                    
-                    let calendar = Calendar.current
-                    let startOfMonth = calendar.date(from: DateComponents(year: Date().year, month: Date().month, day: 1))!
-                    let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-                    let dividerCount = (lengthOfMonth + startOfMonth.weekday - 1 - 1) / 7
-                    
-                    ForEach(0 ..< 6) { row in
-                        DailySpacer()
-                        HStack {
-                            ForEach(0 ..< 7) { col in
-                                if col > 0 { Spacer() }
-                                
-                                let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
-                                if 0 < day && day <= lengthOfMonth {
-                                    DayIndicator(day: day, rating: entry.ratings[day - 1], isToday: day == Date().day)
-                                } else {
-                                    DayIndicator(day: 0, rating: nil, isToday: false).opacity(0)
-                                }
-                            }
-                        }
-                        
-                        if row < 5 {
-                            DailySpacer()
-                            DailyDivider(color: Colors.Border.secondary, height: 1).opacity(row < dividerCount ? 1 : 0)
-                        }
-                    }
-                }
+                dailyWidgetDateText.frame(maxHeight: .infinity)
+                Spacer().frame(height: 20)
+                
+                dailyWidgetWeekIndicator
+                LargeWidgetView(ratings: entry.ratings)
             }
         }
         .widgetURL(URL(string: "widget://daily?family=\(family.rawValue)")!)
     }
+    
+    private var dailyWidgetDateText: some View {
+        HStack(spacing: .zero) {
+            Text("\(Date().month)월")
+            if family.rawValue < WidgetFamily.systemLarge.rawValue { Text(" \(Date().day)일") }
+        }
+        .font(Fonts.headingSmSemiBold)
+        .foregroundStyle(Colors.Text.primary)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var dailyWidgetNoRecordText: some View {
+        VStack(spacing: 4) {
+            Text("아직 목표가 없어요")
+                .font(Fonts.headingSmSemiBold)
+                .foregroundStyle(Colors.Text.secondary)
+            Text("오늘의 목표를 추가해보세요")
+                .font(Fonts.bodyLgRegular)
+                .foregroundStyle(Colors.Text.tertiary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private var dailyWidgetWeekIndicator: some View {
+        HStack {
+            ForEach(DayOfWeek.allCases, id: \.self.index) {
+                if $0.index > 0 { Spacer() }
+                Text($0.text)
+                    .font(Fonts.bodySmRegular)
+                    .foregroundStyle(Colors.Text.primary)
+                    .frame(width: 33)
+            }
+        }
+    }
 }
 
-struct SimpleDayRating: View {
-    @State var day: String
+// MARK: - systemSmall View
+struct SmallWidgetView: View {
     @State var rating: Double
     
     var body: some View {
         ZStack {
-            Image(systemName: "circle.fill")
-                .font(.system(size: CGFloat.fontSize * 2))
-//                .foregroundColor(Colors.daily.opacity(rating * 0.8))
-            Text(day)
-                .font(.system(size: CGFloat.fontSize, weight: .bold))
-                .foregroundColor(.primary)
+            RatingIndicator(rating: rating, lineWidth: 5).padding(1)
+            Text("\((rating * 100).percentFormat())")
+                .font(Fonts.headingMdBold)
+                .foregroundStyle(Colors.Text.primary)
         }
+        .frame(width: 80, height: 80)
     }
 }
 
-struct SymbolListInSmallWidget: View {
+// FIXME: 회의 후 수정
+// MARK: - systemMedium View
+struct MediumWidgetView: View {
     @State var records: [SimpleRecordModel]
-    
-    var body: some View {
-        Group {
-            if records.count > 0 {
-                VStack {
-                    ForEach(0 ..< 2) { rowIndex in
-                        HStack {
-                            ForEach(0 ..< 3) { colIndex in
-                                let index = rowIndex * 3 + colIndex
-                                let record = index < records.count ? records[index] : SimpleRecordModel(isEmpty: true)
-                                Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .opacity(index < records.count ? 1 : 0)
-                            }
-                        }
-                    }
-                }
-            } else { SimpleText() }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-//            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
-        }
-    }
-}
 
-struct SimpleRecordList: View {
-    @Environment(\.widgetFamily) private var family
-    @State var records: [SimpleRecordModel]
-    
     var body: some View {
-        VStack {
-            if records.count > 0 {
-                ForEach(records.indices, id: \.self) { index in
-                    switch family {
-                    case .systemMedium:
-                        if index < 3 {
-                            SimpleRecordOnList(record: records[index])
-                        }
-                    default:
-                        if index < 7 {
-                            SimpleRecordOnList(record: records[index])
-                        }
+        ForEach(Array(records.enumerated()), id: \.offset) { index, record in
+            if index < 2 {
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(record.content)
+                            .font(Fonts.bodyMdSemiBold)
+                            .foregroundStyle(Colors.Text.primary)
+                        Text("\(record.recordCount)/\(record.goalCount)")
+                            .font(Fonts.bodySmRegular)
+                            .foregroundStyle(Colors.Text.tertiary)
                     }
+                    Spacer()
+                    Image(record.symbol.icon(isSuccess: record.isSuccess))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32)
                 }
                 Spacer()
-            } else {
-                SimpleText()
-                    .background {
-//                        RoundedRectangle(cornerRadius: 15).fill(Colors.background)
+            }
+        }
+    }
+}
+
+// MARK: - systemLarge View
+struct LargeWidgetView: View {
+    @State var ratings: [Double?]
+    
+    var body: some View {
+        let calendar = Calendar.current
+        let startOfMonth = calendar.date(from: DateComponents(year: Date().year, month: Date().month, day: 1))!
+        let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        let dividerCount = (lengthOfMonth + startOfMonth.weekday - 1 - 1) / 7
+        
+        ForEach(0 ..< 6) { row in
+            DailySpacer()
+            HStack {
+                ForEach(0 ..< 7) { col in
+                    if col > 0 { Spacer() }
+                    
+                    let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
+                    if 0 < day && day <= lengthOfMonth {
+                        DayIndicator(day: day, rating: ratings[day - 1], isToday: day == Date().day)
+                    } else {
+                        DayIndicator(day: 0, rating: nil, isToday: false).opacity(0)
                     }
+                }
+            }
+            
+            if row < 5 {
+                DailySpacer()
+                DailyDivider(color: Colors.Border.secondary, height: 1).opacity(row < dividerCount ? 1 : 0)
             }
         }
     }
 }
 
-struct SimpleRecordOnList: View {
-    @State var record: SimpleRecordModel
-    
-    var body: some View {
-        ZStack {
-            HStack(spacing: 12) {
-                Image(systemName: "\(record.symbol.imageName)\(record.isSuccess ? ".fill" : "")")
-                Text(record.content)
-                    .lineLimit(1)
-                Spacer()
-                if record.isSetTime { Text(record.setTime) }
-            }
-        }
-        .padding(10)
-        .background {
-//            RoundedRectangle(cornerRadius: 15).fill(Colors.background)
-        }
-    }
-}
-
-struct SimpleText: View {
-    @Environment(\.widgetFamily) private var family
-    
-    var body: some View {
-        VStack {
-            Text("아직 목표가 없어요 😓")
-            if family != .systemSmall {
-                Text("목표 세우러 가기")
-//                    .foregroundColor(Colors.daily)
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(CGFloat.fontSize < 15 ? 0 : 10)
-    }
-}
-
+// MARK: - Widget
 struct DailyWidget: Widget {
     let kind: String = "DailyWidget"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             DailyWidgetEntryView(entry: entry)
-//                .containerBackground(Colors.theme, for: .widget)
         }
         .configurationDisplayName("Daily Widget")
         .description("위젯으로 더욱 간편하게! :D")
     }
-}
-
-extension CGFloat {
-    static let screenWidth = UIScreen.main.bounds.width
-    static let screenHeight = UIScreen.main.bounds.height
-    
-    static let fontSizeForiPhone15 = 15 * screenWidth / 393 // 6.7 iPhone 기준
-    static let fontSize = UIDevice.current.model == "iPhone" ? fontSizeForiPhone15 : fontSizeForiPhone15 / 2
 }
