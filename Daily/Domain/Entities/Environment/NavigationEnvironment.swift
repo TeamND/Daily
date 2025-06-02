@@ -19,6 +19,7 @@ final class NavigationEnvironment: ObservableObject {
         Task { @MainActor in
             switch from {
             case .year:
+                if to == .year { return }
                 var contentsOf: [NavigationObject] = []
                 if to.navigationCount >= CalendarTypes.month.navigationCount { contentsOf.append(NavigationObject(viewType: .calendarMonth)) }
                 if to.navigationCount >= CalendarTypes.day.navigationCount { contentsOf.append(NavigationObject(viewType: .calendarDay)) }
