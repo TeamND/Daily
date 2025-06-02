@@ -49,14 +49,14 @@ struct Provider: TimelineProvider {
         
         guard let recordsQuery = try? context.fetch(recordsDescriptor) else { return }
         let records = recordsQuery.sorted {
+            if $0.isSuccess != $1.isSuccess {
+                return !$0.isSuccess && $1.isSuccess
+            }
             if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.isSetTime != nextGoal.isSetTime {
                 return !prevGoal.isSetTime && nextGoal.isSetTime
             }
             if let prevGoal = $0.goal, let nextGoal = $1.goal, prevGoal.setTime != nextGoal.setTime {
                 return prevGoal.setTime < nextGoal.setTime
-            }
-            if $0.isSuccess != $1.isSuccess {
-                return !$0.isSuccess && $1.isSuccess
             }
             return $0.date < $1.date
         }
@@ -163,10 +163,15 @@ struct DailyWidgetEntryView: View {
                 Spacer()
             case .systemMedium:
                 dailyWidgetDateText
-                Spacer().frame(height: 14)
+                Spacer().frame(height: 2)
                 
-                if entry.records.isEmpty { dailyWidgetNoRecordText }
-                MediumWidgetView(records: entry.records)
+                if entry.records.isEmpty {
+                    dailyWidgetNoRecordText
+                    Spacer()
+                } else {
+                    Spacer().frame(height: 6)
+                    MediumWidgetView(records: entry.records)
+                }
             default:
                 dailyWidgetDateText.frame(maxHeight: .infinity)
                 Spacer().frame(height: 20)
@@ -183,21 +188,24 @@ struct DailyWidgetEntryView: View {
             Text("\(Date().month)월")
             if family.rawValue < WidgetFamily.systemLarge.rawValue { Text(" \(Date().day)일") }
         }
-        .font(Fonts.headingSmSemiBold)
+        .font(family == .systemMedium ? Fonts.bodyLgSemiBold : Fonts.headingSmSemiBold)
         .foregroundStyle(Colors.Text.primary)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private var dailyWidgetNoRecordText: some View {
         VStack(spacing: 4) {
+            Image(.recordYetNormal)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 40)
             Text("아직 목표가 없어요")
-                .font(Fonts.headingSmSemiBold)
+                .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.secondary)
             Text("오늘의 목표를 추가해보세요")
-                .font(Fonts.bodyLgRegular)
+                .font(Fonts.bodyMdRegular)
                 .foregroundStyle(Colors.Text.tertiary)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var dailyWidgetWeekIndicator: some View {
@@ -235,23 +243,34 @@ struct MediumWidgetView: View {
 
     var body: some View {
         ForEach(Array(records.enumerated()), id: \.offset) { index, record in
-            if index < 2 {
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(record.content)
-                            .font(Fonts.bodyMdSemiBold)
-                            .foregroundStyle(Colors.Text.primary)
-                        Text("\(record.recordCount)/\(record.goalCount)")
-                            .font(Fonts.bodySmRegular)
-                            .foregroundStyle(Colors.Text.tertiary)
-                    }
-                    Spacer()
+            if index < 3 {
+                HStack(spacing: 4) {
                     Image(record.symbol.icon(isSuccess: record.isSuccess))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 32)
+                        .frame(width: 26)
+                    
+                    HStack(spacing: 8) {
+                        Text(record.content)
+                            .font(Fonts.bodyMdSemiBold)
+                            .foregroundStyle(Colors.Text.primary)
+                        
+                        Spacer()
+                        
+                        Text(record.setTime)
+                            .font(Fonts.bodySmRegular)
+                            .foregroundStyle(Colors.Text.tertiary)
+                            .opacity(record.isSetTime ? 1 : 0)
+                    }
+                    .padding(.horizontal, 10)
+                    .frame(maxHeight: .infinity)
+                    .background {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Colors.Background.secondary)
+                    }
                 }
-                Spacer()
+                .frame(height: 26)
+                DailySpacer()
             }
         }
     }
