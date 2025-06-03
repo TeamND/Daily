@@ -14,6 +14,7 @@ enum Symbols: String, CaseIterable, Codable {
     case running = "런닝"
     case study = "공부"
     case keyboard = "키보드"
+    case money = "돈"
     case heart = "하트"
     case star = "별"
     case couple = "커플"
@@ -33,6 +34,8 @@ enum Symbols: String, CaseIterable, Codable {
             return "book"
         case .keyboard:
             return "keyboard"
+        case .money:
+            return "dollarsign.circle"
         case .heart:
             return "heart"
         case .star:
@@ -56,6 +59,8 @@ enum Symbols: String, CaseIterable, Codable {
             return isSuccess ? .study : .studyYet
         case .keyboard:
             return isSuccess ? .keyboard : .keyboardYet
+        case .money:
+            return isSuccess ? .money : .moneyYet
         case .heart:
             return isSuccess ? .heart : .heartYet
         case .star:
