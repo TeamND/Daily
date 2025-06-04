@@ -163,15 +163,15 @@ struct DailyWidgetEntryView: View {
                 Spacer()
             case .systemMedium:
                 dailyWidgetDateText
-                Spacer().frame(height: 2)
                 
                 if entry.records.isEmpty {
+                    Spacer().frame(height: 2)
                     dailyWidgetNoRecordText
-                    Spacer()
                 } else {
-                    Spacer().frame(height: 6)
+                    Spacer().frame(height: 8)
                     MediumWidgetView(records: entry.records)
                 }
+                Spacer()
             default:
                 dailyWidgetDateText.frame(maxHeight: .infinity)
                 Spacer().frame(height: 20)
@@ -242,35 +242,36 @@ struct MediumWidgetView: View {
     @State var records: [SimpleRecordModel]
 
     var body: some View {
-        ForEach(Array(records.enumerated()), id: \.offset) { index, record in
-            if index < 3 {
-                HStack(spacing: 4) {
-                    Image(record.symbol.icon(isSuccess: record.isSuccess))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 26)
-                    
-                    HStack(spacing: 8) {
-                        Text(record.content)
-                            .font(Fonts.bodyMdSemiBold)
-                            .foregroundStyle(Colors.Text.primary)
+        VStack(spacing: 5) {
+            ForEach(Array(records.enumerated()), id: \.offset) { index, record in
+                if index < 3 {
+                    HStack(spacing: 4) {
+                        Image(record.symbol.icon(isSuccess: record.isSuccess))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 26)
                         
-                        Spacer()
-                        
-                        Text(record.setTime)
-                            .font(Fonts.bodySmRegular)
-                            .foregroundStyle(Colors.Text.tertiary)
-                            .opacity(record.isSetTime ? 1 : 0)
+                        HStack(spacing: 8) {
+                            Text(record.content)
+                                .font(Fonts.bodyMdSemiBold)
+                                .foregroundStyle(Colors.Text.primary)
+                            
+                            Spacer()
+                            
+                            Text(record.setTime)
+                                .font(Fonts.bodySmRegular)
+                                .foregroundStyle(Colors.Text.tertiary)
+                                .opacity(record.isSetTime ? 1 : 0)
+                        }
+                        .padding(.horizontal, 10)
+                        .frame(maxHeight: .infinity)
+                        .background {
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Colors.Background.secondary)
+                        }
                     }
-                    .padding(.horizontal, 10)
-                    .frame(maxHeight: .infinity)
-                    .background {
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(Colors.Background.secondary)
-                    }
+                    .frame(height: 26)
                 }
-                .frame(height: 26)
-                DailySpacer()
             }
         }
     }
