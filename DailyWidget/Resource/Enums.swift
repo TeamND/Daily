@@ -10,7 +10,7 @@ import SwiftUI
 protocol Navigatable: Hashable {}
 
 enum GoalTypes: String, CaseIterable, Codable {
-    case check
+    case check  // TODO: 추후 삭제
     case count
     case timer
 }
