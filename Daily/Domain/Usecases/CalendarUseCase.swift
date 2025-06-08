@@ -93,41 +93,24 @@ extension CalendarUseCase {
         await repository.updateData()
     }
     
-    func checkTimer(record: DailyRecordModel) async {
-        if let startTime = record.startTime {
-            await endTimer(record: record)
-        } else {
-            await startTimer(record: record)
-        }
-    }
-    
-    func startTimer(record: DailyRecordModel) async {
-        record.startTime = Date()
+    func toggleStartTime(record: DailyRecordModel) async {
+        record.startTime = record.startTime == nil ? Date() : nil
         await repository.updateData()
     }
     
-    func endTimer(record: DailyRecordModel) async {
-        record.startTime = nil
-        await repository.updateData()
-    }
-    
-    func updateTimer(record: DailyRecordModel) {
-        Task {
+    func updateTimer(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+        Task { @MainActor in
             guard let startTime = record.startTime else { return }
             let currentTime = Date()
-            print("currentTime is \(currentTime)")
-            print("detail is \(currentTime.timeIntervalSince(startTime))")
-            print("plus is \(Int(round(currentTime.timeIntervalSince(startTime))))")
             
             record.count += Int(round(currentTime.timeIntervalSince(startTime)))
             record.startTime = currentTime
-            
-            print("count is \(record.count)")
             
             if record.count >= record.goal?.count ?? 0 {
                 record.count = record.goal?.count ?? 0
                 record.isSuccess = true
                 record.startTime = nil
+                completeAction()
             }
             
             await self.repository.updateData()

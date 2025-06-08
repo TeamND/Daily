@@ -51,11 +51,13 @@ extension CalendarViewModel {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self else { return }
-            dayDictionary.keys.forEach { [weak self] key in
-                guard let self else { return }
-                dayDictionary[key]?.forEach { [weak self] record in
-                    guard let self else { return }
-                    calendarUseCase.updateTimer(record: record)
+
+            for records in self.dayDictionary.values {
+                for record in records {
+                    self.calendarUseCase.updateTimer(record: record) { [weak self] in
+                        guard let self else { return }
+                        self.fetchWeekData(selection: self.currentDate.getSelection(type: .week))
+                    }
                 }
             }
         }
@@ -199,7 +201,7 @@ extension CalendarViewModel {
                 fetchDayData(selection: currentDate.getSelection(type: .day))
                 fetchWeekData(selection: currentDate.getSelection(type: .week))
             case .timer:
-                await calendarUseCase.checkTimer(record: record)
+                await calendarUseCase.toggleStartTime(record: record)
                 return
             }
         }
