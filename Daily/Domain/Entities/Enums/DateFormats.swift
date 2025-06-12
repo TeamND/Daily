@@ -15,4 +15,6 @@ enum DateFormats: String {
     case month = "M월"
     case week = "~M.d"
     case day = "M.d"
+    
+    case multiDate = "yy. MM. dd. E"
 }
