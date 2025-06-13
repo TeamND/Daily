@@ -25,7 +25,7 @@ struct RecordButton: View {
                         .resizable()
                         .scaledToFit()
                 } else if goal.type == .timer {
-                    Image(true ? .start : .pause)    // TODO: 추후 timer 추가 시 수정
+                    Image(record.startTime == nil ? .start : .pause)
                         .resizable()
                         .scaledToFit()
                 }

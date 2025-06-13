@@ -93,6 +93,30 @@ extension CalendarUseCase {
         await repository.updateData()
     }
     
+    func toggleStartTime(record: DailyRecordModel) async {
+        record.startTime = record.startTime == nil ? Date() : nil
+        await repository.updateData()
+    }
+    
+    func updateTimer(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+        Task { @MainActor in
+            guard let startTime = record.startTime else { return }
+            let currentTime = Date()
+            
+            record.count += Int(round(currentTime.timeIntervalSince(startTime)))
+            record.startTime = currentTime
+            
+            if record.count >= record.goal?.count ?? 0 {
+                record.count = record.goal?.count ?? 0
+                record.isSuccess = true
+                record.startTime = nil
+                completeAction()
+            }
+            
+            await self.repository.updateData()
+        }
+    }
+    
     func setNotice(record: DailyRecordModel, notice: Int?) async {
         record.notice = notice
         await repository.updateData()

@@ -24,6 +24,8 @@ final class CalendarViewModel: ObservableObject {
     private(set) var weekDictionary: [String: [DailyRecordModel]] = [:]
     private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
     
+    private(set) var timer: Timer?
+    
     func bindSelection(type: CalendarTypes) -> Binding<String> {
         Binding(
             get: { self.currentDate.getSelection(type: type) },
@@ -34,6 +36,31 @@ final class CalendarViewModel: ObservableObject {
     init() {
         let calendarRepository = CalendarRepository()
         self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
+        
+        startTimer()
+    }
+    
+    deinit {
+        timer?.invalidate()
+        timer = nil
+    }
+}
+
+extension CalendarViewModel {
+    private func startTimer() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self else { return }
+
+            for records in self.dayDictionary.values {
+                for record in records {
+                    self.calendarUseCase.updateTimer(record: record) { [weak self] in
+                        guard let self else { return }
+                        self.fetchWeekData(selection: self.currentDate.getSelection(type: .week))
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -173,7 +200,8 @@ extension CalendarViewModel {
                 await calendarUseCase.addCount(goal: goal, record: record)
                 fetchDayData(selection: currentDate.getSelection(type: .day))
                 fetchWeekData(selection: currentDate.getSelection(type: .week))
-            case .timer: // TODO: 추후 구현
+            case .timer:
+                await calendarUseCase.toggleStartTime(record: record)
                 return
             }
         }
