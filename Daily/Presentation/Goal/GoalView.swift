@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct GoalView: View {
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var alertEnvironment: AlertEnvironment
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     @StateObject var goalViewModel: GoalViewModel
     
     init(goalData: GoalDataModel) {
@@ -16,7 +19,15 @@ struct GoalView: View {
     
     var body: some View {
         VStack {
-            NavigationHeader(title: "목표추가")
+            NavigationHeader(title: "목표추가", trailingText: "추가") {
+                goalViewModel.add(
+                    successAction: { newDate in
+                        dismiss()
+                        if let newDate { calendarViewModel.setDate(date: newDate) }
+                    },
+                    validateAction: { alertEnvironment.showToast(message: $0.messageText) }
+                )
+            }
             VStack(spacing: .zero) {
                 Spacer()
                 DailySection(type: .date) {
@@ -39,7 +50,6 @@ struct GoalView: View {
                         SymbolSection(symbol: $goalViewModel.goal.symbol)
                     }
                 }
-                ButtonSection(goalViewModel: goalViewModel, buttonType: .add)
                 Spacer()
                 Spacer()
             }
