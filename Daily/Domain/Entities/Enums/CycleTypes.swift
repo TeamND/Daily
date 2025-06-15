@@ -14,9 +14,9 @@ enum CycleTypes: String, CaseIterable, Codable {
     var text: String {
         switch self {
         case .date:
-            return "날짜 선택"
+            return "단일 목표"
         case .rept:
-            return "요일 반복"
+            return "다중 목표"
         }
     }
 }

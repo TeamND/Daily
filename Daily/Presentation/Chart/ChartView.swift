@@ -46,12 +46,12 @@ struct ChartView: View {
                     Text(type.text)
                         .font(Fonts.bodyLgSemiBold)
                         .foregroundStyle(type == chartViewModel.type ? Colors.Text.inverse : Colors.Text.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 34)
-                .background {
-                    RoundedRectangle(cornerRadius: 99)
-                        .fill(type == chartViewModel.type ? Colors.Brand.primary : .clear)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 34)
+                        .background {
+                            RoundedRectangle(cornerRadius: 99)
+                                .fill(type == chartViewModel.type ? Colors.Brand.primary : .clear)
+                        }
                 }
             }
         }

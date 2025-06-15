@@ -18,7 +18,7 @@ struct GoalView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: .zero) {
             NavigationHeader(title: "목표추가", trailingText: "추가") {
                 goalViewModel.add(
                     successAction: { newDate in
@@ -28,34 +28,34 @@ struct GoalView: View {
                     validateAction: { alertEnvironment.showToast(message: $0.messageText) }
                 )
             }
-            VStack(spacing: .zero) {
-                Spacer()
-                DailySection(type: .date) {
-                    DateSection(goalViewModel: goalViewModel)
-                }
-                DailySection(type: .time) {
-                    TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
-                }
-                DailySection(type: .content, essentialConditions: goalViewModel.goal.content.count >= 2) {
-                    ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
-                }
-                HStack {
-                    DailySection(type: .goalCount) {
-                        GoalCountSection(
-                            goalType: $goalViewModel.goal.type,
-                            goalCount: $goalViewModel.goal.count
-                        )
-                    }
-                    DailySection(type: .symbol) {
-                        SymbolSection(symbol: $goalViewModel.goal.symbol)
-                    }
-                }
-                Spacer()
-                Spacer()
+            
+            Spacer().frame(height: 16)
+            
+            DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
+            DailySection(type: .date) {
+                DateSection(goalViewModel: goalViewModel)
             }
-            .padding()
+            DailySection(type: .time) {
+                TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
+            }
+            DailySection(type: .content, essentialConditions: goalViewModel.goal.content.count >= 2) {
+                ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
+            }
+            HStack {
+                DailySection(type: .goalCount) {
+                    GoalCountSection(
+                        goalType: $goalViewModel.goal.type,
+                        goalCount: $goalViewModel.goal.count
+                    )
+                }
+                DailySection(type: .symbol) {
+                    SymbolSection(symbol: $goalViewModel.goal.symbol)
+                }
+            }
+            
+            Spacer()
         }
-        .background(Colors.theme)
+        .background(Colors.Background.primary)
         .onTapGesture { hideKeyboard() }
     }
 }
@@ -76,7 +76,7 @@ struct DateSection: View {
                 EmptyView()
             case .record, .single:
                 HStack {
-                    DailyCycleTypePicker(cycleType: Binding(get: { .date }, set: { _ in }), isDisabled: true)
+//                    DailyCycleTypePicker(cycleType: Binding(get: { .date }, set: { _ in }), isDisabled: true)
                     Spacer()
                     DailyDatePicker(currentDate: $goalViewModel.record.date)
                         .matchedGeometryEffect(id: "start_date", in: ns)
@@ -86,7 +86,7 @@ struct DateSection: View {
         } else {
             VStack {
                 HStack {
-                    DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType, isDisabled: false)
+//                    DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType, isDisabled: false)
                     Spacer()
                     if goalViewModel.goal.cycleType == .date {
                         DailyDatePicker(currentDate: $goalViewModel.startDate)

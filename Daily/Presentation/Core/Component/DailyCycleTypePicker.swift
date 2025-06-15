@@ -9,28 +9,34 @@ import SwiftUI
 
 struct DailyCycleTypePicker: View {
     @Binding var cycleType: CycleTypes
-    let isDisabled: Bool
     
     var body: some View {
-        Menu {
-            ForEach(CycleTypes.allCases, id: \.self) { cycleType in
+        HStack(spacing: .zero) {
+            ForEach(CycleTypes.allCases, id: \.self) { type in
                 Button {
-                    withAnimation {
-                        self.cycleType = cycleType
-                    }
+                    cycleType = type
                 } label: {
-                    Text(cycleType.text)
+                    Text(type.text)
+                        .font(Fonts.bodyLgSemiBold)
+                        .foregroundStyle(cycleType == type ? Colors.Text.inverse : Colors.Text.secondary)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 36)
+                        .background {
+                            RoundedRectangle(cornerRadius: 99)
+                                .fill(cycleType == type ? Colors.Brand.primary : .clear)
+                        }
                 }
             }
-        } label: {
-            Text(cycleType.text)
-                .font(.system(size: CGFloat.fontSize * 2.5))
-                .foregroundStyle(isDisabled ? Colors.reverse : Colors.daily)
         }
-        .disabled(isDisabled)
+        .padding(4)
+        .background {
+            RoundedRectangle(cornerRadius: 99)
+                .fill(Colors.Background.secondary)
+        }
+        .padding(.horizontal, 16)
     }
 }
 
 #Preview {
-    DailyCycleTypePicker(cycleType: .constant(.date), isDisabled: false)
+    DailyCycleTypePicker(cycleType: .constant(.date))
 }
