@@ -32,9 +32,11 @@ struct GoalView: View {
             Spacer().frame(height: 16)
             
             DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
-            DailySection(type: .date) {
-                DateSection(goalViewModel: goalViewModel)
-            }
+            
+            Spacer().frame(height: 24)
+            
+            DateSection(goalViewModel: goalViewModel)
+            
             DailySection(type: .time) {
                 TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
             }
@@ -62,53 +64,141 @@ struct GoalView: View {
 
 // MARK: - DateSection
 struct DateSection: View {
-    @ObservedObject private var goalViewModel: GoalViewModel
-    @Namespace private var ns
+    @ObservedObject var goalViewModel: GoalViewModel
     
-    init(goalViewModel: GoalViewModel) {
-        self.goalViewModel = goalViewModel
-    }
+    @State var isShowStartDatePicker: Bool = false
     
     var body: some View {
-        if let modifyType = goalViewModel.modifyType {
-            switch modifyType {
-            case .all:
-                EmptyView()
-            case .record, .single:
-                HStack {
-//                    DailyCycleTypePicker(cycleType: Binding(get: { .date }, set: { _ in }), isDisabled: true)
-                    Spacer()
-                    DailyDatePicker(currentDate: $goalViewModel.record.date)
-                        .matchedGeometryEffect(id: "start_date", in: ns)
-                        .matchedGeometryEffect(id: "end_date", in: ns)
+        VStack(spacing: .zero) {
+            HStack {
+                Text(goalViewModel.goal.cycleType == .date ? "날짜" : "시작일")
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
+                
+                Spacer()
+                
+                Button {
+                    isShowStartDatePicker = true
+                } label: {
+                    Text(goalViewModel.startDate.toString(format: .singleDate))
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Text.point)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Colors.Background.secondary)
+                        }
                 }
             }
-        } else {
-            VStack {
+            
+            if isShowStartDatePicker {
+                Spacer().frame(height: 16)
+                
                 HStack {
-//                    DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType, isDisabled: false)
+                    Button {
+                        print("이전 달")
+                    } label: {
+                        Image(.circleChevronLeft)   // TODO: background secondary Image로 변경
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24)
+                    }
                     Spacer()
-                    if goalViewModel.goal.cycleType == .date {
-                        DailyDatePicker(currentDate: $goalViewModel.startDate)
-                            .matchedGeometryEffect(id: "start_date", in: ns)
-                            .matchedGeometryEffect(id: "end_date", in: ns)
-                    } else if goalViewModel.goal.cycleType == .rept {
-                        DailyWeekIndicator(mode: .select, opacity: $goalViewModel.selectedWeekday)
+                    Text("2025년 5월")    // TODO: Picker 분리해서 currentDate 저장 및 관련 로직 지정
+                        .font(Fonts.bodyLgSemiBold)
+                        .foregroundStyle(Colors.Text.secondary)
+                    Spacer()
+                    Button {
+                        print("다음 달")
+                    } label: {
+                        Image(.circleChevronRight)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24)
                     }
                 }
-                if goalViewModel.goal.cycleType == .rept {
-                    HStack {
-                        DailyDatePicker(currentDate: $goalViewModel.startDate)
-                            .matchedGeometryEffect(id: "start_date", in: ns)
-                        Spacer()
-                        Text("~")
-                        Spacer()
-                        DailyDatePicker(currentDate: $goalViewModel.endDate)
-                            .matchedGeometryEffect(id: "end_date", in: ns)
+                
+                Spacer().frame(height: 20)
+                
+                VStack(spacing: 8) {
+                    WeekIndicator(mode: .none).padding(.horizontal, -16)
+                    
+                    let calendar = Calendar.current
+                    let startOfMonth = calendar.date(from: DateComponents(year: goalViewModel.startDate.year, month: goalViewModel.startDate.month, day: 1))!
+                    let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+                    let rowCount = Int((lengthOfMonth + startOfMonth.weekday - 1 - 1) / 7)
+                    
+                    ForEach(0 ... rowCount, id: \.self) { row in
+                        HStack {
+                            ForEach(0 ..< 7) { col in
+                                if col > 0 { Spacer() }
+                                
+                                let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
+                                let date = calendar.date(from: DateComponents(year: goalViewModel.startDate.year, month: goalViewModel.startDate.month, day: day))!
+                                
+                                if 0 < day && day <= lengthOfMonth {
+                                    let isSelected = date == goalViewModel.startDate
+                                    Text("\(day)")
+                                        .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
+                                        .foregroundStyle(isSelected ? Colors.Text.inverse : Colors.Text.secondary)
+                                        .frame(width: 33, height: 33)
+                                        .if(isSelected) { view in
+                                            view.background {
+                                                RoundedRectangle(cornerRadius: 33)
+                                                    .fill(Colors.Icon.interactivePressed)
+                                            }
+                                        }
+                                        .onTapGesture {
+                                            goalViewModel.startDate = date
+                                        }
+                                } else {
+                                    Text("-")
+                                        .frame(width: 33, height: 33)
+                                        .opacity(0)
+                                }
+                            }
+                        }
                     }
                 }
+                .padding(.horizontal, 2)
             }
         }
+        .padding(.horizontal, 16)
+        
+//        if let modifyType = goalViewModel.modifyType {
+//            switch modifyType {
+//            case .all:
+//                EmptyView()
+//            case .record, .single:
+//                HStack {
+////                    DailyCycleTypePicker(cycleType: Binding(get: { .date }, set: { _ in }), isDisabled: true)
+//                    Spacer()
+//                    DailyDatePicker(currentDate: $goalViewModel.record.date)
+//                }
+//            }
+//        } else {
+//            VStack {
+//                HStack {
+////                    DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType, isDisabled: false)
+//                    Spacer()
+//                    if goalViewModel.goal.cycleType == .date {
+//                        DailyDatePicker(currentDate: $goalViewModel.startDate)
+//                    } else if goalViewModel.goal.cycleType == .rept {
+//                        DailyWeekIndicator(mode: .select, opacity: $goalViewModel.selectedWeekday)
+//                    }
+//                }
+//                if goalViewModel.goal.cycleType == .rept {
+//                    HStack {
+//                        DailyDatePicker(currentDate: $goalViewModel.startDate)
+//                        Spacer()
+//                        Text("~")
+//                        Spacer()
+//                        DailyDatePicker(currentDate: $goalViewModel.endDate)
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
