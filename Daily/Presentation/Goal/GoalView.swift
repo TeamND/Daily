@@ -95,73 +95,7 @@ struct DateSection: View {
             if isShowStartDatePicker {
                 Spacer().frame(height: 16)
                 
-                HStack {
-                    Button {
-                        print("이전 달")
-                    } label: {
-                        Image(.circleChevronLeft)   // TODO: background secondary Image로 변경
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24)
-                    }
-                    Spacer()
-                    Text("2025년 5월")    // TODO: Picker 분리해서 currentDate 저장 및 관련 로직 지정
-                        .font(Fonts.bodyLgSemiBold)
-                        .foregroundStyle(Colors.Text.secondary)
-                    Spacer()
-                    Button {
-                        print("다음 달")
-                    } label: {
-                        Image(.circleChevronRight)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24)
-                    }
-                }
-                
-                Spacer().frame(height: 20)
-                
-                VStack(spacing: 8) {
-                    WeekIndicator(mode: .none).padding(.horizontal, -16)
-                    
-                    let calendar = Calendar.current
-                    let startOfMonth = calendar.date(from: DateComponents(year: goalViewModel.startDate.year, month: goalViewModel.startDate.month, day: 1))!
-                    let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-                    let rowCount = Int((lengthOfMonth + startOfMonth.weekday - 1 - 1) / 7)
-                    
-                    ForEach(0 ... rowCount, id: \.self) { row in
-                        HStack {
-                            ForEach(0 ..< 7) { col in
-                                if col > 0 { Spacer() }
-                                
-                                let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
-                                let date = calendar.date(from: DateComponents(year: goalViewModel.startDate.year, month: goalViewModel.startDate.month, day: day))!
-                                
-                                if 0 < day && day <= lengthOfMonth {
-                                    let isSelected = date == goalViewModel.startDate
-                                    Text("\(day)")
-                                        .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
-                                        .foregroundStyle(isSelected ? Colors.Text.inverse : Colors.Text.secondary)
-                                        .frame(width: 33, height: 33)
-                                        .if(isSelected) { view in
-                                            view.background {
-                                                RoundedRectangle(cornerRadius: 33)
-                                                    .fill(Colors.Icon.interactivePressed)
-                                            }
-                                        }
-                                        .onTapGesture {
-                                            goalViewModel.startDate = date
-                                        }
-                                } else {
-                                    Text("-")
-                                        .frame(width: 33, height: 33)
-                                        .opacity(0)
-                                }
-                            }
-                        }
-                    }
-                }
-                .padding(.horizontal, 2)
+                DailyDatePicker(date: $goalViewModel.startDate)
             }
         }
         .padding(.horizontal, 16)
