@@ -18,6 +18,16 @@ struct GoalView: View {
     }
     
     var body: some View {
+        ViewThatFits(in: .vertical) {
+            goalView
+            ScrollView(.vertical, showsIndicators: false) {
+                goalView
+            }
+        }
+        .background(Colors.Background.primary)
+        .onTapGesture { hideKeyboard() }
+    }
+    var goalView: some View {
         VStack(spacing: .zero) {
             NavigationHeader(title: "목표추가", trailingText: "추가") {
                 goalViewModel.add(
@@ -57,8 +67,6 @@ struct GoalView: View {
             
             Spacer()
         }
-        .background(Colors.Background.primary)
-        .onTapGesture { hideKeyboard() }
     }
 }
 
@@ -66,10 +74,40 @@ struct GoalView: View {
 struct DateSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     
+    @State var repeatType: RepeatTypes = .weekly
     @State var isShowStartDatePicker: Bool = false
+    @State var isShowEndDatePicker: Bool = false
     
     var body: some View {
         VStack(spacing: .zero) {
+            if goalViewModel.goal.cycleType == .rept {
+                HStack {
+                    Text("반복방식")
+                        .font(Fonts.bodyLgSemiBold)
+                        .foregroundStyle(Colors.Text.primary)
+                    
+                    Spacer()
+                    
+                    Button {
+                        repeatType = repeatType == .weekly ? .custom : .weekly
+                    } label: {
+                        Text(repeatType.text)
+                            .font(Fonts.bodyLgMedium)
+                            .foregroundStyle(Colors.Text.secondary)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 12)
+                            .background {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Colors.Background.secondary)
+                            }
+                    }
+                    
+                    if repeatType == .weekly {
+                        
+                    }
+                }
+            }
+            
             HStack {
                 Text(goalViewModel.goal.cycleType == .date ? "날짜" : "시작일")
                     .font(Fonts.bodyLgSemiBold)
@@ -93,9 +131,41 @@ struct DateSection: View {
             }
             
             if isShowStartDatePicker {
-                Spacer().frame(height: 16)
+                Spacer().frame(height: 20)
                 
                 DailyDatePicker(date: $goalViewModel.startDate)
+            }
+            
+            if goalViewModel.goal.cycleType == .rept {
+                Spacer().frame(height: 20)
+                
+                HStack {
+                    Text("종료일")
+                        .font(Fonts.bodyLgSemiBold)
+                        .foregroundStyle(Colors.Text.primary)
+                    
+                    Spacer()
+                    
+                    Button {
+                        isShowEndDatePicker = true
+                    } label: {
+                        Text(goalViewModel.endDate.toString(format: .singleDate))
+                            .font(Fonts.bodyLgMedium)
+                            .foregroundStyle(Colors.Text.point)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Colors.Background.secondary)
+                            }
+                    }
+                }
+            }
+            
+            if isShowEndDatePicker {
+                Spacer().frame(height: 20)
+                
+                DailyDatePicker(date: $goalViewModel.endDate)
             }
         }
         .padding(.horizontal, 16)
