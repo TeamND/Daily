@@ -8,7 +8,7 @@
 import Foundation
 
 enum CycleTypes: String, CaseIterable, Codable {
-    case date = "date"
+    case date = "date"  // FIXME: 추후에 single로 마이그레이션
     case rept = "repeat"
     
     var text: String {

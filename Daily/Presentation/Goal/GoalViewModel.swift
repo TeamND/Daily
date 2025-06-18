@@ -21,17 +21,24 @@ class GoalViewModel: ObservableObject {
     @Published var goal: DailyGoalModel = DailyGoalModel()
     @Published var record: DailyRecordModel = DailyRecordModel()
     
+    @Published var repeatType: RepeatTypes = .weekly
     @Published var startDate: Date = Date(format: .daily)
     @Published var endDate: Date = Date(format: .daily).monthLater()
-    @Published var selectedWeekday: [Double] = Array(repeating: .zero, count: GeneralServices.week)
+    @Published var selectedWeekday: [Bool] = Array(repeating: false, count: GeneralServices.week)
+    @Published var selectedDates: [Date] = [Date(format: .daily)]
     
     var repeatDates: [String] {
         switch goal.cycleType {
         case .date:
             return [startDate.getSelection()]
         case .rept:
-            return stride(from: startDate, through: endDate, by: 24 * 60 * 60).compactMap {
-                selectedWeekday[calendar.component(.weekday, from: $0) - 1] > 0 ? $0.getSelection() : nil
+            switch repeatType {
+            case .weekly:
+                return stride(from: startDate, through: endDate, by: 24 * 60 * 60).compactMap {
+                    selectedWeekday[calendar.component(.weekday, from: $0) - 1] ? $0.getSelection() : nil
+                }
+            case .custom:
+                return selectedDates.map { $0.getSelection() }
             }
         }
     }
@@ -55,7 +62,7 @@ class GoalViewModel: ObservableObject {
         
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
-        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
+        self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
         
         self.originalGoal = goal.copy()
     }
@@ -96,7 +103,7 @@ extension GoalViewModel {
         
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
-        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
+        self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
     }
     
     func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
@@ -155,7 +162,7 @@ extension GoalViewModel {
         if validateType == .add && goal.cycleType == .rept {
             if startDate > endDate { return DateAlert.wrongDateRange }
             if validateDateRange() { return DateAlert.overDateRange }
-            if selectedWeekday.allSatisfy({ $0 == .zero }) { return DateAlert.emptySelectedWeekday }
+            if selectedWeekday.allSatisfy({ $0 == false }) { return DateAlert.emptySelectedWeekday }
             if repeatDates.count == 0 { return DateAlert.emptyRepeatDates }
         }
         return nil

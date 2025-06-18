@@ -1,21 +1,21 @@
 //
-//  DailyDatePicker.swift
+//  DailyMultiDatePicker.swift
 //  Daily
 //
-//  Created by seungyooooong on 10/28/24.
+//  Created by seungyooooong on 6/18/25.
 //
 
 import SwiftUI
 
-struct DailyDatePicker: View {
-    @Binding var selectedDate: Date
+struct DailyMultiDatePicker: View {
+    @Binding var selectedDates: [Date]
     @State var currentDate: Date
     
     let calendar = Calendar.current
     
-    init(date: Binding<Date>) {
-        self._selectedDate = date
-        self._currentDate = State(initialValue: date.wrappedValue)
+    init(dates: Binding<[Date]>) {
+        self._selectedDates = dates
+        self._currentDate = State(initialValue: dates.wrappedValue.first ?? Date())
     }
     
     var body: some View {
@@ -61,7 +61,7 @@ struct DailyDatePicker: View {
                         let date = calendar.date(from: DateComponents(year: currentDate.year, month: currentDate.month, day: day))!
                         
                         if 0 < day && day <= lengthOfMonth {
-                            let isSelected = date == selectedDate
+                            let isSelected = selectedDates.contains(date)
                             Text("\(day)")
                                 .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
                                 .foregroundStyle(isSelected ? Colors.Text.inverse : Colors.Text.secondary)
@@ -73,7 +73,11 @@ struct DailyDatePicker: View {
                                     }
                                 }
                                 .onTapGesture {
-                                    selectedDate = date
+                                    if let index = selectedDates.firstIndex(of: date) {
+                                        selectedDates.remove(at: index)
+                                    } else {
+                                        selectedDates.append(date)
+                                    }
                                 }
                         } else {
                             Text("-")
@@ -83,7 +87,50 @@ struct DailyDatePicker: View {
                     }
                 }
             }
+            
+            Text("선택된 날짜")
+                .font(Fonts.bodyMdRegular)
+                .foregroundStyle(Colors.Text.tertiary)
+                .hLeading()
+            ViewThatFits(in: .horizontal) {
+                SelectedDatesView(selectedDates: $selectedDates)
+                ScrollView(.horizontal) {
+                    SelectedDatesView(selectedDates: $selectedDates)
+                }
+            }
         }
         .padding(.horizontal, 2)
+    }
+}
+
+struct SelectedDatesView: View {
+    @Binding var selectedDates: [Date]
+    
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(selectedDates, id: \.self) { date in
+                HStack(spacing: 4) {
+                    Text("\(date.toString(format: .multiDate))")
+                        .font(Fonts.bodyMdRegular)
+                        .foregroundStyle(Colors.Text.tertiary)
+                    
+                    Button {
+                        selectedDates.removeAll { $0 == date }
+                    } label: {
+                        Image(.close)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 12)
+                    }
+                }
+                .padding(.horizontal, 6)
+                .padding(.vertical, 4)
+                .background {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Colors.Background.secondary)
+                }
+            }
+        }
+        .hLeading()
     }
 }
