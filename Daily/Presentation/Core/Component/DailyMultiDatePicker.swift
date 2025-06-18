@@ -19,29 +19,7 @@ struct DailyMultiDatePicker: View {
     }
     
     var body: some View {
-        HStack {
-            Button {
-                currentDate = calendar.date(byAdding: .month, value: -1, to: currentDate) ?? currentDate
-            } label: {
-                Image(.circleChevronLeftSecondary)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24)
-            }
-            Spacer()
-            Text("\(String(currentDate.year))년 \(currentDate.month)월")
-                .font(Fonts.bodyLgSemiBold)
-                .foregroundStyle(Colors.Text.secondary)
-            Spacer()
-            Button {
-                currentDate = calendar.date(byAdding: .month, value: +1, to: currentDate) ?? currentDate
-            } label: {
-                Image(.circleChevronRightSecondary)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24)
-            }
-        }
+        DailyDatePickerHeader(currentDate: $currentDate)
         
         Spacer().frame(height: 20)
         

@@ -97,10 +97,8 @@ struct DateSection: View {
                             .foregroundStyle(Colors.Text.secondary)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 12)
-                            .background {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Colors.Background.secondary)
-                            }
+                            .background(Colors.Background.secondary)
+                            .cornerRadius(8)
                     }
                 }
                 
@@ -153,10 +151,8 @@ struct DateSection: View {
                             .foregroundStyle(Colors.Text.point)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 20)
-                            .background {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Colors.Background.secondary)
-                            }
+                            .background(Colors.Background.secondary)
+                            .cornerRadius(8)
                     }
                 }
                 
@@ -184,10 +180,8 @@ struct DateSection: View {
                                 .foregroundStyle(Colors.Text.point)
                                 .padding(.vertical, 10)
                                 .padding(.horizontal, 20)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Colors.Background.secondary)
-                                }
+                                .background(Colors.Background.secondary)
+                                .cornerRadius(8)
                         }
                     }
                 }
