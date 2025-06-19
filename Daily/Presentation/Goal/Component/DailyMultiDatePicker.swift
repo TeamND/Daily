@@ -65,7 +65,12 @@ struct DailyMultiDatePicker: View {
                     }
                 }
             }
-            
+        }
+        .padding(.horizontal, 2)
+        
+        Spacer().frame(height: 20)
+        
+        VStack(spacing: 8) {
             Text("선택된 날짜")
                 .font(Fonts.bodyMdRegular)
                 .foregroundStyle(Colors.Text.tertiary)
@@ -77,7 +82,6 @@ struct DailyMultiDatePicker: View {
                 }
             }
         }
-        .padding(.horizontal, 2)
     }
 }
 

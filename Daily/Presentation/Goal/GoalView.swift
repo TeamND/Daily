@@ -47,6 +47,8 @@ struct GoalView: View {
             
             DateSection(goalViewModel: goalViewModel)
             
+            Spacer().frame(height: 20)
+            
             DailySection(type: .time) {
                 TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
             }
@@ -77,119 +79,31 @@ struct DateSection: View {
     @State var isShowStartDatePicker: Bool = false
     @State var isShowEndDatePicker: Bool = false
     
-    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
-    
     var body: some View {
         VStack(spacing: .zero) {
-            if goalViewModel.goal.cycleType == .rept {
-                HStack {
-                    Text("반복방식")
-                        .font(Fonts.bodyLgSemiBold)
-                        .foregroundStyle(Colors.Text.primary)
-                    
-                    Spacer()
-                    
-                    Button {
-                        goalViewModel.repeatType = goalViewModel.repeatType == .weekly ? .custom : .weekly
-                    } label: {
-                        Text(goalViewModel.repeatType.text)
-                            .font(Fonts.bodyLgMedium)
-                            .foregroundStyle(Colors.Text.secondary)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 12)
-                            .background(Colors.Background.secondary)
-                            .cornerRadius(8)
-                    }
-                }
+            switch goalViewModel.goal.cycleType {
+            case .date:
+                SingleDateSection(date: $goalViewModel.startDate, title: "날짜")
+                
+            case .rept:
+                RepeatTypeSection(repeatType: $goalViewModel.repeatType)
                 
                 Spacer().frame(height: 16)
                 
                 switch goalViewModel.repeatType {
                 case .weekly:
-                    HStack(spacing: .zero) {
-                        ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
-                            if .zero < index { Spacer() }
-                            
-                            Button {
-                                goalViewModel.selectedWeekday[index].toggle()
-                            } label: {
-                                Text(DayOfWeek.allCases[(index + startDay) % GeneralServices.week].text)
-                                    .font(goalViewModel.selectedWeekday[index] ? Fonts.bodyLgSemiBold : Fonts.bodyLgMedium)
-                                    .foregroundStyle(goalViewModel.selectedWeekday[index] ? Colors.Text.point : Colors.Text.tertiary)
-                                    .frame(width: 40, height: 40)
-                                    .background(Colors.Background.secondary)
-                                    .cornerRadius(8)
-                                    .if(goalViewModel.selectedWeekday[index]) { view in
-                                        view.background {
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(Colors.Brand.primary, lineWidth: 1)
-                                        }
-                                    }
-                            }
-                        }
-                    }
+                    RepeatWeekdayPicker(selectedWeekday: $goalViewModel.selectedWeekday)
                     
                     Spacer().frame(height: 20)
+                    
+                    SingleDateSection(date: $goalViewModel.startDate, title: "시작일")
+                    
+                    Spacer().frame(height: 20)
+                    
+                    SingleDateSection(date: $goalViewModel.endDate, title: "종료일")
+                    
                 case .custom:
                     DailyMultiDatePicker(dates: $goalViewModel.selectedDates)
-                }
-            }
-            
-            if goalViewModel.repeatType != .custom {
-                HStack {
-                    Text(goalViewModel.goal.cycleType == .date ? "날짜" : "시작일")
-                        .font(Fonts.bodyLgSemiBold)
-                        .foregroundStyle(Colors.Text.primary)
-                    
-                    Spacer()
-                    
-                    Button {
-                        isShowStartDatePicker = true
-                    } label: {
-                        Text(goalViewModel.startDate.toString(format: .singleDate))
-                            .font(Fonts.bodyLgMedium)
-                            .foregroundStyle(Colors.Text.point)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                            .background(Colors.Background.secondary)
-                            .cornerRadius(8)
-                    }
-                }
-                
-                if isShowStartDatePicker {
-                    Spacer().frame(height: 20)
-                    
-                    DailyDatePicker(date: $goalViewModel.startDate)
-                }
-                
-                if goalViewModel.goal.cycleType == .rept {
-                    Spacer().frame(height: 20)
-                    
-                    HStack {
-                        Text("종료일")
-                            .font(Fonts.bodyLgSemiBold)
-                            .foregroundStyle(Colors.Text.primary)
-                        
-                        Spacer()
-                        
-                        Button {
-                            isShowEndDatePicker = true
-                        } label: {
-                            Text(goalViewModel.endDate.toString(format: .singleDate))
-                                .font(Fonts.bodyLgMedium)
-                                .foregroundStyle(Colors.Text.point)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 20)
-                                .background(Colors.Background.secondary)
-                                .cornerRadius(8)
-                        }
-                    }
-                }
-                
-                if isShowEndDatePicker {
-                    Spacer().frame(height: 20)
-                    
-                    DailyDatePicker(date: $goalViewModel.endDate)
                 }
             }
         }
