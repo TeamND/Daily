@@ -49,12 +49,16 @@ struct GoalView: View {
             
             Spacer().frame(height: 20)
             
-            DailySection(type: .time) {
-                TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
-            }
-            DailySection(type: .content, essentialConditions: goalViewModel.goal.content.count >= 2) {
-                ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
-            }
+            TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
+            
+            Spacer().frame(height: 20)
+            
+            DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
+            
+            Spacer().frame(height: 20)
+            
+            ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
+            
             HStack {
                 DailySection(type: .goalCount) {
                     GoalCountSection(
@@ -179,18 +183,33 @@ struct ContentSection: View {
     @FocusState var focusedField : Int?
     
     var body: some View {
-        TextField(
-            "",
-            text: $content,
-            prompt: Text(goalType.contentHint)
-        )
-        .focused($focusedField, equals: 0)
-        .onSubmit {
-            hideKeyboard()
+        VStack(spacing: 12) {
+            Text("목표")
+                .font(Fonts.bodyLgSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+                .hLeading()
+            
+            TextField(
+                "",
+                text: $content,
+                prompt: Text("목표를 입력하세요 (최소 2자)")
+                    .font(Fonts.bodyLgRegular)
+                    .foregroundStyle(Colors.Text.tertiary)
+            )
+            .font(Fonts.bodyLgMedium)
+            .foregroundStyle(Colors.Text.primary)
+            .padding(12)
+            .background(Colors.Background.secondary)
+            .cornerRadius(8)
+            .focused($focusedField, equals: 0)
+            .onSubmit {
+                hideKeyboard()
+            }
+            .onAppear {
+                self.focusedField = 0
+            }
         }
-        .onAppear {
-            self.focusedField = 0
-        }
+        .padding(.horizontal, 16)
     }
 }
 
