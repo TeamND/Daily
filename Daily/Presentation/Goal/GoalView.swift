@@ -155,24 +155,35 @@ struct TimeSection: View {
     @Binding var setTime: Date
     
     var body: some View {
-        HStack {
-            Text("하루 종일")
-                .opacity(isSetTime ? 0.5 : 1)
-            Spacer()
-            Toggle("", isOn: $isSetTime)
-                .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: Colors.daily))
-                .scaleEffect(CGSize(width: 0.9, height: 0.9))
-            Spacer()
-            DatePicker("", selection: $setTime, displayedComponents: [.hourAndMinute])
-                .datePickerStyle(.compact)
-                .disabled(!isSetTime)
-                .labelsHidden()
-                .opacity(isSetTime ? 1 : 0.5)
-                .scaleEffect(CGSize(width: 0.9, height: 0.9))
-                .frame(height: CGFloat.fontSize * 4)
+        VStack(spacing: .zero) {
+            HStack {
+                Text("시간 지정")
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
+                
+                Spacer()
+                
+                Toggle("", isOn: $isSetTime)
+                    .labelsHidden()
+                    .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
+            }
+            
+            if isSetTime {
+                Spacer().frame(height: 16)
+                
+                HStack {
+                    Spacer()
+                    
+                    DatePicker("", selection: $setTime, displayedComponents: [.hourAndMinute])
+                        .datePickerStyle(.compact)
+                        .labelsHidden()
+                        .tint(Colors.Brand.primary)
+                        .scaleEffect(CGSize(width: 0.9, height: 0.9))
+                        .frame(height: 40)
+                }
+            }
         }
-        .font(.system(size: CGFloat.fontSize * 2.5))
+        .padding(.horizontal, 16)
     }
 }
 

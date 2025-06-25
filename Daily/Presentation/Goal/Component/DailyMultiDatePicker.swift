@@ -77,7 +77,7 @@ struct DailyMultiDatePicker: View {
                 .hLeading()
             ViewThatFits(in: .horizontal) {
                 SelectedDatesView(selectedDates: $selectedDates)
-                ScrollView(.horizontal) {
+                ScrollView(.horizontal, showsIndicators: false) {
                     SelectedDatesView(selectedDates: $selectedDates)
                 }
             }
