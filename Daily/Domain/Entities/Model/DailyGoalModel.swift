@@ -21,7 +21,7 @@ class DailyGoalModel: Navigatable {
     var records: [DailyRecordModel]
     
     init(
-        type: GoalTypes = .check,
+        type: GoalTypes = .count,
         cycleType: CycleTypes = .date,
         content: String = "",
         symbol: Symbols = .check,

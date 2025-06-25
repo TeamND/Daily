@@ -261,33 +261,62 @@ struct GoalCountSection: View {
     @Binding var goalCount: Int
     
     var body: some View {
-        HStack {
-            Spacer()
-            if goalType == .timer {
-                // TODO: 추후 타이머 추가
-            } else {
-                countButton(direction: .minus)
-                Text("\(goalCount)")
-                    .frame(width: CGFloat.fontSize * 10)
-                countButton(direction: .plus)
+        VStack(spacing: 16) {
+            HStack {
+                Text("진행 방식")
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
+                
+                Spacer()
+                
+                HStack(spacing: .zero) {
+                    ForEach([GoalTypes.count, GoalTypes.timer], id: \.self) { type in
+                        Button {
+                            goalType = type
+                        } label: {
+                            Text(type.text)
+                                .font(Fonts.bodyMdSemiBold)
+                                .foregroundStyle(goalType == type ? Colors.Text.point : Colors.Text.tertiary)
+                        }
+                        .frame(width: 60, height: 30)
+                        .background {
+                            RoundedRectangle(cornerRadius: 99)
+                                .fill(goalType == type ? Colors.Background.primary : .clear)
+                                .stroke(goalType == type ? Colors.Brand.primary : .clear, lineWidth: 1)
+                        }
+                    }
+                }
+                .padding(4)
+                .background {
+                    RoundedRectangle(cornerRadius: 99)
+                        .fill(Colors.Background.secondary)
+                }
             }
-            Spacer()
-        }
-    }
-    
-    private func countButton(direction: Direction) -> some View {
-        Button {
-            let afterCount = goalCount + direction.value
-            if afterCount < GeneralServices.minimumGoalCount || afterCount > GeneralServices.maximumGoalCount {
-                alertEnvironment.showToast(message: CountAlert.overCountRage.messageText)
-            } else {
-                goalCount = afterCount
-                goalType = goalCount == 1 ? .check : .count
+            
+            HStack(spacing: 4) {
+                Spacer()
+                
+                Button {
+                    print("goalCount is \(goalCount)")
+                    // TODO: Picker 추가
+                } label: {
+                    Text("\(goalCount)")
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Text.point)
+                        .frame(width: 58, height: 40)
+                        .background(Colors.Background.secondary)
+                        .cornerRadius(8)
+                }
+//                .overlay {
+//                    if
+//                }
+                
+                Text("회 반복")
+                    .font(Fonts.bodyLgMedium)
+                    .foregroundStyle(Colors.Text.secondary)
             }
-        } label: {
-            Image(systemName: direction.imageName)
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 16)
     }
 }
 
