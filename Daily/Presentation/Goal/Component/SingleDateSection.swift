@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct SingleDateSection: View {
-    @Binding var date: Date
-    
-    @State var isShowDatePicker = false
-    
     let title: String
+    
+    @Binding var date: Date
+    @Binding var isShowDatePicker: Bool
+    
+    var action: (() -> Void)? = nil
     
     var body: some View {
         HStack {
@@ -23,7 +24,8 @@ struct SingleDateSection: View {
             Spacer()
             
             Button {
-                isShowDatePicker = true
+                isShowDatePicker.toggle()
+                action?()
             } label: {
                 Text(date.toString(format: .singleDate))
                     .font(Fonts.bodyLgMedium)

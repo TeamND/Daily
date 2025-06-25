@@ -91,26 +91,13 @@ struct SelectedDatesView: View {
     var body: some View {
         HStack(spacing: 6) {
             ForEach(selectedDates, id: \.self) { date in
-                HStack(spacing: 4) {
-                    Text("\(date.toString(format: .multiDate))")
-                        .font(Fonts.bodyMdRegular)
-                        .foregroundStyle(Colors.Text.tertiary)
-                    
-                    Button {
-                        selectedDates.removeAll { $0 == date }
-                    } label: {
-                        Image(.close)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 12)
-                    }
-                }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 4)
-                .background {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Colors.Background.secondary)
-                }
+                Text("\(date.toString(format: .multiDate))")
+                    .font(Fonts.bodyMdRegular)
+                    .foregroundStyle(Colors.Text.tertiary)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 4)
+                    .background(Colors.Background.secondary)
+                    .cornerRadius(4)
             }
         }
         .hLeading()

@@ -65,6 +65,7 @@ struct GoalView: View {
 struct DateSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     
+    @State var isShowSingleDatePicker: Bool = false
     @State var isShowStartDatePicker: Bool = false
     @State var isShowEndDatePicker: Bool = false
     
@@ -72,7 +73,7 @@ struct DateSection: View {
         VStack(spacing: .zero) {
             switch goalViewModel.goal.cycleType {
             case .date:
-                SingleDateSection(date: $goalViewModel.startDate, title: "날짜")
+                SingleDateSection(title: "날짜", date: $goalViewModel.startDate, isShowDatePicker: $isShowSingleDatePicker)
                 
             case .rept:
                 RepeatTypeSection(repeatType: $goalViewModel.repeatType)
@@ -81,15 +82,15 @@ struct DateSection: View {
                 
                 switch goalViewModel.repeatType {
                 case .weekly:
-                    RepeatWeekdayPicker(selectedWeekday: $goalViewModel.selectedWeekday)
-                    
-                    Spacer().frame(height: 20)
-                    
-                    SingleDateSection(date: $goalViewModel.startDate, title: "시작일")
-                    
-                    Spacer().frame(height: 20)
-                    
-                    SingleDateSection(date: $goalViewModel.endDate, title: "종료일")
+                    VStack(spacing: 20) {
+                        RepeatWeekdayPicker(selectedWeekday: $goalViewModel.selectedWeekday)
+                        SingleDateSection(title: "시작일", date: $goalViewModel.startDate, isShowDatePicker: $isShowStartDatePicker) {
+                            isShowEndDatePicker = false
+                        }
+                        SingleDateSection(title: "종료일", date: $goalViewModel.endDate, isShowDatePicker: $isShowEndDatePicker) {
+                            isShowStartDatePicker = false
+                        }
+                    }
                     
                 case .custom:
                     DailyMultiDatePicker(dates: $goalViewModel.selectedDates)
@@ -97,40 +98,6 @@ struct DateSection: View {
             }
         }
         .padding(.horizontal, 16)
-        
-//        if let modifyType = goalViewModel.modifyType {
-//            switch modifyType {
-//            case .all:
-//                EmptyView()
-//            case .record, .single:
-//                HStack {
-////                    DailyCycleTypePicker(cycleType: Binding(get: { .date }, set: { _ in }), isDisabled: true)
-//                    Spacer()
-//                    DailyDatePicker(currentDate: $goalViewModel.record.date)
-//                }
-//            }
-//        } else {
-//            VStack {
-//                HStack {
-////                    DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType, isDisabled: false)
-//                    Spacer()
-//                    if goalViewModel.goal.cycleType == .date {
-//                        DailyDatePicker(currentDate: $goalViewModel.startDate)
-//                    } else if goalViewModel.goal.cycleType == .rept {
-//                        DailyWeekIndicator(mode: .select, opacity: $goalViewModel.selectedWeekday)
-//                    }
-//                }
-//                if goalViewModel.goal.cycleType == .rept {
-//                    HStack {
-//                        DailyDatePicker(currentDate: $goalViewModel.startDate)
-//                        Spacer()
-//                        Text("~")
-//                        Spacer()
-//                        DailyDatePicker(currentDate: $goalViewModel.endDate)
-//                    }
-//                }
-//            }
-//        }
     }
 }
 
