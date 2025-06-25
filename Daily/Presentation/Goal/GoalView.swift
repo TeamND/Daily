@@ -45,30 +45,15 @@ struct GoalView: View {
             
             Spacer().frame(height: 24)
             
-            DateSection(goalViewModel: goalViewModel)
-            
-            Spacer().frame(height: 20)
-            
-            TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
-            
-            Spacer().frame(height: 20)
-            
-            DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
-            
-            Spacer().frame(height: 20)
-            
-            ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
-            
-            HStack {
-                DailySection(type: .goalCount) {
-                    GoalCountSection(
-                        goalType: $goalViewModel.goal.type,
-                        goalCount: $goalViewModel.goal.count
-                    )
-                }
-                DailySection(type: .symbol) {
-                    SymbolSection(symbol: $goalViewModel.goal.symbol)
-                }
+            VStack(spacing: 20) {
+                DateSection(goalViewModel: goalViewModel)
+                TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
+                
+                DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
+                
+                ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
+                SymbolSection(symbol: $goalViewModel.goal.symbol)
+                GoalCountSection(goalType: $goalViewModel.goal.type, goalCount: $goalViewModel.goal.count)
             }
             
             Spacer()
@@ -224,6 +209,51 @@ struct ContentSection: View {
     }
 }
 
+// MARK: - SymbolSection
+struct SymbolSection: View {
+    @Binding var selectedSymbol: Symbols
+    
+    init(symbol: Binding<Symbols>) {
+        self._selectedSymbol = symbol
+    }
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("심볼 선택")
+                .font(Fonts.bodyLgSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+                .hLeading()
+            
+            VStack(spacing: 12) {
+                ForEach(0 ..< 2) { row in
+                    HStack {
+                        ForEach(Array(Symbols.allCases.filter { $0 != .all }.enumerated()), id: \.element) { index, symbol in
+                            if row * 5 <= index && index < (row + 1) * 5 {
+                                if row * 5 < index { Spacer() }
+                                Image(symbol.icon(isSuccess: selectedSymbol == symbol))
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 32)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(Colors.Background.secondary)
+                                            .stroke(selectedSymbol == symbol ? Colors.Brand.primary : .clear, lineWidth: 1)
+                                            .frame(width: 48, height: 48)
+                                    }
+                                    .frame(width: 48, height: 48)
+                                    .onTapGesture {
+                                        selectedSymbol = symbol
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+}
+
 // MARK: - GoalCountSection
 struct GoalCountSection: View {
     @EnvironmentObject var alertEnvironment: AlertEnvironment
@@ -298,32 +328,6 @@ struct CountSection: View {
             }
         }
         .foregroundStyle(Colors.reverse)
-    }
-}
-
-// MARK: - SymbolSection
-struct SymbolSection: View {
-    @Binding var symbol: Symbols
-    @State var isShowSymbolSheet: Bool = false
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            Image(systemName: "\(symbol.imageName)")
-            Image(systemName: "chevron.right")
-                .frame(width: CGFloat.fontSize * 10)
-            Image(systemName: "\(symbol.imageName).fill")
-            Spacer()
-        }
-        .onTapGesture {
-            isShowSymbolSheet = true
-        }
-        .sheet(isPresented: $isShowSymbolSheet) {
-            SymbolsSheet(symbol: $symbol)
-                .presentationDetents([.medium])
-                .presentationDragIndicator(.visible)
-        }
-
     }
 }
 
