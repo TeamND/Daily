@@ -38,6 +38,17 @@ extension View {
     }
 }
 
+extension View {
+    func getFrame(in coordinateSpace: CoordinateSpace = .global, returnFunc: @escaping (CGRect) -> Void) -> some View {
+        background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear { returnFunc(geo.frame(in: coordinateSpace)) }
+            }
+        )
+    }
+}
+
 // MARK: - Keyboard
 extension View {
     func hideKeyboard() {

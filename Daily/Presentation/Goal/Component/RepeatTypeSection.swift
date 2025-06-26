@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RepeatTypeSection: View {
-    @Binding var repeatType: RepeatTypes
+    @ObservedObject var goalViewModel: GoalViewModel
+    
+    @State private var buttonFrame: CGRect = .zero
     
     var body: some View {
         HStack {
@@ -19,11 +21,37 @@ struct RepeatTypeSection: View {
             Spacer()
             
             Button {
-                // TODO: 추후에 daily menu 추가
-                repeatType = repeatType == .weekly ? .custom : .weekly
+                let offsetX = buttonFrame.width - 108 / 2
+                let offsetY = buttonFrame.height / 2 + 12
+                
+                goalViewModel.popoverPosition = CGPoint(
+                    x: buttonFrame.minX + offsetX,
+                    y: buttonFrame.minY + offsetY
+                )
+                
+                if goalViewModel.popoverContent != nil {
+                    goalViewModel.popoverContent = nil
+                } else {
+                    goalViewModel.popoverContent = AnyView(
+                        VStack(spacing: .zero) {
+                            ForEach(Array(RepeatTypes.allCases.enumerated()), id: \.element) { index, type in
+                                if index > .zero { DailyDivider(color: Colors.Border.primary, height: 1) }
+                                Button {
+                                    goalViewModel.repeatType = type
+                                    goalViewModel.popoverContent = nil
+                                } label: {
+                                    Text(type.text)
+                                        .font(Fonts.bodyLgMedium)
+                                        .foregroundStyle(goalViewModel.repeatType == type ? Colors.Text.secondary : Colors.Text.tertiary)
+                                        .frame(width: 108, height: 40)
+                                }
+                            }
+                        }
+                    )
+                }
             } label: {
                 HStack(spacing: 4) {
-                    Text(repeatType.text)
+                    Text(goalViewModel.repeatType.text)
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Text.secondary)
                     
@@ -37,6 +65,7 @@ struct RepeatTypeSection: View {
                 .background(Colors.Background.secondary)
                 .cornerRadius(8)
             }
+            .getFrame { buttonFrame = $0 }
         }
     }
 }

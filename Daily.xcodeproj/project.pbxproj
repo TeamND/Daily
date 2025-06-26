@@ -47,6 +47,7 @@
 		F67DD0F62E02E9340001203D /* RepeatTypeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F52E02E9330001203D /* RepeatTypeSection.swift */; };
 		F67DD0F82E02E98C0001203D /* SingleDateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F72E02E98C0001203D /* SingleDateSection.swift */; };
 		F67DD0FA2E039A2B0001203D /* RepeatWeekdayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F92E039A2B0001203D /* RepeatWeekdayPicker.swift */; };
+		F67DD7A02E0CCF9B0001203D /* DailyPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD79F2E0CCF9B0001203D /* DailyPopover.swift */; };
 		F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */; };
 		F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */; };
 		F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845F2D21072800AEBD76 /* Array+extension.swift */; };
@@ -204,6 +205,7 @@
 		F67DD0F52E02E9330001203D /* RepeatTypeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatTypeSection.swift; sourceTree = "<group>"; };
 		F67DD0F72E02E98C0001203D /* SingleDateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDateSection.swift; sourceTree = "<group>"; };
 		F67DD0F92E039A2B0001203D /* RepeatWeekdayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatWeekdayPicker.swift; sourceTree = "<group>"; };
+		F67DD79F2E0CCF9B0001203D /* DailyPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPopover.swift; sourceTree = "<group>"; };
 		F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLoadView.swift; sourceTree = "<group>"; };
 		F69A845F2D21072800AEBD76 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 				F6F31DC62CF443FC0090A3B9 /* DailyButton.swift */,
 				F6F31DD22CF83BA50090A3B9 /* DailyTimeLine.swift */,
 				F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */,
+				F67DD79F2E0CCF9B0001203D /* DailyPopover.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -881,6 +884,7 @@
 				F6F31DCD2CF46FCB0090A3B9 /* SymbolsSheet.swift in Sources */,
 				F6C6CD972D6C36FA00772E59 /* CalendarManager.swift in Sources */,
 				F6E1CD902DBF75B2009E25DA /* DailyDataModel.swift in Sources */,
+				F67DD7A02E0CCF9B0001203D /* DailyPopover.swift in Sources */,
 				F6442C312D2BCB61006B3658 /* AlertEnvironment.swift in Sources */,
 				F6CE8A292CCF62710050A25A /* CycleTypes.swift in Sources */,
 				F634D2D62CC483C90014EDB6 /* CGFloat+extension.swift in Sources */,

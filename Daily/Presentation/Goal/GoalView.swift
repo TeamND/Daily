@@ -26,7 +26,14 @@ struct GoalView: View {
         }
         .background(Colors.Background.primary)
         .onTapGesture { hideKeyboard() }
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded {
+                    goalViewModel.popoverContent = nil
+                }
+        )
     }
+    
     var goalView: some View {
         VStack(spacing: .zero) {
             NavigationHeader(title: "목표추가", trailingText: "추가") {
@@ -58,6 +65,11 @@ struct GoalView: View {
             
             Spacer()
         }
+        .overlay {
+            if let content = goalViewModel.popoverContent {
+                DailyPopover(position: goalViewModel.popoverPosition) { content }
+            }
+        }
     }
 }
 
@@ -76,7 +88,7 @@ struct DateSection: View {
                 SingleDateSection(title: "날짜", date: $goalViewModel.startDate, isShowDatePicker: $isShowSingleDatePicker)
                 
             case .rept:
-                RepeatTypeSection(repeatType: $goalViewModel.repeatType)
+                RepeatTypeSection(goalViewModel: goalViewModel)
                 
                 Spacer().frame(height: 16)
                 

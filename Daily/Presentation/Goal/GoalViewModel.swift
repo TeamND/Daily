@@ -18,6 +18,9 @@ class GoalViewModel: ObservableObject {
     var originalGoal: DailyGoalModel = DailyGoalModel()
     var originalRecord: DailyRecordModel = DailyRecordModel()
     
+    @Published var popoverPosition: CGPoint = .zero
+    @Published var popoverContent: AnyView? = nil
+    
     @Published var goal: DailyGoalModel = DailyGoalModel()
     @Published var record: DailyRecordModel = DailyRecordModel()
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RepeatTypes {
+enum RepeatTypes: String, CaseIterable {
     case weekly
     case custom
     
