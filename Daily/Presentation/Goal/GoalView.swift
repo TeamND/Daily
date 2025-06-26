@@ -19,7 +19,7 @@ struct GoalView: View {
     
     var body: some View {
         VStack(spacing: .zero) {
-            NavigationHeader(title: "목표추가", trailingText: "추가") {
+            NavigationHeader(title: "목표 추가", trailingText: "추가") {
                 goalViewModel.add(
                     successAction: { newDate in
                         dismiss()
@@ -36,6 +36,7 @@ struct GoalView: View {
                 }
             }
         }
+        .background(Colors.Background.primary)
     }
     
     var goalView: some View {
@@ -155,6 +156,7 @@ struct TimeSection: View {
                             goalViewModel.hidePopover()
                         } else {
                             goalViewModel.showPopover(at: position) {
+                                // FIXME: custom picker 두개로 수정
                                 DatePicker("",
                                            selection: Binding(
                                              get: { goalViewModel.goal.setTime.toDate(format: .setTime) ?? Date(format: .daily) },
@@ -168,7 +170,7 @@ struct TimeSection: View {
                             }
                         }
                     } label: {
-                        Text(goalViewModel.goal.setTime.toDate(format: .setTime)?.toString(format: .AMPMTime) ?? "")
+                        Text(goalViewModel.goal.setTime)
                             .font(Fonts.bodyLgMedium)
                             .foregroundStyle(Colors.Text.point)
                             .padding(.vertical, 10)

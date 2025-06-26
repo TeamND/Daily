@@ -48,6 +48,19 @@ extension View {
             }
         )
     }
+    
+    func horizontalGradient() -> some View {
+        overlay {
+            HStack {
+                let colors = [Colors.Background.primary, Colors.Background.primary.opacity(0)]
+                let leadingGradient = LinearGradient(gradient: Gradient(colors: colors), startPoint: .leading, endPoint: .trailing)
+                let trailingGradient = LinearGradient(gradient: Gradient(colors: colors), startPoint: .trailing, endPoint: .leading)
+                Rectangle().fill(leadingGradient).frame(width: 16)
+                Spacer()
+                Rectangle().fill(trailingGradient).frame(width: 16)
+            }
+        }
+    }
 }
 
 // MARK: - Keyboard

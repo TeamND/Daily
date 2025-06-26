@@ -42,7 +42,7 @@ struct RepeatTypeSection: View {
                                 } label: {
                                     Text(type.text)
                                         .font(Fonts.bodyLgMedium)
-                                        .foregroundStyle(goalViewModel.repeatType == type ? Colors.Text.secondary : Colors.Text.tertiary)
+                                        .foregroundStyle(Colors.Text.secondary)
                                         .frame(width: 108, height: 40)
                                 }
                             }
@@ -53,7 +53,7 @@ struct RepeatTypeSection: View {
                 HStack(spacing: 4) {
                     Text(goalViewModel.repeatType.text)
                         .font(Fonts.bodyLgMedium)
-                        .foregroundStyle(Colors.Text.secondary)
+                        .foregroundStyle(Colors.Text.point)
                     
                     Image(.chevronUpDown)
                         .resizable()

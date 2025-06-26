@@ -81,6 +81,8 @@ struct DailyMultiDatePicker: View {
                     SelectedDatesView(selectedDates: $selectedDates)
                 }
             }
+            .horizontalGradient()
+            .padding(.horizontal, -16)
         }
     }
 }
@@ -101,5 +103,6 @@ struct SelectedDatesView: View {
             }
         }
         .hLeading()
+        .padding(.horizontal, 16)
     }
 }
