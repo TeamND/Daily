@@ -24,14 +24,6 @@ struct GoalView: View {
                 goalView
             }
         }
-        .background(Colors.Background.primary)
-        .onTapGesture { hideKeyboard() }
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded {
-                    goalViewModel.popoverContent = nil
-                }
-        )
     }
     
     var goalView: some View {
@@ -54,7 +46,7 @@ struct GoalView: View {
             
             VStack(spacing: 20) {
                 DateSection(goalViewModel: goalViewModel)
-                TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
+                TimeSection(goalViewModel: goalViewModel)
                 
                 DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
                 
@@ -65,6 +57,14 @@ struct GoalView: View {
             
             Spacer()
         }
+        .background(Colors.Background.primary)
+        .onTapGesture { hideKeyboard() }
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded {
+                    goalViewModel.hidePopover()
+                }
+        )
         .overlay {
             if let content = goalViewModel.popoverContent {
                 DailyPopover(position: goalViewModel.popoverPosition) { content }
@@ -115,8 +115,9 @@ struct DateSection: View {
 
 // MARK: - TimeSection
 struct TimeSection: View {
-    @Binding var isSetTime: Bool
-    @Binding var setTime: Date
+    @ObservedObject var goalViewModel: GoalViewModel
+    
+    @State private var buttonFrame: CGRect = .zero
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -127,23 +128,52 @@ struct TimeSection: View {
                 
                 Spacer()
                 
-                Toggle("", isOn: $isSetTime)
+                Toggle("", isOn: $goalViewModel.goal.isSetTime)
                     .labelsHidden()
                     .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
             }
             
-            if isSetTime {
+            if goalViewModel.goal.isSetTime {
                 Spacer().frame(height: 16)
                 
                 HStack {
                     Spacer()
                     
-                    DatePicker("", selection: $setTime, displayedComponents: [.hourAndMinute])
-                        .datePickerStyle(.compact)
-                        .labelsHidden()
-                        .tint(Colors.Brand.primary)
-                        .scaleEffect(CGSize(width: 0.9, height: 0.9))
-                        .frame(height: 40)
+                    Button {
+                        let offsetX = buttonFrame.width - 210 / 2
+                        let offsetY = buttonFrame.height * 2 + 4    // ???: 왜 4인지 모르겠다
+                        
+                        let position = CGPoint(
+                            x: buttonFrame.minX + offsetX,
+                            y: buttonFrame.minY + offsetY
+                        )
+                        
+                        if goalViewModel.popoverContent != nil {
+                            goalViewModel.hidePopover()
+                        } else {
+                            goalViewModel.showPopover(at: position) {
+                                DatePicker("",
+                                           selection: Binding(
+                                             get: { goalViewModel.goal.setTime.toDate(format: .setTime) ?? Date(format: .daily) },
+                                             set: { goalViewModel.goal.setTime = $0.toString(format: .setTime) }
+                                           ), displayedComponents: [.hourAndMinute]
+                                )
+                                .datePickerStyle(.wheel)
+                                .labelsHidden()
+                                .scaleEffect(CGSize(width: 0.8, height: 0.8))
+                                .frame(maxWidth: 210, maxHeight: 186)
+                            }
+                        }
+                    } label: {
+                        Text(goalViewModel.goal.setTime.toDate(format: .setTime)?.toString(format: .AMPMTime) ?? "")
+                            .font(Fonts.bodyLgMedium)
+                            .foregroundStyle(Colors.Text.point)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(Colors.Background.secondary)
+                            .cornerRadius(8)
+                    }
+                    .getFrame { buttonFrame = $0 }
                 }
             }
         }

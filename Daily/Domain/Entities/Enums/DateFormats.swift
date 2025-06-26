@@ -18,4 +18,5 @@ enum DateFormats: String {
     
     case singleDate = "yyyy. MM. dd. E"
     case multiDate = "yy. MM. dd. E"
+    case AMPMTime = "a h:mm"
 }

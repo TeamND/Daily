@@ -24,15 +24,15 @@ struct RepeatTypeSection: View {
                 let offsetX = buttonFrame.width - 108 / 2
                 let offsetY = buttonFrame.height / 2 + 12
                 
-                goalViewModel.popoverPosition = CGPoint(
+                let position = CGPoint(
                     x: buttonFrame.minX + offsetX,
                     y: buttonFrame.minY + offsetY
                 )
                 
                 if goalViewModel.popoverContent != nil {
-                    goalViewModel.popoverContent = nil
+                    goalViewModel.hidePopover()
                 } else {
-                    goalViewModel.popoverContent = AnyView(
+                    goalViewModel.showPopover(at: position) {
                         VStack(spacing: .zero) {
                             ForEach(Array(RepeatTypes.allCases.enumerated()), id: \.element) { index, type in
                                 if index > .zero { DailyDivider(color: Colors.Border.primary, height: 1) }
@@ -47,7 +47,7 @@ struct RepeatTypeSection: View {
                                 }
                             }
                         }
-                    )
+                    }
                 }
             } label: {
                 HStack(spacing: 4) {

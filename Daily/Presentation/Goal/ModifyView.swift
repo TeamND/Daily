@@ -23,9 +23,9 @@ struct ModifyView: View {
                 DailySection(type: .date, isModify: true) {
                     DateSection(goalViewModel: goalViewModel)
                 }
-                DailySection(type: .time) {
-                    TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
-                }
+//                DailySection(type: .time) {
+//                    TimeSection(isSetTime: $goalViewModel.goal.isSetTime, setTime: goalViewModel.setTime)
+//                }
                 DailySection(type: .content, essentialConditions: goalViewModel.goal.content.count >= 2) {
                     ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
                 }

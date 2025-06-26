@@ -18,6 +18,7 @@ class GoalViewModel: ObservableObject {
     var originalGoal: DailyGoalModel = DailyGoalModel()
     var originalRecord: DailyRecordModel = DailyRecordModel()
     
+    private var isBlockPopover: Bool = false
     @Published var popoverPosition: CGPoint = .zero
     @Published var popoverContent: AnyView? = nil
     
@@ -81,6 +82,27 @@ class GoalViewModel: ObservableObject {
         
         self.originalGoal = goal.copy()
         self.originalRecord = record.copy()
+    }
+}
+
+// MARK: - popover func
+extension GoalViewModel {
+    func showPopover(at position: CGPoint, @ViewBuilder content: @escaping () -> some View) {
+        if isBlockPopover { return }
+
+        self.popoverPosition = position
+        self.popoverContent = AnyView(content())
+    }
+    
+    func hidePopover() {
+        if popoverContent != nil {
+            isBlockPopover = true
+            popoverContent = nil
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isBlockPopover = false
+            }
+        }
     }
 }
 

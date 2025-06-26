@@ -44,6 +44,7 @@ extension View {
             GeometryReader { geo in
                 Color.clear
                     .onAppear { returnFunc(geo.frame(in: coordinateSpace)) }
+                    .onChange(of: geo.frame(in: coordinateSpace)) { returnFunc($1) }
             }
         )
     }
