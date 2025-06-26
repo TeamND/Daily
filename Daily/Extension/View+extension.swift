@@ -39,7 +39,7 @@ extension View {
 }
 
 extension View {
-    func getFrame(in coordinateSpace: CoordinateSpace = .global, returnFunc: @escaping (CGRect) -> Void) -> some View {
+    func getFrame(in coordinateSpace: CoordinateSpace = .named("goalView"), returnFunc: @escaping (CGRect) -> Void) -> some View {
         background(
             GeometryReader { geo in
                 Color.clear

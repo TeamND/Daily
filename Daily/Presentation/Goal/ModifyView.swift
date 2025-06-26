@@ -31,12 +31,12 @@ struct ModifyView: View {
                 }
                 HStack {
                     if let modifyType = goalViewModel.modifyType, modifyType == .all {
-                        DailySection(type: .goalCount) {
-                            GoalCountSection(
-                                goalType: $goalViewModel.goal.type,
-                                goalCount: $goalViewModel.goal.count
-                            )
-                        }
+//                        DailySection(type: .goalCount) {
+//                            GoalCountSection(
+//                                goalType: $goalViewModel.goal.type,
+//                                goalCount: $goalViewModel.goal.count
+//                            )
+//                        }
                     } else {
                         DailySection(type: .count) {
                             CountSection(recordCount: $goalViewModel.record.count, goalCount: $goalViewModel.goal.count)

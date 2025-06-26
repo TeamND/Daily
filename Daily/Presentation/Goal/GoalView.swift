@@ -18,15 +18,6 @@ struct GoalView: View {
     }
     
     var body: some View {
-        ViewThatFits(in: .vertical) {
-            goalView
-            ScrollView(.vertical, showsIndicators: false) {
-                goalView
-            }
-        }
-    }
-    
-    var goalView: some View {
         VStack(spacing: .zero) {
             NavigationHeader(title: "목표추가", trailingText: "추가") {
                 goalViewModel.add(
@@ -38,6 +29,17 @@ struct GoalView: View {
                 )
             }
             
+            ViewThatFits(in: .vertical) {
+                goalView
+                ScrollView(.vertical, showsIndicators: false) {
+                    goalView
+                }
+            }
+        }
+    }
+    
+    var goalView: some View {
+        VStack(spacing: .zero) {
             Spacer().frame(height: 16)
             
             DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
@@ -52,11 +54,12 @@ struct GoalView: View {
                 
                 ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
                 SymbolSection(symbol: $goalViewModel.goal.symbol)
-                GoalCountSection(goalType: $goalViewModel.goal.type, goalCount: $goalViewModel.goal.count)
+                GoalCountSection(goalViewModel: goalViewModel)
             }
             
             Spacer()
         }
+        .coordinateSpace(name: "goalView")
         .background(Colors.Background.primary)
         .onTapGesture { hideKeyboard() }
         .simultaneousGesture(
@@ -145,7 +148,7 @@ struct TimeSection: View {
                         
                         let position = CGPoint(
                             x: buttonFrame.minX + offsetX,
-                            y: buttonFrame.minY + offsetY
+                            y: buttonFrame.minY + offsetY + 60
                         )
                         
                         if goalViewModel.popoverContent != nil {
@@ -266,8 +269,10 @@ struct SymbolSection: View {
 // MARK: - GoalCountSection
 struct GoalCountSection: View {
     @EnvironmentObject var alertEnvironment: AlertEnvironment
-    @Binding var goalType: GoalTypes
-    @Binding var goalCount: Int
+    
+    @ObservedObject var goalViewModel: GoalViewModel
+    
+    @State private var buttonFrame: CGRect = .zero
     
     var body: some View {
         VStack(spacing: 16) {
@@ -277,21 +282,21 @@ struct GoalCountSection: View {
                     .foregroundStyle(Colors.Text.primary)
                 
                 Spacer()
-                
+
                 HStack(spacing: .zero) {
                     ForEach([GoalTypes.count, GoalTypes.timer], id: \.self) { type in
                         Button {
-                            goalType = type
+                            goalViewModel.goal.type = type
                         } label: {
                             Text(type.text)
                                 .font(Fonts.bodyMdSemiBold)
-                                .foregroundStyle(goalType == type ? Colors.Text.point : Colors.Text.tertiary)
+                                .foregroundStyle(goalViewModel.goal.type == type ? Colors.Text.point : Colors.Text.tertiary)
                         }
                         .frame(width: 60, height: 30)
                         .background {
                             RoundedRectangle(cornerRadius: 99)
-                                .fill(goalType == type ? Colors.Background.primary : .clear)
-                                .stroke(goalType == type ? Colors.Brand.primary : .clear, lineWidth: 1)
+                                .fill(goalViewModel.goal.type == type ? Colors.Background.primary : .clear)
+                                .stroke(goalViewModel.goal.type == type ? Colors.Brand.primary : .clear, lineWidth: 1)
                         }
                     }
                 }
@@ -306,19 +311,39 @@ struct GoalCountSection: View {
                 Spacer()
                 
                 Button {
-                    print("goalCount is \(goalCount)")
-                    // TODO: Picker 추가
+                    let offsetX = CGFloat(121 / 2 + 12)
+                    let offsetY = buttonFrame.height / 2 + 174 / 2
+                    
+                    let position = CGPoint(
+                        x: buttonFrame.minX - offsetX,
+                        y: buttonFrame.minY - offsetY + 60
+                    )
+                    
+                    if goalViewModel.popoverContent != nil {
+                        goalViewModel.hidePopover()
+                    } else {
+                        goalViewModel.showPopover(at: position) {
+                            Picker("", selection: $goalViewModel.goal.count) {
+                                ForEach(1 ... 10, id: \.self) { count in
+                                    Text("\(count)")
+                                        .tag(count)
+                                        .font(Fonts.bodyXlMedium)
+                                        .foregroundStyle(Colors.Text.secondary)
+                                }
+                            }
+                            .pickerStyle(.wheel)
+                            .frame(maxWidth: 121, maxHeight: 174)
+                        }
+                    }
                 } label: {
-                    Text("\(goalCount)")
+                    Text("\(goalViewModel.goal.count)")
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Text.point)
                         .frame(width: 58, height: 40)
                         .background(Colors.Background.secondary)
                         .cornerRadius(8)
                 }
-//                .overlay {
-//                    if
-//                }
+                .getFrame { buttonFrame = $0 }
                 
                 Text("회 반복")
                     .font(Fonts.bodyLgMedium)

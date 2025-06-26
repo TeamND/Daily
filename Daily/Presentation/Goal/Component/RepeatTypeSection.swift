@@ -26,7 +26,7 @@ struct RepeatTypeSection: View {
                 
                 let position = CGPoint(
                     x: buttonFrame.minX + offsetX,
-                    y: buttonFrame.minY + offsetY
+                    y: buttonFrame.minY + offsetY + 60
                 )
                 
                 if goalViewModel.popoverContent != nil {
