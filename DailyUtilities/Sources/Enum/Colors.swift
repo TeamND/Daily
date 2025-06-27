@@ -41,4 +41,8 @@ public enum Colors {
         public static let interactivePressed = Color("iconInteractivePressed")
         public static let inverse = Color("iconInverse")
     }
+    
+    enum Shadow {
+        static let primary = Color("shadowPrimary")
+    }
 }

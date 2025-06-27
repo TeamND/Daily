@@ -122,6 +122,8 @@ struct TimeSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     
     @State private var buttonFrame: CGRect = .zero
+    @State private var HH: Int = 0
+    @State private var mm: Int = 0
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -144,7 +146,9 @@ struct TimeSection: View {
                     Spacer()
                     
                     Button {
-                        let offsetX = buttonFrame.width - 210 / 2
+                        let width: CGFloat = 190
+                        
+                        let offsetX = buttonFrame.width - width / 2
                         let offsetY = buttonFrame.height * 2 + 4    // ???: 왜 4인지 모르겠다
                         
                         let position = CGPoint(
@@ -156,17 +160,30 @@ struct TimeSection: View {
                             goalViewModel.hidePopover()
                         } else {
                             goalViewModel.showPopover(at: position) {
-                                // FIXME: custom picker 두개로 수정
-                                DatePicker("",
-                                           selection: Binding(
-                                             get: { goalViewModel.goal.setTime.toDate(format: .setTime) ?? Date(format: .daily) },
-                                             set: { goalViewModel.goal.setTime = $0.toString(format: .setTime) }
-                                           ), displayedComponents: [.hourAndMinute]
-                                )
-                                .datePickerStyle(.wheel)
-                                .labelsHidden()
-                                .scaleEffect(CGSize(width: 0.8, height: 0.8))
-                                .frame(maxWidth: 210, maxHeight: 186)
+                                HStack(spacing: 8) {
+                                    DailyPicker(range: 0 ..< 24, selection: $HH) {
+                                        guard let oldSetTime = goalViewModel.goal.setTime.toDate(format: .setTime),
+                                              let newSetTime = Calendar.current.date(
+                                                bySettingHour: $0,
+                                                minute: Calendar.current.component(.minute, from: oldSetTime),
+                                                second: 0,
+                                                of: oldSetTime
+                                              ) else { return }
+                                        goalViewModel.goal.setTime = newSetTime.toString(format: .setTime)
+                                    }
+                                    DailyPicker(range: 0 ..< 60, selection: $mm) {
+                                        guard let oldSetTime = goalViewModel.goal.setTime.toDate(format: .setTime),
+                                              let newSetTime = Calendar.current.date(
+                                                bySettingHour: Calendar.current.component(.hour, from: oldSetTime),
+                                                minute: $0,
+                                                second: 0,
+                                                of: oldSetTime
+                                              ) else { return }
+                                        goalViewModel.goal.setTime = newSetTime.toString(format: .setTime)
+                                    }
+                                }
+                                .padding(.horizontal, 8)
+                                .frame(maxWidth: width, maxHeight: 176)
                             }
                         }
                     } label: {
@@ -313,8 +330,11 @@ struct GoalCountSection: View {
                 Spacer()
                 
                 Button {
-                    let offsetX = CGFloat(121 / 2 + 12)
-                    let offsetY = buttonFrame.height / 2 + 174 / 2
+                    let width: CGFloat = 99
+                    let height: CGFloat = 174
+                    
+                    let offsetX = CGFloat(width / 2 + 12)
+                    let offsetY = buttonFrame.height / 2 + height / 2
                     
                     let position = CGPoint(
                         x: buttonFrame.minX - offsetX,
@@ -325,16 +345,7 @@ struct GoalCountSection: View {
                         goalViewModel.hidePopover()
                     } else {
                         goalViewModel.showPopover(at: position) {
-                            Picker("", selection: $goalViewModel.goal.count) {
-                                ForEach(1 ... 10, id: \.self) { count in
-                                    Text("\(count)")
-                                        .tag(count)
-                                        .font(Fonts.bodyXlMedium)
-                                        .foregroundStyle(Colors.Text.secondary)
-                                }
-                            }
-                            .pickerStyle(.wheel)
-                            .frame(maxWidth: 121, maxHeight: 174)
+                            DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
                         }
                     }
                 } label: {

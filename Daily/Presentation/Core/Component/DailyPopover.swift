@@ -16,7 +16,7 @@ struct DailyPopover<Content: View>: View {
             .fixedSize()
             .background(Colors.Background.secondary)
             .cornerRadius(8)
-            .shadow(color: Colors.Icon.primary.opacity(0.25), radius: 8)
+            .shadow(color: Colors.Shadow.primary, radius: 8)
             .position(position)
     }
 }
