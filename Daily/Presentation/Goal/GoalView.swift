@@ -147,6 +147,7 @@ struct TimeSection: View {
                     
                     Button {
                         let width: CGFloat = 190
+                        let height: CGFloat = 176
                         
                         let offsetX = buttonFrame.width - width / 2
                         let offsetY = buttonFrame.height * 2 + 4    // ???: 왜 4인지 모르겠다
@@ -183,7 +184,7 @@ struct TimeSection: View {
                                     }
                                 }
                                 .padding(.horizontal, 8)
-                                .frame(maxWidth: width, maxHeight: 176)
+                                .frame(maxWidth: width, maxHeight: height)
                             }
                         }
                     } label: {
@@ -292,6 +293,9 @@ struct GoalCountSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     
     @State private var buttonFrame: CGRect = .zero
+    @State private var HH: Int = 0
+    @State private var mm: Int = 0
+    @State private var ss: Int = 0
     
     var body: some View {
         VStack(spacing: 16) {
@@ -306,6 +310,12 @@ struct GoalCountSection: View {
                     ForEach([GoalTypes.count, GoalTypes.timer], id: \.self) { type in
                         Button {
                             goalViewModel.goal.type = type
+                            goalViewModel.goal.count = type.defaultCount
+                            if type == .timer {
+                                HH = 0
+                                mm = 0
+                                ss = 0
+                            }
                         } label: {
                             Text(type.text)
                                 .font(Fonts.bodyMdSemiBold)
@@ -326,15 +336,13 @@ struct GoalCountSection: View {
                 }
             }
             
-            HStack(spacing: 4) {
-                Spacer()
-                
+            if goalViewModel.goal.type == .timer {
                 Button {
-                    let width: CGFloat = 99
-                    let height: CGFloat = 174
+                    let width: CGFloat = 281
+                    let height: CGFloat = 176
                     
-                    let offsetX = CGFloat(width / 2 + 12)
-                    let offsetY = buttonFrame.height / 2 + height / 2
+                    let offsetX = width / 2 - buttonFrame.width
+                    let offsetY = height / 2 + buttonFrame.height * 3 / 2 + 12
                     
                     let position = CGPoint(
                         x: buttonFrame.minX - offsetX,
@@ -345,22 +353,69 @@ struct GoalCountSection: View {
                         goalViewModel.hidePopover()
                     } else {
                         goalViewModel.showPopover(at: position) {
-                            DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
+                            HStack(spacing: 8) {
+                                DailyPicker(range: 0 ..< 24, selection: $HH) {
+                                    goalViewModel.goal.count = $0 * 3600 + mm * 60 + ss
+                                }
+                                DailyPicker(range: 0 ..< 60, selection: $mm) {
+                                    goalViewModel.goal.count = HH * 3600 + $0 * 60 + ss
+                                }
+                                DailyPicker(range: 0 ..< 60, selection: $ss) {
+                                    goalViewModel.goal.count = HH * 3600 + mm * 60 + $0
+                                }
+                            }
+                            .padding(.horizontal, 8)
+                            .frame(maxWidth: width, maxHeight: height)
                         }
                     }
                 } label: {
-                    Text("\(goalViewModel.goal.count)")
+                    Text(goalViewModel.goal.count.timerFormat())
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Text.point)
-                        .frame(width: 58, height: 40)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
                         .background(Colors.Background.secondary)
                         .cornerRadius(8)
                 }
                 .getFrame { buttonFrame = $0 }
-                
-                Text("회 반복")
-                    .font(Fonts.bodyLgMedium)
-                    .foregroundStyle(Colors.Text.secondary)
+                .hTrailing()
+            } else {
+                HStack(spacing: 4) {
+                    Spacer()
+                    
+                    Button {
+                        let width: CGFloat = 99
+                        let height: CGFloat = 174
+                        
+                        let offsetX = CGFloat(width / 2 + 12)
+                        let offsetY = buttonFrame.height / 2 + height / 2
+                        
+                        let position = CGPoint(
+                            x: buttonFrame.minX - offsetX,
+                            y: buttonFrame.minY - offsetY + 60
+                        )
+                        
+                        if goalViewModel.popoverContent != nil {
+                            goalViewModel.hidePopover()
+                        } else {
+                            goalViewModel.showPopover(at: position) {
+                                DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
+                            }
+                        }
+                    } label: {
+                        Text("\(goalViewModel.goal.count)")
+                            .font(Fonts.bodyLgMedium)
+                            .foregroundStyle(Colors.Text.point)
+                            .frame(width: 58, height: 40)
+                            .background(Colors.Background.secondary)
+                            .cornerRadius(8)
+                    }
+                    .getFrame { buttonFrame = $0 }
+                    
+                    Text("회 반복")
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Text.secondary)
+                }
             }
         }
         .padding(.horizontal, 16)

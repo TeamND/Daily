@@ -20,4 +20,13 @@ enum GoalTypes: String, CaseIterable, Codable {
             return "타이머"
         }
     }
+    
+    var defaultCount: Int {
+        switch self {
+        case .check, .count:
+            return 1
+        case .timer:
+            return 0
+        }
+    }
 }
