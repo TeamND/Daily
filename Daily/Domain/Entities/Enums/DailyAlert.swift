@@ -14,19 +14,19 @@ protocol DailyAlert {
 
 // MARK: - CountAlert
 enum CountAlert: DailyAlert {
-    case overCountRage
+    case tooSmallCount
     
     var titleText: String {
         switch self {
-        case .overCountRage:
+        case .tooSmallCount:
             return ""
         }
     }
     
     var messageText: String {
         switch self {
-        case .overCountRage:
-            return "1 ~ 10회의 목표를 설정해주세요 😵‍💫"
+        case .tooSmallCount:
+            return "최소한의 목표를 지정해주세요 🐥"
         }
     }
 }

@@ -184,6 +184,7 @@ extension GoalViewModel {
 extension GoalViewModel {
     private func validate(validateType: ButtonTypes) -> DailyAlert? {
         if validateContent() { return ContentAlert.tooShoertLength }
+        if validateCount() { return CountAlert.tooSmallCount }
         if validateType == .add && goal.cycleType == .rept {
             if startDate > endDate { return DateAlert.wrongDateRange }
             if validateDateRange() { return DateAlert.overDateRange }
@@ -194,6 +195,9 @@ extension GoalViewModel {
     }
     private func validateContent() -> Bool {
         return goal.content.count < 2
+    }
+    private func validateCount() -> Bool {
+        return goal.count < 1
     }
     private func validateDateRange() -> Bool {
         let gap = calendar.dateComponents([.year,.month,.day], from: startDate, to: endDate)

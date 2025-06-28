@@ -30,7 +30,7 @@ struct NavigationObject: Navigatable {
             return GoalView(goalData: data)
         case .modify:
             let data = data as! ModifyDataModel
-            return ModifyView(modifyData: data)
+            return GoalView(modifyData: data)
         case .setting:
             return SettingView()
         case .chart:

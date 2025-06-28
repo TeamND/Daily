@@ -11,23 +11,20 @@ struct GoalView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var alertEnvironment: AlertEnvironment
     @EnvironmentObject var calendarViewModel: CalendarViewModel
+    
     @StateObject var goalViewModel: GoalViewModel
     
     init(goalData: GoalDataModel) {
         _goalViewModel = StateObject(wrappedValue: GoalViewModel(goalData: goalData))
     }
     
+    init(modifyData: ModifyDataModel) {
+        _goalViewModel = StateObject(wrappedValue: GoalViewModel(modifyData: modifyData))
+    }
+    
     var body: some View {
         VStack(spacing: .zero) {
-            NavigationHeader(title: "목표 추가", trailingText: "추가") {
-                goalViewModel.add(
-                    successAction: { newDate in
-                        dismiss()
-                        if let newDate { calendarViewModel.setDate(date: newDate) }
-                    },
-                    validateAction: { alertEnvironment.showToast(message: $0.messageText) }
-                )
-            }
+            headerView
             
             ViewThatFits(in: .vertical) {
                 goalView
@@ -39,16 +36,43 @@ struct GoalView: View {
         .background(Colors.Background.primary)
     }
     
+    var headerView: some View {
+        if goalViewModel.modifyType == nil {
+            NavigationHeader(title: "목표 추가", trailingText: "추가") {
+                goalViewModel.add(
+                    successAction: { newDate in
+                        dismiss()
+                        if let newDate { calendarViewModel.setDate(date: newDate) }
+                    },
+                    validateAction: { alertEnvironment.showToast(message: $0.messageText) }
+                )
+            }
+        } else {
+            NavigationHeader(title: "목표 수정", trailingText: "수정") {
+                goalViewModel.modify(
+                    successAction: { newDate in
+                        dismiss()
+                        if let newDate { calendarViewModel.setDate(date: newDate) }
+                    },
+                    validateAction: { alertEnvironment.showToast(message: $0.messageText) }
+                )
+            }
+        }
+    }
+    
     var goalView: some View {
         VStack(spacing: .zero) {
             Spacer().frame(height: 16)
-            
-            DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
-            
-            Spacer().frame(height: 24)
+
+            if goalViewModel.modifyType == nil {
+                DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
+                
+                Spacer().frame(height: 24)
+            }
             
             VStack(spacing: 20) {
-                DateSection(goalViewModel: goalViewModel)
+                if let modifyType = goalViewModel.modifyType, modifyType == .all { }
+                else { DateSection(goalViewModel: goalViewModel) }
                 TimeSection(goalViewModel: goalViewModel)
                 
                 DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
@@ -87,29 +111,33 @@ struct DateSection: View {
     
     var body: some View {
         VStack(spacing: .zero) {
-            switch goalViewModel.goal.cycleType {
-            case .date:
-                SingleDateSection(title: "날짜", date: $goalViewModel.startDate, isShowDatePicker: $isShowSingleDatePicker)
-                
-            case .rept:
-                RepeatTypeSection(goalViewModel: goalViewModel)
-                
-                Spacer().frame(height: 16)
-                
-                switch goalViewModel.repeatType {
-                case .weekly:
-                    VStack(spacing: 20) {
-                        RepeatWeekdayPicker(selectedWeekday: $goalViewModel.selectedWeekday)
-                        SingleDateSection(title: "시작일", date: $goalViewModel.startDate, isShowDatePicker: $isShowStartDatePicker) {
-                            isShowEndDatePicker = false
-                        }
-                        SingleDateSection(title: "종료일", date: $goalViewModel.endDate, isShowDatePicker: $isShowEndDatePicker) {
-                            isShowStartDatePicker = false
-                        }
-                    }
+            if let modifyType = goalViewModel.modifyType, modifyType != .all {
+                SingleDateSection(title: "날짜", date: $goalViewModel.record.date, isShowDatePicker: $isShowSingleDatePicker)
+            } else if goalViewModel.modifyType == nil {
+                switch goalViewModel.goal.cycleType {
+                case .date:
+                    SingleDateSection(title: "날짜", date: $goalViewModel.startDate, isShowDatePicker: $isShowSingleDatePicker)
                     
-                case .custom:
-                    DailyMultiDatePicker(dates: $goalViewModel.selectedDates)
+                case .rept:
+                    RepeatTypeSection(goalViewModel: goalViewModel)
+                    
+                    Spacer().frame(height: 16)
+                    
+                    switch goalViewModel.repeatType {
+                    case .weekly:
+                        VStack(spacing: 20) {
+                            RepeatWeekdayPicker(selectedWeekday: $goalViewModel.selectedWeekday)
+                            SingleDateSection(title: "시작일", date: $goalViewModel.startDate, isShowDatePicker: $isShowStartDatePicker) {
+                                isShowEndDatePicker = false
+                            }
+                            SingleDateSection(title: "종료일", date: $goalViewModel.endDate, isShowDatePicker: $isShowEndDatePicker) {
+                                isShowStartDatePicker = false
+                            }
+                        }
+                        
+                    case .custom:
+                        DailyMultiDatePicker(dates: $goalViewModel.selectedDates)
+                    }
                 }
             }
         }
@@ -201,6 +229,10 @@ struct TimeSection: View {
             }
         }
         .padding(.horizontal, 16)
+        .onAppear {
+            HH = Int(goalViewModel.goal.setTime.split(separator: ":")[0]) ?? 0
+            mm = Int(goalViewModel.goal.setTime.split(separator: ":")[1]) ?? 0
+        }
     }
 }
 
@@ -293,9 +325,12 @@ struct GoalCountSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     
     @State private var buttonFrame: CGRect = .zero
-    @State private var HH: Int = 0
-    @State private var mm: Int = 0
-    @State private var ss: Int = 0
+    @State private var recordHH: Int = 0
+    @State private var recordmm: Int = 0
+    @State private var recordss: Int = 0
+    @State private var goalHH: Int = 0
+    @State private var goalmm: Int = 0
+    @State private var goalss: Int = 0
     
     var body: some View {
         VStack(spacing: 16) {
@@ -306,83 +341,178 @@ struct GoalCountSection: View {
                 
                 Spacer()
 
-                HStack(spacing: .zero) {
-                    ForEach([GoalTypes.count, GoalTypes.timer], id: \.self) { type in
-                        Button {
-                            goalViewModel.goal.type = type
-                            goalViewModel.goal.count = type.defaultCount
-                            if type == .timer {
-                                HH = 0
-                                mm = 0
-                                ss = 0
+                if goalViewModel.modifyType == nil {
+                    HStack(spacing: .zero) {
+                        ForEach([GoalTypes.count, GoalTypes.timer], id: \.self) { type in
+                            Button {
+                                goalViewModel.goal.type = type
+                                goalViewModel.goal.count = type.defaultCount
+                                if type == .timer {
+                                    goalHH = 0
+                                    goalmm = 0
+                                    goalss = 0
+                                }
+                            } label: {
+                                Text(type.text)
+                                    .font(Fonts.bodyMdSemiBold)
+                                    .foregroundStyle(goalViewModel.goal.type == type ? Colors.Text.point : Colors.Text.tertiary)
                             }
-                        } label: {
-                            Text(type.text)
-                                .font(Fonts.bodyMdSemiBold)
-                                .foregroundStyle(goalViewModel.goal.type == type ? Colors.Text.point : Colors.Text.tertiary)
-                        }
-                        .frame(width: 60, height: 30)
-                        .background {
-                            RoundedRectangle(cornerRadius: 99)
-                                .fill(goalViewModel.goal.type == type ? Colors.Background.primary : .clear)
-                                .stroke(goalViewModel.goal.type == type ? Colors.Brand.primary : .clear, lineWidth: 1)
+                            .frame(width: 60, height: 30)
+                            .background {
+                                RoundedRectangle(cornerRadius: 99)
+                                    .fill(goalViewModel.goal.type == type ? Colors.Background.primary : .clear)
+                                    .stroke(goalViewModel.goal.type == type ? Colors.Brand.primary : .clear, lineWidth: 1)
+                            }
                         }
                     }
-                }
-                .padding(4)
-                .background {
-                    RoundedRectangle(cornerRadius: 99)
-                        .fill(Colors.Background.secondary)
+                    .padding(4)
+                    .background {
+                        RoundedRectangle(cornerRadius: 99)
+                            .fill(Colors.Background.secondary)
+                    }
                 }
             }
             
-            if goalViewModel.goal.type == .timer {
-                Button {
-                    let width: CGFloat = 281
-                    let height: CGFloat = 176
-                    
-                    let offsetX = width / 2 - buttonFrame.width
-                    let offsetY = height / 2 + buttonFrame.height * 3 / 2 + 12
-                    
-                    let position = CGPoint(
-                        x: buttonFrame.minX - offsetX,
-                        y: buttonFrame.minY - offsetY + 60
-                    )
-                    
-                    if goalViewModel.popoverContent != nil {
-                        goalViewModel.hidePopover()
-                    } else {
-                        goalViewModel.showPopover(at: position) {
-                            HStack(spacing: 8) {
-                                DailyPicker(range: 0 ..< 24, selection: $HH) {
-                                    goalViewModel.goal.count = $0 * 3600 + mm * 60 + ss
-                                }
-                                DailyPicker(range: 0 ..< 60, selection: $mm) {
-                                    goalViewModel.goal.count = HH * 3600 + $0 * 60 + ss
-                                }
-                                DailyPicker(range: 0 ..< 60, selection: $ss) {
-                                    goalViewModel.goal.count = HH * 3600 + mm * 60 + $0
-                                }
-                            }
-                            .padding(.horizontal, 8)
-                            .frame(maxWidth: width, maxHeight: height)
-                        }
-                    }
-                } label: {
-                    Text(goalViewModel.goal.count.timerFormat())
-                        .font(Fonts.bodyLgMedium)
-                        .foregroundStyle(Colors.Text.point)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 20)
-                        .background(Colors.Background.secondary)
-                        .cornerRadius(8)
-                }
-                .getFrame { buttonFrame = $0 }
-                .hTrailing()
-            } else {
+            if let modifyType = goalViewModel.modifyType, modifyType != .all {
                 HStack(spacing: 4) {
+                    Text("기록")
+                        .font(Fonts.bodyMdSemiBold)
+                        .foregroundStyle(Colors.Text.tertiary)
+                    
                     Spacer()
                     
+                    if goalViewModel.goal.type == .timer {
+                        Button {
+                            let width: CGFloat = 281
+                            let height: CGFloat = 176
+                            
+                            let offsetX = width / 2 - buttonFrame.width
+                            let offsetY = height / 2 + buttonFrame.height * 3 / 2 + 12
+                            
+                            let position = CGPoint(
+                                x: buttonFrame.minX - offsetX,
+                                y: buttonFrame.minY - offsetY + 60
+                            )
+                            
+                            if goalViewModel.popoverContent != nil {
+                                goalViewModel.hidePopover()
+                            } else {
+                                goalViewModel.showPopover(at: position) {
+                                    HStack(spacing: 8) {
+                                        DailyPicker(range: 0 ..< 24, selection: $recordHH) {
+                                            goalViewModel.record.count = $0 * 3600 + recordmm * 60 + recordss
+                                        }
+                                        DailyPicker(range: 0 ..< 60, selection: $recordmm) {
+                                            goalViewModel.record.count = recordHH * 3600 + $0 * 60 + recordss
+                                        }
+                                        DailyPicker(range: 0 ..< 60, selection: $recordss) {
+                                            goalViewModel.record.count = recordHH * 3600 + recordmm * 60 + $0
+                                        }
+                                    }
+                                    .padding(.horizontal, 8)
+                                    .frame(maxWidth: width, maxHeight: height)
+                                }
+                            }
+                        } label: {
+                            Text(goalViewModel.record.count.timerFormat())
+                                .font(Fonts.bodyLgMedium)
+                                .foregroundStyle(Colors.Text.point)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
+                                .background(Colors.Background.secondary)
+                                .cornerRadius(8)
+                        }
+                        .getFrame { buttonFrame = $0 }
+                    } else {
+                        Button {
+                            let width: CGFloat = 99
+                            let height: CGFloat = 174
+                            
+                            let offsetX = CGFloat(width / 2 + 12)
+                            let offsetY = buttonFrame.height / 2 + height / 2
+                            
+                            let position = CGPoint(
+                                x: buttonFrame.minX - offsetX,
+                                y: buttonFrame.minY - offsetY + 60
+                            )
+                            
+                            if goalViewModel.popoverContent != nil {
+                                goalViewModel.hidePopover()
+                            } else {
+                                goalViewModel.showPopover(at: position) {
+                                    DailyPicker(range: 1 ... 10, selection: $goalViewModel.record.count, maxWidth: width)
+                                }
+                            }
+                        } label: {
+                            Text("\(goalViewModel.record.count)")
+                                .font(Fonts.bodyLgMedium)
+                                .foregroundStyle(Colors.Text.point)
+                                .frame(width: 58, height: 40)
+                                .background(Colors.Background.secondary)
+                                .cornerRadius(8)
+                        }
+                        .getFrame { buttonFrame = $0 }
+                        
+                        Text("회 반복")
+                            .font(Fonts.bodyLgMedium)
+                            .foregroundStyle(Colors.Text.secondary)
+                    }
+                }
+                DailyDivider(color: Colors.Border.secondary, height: 1)
+            }
+            
+            HStack(spacing: 4) {
+                if let modifyType = goalViewModel.modifyType, modifyType != .all {
+                    Text("목표")
+                        .font(Fonts.bodyMdSemiBold)
+                        .foregroundStyle(Colors.Text.tertiary)
+                }
+                
+                Spacer()
+                
+                if goalViewModel.goal.type == .timer {
+                    Button {
+                        let width: CGFloat = 281
+                        let height: CGFloat = 176
+                        
+                        let offsetX = width / 2 - buttonFrame.width
+                        let offsetY = height / 2 + buttonFrame.height * 3 / 2 + 12
+                        
+                        let position = CGPoint(
+                            x: buttonFrame.minX - offsetX,
+                            y: buttonFrame.minY - offsetY + 60
+                        )
+                        
+                        if goalViewModel.popoverContent != nil {
+                            goalViewModel.hidePopover()
+                        } else {
+                            goalViewModel.showPopover(at: position) {
+                                HStack(spacing: 8) {
+                                    DailyPicker(range: 0 ..< 24, selection: $goalHH) {
+                                        goalViewModel.goal.count = $0 * 3600 + goalmm * 60 + goalss
+                                    }
+                                    DailyPicker(range: 0 ..< 60, selection: $goalmm) {
+                                        goalViewModel.goal.count = goalHH * 3600 + $0 * 60 + goalss
+                                    }
+                                    DailyPicker(range: 0 ..< 60, selection: $goalss) {
+                                        goalViewModel.goal.count = goalHH * 3600 + goalmm * 60 + $0
+                                    }
+                                }
+                                .padding(.horizontal, 8)
+                                .frame(maxWidth: width, maxHeight: height)
+                            }
+                        }
+                    } label: {
+                        Text(goalViewModel.goal.count.timerFormat())
+                            .font(Fonts.bodyLgMedium)
+                            .foregroundStyle(Colors.Text.point)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(Colors.Background.secondary)
+                            .cornerRadius(8)
+                    }
+                    .getFrame { buttonFrame = $0 }
+                } else {
                     Button {
                         let width: CGFloat = 99
                         let height: CGFloat = 174
@@ -419,84 +549,13 @@ struct GoalCountSection: View {
             }
         }
         .padding(.horizontal, 16)
-    }
-}
-
-// MARK: - CountSection
-struct CountSection: View {
-    @Binding var recordCount: Int
-    @Binding var goalCount: Int
-    
-    var body: some View {
-        HStack {
-            Menu {
-                ForEach(0 ... goalCount, id: \.self) { count in
-                    Button {
-                        recordCount = count
-                    } label: {
-                        Text("\(count)")
-                    }
-                }
-            } label: {
-                Text("\(recordCount)")
-                    .frame(maxWidth: .infinity)
-            }
-            Text("/")
-            Menu {
-                ForEach(1 ... 10, id: \.self) { count in
-                    Button {
-                        goalCount = count
-                        if recordCount > goalCount {
-                            recordCount = count
-                        }
-                    } label: {
-                        Text("\(count)")
-                    }
-                }
-            } label: {
-                Text("\(goalCount)")
-                    .frame(maxWidth: .infinity)
-            }
+        .onAppear {
+            recordHH = goalViewModel.record.count / 3600
+            recordmm = goalViewModel.record.count % 3600 / 60
+            recordss = goalViewModel.record.count % 60
+            goalHH = goalViewModel.goal.count / 3600
+            goalmm = goalViewModel.goal.count % 3600 / 60
+            goalss = goalViewModel.goal.count % 60
         }
-        .foregroundStyle(Colors.reverse)
-    }
-}
-
-// MARK: - ButtonSection
-struct ButtonSection: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var alertEnvironment: AlertEnvironment
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var goalViewModel: GoalViewModel
-    let buttonType: ButtonTypes
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            DailyButton(action: {
-                goalViewModel.reset()
-            }, text: "초기화")
-            DailyButton(action: {
-                switch buttonType {
-                case .add:
-                    goalViewModel.add(
-                        successAction: {
-                            dismiss()
-                            if let newDate = $0 { calendarViewModel.setDate(date: newDate) }
-                        },
-                        validateAction: { alertEnvironment.showToast(message: $0.messageText) }
-                    )
-                case .modify:
-                    goalViewModel.modify(
-                        successAction: {
-                            dismiss()
-                            if let newDate = $0 { calendarViewModel.setDate(date: newDate) }
-                        },
-                        validateAction: { alertEnvironment.showToast(message: $0.messageText) }
-                    )
-                }
-            }, text: buttonType.text)
-        }
-        .padding(.top, CGFloat.fontSize)
     }
 }
