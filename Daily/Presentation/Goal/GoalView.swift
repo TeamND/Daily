@@ -26,11 +26,8 @@ struct GoalView: View {
         VStack(spacing: .zero) {
             headerView
             
-            ViewThatFits(in: .vertical) {
+            ScrollView(.vertical, showsIndicators: false) {
                 goalView
-                ScrollView(.vertical, showsIndicators: false) {
-                    goalView
-                }
             }
         }
         .background(Colors.Background.primary)
@@ -77,7 +74,7 @@ struct GoalView: View {
                 
                 DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
                 
-                ContentSection(content: $goalViewModel.goal.content, goalType: $goalViewModel.goal.type)
+                ContentSection(content: $goalViewModel.goal.content)
                 SymbolSection(symbol: $goalViewModel.goal.symbol)
                 GoalCountSection(goalViewModel: goalViewModel)
             }
@@ -239,7 +236,6 @@ struct TimeSection: View {
 // MARK: - ContentSection
 struct ContentSection: View {
     @Binding var content: String
-    @Binding var goalType: GoalTypes
     @FocusState var focusedField : Int?
     
     var body: some View {
@@ -265,8 +261,10 @@ struct ContentSection: View {
             .onSubmit {
                 hideKeyboard()
             }
-            .onAppear {
-                self.focusedField = 0
+            .task {
+                await MainActor.run {
+                    focusedField = 0
+                }
             }
         }
         .padding(.horizontal, 16)
