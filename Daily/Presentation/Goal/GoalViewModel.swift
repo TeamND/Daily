@@ -186,9 +186,11 @@ extension GoalViewModel {
         if validateContent() { return ContentAlert.tooShoertLength }
         if validateCount() { return CountAlert.tooSmallCount }
         if validateType == .add && goal.cycleType == .rept {
-            if startDate > endDate { return DateAlert.wrongDateRange }
-            if validateDateRange() { return DateAlert.overDateRange }
-            if selectedWeekday.allSatisfy({ $0 == false }) { return DateAlert.emptySelectedWeekday }
+            if repeatType == .weekly {
+                if startDate > endDate { return DateAlert.wrongDateRange }
+                if validateDateRange() { return DateAlert.overDateRange }
+                if selectedWeekday.allSatisfy({ $0 == false }) { return DateAlert.emptySelectedWeekday }
+            }
             if repeatDates.count == 0 { return DateAlert.emptyRepeatDates }
         }
         return nil

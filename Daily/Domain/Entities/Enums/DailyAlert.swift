@@ -66,7 +66,7 @@ enum DateAlert: DailyAlert {
         case .emptySelectedWeekday:
             return "아직 반복 요일을 설정하지 않았어요 🧐"
         case .emptyRepeatDates:
-            return "선택한 요일이 날짜 범위 안에 없어요 🫠"
+            return ""
         }
     }
     
@@ -79,7 +79,7 @@ enum DateAlert: DailyAlert {
         case .emptySelectedWeekday:
             return "반복 요일을 먼저 설정해주세요"
         case .emptyRepeatDates:
-            return "날짜 범위를 늘리거나 요일을 다시 설정해주세요"
+            return "유효한 날짜를 선택해주세요"
         }
     }
 }
