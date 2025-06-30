@@ -18,20 +18,31 @@ class GoalViewModel: ObservableObject {
     var originalGoal: DailyGoalModel = DailyGoalModel()
     var originalRecord: DailyRecordModel = DailyRecordModel()
     
+    private var isBlockPopover: Bool = false
+    @Published var popoverPosition: CGPoint = .zero
+    @Published var popoverContent: AnyView? = nil
+    
     @Published var goal: DailyGoalModel = DailyGoalModel()
     @Published var record: DailyRecordModel = DailyRecordModel()
     
+    @Published var repeatType: RepeatTypes = .weekly
     @Published var startDate: Date = Date(format: .daily)
     @Published var endDate: Date = Date(format: .daily).monthLater()
-    @Published var selectedWeekday: [Double] = Array(repeating: .zero, count: GeneralServices.week)
+    @Published var selectedWeekday: [Bool] = Array(repeating: false, count: GeneralServices.week)
+    @Published var selectedDates: [Date] = [Date(format: .daily)]
     
     var repeatDates: [String] {
         switch goal.cycleType {
         case .date:
             return [startDate.getSelection()]
         case .rept:
-            return stride(from: startDate, through: endDate, by: 24 * 60 * 60).compactMap {
-                selectedWeekday[calendar.component(.weekday, from: $0) - 1] > 0 ? $0.getSelection() : nil
+            switch repeatType {
+            case .weekly:
+                return stride(from: startDate, through: endDate, by: 24 * 60 * 60).compactMap {
+                    selectedWeekday[calendar.component(.weekday, from: $0) - 1] ? $0.getSelection() : nil
+                }
+            case .custom:
+                return selectedDates.map { $0.getSelection() }
             }
         }
     }
@@ -55,7 +66,7 @@ class GoalViewModel: ObservableObject {
         
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
-        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
+        self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
         
         self.originalGoal = goal.copy()
     }
@@ -71,6 +82,27 @@ class GoalViewModel: ObservableObject {
         
         self.originalGoal = goal.copy()
         self.originalRecord = record.copy()
+    }
+}
+
+// MARK: - popover func
+extension GoalViewModel {
+    func showPopover(at position: CGPoint, @ViewBuilder content: @escaping () -> some View) {
+        if isBlockPopover && self.popoverPosition == position { return }
+
+        self.popoverPosition = position
+        self.popoverContent = AnyView(content())
+    }
+    
+    func hidePopover() {
+        if popoverContent != nil {
+            isBlockPopover = true
+            popoverContent = nil
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isBlockPopover = false
+            }
+        }
     }
 }
 
@@ -96,7 +128,7 @@ extension GoalViewModel {
         
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
-        self.selectedWeekday = Array(repeating: .zero, count: GeneralServices.week)
+        self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
     }
     
     func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
@@ -152,16 +184,22 @@ extension GoalViewModel {
 extension GoalViewModel {
     private func validate(validateType: ButtonTypes) -> DailyAlert? {
         if validateContent() { return ContentAlert.tooShoertLength }
+        if validateCount() { return CountAlert.tooSmallCount }
         if validateType == .add && goal.cycleType == .rept {
-            if startDate > endDate { return DateAlert.wrongDateRange }
-            if validateDateRange() { return DateAlert.overDateRange }
-            if selectedWeekday.allSatisfy({ $0 == .zero }) { return DateAlert.emptySelectedWeekday }
+            if repeatType == .weekly {
+                if startDate > endDate { return DateAlert.wrongDateRange }
+                if validateDateRange() { return DateAlert.overDateRange }
+                if selectedWeekday.allSatisfy({ $0 == false }) { return DateAlert.emptySelectedWeekday }
+            }
             if repeatDates.count == 0 { return DateAlert.emptyRepeatDates }
         }
         return nil
     }
     private func validateContent() -> Bool {
         return goal.content.count < 2
+    }
+    private func validateCount() -> Bool {
+        return goal.count < 1
     }
     private func validateDateRange() -> Bool {
         let gap = calendar.dateComponents([.year,.month,.day], from: startDate, to: endDate)

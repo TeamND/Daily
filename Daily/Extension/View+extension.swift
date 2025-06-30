@@ -38,6 +38,31 @@ extension View {
     }
 }
 
+extension View {
+    func getFrame(in coordinateSpace: CoordinateSpace = .named("goalView"), returnFunc: @escaping (CGRect) -> Void) -> some View {
+        background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear { returnFunc(geo.frame(in: coordinateSpace)) }
+                    .onChange(of: geo.frame(in: coordinateSpace)) { returnFunc($1) }
+            }
+        )
+    }
+    
+    func horizontalGradient() -> some View {
+        overlay {
+            HStack {
+                let colors = [Colors.Background.primary, Colors.Background.primary.opacity(0)]
+                let leadingGradient = LinearGradient(gradient: Gradient(colors: colors), startPoint: .leading, endPoint: .trailing)
+                let trailingGradient = LinearGradient(gradient: Gradient(colors: colors), startPoint: .trailing, endPoint: .leading)
+                Rectangle().fill(leadingGradient).frame(width: 16)
+                Spacer()
+                Rectangle().fill(trailingGradient).frame(width: 16)
+            }
+        }
+    }
+}
+
 // MARK: - Keyboard
 extension View {
     func hideKeyboard() {

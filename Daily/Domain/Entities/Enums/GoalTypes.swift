@@ -12,14 +12,21 @@ enum GoalTypes: String, CaseIterable, Codable {
     case count
     case timer
     
-    var contentHint: String {
+    var text: String {
         switch self {
-        case .check:
-            return "아침 7시에 일어나기 ☀️"
-        case .count:
-            return "물 2잔 이상 마시기 🚰"
+        case .check, .count:
+            return "카운트"
         case .timer:
-            return "자기 전 30분 책 읽기 📖"
+            return "타이머"
+        }
+    }
+    
+    var defaultCount: Int {
+        switch self {
+        case .check, .count:
+            return 1
+        case .timer:
+            return 0
         }
     }
 }

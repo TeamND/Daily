@@ -40,7 +40,7 @@ struct MainView: View {
         
         let currentPage = navigationEnvironment.navigationPath.last
         let from: CalendarTypes = currentPage == nil ? .year : currentPage!.viewType == .calendarMonth ? .month : .day
-        print("from is \(from.rawValue), to is \(to.rawValue)")
+        
         calendarViewModel.setDate(date: Date(format: .daily))
         navigationEnvironment.navigateDirect(from: from, to: to)
     }

@@ -16,5 +16,7 @@ enum DateFormats: String {
     case week = "~M.d"
     case day = "M.d"
     
+    case singleDate = "yyyy. MM. dd. E"
     case multiDate = "yy. MM. dd. E"
+    case AMPMTime = "a h:mm"
 }
