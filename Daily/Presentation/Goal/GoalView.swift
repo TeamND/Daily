@@ -460,7 +460,7 @@ struct GoalCountSection: View {
             }
             
             HStack(spacing: 4) {
-                if let modifyType = goalViewModel.modifyType, modifyType != .all {
+                if let modifyType = goalViewModel.modifyType {
                     Text("목표")
                         .font(Fonts.bodyMdSemiBold)
                         .foregroundStyle(Colors.Text.tertiary)
