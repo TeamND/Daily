@@ -85,7 +85,11 @@ extension CalendarViewModel {
     }
     
     func setFilter(filter: Symbols) {
-        self.filter = filter
+        if self.filter == filter {
+            self.filter = .all
+        } else {
+            self.filter = filter
+        }
         
         yearData.forEach {
             let records = yearDictionary[$0.key] ?? []

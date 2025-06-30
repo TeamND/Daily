@@ -38,7 +38,11 @@ extension ChartViewModel {
     }
     
     func setFilter(filter: Symbols) {
-        self.filter = filter
+        if self.filter == filter {
+            self.filter = .all
+        } else {
+            self.filter = filter
+        }
         
         setChartDatas()
     }
