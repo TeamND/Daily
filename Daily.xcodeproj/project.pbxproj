@@ -48,6 +48,8 @@
 		F67DD0FA2E039A2B0001203D /* RepeatWeekdayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F92E039A2B0001203D /* RepeatWeekdayPicker.swift */; };
 		F67DD7A02E0CCF9B0001203D /* DailyPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD79F2E0CCF9B0001203D /* DailyPopover.swift */; };
 		F67DD7A82E0E48240001203D /* DailyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD7A72E0E48240001203D /* DailyPicker.swift */; };
+		F67DD7B82E137D860001203D /* AppLaunchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD7B72E137D860001203D /* AppLaunchRepository.swift */; };
+		F67DD7BA2E137DA60001203D /* AppLaunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD7B92E137DA60001203D /* AppLaunchInterface.swift */; };
 		F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */; };
 		F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */; };
 		F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845F2D21072800AEBD76 /* Array+extension.swift */; };
@@ -206,6 +208,8 @@
 		F67DD0F92E039A2B0001203D /* RepeatWeekdayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatWeekdayPicker.swift; sourceTree = "<group>"; };
 		F67DD79F2E0CCF9B0001203D /* DailyPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPopover.swift; sourceTree = "<group>"; };
 		F67DD7A72E0E48240001203D /* DailyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPicker.swift; sourceTree = "<group>"; };
+		F67DD7B72E137D860001203D /* AppLaunchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchRepository.swift; sourceTree = "<group>"; };
+		F67DD7B92E137DA60001203D /* AppLaunchInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchInterface.swift; sourceTree = "<group>"; };
 		F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLoadView.swift; sourceTree = "<group>"; };
 		F69A845F2D21072800AEBD76 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
@@ -426,6 +430,7 @@
 		F6016DB72CC4DFB000FB637F /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				F67DD7B92E137DA60001203D /* AppLaunchInterface.swift */,
 				F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */,
 				F6CE8A212CCF606B0050A25A /* GoalInterface.swift */,
 				F6A326712DDEECCF00243B23 /* ChartInterface.swift */,
@@ -459,6 +464,7 @@
 		F6016DBE2CC4E3CA00FB637F /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				F67DD7B72E137D860001203D /* AppLaunchRepository.swift */,
 				F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */,
 				F6CE8A232CCF60900050A25A /* GoalRepository.swift */,
 				F6A326732DDEECDF00243B23 /* ChartRepository.swift */,
@@ -973,12 +979,14 @@
 				F6E1CCDE2DAEB075009E25DA /* DayDataModel.swift in Sources */,
 				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,
+				F67DD7BA2E137DA60001203D /* AppLaunchInterface.swift in Sources */,
 				F6E1CCB32DACF830009E25DA /* SymbolFilter.swift in Sources */,
 				F6C6CD8F2D6B700A00772E59 /* ViewTypes.swift in Sources */,
 				F6016DEB2CC6162600FB637F /* AppLaunchUseCase.swift in Sources */,
 				F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
 				F6F31DD12CF47D210090A3B9 /* GeneralServices.swift in Sources */,
+				F67DD7B82E137D860001203D /* AppLaunchRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

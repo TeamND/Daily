@@ -8,19 +8,20 @@
 import Foundation
 
 class UserDefaultManager {
+    // MARK: setting
     @UserDefault(key: .startDay, defaultValue: nil) static var startDay: Int?
     @UserDefault(key: .language, defaultValue: nil) static var language: String?
-    @UserDefault(key: .dateType, defaultValue: nil) static var dateType: String?
     @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: String?
-    @UserDefault(key: .lastTime, defaultValue: nil) static var lastTime: String?
+    
+    // MARK: migration
+    @UserDefault(key: .beforeVersion, defaultValue: nil) static var beforeVersion: String?
 }
 
 enum UserDefaultKey: String {
     case startDay
     case language
-    case dateType
     case calendarType
-    case lastTime
+    case beforeVersion
 }
 
 @propertyWrapper

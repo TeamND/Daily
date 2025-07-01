@@ -17,7 +17,8 @@ final class SplashViewModel: ObservableObject {
     @Published var isNeedUpdate: Bool = false
     
     init() {
-        self.appLaunchUseCase = AppLaunchUseCase()
+        let appLaunchRepository = AppLaunchRepository()
+        self.appLaunchUseCase = AppLaunchUseCase(repository: appLaunchRepository)
     }
 
     func onAppear() {
@@ -34,6 +35,8 @@ final class SplashViewModel: ObservableObject {
     
     func loadApp(isWait: Bool = false) {
         Task { @MainActor in
+            await appLaunchUseCase.migrate()
+            
             isAppLoaded = await appLaunchUseCase.loadApp(isWait)
         }
     }
@@ -41,7 +44,6 @@ final class SplashViewModel: ObservableObject {
     private func setUserDefault() {
         UserDefaultManager.startDay = UserDefaultManager.startDay ?? 0
         UserDefaultManager.language = UserDefaultManager.language ?? "korean"
-        UserDefaultManager.dateType = UserDefaultManager.dateType ?? "date"
         UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? "month"
     }
 }

@@ -119,4 +119,9 @@ final class DailyDataSource {
         context.delete(goal)
         try? context.save()
     }
+    
+    func getGoals() async -> [DailyGoalModel]? {
+        let descriptor = FetchDescriptor<DailyGoalModel>()
+        return try? context.fetch(descriptor)
+    }
 }

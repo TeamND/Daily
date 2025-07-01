@@ -8,6 +8,14 @@
 import Foundation
 
 final class AppLaunchUseCase {
+    private let repository: AppLaunchInterface
+    
+    init(repository: AppLaunchInterface) {
+        self.repository = repository
+    }
+}
+
+extension AppLaunchUseCase {
     func getCatchPhrase() -> String {
         let language = Languages(rawValue: UserDefaultManager.language ?? "korean") ?? .korean
         switch language {
@@ -20,11 +28,6 @@ final class AppLaunchUseCase {
     
     func checkNotice() -> Bool {
         return Date() < "2025-01-15".toDate()!  // TODO: 추후 수정
-    }
-    
-    func loadApp(_ isWait: Bool = true) async -> Bool {
-        if isWait { try? await Task.sleep(nanoseconds: 1_000_000_000) }
-        return true
     }
     
     func checkUpdate() async -> Bool {
@@ -46,6 +49,60 @@ final class AppLaunchUseCase {
         case .english:
             return ("Update Available", "To ensure a smoother experience,\nplease update to the latest version.")
         }
+    }
+}
+
+extension AppLaunchUseCase {
+    func migrate() async {
+        let beforeVersion = UserDefaultManager.beforeVersion
+        UserDefaultManager.beforeVersion = System.appVersion
+        
+        await TaskQueueManager.shared.add { [weak self] in
+            guard let self else { return }
+            
+            if isVersionAtMost("2.0.10", comparedTo: beforeVersion) {
+                await goalTypeMigrate()
+            }
+            
+            await repository.updateData()
+        }
+    }
+    
+    func isVersionAtMost(_ baseVersion: String, comparedTo comparisonVersion: String?) -> Bool {
+        guard let comparisonVersion = comparisonVersion else { return true }
+        
+        let baseComponents = baseVersion.split(separator: ".").compactMap { Int($0) }
+        let comparisonComponents = comparisonVersion.split(separator: ".").compactMap { Int($0) }
+
+        let maxLength = max(baseComponents.count, comparisonComponents.count)
+
+        for i in 0 ..< maxLength {
+            let base = i < baseComponents.count ? baseComponents[i] : 0
+            let comparison = i < comparisonComponents.count ? comparisonComponents[i] : 0
+
+            if comparison > base {
+                return false
+            } else if comparison < base {
+                return true
+            }
+        }
+
+        return true
+    }
+    
+    func goalTypeMigrate() async {
+        guard let goals = await repository.getGoals() else { return }
+        
+        for goal in goals {
+            if goal.type == .check {
+                goal.type = .count
+            }
+        }
+    }
+    
+    func loadApp(_ isWait: Bool = true) async -> Bool {
+        if isWait { try? await Task.sleep(nanoseconds: 1_000_000_000) }
+        return true
     }
 }
 
