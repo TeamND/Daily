@@ -27,10 +27,10 @@ struct NavigationObject: Navigatable {
             return CalendarDayView()
         case .goal:
             let data = data as! GoalDataModel
-            return GoalView(goalData: data)
+            return GoalView(goalData: data, viewType: viewType)
         case .modify:
             let data = data as! ModifyDataModel
-            return GoalView(modifyData: data)
+            return GoalView(modifyData: data, viewType: viewType)
         case .setting:
             return SettingView()
         case .chart:

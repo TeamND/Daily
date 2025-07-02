@@ -14,12 +14,16 @@ struct GoalView: View {
     
     @StateObject var goalViewModel: GoalViewModel
     
-    init(goalData: GoalDataModel) {
+    private let viewType: ViewTypes
+    
+    init(goalData: GoalDataModel, viewType: ViewTypes) {
         _goalViewModel = StateObject(wrappedValue: GoalViewModel(goalData: goalData))
+        self.viewType = viewType
     }
     
-    init(modifyData: ModifyDataModel) {
+    init(modifyData: ModifyDataModel, viewType: ViewTypes) {
         _goalViewModel = StateObject(wrappedValue: GoalViewModel(modifyData: modifyData))
+        self.viewType = viewType
     }
     
     var body: some View {
@@ -34,42 +38,37 @@ struct GoalView: View {
     }
     
     var headerView: some View {
-        if goalViewModel.modifyType == nil {
-            NavigationHeader(title: "목표 추가", trailingText: "추가") {
-                goalViewModel.add(
-                    successAction: { newDate in
-                        dismiss()
-                        if let newDate { calendarViewModel.setDate(date: newDate) }
-                    },
-                    validateAction: { alertEnvironment.showToast(message: $0.messageText) }
-                )
-            }
-        } else {
-            NavigationHeader(title: "목표 수정", trailingText: "수정") {
-                goalViewModel.modify(
-                    successAction: { newDate in
-                        dismiss()
-                        if let newDate { calendarViewModel.setDate(date: newDate) }
-                    },
-                    validateAction: { alertEnvironment.showToast(message: $0.messageText) }
-                )
+        NavigationHeader(title: viewType.headerTitle, trailingText: viewType.trailingText) {
+            if viewType == .goal {
+                goalViewModel.add(successAction: successAction, validateAction: validateAction)
+            } else {
+                goalViewModel.modify(successAction: successAction, validateAction: validateAction)
             }
         }
+    }
+    
+    private func successAction(newDate: Date?) {
+        dismiss()
+        if let newDate { calendarViewModel.setDate(date: newDate) }
+    }
+    
+    private func validateAction(alert: DailyAlert) {
+        alertEnvironment.showToast(message: alert.messageText)
     }
     
     var goalView: some View {
         VStack(spacing: .zero) {
             Spacer().frame(height: 16)
 
-            if goalViewModel.modifyType == nil {
+            if viewType == .goal {
                 DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
-                
                 Spacer().frame(height: 24)
             }
             
             VStack(spacing: 20) {
-                if let modifyType = goalViewModel.modifyType, modifyType == .all { }
-                else { DateSection(goalViewModel: goalViewModel) }
+                if viewType == .goal || (viewType == .modify && goalViewModel.modifyType != .all) {
+                    DateSection(goalViewModel: goalViewModel)
+                }
                 TimeSection(goalViewModel: goalViewModel)
                 
                 DailyDivider(color: Colors.Border.secondary, height: 1, hPadding: 16)
@@ -322,10 +321,11 @@ struct GoalCountSection: View {
     
     @ObservedObject var goalViewModel: GoalViewModel
     
-    @State private var buttonFrame: CGRect = .zero
+    @State private var recordButtonFrame: CGRect = .zero
     @State private var recordHH: Int = 0
     @State private var recordmm: Int = 0
     @State private var recordss: Int = 0
+    @State private var goalButtonFrame: CGRect = .zero
     @State private var goalHH: Int = 0
     @State private var goalmm: Int = 0
     @State private var goalss: Int = 0
@@ -384,12 +384,12 @@ struct GoalCountSection: View {
                             let width: CGFloat = 281
                             let height: CGFloat = 176
                             
-                            let offsetX = width / 2 - buttonFrame.width
-                            let offsetY = height / 2 + buttonFrame.height * 3 / 2 + 12
+                            let offsetX = width / 2 - recordButtonFrame.width
+                            let offsetY = height / 2 + recordButtonFrame.height * 3 / 2 + 12
                             
                             let position = CGPoint(
-                                x: buttonFrame.minX - offsetX,
-                                y: buttonFrame.minY - offsetY + 60
+                                x: recordButtonFrame.minX - offsetX,
+                                y: recordButtonFrame.minY - offsetY + 60
                             )
                             
                             if goalViewModel.popoverContent != nil {
@@ -420,25 +420,25 @@ struct GoalCountSection: View {
                                 .background(Colors.Background.secondary)
                                 .cornerRadius(8)
                         }
-                        .getFrame { buttonFrame = $0 }
+                        .getFrame { recordButtonFrame = $0 }
                     } else {
                         Button {
                             let width: CGFloat = 99
                             let height: CGFloat = 174
                             
                             let offsetX = CGFloat(width / 2 + 12)
-                            let offsetY = buttonFrame.height / 2 + height / 2
+                            let offsetY = recordButtonFrame.height / 2 + height / 2
                             
                             let position = CGPoint(
-                                x: buttonFrame.minX - offsetX,
-                                y: buttonFrame.minY - offsetY + 60
+                                x: recordButtonFrame.minX - offsetX,
+                                y: recordButtonFrame.minY - offsetY + 60
                             )
                             
                             if goalViewModel.popoverContent != nil {
                                 goalViewModel.hidePopover()
                             } else {
                                 goalViewModel.showPopover(at: position) {
-                                    DailyPicker(range: 1 ... 10, selection: $goalViewModel.record.count, maxWidth: width)
+                                    DailyPicker(range: 0 ... goalViewModel.goal.count, selection: $goalViewModel.record.count, maxWidth: width)
                                 }
                             }
                         } label: {
@@ -449,7 +449,7 @@ struct GoalCountSection: View {
                                 .background(Colors.Background.secondary)
                                 .cornerRadius(8)
                         }
-                        .getFrame { buttonFrame = $0 }
+                        .getFrame { recordButtonFrame = $0 }
                         
                         Text("회 반복")
                             .font(Fonts.bodyLgMedium)
@@ -471,12 +471,12 @@ struct GoalCountSection: View {
                         let width: CGFloat = 281
                         let height: CGFloat = 176
                         
-                        let offsetX = width / 2 - buttonFrame.width
-                        let offsetY = height / 2 + buttonFrame.height * 3 / 2 + 12
+                        let offsetX = width / 2 - goalButtonFrame.width
+                        let offsetY = height / 2 + goalButtonFrame.height * 3 / 2 + 12
                         
                         let position = CGPoint(
-                            x: buttonFrame.minX - offsetX,
-                            y: buttonFrame.minY - offsetY + 60
+                            x: goalButtonFrame.minX - offsetX,
+                            y: goalButtonFrame.minY - offsetY + 60
                         )
                         
                         if goalViewModel.popoverContent != nil {
@@ -507,25 +507,25 @@ struct GoalCountSection: View {
                             .background(Colors.Background.secondary)
                             .cornerRadius(8)
                     }
-                    .getFrame { buttonFrame = $0 }
+                    .getFrame { goalButtonFrame = $0 }
                 } else {
                     Button {
                         let width: CGFloat = 99
                         let height: CGFloat = 174
                         
                         let offsetX = CGFloat(width / 2 + 12)
-                        let offsetY = buttonFrame.height / 2 + height / 2
+                        let offsetY = goalButtonFrame.height / 2 + height / 2
                         
                         let position = CGPoint(
-                            x: buttonFrame.minX - offsetX,
-                            y: buttonFrame.minY - offsetY + 60
+                            x: goalButtonFrame.minX - offsetX,
+                            y: goalButtonFrame.minY - offsetY + 60
                         )
                         
                         if goalViewModel.popoverContent != nil {
                             goalViewModel.hidePopover()
                         } else {
                             goalViewModel.showPopover(at: position) {
-                                DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
+                                DailyPicker(range: max(1, goalViewModel.record.count) ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
                             }
                         }
                     } label: {
@@ -536,7 +536,7 @@ struct GoalCountSection: View {
                             .background(Colors.Background.secondary)
                             .cornerRadius(8)
                     }
-                    .getFrame { buttonFrame = $0 }
+                    .getFrame { goalButtonFrame = $0 }
                     
                     Text("회 반복")
                         .font(Fonts.bodyLgMedium)

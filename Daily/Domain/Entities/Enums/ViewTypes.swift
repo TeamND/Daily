@@ -25,4 +25,26 @@ enum ViewTypes {
             return false
         }
     }
+    
+    var headerTitle: String {
+        switch self {
+        case .goal:
+            return "목표 추가"
+        case .modify:
+            return "목표 수정"
+        default:
+            return ""
+        }
+    }
+    
+    var trailingText: String {
+        switch self {
+        case .goal:
+            return "추가"
+        case .modify:
+            return "수정"
+        default:
+            return ""
+        }
+    }
 }
