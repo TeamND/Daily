@@ -438,7 +438,7 @@ struct GoalCountSection: View {
                                 goalViewModel.hidePopover()
                             } else {
                                 goalViewModel.showPopover(at: position) {
-                                    DailyPicker(range: 0 ... goalViewModel.goal.count, selection: $goalViewModel.record.count, maxWidth: width)
+                                    DailyPicker(range: 0 ... 10, selection: $goalViewModel.record.count, maxWidth: width)
                                 }
                             }
                         } label: {
@@ -525,7 +525,7 @@ struct GoalCountSection: View {
                             goalViewModel.hidePopover()
                         } else {
                             goalViewModel.showPopover(at: position) {
-                                DailyPicker(range: max(1, goalViewModel.record.count) ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
+                                DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
                             }
                         }
                     } label: {
