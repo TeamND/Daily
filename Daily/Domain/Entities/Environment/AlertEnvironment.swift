@@ -38,23 +38,26 @@ class AlertEnvironment: ObservableObject {
     }
     
     var toastView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Spacer()
-            Text(toastMessage)
-                .multilineTextAlignment(.center)
-                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                .padding(CGFloat.fontSize)
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Colors.background)
-                }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.primary, lineWidth: 1)
-                }
-                .padding(CGFloat.fontSize)
-                .hCenter()
-                .opacity(isShowToast ? 1 : 0)
+            HStack(spacing: 12) {
+                Image(.notice)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 22)
+                
+                Text(toastMessage)
+                    .font(Fonts.bodyMdSemiBold) // TODO: 피그마에 수정해주시면 반영
+                    .foregroundStyle(Colors.Brand.secondary)
+                
+                Spacer()
+            }
+            .padding(.vertical, 13)
+            .padding(.horizontal, 16)
+            .background(Colors.Background.toast)
+            .cornerRadius(12)
+            .padding(.horizontal, 16)
+            .opacity(isShowToast ? 1 : 0)
         }
         .onChange(of: isShowToast) { _, isShowToast in
             if isShowToast {
