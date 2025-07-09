@@ -23,6 +23,7 @@ enum Colors {
     enum Background {
         static let primary = Color("backgroundPrimary")
         static let secondary = Color("backgroundSecondary")
+        static let toast = Color("backgroundToast")
     }
     
     enum Text {
