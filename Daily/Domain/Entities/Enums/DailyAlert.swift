@@ -26,7 +26,7 @@ enum CountAlert: DailyAlert {
     var messageText: String {
         switch self {
         case .tooSmallCount:
-            return "최소한의 목표를 지정해주세요 🐥"
+            return "타이머는 최소 1초 이상 설정해주세요"
         }
     }
 }
@@ -45,7 +45,7 @@ enum ContentAlert: DailyAlert {
     var messageText: String {
         switch self {
         case .tooShoertLength:
-            return "최소 2글자 이상의 목표를 설정해주세요"
+            return "목표는 최소 2글자 이상 입력해주세요"
         }
     }
 }
@@ -75,11 +75,11 @@ enum DateAlert: DailyAlert {
         case .wrongDateRange:
             return "종료일은 시작일 이후로 설정해주세요"
         case .overDateRange:
-            return "날짜 범위는 1년 이내로 설정해주세요"
+            return "기간은 최대 1년까지만 설정할 수 있어요"
         case .emptySelectedWeekday:
-            return "반복 요일을 먼저 설정해주세요"
+            return "반복 요일을 하나 이상 선택해주세요"
         case .emptyRepeatDates:
-            return "유효한 날짜를 선택해주세요"
+            return "선택한 기간 내 반복 요일이 포함되지 않아요"
         }
     }
 }
@@ -104,9 +104,9 @@ enum NoticeAlert: DailyAlert {
         case .denied:
             return "Daily의 알림을 받아보세요 🙌🙌"
         case .dateChanged:
-            return "목표 날짜가 변경되어 알림이 삭제되었어요 🫥"
+            return "목표 날짜가 변경되어 알림이 삭제되었어요"
         case .setTimeChanged:
-            return "목표 시간이 변경되어 알림이 삭제되었어요 🫥"
+            return "목표 시간이 변경되어 알림이 삭제되었어요"
         }
     }
     

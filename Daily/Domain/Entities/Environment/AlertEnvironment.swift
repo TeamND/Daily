@@ -47,16 +47,13 @@ class AlertEnvironment: ObservableObject {
                     .frame(width: 22)
                 
                 Text(toastMessage)
-                    .font(Fonts.bodyMdSemiBold) // TODO: 피그마에 수정해주시면 반영
+                    .font(Fonts.bodyLgMedium)
                     .foregroundStyle(Colors.Brand.secondary)
-                
-                Spacer()
             }
             .padding(.vertical, 13)
             .padding(.horizontal, 16)
             .background(Colors.Background.toast)
             .cornerRadius(12)
-            .padding(.horizontal, 16)
             .opacity(isShowToast ? 1 : 0)
         }
         .onChange(of: isShowToast) { _, isShowToast in
