@@ -12,10 +12,32 @@ class AlertEnvironment: ObservableObject {
     @Published var isShowAlert: Bool = false
     @Published var isShowToast: Bool = false
     @Published var toastMessage: String = ""
+    @Published var alertTitle: String = ""
+    @Published var alertDescription: String = ""
+    @Published var primaryButtonText: String = ""
+    @Published var secondaryButtonText: String = ""
     
-    func showAlert() {
+    func showAlert(alertType: NoticeAlert) {
         DispatchQueue.main.async {
-            self.isShowAlert = true
+            self.alertTitle = alertType.titleText
+            self.alertDescription = alertType.messageText
+            self.primaryButtonText = alertType.primaryButtonText
+            self.secondaryButtonText = alertType.secondaryButtonText
+            withAnimation {
+                self.isShowAlert = true
+            }
+        }
+    }
+    
+    func hideAlert() {
+        DispatchQueue.main.async {
+            self.alertTitle = ""
+            self.alertDescription = ""
+            self.primaryButtonText = ""
+            self.secondaryButtonText = ""
+            withAnimation {
+                self.isShowAlert = false
+            }
         }
     }
     
@@ -63,5 +85,54 @@ class AlertEnvironment: ObservableObject {
                 }
             }
         }
+    }
+    
+    var alertView: some View {
+        VStack(spacing: .zero) {
+            Text(alertTitle)
+                .font(Fonts.headingSmSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+            Spacer().frame(height: 8)
+            
+            Text(alertDescription)
+                .font(Fonts.bodyMdRegular)
+                .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 28)
+            
+            HStack(spacing: 8) {
+                Button {
+                    self.hideAlert()
+                } label: {
+                    Text(secondaryButtonText)
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Brand.primary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Colors.Brand.primary, lineWidth: 1)
+                        }
+                }
+                
+                Button {
+                    System().openSettingApp()
+                } label: {
+                    Text(primaryButtonText)
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Text.inverse)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Colors.Brand.primary)
+                        .cornerRadius(8)
+                }
+            }
+            .frame(height: 48)
+        }
+        .padding(.top, 28)
+        .padding(.bottom, 16)
+        .padding(.horizontal, 16)
+        .background(Colors.Background.secondary)
+        .cornerRadius(12)
+        .shadow(color: Colors.Shadow.primary, radius: 8)
+        .padding(.horizontal, 34)
+        .opacity(isShowAlert ? 1 : 0)
     }
 }

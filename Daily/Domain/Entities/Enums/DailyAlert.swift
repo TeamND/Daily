@@ -38,7 +38,7 @@ enum ContentAlert: DailyAlert {
     var titleText: String {
         switch self {
         case .tooShoertLength:
-            return "목표의 길이가 너무 짧아요 😵"
+            return ""
         }
     }
     
@@ -60,11 +60,11 @@ enum DateAlert: DailyAlert {
     var titleText: String {
         switch self {
         case .wrongDateRange:
-            return "날짜 범위가 잘못 되었어요 🤯"
+            return ""
         case .overDateRange:
-            return "날짜 범위를 초과했어요 🤢"
+            return ""
         case .emptySelectedWeekday:
-            return "아직 반복 요일을 설정하지 않았어요 🧐"
+            return ""
         case .emptyRepeatDates:
             return ""
         }
@@ -86,14 +86,17 @@ enum DateAlert: DailyAlert {
 
 // MARK: - NoticeAlert
 enum NoticeAlert: DailyAlert {
-    case denied
+    case deniedAtAppOpen
+    case deniedAtSetTime
     case dateChanged
     case setTimeChanged
     
     var titleText: String {
         switch self {
-        case .denied:
-            return "알림 설정이 꺼져있어, 일부 기능이 제한된 상태에요 😱"
+        case .deniedAtAppOpen:
+            return "알림이 꺼져 있어 기능 일부가 제한돼요"
+        case .deniedAtSetTime:
+            return "알림 권한이 꺼져 있어요"
         default:
             return ""
         }
@@ -101,8 +104,10 @@ enum NoticeAlert: DailyAlert {
     
     var messageText: String {
         switch self {
-        case .denied:
-            return "Daily의 알림을 받아보세요 🙌🙌"
+        case .deniedAtAppOpen:
+            return "더 체계적인 관리를 위해 알림을 받아보세요!"
+        case .deniedAtSetTime:
+            return "설정에서 알림을 허용해주세요!"
         case .dateChanged:
             return "목표 날짜가 변경되어 알림이 삭제되었어요"
         case .setTimeChanged:
@@ -112,7 +117,7 @@ enum NoticeAlert: DailyAlert {
     
     var primaryButtonText: String {
         switch self {
-        case .denied:
+        case .deniedAtAppOpen, .deniedAtSetTime:
             return "설정으로 이동"
         default:
             return ""
@@ -121,8 +126,10 @@ enum NoticeAlert: DailyAlert {
     
     var secondaryButtonText: String {
         switch self {
-        case .denied:
+        case .deniedAtAppOpen:
             return "다음에 하기"
+        case .deniedAtSetTime:
+            return "닫기"
         default:
             return ""
         }

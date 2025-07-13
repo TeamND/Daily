@@ -52,7 +52,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: title, body: body, repeats: true)
     }
     
-    func requestNotiAuthorization(showAlert: @escaping () -> Void) {
+    func requestNotiAuthorization(showAlert: @escaping (NoticeAlert) -> Void, alertType: NoticeAlert) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -60,7 +60,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
                     if granted { self.addDefaultNotice() }
                 }
             case .denied:
-                showAlert()
+                showAlert(alertType)
             default:
                 self.removeBadges()
                 self.removePastNotice()
