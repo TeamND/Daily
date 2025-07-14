@@ -127,7 +127,7 @@ enum NoticeAlert: DailyAlert {
     var secondaryButtonText: String {
         switch self {
         case .deniedAtAppOpen:
-            return "다음에 하기"
+            return "나중에 하기"
         case .deniedAtSetTime:
             return "닫기"
         default:

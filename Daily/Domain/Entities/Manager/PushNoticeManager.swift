@@ -76,7 +76,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
-        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요 😎😎")
+        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요. 준비되셨나요?")
     }
     
     func removeNotice(id: String) {

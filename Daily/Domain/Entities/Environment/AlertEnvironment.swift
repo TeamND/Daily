@@ -131,8 +131,9 @@ class AlertEnvironment: ObservableObject {
         .padding(.horizontal, 16)
         .background(Colors.Background.secondary)
         .cornerRadius(12)
-        .shadow(color: Colors.Shadow.primary, radius: 8)
-        .padding(.horizontal, 34)
+        .padding(.horizontal, 34)   // TODO: 너비가 동적인지 정적인지 확인 후 필요에 의해 수정
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Colors.Background.toast.opacity(0.2))   // FIXME: Dim 색상 정해지면 수정
         .opacity(isShowAlert ? 1 : 0)
     }
 }
