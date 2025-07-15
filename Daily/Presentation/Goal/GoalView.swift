@@ -168,6 +168,11 @@ struct TimeSection: View {
                             PushNoticeManager.shared.requestNotiAuthorization(
                                 showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
                             )
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                if alertEnvironment.isShowAlert {
+                                    goalViewModel.goal.isSetTime = false
+                                }
+                            }
                         }
                     }
             }

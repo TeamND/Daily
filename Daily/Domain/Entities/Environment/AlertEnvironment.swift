@@ -115,6 +115,7 @@ class AlertEnvironment: ObservableObject {
                 
                 Button {
                     System().openSettingApp()
+                    self.hideAlert()
                 } label: {
                     Text(primaryButtonText)
                         .font(Fonts.bodyLgMedium)
