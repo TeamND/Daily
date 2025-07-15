@@ -106,7 +106,7 @@ class AlertEnvironment: ObservableObject {
                     Text(secondaryButtonText)
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Brand.primary)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(maxWidth: 134, maxHeight: .infinity)
                         .background {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Colors.Brand.primary, lineWidth: 1)
@@ -120,7 +120,7 @@ class AlertEnvironment: ObservableObject {
                     Text(primaryButtonText)
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Text.inverse)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(maxWidth: 134, maxHeight: .infinity)
                         .background(Colors.Brand.primary)
                         .cornerRadius(8)
                 }
@@ -132,9 +132,8 @@ class AlertEnvironment: ObservableObject {
         .padding(.horizontal, 16)
         .background(Colors.Background.secondary)
         .cornerRadius(12)
-        .padding(.horizontal, 34)   // TODO: 너비가 동적인지 정적인지 확인 후 필요에 의해 수정
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Colors.Background.toast.opacity(0.2))   // FIXME: Dim 색상 정해지면 수정
+        .background(Colors.Background.dim)
         .opacity(isShowAlert ? 1 : 0)
     }
 }

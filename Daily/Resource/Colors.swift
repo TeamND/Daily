@@ -24,6 +24,7 @@ enum Colors {
         static let primary = Color("backgroundPrimary")
         static let secondary = Color("backgroundSecondary")
         static let toast = Color("backgroundToast")
+        static let dim = Color("backgroundDim")
     }
     
     enum Text {
