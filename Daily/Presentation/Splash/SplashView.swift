@@ -13,7 +13,7 @@ struct SplashView: View {
     
     var body: some View {
         splashView
-            .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert) }
+            .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert, alertType: .deniedAtAppOpen) }
             .onAppear { splashViewModel.onAppear() }
             .sheet(isPresented: $splashViewModel.isShowNotice) { noticeSheet }
             .opacity(splashViewModel.isAppLoaded ? 0 : 1)

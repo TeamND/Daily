@@ -143,6 +143,8 @@ struct DateSection: View {
 
 // MARK: - TimeSection
 struct TimeSection: View {
+    @EnvironmentObject private var alertEnvironment: AlertEnvironment
+    
     @ObservedObject var goalViewModel: GoalViewModel
     
     @State private var buttonFrame: CGRect = .zero
@@ -161,6 +163,18 @@ struct TimeSection: View {
                 Toggle("", isOn: $goalViewModel.goal.isSetTime)
                     .labelsHidden()
                     .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
+                    .onChange(of: goalViewModel.goal.isSetTime) {
+                        if $1 {
+                            PushNoticeManager.shared.requestNotiAuthorization(
+                                showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
+                            )
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                if alertEnvironment.isShowAlert {
+                                    goalViewModel.goal.isSetTime = false
+                                }
+                            }
+                        }
+                    }
             }
             
             if goalViewModel.goal.isSetTime {

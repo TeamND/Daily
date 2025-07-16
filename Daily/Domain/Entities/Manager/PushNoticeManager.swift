@@ -52,7 +52,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: title, body: body, repeats: true)
     }
     
-    func requestNotiAuthorization(showAlert: @escaping () -> Void) {
+    func requestNotiAuthorization(showAlert: @escaping (NoticeAlert) -> Void, alertType: NoticeAlert) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -60,7 +60,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
                     if granted { self.addDefaultNotice() }
                 }
             case .denied:
-                showAlert()
+                showAlert(alertType)
             default:
                 self.removeBadges()
                 self.removePastNotice()
@@ -76,7 +76,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
-        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요 😎😎")
+        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요. 준비되셨나요?")
     }
     
     func removeNotice(id: String) {

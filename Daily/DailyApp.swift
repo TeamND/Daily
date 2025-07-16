@@ -38,23 +38,7 @@ struct DailyApp: App {
             MainView()
             SplashView()
             alertEnvironment.toastView
+            alertEnvironment.alertView
         }
-        .alert(isPresented: $alertEnvironment.isShowAlert) { dailyAlert(noticeAlert: .denied) }
-    }
-    
-    private func dailyAlert(noticeAlert: NoticeAlert) -> Alert {
-        Alert(
-            title: Text(noticeAlert.titleText),
-            message: Text(noticeAlert.messageText),
-            primaryButton: .default(
-                Text(noticeAlert.primaryButtonText),
-                action: {
-                    System().openSettingApp()
-                }
-            ),
-            secondaryButton: .destructive(
-                Text(noticeAlert.secondaryButtonText)
-            )
-        )
     }
 }

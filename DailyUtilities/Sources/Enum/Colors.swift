@@ -18,6 +18,7 @@ public enum Colors {
     public enum Background {
         public static let primary = Color("backgroundPrimary")
         public static let secondary = Color("backgroundSecondary")
+        public static let toast = Color("backgroundToast")
     }
     
     public enum Text {

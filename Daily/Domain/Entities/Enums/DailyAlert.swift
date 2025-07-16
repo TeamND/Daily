@@ -26,7 +26,7 @@ enum CountAlert: DailyAlert {
     var messageText: String {
         switch self {
         case .tooSmallCount:
-            return "최소한의 목표를 지정해주세요 🐥"
+            return "타이머는 최소 1초 이상 설정해주세요"
         }
     }
 }
@@ -38,14 +38,14 @@ enum ContentAlert: DailyAlert {
     var titleText: String {
         switch self {
         case .tooShoertLength:
-            return "목표의 길이가 너무 짧아요 😵"
+            return ""
         }
     }
     
     var messageText: String {
         switch self {
         case .tooShoertLength:
-            return "최소 2글자 이상의 목표를 설정해주세요"
+            return "목표는 최소 2글자 이상 입력해주세요"
         }
     }
 }
@@ -60,11 +60,11 @@ enum DateAlert: DailyAlert {
     var titleText: String {
         switch self {
         case .wrongDateRange:
-            return "날짜 범위가 잘못 되었어요 🤯"
+            return ""
         case .overDateRange:
-            return "날짜 범위를 초과했어요 🤢"
+            return ""
         case .emptySelectedWeekday:
-            return "아직 반복 요일을 설정하지 않았어요 🧐"
+            return ""
         case .emptyRepeatDates:
             return ""
         }
@@ -75,25 +75,28 @@ enum DateAlert: DailyAlert {
         case .wrongDateRange:
             return "종료일은 시작일 이후로 설정해주세요"
         case .overDateRange:
-            return "날짜 범위는 1년 이내로 설정해주세요"
+            return "기간은 최대 1년까지만 설정할 수 있어요"
         case .emptySelectedWeekday:
-            return "반복 요일을 먼저 설정해주세요"
+            return "반복 요일을 하나 이상 선택해주세요"
         case .emptyRepeatDates:
-            return "유효한 날짜를 선택해주세요"
+            return "선택한 기간 내 반복 요일이 포함되지 않아요"
         }
     }
 }
 
 // MARK: - NoticeAlert
 enum NoticeAlert: DailyAlert {
-    case denied
+    case deniedAtAppOpen
+    case deniedAtSetTime
     case dateChanged
     case setTimeChanged
     
     var titleText: String {
         switch self {
-        case .denied:
-            return "알림 설정이 꺼져있어, 일부 기능이 제한된 상태에요 😱"
+        case .deniedAtAppOpen:
+            return "알림이 꺼져 있어 기능 일부가 제한돼요"
+        case .deniedAtSetTime:
+            return "알림 권한이 꺼져 있어요"
         default:
             return ""
         }
@@ -101,18 +104,20 @@ enum NoticeAlert: DailyAlert {
     
     var messageText: String {
         switch self {
-        case .denied:
-            return "Daily의 알림을 받아보세요 🙌🙌"
+        case .deniedAtAppOpen:
+            return "더 체계적인 관리를 위해 알림을 받아보세요!"
+        case .deniedAtSetTime:
+            return "설정에서 알림을 허용해주세요!"
         case .dateChanged:
-            return "목표 날짜가 변경되어 알림이 삭제되었어요 🫥"
+            return "목표 날짜가 변경되어 알림이 삭제되었어요"
         case .setTimeChanged:
-            return "목표 시간이 변경되어 알림이 삭제되었어요 🫥"
+            return "목표 시간이 변경되어 알림이 삭제되었어요"
         }
     }
     
     var primaryButtonText: String {
         switch self {
-        case .denied:
+        case .deniedAtAppOpen, .deniedAtSetTime:
             return "설정으로 이동"
         default:
             return ""
@@ -121,8 +126,10 @@ enum NoticeAlert: DailyAlert {
     
     var secondaryButtonText: String {
         switch self {
-        case .denied:
-            return "다음에 하기"
+        case .deniedAtAppOpen:
+            return "나중에 하기"
+        case .deniedAtSetTime:
+            return "닫기"
         default:
             return ""
         }

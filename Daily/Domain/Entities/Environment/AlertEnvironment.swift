@@ -12,10 +12,32 @@ class AlertEnvironment: ObservableObject {
     @Published var isShowAlert: Bool = false
     @Published var isShowToast: Bool = false
     @Published var toastMessage: String = ""
+    @Published var alertTitle: String = ""
+    @Published var alertDescription: String = ""
+    @Published var primaryButtonText: String = ""
+    @Published var secondaryButtonText: String = ""
     
-    func showAlert() {
+    func showAlert(alertType: NoticeAlert) {
         DispatchQueue.main.async {
-            self.isShowAlert = true
+            self.alertTitle = alertType.titleText
+            self.alertDescription = alertType.messageText
+            self.primaryButtonText = alertType.primaryButtonText
+            self.secondaryButtonText = alertType.secondaryButtonText
+            withAnimation {
+                self.isShowAlert = true
+            }
+        }
+    }
+    
+    func hideAlert() {
+        DispatchQueue.main.async {
+            self.alertTitle = ""
+            self.alertDescription = ""
+            self.primaryButtonText = ""
+            self.secondaryButtonText = ""
+            withAnimation {
+                self.isShowAlert = false
+            }
         }
     }
     
@@ -38,23 +60,23 @@ class AlertEnvironment: ObservableObject {
     }
     
     var toastView: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Spacer()
-            Text(toastMessage)
-                .multilineTextAlignment(.center)
-                .font(.system(size: CGFloat.fontSize * 2.5, weight: .bold))
-                .padding(CGFloat.fontSize)
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Colors.background)
-                }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.primary, lineWidth: 1)
-                }
-                .padding(CGFloat.fontSize)
-                .hCenter()
-                .opacity(isShowToast ? 1 : 0)
+            HStack(spacing: 12) {
+                Image(.notice)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 22)
+                
+                Text(toastMessage)
+                    .font(Fonts.bodyLgMedium)
+                    .foregroundStyle(Colors.Brand.secondary)
+            }
+            .padding(.vertical, 13)
+            .padding(.horizontal, 16)
+            .background(Colors.Background.toast)
+            .cornerRadius(12)
+            .opacity(isShowToast ? 1 : 0)
         }
         .onChange(of: isShowToast) { _, isShowToast in
             if isShowToast {
@@ -63,5 +85,55 @@ class AlertEnvironment: ObservableObject {
                 }
             }
         }
+    }
+    
+    var alertView: some View {
+        VStack(spacing: .zero) {
+            Text(alertTitle)
+                .font(Fonts.headingSmSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+            Spacer().frame(height: 8)
+            
+            Text(alertDescription)
+                .font(Fonts.bodyMdRegular)
+                .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 28)
+            
+            HStack(spacing: 8) {
+                Button {
+                    self.hideAlert()
+                } label: {
+                    Text(secondaryButtonText)
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Brand.primary)
+                        .frame(maxWidth: 134, maxHeight: .infinity)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Colors.Brand.primary, lineWidth: 1)
+                        }
+                }
+                
+                Button {
+                    System().openSettingApp()
+                    self.hideAlert()
+                } label: {
+                    Text(primaryButtonText)
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Text.inverse)
+                        .frame(maxWidth: 134, maxHeight: .infinity)
+                        .background(Colors.Brand.primary)
+                        .cornerRadius(8)
+                }
+            }
+            .frame(height: 48)
+        }
+        .padding(.top, 28)
+        .padding(.bottom, 16)
+        .padding(.horizontal, 16)
+        .background(Colors.Background.secondary)
+        .cornerRadius(12)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Colors.Background.dim)
+        .opacity(isShowAlert ? 1 : 0)
     }
 }
