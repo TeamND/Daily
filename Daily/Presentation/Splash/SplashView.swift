@@ -76,7 +76,7 @@ struct SplashView: View {
     
     private var noticeSheet: some View {
         NoticeSheet()
-            .presentationDetents([.height(CGFloat.fontSize * 65)])
+            .presentationDetents([.height(400)])    // FIXME: 추후 디자인 수정
             .presentationDragIndicator(.visible)
             .onDisappear { splashViewModel.loadApp(isWait: false) }
     }
