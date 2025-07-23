@@ -24,7 +24,7 @@ struct NoticeSheet: View {
             Button { dismiss() } label: { Text("확인") }.buttonStyle(.borderedProminent).hTrailing().vBottom()
         }
         .padding()
-        .tint(Colors.daily)
-        .accentColor(Colors.daily)
+        .tint(Colors.Brand.primary)
+        .accentColor(Colors.Brand.primary)
     }
 }
