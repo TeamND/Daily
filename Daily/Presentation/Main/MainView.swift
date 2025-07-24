@@ -36,13 +36,7 @@ struct MainView: View {
     }
     
     private func goToday(to: CalendarTypes = .day) {
-        if let currentPage = navigationEnvironment.navigationPath.last, !currentPage.viewType.isCalendar { return }
-        
-        let currentPage = navigationEnvironment.navigationPath.last
-        let from: CalendarTypes = currentPage == nil ? .year : currentPage!.viewType == .calendarMonth ? .month : .day
-        
-        calendarViewModel.setDate(date: Date(format: .daily))
-        navigationEnvironment.navigateDirect(from: from, to: to)
+        navigationEnvironment.goToday(to: to, setDateAction: calendarViewModel.setDate)
     }
 }
 
