@@ -17,12 +17,14 @@ enum ViewTypes {
     case setting
     case chart
     
-    var isCalendar: Bool {
+    var calendarType: CalendarTypes? {
         switch self {
-        case .calendarMonth, .calendarDay:
-            return true
+        case .calendarMonth:
+            return .month
+        case .calendarDay:
+            return .day
         default:
-            return false
+            return nil
         }
     }
     
