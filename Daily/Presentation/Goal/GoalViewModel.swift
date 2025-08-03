@@ -100,7 +100,7 @@ extension GoalViewModel {
 // MARK: - button func
 extension GoalViewModel {
     func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
-        if let validate = validate(validateType: .add) { validateAction(validate); return }
+        if let validate = validate() { validateAction(validate); return }
         Task { @MainActor in
             let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!) }
             for record in records { await goalUseCase.addRecord(record: record) }
@@ -114,7 +114,7 @@ extension GoalViewModel {
     
     func modify(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         guard let modifyType else { return }
-        if let validate = validate(validateType: .modify) { validateAction(validate); return }
+        if let validate = validate() { validateAction(validate); return }
         if record.notice != nil && (
             originalRecord.date != record.date ||
             originalGoal.setTime != goal.setTime ||
@@ -158,10 +158,10 @@ extension GoalViewModel {
     
 // MARK: - validate func
 extension GoalViewModel {
-    private func validate(validateType: ButtonTypes) -> DailyAlert? {
+    private func validate() -> DailyAlert? {
         if validateContent() { return ContentAlert.tooShoertLength }
         if validateCount() { return CountAlert.tooSmallCount }
-        if validateType == .add && goal.cycleType == .rept {
+        if modifyType == nil && goal.cycleType == .rept {
             if repeatType == .weekly {
                 if startDate > endDate { return DateAlert.wrongDateRange }
                 if validateDateRange() { return DateAlert.overDateRange }
