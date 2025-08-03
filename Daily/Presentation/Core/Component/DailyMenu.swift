@@ -15,12 +15,10 @@ struct DailyMenu: View {
     
     let record: DailyRecordModel
     let goal: DailyGoalModel
-    let date: Date
     
-    init(record: DailyRecordModel, date: Date) {
+    init(record: DailyRecordModel) {
         self.record = record
         self.goal = record.goal!
-        self.date = date
     }
 
     var body: some View {
@@ -74,7 +72,7 @@ struct DailyMenu: View {
         Group {
             if goal.cycleType == .date {
                 Button {
-                    let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .record)
+                    let data = GoalDataEntity(record: record, modifyType: .record)
                     let navigationObject = NavigationObject(viewType: .modify, data: data)
                     navigationEnvironment.navigate(navigationObject)
                 } label: {
@@ -83,14 +81,14 @@ struct DailyMenu: View {
             } else {
                 Menu {
                     Button {
-                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .single)
+                        let data = GoalDataEntity(record: record, modifyType: .single)
                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                         navigationEnvironment.navigate(navigationObject)
                     } label: {
                         Text("단일 수정")
                     }
                     Button {
-                        let data = ModifyDataModel(date: date, modifyRecord: record, modifyType: .all)
+                        let data = GoalDataEntity(record: record, modifyType: .all)
                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                         navigationEnvironment.navigate(navigationObject)
                     } label: {

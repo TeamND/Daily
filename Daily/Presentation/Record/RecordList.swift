@@ -11,7 +11,6 @@ import SwiftUI
 struct RecordList: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    let date: Date
     let selection: String
     let recordsInList: [DailyRecordInList]
     
@@ -22,7 +21,7 @@ struct RecordList: View {
                 if let goal = record.goal {
                     if recordInList.isShowTimeline { DailyTimeLine(setTime: goal.setTime) }
                     DailyRecord(record: record)
-                        .contextMenu { DailyMenu(record: record, date: date) }
+                        .contextMenu { DailyMenu(record: record) }
                 }
             }
             Spacer()

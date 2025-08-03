@@ -25,12 +25,9 @@ struct NavigationObject: Navigatable {
             return CalendarMonthView()
         case .calendarDay:
             return CalendarDayView()
-        case .goal:
-            let data = data as! GoalDataModel
-            return GoalView(goalData: data, viewType: viewType)
-        case .modify:
-            let data = data as! ModifyDataModel
-            return GoalView(modifyData: data, viewType: viewType)
+        case .goal, .modify:
+            guard let goalData = data as? GoalDataEntity else { return EmptyView() }    // TODO: 추후에 에러 화면으로 이동하도록 수정
+            return GoalView(goalData: goalData, viewType: viewType)
         case .setting:
             return SettingView()
         case .chart:

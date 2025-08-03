@@ -18,7 +18,6 @@
 		F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */; };
 		F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF72CC6632600FB637F /* CalendarDayView.swift */; };
 		F607C6822CFED0C8006DE13A /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */; };
-		F60B97332CFC170E0015B19B /* ModifyDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B97322CFC170E0015B19B /* ModifyDataModel.swift */; };
 		F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2D92CC484110014EDB6 /* View+extension.swift */; };
 		F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DB2CC484FA0014EDB6 /* String+extension.swift */; };
 		F634D2E02CC485C90014EDB6 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DF2CC485C90014EDB6 /* Int+extension.swift */; };
@@ -38,6 +37,8 @@
 		F65ACDDD2CC8FB8900C67DD1 /* CalendarRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */; };
 		F65ACDE22CC91CEC00C67DD1 /* CalendarServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */; };
 		F66EB6B62E00F1BE00CC04C4 /* RepeatTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */; };
+		F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70102E3F08F40091658F /* GoalDataEntity.swift */; };
+		F66F70132E3F0A4C0091658F /* ModifyTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70122E3F0A4C0091658F /* ModifyTypes.swift */; };
 		F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F679B9A42C4ACA960027608D /* NoticeSheet.swift */; };
 		F67B21AB2DD1B9FB002EB824 /* ChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67B21AA2DD1B9FB002EB824 /* ChartUseCase.swift */; };
 		F67DD0EF2E029AEA0001203D /* DailyMultiDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0EE2E029AEA0001203D /* DailyMultiDatePicker.swift */; };
@@ -55,7 +56,6 @@
 		F69A84642D22E81100AEBD76 /* DailyAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84632D22E81100AEBD76 /* DailyAlert.swift */; };
 		F69A84662D252B9400AEBD76 /* MonthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84652D252B9400AEBD76 /* MonthDataModel.swift */; };
 		F69A84682D27DD8100AEBD76 /* ButtonTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */; };
-		F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */; };
 		F69A846C2D291CB900AEBD76 /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */; };
 		F69A846E2D291CCA00AEBD76 /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846D2D291CCA00AEBD76 /* DailyRecordModel.swift */; };
 		F69A84702D291D5500AEBD76 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A846F2D291D5500AEBD76 /* Enums.swift */; };
@@ -103,7 +103,6 @@
 		F6C758E52CCF340400F9CF91 /* DailyDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758E42CCF340400F9CF91 /* DailyDatePicker.swift */; };
 		F6C758E72CCF37F200F9CF91 /* DateJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758E62CCF37F200F9CF91 /* DateJoiner.swift */; };
 		F6C758E92CCF3E1300F9CF91 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C758E82CCF3E1300F9CF91 /* GoalViewModel.swift */; };
-		F6CE8A182CCF431B0050A25A /* SectionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A172CCF431B0050A25A /* SectionTypes.swift */; };
 		F6CE8A1A2CCF49EC0050A25A /* UINavigationController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A192CCF49EC0050A25A /* UINavigationController+extension.swift */; };
 		F6CE8A1E2CCF5D150050A25A /* NavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A1D2CCF5D150050A25A /* NavigationHeader.swift */; };
 		F6CE8A202CCF60450050A25A /* GoalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A1F2CCF60450050A25A /* GoalUseCase.swift */; };
@@ -173,7 +172,6 @@
 		F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
 		F6016DF72CC6632600FB637F /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalModel.swift; sourceTree = "<group>"; };
-		F60B97322CFC170E0015B19B /* ModifyDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyDataModel.swift; sourceTree = "<group>"; };
 		F634D2D92CC484110014EDB6 /* View+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extension.swift"; sourceTree = "<group>"; };
 		F634D2DB2CC484FA0014EDB6 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		F634D2DF2CC485C90014EDB6 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
@@ -191,6 +189,8 @@
 		F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRepository.swift; sourceTree = "<group>"; };
 		F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarServices.swift; sourceTree = "<group>"; };
 		F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatTypes.swift; sourceTree = "<group>"; };
+		F66F70102E3F08F40091658F /* GoalDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataEntity.swift; sourceTree = "<group>"; };
+		F66F70122E3F0A4C0091658F /* ModifyTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyTypes.swift; sourceTree = "<group>"; };
 		F679B9A42C4ACA960027608D /* NoticeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSheet.swift; sourceTree = "<group>"; };
 		F67B21AA2DD1B9FB002EB824 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
 		F67DD0EE2E029AEA0001203D /* DailyMultiDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMultiDatePicker.swift; sourceTree = "<group>"; };
@@ -208,7 +208,6 @@
 		F69A84632D22E81100AEBD76 /* DailyAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAlert.swift; sourceTree = "<group>"; };
 		F69A84652D252B9400AEBD76 /* MonthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDataModel.swift; sourceTree = "<group>"; };
 		F69A84672D27DD8100AEBD76 /* ButtonTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypes.swift; sourceTree = "<group>"; };
-		F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataModel.swift; sourceTree = "<group>"; };
 		F69A846B2D291CB900AEBD76 /* DailyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalModel.swift; sourceTree = "<group>"; };
 		F69A846D2D291CCA00AEBD76 /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
 		F69A846F2D291D5500AEBD76 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -261,7 +260,6 @@
 		F6C758E62CCF37F200F9CF91 /* DateJoiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateJoiner.swift; sourceTree = "<group>"; };
 		F6C758E82CCF3E1300F9CF91 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
 		F6CC15932B9F460F00689A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		F6CE8A172CCF431B0050A25A /* SectionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTypes.swift; sourceTree = "<group>"; };
 		F6CE8A192CCF49EC0050A25A /* UINavigationController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+extension.swift"; sourceTree = "<group>"; };
 		F6CE8A1D2CCF5D150050A25A /* NavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHeader.swift; sourceTree = "<group>"; };
 		F6CE8A1F2CCF60450050A25A /* GoalUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalUseCase.swift; sourceTree = "<group>"; };
@@ -501,12 +499,11 @@
 				F69A84652D252B9400AEBD76 /* MonthDataModel.swift */,
 				F6E1CCDB2DAEB04A009E25DA /* WeekDataModel.swift */,
 				F6E1CCDD2DAEB075009E25DA /* DayDataModel.swift */,
-				F69A84692D27F0F600AEBD76 /* GoalDataModel.swift */,
-				F60B97322CFC170E0015B19B /* ModifyDataModel.swift */,
 				F6EC3D202BE2477500FAB502 /* SystemModel.swift */,
 				F6D9F7272BFB8DC500600458 /* RatingOnWeekModel.swift */,
 				F6C6CD902D6B703B00772E59 /* NavigationObject.swift */,
 				F6A3266F2DDEEC2700243B23 /* ChartDataModel.swift */,
+				F66F70102E3F08F40091658F /* GoalDataEntity.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -683,7 +680,6 @@
 				F6E85B9B2D476B61005A3B9B /* Languages.swift */,
 				F6C758DF2CCD356700F9CF91 /* WeekIndicatorModes.swift */,
 				F63EEF0B2D3E554B00C9914F /* NoticeTimes.swift */,
-				F6CE8A172CCF431B0050A25A /* SectionTypes.swift */,
 				F6CE8A282CCF62710050A25A /* CycleTypes.swift */,
 				F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */,
 				F6F31DCE2CF474680090A3B9 /* GoalTypes.swift */,
@@ -694,6 +690,7 @@
 				F63EEE872D31F70A00C9914F /* DateFormats.swift */,
 				F64A42722DC5DDE800B69D46 /* Settings.swift */,
 				F6A3267D2DE5469D00243B23 /* Symbols.swift */,
+				F66F70122E3F0A4C0091658F /* ModifyTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -865,7 +862,6 @@
 				F6CE8A292CCF62710050A25A /* CycleTypes.swift in Sources */,
 				F6D9F7282BFB8DC500600458 /* RatingOnWeekModel.swift in Sources */,
 				F6C6CDA12D71962B00772E59 /* TaskQueueManager.swift in Sources */,
-				F60B97332CFC170E0015B19B /* ModifyDataModel.swift in Sources */,
 				F6A326722DDEECCF00243B23 /* ChartInterface.swift in Sources */,
 				F6016DE22CC610CD00FB637F /* MainView.swift in Sources */,
 				F69A84682D27DD8100AEBD76 /* ButtonTypes.swift in Sources */,
@@ -873,6 +869,7 @@
 				F6CE8A1A2CCF49EC0050A25A /* UINavigationController+extension.swift in Sources */,
 				F6C758E02CCD356700F9CF91 /* WeekIndicatorModes.swift in Sources */,
 				F63EEF0C2D3E554B00C9914F /* NoticeTimes.swift in Sources */,
+				F66F70132E3F0A4C0091658F /* ModifyTypes.swift in Sources */,
 				F67B21AB2DD1B9FB002EB824 /* ChartUseCase.swift in Sources */,
 				F6016DF32CC6220B00FB637F /* CalendarYearView.swift in Sources */,
 				F6F31DCF2CF474680090A3B9 /* GoalTypes.swift in Sources */,
@@ -880,7 +877,6 @@
 				F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */,
 				F6CE8A202CCF60450050A25A /* GoalUseCase.swift in Sources */,
 				F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */,
-				F6CE8A182CCF431B0050A25A /* SectionTypes.swift in Sources */,
 				F6016DD32CC53BAA00FB637F /* CalendarViewModel.swift in Sources */,
 				F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */,
 				F6E1CCDC2DAEB04A009E25DA /* WeekDataModel.swift in Sources */,
@@ -894,11 +890,11 @@
 				F67DD0F12E02DE090001203D /* DailyDatePickerHeader.swift in Sources */,
 				F6C6CD932D6BFB5000772E59 /* DailyDataSource.swift in Sources */,
 				F6C758E92CCF3E1300F9CF91 /* GoalViewModel.swift in Sources */,
-				F69A846A2D27F0F600AEBD76 /* GoalDataModel.swift in Sources */,
 				F6C758E32CCE47BB00F9CF91 /* GoalView.swift in Sources */,
 				F6C758E72CCF37F200F9CF91 /* DateJoiner.swift in Sources */,
 				F64A42782DC7A5C600B69D46 /* ChartViewModel.swift in Sources */,
 				F67DD0F82E02E98C0001203D /* SingleDateSection.swift in Sources */,
+				F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */,
 				F69A84662D252B9400AEBD76 /* MonthDataModel.swift in Sources */,
 				F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */,
 				F64A42762DC5F8E500B69D46 /* ChartView.swift in Sources */,

@@ -12,7 +12,6 @@ class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
     private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
-    var originalDate: Date = Date(format: .daily)
     var modifyType: ModifyTypes?
     
     var originalGoal: DailyGoalModel = DailyGoalModel()
@@ -59,29 +58,21 @@ class GoalViewModel: ObservableObject {
         self.goalUseCase = GoalUseCase(repository: goalRepository)
     }
     
-    convenience init(goalData: GoalDataModel) {
+    convenience init(goalData: GoalDataEntity) {
         self.init()
         
-        self.originalDate = goalData.date
+        self.modifyType = goalData.modifyType
         
+        let originalDate = goalData.record.date
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
         self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
         
-        self.originalGoal = goal.copy()
-    }
-    
-    convenience init(modifyData: ModifyDataModel) {
-        self.init()
+        self.originalGoal = goalData.record.goal ?? DailyGoalModel()
+        self.originalRecord = goalData.record
         
-        self.originalDate = modifyData.date
-        self.modifyType = modifyData.modifyType
-        
-        self.goal = modifyData.modifyRecord.goal ?? DailyGoalModel()
-        self.record = modifyData.modifyRecord
-        
-        self.originalGoal = goal.copy()
-        self.originalRecord = record.copy()
+        self.goal = originalGoal.copy()
+        self.record = originalRecord.copy()
     }
 }
 
@@ -108,29 +99,6 @@ extension GoalViewModel {
 
 // MARK: - button func
 extension GoalViewModel {
-    func reset(exceptGoal: Bool = false, exceptRecord: Bool = false) {
-        if !exceptGoal {
-            self.goal.type = originalGoal.type
-            self.goal.cycleType = originalGoal.cycleType
-            self.goal.content = originalGoal.content
-            self.goal.symbol = originalGoal.symbol
-            self.goal.count = originalGoal.count
-            self.goal.isSetTime = originalGoal.isSetTime
-            self.goal.setTime = originalGoal.setTime
-        }
-        
-        if !exceptRecord {
-            self.record.date = originalDate
-            self.record.isSuccess = originalRecord.isSuccess
-            self.record.count = originalRecord.count
-            self.record.notice = originalRecord.notice
-        }
-        
-        self.startDate = originalDate
-        self.endDate = originalDate.monthLater()
-        self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
-    }
-    
     func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate(validateType: .add) { validateAction(validate); return }
         Task { @MainActor in
@@ -148,30 +116,38 @@ extension GoalViewModel {
         guard let modifyType else { return }
         if let validate = validate(validateType: .modify) { validateAction(validate); return }
         if record.notice != nil && (
-            record.date != originalDate ||
+            originalRecord.date != record.date ||
             originalGoal.setTime != goal.setTime ||
             originalGoal.isSetTime != goal.isSetTime
         ) {
             goalUseCase.removeNotice(record: record)
-            if record.date != originalDate { validateAction(NoticeAlert.dateChanged) }
+            if originalRecord.date != record.date { validateAction(NoticeAlert.dateChanged) }
             if originalGoal.setTime != goal.setTime || originalGoal.isSetTime != goal.isSetTime {
                 validateAction(NoticeAlert.setTimeChanged)
             }
         }
         
         Task { @MainActor in
-            // TODO: 추후 개선
             if modifyType == .single {
-                let newGoal = goal.copy(cycleType: .date, records: [])
-                await goalUseCase.addGoal(goal: newGoal)
+                originalGoal.records.removeAll { $0 == originalRecord }
                 
-                reset(exceptRecord: true)
-                goal.records.removeAll { $0 == record }
-                record.goal = newGoal
-                record.isSuccess = newGoal.count <= record.count
+                goal.cycleType = .date
+                await goalUseCase.addGoal(goal: goal)
+                record.goal = goal
             } else {
-                record.isSuccess = goal.count <= record.count
+                originalGoal.content = goal.content
+                originalGoal.symbol = goal.symbol
+                originalGoal.count = goal.count
+                originalGoal.isSetTime = goal.isSetTime
+                originalGoal.setTime = goal.setTime
             }
+            record.isSuccess = goal.count <= record.count
+            
+            originalRecord.date = record.date
+            originalRecord.isSuccess = record.isSuccess
+            originalRecord.count = record.count
+            originalRecord.notice = record.notice
+            originalRecord.startTime = record.startTime
             
             await goalUseCase.updateData()
             successAction(record.date)
