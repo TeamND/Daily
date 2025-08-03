@@ -16,13 +16,8 @@ struct GoalView: View {
     
     private let viewType: ViewTypes
     
-    init(goalData: GoalDataModel, viewType: ViewTypes) {
+    init(goalData: GoalDataEntity, viewType: ViewTypes) {
         _goalViewModel = StateObject(wrappedValue: GoalViewModel(goalData: goalData))
-        self.viewType = viewType
-    }
-    
-    init(modifyData: ModifyDataModel, viewType: ViewTypes) {
-        _goalViewModel = StateObject(wrappedValue: GoalViewModel(modifyData: modifyData))
         self.viewType = viewType
     }
     

@@ -17,8 +17,7 @@ struct AddGoalButton: View {
             HStack {
                 Spacer()
                 Button {
-                    let data = GoalDataModel(date: calendarViewModel.currentDate)
-                    let navigationObject = NavigationObject(viewType: .goal, data: data)
+                    let navigationObject = NavigationObject(viewType: .goal, data: GoalDataEntity())
                     navigationEnvironment.navigate(navigationObject)
                 } label: {
                     Image(.circlePlus)

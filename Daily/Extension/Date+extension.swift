@@ -20,7 +20,7 @@ extension Date {
 // MARK: - return Int
 extension Date {
     public func dailyWeekOfMonth(startDay: Int) -> Int {
-        var calendar = Calendar.current
+        var calendar: Calendar = CalendarManager.shared.getDailyCalendar()
         calendar.firstWeekday = startDay + 1
         return calendar.component(.weekOfMonth, from: self)
     }
@@ -31,21 +31,6 @@ extension Date {
 
 // MARK: - return String
 extension Date {
-    public func getDOW(language: String) -> String {
-        return language == "한국어" ? self.getKoreaDOW() : self.getEnglishDOW()
-    }
-    public func getKoreaDOW() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE"
-        dateFormatter.locale = Locale(identifier:"ko_KR")
-        return dateFormatter.string(from: self)
-    }
-    public func getEnglishDOW() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE"
-        dateFormatter.locale = Locale(identifier:"en_KR")
-        return dateFormatter.string(from: self)
-    }
     func toString(format: DateFormats = .daily) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format.rawValue
@@ -71,9 +56,11 @@ extension Date {
 // MARK: - return Date
 extension Date {
     func monthLater(value: Int = 1) -> Date {
-        Calendar.current.date(byAdding: .month, value: value, to: self)!
+        var calendar: Calendar = CalendarManager.shared.getDailyCalendar()
+        return calendar.date(byAdding: .month, value: value, to: self)!
     }
     func dayLater(value: Int = 1) -> Date {
-        Calendar.current.date(byAdding: .day, value: value, to: self)!
+        var calendar: Calendar = CalendarManager.shared.getDailyCalendar()
+        return calendar.date(byAdding: .day, value: value, to: self)!
     }
 }

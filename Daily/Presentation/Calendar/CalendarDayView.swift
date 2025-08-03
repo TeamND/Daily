@@ -22,9 +22,9 @@ struct CalendarDayView: View {
             Spacer().frame(height: 12)
             TabView(selection: calendarViewModel.bindSelection(type: .day)) {
                 ForEach(-1 ... GeneralServices.week, id: \.self) { index in
-                    let (date, direction, selection) = calendarViewModel.calendarInfo(type: .day, index: index)
+                    let (_, direction, selection) = calendarViewModel.calendarInfo(type: .day, index: index)
                     Group {
-                        if direction == .current { CalendarDay(date: date, selection: selection) }
+                        if direction == .current { CalendarDay(selection: selection) }
                         else { CalendarLoadView(type: .day, direction: direction) }
                     }
                     .tag(selection)
@@ -43,7 +43,6 @@ struct CalendarDayView: View {
 struct CalendarDay: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    let date: Date
     let selection: String
     
     var body: some View {
@@ -53,9 +52,9 @@ struct CalendarDay: View {
                 NoRecord(isEmpty: dayData.isEmpty)
             } else {
                 ViewThatFits(in: .vertical) {
-                    RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
+                    RecordList(selection: selection, recordsInList: dayData.recordsInList)
                     ScrollView {
-                        RecordList(date: date, selection: selection, recordsInList: dayData.recordsInList)
+                        RecordList(selection: selection, recordsInList: dayData.recordsInList)
                     }
                 }
                 Spacer().frame(height: 32)

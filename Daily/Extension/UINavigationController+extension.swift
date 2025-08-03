@@ -5,7 +5,6 @@
 //  Created by seungyooooong on 10/28/24.
 //
 
-import Foundation
 import UIKit
 
 extension UINavigationController: @retroactive ObservableObject, @retroactive UIGestureRecognizerDelegate {
