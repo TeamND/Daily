@@ -147,7 +147,7 @@ extension GoalViewModel {
             originalRecord.isSuccess = record.isSuccess
             originalRecord.count = record.count
             originalRecord.notice = record.notice
-            originalRecord.startTime = record.startTime
+            originalRecord.startTime = record.startTime == nil ? nil : Date()
             
             await goalUseCase.updateData()
             successAction(record.date)
