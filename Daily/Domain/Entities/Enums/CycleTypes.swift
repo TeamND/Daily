@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CycleTypes: String, CaseIterable, Codable {
+enum CycleTypes: String, Types, Codable {
     case date = "date"  // FIXME: 추후에 single로 마이그레이션
     case rept = "repeat"
     
@@ -18,5 +18,9 @@ enum CycleTypes: String, CaseIterable, Codable {
         case .rept:
             return "다중 목표"
         }
+    }
+    
+    var indicatorPadding: CGFloat {
+        return 4
     }
 }

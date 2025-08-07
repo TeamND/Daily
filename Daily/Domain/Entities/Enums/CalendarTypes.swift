@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum CalendarTypes: String, CaseIterable {
+enum CalendarTypes: String, Types {
     case year
     case month
     case week
@@ -46,6 +46,10 @@ enum CalendarTypes: String, CaseIterable {
         case .day:
             return "일간"
         }
+    }
+    
+    var indicatorPadding: CGFloat {
+        return 2
     }
     
     var navigationCount: Int {

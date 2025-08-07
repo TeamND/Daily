@@ -56,7 +56,9 @@ struct GoalView: View {
             Spacer().frame(height: 16)
 
             if viewType == .goal {
-                DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
+                TypeIndicator(currentType: $goalViewModel.goal.cycleType, types: CycleTypes.allCases) {
+                    goalViewModel.goal.cycleType = $0
+                }.padding(.horizontal, 16)
                 Spacer().frame(height: 24)
             }
             
