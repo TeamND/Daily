@@ -48,10 +48,6 @@ enum CalendarTypes: String, Types {
         }
     }
     
-    var indicatorPadding: CGFloat {
-        return 2
-    }
-    
     var navigationCount: Int {
         switch self {
         case .year:

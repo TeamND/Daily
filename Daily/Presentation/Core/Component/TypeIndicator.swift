@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TypeIndicator<T: Types & Hashable & Equatable>: View {
+    @State private var buttonFrame: CGRect = .zero
+    
     @Binding var currentType: T
     let types: [T]
     let action: (T) -> Void
@@ -20,20 +22,30 @@ struct TypeIndicator<T: Types & Hashable & Equatable>: View {
                 } label: {
                     Text(type.text)
                         .font(Fonts.bodyLgSemiBold)
-                        .foregroundStyle(type == currentType ? Colors.Text.inverse : Colors.Text.secondary)
+                        .foregroundStyle(Colors.Text.secondary)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 34)  // FIXME: indicatorHeight 디자인 의견 확인 후 추가
-                        .background {
-                            RoundedRectangle(cornerRadius: 99)
-                                .fill(type == currentType ? Colors.Brand.primary : .clear)
-                        }
+                        .frame(height: 34)
                 }
             }
         }
-        .padding(currentType.indicatorPadding)
-        .background {
-            RoundedRectangle(cornerRadius: 99)
-                .fill(Colors.Background.secondary)
+        .overlay {
+            let count = CGFloat(types.count)
+            let index = CGFloat(types.firstIndex(of: currentType) ?? 0)
+            let offsetX = ((2 * index - count + 1) / (2 * count)) * buttonFrame.width
+
+            Text(currentType.text)
+                .font(Fonts.bodyLgSemiBold)
+                .foregroundStyle(Colors.Text.inverse)
+                .frame(maxWidth: buttonFrame.width / CGFloat(types.count))
+                .frame(height: 34)
+                .background(Colors.Brand.primary)
+                .cornerRadius(99)
+                .offset(x: offsetX)
+                .animation(.easeInOut(duration: 0.3), value: currentType)
         }
+        .padding(2)
+        .background(Colors.Background.secondary)
+        .cornerRadius(99)
+        .getFrame { buttonFrame = $0 }
     }
 }

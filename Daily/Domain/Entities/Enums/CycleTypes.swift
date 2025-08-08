@@ -19,8 +19,4 @@ enum CycleTypes: String, Types, Codable {
             return "다중 목표"
         }
     }
-    
-    var indicatorPadding: CGFloat {
-        return 4
-    }
 }
