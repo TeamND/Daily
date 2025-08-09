@@ -67,6 +67,7 @@ class GoalViewModel: ObservableObject {
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
         self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
+        self.selectedDates = [originalDate]
         
         self.originalGoal = goalData.record.goal ?? DailyGoalModel()
         self.originalRecord = goalData.record
