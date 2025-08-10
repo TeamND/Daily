@@ -1,5 +1,5 @@
 //
-//  TypeIndicator.swift
+//  DailySegment.swift
 //  Daily
 //
 //  Created by seungyooooong on 8/7/25.
@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct TypeIndicator<T: Types & Hashable & Equatable>: View {
+struct DailySegment<T: Types & Hashable & Equatable>: View {
     @State private var buttonFrame: CGRect = .zero
     
+    let segmentType: SegmentTypes
     @Binding var currentType: T
     let types: [T]
     let action: (T) -> Void
@@ -21,10 +22,10 @@ struct TypeIndicator<T: Types & Hashable & Equatable>: View {
                     action(type)
                 } label: {
                     Text(type.text)
-                        .font(Fonts.bodyLgSemiBold)
-                        .foregroundStyle(Colors.Text.secondary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 34)
+                        .font(segmentType.font)
+                        .foregroundStyle(Colors.Text.tertiary)
+                        .frame(maxWidth: segmentType.maxWidth)
+                        .frame(height: segmentType.height)
                 }
             }
         }
@@ -34,18 +35,21 @@ struct TypeIndicator<T: Types & Hashable & Equatable>: View {
             let offsetX = ((2 * index - count + 1) / (2 * count)) * buttonFrame.width
 
             Text(currentType.text)
-                .font(Fonts.bodyLgSemiBold)
-                .foregroundStyle(Colors.Text.inverse)
+                .font(segmentType.selectedFont)
+                .foregroundStyle(segmentType.selectedForegroundColor)
                 .frame(maxWidth: buttonFrame.width / CGFloat(types.count))
-                .frame(height: 34)
-                .background(Colors.Brand.primary)
-                .cornerRadius(99)
+                .frame(height: segmentType.height)
+                .background {
+                    RoundedRectangle(cornerRadius: 99)
+                        .fill(segmentType.selectedBackgroundColor)
+                        .stroke(segmentType.selectedBorderColor, lineWidth: 1)
+                }
                 .offset(x: offsetX)
                 .animation(.easeInOut(duration: 0.3), value: currentType)
         }
-        .padding(2)
+        .getFrame { buttonFrame = $0 }
+        .padding(4)
         .background(Colors.Background.secondary)
         .cornerRadius(99)
-        .getFrame { buttonFrame = $0 }
     }
 }

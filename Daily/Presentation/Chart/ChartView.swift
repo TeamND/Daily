@@ -19,7 +19,11 @@ struct ChartView: View {
             NavigationHeader(title: "통계")
             Spacer().frame(height: 16)
             
-            TypeIndicator(currentType: $chartViewModel.type, types: CalendarTypes.allCases.reversed()) {
+            DailySegment(
+                segmentType: .header,
+                currentType: $chartViewModel.type,
+                types: CalendarTypes.allCases.reversed()
+            ) {
                 chartViewModel.setType(type: $0)
             }.padding(.horizontal, 16)
             Spacer().frame(height: 24)

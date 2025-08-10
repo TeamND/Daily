@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GoalTypes: String, CaseIterable, Codable {
+enum GoalTypes: String, Types, Codable {
     case check
     case count
     case timer
