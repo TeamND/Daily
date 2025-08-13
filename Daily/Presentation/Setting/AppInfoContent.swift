@@ -38,6 +38,14 @@ struct AppInfoContent: View {
                 // FIXME: 추후 구현
                 switch serviceEnvironment {
                 case .language:
+                    // FIXME: UI 맞춰서 적용
+                    DailySegment(
+                        segmentType: .component,
+                        currentType: Binding<Languages>(get: { Languages(rawValue: language) ?? .korean }, set: { _ in }),
+                        types: Languages.allCases
+                    ) {
+                        language = $0.rawValue
+                    }
                     HStack(spacing: .zero) {
                         ForEach(Languages.allCases, id: \.self) { lang in
                             Button {
@@ -63,6 +71,14 @@ struct AppInfoContent: View {
                     .padding(-5)
                     
                 case .startWeekday:
+                    // FIXME: UI 맞춰서 적용
+                    DailySegment(
+                        segmentType: .component,
+                        currentType: Binding<DayOfWeek>(get: { DayOfWeek.from(index: startDay) ?? .sun }, set: { _ in }),
+                        types: [DayOfWeek.sun, DayOfWeek.mon]
+                    ) {
+                        startDay = $0.index
+                    }
                     HStack(spacing: .zero) {
                         ForEach([DayOfWeek.sun, DayOfWeek.mon], id: \.self) { dow in
                             Button {

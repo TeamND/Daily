@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum CalendarTypes: String, Types {
+enum CalendarTypes: String, DailyTypes {
     case year
     case month
     case week

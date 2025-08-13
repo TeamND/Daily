@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DailySegment<T: Types & Hashable & Equatable>: View {
+struct DailySegment<T: DailyTypes & Hashable & Equatable>: View {
     @State private var buttonFrame: CGRect = .zero
     
     let segmentType: SegmentTypes
