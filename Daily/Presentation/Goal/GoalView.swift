@@ -56,7 +56,13 @@ struct GoalView: View {
             Spacer().frame(height: 16)
 
             if viewType == .goal {
-                DailyCycleTypePicker(cycleType: $goalViewModel.goal.cycleType)
+                DailySegment(
+                    segmentType: .header,
+                    currentType: $goalViewModel.goal.cycleType,
+                    types: CycleTypes.allCases
+                ) {
+                    goalViewModel.goal.cycleType = $0
+                }.padding(.horizontal, 16)
                 Spacer().frame(height: 24)
             }
             
@@ -349,33 +355,18 @@ struct GoalCountSection: View {
                 Spacer()
 
                 if goalViewModel.modifyType == nil {
-                    HStack(spacing: .zero) {
-                        ForEach([GoalTypes.count, GoalTypes.timer], id: \.self) { type in
-                            Button {
-                                goalViewModel.goal.type = type
-                                goalViewModel.goal.count = type.defaultCount
-                                if type == .timer {
-                                    goalHH = 0
-                                    goalmm = 0
-                                    goalss = 0
-                                }
-                            } label: {
-                                Text(type.text)
-                                    .font(Fonts.bodyMdSemiBold)
-                                    .foregroundStyle(goalViewModel.goal.type == type ? Colors.Text.point : Colors.Text.tertiary)
-                            }
-                            .frame(width: 60, height: 30)
-                            .background {
-                                RoundedRectangle(cornerRadius: 99)
-                                    .fill(goalViewModel.goal.type == type ? Colors.Background.primary : .clear)
-                                    .stroke(goalViewModel.goal.type == type ? Colors.Brand.primary : .clear, lineWidth: 1)
-                            }
+                    DailySegment(
+                        segmentType: .component,
+                        currentType: $goalViewModel.goal.type,
+                        types: [GoalTypes.count, GoalTypes.timer]
+                    ) {
+                        goalViewModel.goal.type = $0
+                        goalViewModel.goal.count = $0.defaultCount
+                        if $0 == .timer {
+                            goalHH = 0
+                            goalmm = 0
+                            goalss = 0
                         }
-                    }
-                    .padding(4)
-                    .background {
-                        RoundedRectangle(cornerRadius: 99)
-                            .fill(Colors.Background.secondary)
                     }
                 }
             }

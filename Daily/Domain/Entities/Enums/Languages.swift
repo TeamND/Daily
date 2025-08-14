@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Languages: String, CaseIterable {
+enum Languages: String, DailyTypes {
     case korean
     case english
     
