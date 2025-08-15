@@ -161,21 +161,28 @@ struct TimeSection: View {
                 
                 Spacer()
                 
-                Toggle("", isOn: $goalViewModel.goal.isSetTime)
-                    .labelsHidden()
-                    .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
-                    .onChange(of: goalViewModel.goal.isSetTime) {
-                        if $1 {
-                            PushNoticeManager.shared.requestNotiAuthorization(
-                                showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
-                            )
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                if alertEnvironment.isShowAlert {
-                                    goalViewModel.goal.isSetTime = false
-                                }
+                Toggle("", isOn: Binding(
+                    get: { goalViewModel.goal.isSetTime },
+                    set: { newValue in
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            goalViewModel.goal.isSetTime = newValue
+                        }
+                    }
+                ))
+                .labelsHidden()
+                .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
+                .onChange(of: goalViewModel.goal.isSetTime) {
+                    if $1 {
+                        PushNoticeManager.shared.requestNotiAuthorization(
+                            showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
+                        )
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            if alertEnvironment.isShowAlert {
+                                goalViewModel.goal.isSetTime = false
                             }
                         }
                     }
+                }
             }
             
             if goalViewModel.goal.isSetTime {
@@ -318,7 +325,9 @@ struct SymbolSection: View {
                                     }
                                     .frame(width: 48, height: 48)
                                     .onTapGesture {
-                                        selectedSymbol = symbol
+                                        withAnimation(.easeInOut(duration: 0.3)) {
+                                            selectedSymbol = symbol
+                                        }
                                     }
                             }
                         }
