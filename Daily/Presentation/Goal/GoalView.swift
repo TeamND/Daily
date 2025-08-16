@@ -60,8 +60,10 @@ struct GoalView: View {
                     segmentType: .header,
                     currentType: $goalViewModel.goal.cycleType,
                     types: CycleTypes.allCases
-                ) {
-                    goalViewModel.goal.cycleType = $0
+                ) { cycleType in
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        goalViewModel.goal.cycleType = cycleType
+                    }
                 }.padding(.horizontal, 16)
                 Spacer().frame(height: 24)
             }
