@@ -80,16 +80,20 @@ class GoalViewModel: ObservableObject {
 // MARK: - popover func
 extension GoalViewModel {
     func showPopover(at position: CGPoint, @ViewBuilder content: @escaping () -> some View) {
-        if isBlockPopover && self.popoverPosition == position { return }
+        if isBlockPopover && popoverPosition == position { return }
 
-        self.popoverPosition = position
-        self.popoverContent = AnyView(content())
+        popoverPosition = position
+        withAnimation(.easeInOut(duration: 0.3)) {
+            popoverContent = AnyView(content())
+        }
     }
     
     func hidePopover() {
         if popoverContent != nil {
             isBlockPopover = true
-            popoverContent = nil
+            withAnimation(.easeInOut(duration: 0.3)) {
+                popoverContent = nil
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.isBlockPopover = false

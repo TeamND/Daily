@@ -37,8 +37,10 @@ struct RepeatTypeSection: View {
                             ForEach(Array(RepeatTypes.allCases.enumerated()), id: \.element) { index, type in
                                 if index > .zero { DailyDivider(color: Colors.Border.primary, height: 1) }
                                 Button {
-                                    goalViewModel.repeatType = type
-                                    goalViewModel.popoverContent = nil
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        goalViewModel.repeatType = type
+                                        goalViewModel.hidePopover()
+                                    }
                                 } label: {
                                     Text(type.text)
                                         .font(Fonts.bodyLgMedium)
@@ -64,6 +66,7 @@ struct RepeatTypeSection: View {
                 .padding(.horizontal, 12)
                 .background(Colors.Background.secondary)
                 .cornerRadius(8)
+                .animation(.easeInOut(duration: 0.3), value: goalViewModel.repeatType)
             }
             .getFrame { buttonFrame = $0 }
         }
