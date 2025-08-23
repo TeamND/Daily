@@ -137,10 +137,9 @@ extension GoalViewModel {
                 await goalUseCase.deleteRecord(record: originalRecord)
                 
                 goal.cycleType = .date
-                goal.records = []
-                await goalUseCase.addGoal(goal: goal)
                 record.goal = goal
                 record.isSuccess = goal.count <= record.count
+                await goalUseCase.addGoal(goal: goal)
                 await goalUseCase.addRecord(record: record)
             } else {
                 originalGoal.content = goal.content
