@@ -303,7 +303,7 @@ extension CalendarViewModel {
     }
     
     @MainActor
-    private func resetData() {
+    func resetData() {
         weekData = [:]
         dayData = [:]
     }

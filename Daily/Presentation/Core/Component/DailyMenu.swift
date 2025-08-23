@@ -84,6 +84,7 @@ struct DailyMenu: View {
                         let data = GoalDataEntity(record: record, modifyType: .single)
                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                         navigationEnvironment.navigate(navigationObject)
+                        calendarViewModel.resetData()   // TODO: 삭제가 이루어지기 때문에 calendarViewModel data reset, 추후 수정
                     } label: {
                         Text("단일 수정")
                     }

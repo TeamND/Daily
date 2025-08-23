@@ -19,4 +19,8 @@ class GoalRepository: GoalInterface {
     func addRecord(record: DailyRecordModel) async {
         await DailyDataSource.shared.addRecord(record: record)
     }
+    
+    func deleteRecord(record: DailyRecordModel) async {
+        await DailyDataSource.shared.deleteRecord(record: record)
+    }
 }
