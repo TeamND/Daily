@@ -134,19 +134,34 @@ extension GoalViewModel {
         
         Task { @MainActor in
             if modifyType == .single {
-                await goalUseCase.deleteRecord(record: originalRecord)
-                
-                goal.cycleType = .date
-                record.goal = goal
-                record.isSuccess = goal.count <= record.count
-                await goalUseCase.addGoal(goal: goal)
-                await goalUseCase.addRecord(record: record)
+                if goal.isSetTime == originalGoal.isSetTime &&
+                    goal.setTime == originalGoal.setTime &&
+                    goal.content == originalGoal.content &&
+                    goal.symbol == originalGoal.symbol &&
+                    goal.count == originalGoal.count {
+                    originalRecord.date = record.date
+                    originalRecord.count = record.count
+                    originalRecord.notice = record.notice
+                    originalRecord.startTime = record.startTime == nil ? nil : Date()
+                    originalRecord.isSuccess = originalGoal.count <= record.count
+                    
+                    await goalUseCase.updateData()
+                } else {
+                    await goalUseCase.deleteRecord(record: originalRecord)
+                    
+                    goal.cycleType = .date
+                    record.goal = goal
+                    record.isSuccess = goal.count <= record.count
+                    
+                    await goalUseCase.addGoal(goal: goal)
+                    await goalUseCase.addRecord(record: record)
+                }
             } else {
+                originalGoal.isSetTime = goal.isSetTime
+                originalGoal.setTime = goal.setTime
                 originalGoal.content = goal.content
                 originalGoal.symbol = goal.symbol
                 originalGoal.count = goal.count
-                originalGoal.isSetTime = goal.isSetTime
-                originalGoal.setTime = goal.setTime
                 
                 if modifyType == .record {
                     originalRecord.date = record.date
