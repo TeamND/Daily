@@ -47,8 +47,7 @@ class DailyGoalModel: Navigatable {
         symbol: Symbols? = nil,
         count: Int? = nil,
         isSetTime: Bool? = nil,
-        setTime: String? = nil,
-        records: [DailyRecordModel]? = nil
+        setTime: String? = nil
     ) -> DailyGoalModel {
         DailyGoalModel(
             type: type ?? self.type,
@@ -57,8 +56,7 @@ class DailyGoalModel: Navigatable {
             symbol: symbol ?? self.symbol,
             count: count ?? self.count,
             isSetTime: isSetTime ?? self.isSetTime,
-            setTime: setTime ?? self.setTime,
-            records: records ?? self.records
+            setTime: setTime ?? self.setTime
         )
     }
 }

@@ -134,27 +134,30 @@ extension GoalViewModel {
         
         Task { @MainActor in
             if modifyType == .single {
-                originalGoal.records.removeAll { $0 == originalRecord }
+                await goalUseCase.deleteRecord(record: originalRecord)
                 
                 goal.cycleType = .date
-                await goalUseCase.addGoal(goal: goal)
                 record.goal = goal
+                record.isSuccess = goal.count <= record.count
+                await goalUseCase.addGoal(goal: goal)
+                await goalUseCase.addRecord(record: record)
             } else {
                 originalGoal.content = goal.content
                 originalGoal.symbol = goal.symbol
                 originalGoal.count = goal.count
                 originalGoal.isSetTime = goal.isSetTime
                 originalGoal.setTime = goal.setTime
+                
+                if modifyType == .record {
+                    originalRecord.date = record.date
+                    originalRecord.count = record.count
+                    originalRecord.notice = record.notice
+                    originalRecord.startTime = record.startTime == nil ? nil : Date()
+                }
+                originalGoal.records.forEach { $0.isSuccess = originalGoal.count <= $0.count }
+                
+                await goalUseCase.updateData()
             }
-            record.isSuccess = goal.count <= record.count
-            
-            originalRecord.date = record.date
-            originalRecord.isSuccess = record.isSuccess
-            originalRecord.count = record.count
-            originalRecord.notice = record.notice
-            originalRecord.startTime = record.startTime == nil ? nil : Date()
-            
-            await goalUseCase.updateData()
             successAction(record.date)
         }
     }
