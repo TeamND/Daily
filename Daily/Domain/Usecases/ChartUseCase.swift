@@ -43,7 +43,8 @@ extension ChartUseCase {
             totalCount += filteredRecords.count
             successCount += filteredRecords.filter{ $0.isSuccess }.count
             
-            let chartData = ChartDataModel(isNow: index == 0,
+            let chartData = ChartDataModel(id: index,
+                                           isNow: index == 0,
                                            unit: ChartUnit(weekday: weekday, string: endDate.toString(format: type.dateFormat)),
                                            rating: CalendarServices.shared.getRating(records: filteredRecords).map { $0 * 100 })
             
