@@ -96,6 +96,7 @@ struct ChartView: View {
                     }
                 }
             }
+            .animation(.easeInOut(duration: 1), value: chartViewModel.chartDatas.map { $0.rating })
             .chartXAxis(.hidden)
             .chartYScale(domain: 0 ... 100)
             .chartYAxisStyle { style in
@@ -160,6 +161,6 @@ struct ChartView: View {
             }
         }
         .padding(.trailing, 25)
+        .animation(.easeInOut(duration: 0.3), value: chartViewModel.chartDatas.map { $0.unit.string })
     }
-    
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct ChartDataModel: Identifiable {
-    let id: String = UUID().uuidString
+    let id: Int
     let isNow: Bool
     let unit: ChartUnit
     let rating: Double?
