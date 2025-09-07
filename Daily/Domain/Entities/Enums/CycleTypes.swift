@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CycleTypes: String, CaseIterable, Codable {
+enum CycleTypes: String, DailyTypes, Codable {
     case date = "date"  // FIXME: 추후에 single로 마이그레이션
     case rept = "repeat"
     

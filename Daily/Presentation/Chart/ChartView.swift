@@ -19,7 +19,13 @@ struct ChartView: View {
             NavigationHeader(title: "통계")
             Spacer().frame(height: 16)
             
-            typeIndicator.padding(.horizontal, 16)
+            DailySegment(
+                segmentType: .header,
+                currentType: $chartViewModel.type,
+                types: CalendarTypes.allCases.reversed()
+            ) {
+                chartViewModel.setType(type: $0)
+            }.padding(.horizontal, 16)
             Spacer().frame(height: 24)
             
             summaryIndicator.padding(.horizontal, 16)
@@ -34,31 +40,6 @@ struct ChartView: View {
         .background(Colors.Background.primary)
         .onAppear {
             chartViewModel.onAppear(navigationPath: navigationEnvironment.navigationPath, filter: calendarViewModel.filter)
-        }
-    }
-    
-    private var typeIndicator: some View {
-        HStack(spacing: .zero) {
-            ForEach(CalendarTypes.allCases.reversed(), id: \.self) { type in
-                Button {
-                    chartViewModel.setType(type: type)
-                } label: {
-                    Text(type.text)
-                        .font(Fonts.bodyLgSemiBold)
-                        .foregroundStyle(type == chartViewModel.type ? Colors.Text.inverse : Colors.Text.secondary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 34)
-                        .background {
-                            RoundedRectangle(cornerRadius: 99)
-                                .fill(type == chartViewModel.type ? Colors.Brand.primary : .clear)
-                        }
-                }
-            }
-        }
-        .padding(2)
-        .background {
-            RoundedRectangle(cornerRadius: 99)
-                .fill(Colors.Background.secondary)
         }
     }
     
@@ -115,6 +96,7 @@ struct ChartView: View {
                     }
                 }
             }
+            .animation(.easeInOut(duration: 1), value: chartViewModel.chartDatas.map { $0.rating })
             .chartXAxis(.hidden)
             .chartYScale(domain: 0 ... 100)
             .chartYAxisStyle { style in
@@ -179,6 +161,6 @@ struct ChartView: View {
             }
         }
         .padding(.trailing, 25)
+        .animation(.easeInOut(duration: 0.3), value: chartViewModel.chartDatas.map { $0.unit.string })
     }
-    
 }

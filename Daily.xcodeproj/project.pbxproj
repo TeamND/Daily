@@ -36,6 +36,8 @@
 		F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */; };
 		F65ACDDD2CC8FB8900C67DD1 /* CalendarRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */; };
 		F65ACDE22CC91CEC00C67DD1 /* CalendarServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */; };
+		F662E0752E44CE2A00B04698 /* DailySegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F662E0742E44CE2A00B04698 /* DailySegment.swift */; };
+		F662E07A2E48D28A00B04698 /* SegmentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F662E0792E48D28A00B04698 /* SegmentTypes.swift */; };
 		F66EB6B62E00F1BE00CC04C4 /* RepeatTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */; };
 		F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70102E3F08F40091658F /* GoalDataEntity.swift */; };
 		F66F70132E3F0A4C0091658F /* ModifyTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70122E3F0A4C0091658F /* ModifyTypes.swift */; };
@@ -107,7 +109,6 @@
 		F6CE8A202CCF60450050A25A /* GoalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A1F2CCF60450050A25A /* GoalUseCase.swift */; };
 		F6CE8A222CCF606B0050A25A /* GoalInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A212CCF606B0050A25A /* GoalInterface.swift */; };
 		F6CE8A242CCF60900050A25A /* GoalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A232CCF60900050A25A /* GoalRepository.swift */; };
-		F6CE8A272CCF61C80050A25A /* DailyCycleTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A262CCF61C80050A25A /* DailyCycleTypePicker.swift */; };
 		F6CE8A292CCF62710050A25A /* CycleTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A282CCF62710050A25A /* CycleTypes.swift */; };
 		F6CE8A2D2CD0B1940050A25A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CE8A2C2CD0B1940050A25A /* SettingView.swift */; };
 		F6D9F7302C06DE2600600458 /* PushNoticeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */; };
@@ -186,6 +187,8 @@
 		F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInterface.swift; sourceTree = "<group>"; };
 		F65ACDDC2CC8FB8900C67DD1 /* CalendarRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRepository.swift; sourceTree = "<group>"; };
 		F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarServices.swift; sourceTree = "<group>"; };
+		F662E0742E44CE2A00B04698 /* DailySegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySegment.swift; sourceTree = "<group>"; };
+		F662E0792E48D28A00B04698 /* SegmentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentTypes.swift; sourceTree = "<group>"; };
 		F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatTypes.swift; sourceTree = "<group>"; };
 		F66F70102E3F08F40091658F /* GoalDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataEntity.swift; sourceTree = "<group>"; };
 		F66F70122E3F0A4C0091658F /* ModifyTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyTypes.swift; sourceTree = "<group>"; };
@@ -262,7 +265,6 @@
 		F6CE8A1F2CCF60450050A25A /* GoalUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalUseCase.swift; sourceTree = "<group>"; };
 		F6CE8A212CCF606B0050A25A /* GoalInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalInterface.swift; sourceTree = "<group>"; };
 		F6CE8A232CCF60900050A25A /* GoalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRepository.swift; sourceTree = "<group>"; };
-		F6CE8A262CCF61C80050A25A /* DailyCycleTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCycleTypePicker.swift; sourceTree = "<group>"; };
 		F6CE8A282CCF62710050A25A /* CycleTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleTypes.swift; sourceTree = "<group>"; };
 		F6CE8A2C2CD0B1940050A25A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		F6D9F72F2C06DE2600600458 /* PushNoticeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoticeManager.swift; sourceTree = "<group>"; };
@@ -527,7 +529,6 @@
 				F67DD0F02E02DE090001203D /* DailyDatePickerHeader.swift */,
 				F6C758E42CCF340400F9CF91 /* DailyDatePicker.swift */,
 				F67DD0EE2E029AEA0001203D /* DailyMultiDatePicker.swift */,
-				F6CE8A262CCF61C80050A25A /* DailyCycleTypePicker.swift */,
 				F67DD0F52E02E9330001203D /* RepeatTypeSection.swift */,
 				F67DD0F72E02E98C0001203D /* SingleDateSection.swift */,
 				F67DD0F92E039A2B0001203D /* RepeatWeekdayPicker.swift */,
@@ -644,6 +645,7 @@
 				F6E1CCB22DACF830009E25DA /* SymbolFilter.swift */,
 				F6C758D92CCB45ED00F9CF91 /* AddGoalButton.swift */,
 				F6E1CD772DBC97E6009E25DA /* WeekIndicator.swift */,
+				F662E0742E44CE2A00B04698 /* DailySegment.swift */,
 				F6F31DD22CF83BA50090A3B9 /* DailyTimeLine.swift */,
 				F63EEF0D2D3E5BC300C9914F /* DailyMenu.swift */,
 				F67DD79F2E0CCF9B0001203D /* DailyPopover.swift */,
@@ -685,6 +687,7 @@
 				F64A42722DC5DDE800B69D46 /* Settings.swift */,
 				F6A3267D2DE5469D00243B23 /* Symbols.swift */,
 				F66F70122E3F0A4C0091658F /* ModifyTypes.swift */,
+				F662E0792E48D28A00B04698 /* SegmentTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				F6CE8A222CCF606B0050A25A /* GoalInterface.swift in Sources */,
 				F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */,
 				F6CE8A1E2CCF5D150050A25A /* NavigationHeader.swift in Sources */,
+				F662E0752E44CE2A00B04698 /* DailySegment.swift in Sources */,
 				F6A3267E2DE5469D00243B23 /* Symbols.swift in Sources */,
 				F63EEE882D31F70A00C9914F /* DateFormats.swift in Sources */,
 				F6C758DA2CCB45ED00F9CF91 /* AddGoalButton.swift in Sources */,
@@ -896,7 +900,6 @@
 				F67DD0F62E02E9340001203D /* RepeatTypeSection.swift in Sources */,
 				F6CE8A2D2CD0B1940050A25A /* SettingView.swift in Sources */,
 				F6F31DD52CF87DCF0090A3B9 /* RecordButton.swift in Sources */,
-				F6CE8A272CCF61C80050A25A /* DailyCycleTypePicker.swift in Sources */,
 				F6F31DD32CF83BA50090A3B9 /* DailyTimeLine.swift in Sources */,
 				F67DD0EF2E029AEA0001203D /* DailyMultiDatePicker.swift in Sources */,
 				F64A42732DC5DDE800B69D46 /* Settings.swift in Sources */,
@@ -929,6 +932,7 @@
 				F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */,
 				F6A326742DDEECDF00243B23 /* ChartRepository.swift in Sources */,
 				F6E1CCDE2DAEB075009E25DA /* DayDataModel.swift in Sources */,
+				F662E07A2E48D28A00B04698 /* SegmentTypes.swift in Sources */,
 				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,
 				F67DD7BA2E137DA60001203D /* AppLaunchInterface.swift in Sources */,
@@ -1115,7 +1119,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1159,7 +1163,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1194,7 +1198,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1232,7 +1236,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

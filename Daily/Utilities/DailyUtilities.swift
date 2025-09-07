@@ -9,6 +9,7 @@ import DailyUtilities
 
 //typealias Colors = DailyUtilities.Colors
 typealias Fonts = DailyUtilities.Fonts
+typealias DailyTypes = DailyUtilities.DailyTypes
 typealias DayOfWeek = DailyUtilities.DayOfWeek
 
 typealias DailyDivider = DailyUtilities.DailyDivider

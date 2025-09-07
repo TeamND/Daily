@@ -67,6 +67,7 @@ class GoalViewModel: ObservableObject {
         self.startDate = originalDate
         self.endDate = originalDate.monthLater()
         self.selectedWeekday = Array(repeating: false, count: GeneralServices.week)
+        self.selectedDates = [originalDate]
         
         self.originalGoal = goalData.record.goal ?? DailyGoalModel()
         self.originalRecord = goalData.record
@@ -79,16 +80,20 @@ class GoalViewModel: ObservableObject {
 // MARK: - popover func
 extension GoalViewModel {
     func showPopover(at position: CGPoint, @ViewBuilder content: @escaping () -> some View) {
-        if isBlockPopover && self.popoverPosition == position { return }
+        if isBlockPopover && popoverPosition == position { return }
 
-        self.popoverPosition = position
-        self.popoverContent = AnyView(content())
+        popoverPosition = position
+        withAnimation(.easeInOut(duration: 0.3)) {
+            popoverContent = AnyView(content())
+        }
     }
     
     func hidePopover() {
         if popoverContent != nil {
             isBlockPopover = true
-            popoverContent = nil
+            withAnimation(.easeInOut(duration: 0.3)) {
+                popoverContent = nil
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.isBlockPopover = false
@@ -129,27 +134,45 @@ extension GoalViewModel {
         
         Task { @MainActor in
             if modifyType == .single {
-                originalGoal.records.removeAll { $0 == originalRecord }
-                
-                goal.cycleType = .date
-                await goalUseCase.addGoal(goal: goal)
-                record.goal = goal
+                if goal.isSetTime == originalGoal.isSetTime &&
+                    goal.setTime == originalGoal.setTime &&
+                    goal.content == originalGoal.content &&
+                    goal.symbol == originalGoal.symbol &&
+                    goal.count == originalGoal.count {
+                    originalRecord.date = record.date
+                    originalRecord.count = record.count
+                    originalRecord.notice = record.notice
+                    originalRecord.startTime = record.startTime == nil ? nil : Date()
+                    originalRecord.isSuccess = originalGoal.count <= record.count
+                    
+                    await goalUseCase.updateData()
+                } else {
+                    await goalUseCase.deleteRecord(record: originalRecord)
+                    
+                    goal.cycleType = .date
+                    record.goal = goal
+                    record.isSuccess = goal.count <= record.count
+                    
+                    await goalUseCase.addGoal(goal: goal)
+                    await goalUseCase.addRecord(record: record)
+                }
             } else {
+                originalGoal.isSetTime = goal.isSetTime
+                originalGoal.setTime = goal.setTime
                 originalGoal.content = goal.content
                 originalGoal.symbol = goal.symbol
                 originalGoal.count = goal.count
-                originalGoal.isSetTime = goal.isSetTime
-                originalGoal.setTime = goal.setTime
+                
+                if modifyType == .record {
+                    originalRecord.date = record.date
+                    originalRecord.count = record.count
+                    originalRecord.notice = record.notice
+                    originalRecord.startTime = record.startTime == nil ? nil : Date()
+                }
+                originalGoal.records.forEach { $0.isSuccess = originalGoal.count <= $0.count }
+                
+                await goalUseCase.updateData()
             }
-            record.isSuccess = goal.count <= record.count
-            
-            originalRecord.date = record.date
-            originalRecord.isSuccess = record.isSuccess
-            originalRecord.count = record.count
-            originalRecord.notice = record.notice
-            originalRecord.startTime = record.startTime == nil ? nil : Date()
-            
-            await goalUseCase.updateData()
             successAction(record.date)
         }
     }

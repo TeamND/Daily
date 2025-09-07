@@ -25,8 +25,10 @@ struct SingleDateSection: View {
                 Spacer()
                 
                 Button {
-                    isShowDatePicker.toggle()
-                    action?()
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        isShowDatePicker.toggle()
+                        action?()
+                    }
                 } label: {
                     Text(date.toString(format: .singleDate))
                         .font(Fonts.bodyLgMedium)

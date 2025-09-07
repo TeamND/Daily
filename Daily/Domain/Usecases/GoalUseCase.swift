@@ -26,6 +26,10 @@ final class GoalUseCase {
         await repository.addRecord(record: record)
     }
     
+    func deleteRecord(record: DailyRecordModel) async {
+        await repository.deleteRecord(record: record)
+    }
+    
     func removeNotice(record: DailyRecordModel) {
         record.notice = nil
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))

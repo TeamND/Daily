@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DayOfWeek: String, CaseIterable {
+public enum DayOfWeek: String, DailyTypes, CaseIterable {
     case sun
     case mon
     case tue
@@ -68,7 +68,11 @@ public enum DayOfWeek: String, CaseIterable {
 
 extension DayOfWeek {
     public static func text(for index: Int) -> String? {
-        guard 0 <= index && index < DayOfWeek.allCases.count else { return nil }
-        return DayOfWeek.allCases[index].text
+        guard let dayOfWeek = self.from(index: index) else { return nil }
+        return dayOfWeek.text
+    }
+    
+    public static func from(index: Int) -> DayOfWeek? {
+        return self.allCases.first { $0.index == index }
     }
 }
