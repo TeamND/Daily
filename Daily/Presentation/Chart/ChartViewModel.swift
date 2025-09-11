@@ -15,6 +15,7 @@ final class ChartViewModel: ObservableObject {
     @Published var totalCount: Int = 0
     @Published var successCount: Int = 0
     
+    @Published var isAnimationYet: Bool = true
     @Published var chartDatas: [ChartDataModel] = []
     @Published var filterDatas: [Symbols: Int] = [:]
     
@@ -24,6 +25,11 @@ final class ChartViewModel: ObservableObject {
     }
     
     func onAppear(navigationPath: [NavigationObject], filter: Symbols) {
+        chartDatas = (1 ... 7).map { i in
+            ChartDataModel(id: 7 - i, isNow: false, unit: ChartUnit(weekday: "", string: String(i)), rating: 0.0)
+        }
+        isAnimationYet = false
+        
         setType(type: CalendarTypes.from(navigationCount: navigationPath.count))
         setFilter(filter: filter)
     }

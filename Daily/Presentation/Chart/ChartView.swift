@@ -96,7 +96,10 @@ struct ChartView: View {
                     }
                 }
             }
-            .animation(.easeInOut(duration: 1), value: chartViewModel.chartDatas.map { $0.rating })
+            .animation(
+                chartViewModel.isAnimationYet ? nil : .easeInOut(duration: 1),
+                value: chartViewModel.chartDatas.map { $0.rating }
+            )
             .chartXAxis(.hidden)
             .chartYScale(domain: 0 ... 100)
             .chartYAxisStyle { style in
