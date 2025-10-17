@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NoticeSheet: View {
     @Environment(\.dismiss) var dismiss
+    @Binding var height: CGFloat
     
     var body: some View {
         // TODO: 추후 디자인 수정
@@ -24,10 +25,18 @@ struct NoticeSheet: View {
                 .hLeading()
         }
         .overlay {
-            Button { dismiss() } label: { Text("확인") }.buttonStyle(.borderedProminent).hTrailing().vBottom()
+            Button { dismiss() } label: { Text("확인") }
+                .buttonStyle(.borderedProminent).hTrailing().vBottom()
         }
         .padding()
         .tint(Colors.Brand.primary)
         .accentColor(Colors.Brand.primary)
+        .background(
+            GeometryReader { sheet in
+                Color.clear
+                    .onAppear { height = sheet.size.height }
+                    .onChange(of: sheet.size.height) { height = $1 }
+            }
+        )
     }
 }

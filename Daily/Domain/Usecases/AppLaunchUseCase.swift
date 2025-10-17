@@ -27,7 +27,8 @@ extension AppLaunchUseCase {
     }
     
     func checkNotice() -> Bool {
-        return Date() < "2025-01-15".toDate()!  // TODO: 추후 수정
+        return true // FIXME: NoticeSheet 작업에 필요한 하드코딩, 추후 조건 정의 후 수정
+//        return Date() < "2025-01-15".toDate()!  // TODO: 추후 수정
     }
     
     func checkUpdate() async -> Bool {

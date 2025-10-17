@@ -11,6 +11,8 @@ struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
     @StateObject private var splashViewModel = SplashViewModel()
     
+    @State private var sheetHeight: CGFloat = 0
+    
     var body: some View {
         splashView
             .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert, alertType: .deniedAtAppOpen) }
@@ -75,8 +77,8 @@ struct SplashView: View {
     }
     
     private var noticeSheet: some View {
-        NoticeSheet()
-            .presentationDetents([.height(400)])    // FIXME: 추후 디자인 수정
+        NoticeSheet(height: $sheetHeight)
+            .presentationDetents([.height(sheetHeight)])
             .presentationDragIndicator(.visible)
             .onDisappear { splashViewModel.loadApp(isWait: false) }
     }
