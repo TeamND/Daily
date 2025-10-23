@@ -40,6 +40,7 @@ struct NoticeSheet: View {
             }
             .padding(16)
         }
+        .fixedSize(horizontal: false, vertical: true)
         .background(
             GeometryReader { sheet in
                 Colors.Background.primary
