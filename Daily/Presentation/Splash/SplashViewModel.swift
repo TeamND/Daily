@@ -13,7 +13,7 @@ final class SplashViewModel: ObservableObject {
     @Published var catchPhrase: String = ""
     @Published var updateNotice: String = ""
     @Published var isAppLoaded: Bool = false
-    @Published var isShowNotice: Bool = false
+    @Published var notices: [NoticeModel] = []
     @Published var isNeedUpdate: Bool = false
     
     init() {
@@ -25,11 +25,11 @@ final class SplashViewModel: ObservableObject {
         setUserDefault()
         Task { @MainActor in
             catchPhrase = appLaunchUseCase.getCatchPhrase()
-            isShowNotice = appLaunchUseCase.checkNotice()
+            notices = appLaunchUseCase.getNotices()
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
             
             if isNeedUpdate { (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice() }
-            else if !isShowNotice { loadApp(isWait: true) }
+            else if notices.isEmpty { loadApp(isWait: true) }
         }
     }
     

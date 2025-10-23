@@ -13,6 +13,9 @@ class UserDefaultManager {
     @UserDefault(key: .language, defaultValue: nil) static var language: String?
     @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: String?
     
+    // MARK: notice
+    @UserDefault(key: .ignoreNoticeIds, defaultValue: nil) static var ignoreNoticeIds: [Int]?
+    
     // MARK: migration
     @UserDefault(key: .beforeVersion, defaultValue: nil) static var beforeVersion: String?
 }
@@ -21,6 +24,7 @@ enum UserDefaultKey: String {
     case startDay
     case language
     case calendarType
+    case ignoreNoticeIds
     case beforeVersion
 }
 

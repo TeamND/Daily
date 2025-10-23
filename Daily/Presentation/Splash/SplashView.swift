@@ -11,11 +11,21 @@ struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
     @StateObject private var splashViewModel = SplashViewModel()
     
+    @State private var sheetHeight: CGFloat = 0
+    
     var body: some View {
         splashView
-            .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert, alertType: .deniedAtAppOpen) }
+            .onAppear {
+                PushNoticeManager.shared.requestNotiAuthorization(
+                    showAlert: alertEnvironment.showAlert,
+                    alertType: .deniedAtAppOpen
+                )
+            }
             .onAppear { splashViewModel.onAppear() }
-            .sheet(isPresented: $splashViewModel.isShowNotice) { noticeSheet }
+            .sheet(isPresented: Binding(
+                get: { !splashViewModel.notices.isEmpty },
+                set: { if !$0 { splashViewModel.notices.removeAll() } }
+            )) { noticeSheet }
             .opacity(splashViewModel.isAppLoaded ? 0 : 1)
             .animation(.easeInOut(duration: 0.5), value: splashViewModel.isAppLoaded)
     }
@@ -75,9 +85,12 @@ struct SplashView: View {
     }
     
     private var noticeSheet: some View {
-        NoticeSheet()
-            .presentationDetents([.height(400)])    // FIXME: 추후 디자인 수정
-            .presentationDragIndicator(.visible)
-            .onDisappear { splashViewModel.loadApp(isWait: false) }
+        NoticeSheet(
+            height: $sheetHeight,
+            notice: splashViewModel.notices[0]  // FIXME: notices 전부를 보내도록 추후 수정(확장)
+        )
+        .presentationDetents([.height(sheetHeight)])
+        .presentationDragIndicator(.visible)
+        .onDisappear { splashViewModel.loadApp(isWait: false) }
     }
 }

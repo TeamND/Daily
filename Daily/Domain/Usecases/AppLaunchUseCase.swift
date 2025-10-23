@@ -26,8 +26,16 @@ extension AppLaunchUseCase {
         }
     }
     
-    func checkNotice() -> Bool {
-        return Date() < "2025-01-15".toDate()!  // TODO: 추후 수정
+    func getNotices() -> [NoticeModel] {
+        var notices = [
+            NoticeModel(
+                id: 0, type: .image, image: "daily_2.0_update"
+            )
+        ]
+        
+        notices.removeAll { UserDefaultManager.ignoreNoticeIds?.contains($0.id) ?? false }
+        
+        return notices
     }
     
     func checkUpdate() async -> Bool {
