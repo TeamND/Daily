@@ -12,7 +12,7 @@ import SwiftData
 final class SwiftDataManager {
     static let shared = SwiftDataManager()
     
-    private let container: ModelContainer
+    let container: ModelContainer
 
     private init() {
         container = try! ModelContainer(

@@ -14,22 +14,13 @@ struct DailyApp: App {
     @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var calendarViewModel = CalendarViewModel()
     
-    private let dailyModelContainer: ModelContainer
-    
-    init() {
-        dailyModelContainer = try! ModelContainer(
-            for: DailyGoalModel.self, DailyRecordModel.self,
-            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
-        )
-    }
-    
     var body: some Scene {
         WindowGroup {
             daily
                 .environmentObject(alertEnvironment)
                 .environmentObject(navigationEnvironment)
                 .environmentObject(calendarViewModel)
-                .modelContainer(dailyModelContainer)
+                .modelContainer(SwiftDataManager.shared.container)
         }
     }
     

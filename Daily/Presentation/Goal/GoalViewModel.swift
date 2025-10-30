@@ -169,7 +169,7 @@ extension GoalViewModel {
                     originalRecord.notice = record.notice
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
                 }
-                originalGoal.records.forEach { $0.isSuccess = originalGoal.count <= $0.count }
+                originalGoal.records?.forEach { $0.isSuccess = originalGoal.count <= $0.count }
                 
                 await goalUseCase.updateData()
             }

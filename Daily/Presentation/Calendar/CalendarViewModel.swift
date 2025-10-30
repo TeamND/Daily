@@ -247,7 +247,7 @@ extension CalendarViewModel {
     
     // TODO: 추후 최적화 필요
     func deleteGoal(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
-        let records = goal.records
+        guard let records = goal.records else { return }
         Task {
             await resetData()
             await calendarUseCase.deleteGoal(goal: goal)

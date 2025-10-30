@@ -11,11 +11,11 @@ import SwiftData
 @Model
 class DailyRecordModel: Navigatable {
     var goal: DailyGoalModel?
-    var date: Date
-    var isSuccess: Bool
-    var count: Int
-    var notice: Int?
-    var startTime: Date?
+    var date: Date = Date()
+    var isSuccess: Bool = false
+    var count: Int = 0
+    var notice: Int? = nil
+    var startTime: Date? = nil
     
     init(
         goal: DailyGoalModel? = nil,
