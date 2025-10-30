@@ -42,8 +42,8 @@ final class SplashViewModel: ObservableObject {
     }
     
     private func setUserDefault() {
-        UserDefaultManager.startDay = UserDefaultManager.startDay ?? 0
-        UserDefaultManager.language = UserDefaultManager.language ?? "korean"
-        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? "month"
+        UserDefaultManager.startDay = UserDefaultManager.startDay ?? DayOfWeek.sun.index
+        UserDefaultManager.language = UserDefaultManager.language ?? Languages.korean.rawValue
+        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? CalendarTypes.month.rawValue
     }
 }
