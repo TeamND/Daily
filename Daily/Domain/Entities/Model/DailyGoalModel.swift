@@ -10,49 +10,30 @@ import SwiftData
 
 @Model
 class DailyGoalModel: Navigatable {
-//    var type: GoalTypes
-    var typeRaw: String = GoalTypes.count.rawValue
-//    var cycleType: CycleTypes
-    var cycleTypeRaw: String = CycleTypes.date.rawValue
+    var type: GoalTypes?
+    var cycleType: CycleTypes?
     var content: String = ""
-//    var symbol: Symbols
-    var symbolRaw: String = Symbols.check.rawValue
+    var symbol: Symbols?
     var count: Int = 1
     var isSetTime: Bool = false
     var setTime: String = "00:00"
     @Relationship(deleteRule: .cascade ,inverse: \DailyRecordModel.goal)
     var records: [DailyRecordModel]? = []
     
-    var type: GoalTypes {
-        get { GoalTypes(rawValue: typeRaw) ?? .count }
-        set { typeRaw = newValue.rawValue }
-    }
-    var cycleType: CycleTypes {
-        get { CycleTypes(rawValue: cycleTypeRaw) ?? .date }
-        set { cycleTypeRaw = newValue.rawValue }
-    }
-    var symbol: Symbols {
-        get { Symbols(rawValue: symbolRaw) ?? .check }
-        set { symbolRaw = newValue.rawValue }
-    }
-    
     init(
-        type: GoalTypes = .count,
-        cycleType: CycleTypes = .date,
+        type: GoalTypes? = .count,
+        cycleType: CycleTypes? = .date,
         content: String = "",
-        symbol: Symbols = .check,
+        symbol: Symbols? = .check,
         count: Int = 1,
         isSetTime: Bool = false,
         setTime: String = "00:00",
         records: [DailyRecordModel] = []
     ) {
-//        self.type = type
-        self.typeRaw = type.rawValue
-//        self.cycleType = cycleType
-        self.cycleTypeRaw = cycleType.rawValue
+        self.type = type
+        self.cycleType = cycleType
         self.content = content
-//        self.symbol = symbol
-        self.symbolRaw = symbol.rawValue
+        self.symbol = symbol
         self.count = count
         self.isSetTime = isSetTime
         self.setTime = setTime

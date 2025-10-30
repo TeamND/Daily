@@ -196,10 +196,10 @@ extension CalendarViewModel {
 // MARK: - button action
 extension CalendarViewModel {
     func actionOfRecordButton(record: DailyRecordModel) {
-        guard let goal = record.goal else { return }
+        guard let goal = record.goal, let type = goal.type else { return }
         
         Task {
-            switch goal.type {
+            switch type {
             case .check, .count:
                 await calendarUseCase.addCount(goal: goal, record: record)
                 fetchDayData(selection: currentDate.getSelection(type: .day))

@@ -58,7 +58,7 @@ struct GoalView: View {
             if viewType == .goal {
                 DailySegment(
                     segmentType: .header,
-                    currentType: $goalViewModel.goal.cycleType,
+                    currentType: $goalViewModel.goal.cycleType,    // FIXME: 추후 수정
                     types: CycleTypes.allCases
                 ) { cycleType in
                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -112,8 +112,8 @@ struct DateSection: View {
         VStack(spacing: .zero) {
             if let modifyType = goalViewModel.modifyType, modifyType != .all {
                 SingleDateSection(title: "날짜", date: $goalViewModel.record.date, isShowDatePicker: $isShowSingleDatePicker)
-            } else if goalViewModel.modifyType == nil {
-                switch goalViewModel.goal.cycleType {
+            } else if goalViewModel.modifyType == nil, let cycleType = goalViewModel.goal.cycleType {
+                switch cycleType {
                 case .date:
                     SingleDateSection(title: "날짜", date: $goalViewModel.startDate, isShowDatePicker: $isShowSingleDatePicker)
                     
@@ -138,6 +138,11 @@ struct DateSection: View {
                         DailyMultiDatePicker(dates: $goalViewModel.selectedDates)
                     }
                 }
+            } else {
+                // FIXME: 추후 수정
+                Text("🚧🚧 예상치 못한 문제가 발생했습니다.")
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.primary)
             }
         }
         .padding(.horizontal, 16)
@@ -296,9 +301,9 @@ struct ContentSection: View {
 
 // MARK: - SymbolSection
 struct SymbolSection: View {
-    @Binding var selectedSymbol: Symbols
+    @Binding var selectedSymbol: Symbols?
     
-    init(symbol: Binding<Symbols>) {
+    init(symbol: Binding<Symbols?>) {
         self._selectedSymbol = symbol
     }
     

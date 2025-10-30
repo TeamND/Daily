@@ -12,11 +12,10 @@ struct RecordButton: View {
     
     let record: DailyRecordModel
     let goal: DailyGoalModel
-    let disabled: Bool
     
     var body: some View {
         Button {
-            if record.isSuccess || disabled { return }
+            if record.isSuccess { return }
             calendarViewModel.actionOfRecordButton(record: record)
         } label: {
             ZStack {

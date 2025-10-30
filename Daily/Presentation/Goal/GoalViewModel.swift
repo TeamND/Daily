@@ -31,7 +31,8 @@ class GoalViewModel: ObservableObject {
     @Published var selectedDates: [Date] = [Date(format: .daily)]
     
     var repeatDates: [String] {
-        switch goal.cycleType {
+        guard let cycleType = goal.cycleType else { return [] }
+        switch cycleType {
         case .date:
             return [startDate.getSelection()]
         case .rept:
