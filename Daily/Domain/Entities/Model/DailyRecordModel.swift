@@ -33,21 +33,12 @@ class DailyRecordModel: Navigatable {
         self.startTime = startTime
     }
     
-    func copy(
-        goal: DailyGoalModel? = nil,
-        date: Date? = nil,
-        isSuccess: Bool? = nil,
-        count: Int? = nil,
-        notice: Int? = nil,
-        startTime: Date? = nil
-    ) -> DailyRecordModel {
-        DailyRecordModel(
-            goal: goal ?? self.goal,
-            date: date ?? self.date,
-            isSuccess: isSuccess ?? self.isSuccess,
-            count: count ?? self.count,
-            notice: notice ?? self.notice,
-            startTime: startTime ?? self.startTime
-        )
+    init(from temp: TempRecordModel) {
+        self.goal = temp.goal
+        self.date = temp.date
+        self.isSuccess = temp.isSuccess
+        self.count = temp.count
+        self.notice = temp.notice
+        self.startTime = temp.startTime
     }
 }

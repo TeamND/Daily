@@ -40,23 +40,14 @@ class DailyGoalModel: Navigatable {
         self.records = records
     }
     
-    func copy(
-        type: GoalTypes? = nil,
-        cycleType: CycleTypes? = nil,
-        content: String? = nil,
-        symbol: Symbols? = nil,
-        count: Int? = nil,
-        isSetTime: Bool? = nil,
-        setTime: String? = nil
-    ) -> DailyGoalModel {
-        DailyGoalModel(
-            type: type ?? self.type,
-            cycleType: cycleType ?? self.cycleType,
-            content: content ?? self.content,
-            symbol: symbol ?? self.symbol,
-            count: count ?? self.count,
-            isSetTime: isSetTime ?? self.isSetTime,
-            setTime: setTime ?? self.setTime
-        )
+    init(from temp: TempGoalModel) {
+        self.type = temp.type
+        self.cycleType = temp.cycleType
+        self.content = temp.content
+        self.symbol = temp.symbol
+        self.count = temp.count
+        self.isSetTime = temp.isSetTime
+        self.setTime = temp.setTime
+        self.records = temp.records
     }
 }

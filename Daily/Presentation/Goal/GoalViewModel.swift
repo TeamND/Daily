@@ -21,8 +21,8 @@ class GoalViewModel: ObservableObject {
     @Published var popoverPosition: CGPoint = .zero
     @Published var popoverContent: AnyView? = nil
     
-    @Published var goal: DailyGoalModel = DailyGoalModel()
-    @Published var record: DailyRecordModel = DailyRecordModel()
+    @Published var goal: TempGoalModel = TempGoalModel()
+    @Published var record: TempRecordModel = TempRecordModel()
     
     @Published var repeatType: RepeatTypes = .weekly
     @Published var startDate: Date = Date(format: .daily)
@@ -73,8 +73,8 @@ class GoalViewModel: ObservableObject {
         self.originalGoal = goalData.record.goal ?? DailyGoalModel()
         self.originalRecord = goalData.record
         
-        self.goal = originalGoal.copy()
-        self.record = originalRecord.copy()
+        self.goal.update(goal: originalGoal)
+        self.record.update(record: originalRecord)
     }
 }
 
@@ -108,6 +108,7 @@ extension GoalViewModel {
     func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate() { validateAction(validate); return }
         Task { @MainActor in
+            let goal = DailyGoalModel(from: goal)
             let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!) }
             for record in records { await goalUseCase.addRecord(record: record) }
             
@@ -121,12 +122,13 @@ extension GoalViewModel {
     func modify(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         guard let modifyType else { return }
         if let validate = validate() { validateAction(validate); return }
+        
         if record.notice != nil && (
             originalRecord.date != record.date ||
             originalGoal.setTime != goal.setTime ||
             originalGoal.isSetTime != goal.isSetTime
         ) {
-            goalUseCase.removeNotice(record: record)
+            goalUseCase.removeNotice(record: originalRecord)
             if originalRecord.date != record.date { validateAction(NoticeAlert.dateChanged) }
             if originalGoal.setTime != goal.setTime || originalGoal.isSetTime != goal.isSetTime {
                 validateAction(NoticeAlert.setTimeChanged)
@@ -139,7 +141,8 @@ extension GoalViewModel {
                     goal.setTime == originalGoal.setTime &&
                     goal.content == originalGoal.content &&
                     goal.symbol == originalGoal.symbol &&
-                    goal.count == originalGoal.count {
+                    goal.count == originalGoal.count
+                {
                     originalRecord.date = record.date
                     originalRecord.count = record.count
                     originalRecord.notice = record.notice
@@ -148,14 +151,15 @@ extension GoalViewModel {
                     
                     await goalUseCase.updateData()
                 } else {
-                    await goalUseCase.deleteRecord(record: originalRecord)
+                    // FIXME: 추후 수정
+//                    await goalUseCase.deleteRecord(record: originalRecord)
                     
-                    goal.cycleType = .date
-                    record.goal = goal
-                    record.isSuccess = goal.count <= record.count
+                    originalGoal.cycleType = .date
+                    originalRecord.goal = originalGoal
+                    originalRecord.isSuccess = originalGoal.count <= originalRecord.count
                     
-                    await goalUseCase.addGoal(goal: goal)
-                    await goalUseCase.addRecord(record: record)
+//                    await goalUseCase.addGoal(goal: goal)
+//                    await goalUseCase.addRecord(record: record)
                 }
             } else {
                 originalGoal.isSetTime = goal.isSetTime
