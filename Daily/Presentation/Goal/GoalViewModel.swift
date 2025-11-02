@@ -151,15 +151,20 @@ extension GoalViewModel {
                     
                     await goalUseCase.updateData()
                 } else {
-                    // FIXME: 추후 수정
-//                    await goalUseCase.deleteRecord(record: originalRecord)
+                    originalGoal.records?.removeAll() { $0.id == originalRecord.id }
+                    await goalUseCase.deleteRecord(record: originalRecord)
                     
-                    originalGoal.cycleType = .date
-                    originalRecord.goal = originalGoal
-                    originalRecord.isSuccess = originalGoal.count <= originalRecord.count
+                    goal.cycleType = .date
+                    goal.records = []
+                    let goal = DailyGoalModel(from: goal)
                     
-//                    await goalUseCase.addGoal(goal: goal)
-//                    await goalUseCase.addRecord(record: record)
+                    record.goal = goal
+                    record.isSuccess = goal.count <= record.count
+                    let record = DailyRecordModel(from: record)
+                    await goalUseCase.addRecord(record: record)
+                    
+                    goal.records = [record]
+                    await goalUseCase.addGoal(goal: goal)
                 }
             } else {
                 originalGoal.isSetTime = goal.isSetTime
