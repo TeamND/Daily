@@ -181,6 +181,7 @@ struct DailyWidgetEntryView: View {
             }
         }
         .widgetURL(URL(string: "widget://daily?family=\(family.rawValue)")!)
+        .containerBackground(for: .widget) { Color.clear }
     }
     
     private var dailyWidgetDateText: some View {
