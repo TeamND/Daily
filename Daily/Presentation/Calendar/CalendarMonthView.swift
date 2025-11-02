@@ -115,9 +115,6 @@ struct DailyDayOnMonth: View {
                 .padding(.vertical, 6)
             }
             .frame(width: 33)   // FIXME: (아마 LazyVGrid의 특성 때문에) width의 사용이 강제되고 symbolGrid자체에도 horizontal padding이 강제됨, 추후 minWidth를 사용하고 자식뷰로부터 너비를 가져오도록 수정
-            .onAppear {
-                print("UIScreen.main.bounds.height is \(UIScreen.main.bounds.height)")
-            }
         }
     }
 }
