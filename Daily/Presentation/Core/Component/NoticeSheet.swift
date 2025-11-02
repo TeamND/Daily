@@ -22,10 +22,10 @@ struct NoticeSheet: View {
                 .frame(maxWidth: .infinity)
             HStack {
                 Button {
-                    UserDefaultManager.ignoreNoticeIds = (UserDefaultManager.ignoreNoticeIds ?? []) + [notice.id]
+                    UserDefaultManager.ignoreNoticeDate = Date(format: .daily).dayLater(value: 7)
                     dismiss()
                 } label: {
-                    Text("다시보지 않기")
+                    Text("일주일 동안 보지 않기")
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Text.secondary)
                 }

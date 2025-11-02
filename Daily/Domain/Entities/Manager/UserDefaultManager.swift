@@ -14,7 +14,7 @@ class UserDefaultManager {
     @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: String?
     
     // MARK: notice
-    @UserDefault(key: .ignoreNoticeIds, defaultValue: nil) static var ignoreNoticeIds: [Int]?
+    @UserDefault(key: .ignoreNoticeDate, defaultValue: nil) static var ignoreNoticeDate: Date?
     
     // MARK: migration
     @UserDefault(key: .beforeVersion, defaultValue: nil) static var beforeVersion: String?
@@ -24,7 +24,7 @@ enum UserDefaultKey: String {
     case startDay
     case language
     case calendarType
-    case ignoreNoticeIds
+    case ignoreNoticeDate
     case beforeVersion
 }
 

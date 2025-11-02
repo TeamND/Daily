@@ -27,13 +27,13 @@ extension AppLaunchUseCase {
     }
     
     func getNotices() -> [NoticeModel] {
+        if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return [] }
+        
         var notices = [
             NoticeModel(
                 id: 0, type: .image, image: "daily_2.0_update"
             )
         ]
-        
-        notices.removeAll { UserDefaultManager.ignoreNoticeIds?.contains($0.id) ?? false }
         
         return notices
     }
