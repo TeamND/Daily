@@ -124,4 +124,9 @@ final class DailyDataSource {
         let descriptor = FetchDescriptor<DailyGoalModel>()
         return try? context.fetch(descriptor)
     }
+    
+    func getRecords() async -> [DailyRecordModel]? {
+        let descriptor = FetchDescriptor<DailyRecordModel>()
+        return try? context.fetch(descriptor)
+    }
 }

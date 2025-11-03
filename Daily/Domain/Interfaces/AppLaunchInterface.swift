@@ -9,6 +9,7 @@ import Foundation
 
 protocol AppLaunchInterface {
     func getGoals() async -> [DailyGoalModel]?
+    func getRecords() async -> [DailyRecordModel]?
     
     func updateData() async
 }

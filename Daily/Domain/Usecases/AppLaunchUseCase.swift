@@ -26,7 +26,7 @@ extension AppLaunchUseCase {
         }
     }
     
-    func getNotices() -> [NoticeModel] {
+    func getNotices() async -> [NoticeModel] {
         if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return [] }
         
         var notices = [
@@ -34,6 +34,9 @@ extension AppLaunchUseCase {
                 id: 0, type: .image, image: "daily_2.0_update"
             )
         ]
+        
+        // MARK: sheet animation을 고려해 0.5초 추가 딜레이
+        try? await Task.sleep(nanoseconds: 500_000_000)
         
         return notices
     }
@@ -61,6 +64,25 @@ extension AppLaunchUseCase {
 }
 
 extension AppLaunchUseCase {
+    func fetch() async {
+        await TaskQueueManager.shared.add { [weak self] in
+            guard let self else { return }
+            
+            var count = 0
+            while count < 10 {
+                if let goals = await repository.getGoals(), goals.isEmpty {
+                    count += 1
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                } else { return }
+                
+                if let records = await repository.getRecords(), records.isEmpty {
+                    count += 1
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                } else { return }
+            }
+        }
+    }
+    
     func migrate() async {
         let beforeVersion = UserDefaultManager.beforeVersion
         UserDefaultManager.beforeVersion = System.appVersion
@@ -108,8 +130,8 @@ extension AppLaunchUseCase {
         }
     }
     
-    func loadApp(_ isWait: Bool = true) async -> Bool {
-        if isWait { try? await Task.sleep(nanoseconds: 1_000_000_000) }
+    func loadMain() async -> Bool {
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
         return true
     }
 }

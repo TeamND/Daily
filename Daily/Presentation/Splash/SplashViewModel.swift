@@ -12,7 +12,8 @@ final class SplashViewModel: ObservableObject {
     
     @Published var catchPhrase: String = ""
     @Published var updateNotice: String = ""
-    @Published var isAppLoaded: Bool = false
+    @Published var isMainReady: Bool = false
+    @Published var isMainLoaded: Bool = false
     @Published var notices: [NoticeModel] = []
     @Published var isNeedUpdate: Bool = false
     
@@ -25,6 +26,7 @@ final class SplashViewModel: ObservableObject {
         setUserDefault()
         Task { @MainActor in
             catchPhrase = appLaunchUseCase.getCatchPhrase()
+            await appLaunchUseCase.fetch()
             
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
             if isNeedUpdate {
@@ -32,16 +34,11 @@ final class SplashViewModel: ObservableObject {
                 return
             }
             
-            notices = appLaunchUseCase.getNotices()
-            if notices.isEmpty { loadApp(isWait: true) }
-        }
-    }
-    
-    func loadApp(isWait: Bool = false) {
-        Task { @MainActor in
             await appLaunchUseCase.migrate()
+            isMainReady = true
             
-            isAppLoaded = await appLaunchUseCase.loadApp(isWait)
+            notices = await appLaunchUseCase.getNotices()
+            isMainLoaded = await appLaunchUseCase.loadMain()
         }
     }
     

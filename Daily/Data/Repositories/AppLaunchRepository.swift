@@ -12,6 +12,10 @@ final class AppLaunchRepository: AppLaunchInterface {
         await DailyDataSource.shared.getGoals()
     }
     
+    func getRecords() async -> [DailyRecordModel]? {
+        await DailyDataSource.shared.getRecords()
+    }
+    
     func updateData() async {
         await DailyDataSource.shared.updateData()
     }
