@@ -25,11 +25,15 @@ final class SplashViewModel: ObservableObject {
         setUserDefault()
         Task { @MainActor in
             catchPhrase = appLaunchUseCase.getCatchPhrase()
-            notices = appLaunchUseCase.getNotices()
-            isNeedUpdate = await appLaunchUseCase.checkUpdate()
             
-            if isNeedUpdate { (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice() }
-            else if notices.isEmpty { loadApp(isWait: true) }
+            isNeedUpdate = await appLaunchUseCase.checkUpdate()
+            if isNeedUpdate {
+                (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice()
+                return
+            }
+            
+            notices = appLaunchUseCase.getNotices()
+            if notices.isEmpty { loadApp(isWait: true) }
         }
     }
     
