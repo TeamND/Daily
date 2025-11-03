@@ -17,7 +17,7 @@ final class SwiftDataManager {
     private init() {
         container = try! ModelContainer(
             for: DailyGoalModel.self, DailyRecordModel.self,
-            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
+            configurations: ModelConfiguration(cloudKitDatabase: .private("iCloud.com.seungyong96.Daily"))
         )
     }
 
