@@ -16,7 +16,7 @@ struct Provider: TimelineProvider {
     init() {
         dailyModelContainer = try! ModelContainer(
             for: DailyGoalModel.self, DailyRecordModel.self,
-            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
+            configurations: ModelConfiguration(groupContainer: .identifier("group.com.seungyong96.Daily"))
         )
     }
     

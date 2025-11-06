@@ -17,7 +17,10 @@ final class SwiftDataManager {
     private init() {
         container = try! ModelContainer(
             for: DailyGoalModel.self, DailyRecordModel.self,
-            configurations: ModelConfiguration(cloudKitDatabase: .private("iCloud.com.seungyong96.Daily"))
+            configurations: ModelConfiguration(
+                groupContainer: .identifier("group.com.seungyong96.Daily"),
+                cloudKitDatabase: .private("iCloud.com.seungyong96.Daily")
+            )
         )
     }
 
