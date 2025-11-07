@@ -13,10 +13,12 @@ final class DailyDataSource {
     static let shared = DailyDataSource()
     
     private let context: ModelContext
+    private let legacyContext: ModelContext
     private let calendar: Calendar
     
     private init() {
-        context = SwiftDataManager.shared.getContext()
+        context = SwiftDataManager.shared.getContainer().mainContext
+        legacyContext = SwiftDataManager.shared.getLegacyContainer().mainContext
         calendar = CalendarManager.shared.getDailyCalendar()
     }
     
@@ -110,13 +112,13 @@ final class DailyDataSource {
         try? context.save()
     }
     
-    func deleteRecord(record: DailyRecordModel) async {
-        context.delete(record)
+    func deleteGoal(goal: DailyGoalModel) async {
+        context.delete(goal)
         try? context.save()
     }
     
-    func deleteGoal(goal: DailyGoalModel) async {
-        context.delete(goal)
+    func deleteRecord(record: DailyRecordModel) async {
+        context.delete(record)
         try? context.save()
     }
     
@@ -128,5 +130,32 @@ final class DailyDataSource {
     func getRecords() async -> [DailyRecordModel]? {
         let descriptor = FetchDescriptor<DailyRecordModel>()
         return try? context.fetch(descriptor)
+    }
+}
+
+// MARK: - legacy
+extension DailyDataSource {
+    func getLegacyGoals() async -> [DailyGoalModel]? {
+        let descriptor = FetchDescriptor<DailyGoalModel>()
+        return try? legacyContext.fetch(descriptor)
+    }
+    
+    func getLegacyRecords() async -> [DailyRecordModel]? {
+        let descriptor = FetchDescriptor<DailyRecordModel>()
+        return try? legacyContext.fetch(descriptor)
+    }
+    
+    func deleteLegacyGoal(goal: DailyGoalModel) async {
+        legacyContext.delete(goal)
+        try? legacyContext.save()
+    }
+    
+    func deleteLegacyRecord(record: DailyRecordModel) async {
+        legacyContext.delete(record)
+        try? legacyContext.save()
+    }
+    
+    func updateLegacyData() async {
+        try? legacyContext.save()
     }
 }

@@ -23,7 +23,7 @@ struct DailyApp: App {
                 .environmentObject(alertEnvironment)
                 .environmentObject(navigationEnvironment)
                 .environmentObject(calendarViewModel)
-                .modelContainer(SwiftDataManager.shared.container)
+                .modelContainer(SwiftDataManager.shared.getContainer())
         }
     }
     

@@ -26,7 +26,6 @@ final class SplashViewModel: ObservableObject {
         setUserDefault()
         Task { @MainActor in
             catchPhrase = appLaunchUseCase.getCatchPhrase()
-            await appLaunchUseCase.fetch()
             
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
             if isNeedUpdate {
@@ -35,6 +34,7 @@ final class SplashViewModel: ObservableObject {
             }
             
             await appLaunchUseCase.migrate()
+            await appLaunchUseCase.fetch()
             isMainReady = true
             
             notices = await appLaunchUseCase.getNotices()

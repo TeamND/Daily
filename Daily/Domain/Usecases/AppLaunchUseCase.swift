@@ -73,13 +73,15 @@ extension AppLaunchUseCase {
                 if let goals = await repository.getGoals(), goals.isEmpty {
                     count += 1
                     try? await Task.sleep(nanoseconds: 500_000_000)
-                } else { return }
+                } else { break }
                 
                 if let records = await repository.getRecords(), records.isEmpty {
                     count += 1
                     try? await Task.sleep(nanoseconds: 500_000_000)
-                } else { return }
+                } else { break }
             }
+            
+            await repository.updateData()
         }
     }
     
@@ -94,7 +96,9 @@ extension AppLaunchUseCase {
                 await goalTypeMigrate()
             }
             
-            await repository.updateData()
+            if isVersionAtMost("2.1.4", comparedTo: beforeVersion) {
+                await cloudMigrate()
+            }
         }
     }
     
@@ -121,13 +125,29 @@ extension AppLaunchUseCase {
     }
     
     func goalTypeMigrate() async {
-        guard let goals = await repository.getGoals() else { return }
+        guard let goals = await repository.getLegacyGoals() else { return }
         
         for goal in goals {
             if goal.type == .check {
                 goal.type = .count
             }
         }
+        
+        await repository.updateLegacyData()
+    }
+    
+    func cloudMigrate() async {
+        guard let goals = await repository.getLegacyGoals() else { return }
+        
+        for goal in goals {
+            let copiedGoal = goal.copy()
+            copiedGoal.records = goal.records?.map { $0.copy(goal: copiedGoal) } ?? []
+            for record in goal.records ?? [] { await repository.deleteLegacyRecord(record: record) }
+            await repository.addGoal(goal: copiedGoal)
+            await repository.deleteLegacyGoal(goal: goal)
+        }
+        
+        await repository.updateData()
     }
     
     func loadMain() async -> Bool {

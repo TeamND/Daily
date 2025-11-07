@@ -42,3 +42,15 @@ class DailyRecordModel: Navigatable {
         self.startTime = temp.startTime
     }
 }
+extension DailyRecordModel {
+    func copy(goal: DailyGoalModel) -> DailyRecordModel {
+        return DailyRecordModel(
+            goal: goal,
+            date: self.date,
+            isSuccess: self.isSuccess,
+            count: self.count,
+            notice: self.notice,
+            startTime: self.startTime
+        )
+    }
+}

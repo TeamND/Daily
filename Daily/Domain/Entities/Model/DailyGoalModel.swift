@@ -51,3 +51,17 @@ class DailyGoalModel: Navigatable {
         self.records = temp.records
     }
 }
+
+extension DailyGoalModel {
+    func copy() -> DailyGoalModel {
+        return DailyGoalModel(
+            type: self.type,
+            cycleType: self.cycleType,
+            content: self.content,
+            symbol: self.symbol,
+            count: self.count,
+            isSetTime: self.isSetTime,
+            setTime: self.setTime
+        )
+    }
+}

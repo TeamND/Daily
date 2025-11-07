@@ -12,7 +12,8 @@ import SwiftData
 final class SwiftDataManager {
     static let shared = SwiftDataManager()
     
-    let container: ModelContainer
+    private let container: ModelContainer
+    private let legacyContainer: ModelContainer
 
     private init() {
         container = try! ModelContainer(
@@ -22,9 +23,18 @@ final class SwiftDataManager {
                 cloudKitDatabase: .private("iCloud.com.seungyong96.Daily")
             )
         )
+        
+        legacyContainer = try! ModelContainer(
+            for: DailyGoalModel.self, DailyRecordModel.self,
+            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
+        )
     }
-
-    func getContext() -> ModelContext {
-        return container.mainContext
+    
+    func getContainer() -> ModelContainer {
+        return container
+    }
+    
+    func getLegacyContainer() -> ModelContainer {
+        return legacyContainer
     }
 }

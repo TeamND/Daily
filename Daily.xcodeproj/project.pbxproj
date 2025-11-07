@@ -18,6 +18,7 @@
 		F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */; };
 		F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF72CC6632600FB637F /* CalendarDayView.swift */; };
 		F607C6822CFED0C8006DE13A /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */; };
+		F611A41B2EBCE61900833655 /* FileManager+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611A41A2EBCE61900833655 /* FileManager+extension.swift */; };
 		F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2D92CC484110014EDB6 /* View+extension.swift */; };
 		F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DB2CC484FA0014EDB6 /* String+extension.swift */; };
 		F634D2E02CC485C90014EDB6 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DF2CC485C90014EDB6 /* Int+extension.swift */; };
@@ -175,6 +176,7 @@
 		F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
 		F6016DF72CC6632600FB637F /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalModel.swift; sourceTree = "<group>"; };
+		F611A41A2EBCE61900833655 /* FileManager+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+extension.swift"; sourceTree = "<group>"; };
 		F634D2D92CC484110014EDB6 /* View+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extension.swift"; sourceTree = "<group>"; };
 		F634D2DB2CC484FA0014EDB6 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		F634D2DF2CC485C90014EDB6 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
@@ -676,6 +678,7 @@
 				F6CE8A192CCF49EC0050A25A /* UINavigationController+extension.swift */,
 				F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */,
 				F6C6D1482D73F26900772E59 /* TimelineSchedule+extension.swift */,
+				F611A41A2EBCE61900833655 /* FileManager+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -901,6 +904,7 @@
 				F6C758E92CCF3E1300F9CF91 /* GoalViewModel.swift in Sources */,
 				F6C758E32CCE47BB00F9CF91 /* GoalView.swift in Sources */,
 				F6C758E72CCF37F200F9CF91 /* DateJoiner.swift in Sources */,
+				F611A41B2EBCE61900833655 /* FileManager+extension.swift in Sources */,
 				F64A42782DC7A5C600B69D46 /* ChartViewModel.swift in Sources */,
 				F67DD0F82E02E98C0001203D /* SingleDateSection.swift in Sources */,
 				F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */,
