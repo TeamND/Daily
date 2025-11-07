@@ -18,6 +18,7 @@
 		F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */; };
 		F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6016DF72CC6632600FB637F /* CalendarDayView.swift */; };
 		F607C6822CFED0C8006DE13A /* DailyGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */; };
+		F611A41B2EBCE61900833655 /* FileManager+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F611A41A2EBCE61900833655 /* FileManager+extension.swift */; };
 		F634D2DA2CC484110014EDB6 /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2D92CC484110014EDB6 /* View+extension.swift */; };
 		F634D2DC2CC484FA0014EDB6 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DB2CC484FA0014EDB6 /* String+extension.swift */; };
 		F634D2E02CC485C90014EDB6 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634D2DF2CC485C90014EDB6 /* Int+extension.swift */; };
@@ -129,6 +130,8 @@
 		F6EC3D522BEB7A6500FAB502 /* DailyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EC3D512BEB7A6500FAB502 /* DailyWidget.swift */; };
 		F6EC3D542BEB7A6600FAB502 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */; };
 		F6EC3D582BEB7A6600FAB502 /* DailyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F6EC3D4B2BEB7A6500FAB502 /* DailyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F6EF42412EB73F0A00C16926 /* TempGoalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF42402EB73F0A00C16926 /* TempGoalModel.swift */; };
+		F6EF42432EB73F1200C16926 /* TempRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF42422EB73F1200C16926 /* TempRecordModel.swift */; };
 		F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */; };
 		F6F31DCF2CF474680090A3B9 /* GoalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DCE2CF474680090A3B9 /* GoalTypes.swift */; };
 		F6F31DD12CF47D210090A3B9 /* GeneralServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F31DD02CF47D210090A3B9 /* GeneralServices.swift */; };
@@ -173,6 +176,7 @@
 		F6016DF52CC65FE000FB637F /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
 		F6016DF72CC6632600FB637F /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalModel.swift; sourceTree = "<group>"; };
+		F611A41A2EBCE61900833655 /* FileManager+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+extension.swift"; sourceTree = "<group>"; };
 		F634D2D92CC484110014EDB6 /* View+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extension.swift"; sourceTree = "<group>"; };
 		F634D2DB2CC484FA0014EDB6 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		F634D2DF2CC485C90014EDB6 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
@@ -288,6 +292,8 @@
 		F6EC3D512BEB7A6500FAB502 /* DailyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWidget.swift; sourceTree = "<group>"; };
 		F6EC3D532BEB7A6600FAB502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6EC3D552BEB7A6600FAB502 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6EF42402EB73F0A00C16926 /* TempGoalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempGoalModel.swift; sourceTree = "<group>"; };
+		F6EF42422EB73F1200C16926 /* TempRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempRecordModel.swift; sourceTree = "<group>"; };
 		F6F31DC42CEAFDFD0090A3B9 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		F6F31DCE2CF474680090A3B9 /* GoalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalTypes.swift; sourceTree = "<group>"; };
 		F6F31DD02CF47D210090A3B9 /* GeneralServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralServices.swift; sourceTree = "<group>"; };
@@ -495,7 +501,9 @@
 			isa = PBXGroup;
 			children = (
 				F607C6812CFED0C8006DE13A /* DailyGoalModel.swift */,
+				F6EF42402EB73F0A00C16926 /* TempGoalModel.swift */,
 				F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */,
+				F6EF42422EB73F1200C16926 /* TempRecordModel.swift */,
 				F6E1CD8F2DBF75B2009E25DA /* DailyDataModel.swift */,
 				F6E1CCD92DAEAF88009E25DA /* YearDataModel.swift */,
 				F69A84652D252B9400AEBD76 /* MonthDataModel.swift */,
@@ -670,6 +678,7 @@
 				F6CE8A192CCF49EC0050A25A /* UINavigationController+extension.swift */,
 				F634D2E32CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift */,
 				F6C6D1482D73F26900772E59 /* TimelineSchedule+extension.swift */,
+				F611A41A2EBCE61900833655 /* FileManager+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -868,6 +877,7 @@
 				F6016DE22CC610CD00FB637F /* MainView.swift in Sources */,
 				F65ACDDD2CC8FB8900C67DD1 /* CalendarRepository.swift in Sources */,
 				F6CE8A1A2CCF49EC0050A25A /* UINavigationController+extension.swift in Sources */,
+				F6EF42432EB73F1200C16926 /* TempRecordModel.swift in Sources */,
 				F6C758E02CCD356700F9CF91 /* WeekIndicatorModes.swift in Sources */,
 				F63EEF0C2D3E554B00C9914F /* NoticeTimes.swift in Sources */,
 				F66F70132E3F0A4C0091658F /* ModifyTypes.swift in Sources */,
@@ -894,6 +904,7 @@
 				F6C758E92CCF3E1300F9CF91 /* GoalViewModel.swift in Sources */,
 				F6C758E32CCE47BB00F9CF91 /* GoalView.swift in Sources */,
 				F6C758E72CCF37F200F9CF91 /* DateJoiner.swift in Sources */,
+				F611A41B2EBCE61900833655 /* FileManager+extension.swift in Sources */,
 				F64A42782DC7A5C600B69D46 /* ChartViewModel.swift in Sources */,
 				F67DD0F82E02E98C0001203D /* SingleDateSection.swift in Sources */,
 				F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */,
@@ -902,6 +913,7 @@
 				F64A42762DC5F8E500B69D46 /* ChartView.swift in Sources */,
 				F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */,
 				F6016DE52CC6118800FB637F /* NavigationEnvironment.swift in Sources */,
+				F6EF42412EB73F0A00C16926 /* TempGoalModel.swift in Sources */,
 				F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */,
 				F67DD0F62E02E9340001203D /* RepeatTypeSection.swift in Sources */,
 				F6CE8A2D2CD0B1940050A25A /* SettingView.swift in Sources */,

@@ -9,9 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
-    @StateObject private var splashViewModel = SplashViewModel()
-    
-    @State private var sheetHeight: CGFloat = 0
+    @ObservedObject var splashViewModel: SplashViewModel
     
     var body: some View {
         splashView
@@ -22,12 +20,8 @@ struct SplashView: View {
                 )
             }
             .onAppear { splashViewModel.onAppear() }
-            .sheet(isPresented: Binding(
-                get: { !splashViewModel.notices.isEmpty },
-                set: { if !$0 { splashViewModel.notices.removeAll() } }
-            )) { noticeSheet }
-            .opacity(splashViewModel.isAppLoaded ? 0 : 1)
-            .animation(.easeInOut(duration: 0.5), value: splashViewModel.isAppLoaded)
+            .opacity(splashViewModel.isMainLoaded ? 0 : 1)
+            .animation(.easeInOut(duration: 0.5), value: splashViewModel.isMainLoaded)
     }
     
     private var splashView: some View {
@@ -82,15 +76,5 @@ struct SplashView: View {
         .cornerRadius(8)
         .padding(.bottom, 16)
         .padding(.horizontal, 16)
-    }
-    
-    private var noticeSheet: some View {
-        NoticeSheet(
-            height: $sheetHeight,
-            notice: splashViewModel.notices[0]  // FIXME: notices 전부를 보내도록 추후 수정(확장)
-        )
-        .presentationDetents([.height(sheetHeight)])
-        .presentationDragIndicator(.visible)
-        .onDisappear { splashViewModel.loadApp(isWait: false) }
     }
 }

@@ -1,8 +1,8 @@
 //
 //  FileManager+extension.swift
-//  DailyUtilities
+//  Daily
 //
-//  Created by seungyooooong on 1/4/25.
+//  Created by seungyooooong on 11/6/25.
 //
 
 import Foundation

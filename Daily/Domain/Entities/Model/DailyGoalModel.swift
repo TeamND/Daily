@@ -10,21 +10,21 @@ import SwiftData
 
 @Model
 class DailyGoalModel: Navigatable {
-    var type: GoalTypes
-    var cycleType: CycleTypes
-    var content: String
-    var symbol: Symbols
-    var count: Int
-    var isSetTime: Bool
-    var setTime: String
+    var type: GoalTypes?
+    var cycleType: CycleTypes?
+    var content: String = ""
+    var symbol: Symbols?
+    var count: Int = 1
+    var isSetTime: Bool = false
+    var setTime: String = "00:00"
     @Relationship(deleteRule: .cascade ,inverse: \DailyRecordModel.goal)
-    var records: [DailyRecordModel]
+    var records: [DailyRecordModel]? = []
     
     init(
-        type: GoalTypes = .count,
-        cycleType: CycleTypes = .date,
+        type: GoalTypes? = .count,
+        cycleType: CycleTypes? = .date,
         content: String = "",
-        symbol: Symbols = .check,
+        symbol: Symbols? = .check,
         count: Int = 1,
         isSetTime: Bool = false,
         setTime: String = "00:00",
@@ -40,23 +40,28 @@ class DailyGoalModel: Navigatable {
         self.records = records
     }
     
-    func copy(
-        type: GoalTypes? = nil,
-        cycleType: CycleTypes? = nil,
-        content: String? = nil,
-        symbol: Symbols? = nil,
-        count: Int? = nil,
-        isSetTime: Bool? = nil,
-        setTime: String? = nil
-    ) -> DailyGoalModel {
-        DailyGoalModel(
-            type: type ?? self.type,
-            cycleType: cycleType ?? self.cycleType,
-            content: content ?? self.content,
-            symbol: symbol ?? self.symbol,
-            count: count ?? self.count,
-            isSetTime: isSetTime ?? self.isSetTime,
-            setTime: setTime ?? self.setTime
+    init(from temp: TempGoalModel) {
+        self.type = temp.type
+        self.cycleType = temp.cycleType
+        self.content = temp.content
+        self.symbol = temp.symbol
+        self.count = temp.count
+        self.isSetTime = temp.isSetTime
+        self.setTime = temp.setTime
+        self.records = temp.records
+    }
+}
+
+extension DailyGoalModel {
+    func copy() -> DailyGoalModel {
+        return DailyGoalModel(
+            type: self.type,
+            cycleType: self.cycleType,
+            content: self.content,
+            symbol: self.symbol,
+            count: self.count,
+            isSetTime: self.isSetTime,
+            setTime: self.setTime
         )
     }
 }

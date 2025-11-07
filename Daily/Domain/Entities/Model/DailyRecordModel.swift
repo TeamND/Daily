@@ -11,11 +11,11 @@ import SwiftData
 @Model
 class DailyRecordModel: Navigatable {
     var goal: DailyGoalModel?
-    var date: Date
-    var isSuccess: Bool
-    var count: Int
-    var notice: Int?
-    var startTime: Date?
+    var date: Date = Date()
+    var isSuccess: Bool = false
+    var count: Int = 0
+    var notice: Int? = nil
+    var startTime: Date? = nil
     
     init(
         goal: DailyGoalModel? = nil,
@@ -33,21 +33,24 @@ class DailyRecordModel: Navigatable {
         self.startTime = startTime
     }
     
-    func copy(
-        goal: DailyGoalModel? = nil,
-        date: Date? = nil,
-        isSuccess: Bool? = nil,
-        count: Int? = nil,
-        notice: Int? = nil,
-        startTime: Date? = nil
-    ) -> DailyRecordModel {
-        DailyRecordModel(
-            goal: goal ?? self.goal,
-            date: date ?? self.date,
-            isSuccess: isSuccess ?? self.isSuccess,
-            count: count ?? self.count,
-            notice: notice ?? self.notice,
-            startTime: startTime ?? self.startTime
+    init(from temp: TempRecordModel) {
+        self.goal = temp.goal
+        self.date = temp.date
+        self.isSuccess = temp.isSuccess
+        self.count = temp.count
+        self.notice = temp.notice
+        self.startTime = temp.startTime
+    }
+}
+extension DailyRecordModel {
+    func copy(goal: DailyGoalModel) -> DailyRecordModel {
+        return DailyRecordModel(
+            goal: goal,
+            date: self.date,
+            isSuccess: self.isSuccess,
+            count: self.count,
+            notice: self.notice,
+            startTime: self.startTime
         )
     }
 }

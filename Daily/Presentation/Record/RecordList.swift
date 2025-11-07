@@ -32,42 +32,42 @@ struct RecordList: View {
 // MARK: - DailyRecord
 struct DailyRecord: View {
     private let record: DailyRecordModel
-    private let goal: DailyGoalModel
-    private let isButtonDisabled: Bool
     
-    init(record: DailyRecordModel, goal: DailyGoalModel? = nil, isButtonDisabled: Bool = false) {
+    init(record: DailyRecordModel) {
         self.record = record
-        self.goal = goal ?? record.goal!
-        self.isButtonDisabled = isButtonDisabled
     }
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(goal.symbol.icon(isSuccess: record.isSuccess))
-                .resizable()
-                .scaledToFit()
-                .frame(width: 36)
-            VStack(alignment: .leading, spacing: 8) {
-                Text(goal.content)
+            if let goal = record.goal, let symbol = goal.symbol {
+                Image(symbol.icon(isSuccess: record.isSuccess))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(goal.content)
+                        .font(Fonts.bodyLgSemiBold)
+                        .foregroundStyle(Colors.Text.primary)
+                    let recordCount = goal.type == .timer ? record.count.timerFormat() : String(record.count)
+                    let goalCount = goal.type == .timer ? goal.count.timerFormat() : String(goal.count)
+                    Text("\(recordCount) / \(goalCount)")
+                        .font(Fonts.bodyMdRegular)
+                        .foregroundStyle(Colors.Text.secondary)
+                }
+                Spacer()
+                RecordButton(record: record, goal: goal).frame(maxHeight: 40)
+            } else {
+                // FIXME: 추후 수정
+                Text("🚧🚧 예상치 못한 문제가 발생했습니다.")
                     .font(Fonts.bodyLgSemiBold)
                     .foregroundStyle(Colors.Text.primary)
-                let recordCount = goal.type == .timer ? record.count.timerFormat() : String(record.count)
-                let goalCount = goal.type == .timer ? goal.count.timerFormat() : String(goal.count)
-                Text("\(recordCount) / \(goalCount)")
-                    .font(Fonts.bodyMdRegular)
-                    .foregroundStyle(Colors.Text.secondary)
             }
-            Spacer()
-            RecordButton(record: record, goal: goal, disabled: isButtonDisabled)
-                .frame(maxHeight: 40)
-                .disabled(isButtonDisabled)
         }
         .frame(height: 72)
         .padding(.horizontal, 16)
         .background {
             RoundedRectangle(cornerRadius: 8).fill(Colors.Background.secondary)
         }
-        .grayscale(isButtonDisabled ? 1 : 0)
     }
 }
 
