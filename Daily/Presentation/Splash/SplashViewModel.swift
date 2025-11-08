@@ -12,8 +12,9 @@ final class SplashViewModel: ObservableObject {
     
     @Published var catchPhrase: String = ""
     @Published var updateNotice: String = ""
-    @Published var isAppLoaded: Bool = false
-    @Published var isShowNotice: Bool = false
+    @Published var isMainReady: Bool = false
+    @Published var isMainLoaded: Bool = false
+    @Published var notices: [NoticeModel] = []
     @Published var isNeedUpdate: Bool = false
     
     init() {
@@ -25,25 +26,25 @@ final class SplashViewModel: ObservableObject {
         setUserDefault()
         Task { @MainActor in
             catchPhrase = appLaunchUseCase.getCatchPhrase()
-            isShowNotice = appLaunchUseCase.checkNotice()
+            
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
+            if isNeedUpdate {
+                (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice()
+                return
+            }
             
-            if isNeedUpdate { (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice() }
-            else if !isShowNotice { loadApp(isWait: true) }
-        }
-    }
-    
-    func loadApp(isWait: Bool = false) {
-        Task { @MainActor in
             await appLaunchUseCase.migrate()
+            await appLaunchUseCase.fetch()
+            isMainReady = true
             
-            isAppLoaded = await appLaunchUseCase.loadApp(isWait)
+            notices = await appLaunchUseCase.getNotices()
+            isMainLoaded = await appLaunchUseCase.loadMain()
         }
     }
     
     private func setUserDefault() {
-        UserDefaultManager.startDay = UserDefaultManager.startDay ?? 0
-        UserDefaultManager.language = UserDefaultManager.language ?? "korean"
-        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? "month"
+        UserDefaultManager.startDay = UserDefaultManager.startDay ?? DayOfWeek.sun.index
+        UserDefaultManager.language = UserDefaultManager.language ?? Languages.korean.rawValue
+        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? CalendarTypes.month.rawValue
     }
 }

@@ -25,7 +25,7 @@ struct SettingView: View {
     private var settingView: some View {
         VStack(spacing: 30) {
             initialCalendarSetting
-            if true { serviceEnvironmentSetting }  // FIXME: 구현 후 추가
+            if false { serviceEnvironmentSetting }  // FIXME: 구현 후 추가
             appInfo
             // TODO: 추후 튜토리얼 추가
             Spacer()    // FIXME: 높이가 애매한 경우 scrollView로 안넘어가고 View 제일 하단이 Spacer()에 밀리는 부분이 생김

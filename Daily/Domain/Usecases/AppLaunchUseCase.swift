@@ -26,8 +26,19 @@ extension AppLaunchUseCase {
         }
     }
     
-    func checkNotice() -> Bool {
-        return Date() < "2025-01-15".toDate()!  // TODO: 추후 수정
+    func getNotices() async -> [NoticeModel] {
+        if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return [] }
+        
+        var notices = [
+            NoticeModel(
+                id: 0, type: .image, image: "daily_2.0_update"
+            )
+        ]
+        
+        // MARK: sheet animation을 고려해 0.5초 추가 딜레이
+        try? await Task.sleep(nanoseconds: 500_000_000)
+        
+        return notices
     }
     
     func checkUpdate() async -> Bool {
@@ -53,6 +64,27 @@ extension AppLaunchUseCase {
 }
 
 extension AppLaunchUseCase {
+    func fetch() async {
+        await TaskQueueManager.shared.add { [weak self] in
+            guard let self else { return }
+            
+            var count = 0
+            while count < 10 {
+                if let goals = await repository.getGoals(), goals.isEmpty {
+                    count += 1
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                } else { break }
+                
+                if let records = await repository.getRecords(), records.isEmpty {
+                    count += 1
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                } else { break }
+            }
+            
+            await repository.updateData()
+        }
+    }
+    
     func migrate() async {
         let beforeVersion = UserDefaultManager.beforeVersion
         UserDefaultManager.beforeVersion = System.appVersion
@@ -64,7 +96,9 @@ extension AppLaunchUseCase {
                 await goalTypeMigrate()
             }
             
-            await repository.updateData()
+            if isVersionAtMost("2.1.4", comparedTo: beforeVersion) {
+                await cloudMigrate()
+            }
         }
     }
     
@@ -91,17 +125,33 @@ extension AppLaunchUseCase {
     }
     
     func goalTypeMigrate() async {
-        guard let goals = await repository.getGoals() else { return }
+        guard let goals = await repository.getLegacyGoals() else { return }
         
         for goal in goals {
             if goal.type == .check {
                 goal.type = .count
             }
         }
+        
+        await repository.updateLegacyData()
     }
     
-    func loadApp(_ isWait: Bool = true) async -> Bool {
-        if isWait { try? await Task.sleep(nanoseconds: 1_000_000_000) }
+    func cloudMigrate() async {
+        guard let goals = await repository.getLegacyGoals() else { return }
+        
+        for goal in goals {
+            let copiedGoal = goal.copy()
+            copiedGoal.records = goal.records?.map { $0.copy(goal: copiedGoal) } ?? []
+            for record in goal.records ?? [] { await repository.deleteLegacyRecord(record: record) }
+            await repository.addGoal(goal: copiedGoal)
+            await repository.deleteLegacyGoal(goal: goal)
+        }
+        
+        await repository.updateData()
+    }
+    
+    func loadMain() async -> Bool {
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
         return true
     }
 }

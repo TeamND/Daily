@@ -9,15 +9,19 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
-    @StateObject private var splashViewModel = SplashViewModel()
+    @ObservedObject var splashViewModel: SplashViewModel
     
     var body: some View {
         splashView
-            .onAppear { PushNoticeManager.shared.requestNotiAuthorization(showAlert: alertEnvironment.showAlert, alertType: .deniedAtAppOpen) }
+            .onAppear {
+                PushNoticeManager.shared.requestNotiAuthorization(
+                    showAlert: alertEnvironment.showAlert,
+                    alertType: .deniedAtAppOpen
+                )
+            }
             .onAppear { splashViewModel.onAppear() }
-            .sheet(isPresented: $splashViewModel.isShowNotice) { noticeSheet }
-            .opacity(splashViewModel.isAppLoaded ? 0 : 1)
-            .animation(.easeInOut(duration: 0.5), value: splashViewModel.isAppLoaded)
+            .opacity(splashViewModel.isMainLoaded ? 0 : 1)
+            .animation(.easeInOut(duration: 0.5), value: splashViewModel.isMainLoaded)
     }
     
     private var splashView: some View {
@@ -72,12 +76,5 @@ struct SplashView: View {
         .cornerRadius(8)
         .padding(.bottom, 16)
         .padding(.horizontal, 16)
-    }
-    
-    private var noticeSheet: some View {
-        NoticeSheet()
-            .presentationDetents([.height(400)])    // FIXME: 추후 디자인 수정
-            .presentationDragIndicator(.visible)
-            .onDisappear { splashViewModel.loadApp(isWait: false) }
     }
 }

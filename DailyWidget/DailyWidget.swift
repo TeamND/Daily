@@ -16,7 +16,7 @@ struct Provider: TimelineProvider {
     init() {
         dailyModelContainer = try! ModelContainer(
             for: DailyGoalModel.self, DailyRecordModel.self,
-            configurations: ModelConfiguration(url: FileManager.sharedContainerURL())
+            configurations: ModelConfiguration(groupContainer: .identifier("group.com.seungyong96.Daily"))
         )
     }
     
@@ -181,6 +181,7 @@ struct DailyWidgetEntryView: View {
             }
         }
         .widgetURL(URL(string: "widget://daily?family=\(family.rawValue)")!)
+        .containerBackground(for: .widget) { Color.clear }
     }
     
     private var dailyWidgetDateText: some View {

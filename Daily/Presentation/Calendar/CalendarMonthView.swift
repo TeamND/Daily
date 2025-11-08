@@ -96,7 +96,7 @@ struct DailyDayOnMonth: View {
     var body: some View {
         TimelineView(.everyDay) { context in
             // TODO: 좀 더 확실한 분기처리 방식을 찾아 적용
-            let maxSymbolNum = UIScreen.main.bounds.height > 780 ? 6 : 4
+            let maxSymbolNum = UIScreen.main.bounds.height > 820 ? 6 : 4
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
             VStack(spacing: .zero) {
                 DayIndicator(day: day, rating: rating, isToday: isToday)
