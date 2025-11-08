@@ -18,6 +18,9 @@ class UserDefaultManager {
     
     // MARK: migration
     @UserDefault(key: .beforeVersion, defaultValue: nil) static var beforeVersion: String?
+    
+    // MARK: holiday
+    @UserDefault(key: .holidays, defaultValue: nil) static var holidays: Dictionary<String, String>?
 }
 
 enum UserDefaultKey: String {
@@ -26,6 +29,7 @@ enum UserDefaultKey: String {
     case calendarType
     case ignoreNoticeDate
     case beforeVersion
+    case holidays
 }
 
 @propertyWrapper

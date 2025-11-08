@@ -26,7 +26,7 @@ final class SplashViewModel: ObservableObject {
         setUserDefault()
         Task { @MainActor in
             // FIXME: 추후 수정(이동)
-            await fetchHolidays(year: 2025, countryCode: "KR")
+            await fetchHolidays(year: 2025, countryCode: Locale.current.region?.identifier)
             
             catchPhrase = appLaunchUseCase.getCatchPhrase()
             
@@ -53,27 +53,22 @@ final class SplashViewModel: ObservableObject {
 }
 
 // FIXME: 추후 수정(이동)
-func fetchHolidays(year: Int, countryCode: String) async {
+func fetchHolidays(year: Int, countryCode: String?) async {
+    guard let countryCode else { return }
     let urlString = "https://date.nager.at/api/v3/PublicHolidays/\(year)/\(countryCode)"
-    guard let url = URL(string: urlString) else {
-        print("❌ Invalid URL")
-        return
-    }
+    guard let url = URL(string: urlString) else { return }
     
     do {
         let (data, response) = try await URLSession.shared.data(from: url)
-        if let httpResponse = response as? HTTPURLResponse {
-            print("HTTP Status:", httpResponse.statusCode)
-        }
-        
         print(String(decoding: data, as: UTF8.self))
         
         let holidays = try JSONDecoder().decode([HolidayModel].self, from: data)
-        print("✅ Holidays Count:", holidays.count)
         for holiday in holidays {
             print("📅 \(holiday.date) — \(holiday.localName) (\(holiday.name))")
         }
-    } catch {
-        print("❌ Error:", error)
-    }
+        
+        var current = UserDefaultManager.holidays ?? [:]
+        holidays.forEach { current[$0.date] = $0.localName }
+        UserDefaultManager.holidays = current
+    } catch { return }
 }

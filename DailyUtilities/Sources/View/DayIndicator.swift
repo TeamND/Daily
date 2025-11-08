@@ -12,12 +12,14 @@ public struct DayIndicator: View {
     public let day: Int
     public let rating: Double?
     public let isToday: Bool
+    public let isHoliday: Bool
     public let isNow: Bool
     
-    public init(day: Int, rating: Double?, isToday: Bool, isNow: Bool = false) {
+    public init(day: Int, rating: Double?, isToday: Bool, isHoliday: Bool = false, isNow: Bool = false) {
         self.day = day
         self.rating = rating
         self.isToday = isToday
+        self.isHoliday = isHoliday
         self.isNow = isNow
     }
     
@@ -28,7 +30,12 @@ public struct DayIndicator: View {
             if isToday { Circle().fill(Colors.Icon.interactivePressed).padding(2) }
             Text(String(day))
                 .font(Fonts.bodyMdSemiBold)
-                .foregroundStyle(isToday ? Colors.Text.inverse : isNow ? Colors.Text.point : Colors.Text.secondary)
+                .foregroundStyle(
+                    isToday ? Colors.Text.inverse :
+                        isHoliday ? Colors.Brand.holiday :
+                        isNow ? Colors.Text.point :
+                        Colors.Text.secondary
+                )
         }
         .frame(width: 33, height: 33)
     }
