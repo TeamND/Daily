@@ -76,7 +76,12 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
-        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요. 준비되셨나요?")
+        UNUserNotificationCenter.current().addNotiRequest(
+            by: components,
+            id: id,
+            title: content,
+            body: "\(noticeTime.text) 전이에요. 준비되셨나요?"
+        )
     }
     
     func removeNotice(id: String) {
@@ -86,6 +91,22 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     
     func setNoticeTouchAction(noticeTouchAction: @escaping () -> Void) {
         self.noticeTouchAction = noticeTouchAction
+    }
+    
+    // MARK: - Timer
+    func addTimerNotice(id: String, remainTime: Int) {
+        let noticeDate = Date().addingTimeInterval(TimeInterval(remainTime))
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: noticeDate)
+        
+        UNUserNotificationCenter.current().addNotiRequest(
+            by: components,
+            id: id,
+            title: "목표한 시간이 끝났어요. 수고하셨어요!"
+        )
+    }
+    
+    func removeTimerNotice(id: String) {
+        removeNotice(id: id)
     }
     
     // MARK: - remove

@@ -95,6 +95,12 @@ extension CalendarUseCase {
     
     func toggleStartTime(record: DailyRecordModel) async {
         record.startTime = record.startTime == nil ? Date() : nil
+        let timerNoticeId = "\(String(describing: record.id))-timer"
+        if let startTime = record.startTime, let goal = record.goal {
+            PushNoticeManager.shared.addTimerNotice(id: timerNoticeId, remainTime: goal.count - record.count)
+        } else {
+            PushNoticeManager.shared.removeTimerNotice(id: timerNoticeId)
+        }
         await repository.updateData()
     }
     
