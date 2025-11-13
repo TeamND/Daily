@@ -94,14 +94,15 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     // MARK: - Timer
-    func addTimerNotice(id: String, remainTime: Int) {
+    func addTimerNotice(id: String, content: String, remainTime: Int) {
         let noticeDate = Date().addingTimeInterval(TimeInterval(remainTime))
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: noticeDate)
         
         UNUserNotificationCenter.current().addNotiRequest(
             by: components,
             id: id,
-            title: "목표한 시간이 끝났어요. 수고하셨어요!"
+            title: content,
+            body: "목표한 시간이 끝났어요. 수고하셨어요!"
         )
     }
     

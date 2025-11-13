@@ -9,7 +9,7 @@ import Foundation
 import UserNotifications
 
 extension UNUserNotificationCenter {
-    func addNotiRequest(by date: DateComponents, id: String, title: String, body: String = "", repeats: Bool = false) {
+    func addNotiRequest(by date: DateComponents, id: String, title: String, body: String, repeats: Bool = false) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
