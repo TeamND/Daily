@@ -40,9 +40,14 @@ struct DailyDatePicker: View {
                         
                         if 0 < day && day <= lengthOfMonth {
                             let isSelected = date == selectedDate
+                            let isHoliday = UserDefaultManager.holidays?[date.getSelection()] != nil || date.weekday == 1
                             Text("\(day)")
                                 .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
-                                .foregroundStyle(isSelected ? Colors.Text.inverse : Colors.Text.secondary)
+                                .foregroundStyle(
+                                    isSelected ? Colors.Text.inverse :
+                                        isHoliday ? Colors.Brand.holiday :
+                                        Colors.Text.secondary
+                                )
                                 .frame(width: 33, height: 33)
                                 .if(isSelected) { view in
                                     view.background {

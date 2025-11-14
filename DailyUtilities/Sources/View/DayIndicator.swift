@@ -32,8 +32,8 @@ public struct DayIndicator: View {
                 .font(Fonts.bodyMdSemiBold)
                 .foregroundStyle(
                     isToday ? Colors.Text.inverse :
-                        isHoliday ? Colors.Brand.holiday :
                         isNow ? Colors.Text.point :
+                        isHoliday ? Colors.Brand.holiday :
                         Colors.Text.secondary
                 )
         }

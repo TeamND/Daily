@@ -37,18 +37,30 @@ struct WeekIndicator: View {
     }
     
     private func DayOfWeekView(dayOfWeek: DayOfWeek) -> some View {
+        let isSunday = dayOfWeek.index == 0
         let isNow = calendarViewModel.currentDate.weekday == dayOfWeek.index + 1
         let date = selection.toDate()?.dayLater(value: dayOfWeek.index) ?? Date(format: .daily)
         
         return VStack(spacing: 6) {
             Text(dayOfWeek.text)
                 .font(Fonts.bodySmRegular)
-                .foregroundStyle(mode.hasPointText && isNow ? Colors.Text.point : Colors.Text.primary)
+                .foregroundStyle(
+                    mode.hasPointText && isNow ? Colors.Text.point :
+                        isSunday ? Colors.Brand.holiday :
+                        Colors.Text.primary
+                )
             if mode == .change {
                 TimelineView(.everyDay) { context in
                     let rating = calendarViewModel.weekData[selection]?.ratingsOfWeek[dayOfWeek.index]
                     let isToday = date == context.date
-                    DayIndicator(day: date.day, rating: rating, isToday: isToday, isNow: isNow)
+                    let isHoliday = UserDefaultManager.holidays?[date.getSelection()] != nil
+                    DayIndicator(
+                        day: date.day,
+                        rating: rating,
+                        isToday: isToday,
+                        isHoliday: isSunday || isHoliday,
+                        isNow: isNow
+                    )
                 }
             }
         }
