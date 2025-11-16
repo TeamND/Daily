@@ -60,15 +60,16 @@ func fetchHolidays(year: Int, countryCode: String?) async {
     
     do {
         let (data, response) = try await URLSession.shared.data(from: url)
-        print(String(decoding: data, as: UTF8.self))
-        
         let holidays = try JSONDecoder().decode([HolidayModel].self, from: data)
-        for holiday in holidays {
-            print("📅 \(holiday.date) — \(holiday.localName) (\(holiday.name))")
-        }
         
         var current = UserDefaultManager.holidays ?? [:]
-        holidays.forEach { current[$0.date] = $0.localName }
+        holidays.forEach {
+            let holidayEntity = HolidayEntity(
+                imageName: HolidayImages(rawValue: $0.name)?.imageName ?? "Holiday",
+                name: $0.localName
+            )
+            current[$0.date] = holidayEntity
+        }
         UserDefaultManager.holidays = current
     } catch { return }
 }

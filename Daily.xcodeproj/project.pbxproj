@@ -86,6 +86,8 @@
 		F6A326A82DE6EF4600243B23 /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = F6A3269A2DE6EF4600243B23 /* Pretendard-ExtraLight.otf */; };
 		F6A326A92DE6EF4600243B23 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F6A3269E2DE6EF4600243B23 /* Pretendard-SemiBold.otf */; };
 		F6A835982EBDCAB900803981 /* HolidayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A835972EBDCAB900803981 /* HolidayModel.swift */; };
+		F6AD28132EC714D7004F9F93 /* HolidayEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AD28122EC714D7004F9F93 /* HolidayEntity.swift */; };
+		F6AD28152EC71667004F9F93 /* HolidayImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AD28142EC71667004F9F93 /* HolidayImages.swift */; };
 		F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
@@ -245,6 +247,8 @@
 		F6A3269E2DE6EF4600243B23 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		F6A3269F2DE6EF4600243B23 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		F6A835972EBDCAB900803981 /* HolidayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayModel.swift; sourceTree = "<group>"; };
+		F6AD28122EC714D7004F9F93 /* HolidayEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayEntity.swift; sourceTree = "<group>"; };
+		F6AD28142EC71667004F9F93 /* HolidayImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayImages.swift; sourceTree = "<group>"; };
 		F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
@@ -517,6 +521,7 @@
 				F66F70102E3F08F40091658F /* GoalDataEntity.swift */,
 				F6D4D14D2EA9C22700525878 /* NoticeModel.swift */,
 				F6A835972EBDCAB900803981 /* HolidayModel.swift */,
+				F6AD28122EC714D7004F9F93 /* HolidayEntity.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -706,6 +711,7 @@
 				F66F70122E3F0A4C0091658F /* ModifyTypes.swift */,
 				F662E0792E48D28A00B04698 /* SegmentTypes.swift */,
 				F6D4D14B2EA9C1DE00525878 /* NoticeTypes.swift */,
+				F6AD28142EC71667004F9F93 /* HolidayImages.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -945,6 +951,7 @@
 				F6C6D1492D73F26900772E59 /* TimelineSchedule+extension.swift in Sources */,
 				F67DD0FA2E039A2B0001203D /* RepeatWeekdayPicker.swift in Sources */,
 				F6C6B0322BB424CA00C578C1 /* AppInfoLabel.swift in Sources */,
+				F6AD28132EC714D7004F9F93 /* HolidayEntity.swift in Sources */,
 				F6A326812DE5474E00243B23 /* DailyUtilities.swift in Sources */,
 				F6C758E52CCF340400F9CF91 /* DailyDatePicker.swift in Sources */,
 				F6CE8A242CCF60900050A25A /* GoalRepository.swift in Sources */,
@@ -959,6 +966,7 @@
 				F6E85B9C2D476B61005A3B9B /* Languages.swift in Sources */,
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,
 				F67DD7BA2E137DA60001203D /* AppLaunchInterface.swift in Sources */,
+				F6AD28152EC71667004F9F93 /* HolidayImages.swift in Sources */,
 				F6E1CCB32DACF830009E25DA /* SymbolFilter.swift in Sources */,
 				F6D4D14C2EA9C1DE00525878 /* NoticeTypes.swift in Sources */,
 				F6C6CD8F2D6B700A00772E59 /* ViewTypes.swift in Sources */,
