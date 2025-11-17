@@ -100,7 +100,8 @@ struct HolidayView: View {
     let selection: String
     
     var body: some View {
-        if let holiday = UserDefaultManager.holidays?[selection] {
+        if let year = Int(selection.split(separator: "-")[0]),
+           let holiday = UserDefaultManager.holidays?[year]?[selection] {
             HStack(spacing: 4) {
                 Image(holiday.imageName)
                     .resizable()

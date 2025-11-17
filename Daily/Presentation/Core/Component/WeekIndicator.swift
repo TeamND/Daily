@@ -53,7 +53,7 @@ struct WeekIndicator: View {
                 TimelineView(.everyDay) { context in
                     let rating = calendarViewModel.weekData[selection]?.ratingsOfWeek[dayOfWeek.index]
                     let isToday = date == context.date
-                    let isHoliday = UserDefaultManager.holidays?[date.getSelection()] != nil
+                    let isHoliday = UserDefaultManager.holidays?[date.year]?[date.getSelection()] != nil
                     DayIndicator(
                         day: date.day,
                         rating: rating,

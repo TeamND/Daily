@@ -5,7 +5,7 @@
 //  Created by seungyooooong on 10/20/24.
 //
 
-import Foundation
+import Combine
 import SwiftUI
 
 final class CalendarViewModel: ObservableObject {
@@ -24,7 +24,8 @@ final class CalendarViewModel: ObservableObject {
     private(set) var weekDictionary: [String: [DailyRecordModel]] = [:]
     private(set) var dayDictionary: [String: [DailyRecordModel]] = [:]
     
-    private(set) var timer: Timer?
+    private var timer: Timer?
+    private var cancellables = Set<AnyCancellable>()
     
     func bindSelection(type: CalendarTypes) -> Binding<String> {
         Binding(
@@ -38,6 +39,17 @@ final class CalendarViewModel: ObservableObject {
         self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
         
         startTimer()
+        
+        $currentDate
+            .map { $0.year }
+            .removeDuplicates()
+            .sink { [weak self] year in
+                Task { [weak self] in
+                    guard let self else { return }
+                    await calendarUseCase.fetchHolidays(year: currentDate.year)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     deinit {

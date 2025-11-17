@@ -19,8 +19,8 @@ class UserDefaultManager {
     // MARK: migration
     @UserDefault(key: .beforeVersion, defaultValue: nil) static var beforeVersion: String?
     
-    // MARK: holiday
-    @UserDefault(key: .holidays, defaultValue: nil) static var holidays: Dictionary<String, HolidayEntity>?
+    // MARK: holiday [year: [yyyy-MM-dd: HolidayEntity]]
+    @UserDefault(key: .holidays, defaultValue: nil) static var holidays: [Int: [String: HolidayEntity]]?
 }
 
 enum UserDefaultKey: String {
