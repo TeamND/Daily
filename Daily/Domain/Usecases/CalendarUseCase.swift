@@ -100,6 +100,7 @@ extension CalendarUseCase {
             PushNoticeManager.shared.addTimerNotice(
                 id: timerNoticeId,
                 content: goal.content,
+                date: record.date,
                 remainTime: goal.count - record.count
             )
         } else {

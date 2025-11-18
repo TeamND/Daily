@@ -41,15 +41,4 @@ final class NavigationEnvironment: ObservableObject {
             }
         }
     }
-    
-    func goToday(to: CalendarTypes = .day, setDateAction: @escaping (Date) -> Void) {
-        // MARK: 현재 페이지가 calendarType으로 정의되지 않는 경우 return
-        guard let from: CalendarTypes = {
-            guard let currentPage = navigationPath.last else { return .year }
-            return currentPage.viewType.calendarType
-        }() else { return }
-        
-        navigateDirect(from: from, to: to)
-        setDateAction(Date(format: .daily))
-    }
 }

@@ -9,16 +9,23 @@ import Foundation
 import UserNotifications
 
 extension UNUserNotificationCenter {
-    func addNotiRequest(by date: DateComponents, id: String, title: String, body: String, repeats: Bool = false) {
+    func addNotiRequest(
+        by date: DateComponents,
+        id: String,
+        title: String,
+        body: String,
+        userInfo: [AnyHashable: Any] = [:],
+        repeats: Bool = false
+    ) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
+        content.userInfo = userInfo
+        
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: repeats)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         
-        self.add(request) { error in
-            if let error = error { print("add notification request error is \(error)") }
-        }
+        self.add(request)
     }
 }
