@@ -52,6 +52,6 @@ final class SplashViewModel: ObservableObject {
         UserDefaultManager.language = UserDefaultManager.language ?? Languages.korean.rawValue
         UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? CalendarTypes.month.rawValue
         
-        UserDefaultManager.holidays = UserDefaultManager.holidays ?? [:]
+        UserDefaultManager.holidays = [:]
     }
 }
