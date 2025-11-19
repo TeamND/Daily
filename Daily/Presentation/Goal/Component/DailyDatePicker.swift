@@ -24,7 +24,7 @@ struct DailyDatePicker: View {
         Spacer().frame(height: 20)
         
         VStack(spacing: 8) {
-            WeekIndicator(mode: .none).padding(.horizontal, -16)
+            WeekIndicator(mode: .none)
             
             let startOfMonth = calendar.date(from: DateComponents(year: currentDate.year, month: currentDate.month, day: 1))!
             let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0

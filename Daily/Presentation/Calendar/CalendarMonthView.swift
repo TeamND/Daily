@@ -17,8 +17,6 @@ struct CalendarMonthView: View {
             Spacer().frame(height: 12)
             SymbolFilter(type: .month)
             Spacer().frame(height: 12)
-            WeekIndicator(mode: .none)
-            Spacer().frame(height: 6)
             TabView(selection: calendarViewModel.bindSelection(type: .month)) {
                 ForEach(-1 ... 12, id: \.self) { index in
                     let (date, direction, selection) = calendarViewModel.calendarInfo(type: .month, index: index)
@@ -49,24 +47,27 @@ struct CalendarMonth: View {
     var body: some View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
-        VStack(spacing: 4) {
-            ForEach (0 ... dividerCount, id: \.self) { rowIndex in
-                HStack(spacing: .zero) {
-                    ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
-                        if .zero < colIndex { Spacer() }
-                        let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
-                        if 1 <= day && day <= lengthOfMonth {
-                            Button {
-                                calendarViewModel.setDate(year: date.year, month: date.month, day: day)
-                                navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
-                            } label: {
-                                DailyDayOnMonth(year: date.year, month: date.month, day: day, dayOnMonth: monthData.daysOnMonth[day - 1])
-                            }
-                        } else { DailyDayOnMonth().opacity(0) }
+        VStack(spacing: 6) {
+            WeekIndicator(mode: .none)
+            VStack(spacing: 4) {
+                ForEach (0 ... dividerCount, id: \.self) { rowIndex in
+                    HStack(spacing: .zero) {
+                        ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
+                            if .zero < colIndex { Spacer() }
+                            let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
+                            if 1 <= day && day <= lengthOfMonth {
+                                Button {
+                                    calendarViewModel.setDate(year: date.year, month: date.month, day: day)
+                                    navigationEnvironment.navigate(NavigationObject(viewType: .calendarDay))
+                                } label: {
+                                    DailyDayOnMonth(year: date.year, month: date.month, day: day, dayOnMonth: monthData.daysOnMonth[day - 1])
+                                }
+                            } else { DailyDayOnMonth().opacity(0) }
+                        }
                     }
+                    .padding(.horizontal, 2)
+                    if rowIndex < dividerCount { DailyDivider(color: Colors.Border.secondary, height: 1) }
                 }
-                .padding(.horizontal, 2)
-                if rowIndex < dividerCount { DailyDivider(color: Colors.Border.secondary, height: 1) }
             }
         }
         .vTop()

@@ -16,7 +16,7 @@ struct CalendarDayView: View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .day)
             Spacer().frame(height: 12)
-            WeekIndicator(mode: .change, selection: weekSelection)
+            WeekIndicator(mode: .change, selection: weekSelection).padding(.horizontal, 16)
             Spacer().frame(height: 20)
             SymbolFilter(type: .day)
             Spacer().frame(height: 12)
