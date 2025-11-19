@@ -9,6 +9,7 @@ import Foundation
 
 final class SplashViewModel: ObservableObject {
     private let appLaunchUseCase: AppLaunchUseCase
+    private let calendarUseCase: CalendarUseCase
     
     @Published var catchPhrase: String = ""
     @Published var updateNotice: String = ""
@@ -19,7 +20,10 @@ final class SplashViewModel: ObservableObject {
     
     init() {
         let appLaunchRepository = AppLaunchRepository()
+        let calendarRepository = CalendarRepository()
+        
         self.appLaunchUseCase = AppLaunchUseCase(repository: appLaunchRepository)
+        self.calendarUseCase = CalendarUseCase(repository: calendarRepository)
     }
 
     func onAppear() {
@@ -35,6 +39,7 @@ final class SplashViewModel: ObservableObject {
             
             await appLaunchUseCase.migrate()
             await appLaunchUseCase.fetch()
+            await calendarUseCase.fetchHolidays()
             isMainReady = true
             
             notices = await appLaunchUseCase.getNotices()
@@ -46,5 +51,7 @@ final class SplashViewModel: ObservableObject {
         UserDefaultManager.startDay = UserDefaultManager.startDay ?? DayOfWeek.sun.index
         UserDefaultManager.language = UserDefaultManager.language ?? Languages.korean.rawValue
         UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? CalendarTypes.month.rawValue
+        
+        UserDefaultManager.holidays = [:]
     }
 }

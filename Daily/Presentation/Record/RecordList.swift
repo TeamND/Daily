@@ -11,7 +11,6 @@ import SwiftUI
 struct RecordList: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    let selection: String
     let recordsInList: [DailyRecordInList]
     
     var body: some View {
@@ -92,6 +91,31 @@ struct NoRecord: View {
                 .foregroundStyle(Colors.Text.tertiary)
             Spacer()
             Spacer()
+        }
+    }
+}
+
+// MARK: - HolidayView
+struct HolidayView: View {
+    let selection: String
+    
+    var body: some View {
+        if let year = Int(selection.split(separator: "-")[0]),
+           let holiday = UserDefaultManager.holidays?[year]?[selection] {
+            HStack(spacing: 4) {
+                Image(holiday.imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
+                Text(holiday.name)
+                    .font(Fonts.bodyMdSemiBold)
+                    .foregroundStyle(Colors.Brand.primary)
+                Spacer()
+            }
+            .padding(.vertical, 4)
+            .padding(.horizontal, 16)
+            .background(Colors.Brand.primary.opacity(0.1))  // MARK: 여기서만 투명도 사용
+            .cornerRadius(99)
         }
     }
 }

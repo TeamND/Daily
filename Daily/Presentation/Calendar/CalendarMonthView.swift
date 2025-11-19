@@ -97,9 +97,11 @@ struct DailyDayOnMonth: View {
         TimelineView(.everyDay) { context in
             // TODO: 좀 더 확실한 분기처리 방식을 찾아 적용
             let maxSymbolNum = UIScreen.main.bounds.height > 820 ? 6 : 4
+            let date = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
+            let isHoliday = UserDefaultManager.holidays?[year]?[date] != nil || date.toDate()?.weekday == 1
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
             VStack(spacing: .zero) {
-                DayIndicator(day: day, rating: rating, isToday: isToday)
+                DayIndicator(day: day, rating: rating, isToday: isToday, isHoliday: isHoliday)
                 
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 1), count: 2), spacing: 1) {
                     ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
