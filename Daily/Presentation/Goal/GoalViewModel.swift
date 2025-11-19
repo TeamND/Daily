@@ -135,6 +135,16 @@ extension GoalViewModel {
             }
         }
         
+        if record.startTime != nil && (
+            originalRecord.date != record.date ||
+            originalRecord.count != record.count ||
+            originalGoal.content != goal.content ||
+            originalGoal.count != goal.count
+        ) {
+            let timerNoticeId = "\(String(describing: originalRecord.id))-timer"
+            goalUseCase.updateTimerNotice(id: timerNoticeId, record: record, goal: goal)
+        }
+        
         Task { @MainActor in
             if modifyType == .single {
                 if goal.isSetTime == originalGoal.isSetTime &&

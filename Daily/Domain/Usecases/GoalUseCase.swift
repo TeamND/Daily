@@ -34,4 +34,14 @@ final class GoalUseCase {
         record.notice = nil
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
     }
+    
+    func updateTimerNotice(id: String, record: TempRecordModel, goal: TempGoalModel) {
+        PushNoticeManager.shared.removeTimerNotice(id: id)
+        PushNoticeManager.shared.addTimerNotice(
+            id: id,
+            content: goal.content,
+            date: record.date,
+            remainTime: goal.count - record.count
+        )
+    }
 }
