@@ -12,6 +12,7 @@ enum Colors {
     enum Brand {
         static let primary = Color("brandPrimary")
         static let secondary = Color("brandSecondary")
+        static let holiday = Color("brandHoliday")
     }
     
     enum Background {

@@ -8,7 +8,7 @@
 import UserNotifications
 
 class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
-    private(set) var noticeTouchAction: (() -> Void)?
+    private(set) var noticeTouchAction: ((Date?) -> Void)?
     
     static let shared = PushNoticeManager()
     private override init() {
@@ -35,7 +35,10 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        noticeTouchAction?()
+        let userInfo = response.notification.request.content.userInfo
+        let date = (userInfo["date"] as? TimeInterval).map { Date(timeIntervalSince1970: $0) }
+        
+        noticeTouchAction?(date)
         completionHandler()
     }
     
@@ -76,7 +79,18 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
-        UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: content, body: "\(noticeTime.text) 전이에요. 준비되셨나요?")
+        let userInfo: [AnyHashable : Any] = [
+            "type": "normal",
+            "date": date.timeIntervalSince1970
+        ]
+        
+        UNUserNotificationCenter.current().addNotiRequest(
+            by: components,
+            id: id,
+            title: content,
+            body: "\(noticeTime.text) 전이에요. 준비되셨나요?",
+            userInfo: userInfo
+        )
     }
     
     func removeNotice(id: String) {
@@ -84,8 +98,31 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
     }
     
-    func setNoticeTouchAction(noticeTouchAction: @escaping () -> Void) {
+    func setNoticeTouchAction(noticeTouchAction: @escaping (Date?) -> Void) {
         self.noticeTouchAction = noticeTouchAction
+    }
+    
+    // MARK: - Timer
+    func addTimerNotice(id: String, content: String, date: Date, remainTime: Int) {
+        let noticeDate = Date().addingTimeInterval(TimeInterval(remainTime))
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: noticeDate)
+        
+        let userInfo: [AnyHashable : Any] = [
+            "type": "normal",
+            "date": date.timeIntervalSince1970
+        ]
+        
+        UNUserNotificationCenter.current().addNotiRequest(
+            by: components,
+            id: id,
+            title: content,
+            body: "목표한 시간이 끝났어요. 수고하셨어요!",
+            userInfo: userInfo
+        )
+    }
+    
+    func removeTimerNotice(id: String) {
+        removeNotice(id: id)
     }
     
     // MARK: - remove

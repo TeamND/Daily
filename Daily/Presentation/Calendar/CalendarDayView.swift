@@ -16,7 +16,7 @@ struct CalendarDayView: View {
         VStack(spacing: .zero) {
             CalendarHeader(type: .day)
             Spacer().frame(height: 12)
-            WeekIndicator(mode: .change, selection: weekSelection)
+            WeekIndicator(mode: .change, selection: weekSelection).padding(.horizontal, 16)
             Spacer().frame(height: 20)
             SymbolFilter(type: .day)
             Spacer().frame(height: 12)
@@ -48,13 +48,15 @@ struct CalendarDay: View {
     var body: some View {
         let dayData = calendarViewModel.dayData[selection] ?? DayDataModel()
         VStack(spacing: .zero) {
+            HolidayView(selection: selection)
+            Spacer().frame(height: 12)
             if dayData.recordsInList.isEmpty {
                 NoRecord(isEmpty: dayData.isEmpty)
             } else {
                 ViewThatFits(in: .vertical) {
-                    RecordList(selection: selection, recordsInList: dayData.recordsInList)
+                    RecordList(recordsInList: dayData.recordsInList)
                     ScrollView {
-                        RecordList(selection: selection, recordsInList: dayData.recordsInList)
+                        RecordList(recordsInList: dayData.recordsInList)
                     }
                 }
                 Spacer().frame(height: 32)

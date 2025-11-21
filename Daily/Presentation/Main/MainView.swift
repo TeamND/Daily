@@ -22,7 +22,7 @@ struct MainView: View {
         }
         .onAppear {
             navigationEnvironment.navigateDirect(from: .year, to: CalendarTypes(rawValue: calendarType) ?? .month)
-            PushNoticeManager.shared.setNoticeTouchAction { goToday() }
+            PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }
         }
         .onOpenURL { openUrl in
             guard let url = openUrl.absoluteString.removingPercentEncoding,
@@ -31,12 +31,14 @@ struct MainView: View {
                   let familyRaw = Int(familyString),
                   let family = WidgetFamily(rawValue: familyRaw) else { return }
             
-            if url.contains("widget") { goToday(to: family == .systemLarge ? .month : .day) }
+            if url.contains("widget") { goCalendar(to: family == .systemLarge ? .month : .day) }
         }
     }
     
-    private func goToday(to: CalendarTypes = .day) {
-        navigationEnvironment.goToday(to: to, setDateAction: calendarViewModel.setDate)
+    private func goCalendar(to: CalendarTypes = .day, date: Date? = nil) {
+        let from = navigationEnvironment.navigationPath.last?.viewType.calendarType ?? .year
+        navigationEnvironment.navigateDirect(from: from, to: to)
+        calendarViewModel.setDate(date: date ?? Date(format: .daily))
     }
 }
 

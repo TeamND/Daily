@@ -95,6 +95,17 @@ extension CalendarUseCase {
     
     func toggleStartTime(record: DailyRecordModel) async {
         record.startTime = record.startTime == nil ? Date() : nil
+        let timerNoticeId = "\(String(describing: record.id))-timer"
+        if let startTime = record.startTime, let goal = record.goal {
+            PushNoticeManager.shared.addTimerNotice(
+                id: timerNoticeId,
+                content: goal.content,
+                date: record.date,
+                remainTime: goal.count - record.count
+            )
+        } else {
+            PushNoticeManager.shared.removeTimerNotice(id: timerNoticeId)
+        }
         await repository.updateData()
     }
     
@@ -235,5 +246,31 @@ extension CalendarUseCase {
         }
         
         return DayDataModel(isEmpty: records.isEmpty, recordsInList: recordsInList, filterData: filterData)
+    }
+}
+
+// MARK: - about holiday
+extension CalendarUseCase {
+    func fetchHolidays(year: Int = Date().year) async {
+        for year in year - 10 ... year + 10 {
+            if UserDefaultManager.holidays?[year] != nil { continue }
+            
+            // MARK: repository - dataSource 구조를 따로 갖지 않음
+            guard let countryCode = Locale.current.region?.identifier else { return }
+            let urlString = "https://date.nager.at/api/v3/PublicHolidays/\(year)/\(countryCode)"
+            guard let url = URL(string: urlString) else { return }
+            
+            do {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                let holidays = try JSONDecoder().decode([HolidayModel].self, from: data)
+                
+                UserDefaultManager.holidays?[year] = holidays.reduce(into: [:]) { dict, holiday in
+                    dict[holiday.date] = HolidayEntity(
+                        imageName: HolidayImages(rawValue: holiday.name)?.imageName ?? "Holiday",
+                        name: holiday.localName
+                    )
+                }
+            } catch { return }
+        }
     }
 }

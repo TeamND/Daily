@@ -24,7 +24,7 @@ struct DailyDatePicker: View {
         Spacer().frame(height: 20)
         
         VStack(spacing: 8) {
-            WeekIndicator(mode: .none).padding(.horizontal, -16)
+            WeekIndicator(mode: .none)
             
             let startOfMonth = calendar.date(from: DateComponents(year: currentDate.year, month: currentDate.month, day: 1))!
             let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
@@ -40,9 +40,14 @@ struct DailyDatePicker: View {
                         
                         if 0 < day && day <= lengthOfMonth {
                             let isSelected = date == selectedDate
+                            let isHoliday = UserDefaultManager.holidays?[date.year]?[date.getSelection()] != nil || date.weekday == 1
                             Text("\(day)")
                                 .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
-                                .foregroundStyle(isSelected ? Colors.Text.inverse : Colors.Text.secondary)
+                                .foregroundStyle(
+                                    isSelected ? Colors.Text.inverse :
+                                        isHoliday ? Colors.Brand.holiday :
+                                        Colors.Text.secondary
+                                )
                                 .frame(width: 33, height: 33)
                                 .if(isSelected) { view in
                                     view.background {
