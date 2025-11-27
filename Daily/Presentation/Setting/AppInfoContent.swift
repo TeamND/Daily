@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AppInfoContent: View {
     @AppStorage(UserDefaultKey.startDay.rawValue) private var startDay: Int = 0
-    @AppStorage(UserDefaultKey.language.rawValue) private var language: String = ""
+    @AppStorage(UserDefaultKey.language.rawValue) private var language: Languages = .korean
     
     var name: String
     var content: String? = nil
@@ -41,25 +41,25 @@ struct AppInfoContent: View {
                     // FIXME: UI 맞춰서 적용
                     DailySegment(
                         segmentType: .component,
-                        currentType: Binding<Languages>(get: { Languages(rawValue: language) ?? .korean }, set: { _ in }),
+                        currentType: Binding<Languages>(get: { language }, set: { _ in }),
                         types: Languages.allCases
                     ) {
-                        language = $0.rawValue
+                        language = $0
                     }
                     HStack(spacing: .zero) {
                         ForEach(Languages.allCases, id: \.self) { lang in
                             Button {
-                                language = lang.rawValue
+                                language = lang
                             } label: {
                                 Text(lang.text)
                                     .font(Fonts.bodyMdSemiBold)
-                                    .foregroundStyle(lang.rawValue == language ? Colors.Text.point : Colors.Text.tertiary)
+                                    .foregroundStyle(lang == language ? Colors.Text.point : Colors.Text.tertiary)
                             }
                             .frame(width: 60, height: 30)
                             .background {
                                 RoundedRectangle(cornerRadius: 99)
-                                    .fill(lang.rawValue == language ? Colors.Background.primary : .clear)
-                                    .stroke(lang.rawValue == language ? Colors.Brand.primary : .clear, lineWidth: 1)
+                                    .fill(lang == language ? Colors.Background.primary : .clear)
+                                    .stroke(lang == language ? Colors.Brand.primary : .clear, lineWidth: 1)
                             }
                         }
                     }

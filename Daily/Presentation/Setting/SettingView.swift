@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingView: View {
-    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: String = ""
+    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: CalendarTypes = .month
     
     var body: some View {
         VStack(spacing: 24) {
@@ -46,17 +46,17 @@ struct SettingView: View {
             HStack(spacing: 14) {
                 ForEach(CalendarTypes.allCases.filter { $0 != .week }, id: \.self) { type in
                     Button {
-                        calendarType = type.rawValue
+                        calendarType = type
                     } label: {
                         Spacer()
                         VStack(spacing: 8) {
-                            Image(type.icon(isSelected: type.rawValue == calendarType))
+                            Image(type.icon(isSelected: type == calendarType))
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 51)
                             Text(type.text)
                                 .font(Fonts.bodyMdSemiBold)
-                                .foregroundStyle(type.rawValue == calendarType ? Colors.Text.point :Colors.Text.secondary)
+                                .foregroundStyle(type == calendarType ? Colors.Text.point :Colors.Text.secondary)
                         }
                         Spacer()
                     }
@@ -64,7 +64,7 @@ struct SettingView: View {
                     .background {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Colors.Background.secondary)
-                            .stroke(type.rawValue == calendarType ? Colors.Brand.primary : .clear, lineWidth: 1)
+                            .stroke(type == calendarType ? Colors.Brand.primary : .clear, lineWidth: 1)
                     }
                 }
             }
