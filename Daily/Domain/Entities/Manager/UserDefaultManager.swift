@@ -10,8 +10,8 @@ import Foundation
 class UserDefaultManager {
     // MARK: setting
     @UserDefault(key: .startDay, defaultValue: nil) static var startDay: Int?
-    @UserDefault(key: .language, defaultValue: nil) static var language: String?
-    @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: String?
+    @UserDefault(key: .language, defaultValue: nil) static var language: Languages?
+    @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: CalendarTypes?
     
     // MARK: notice
     @UserDefault(key: .ignoreNoticeDate, defaultValue: nil) static var ignoreNoticeDate: Date?

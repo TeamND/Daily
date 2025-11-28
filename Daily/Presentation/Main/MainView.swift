@@ -11,7 +11,7 @@ import WidgetKit
 struct MainView: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
-    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: String = ""
+    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: CalendarTypes = .month
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
@@ -21,7 +21,7 @@ struct MainView: View {
                 }
         }
         .onAppear {
-            navigationEnvironment.navigateDirect(from: .year, to: CalendarTypes(rawValue: calendarType) ?? .month)
+            navigationEnvironment.navigateDirect(from: .year, to: calendarType)
             PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }
         }
         .onOpenURL { openUrl in
