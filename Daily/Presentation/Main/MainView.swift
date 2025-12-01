@@ -9,9 +9,9 @@ import SwiftUI
 import WidgetKit
 
 struct MainView: View {
-    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
-    @AppStorage(UserDefaultKey.calendarType.rawValue) private var calendarType: CalendarTypes = .month
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var settingViewModel: SettingViewModel
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
@@ -21,7 +21,7 @@ struct MainView: View {
                 }
         }
         .onAppear {
-            navigationEnvironment.navigateDirect(from: .year, to: calendarType)
+            navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
             PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }
         }
         .onOpenURL { openUrl in
