@@ -90,6 +90,8 @@
 		F6AD28152EC71667004F9F93 /* HolidayImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AD28142EC71667004F9F93 /* HolidayImages.swift */; };
 		F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */; };
 		F6B151702EDD2A1C00813BAF /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1516F2EDD2A1C00813BAF /* SettingViewModel.swift */; };
+		F6B151752EDD7B7A00813BAF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F6B151732EDD7B7A00813BAF /* Localizable.strings */; };
+		F6B151782EDD7FB100813BAF /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B151772EDD7FB100813BAF /* LanguageManager.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -252,6 +254,9 @@
 		F6AD28142EC71667004F9F93 /* HolidayImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayImages.swift; sourceTree = "<group>"; };
 		F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
 		F6B1516F2EDD2A1C00813BAF /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		F6B151742EDD7B7A00813BAF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F6B151762EDD7BA400813BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F6B151772EDD7FB100813BAF /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -337,6 +342,7 @@
 			children = (
 				F6A326A02DE6EF4600243B23 /* Pretendard */,
 				F6016DA62CC4CADB00FB637F /* Colors.swift */,
+				F6B151732EDD7B7A00813BAF /* Localizable.strings */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */,
 				F6C6CD942D6C01CB00772E59 /* SwiftDataManager.swift */,
 				F6C6CD962D6C36FA00772E59 /* CalendarManager.swift */,
+				F6B151772EDD7FB100813BAF /* LanguageManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -846,6 +853,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6A326A12DE6EF4600243B23 /* Pretendard-Black.otf in Resources */,
+				F6B151752EDD7B7A00813BAF /* Localizable.strings in Resources */,
 				F6A326A22DE6EF4600243B23 /* Pretendard-Bold.otf in Resources */,
 				F6A326A32DE6EF4600243B23 /* Pretendard-Regular.otf in Resources */,
 				F6A326A42DE6EF4600243B23 /* Pretendard-ExtraBold.otf in Resources */,
@@ -982,6 +990,7 @@
 				F6E1CCB32DACF830009E25DA /* SymbolFilter.swift in Sources */,
 				F6D4D14C2EA9C1DE00525878 /* NoticeTypes.swift in Sources */,
 				F6C6CD8F2D6B700A00772E59 /* ViewTypes.swift in Sources */,
+				F6B151782EDD7FB100813BAF /* LanguageManager.swift in Sources */,
 				F6016DEB2CC6162600FB637F /* AppLaunchUseCase.swift in Sources */,
 				F6016DF62CC65FE000FB637F /* CalendarMonthView.swift in Sources */,
 				F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */,
@@ -1011,6 +1020,18 @@
 			targetProxy = F6EC3D5E2BEDA7BE00FAB502 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F6B151732EDD7B7A00813BAF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F6B151742EDD7B7A00813BAF /* ko */,
+				F6B151762EDD7BA400813BAF /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F6BEC93E290F5895005EAF28 /* Debug */ = {

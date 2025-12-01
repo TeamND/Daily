@@ -13,7 +13,6 @@ class GeneralServices {
     static let maximumGoalCount: Int = 10
     
     // MARK: - Calendar
-    static let today: String = "오늘"
     static let week: Int = 7
     
     // MARK: - Record

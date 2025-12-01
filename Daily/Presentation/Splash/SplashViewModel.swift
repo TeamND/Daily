@@ -11,12 +11,10 @@ final class SplashViewModel: ObservableObject {
     private let appLaunchUseCase: AppLaunchUseCase
     private let calendarUseCase: CalendarUseCase
     
-    @Published var catchPhrase: String = ""
-    @Published var updateNotice: String = ""
+    @Published var isNeedUpdate: Bool = false
     @Published var isMainReady: Bool = false
     @Published var isMainLoaded: Bool = false
     @Published var notices: [NoticeModel] = []
-    @Published var isNeedUpdate: Bool = false
     
     init() {
         let appLaunchRepository = AppLaunchRepository()
@@ -27,27 +25,17 @@ final class SplashViewModel: ObservableObject {
     }
 
     func onAppear() {
-        resetHolidays()
         Task { @MainActor in
-            catchPhrase = appLaunchUseCase.getCatchPhrase()
-            
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
-            if isNeedUpdate {
-                (catchPhrase, updateNotice) = appLaunchUseCase.getUpdateNotice()
-                return
-            }
+            if isNeedUpdate { return }
             
             await appLaunchUseCase.migrate()
             await appLaunchUseCase.fetch()
-            await calendarUseCase.fetchHolidays()
+            await calendarUseCase.fetchHolidays(isReset: true)
             isMainReady = true
             
             notices = await appLaunchUseCase.getNotices()
             isMainLoaded = await appLaunchUseCase.loadMain()
         }
-    }
-    
-    private func resetHolidays() {
-        UserDefaultManager.holidays = [:]
     }
 }

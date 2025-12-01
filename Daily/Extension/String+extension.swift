@@ -7,6 +7,13 @@
 
 import Foundation
 
+// MARK: - Localization
+extension String {
+    var localized: String {
+        NSLocalizedString(self, tableName: nil, bundle: LanguageManager.shared.bundle, comment: "")
+    }
+}
+
 // MARK: - Date
 extension String {
     func toDate(format: DateFormats = .daily, timeZone: TimeZone = .current) -> Date? {

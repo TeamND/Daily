@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
-    @ObservedObject var splashViewModel: SplashViewModel
+    @ObservedObject private var splashViewModel: SplashViewModel
     
     var body: some View {
         splashView
@@ -29,13 +29,16 @@ struct SplashView: View {
             Spacer()
             dailyImage
             Spacer().frame(height: 24)
-            dailyCatchPhrase
             if splashViewModel.isNeedUpdate {
+                updateTitle
                 Spacer().frame(height: 20)
-                updateNotice
+                updateDescritpion
                 Spacer()
                 updateButton
-            } else { Spacer() }
+            } else {
+                dailyCatchPhrase
+                Spacer()
+            }
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
         .background(Colors.Background.primary)
@@ -50,14 +53,21 @@ struct SplashView: View {
     }
     
     private var dailyCatchPhrase: some View {
-        Text(splashViewModel.catchPhrase)
+        Text("catch_phrase".localized)
             .foregroundStyle(Colors.Text.point)
             .font(Fonts.headingLgBold)
             .multilineTextAlignment(.center)
     }
     
-    private var updateNotice: some View {
-        Text(splashViewModel.updateNotice)
+    private var updateTitle: some View {
+        Text("update_title".localized)
+            .foregroundStyle(Colors.Text.point)
+            .font(Fonts.headingLgBold)
+            .multilineTextAlignment(.center)
+    }
+    
+    private var updateDescritpion: some View {
+        Text("update_description".localized)
             .foregroundStyle(Colors.Text.secondary)
             .font(Fonts.bodyLgRegular)
             .multilineTextAlignment(.center)

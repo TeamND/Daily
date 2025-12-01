@@ -14,9 +14,24 @@ enum Languages: String, DailyTypes, Codable {
     var text: String {
         switch self {
         case .korean:
-            return "한국어"
+            return "korean".localized
         case .english:
             return "English"
         }
+    }
+    
+    var languageCode: String {
+        switch self {
+        case .korean:
+            "ko"
+        case .english:
+            "en"
+        }
+    }
+}
+
+extension Languages {
+    static func from(languageCode: String?) -> Languages? {
+        return Self.allCases.first { $0.languageCode == languageCode }
     }
 }

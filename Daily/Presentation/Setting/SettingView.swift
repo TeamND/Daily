@@ -12,7 +12,7 @@ struct SettingView: View {
     
     var body: some View {
         VStack(spacing: 24) {
-            NavigationHeader(title: "설정")
+            NavigationHeader(title: "setting".localized)
             ViewThatFits(in: .vertical) {
                 settingView
                 ScrollView(.vertical, showsIndicators: false) {

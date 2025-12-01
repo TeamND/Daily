@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Daily
+
+  Created by seungyooooong on 12/1/25.
+  
+*/
+
+// MARK: - Splash
+"catch_phrase" = "Struct your\nevery day";
+"update_title" = "Update Available";
+"update_description" = "To ensure a smoother experience,\nplease update to the latest version.";
+
+// MARK: - Setting
+"setting" = "Setting";
+"korean" = "한국어";
+
+// MARK: - Calendar
+"today" = "Today";

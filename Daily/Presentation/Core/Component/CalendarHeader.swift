@@ -134,7 +134,7 @@ struct CalendarHeader: View {
                     calendarViewModel.setDate(date: Date(format: .daily))
                     navigationEnvironment.navigateDirect(from: type, to: .day)
                 } label: {
-                    Text(GeneralServices.today)
+                    Text("today".localized)
                         .font(Fonts.bodyMdSemiBold)
                         .foregroundStyle(Colors.Text.point)
                         .padding(.horizontal, 10)

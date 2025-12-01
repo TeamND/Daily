@@ -251,7 +251,9 @@ extension CalendarUseCase {
 
 // MARK: - about holiday
 extension CalendarUseCase {
-    func fetchHolidays(year: Int = Date().year) async {
+    func fetchHolidays(year: Int = Date().year, isReset: Bool = false) async {
+        if isReset { UserDefaultManager.holidays = [:] }
+        
         for year in year - 10 ... year + 10 {
             if UserDefaultManager.holidays?[year] != nil { continue }
             
