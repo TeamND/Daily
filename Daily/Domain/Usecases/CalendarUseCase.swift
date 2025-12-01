@@ -28,7 +28,7 @@ extension CalendarUseCase {
             return "\(String(year))년"
         case .day:
             let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
-            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: UserDefaultManager.startDay ?? 0))주차"
+            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: /*UserDefaultManager.startDay ?? */0))주차"
         default:
             return ""
         }
@@ -48,7 +48,7 @@ extension CalendarUseCase {
     }
     
     func getCalendarInfo(currentDate: Date, type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */0)
         let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
         
         let maxIndex = type == .year ? 10 : type == .month ? 12 : GeneralServices.week
@@ -60,7 +60,7 @@ extension CalendarUseCase {
     func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
         let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
         let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let weekday = startOfMonth.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+        let weekday = startOfMonth.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */0)
         let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
         return (weekday + 1, lengthOfMonth, dividerCount)
     }
@@ -224,7 +224,7 @@ extension CalendarUseCase {
         
         var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)
         for (date, dayRecords) in recordsByDate {
-            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = CalendarServices.shared.getRating(records: dayRecords)
+            ratingsOfWeek[date.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */.zero)] = CalendarServices.shared.getRating(records: dayRecords)
         }
         
         return WeekDataModel(ratingsOfWeek: ratingsOfWeek)

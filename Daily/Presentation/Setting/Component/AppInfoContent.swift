@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct AppInfoContent: View {
-    @AppStorage(UserDefaultKey.startDay.rawValue) private var startDay: Int = 0
-    @AppStorage(UserDefaultKey.language.rawValue) private var language: Languages = .korean
+    @EnvironmentObject private var settingViewModel: SettingViewModel
     
     var name: String
     var content: String? = nil
@@ -38,70 +37,18 @@ struct AppInfoContent: View {
                 // FIXME: 추후 구현
                 switch serviceEnvironment {
                 case .language:
-                    // FIXME: UI 맞춰서 적용
                     DailySegment(
                         segmentType: .component,
-                        currentType: Binding<Languages>(get: { language }, set: { _ in }),
+                        currentType: $settingViewModel.language,
                         types: Languages.allCases
-                    ) {
-                        language = $0
-                    }
-                    HStack(spacing: .zero) {
-                        ForEach(Languages.allCases, id: \.self) { lang in
-                            Button {
-                                language = lang
-                            } label: {
-                                Text(lang.text)
-                                    .font(Fonts.bodyMdSemiBold)
-                                    .foregroundStyle(lang == language ? Colors.Text.point : Colors.Text.tertiary)
-                            }
-                            .frame(width: 60, height: 30)
-                            .background {
-                                RoundedRectangle(cornerRadius: 99)
-                                    .fill(lang == language ? Colors.Background.primary : .clear)
-                                    .stroke(lang == language ? Colors.Brand.primary : .clear, lineWidth: 1)
-                            }
-                        }
-                    }
-                    .padding(4)
-                    .background {
-                        RoundedRectangle(cornerRadius: 99)
-                            .fill(Colors.Background.secondary)
-                    }
-                    .padding(-5)
+                    ).padding(-9)
                     
                 case .startWeekday:
-                    // FIXME: UI 맞춰서 적용
                     DailySegment(
                         segmentType: .component,
-                        currentType: Binding<DayOfWeek>(get: { DayOfWeek.from(index: startDay) ?? .sun }, set: { _ in }),
+                        currentType: $settingViewModel.startDay,
                         types: [DayOfWeek.sun, DayOfWeek.mon]
-                    ) {
-                        startDay = $0.index
-                    }
-                    HStack(spacing: .zero) {
-                        ForEach([DayOfWeek.sun, DayOfWeek.mon], id: \.self) { dow in
-                            Button {
-                                startDay = dow.index
-                            } label: {
-                                Text(dow.fullText)
-                                    .font(Fonts.bodyMdSemiBold)
-                                    .foregroundStyle(dow.index == startDay ? Colors.Text.point : Colors.Text.tertiary)
-                            }
-                            .frame(width: 60, height: 30)
-                            .background {
-                                RoundedRectangle(cornerRadius: 99)
-                                    .fill(dow.index == startDay ? Colors.Background.primary : .clear)
-                                    .stroke(dow.index == startDay ? Colors.Brand.primary : .clear, lineWidth: 1)
-                            }
-                        }
-                    }
-                    .padding(4)
-                    .background {
-                        RoundedRectangle(cornerRadius: 99)
-                            .fill(Colors.Background.secondary)
-                    }
-                    .padding(-5)
+                    ).padding(-9)
                     
                 case .filterAlignment:
                     Image(systemName: "chevron.right")

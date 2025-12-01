@@ -25,7 +25,7 @@ struct SettingView: View {
     private var settingView: some View {
         VStack(spacing: 30) {
             initialCalendarSetting
-            if false { serviceEnvironmentSetting }  // FIXME: 구현 후 추가
+            serviceEnvironmentSetting
             appInfo
             // TODO: 추후 튜토리얼 추가
             Spacer()    // FIXME: 높이가 애매한 경우 scrollView로 안넘어가고 View 제일 하단이 Spacer()에 밀리는 부분이 생김
@@ -75,10 +75,21 @@ struct SettingView: View {
     private var serviceEnvironmentSetting: some View {
         VStack(alignment: .leading, spacing: 16) {
             AppInfoLabel(text: Settings.serviceEnvironment.label)
-            ForEach(Settings.ServiceEnvironmentSetting.allCases, id: \.self) { serviceEnvironment in
-                AppInfoContent(name: serviceEnvironment.text, serviceEnvironment: serviceEnvironment)
-                DailyDivider(color: Colors.Border.secondary, height: 1)
-            }
+            // FIXME: 구현된 부분만 적용
+//            ForEach(Settings.ServiceEnvironmentSetting.allCases, id: \.self) { serviceEnvironment in
+//                AppInfoContent(name: serviceEnvironment.text, serviceEnvironment: serviceEnvironment)
+//                DailyDivider(color: Colors.Border.secondary, height: 1)
+//            }
+            AppInfoContent(
+                name: Settings.ServiceEnvironmentSetting.language.text,
+                serviceEnvironment: Settings.ServiceEnvironmentSetting.language
+            )
+            DailyDivider(color: Colors.Border.secondary, height: 1)
+            AppInfoContent(
+                name: Settings.ServiceEnvironmentSetting.startWeekday.text,
+                serviceEnvironment: Settings.ServiceEnvironmentSetting.startWeekday
+            )
+            DailyDivider(color: Colors.Border.secondary, height: 1)
         }
     }
     

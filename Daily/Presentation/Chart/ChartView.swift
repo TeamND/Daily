@@ -125,7 +125,7 @@ struct ChartView: View {
         HStack(alignment: .top, spacing: .zero) {
             ForEach(chartViewModel.chartDatas) { data in
                 VStack(spacing: 3) {
-                    let todayWeekday = DayOfWeek.text(for: Date().weekday - 1) ?? ""
+                    let todayWeekday = DayOfWeek.txt(for: Date().weekday - 1) ?? ""
                     let todayString = Date().toString(format: chartViewModel.type.dateFormat)
                     
                     if chartViewModel.type == .day {

@@ -8,11 +8,13 @@
 import Foundation
 
 final class SettingViewModel: ObservableObject {
-    @Published var calendarType: CalendarTypes { didSet { UserDefaultManager.calendarType = calendarType } }
+    @Published var startDay: DayOfWeek { didSet { UserDefaultManager.startDay = startDay } }
     @Published var language: Languages { didSet { UserDefaultManager.language = language } }
+    @Published var calendarType: CalendarTypes { didSet { UserDefaultManager.calendarType = calendarType } }
     
     init() {
-        self.calendarType = UserDefaultManager.calendarType ?? .month
+        self.startDay = UserDefaultManager.startDay ?? .sun
         self.language = UserDefaultManager.language ?? .korean
+        self.calendarType = UserDefaultManager.calendarType ?? .month
     }
 }

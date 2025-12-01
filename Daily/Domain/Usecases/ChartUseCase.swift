@@ -32,7 +32,7 @@ extension ChartUseCase {
             
             guard let startDate = calculateStartDate(type: type, endDate: endDate),
                   let records = await repository.getRecords(startDate: startDate, endDate: endDate),
-                  let weekday = DayOfWeek.text(for: endDate.weekday - 1) else { continue }
+                  let weekday = DayOfWeek.txt(for: endDate.weekday - 1) else { continue }
             
             originDate = startDate
             filterDatas = Symbols.allCases.reduce(into: filterDatas) { result, symbol in

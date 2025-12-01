@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DayOfWeek: String, DailyTypes, CaseIterable {
+public enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
     case sun
     case mon
     case tue
@@ -19,19 +19,11 @@ public enum DayOfWeek: String, DailyTypes, CaseIterable {
     public var text: String {
         switch self {
         case .sun:
-            return "일"
+            return "일요일"
         case .mon:
-            return "월"
-        case .tue:
-            return "화"
-        case .wed:
-            return "수"
-        case .thu:
-            return "목"
-        case .fri:
-            return "금"
-        case .sat:
-            return "토"
+            return "월요일"
+        default:
+            return ""
         }
     }
     
@@ -54,22 +46,30 @@ public enum DayOfWeek: String, DailyTypes, CaseIterable {
         }
     }
     
-    public var fullText: String {
+    public var txt: String {
         switch self {
         case .sun:
-            return "일요일"
+            return "일"
         case .mon:
-            return "월요일"
-        default:
-            return ""
+            return "월"
+        case .tue:
+            return "화"
+        case .wed:
+            return "수"
+        case .thu:
+            return "목"
+        case .fri:
+            return "금"
+        case .sat:
+            return "토"
         }
     }
 }
 
 extension DayOfWeek {
-    public static func text(for index: Int) -> String? {
+    public static func txt(for index: Int) -> String? {
         guard let dayOfWeek = self.from(index: index) else { return nil }
-        return dayOfWeek.text
+        return dayOfWeek.txt
     }
     
     public static func from(index: Int) -> DayOfWeek? {

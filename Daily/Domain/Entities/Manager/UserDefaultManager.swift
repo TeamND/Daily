@@ -9,7 +9,7 @@ import Foundation
 
 class UserDefaultManager {
     // MARK: setting
-    @UserDefault(key: .startDay, defaultValue: nil) static var startDay: Int?
+    @UserDefault(key: .startDay, defaultValue: nil) static var startDay: DayOfWeek?
     @UserDefault(key: .language, defaultValue: nil) static var language: Languages?
     @UserDefault(key: .calendarType, defaultValue: nil) static var calendarType: CalendarTypes?
     
@@ -55,12 +55,6 @@ struct UserDefault<T: Codable> {
             return defaultValue
         }
         set {
-            // FIXME: nil 예외 처리 필요한지 확인 후 수정
-//            guard let newValue else {
-//                storage.removeObject(forKey: key.rawValue)
-//                return
-//            }
-
             // MARK: 커스텀 타입 인코딩
             if let encoded = try? JSONEncoder().encode(newValue) {
                 storage.set(encoded, forKey: key.rawValue)
