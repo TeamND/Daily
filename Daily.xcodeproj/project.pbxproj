@@ -89,6 +89,7 @@
 		F6AD28132EC714D7004F9F93 /* HolidayEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AD28122EC714D7004F9F93 /* HolidayEntity.swift */; };
 		F6AD28152EC71667004F9F93 /* HolidayImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AD28142EC71667004F9F93 /* HolidayImages.swift */; };
 		F6AE8AEF2D02C1FC0080A0DE /* DailyRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */; };
+		F6B151702EDD2A1C00813BAF /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1516F2EDD2A1C00813BAF /* SettingViewModel.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
 		F6BEC93D290F5895005EAF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC93C290F5895005EAF28 /* Preview Assets.xcassets */; };
@@ -250,6 +251,7 @@
 		F6AD28122EC714D7004F9F93 /* HolidayEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayEntity.swift; sourceTree = "<group>"; };
 		F6AD28142EC71667004F9F93 /* HolidayImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayImages.swift; sourceTree = "<group>"; };
 		F6AE8AEE2D02C1FC0080A0DE /* DailyRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecordModel.swift; sourceTree = "<group>"; };
+		F6B1516F2EDD2A1C00813BAF /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
 		F6BEC938290F5895005EAF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -409,8 +411,8 @@
 			isa = PBXGroup;
 			children = (
 				F67DD0F42E02E7B20001203D /* Component */,
-				F6C758E82CCF3E1300F9CF91 /* GoalViewModel.swift */,
 				F6C758E22CCE47BB00F9CF91 /* GoalView.swift */,
+				F6C758E82CCF3E1300F9CF91 /* GoalViewModel.swift */,
 			);
 			path = Goal;
 			sourceTree = "<group>";
@@ -418,9 +420,9 @@
 		F6016DB22CC4DF5200FB637F /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				F6B151712EDD2A2000813BAF /* Component */,
 				F6CE8A2C2CD0B1940050A25A /* SettingView.swift */,
-				F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */,
-				F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */,
+				F6B1516F2EDD2A1C00813BAF /* SettingViewModel.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -608,6 +610,15 @@
 				F6A3269F2DE6EF4600243B23 /* Pretendard-Thin.otf */,
 			);
 			path = Pretendard;
+			sourceTree = "<group>";
+		};
+		F6B151712EDD2A2000813BAF /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				F6C6B0312BB424CA00C578C1 /* AppInfoLabel.swift */,
+				F6C6B0332BB424DD00C578C1 /* AppInfoContent.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		F6BEC928290F5894005EAF28 = {
@@ -875,6 +886,7 @@
 				F6C6CD952D6C01CB00772E59 /* SwiftDataManager.swift in Sources */,
 				F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */,
 				F66EB6B62E00F1BE00CC04C4 /* RepeatTypes.swift in Sources */,
+				F6B151702EDD2A1C00813BAF /* SettingViewModel.swift in Sources */,
 				F607C6822CFED0C8006DE13A /* DailyGoalModel.swift in Sources */,
 				F6C6CD972D6C36FA00772E59 /* CalendarManager.swift in Sources */,
 				F6E1CD902DBF75B2009E25DA /* DailyDataModel.swift in Sources */,
@@ -1151,7 +1163,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1195,7 +1207,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1230,7 +1242,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1268,7 +1280,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyong96.Daily.DailyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

@@ -48,9 +48,10 @@ final class SplashViewModel: ObservableObject {
     }
     
     private func setUserDefault() {
+        // FIXME: SettingViewModel로 이동, setUserDefault -> reserHolidays 네이밍 추후 수정
         UserDefaultManager.startDay = UserDefaultManager.startDay ?? DayOfWeek.sun.index
-        UserDefaultManager.language = UserDefaultManager.language ?? Languages.korean.rawValue
-        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? CalendarTypes.month.rawValue
+        UserDefaultManager.language = UserDefaultManager.language ?? Languages.korean
+        UserDefaultManager.calendarType = UserDefaultManager.calendarType ?? CalendarTypes.month
         
         UserDefaultManager.holidays = [:]
     }

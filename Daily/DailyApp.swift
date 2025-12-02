@@ -12,6 +12,7 @@ import SwiftData
 struct DailyApp: App {
     @StateObject private var navigationEnvironment = NavigationEnvironment()
     @StateObject private var alertEnvironment = AlertEnvironment()
+    @StateObject private var settingViewModel = SettingViewModel()
     @StateObject private var calendarViewModel = CalendarViewModel()
     @StateObject private var splashViewModel = SplashViewModel()
     
@@ -20,8 +21,9 @@ struct DailyApp: App {
     var body: some Scene {
         WindowGroup {
             daily
-                .environmentObject(alertEnvironment)
                 .environmentObject(navigationEnvironment)
+                .environmentObject(alertEnvironment)
+                .environmentObject(settingViewModel)
                 .environmentObject(calendarViewModel)
                 .modelContainer(SwiftDataManager.shared.getContainer())
         }

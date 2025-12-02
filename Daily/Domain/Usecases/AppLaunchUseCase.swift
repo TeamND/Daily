@@ -17,7 +17,7 @@ final class AppLaunchUseCase {
 
 extension AppLaunchUseCase {
     func getCatchPhrase() -> String {
-        let language = Languages(rawValue: UserDefaultManager.language ?? "korean") ?? .korean
+        let language = UserDefaultManager.language ?? .korean
         switch language {
         case .korean:
             return "매일을 더 체계적으로"
@@ -53,7 +53,7 @@ extension AppLaunchUseCase {
     }
     
     func getUpdateNotice() -> (String, String) {
-        let language = Languages(rawValue: UserDefaultManager.language ?? "korean") ?? .korean
+        let language = UserDefaultManager.language ?? .korean
         switch language {
         case .korean:
             return ("업데이트 알림", "보다 원활한 서비스 이용을 위해\n최신 버전으로 업데이트 해주세요.")
