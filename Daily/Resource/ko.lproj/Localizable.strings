@@ -13,7 +13,30 @@
 
 // MARK: - Setting
 "setting" = "설정";
+"default_view" = "초기 화면 설정";
+"default_view_description" = "앱 실행 시 가장 먼저 보여줄 캘린더 뷰를 선택하세요.";
+"app_preferences" = "서비스 환경";
+"language" = "언어";
 "korean" = "한국어";
+"english" = "English";
+"start_of_the_week" = "시작 요일";
+"sun" = "일요일";
+"mon" = "월요일";
+"reorder_filters" = "필터 순서";
+"app_info" = "앱 정보";
+"compatibility" = "호환성";
+"version" = "버전";
+"user_guide" = "사용설명서";
+"github" = "Github";
+
+// MARK: - NavigationHeader
+"back" = "이전";
 
 // MARK: - Calendar
 "today" = "오늘";
+
+// MARK: - CalendarTypes
+"year" = "연간";
+"month" = "월간";
+"week" = "주간";
+"day" = "일간";

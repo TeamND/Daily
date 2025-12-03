@@ -13,7 +13,30 @@
 
 // MARK: - Setting
 "setting" = "Setting";
+"default_view" = "Default View";
+"default_view_description" = "Choose which calendar view to show first when the app starts";
+"app_preferences" = "App Preferences";
+"language" = "Language";
 "korean" = "한국어";
+"english" = "English";
+"start_of_the_week" = "Start of the Week";
+"sun" = "Sun";
+"mon" = "Mon";
+"reorder_filters" = "Reorder Filters";
+"app_info" = "App Info";
+"compatibility" = "Compatibility";
+"version" = "Version";
+"user_guide" = "User Guide";
+"github" = "Github";
+
+// MARK: - NavigationHeader
+"back" = "Back";
 
 // MARK: - Calendar
 "today" = "Today";
+
+// MARK: - CalendarTypes
+"year" = "Year";
+"month" = "Month";
+"week" = "Week";
+"day" = "Day";

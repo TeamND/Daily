@@ -35,11 +35,11 @@ struct SettingView: View {
     
     private var initialCalendarSetting: some View {
         VStack(alignment: .leading, spacing: .zero) {
-            Text("초기 화면 설정")
+            Text("default_view".localized)
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             Spacer().frame(height: 4)
-            Text("앱 실행 시 가장 먼저 보여줄 캘린더 뷰를 선택하세요.")
+            Text("default_view_description".localized)
                 .font(Fonts.bodyMdRegular)
                 .foregroundStyle(Colors.Icon.secondary)
             Spacer().frame(height: 12)

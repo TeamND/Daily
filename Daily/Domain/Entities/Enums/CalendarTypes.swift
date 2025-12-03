@@ -38,13 +38,13 @@ enum CalendarTypes: String, DailyTypes, Codable {
     var text: String {
         switch self {
         case .year:
-            return "연간"
+            return "year".localized
         case .month:
-            return "월간"
+            return "month".localized
         case .week:
-            return "주간"
+            return "week".localized
         case .day:
-            return "일간"
+            return "day".localized
         }
     }
     

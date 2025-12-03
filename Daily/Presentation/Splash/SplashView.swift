@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var alertEnvironment: AlertEnvironment
-    @ObservedObject private var splashViewModel: SplashViewModel
+    @ObservedObject var splashViewModel: SplashViewModel
     
     var body: some View {
         splashView

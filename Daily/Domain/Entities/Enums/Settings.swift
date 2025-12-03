@@ -14,9 +14,9 @@ enum Settings {
     var label: String {
         switch self {
         case .serviceEnvironment:
-            return "서비스 환경"
+            return "app_preferences".localized
         case .appInfo:
-            return "앱 정보"
+            return "app_info".localized
         }
     }
     
@@ -28,11 +28,11 @@ enum Settings {
         var text: String {
             switch self {
             case .language:
-                return "언어"
+                return "language".localized
             case .startWeekday:
-                return "시작 요일"
+                return "start_of_the_week".localized
             case .filterAlignment:
-                return "필터 순서"
+                return "reorder_filters".localized
             }
         }
     }
@@ -46,13 +46,13 @@ enum Settings {
         var text: String {
             switch self {
             case .targetOS:
-                return "호환성"
+                return "compatibility".localized
             case .version:
-                return "버전"
+                return "version".localized
             case .notion:
-                return "사용설명서"
+                return "user_guide".localized
             case .github:
-                return "Github"
+                return "github".localized
             }
         }
         

@@ -16,7 +16,7 @@ enum Languages: String, DailyTypes, Codable {
         case .korean:
             return "korean".localized
         case .english:
-            return "English"
+            return "english".localized
         }
     }
     
