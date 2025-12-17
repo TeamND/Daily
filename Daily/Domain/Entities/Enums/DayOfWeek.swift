@@ -2,12 +2,12 @@
 //  DayOfWeek.swift
 //  Daily
 //
-//  Created by seungyooooong on 10/23/24.
+//  Created by seungyooooong on 12/17/25.
 //
 
 import Foundation
 
-public enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
+enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
     case sun
     case mon
     case tue
@@ -16,18 +16,18 @@ public enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
     case fri
     case sat
     
-    public var text: String {
+    var text: String {
         switch self {
         case .sun:
-            return "일요일"
+            return "sun".localized
         case .mon:
-            return "월요일"
+            return "mon".localized
         default:
             return ""
         }
     }
     
-    public var index: Int {
+    var index: Int {
         switch self {
         case .sun:
             return 0
@@ -46,7 +46,7 @@ public enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
         }
     }
     
-    public var txt: String {
+    var txt: String {
         switch self {
         case .sun:
             return "일"
@@ -67,12 +67,12 @@ public enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
 }
 
 extension DayOfWeek {
-    public static func txt(for index: Int) -> String? {
+    static func txt(for index: Int) -> String? {
         guard let dayOfWeek = self.from(index: index) else { return nil }
         return dayOfWeek.txt
     }
     
-    public static func from(index: Int) -> DayOfWeek? {
+    static func from(index: Int) -> DayOfWeek? {
         return self.allCases.first { $0.index == index }
     }
 }

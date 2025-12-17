@@ -26,7 +26,7 @@ struct NoticeSheet: View {
                     dismiss()
                 } label: {
                     Text("일주일 동안 보지 않기")
-                        .font(Fonts.bodyLgMedium)
+                        .font(Fonts.bodyLgSemiBold)
                         .foregroundStyle(Colors.Text.secondary)
                 }
                 Spacer()

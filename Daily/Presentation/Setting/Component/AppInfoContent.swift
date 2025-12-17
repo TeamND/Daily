@@ -10,31 +10,30 @@ import SwiftUI
 struct AppInfoContent: View {
     @EnvironmentObject private var settingViewModel: SettingViewModel
     
-    var name: String
-    var content: String? = nil
-    var link: String? = nil
+    var appInfo: Settings.AppInfo? = nil
     var serviceEnvironment: Settings.ServiceEnvironmentSetting? = nil
     
     var body: some View {
         HStack {
-            Text(name)
+            Text(appInfo?.text ?? serviceEnvironment?.text ?? "")
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             Spacer()
-            if let content {
-                Text(content)
-                    .font(Fonts.bodyLgMedium)
-                    .foregroundStyle(Colors.Text.secondary)
-            } else if let link {
-                Link(destination: URL(string: "https://\(link)")!) {
-                    Image(.link)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 24)
-                        .padding(-4)
+            if let appInfo {
+                if let content = appInfo.content {
+                    Text(content)
+                        .font(Fonts.bodyLgMedium)
+                        .foregroundStyle(Colors.Text.secondary)
+                } else if let link = appInfo.link {
+                    Link(destination: URL(string: "https://\(link)")!) {
+                        Image(.link)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24)
+                            .padding(-4)
+                    }
                 }
             } else if let serviceEnvironment {
-                // FIXME: 추후 구현
                 switch serviceEnvironment {
                 case .language:
                     DailySegment(
