@@ -12,6 +12,10 @@ extension String {
     var localized: String {
         NSLocalizedString(self, tableName: nil, bundle: LanguageManager.shared.bundle, comment: "")
     }
+    
+    func localized(_ args: CVarArg...) -> String {
+        String(format: self.localized, arguments: args)
+    }
 }
 
 // MARK: - Date

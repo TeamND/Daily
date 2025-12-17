@@ -33,7 +33,7 @@ struct SymbolFilter: View {
                     } label: {
                         Group {
                             if filter == .all {
-                                Text(filter.rawValue)
+                                Text("all".localized)
                                     .font(Fonts.bodyMdSemiBold)
                                     .foregroundStyle(isCurrentFilter ? Colors.Text.point : Colors.Text.tertiary)
                             } else {

@@ -31,6 +31,12 @@ extension Date {
 
 // MARK: - return String
 extension Date {
+    func toText(_ dateFormatTemplate: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: LanguageManager.shared.language?.languageCode ?? Locale.current.identifier)
+        dateFormatter.setLocalizedDateFormatFromTemplate(dateFormatTemplate)
+        return dateFormatter.string(from: self)
+    }
     func toString(format: DateFormats = .daily) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format.rawValue

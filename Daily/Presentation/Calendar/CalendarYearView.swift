@@ -85,12 +85,12 @@ struct DailyMonthOnYear: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: max(spacing, spacing * (ratio - 1))) {
-            Text("\(month)월")
+            let date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
+            Text("month_text".localized(date.toText("MMM")))
                 .font(ratio < 2 ? Fonts.bodyLgSemiBold : Fonts.headingSmSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             
             VStack(spacing: spacing * (ratio - 1)) {
-                let date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
                 let startWeekday = date.dailyWeekday(startDay: 0/*startDay*/)
                 let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: date)?.count ?? 0
                 

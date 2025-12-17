@@ -22,13 +22,16 @@ extension CalendarUseCase {
         switch type {
         case .year:
             let decade = (currentDate.year / 10 + direction.value) * 10
-            return "\(String(decade))년대"
+            return "decade".localized(String(decade))
         case .month:
             let year = currentDate.year + direction.value
-            return "\(String(year))년"
+            return "year_text".localized(String(year))
         case .day:
             let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
-            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: /*UserDefaultManager.startDay ?? */0))주차"
+            return "month_week_text".localized(
+                date.toText("MMMM"),
+                date.dailyWeekOfMonth(startDay: /*UserDefaultManager.startDay ?? */0)
+            )
         default:
             return ""
         }
@@ -37,11 +40,17 @@ extension CalendarUseCase {
     func getHeaderText(currentDate: Date, type: CalendarTypes, textPosition: TextPositionInHeader = .title) -> String {
         switch type {
         case .year:
-            return textPosition == .title ? String(currentDate.year) + "년" : ""
+            return textPosition == .title ?
+            "year_text".localized(currentDate.toText("yyyy")) :
+            ""
         case .month:
-            return textPosition == .title ? String(currentDate.month) + "월" : String(currentDate.year) + "년"
+            return textPosition == .title ?
+            "month_text".localized(currentDate.toText("MMMM")) :
+            "year_text".localized(currentDate.toText("yyyy"))
         case .day:
-            return textPosition == .title ? String(currentDate.month) + "월 " + String(currentDate.day) + "일" : String(currentDate.month) + "월"
+            return textPosition == .title ?
+            "month_day_text".localized(currentDate.toText("MMMM"), currentDate.toText("dd")) :
+            "month_text".localized(currentDate.toText("MMMM"))
         default:
             return ""
         }

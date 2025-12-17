@@ -19,6 +19,7 @@ struct MainView: View {
                 .navigationDestination(for: NavigationObject.self) { navigationObject in
                     AnyView(navigationObject.dailyView()).navigationBarHidden(true)
                 }
+                .id(settingViewModel.language)
         }
         .onAppear {
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)

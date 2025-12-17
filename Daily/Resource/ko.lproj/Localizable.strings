@@ -25,8 +25,8 @@
 "korean" = "한국어";
 "english" = "English";
 "start_of_the_week" = "시작 요일";
-"sun" = "일요일";
-"mon" = "월요일";
+"sunday" = "일요일";
+"monday" = "월요일";
 "reorder_filters" = "필터 순서";
 "app_info" = "앱 정보";
 "compatibility" = "호환성";
@@ -38,7 +38,24 @@
 "back" = "이전";
 
 // MARK: - Calendar
+"year_text" = "%@";
+"month_text" = "%@";
+"month_day_text" = "%1$@ %2$@";
+"decade" = "%@년대";
+"month_week_text" = "%1$@월 %2$d주차";
 "today" = "오늘";
+"all" = "전체";
+"sun" = "일";
+"mon" = "월";
+"tue" = "화";
+"wed" = "수";
+"thu" = "목";
+"fri" = "금";
+"sat" = "토";
+"no_goals_yet" = "아직 목표가 없어요";
+"add_a_goal_for_today" = "오늘의 목표를 추가해보세요";
+"no_goals_match_the_selected_filter" = "해당 조건에 맞는 목표가 없어요";
+"try_adding_a_new_goal" = "목표를 하나 더 추가해볼까요?";
 
 // MARK: - CalendarTypes
 "year" = "연간";

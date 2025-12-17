@@ -19,9 +19,9 @@ enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
     var text: String {
         switch self {
         case .sun:
-            return "sun".localized
+            return "sunday".localized
         case .mon:
-            return "mon".localized
+            return "monday".localized
         default:
             return ""
         }
@@ -49,19 +49,19 @@ enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
     var txt: String {
         switch self {
         case .sun:
-            return "일"
+            return "sun".localized
         case .mon:
-            return "월"
+            return "mon".localized
         case .tue:
-            return "화"
+            return "tue".localized
         case .wed:
-            return "수"
+            return "wed".localized
         case .thu:
-            return "목"
+            return "thu".localized
         case .fri:
-            return "금"
+            return "fri".localized
         case .sat:
-            return "토"
+            return "sat".localized
         }
     }
 }
