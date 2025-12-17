@@ -10,6 +10,11 @@
 "catch_phrase" = "Struct your\nevery day";
 "update_title" = "Update Available";
 "update_description" = "To ensure a smoother experience,\nplease update to the latest version.";
+"update_now" = "Update Now";
+
+// MARK: - Notice
+"do_not_show_for_a_week" = "Don`t show for a week";
+"close" = "Close";
 
 // MARK: - Setting
 "setting" = "Setting";

@@ -77,7 +77,7 @@ struct SplashView: View {
         Button {
             System().openAppStore()
         } label: {
-            Text("업데이트 하러가기")
+            Text("update_now".localized)
                 .foregroundStyle(Colors.Text.inverse)
                 .font(Fonts.bodyLgSemiBold)
                 .frame(maxWidth: .infinity, maxHeight: 50)

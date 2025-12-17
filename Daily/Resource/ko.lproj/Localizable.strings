@@ -10,6 +10,11 @@
 "catch_phrase" = "매일을 더 체계적으로";
 "update_title" = "업데이트 알림";
 "update_description" = "보다 원활한 서비스 이용을 위해\n최신 버전으로 업데이트 해주세요.";
+"update_now" = "업데이트 하러가기";
+
+// MARK: - Notice
+"do_not_show_for_a_week" = "일주일 동안 보지 않기";
+"close" = "닫기";
 
 // MARK: - Setting
 "setting" = "설정";
