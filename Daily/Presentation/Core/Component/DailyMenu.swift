@@ -40,7 +40,9 @@ struct DailyMenu: View {
                                 calendarViewModel.addNotice(
                                     goal: goal, record: record, noticeTime: noticeTime,
                                     completeAction: {
-                                        alertEnvironment.showToast(message: "설정한 시간 \(noticeTime.text) 전에 알려드릴게요")
+                                        alertEnvironment.showToast(
+                                            message: "you_will_be_notified_before".localized(noticeTime.text)
+                                        )
                                     }
                                 )
                             } label: {

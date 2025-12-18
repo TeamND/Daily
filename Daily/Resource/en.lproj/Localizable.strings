@@ -92,3 +92,22 @@
 "timer" = "Timer";
 "log" = "Log";
 "times" = "times";
+
+// MARK: - Alert
+"timer_must_be_at_least_1_second" = "Timer must be at least 1 second";
+"enter_at_least_2_characters" = "Enter at least 2 characters";
+"end_date_must_be_after_start_date" = "End date must be after start date";
+"maximum_period_is_1_year" = "Maximum period is 1 year";
+"select_at_least_one_repeat_day" = "Select at least one repeat day";
+"repeat_day_not_within_selected_period" = "Repeat day not within selected period";
+"notification_removed_due_to_date_change" = "Notification removed due to date change";
+"notification_removed_due_to_time_change" = "Notification removed due to time change";
+"notifications_are_off_so_some_features_are_limited" = "Notifications are off,\n so some features are limited";
+"notifications_are_turned_off" = "Notifications are turned off";
+"stay_on_track_with_reminders" = "Stay on track with reminders";
+"please_allow_notifications_in_settings" = "Please allow notifications in Settings.";
+"go_to_settings" = "Go to Settings";
+"remind_me_later" = "Remind Me Later";
+"minutes" = "%d minutes";
+"hour" = "%d hour";
+"you_will_be_notified_before" = "You`ll be notified %@ before";

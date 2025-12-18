@@ -92,3 +92,22 @@
 "timer" = "타이머";
 "log" = "기록";
 "times" = "회 반복";
+
+// MARK: - Alert
+"timer_must_be_at_least_1_second" = "타이머는 최소 1초 이상 설정해주세요";
+"enter_at_least_2_characters" = "목표는 최소 2글자 이상 입력해주세요";
+"end_date_must_be_after_start_date" = "종료일은 시작일 이후로 설정해주세요";
+"maximum_period_is_1_year" = "기간은 최대 1년까지만 설정할 수 있어요";
+"select_at_least_one_repeat_day" = "반복 요일을 하나 이상 선택해주세요";
+"repeat_day_not_within_selected_period" = "선택한 기간 내 반복 요일이 포함되지 않아요";
+"notification_removed_due_to_date_change" = "목표 날짜가 변경되어 알림이 삭제되었어요";
+"notification_removed_due_to_time_change" = "목표 시간이 변경되어 알림이 삭제되었어요";
+"notifications_are_off_so_some_features_are_limited" = "알림이 꺼져 있어 기능 일부가 제한돼요";
+"notifications_are_turned_off" = "알림 권한이 꺼져 있어요";
+"stay_on_track_with_reminders" = "더 체계적인 관리를 위해 알림을 받아보세요!";
+"please_allow_notifications_in_settings" = "설정에서 알림을 허용해주세요!";
+"go_to_settings" = "설정으로 이동";
+"remind_me_later" = "나중에 하기";
+"minutes" = "%d분";
+"hour" = "%d시간";
+"you_will_be_notified_before" = "설정한 시간 %@ 전에 알려드릴게요";

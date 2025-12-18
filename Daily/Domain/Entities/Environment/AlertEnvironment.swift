@@ -92,6 +92,7 @@ class AlertEnvironment: ObservableObject {
             Text(alertTitle)
                 .font(Fonts.headingSmSemiBold)
                 .foregroundStyle(Colors.Text.primary)
+                .multilineTextAlignment(.center)
             Spacer().frame(height: 8)
             
             Text(alertDescription)
