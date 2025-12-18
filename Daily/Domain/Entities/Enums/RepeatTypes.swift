@@ -14,9 +14,9 @@ enum RepeatTypes: String, CaseIterable {
     var text: String {
         switch self {
         case .weekly:
-            return "매주"
+            return "weekly".localized
         case .custom:
-            return "사용자화"
+            return "custom".localized
         }
     }
 }

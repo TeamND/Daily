@@ -14,7 +14,7 @@ struct RepeatTypeSection: View {
     
     var body: some View {
         HStack {
-            Text("반복 방식")
+            Text("repeat".localized)
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             

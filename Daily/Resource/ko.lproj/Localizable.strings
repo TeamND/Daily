@@ -34,10 +34,8 @@
 "user_guide" = "사용설명서";
 "github" = "Github";
 
-// MARK: - NavigationHeader
-"back" = "이전";
-
 // MARK: - Calendar
+"back" = "이전";
 "year_text" = "%@";
 "month_text" = "%@";
 "month_day_text" = "%1$@ %2$@일";
@@ -69,3 +67,28 @@
 "this_month" = "이번달";
 "this_week" = "이번주";
 "today" = "오늘";
+
+// MARK: - Goal
+"add_goal" = "목표 추가";
+"edit_goal" = "목표 수정";
+"add" = "추가";
+"save" = "수정";
+"single_goal" = "단일 목표";
+"multi_goal" = "다중 목표";
+"date" = "날짜";
+"repeat" = "반복 방식";
+"weekly" = "매주";
+"custom" = "사용자화";
+"start_date" = "시작일";
+"end_date" = "종료일";
+"year_month_text" = "%1$@년 %2$@";
+"selected_date" = "선택된 날짜";
+"set_time" = "시간 지정";
+"goal" = "목표";
+"enter_your_goal" = "목표를 입력하세요 (최소 2자)";
+"select_icon" = "심볼 선택";
+"progress_mode" = "진행 방식";
+"count" = "반복 횟수";
+"timer" = "타이머";
+"log" = "기록";
+"times" = "회 반복";

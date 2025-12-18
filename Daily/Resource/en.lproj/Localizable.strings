@@ -34,10 +34,8 @@
 "user_guide" = "User Guide";
 "github" = "Github";
 
-// MARK: - NavigationHeader
-"back" = "Back";
-
 // MARK: - Calendar
+"back" = "Back";
 "year_text" = "%@";
 "month_text" = "%@";
 "month_day_text" = "%1$@ %2$@";
@@ -69,3 +67,28 @@
 "this_month" = "This Month";
 "this_week" = "This Week";
 "today" = "Today";
+
+// MARK: - Goal
+"add_goal" = "Add Goal";
+"edit_goal" = "Edit Goal";
+"add" = "Add";
+"save" = "Save";
+"single_goal" = "Single Goal";
+"multi_goal" = "Multi Goal";
+"date" = "Date";
+"repeat" = "Repeat";
+"weekly" = "Weekly";
+"custom" = "Custom";
+"start_date" = "Start Date";
+"end_date" = "End Date";
+"year_month_text" = "%2$@ %1$@";
+"selected_date" = "Selected Date";
+"set_time" = "Set Time";
+"goal" = "Goal";
+"enter_your_goal" = "Enter your goal (min. 2 characters)";
+"select_icon" = "Select Icon";
+"progress_mode" = "Progress Mode";
+"count" = "Count";
+"timer" = "Timer";
+"log" = "Log";
+"times" = "times";

@@ -76,7 +76,7 @@ struct DailyMultiDatePicker: View {
         Spacer().frame(height: 20)
         
         VStack(spacing: 8) {
-            Text("선택된 날짜")
+            Text("selected_date".localized)
                 .font(Fonts.bodyMdRegular)
                 .foregroundStyle(Colors.Text.tertiary)
                 .hLeading()

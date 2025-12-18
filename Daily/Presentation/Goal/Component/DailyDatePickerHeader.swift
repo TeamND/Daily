@@ -25,7 +25,7 @@ struct DailyDatePickerHeader: View {
             
             Spacer()
             
-            Text("\(String(currentDate.year))년 \(currentDate.month)월")
+            Text("year_month_text".localized(currentDate.toString(format: .year), currentDate.toString(format: .monthDetail)))
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.secondary)
             

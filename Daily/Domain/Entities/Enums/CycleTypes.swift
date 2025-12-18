@@ -14,9 +14,9 @@ enum CycleTypes: String, DailyTypes, Codable {
     var text: String {
         switch self {
         case .date:
-            return "단일 목표"
+            return "single_goal".localized
         case .rept:
-            return "다중 목표"
+            return "multi_goal".localized
         }
     }
 }

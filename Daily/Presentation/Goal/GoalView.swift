@@ -111,11 +111,19 @@ struct DateSection: View {
     var body: some View {
         VStack(spacing: .zero) {
             if let modifyType = goalViewModel.modifyType, modifyType != .all {
-                SingleDateSection(title: "날짜", date: $goalViewModel.record.date, isShowDatePicker: $isShowSingleDatePicker)
+                SingleDateSection(
+                    title: "date".localized,
+                    date: $goalViewModel.record.date,
+                    isShowDatePicker: $isShowSingleDatePicker
+                )
             } else if goalViewModel.modifyType == nil, let cycleType = goalViewModel.goal.cycleType {
                 switch cycleType {
                 case .date:
-                    SingleDateSection(title: "날짜", date: $goalViewModel.startDate, isShowDatePicker: $isShowSingleDatePicker)
+                    SingleDateSection(
+                        title: "date".localized,
+                        date: $goalViewModel.startDate,
+                        isShowDatePicker: $isShowSingleDatePicker
+                    )
                     
                 case .rept:
                     RepeatTypeSection(goalViewModel: goalViewModel)
@@ -126,10 +134,18 @@ struct DateSection: View {
                     case .weekly:
                         VStack(spacing: 20) {
                             RepeatWeekdayPicker(selectedWeekday: $goalViewModel.selectedWeekday)
-                            SingleDateSection(title: "시작일", date: $goalViewModel.startDate, isShowDatePicker: $isShowStartDatePicker) {
+                            SingleDateSection(
+                                title: "start_date".localized,
+                                date: $goalViewModel.startDate,
+                                isShowDatePicker: $isShowStartDatePicker
+                            ) {
                                 isShowEndDatePicker = false
                             }
-                            SingleDateSection(title: "종료일", date: $goalViewModel.endDate, isShowDatePicker: $isShowEndDatePicker) {
+                            SingleDateSection(
+                                title: "end_date".localized,
+                                date: $goalViewModel.endDate,
+                                isShowDatePicker: $isShowEndDatePicker
+                            ) {
                                 isShowStartDatePicker = false
                             }
                         }
@@ -162,7 +178,7 @@ struct TimeSection: View {
     var body: some View {
         VStack(spacing: .zero) {
             HStack {
-                Text("시간 지정")
+                Text("set_time".localized)
                     .font(Fonts.bodyLgSemiBold)
                     .foregroundStyle(Colors.Text.primary)
                 
@@ -268,7 +284,7 @@ struct ContentSection: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            Text("목표")
+            Text("goal".localized)
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
                 .hLeading()
@@ -276,7 +292,7 @@ struct ContentSection: View {
             TextField(
                 "",
                 text: $content,
-                prompt: Text("목표를 입력하세요 (최소 2자)")
+                prompt: Text("enter_your_goal".localized)
                     .font(Fonts.bodyLgRegular)
                     .foregroundStyle(Colors.Text.tertiary)
             )
@@ -309,7 +325,7 @@ struct SymbolSection: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Text("심볼 선택")
+            Text("select_icon".localized)
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
                 .hLeading()
@@ -364,7 +380,7 @@ struct GoalCountSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("진행 방식")
+                Text("progress_mode".localized)
                     .font(Fonts.bodyLgSemiBold)
                     .foregroundStyle(Colors.Text.primary)
                 
@@ -389,7 +405,7 @@ struct GoalCountSection: View {
             
             if let modifyType = goalViewModel.modifyType, modifyType != .all {
                 HStack(spacing: 4) {
-                    Text("기록")
+                    Text("log".localized)
                         .font(Fonts.bodyMdSemiBold)
                         .foregroundStyle(Colors.Text.tertiary)
                     
@@ -467,7 +483,7 @@ struct GoalCountSection: View {
                         }
                         .getFrame { recordButtonFrame = $0 }
                         
-                        Text("회 반복")
+                        Text("times".localized)
                             .font(Fonts.bodyLgMedium)
                             .foregroundStyle(Colors.Text.secondary)
                     }
@@ -476,7 +492,7 @@ struct GoalCountSection: View {
             }
             
             HStack(spacing: 4) {
-                Text("목표")
+                Text("goal".localized)
                     .font(Fonts.bodyMdSemiBold)
                     .foregroundStyle(Colors.Text.tertiary)
                 
@@ -554,7 +570,7 @@ struct GoalCountSection: View {
                     }
                     .getFrame { goalButtonFrame = $0 }
                     
-                    Text("회 반복")
+                    Text("times".localized)
                         .font(Fonts.bodyLgMedium)
                         .foregroundStyle(Colors.Text.secondary)
                 }
