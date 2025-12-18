@@ -62,13 +62,13 @@ enum CalendarTypes: String, DailyTypes, Codable {
     var chartUnit: String {
         switch self {
         case .year:
-            return "올해"
+            return "this_year".localized
         case .month:
-            return "이번달"
+            return "this_month".localized
         case .week:
-            return "이번주"
+            return "this_week".localized
         case .day:
-            return "오늘"
+            return "today".localized
         }
     }
     

@@ -43,7 +43,6 @@
 "month_day_text" = "%1$@ %2$@";
 "decade" = "%@s";
 "month_week_text" = "%1$@ Week %2$d";
-"today" = "Today";
 "all" = "All";
 "sun" = "Sun";
 "mon" = "Mon";
@@ -57,8 +56,16 @@
 "no_goals_match_the_selected_filter" = "No goals match the selected filter";
 "try_adding_a_new_goal" = "Try adding a new goal";
 
-// MARK: - CalendarTypes
+// MARK: - Chart
+"stats" = "Stats";
 "year" = "Year";
 "month" = "Month";
 "week" = "Week";
 "day" = "Day";
+"total_goals" = "Total Goals";
+"completed" = "Completed";
+"count_unit" = "%d";
+"this_year" = "This Year";
+"this_month" = "This Month";
+"this_week" = "This Week";
+"today" = "Today";

@@ -40,10 +40,9 @@
 // MARK: - Calendar
 "year_text" = "%@";
 "month_text" = "%@";
-"month_day_text" = "%1$@ %2$@";
+"month_day_text" = "%1$@ %2$@일";
 "decade" = "%@년대";
 "month_week_text" = "%1$@월 %2$d주차";
-"today" = "오늘";
 "all" = "전체";
 "sun" = "일";
 "mon" = "월";
@@ -57,8 +56,16 @@
 "no_goals_match_the_selected_filter" = "해당 조건에 맞는 목표가 없어요";
 "try_adding_a_new_goal" = "목표를 하나 더 추가해볼까요?";
 
-// MARK: - CalendarTypes
+// MARK: - Chart
+"stats" = "통계";
 "year" = "연간";
 "month" = "월간";
 "week" = "주간";
 "day" = "일간";
+"total_goals" = "전체";
+"completed" = "완료";
+"count_unit" = "%d개";
+"this_year" = "올해";
+"this_month" = "이번달";
+"this_week" = "이번주";
+"today" = "오늘";

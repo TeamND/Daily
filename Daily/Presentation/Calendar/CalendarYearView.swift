@@ -86,7 +86,7 @@ struct DailyMonthOnYear: View {
     var body: some View {
         VStack(alignment: .leading, spacing: max(spacing, spacing * (ratio - 1))) {
             let date = CalendarServices.shared.getDate(year: year, month: month, day: 1) ?? Date(format: .daily)
-            Text("month_text".localized(date.toText("MMM")))
+            Text("month_text".localized(date.toString(format: .month)))
                 .font(ratio < 2 ? Fonts.bodyLgSemiBold : Fonts.headingSmSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             

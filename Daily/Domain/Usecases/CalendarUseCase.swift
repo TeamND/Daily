@@ -29,7 +29,7 @@ extension CalendarUseCase {
         case .day:
             let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
             return "month_week_text".localized(
-                date.toText("MMMM"),
+                date.toString(format: .monthDetail),
                 date.dailyWeekOfMonth(startDay: /*UserDefaultManager.startDay ?? */0)
             )
         default:
@@ -41,16 +41,16 @@ extension CalendarUseCase {
         switch type {
         case .year:
             return textPosition == .title ?
-            "year_text".localized(currentDate.toText("yyyy")) :
+            "year_text".localized(currentDate.toString(format: .year)) :
             ""
         case .month:
             return textPosition == .title ?
-            "month_text".localized(currentDate.toText("MMMM")) :
-            "year_text".localized(currentDate.toText("yyyy"))
+            "month_text".localized(currentDate.toString(format: .monthDetail)) :
+            "year_text".localized(currentDate.toString(format: .year))
         case .day:
             return textPosition == .title ?
-            "month_day_text".localized(currentDate.toText("MMMM"), currentDate.toText("dd")) :
-            "month_text".localized(currentDate.toText("MMMM"))
+            "month_day_text".localized(currentDate.toString(format: .monthDetail), currentDate.toString(format: .dayDetail)) :
+            "month_text".localized(currentDate.toString(format: .monthDetail))
         default:
             return ""
         }
