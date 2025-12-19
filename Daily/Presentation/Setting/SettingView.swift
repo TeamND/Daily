@@ -85,10 +85,11 @@ struct SettingView: View {
                 serviceEnvironment: Settings.ServiceEnvironmentSetting.language
             )
             DailyDivider(color: Colors.Border.secondary, height: 1)
-            AppInfoContent(
-                serviceEnvironment: Settings.ServiceEnvironmentSetting.startWeekday
-            )
-            DailyDivider(color: Colors.Border.secondary, height: 1)
+            // FIXME: 시작 요일 설정 작업 시 사용
+//            AppInfoContent(
+//                serviceEnvironment: Settings.ServiceEnvironmentSetting.startWeekday
+//            )
+//            DailyDivider(color: Colors.Border.secondary, height: 1)
         }
     }
     
