@@ -49,8 +49,8 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         components.calendar = Calendar.current
         components.hour = 22
         
-        let title: String = "오늘 하루는 어땠나요 🤔"
-        let body: String = "하루를 기록해보세요"
+        let title: String = "how_was_your_day".localized
+        let body: String = "write_down_your_day".localized
         
         UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: title, body: body, repeats: true)
     }
@@ -88,7 +88,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             by: components,
             id: id,
             title: content,
-            body: "\(noticeTime.text) 전이에요. 준비되셨나요?",
+            body: "before_ready_to_begin".localized(noticeTime.text),
             userInfo: userInfo
         )
     }
@@ -116,7 +116,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             by: components,
             id: id,
             title: content,
-            body: "목표한 시간이 끝났어요. 수고하셨어요!",
+            body: "you_did_it_goal_complete".localized,
             userInfo: userInfo
         )
     }

@@ -113,3 +113,21 @@
 "you_will_be_notified_before" = "You`ll be notified %@ before";
 "noticifation_removed" = "Notification removed";
 "notification_deleted_with_the_goal" = "Notification deleted with the goal";
+
+// MARK: - Menu
+"turn_on_notification" = "Turn On Notification";
+"turn_off_notification" = "Turn Off Notification";
+"before" = "%@ before";
+"edit_this_only" = "Edit This Only";
+"edit_all" = "Edit All";
+"delete_goal" = "Delete Goal";
+"delete_this_only" = "Delete This Only";
+"delete_future_goals_only" = "Delete Future Goals Only";
+"delete_with_past_records" = "Delete With Past Records";
+"delete_all" = "Delete All";
+
+// MARK: - PushNotice
+"how_was_your_day" = "How was your day? 🤔";
+"write_down_your_day" = "Write down your day!";
+"before_ready_to_begin" = "%@ before. Ready to begin?";
+"you_did_it_goal_complete" = "You did it! Goal complete.";
