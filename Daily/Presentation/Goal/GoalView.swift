@@ -48,7 +48,7 @@ struct GoalView: View {
     }
     
     private func validateAction(alert: DailyAlert) {
-        alertEnvironment.showToast(message: alert.messageText)
+        alertEnvironment.showToast(alertType: alert)
     }
     
     var goalView: some View {

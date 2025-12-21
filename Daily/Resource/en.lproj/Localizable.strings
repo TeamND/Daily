@@ -111,3 +111,5 @@
 "minutes" = "%d minutes";
 "hour" = "%d hour";
 "you_will_be_notified_before" = "You`ll be notified %@ before";
+"noticifation_removed" = "Notification removed";
+"notification_deleted_with_the_goal" = "Notification deleted with the goal";

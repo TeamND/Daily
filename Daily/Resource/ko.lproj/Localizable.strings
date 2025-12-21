@@ -72,7 +72,7 @@
 "add_goal" = "목표 추가";
 "edit_goal" = "목표 수정";
 "add" = "추가";
-"save" = "수정";
+"save" = "저장";
 "single_goal" = "단일 목표";
 "multi_goal" = "다중 목표";
 "date" = "날짜";
@@ -111,3 +111,5 @@
 "minutes" = "%d분";
 "hour" = "%d시간";
 "you_will_be_notified_before" = "설정한 시간 %@ 전에 알려드릴게요";
+"noticifation_removed" = "알림이 삭제되었어요";
+"notification_deleted_with_the_goal" = "알림이 함께 삭제되었어요";

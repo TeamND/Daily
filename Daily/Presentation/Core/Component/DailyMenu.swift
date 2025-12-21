@@ -41,7 +41,7 @@ struct DailyMenu: View {
                                     goal: goal, record: record, noticeTime: noticeTime,
                                     completeAction: {
                                         alertEnvironment.showToast(
-                                            message: "you_will_be_notified_before".localized(noticeTime.text)
+                                            alertType: NoticeAlert.setNoticeTime(noticeTime: noticeTime.text)
                                         )
                                     }
                                 )
@@ -58,7 +58,7 @@ struct DailyMenu: View {
                         calendarViewModel.removeNotice(
                             record: record,
                             completeAction: {
-                                alertEnvironment.showToast(message: "알림이 삭제되었어요")
+                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTime)
                             }
                         )
                     } label: {
@@ -112,7 +112,7 @@ struct DailyMenu: View {
                     calendarViewModel.deleteGoal(
                         goal: goal,
                         completeAction: {
-                            alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                            alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                         }
                     )
                 } label: {
@@ -124,7 +124,7 @@ struct DailyMenu: View {
                         calendarViewModel.deleteRecord(
                             record: record,
                             completeAction: {
-                                alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                             }
                         )
                     } label: {
@@ -135,7 +135,7 @@ struct DailyMenu: View {
                             calendarViewModel.deleteRecords(
                                 goal: goal,
                                 completeAction: {
-                                    alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                                 }
                             )
                         } label: {
@@ -145,7 +145,7 @@ struct DailyMenu: View {
                             calendarViewModel.deleteGoal(
                                 goal: goal,
                                 completeAction: {
-                                    alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                                 }
                             )
                         } label: {

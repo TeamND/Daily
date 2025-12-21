@@ -11,6 +11,7 @@ import SwiftUI
 class AlertEnvironment: ObservableObject {
     @Published var isShowAlert: Bool = false
     @Published var isShowToast: Bool = false
+    @Published var toastIcon: ImageResource = .notice
     @Published var toastMessage: String = ""
     @Published var alertTitle: String = ""
     @Published var alertDescription: String = ""
@@ -41,10 +42,11 @@ class AlertEnvironment: ObservableObject {
         }
     }
     
-    func showToast(message: String) {
+    func showToast(alertType: DailyAlert) {
         DispatchQueue.main.async {
             withAnimation {
-                self.toastMessage = message
+                self.toastIcon = alertType.icon ?? .notice
+                self.toastMessage = alertType.messageText
                 self.isShowToast = true
             }
         }
@@ -63,7 +65,7 @@ class AlertEnvironment: ObservableObject {
         VStack(alignment: .leading) {
             Spacer()
             HStack(spacing: 12) {
-                Image(.notice)
+                Image(toastIcon)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 22)

@@ -5,9 +5,10 @@
 //  Created by seungyooooong on 12/30/24.
 //
 
-import Foundation
+import SwiftUI
 
 protocol DailyAlert {
+    var icon: ImageResource? { get }
     var titleText: String { get }
     var messageText: String { get }
 }
@@ -16,12 +17,9 @@ protocol DailyAlert {
 enum CountAlert: DailyAlert {
     case tooSmallCount
     
-    var titleText: String {
-        switch self {
-        case .tooSmallCount:
-            return ""
-        }
-    }
+    var icon: ImageResource? { return .notice }
+    
+    var titleText: String { return "" }
     
     var messageText: String {
         switch self {
@@ -35,12 +33,9 @@ enum CountAlert: DailyAlert {
 enum ContentAlert: DailyAlert {
     case tooShoertLength
     
-    var titleText: String {
-        switch self {
-        case .tooShoertLength:
-            return ""
-        }
-    }
+    var icon: ImageResource? { return .notice }
+    
+    var titleText: String { return "" }
     
     var messageText: String {
         switch self {
@@ -57,18 +52,9 @@ enum DateAlert: DailyAlert {
     case emptySelectedWeekday
     case emptyRepeatDates
     
-    var titleText: String {
-        switch self {
-        case .wrongDateRange:
-            return ""
-        case .overDateRange:
-            return ""
-        case .emptySelectedWeekday:
-            return ""
-        case .emptyRepeatDates:
-            return ""
-        }
-    }
+    var icon: ImageResource? { return .notice }
+    
+    var titleText: String { return "" }
     
     var messageText: String {
         switch self {
@@ -90,6 +76,20 @@ enum NoticeAlert: DailyAlert {
     case deniedAtSetTime
     case dateChanged
     case setTimeChanged
+    case setNoticeTime(noticeTime: String)
+    case removeNoticeTime
+    case removeNoticeTimeWithGoal
+    
+    var icon: ImageResource? {
+        switch self {
+        case .dateChanged, .setTimeChanged:
+            return .notice
+        case .setNoticeTime, .removeNoticeTime, .removeNoticeTimeWithGoal:
+            return .complete
+        default:
+            return nil
+        }
+    }
     
     var titleText: String {
         switch self {
@@ -112,6 +112,12 @@ enum NoticeAlert: DailyAlert {
             return "notification_removed_due_to_date_change".localized
         case .setTimeChanged:
             return "notification_removed_due_to_time_change".localized
+        case .setNoticeTime(let noticeTime):
+            return "you_will_be_notified_before".localized(noticeTime)
+        case .removeNoticeTime:
+            return "noticifation_removed".localized
+        case .removeNoticeTimeWithGoal:
+            return "notification_deleted_with_the_goal".localized
         }
     }
     
