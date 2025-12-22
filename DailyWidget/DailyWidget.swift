@@ -213,7 +213,7 @@ struct DailyWidgetEntryView: View {
         HStack {
             ForEach(DayOfWeek.allCases, id: \.self.index) {
                 if $0.index > 0 { Spacer() }
-                Text($0.text)
+                Text($0.txt)
                     .font(Fonts.bodySmRegular)
                     .foregroundStyle(Colors.Text.primary)
                     .frame(width: 33)

@@ -25,15 +25,15 @@ struct NoticeSheet: View {
                     UserDefaultManager.ignoreNoticeDate = Date(format: .daily).dayLater(value: 7)
                     dismiss()
                 } label: {
-                    Text("일주일 동안 보지 않기")
-                        .font(Fonts.bodyLgMedium)
+                    Text("do_not_show_for_a_week".localized)
+                        .font(Fonts.bodyLgSemiBold)
                         .foregroundStyle(Colors.Text.secondary)
                 }
                 Spacer()
                 Button {
                     dismiss()
                 } label: {
-                    Text("닫기")
+                    Text("close".localized)
                         .font(Fonts.bodyLgSemiBold)
                         .foregroundStyle(Colors.Text.secondary)
                 }

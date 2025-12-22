@@ -31,9 +31,9 @@ enum ViewTypes {
     var headerTitle: String {
         switch self {
         case .goal:
-            return "목표 추가"
+            return "add_goal".localized
         case .modify:
-            return "목표 수정"
+            return "edit_goal".localized
         default:
             return ""
         }
@@ -42,9 +42,9 @@ enum ViewTypes {
     var trailingText: String {
         switch self {
         case .goal:
-            return "추가"
+            return "add".localized
         case .modify:
-            return "수정"
+            return "save".localized
         default:
             return ""
         }

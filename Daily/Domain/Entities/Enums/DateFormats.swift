@@ -12,9 +12,11 @@ enum DateFormats: String {
     case setTime = "HH:mm"
     
     case year = "yyyy"
-    case month = "M월"
+    case month = "MMM"
+    case monthDetail = "MMMM"
     case week = "~M.d"
     case day = "M.d"
+    case dayDetail = "d"
     
     case singleDate = "yyyy. MM. dd. E"
     case multiDate = "yy. MM. dd. E"

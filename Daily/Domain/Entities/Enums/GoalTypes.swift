@@ -15,9 +15,9 @@ enum GoalTypes: String, DailyTypes, Codable {
     var text: String {
         switch self {
         case .check, .count:
-            return "반복 횟수"
+            return "count".localized
         case .timer:
-            return "타이머"
+            return "timer".localized
         }
     }
     

@@ -13,16 +13,15 @@ class GeneralServices {
     static let maximumGoalCount: Int = 10
     
     // MARK: - Calendar
-    static let today: String = "오늘"
     static let week: Int = 7
     
     // MARK: - Record
     static func noRecordText(isEmpty: Bool) -> String {
-        if isEmpty { return "아직 목표가 없어요" }
-        else { return "해당 조건에 맞는 목표가 없어요" }
+        if isEmpty { return "no_goals_yet".localized }
+        else { return "no_goals_match_the_selected_filter".localized }
     }
     static func noRecordDescriptionText(isEmpty: Bool) -> String {
-        if isEmpty { return "오늘의 목표를 추가해보세요" }
-        else { return "목표를 하나 더 추가해볼까요?" }
+        if isEmpty { return "add_a_goal_for_today".localized }
+        else { return "try_adding_a_new_goal".localized }
     }
 }

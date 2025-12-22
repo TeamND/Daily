@@ -22,13 +22,16 @@ extension CalendarUseCase {
         switch type {
         case .year:
             let decade = (currentDate.year / 10 + direction.value) * 10
-            return "\(String(decade))년대"
+            return "decade".localized(String(decade))
         case .month:
             let year = currentDate.year + direction.value
-            return "\(String(year))년"
+            return "year_text".localized(String(year))
         case .day:
             let date = calendar.date(byAdding: .day, value: direction.value, to: currentDate) ?? Date(format: .daily)
-            return "\(date.month)월 \(date.dailyWeekOfMonth(startDay: UserDefaultManager.startDay ?? 0))주차"
+            return "month_week_text".localized(
+                date.toString(format: .monthDetail),
+                date.dailyWeekOfMonth(startDay: /*UserDefaultManager.startDay ?? */0)
+            )
         default:
             return ""
         }
@@ -37,18 +40,24 @@ extension CalendarUseCase {
     func getHeaderText(currentDate: Date, type: CalendarTypes, textPosition: TextPositionInHeader = .title) -> String {
         switch type {
         case .year:
-            return textPosition == .title ? String(currentDate.year) + "년" : ""
+            return textPosition == .title ?
+            "year_text".localized(currentDate.toString(format: .year)) :
+            ""
         case .month:
-            return textPosition == .title ? String(currentDate.month) + "월" : String(currentDate.year) + "년"
+            return textPosition == .title ?
+            "month_text".localized(currentDate.toString(format: .monthDetail)) :
+            "year_text".localized(currentDate.toString(format: .year))
         case .day:
-            return textPosition == .title ? String(currentDate.month) + "월 " + String(currentDate.day) + "일" : String(currentDate.month) + "월"
+            return textPosition == .title ?
+            "month_day_text".localized(currentDate.toString(format: .monthDetail), currentDate.toString(format: .dayDetail)) :
+            "month_text".localized(currentDate.toString(format: .monthDetail))
         default:
             return ""
         }
     }
     
     func getCalendarInfo(currentDate: Date, type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+        let offset: Int = type == .year ? currentDate.year % 10 : type == .month ? (currentDate.month - 1) : currentDate.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */0)
         let date: Date = calendar.date(byAdding: type.byAdding, value: index - offset, to: currentDate) ?? Date(format: .daily)
         
         let maxIndex = type == .year ? 10 : type == .month ? 12 : GeneralServices.week
@@ -60,7 +69,7 @@ extension CalendarUseCase {
     func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
         let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
         let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let weekday = startOfMonth.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+        let weekday = startOfMonth.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */0)
         let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
         return (weekday + 1, lengthOfMonth, dividerCount)
     }
@@ -224,7 +233,7 @@ extension CalendarUseCase {
         
         var ratingsOfWeek: [Double?] = Array(repeating: nil, count: GeneralServices.week)
         for (date, dayRecords) in recordsByDate {
-            ratingsOfWeek[date.dailyWeekday(startDay: UserDefaultManager.startDay ?? .zero)] = CalendarServices.shared.getRating(records: dayRecords)
+            ratingsOfWeek[date.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */.zero)] = CalendarServices.shared.getRating(records: dayRecords)
         }
         
         return WeekDataModel(ratingsOfWeek: ratingsOfWeek)
@@ -251,7 +260,9 @@ extension CalendarUseCase {
 
 // MARK: - about holiday
 extension CalendarUseCase {
-    func fetchHolidays(year: Int = Date().year) async {
+    func fetchHolidays(year: Int = Date().year, isReset: Bool = false) async {
+        if isReset { UserDefaultManager.holidays = [:] }
+        
         for year in year - 10 ... year + 10 {
             if UserDefaultManager.holidays?[year] != nil { continue }
             

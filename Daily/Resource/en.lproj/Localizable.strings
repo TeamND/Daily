@@ -1,0 +1,133 @@
+/* 
+  Localizable.strings
+  Daily
+
+  Created by seungyooooong on 12/1/25.
+  
+*/
+
+// MARK: - Splash
+"catch_phrase" = "Struct your\nevery day";
+"update_title" = "Update Available";
+"update_description" = "To ensure a smoother experience,\nplease update to the latest version.";
+"update_now" = "Update Now";
+
+// MARK: - Notice
+"do_not_show_for_a_week" = "Don`t show for a week";
+"close" = "Close";
+
+// MARK: - Setting
+"setting" = "Setting";
+"default_view" = "Default View";
+"default_view_description" = "Choose which calendar view to show first when the app starts";
+"app_preferences" = "App Preferences";
+"language" = "Language";
+"korean" = "한국어";
+"english" = "English";
+"start_of_the_week" = "Start of the Week";
+"sunday" = "Sun";
+"monday" = "Mon";
+"reorder_filters" = "Reorder Filters";
+"app_info" = "App Info";
+"compatibility" = "Compatibility";
+"version" = "Version";
+"user_guide" = "User Guide";
+"github" = "Github";
+
+// MARK: - Calendar
+"back" = "Back";
+"year_text" = "%@";
+"month_text" = "%@";
+"month_day_text" = "%1$@ %2$@";
+"decade" = "%@s";
+"month_week_text" = "%1$@ Week %2$d";
+"all" = "All";
+"sun" = "Sun";
+"mon" = "Mon";
+"tue" = "Tue";
+"wed" = "Wed";
+"thu" = "Thu";
+"fri" = "Fri";
+"sat" = "Sat";
+"no_goals_yet" = "No goals Yet";
+"add_a_goal_for_today" = "Add a goal for today";
+"no_goals_match_the_selected_filter" = "No goals match the selected filter";
+"try_adding_a_new_goal" = "Try adding a new goal";
+
+// MARK: - Chart
+"stats" = "Stats";
+"year" = "Year";
+"month" = "Month";
+"week" = "Week";
+"day" = "Day";
+"total_goals" = "Total Goals";
+"completed" = "Completed";
+"count_unit" = "%d";
+"this_year" = "This Year";
+"this_month" = "This Month";
+"this_week" = "This Week";
+"today" = "Today";
+
+// MARK: - Goal
+"add_goal" = "Add Goal";
+"edit_goal" = "Edit Goal";
+"add" = "Add";
+"save" = "Save";
+"single_goal" = "Single Goal";
+"multi_goal" = "Multi Goal";
+"date" = "Date";
+"repeat" = "Repeat";
+"weekly" = "Weekly";
+"custom" = "Custom";
+"start_date" = "Start Date";
+"end_date" = "End Date";
+"year_month_text" = "%2$@ %1$@";
+"selected_date" = "Selected Date";
+"set_time" = "Set Time";
+"goal" = "Goal";
+"enter_your_goal" = "Enter your goal (min. 2 characters)";
+"select_icon" = "Select Icon";
+"progress_mode" = "Progress Mode";
+"count" = "Count";
+"timer" = "Timer";
+"log" = "Log";
+"times" = "times";
+
+// MARK: - Alert
+"timer_must_be_at_least_1_second" = "Timer must be at least 1 second";
+"enter_at_least_2_characters" = "Enter at least 2 characters";
+"end_date_must_be_after_start_date" = "End date must be after start date";
+"maximum_period_is_1_year" = "Maximum period is 1 year";
+"select_at_least_one_repeat_day" = "Select at least one repeat day";
+"repeat_day_not_within_selected_period" = "Repeat day not within selected period";
+"notification_removed_due_to_date_change" = "Notification removed due to date change";
+"notification_removed_due_to_time_change" = "Notification removed due to time change";
+"notifications_are_off_so_some_features_are_limited" = "Notifications are off,\n so some features are limited";
+"notifications_are_turned_off" = "Notifications are turned off";
+"stay_on_track_with_reminders" = "Stay on track with reminders";
+"please_allow_notifications_in_settings" = "Please allow notifications in Settings.";
+"go_to_settings" = "Go to Settings";
+"remind_me_later" = "Remind Me Later";
+"minutes" = "%d minutes";
+"hour" = "%d hour";
+"you_will_be_notified_before" = "You`ll be notified %@ before";
+"noticifation_removed" = "Notification removed";
+"notification_deleted_with_the_goal" = "Notification deleted with the goal";
+
+// MARK: - Menu
+"turn_on_notification" = "Turn On Notification";
+"turn_off_notification" = "Turn Off Notification";
+"before" = "%@ before";
+"edit_this_only" = "Edit This Only";
+"edit_all" = "Edit All";
+"delete_goal" = "Delete Goal";
+"delete_this_only" = "Delete This Only";
+"delete_future_goals_only" = "Delete Future Goals Only";
+"delete_with_past_records" = "Delete With Past Records";
+"delete_all" = "Delete All";
+
+// MARK: - PushNotice
+"how_was_your_day" = "How was your day? 🤔";
+"write_down_your_day" = "Write down your day!";
+"before_ready_to_begin" = "%@ before. Ready to begin?";
+"you_did_it_goal_complete" = "You did it! Goal complete.";

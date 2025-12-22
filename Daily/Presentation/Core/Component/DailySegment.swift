@@ -13,13 +13,13 @@ struct DailySegment<T: DailyTypes & Hashable & Equatable>: View {
     let segmentType: SegmentTypes
     @Binding var currentType: T?
     let types: [T]
-    let action: (T) -> Void
+    let action: ((T) -> Void)?
     
     init(
         segmentType: SegmentTypes,
         currentType: Binding<T?>,
         types: [T],
-        action: @escaping (T) -> Void
+        action: ((T) -> Void)? = nil
     ) {
         self.segmentType = segmentType
         self._currentType = currentType
@@ -31,7 +31,7 @@ struct DailySegment<T: DailyTypes & Hashable & Equatable>: View {
         segmentType: SegmentTypes,
         currentType: Binding<T>,
         types: [T],
-        action: @escaping (T) -> Void
+        action: ((T) -> Void)? = nil
     ) {
         self.segmentType = segmentType
         let optionalBinding = Binding<T?>(
@@ -52,7 +52,8 @@ struct DailySegment<T: DailyTypes & Hashable & Equatable>: View {
                 HStack(spacing: .zero) {
                     ForEach(types, id: \.self) { type in
                         Button {
-                            action(type)
+                            if let action { action(type) }
+                            else { _currentType.wrappedValue = type }
                         } label: {
                             Text(type.text)
                                 .font(segmentType.font)

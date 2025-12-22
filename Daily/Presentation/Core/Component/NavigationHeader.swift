@@ -24,7 +24,7 @@ struct NavigationHeader: View {
             Button {
                 dismiss()
             } label: {
-                Label("이전", systemImage: "chevron.left")
+                Label("back".localized, systemImage: "chevron.left")
                     .font(Fonts.bodyLgMedium)
             }
             .foregroundStyle(Colors.Text.point)

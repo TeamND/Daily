@@ -16,23 +16,12 @@ final class AppLaunchUseCase {
 }
 
 extension AppLaunchUseCase {
-    func getCatchPhrase() -> String {
-        let language = UserDefaultManager.language ?? .korean
-        switch language {
-        case .korean:
-            return "매일을 더 체계적으로"
-        case .english:
-            return "Struct your\nevery day"
-        }
-    }
-    
     func getNotices() async -> [NoticeModel] {
         if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return [] }
         
+        let imageName = UserDefaultManager.language == .korean ? "daily_2.0_update" : "daily_2.0_update_en"
         var notices = [
-            NoticeModel(
-                id: 0, type: .image, image: "daily_2.0_update"
-            )
+            NoticeModel(id: 0, type: .image, image: imageName)
         ]
         
         // MARK: sheet animation을 고려해 0.5초 추가 딜레이
@@ -49,16 +38,6 @@ extension AppLaunchUseCase {
             return ((storeVersion[0] > appVersion[0]) || (storeVersion[1] > appVersion[1]))
         } catch {
             return false
-        }
-    }
-    
-    func getUpdateNotice() -> (String, String) {
-        let language = UserDefaultManager.language ?? .korean
-        switch language {
-        case .korean:
-            return ("업데이트 알림", "보다 원활한 서비스 이용을 위해\n최신 버전으로 업데이트 해주세요.")
-        case .english:
-            return ("Update Available", "To ensure a smoother experience,\nplease update to the latest version.")
         }
     }
 }

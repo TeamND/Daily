@@ -33,6 +33,7 @@ extension Date {
 extension Date {
     func toString(format: DateFormats = .daily) -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: LanguageManager.shared.language?.languageCode ?? Locale.current.identifier)
         dateFormatter.dateFormat = format.rawValue
         return dateFormatter.string(from: self)
     }
@@ -44,7 +45,7 @@ extension Date {
             return CalendarServices.shared.formatDateString(year: self.year, month: self.month)
         case .week:
             let calendar = CalendarManager.shared.getDailyCalendar()
-            let weekday = self.dailyWeekday(startDay: UserDefaultManager.startDay ?? 0)
+            let weekday = self.dailyWeekday(startDay: /*UserDefaultManager.startDay ??*/ 0)
             let startDate = calendar.date(byAdding: .day, value: -weekday, to: self) ?? Date()
             return CalendarServices.shared.formatDateString(year: startDate.year, month: startDate.month, day: startDate.day)
         case .day:
