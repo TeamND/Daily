@@ -16,13 +16,13 @@ enum NoticeTimes: Int, CaseIterable {
     var text: String {
         switch self {
         case .five:
-            return "5분"
+            return "minutes".localized(5)
         case .ten:
-            return "10분"
+            return "minutes".localized(10)
         case .thirty:
-            return "30분"
+            return "minutes".localized(30)
         case .sixty:
-            return "1시간"
+            return "hour".localized(1)
         }
     }
 }

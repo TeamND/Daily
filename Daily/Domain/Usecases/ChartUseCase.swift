@@ -32,7 +32,7 @@ extension ChartUseCase {
             
             guard let startDate = calculateStartDate(type: type, endDate: endDate),
                   let records = await repository.getRecords(startDate: startDate, endDate: endDate),
-                  let weekday = DayOfWeek.text(for: endDate.weekday - 1) else { continue }
+                  let weekday = DayOfWeek.txt(for: endDate.weekday - 1) else { continue }
             
             originDate = startDate
             filterDatas = Symbols.allCases.reduce(into: filterDatas) { result, symbol in
@@ -43,10 +43,12 @@ extension ChartUseCase {
             totalCount += filteredRecords.count
             successCount += filteredRecords.filter{ $0.isSuccess }.count
             
-            let chartData = ChartDataModel(id: index,
-                                           isNow: index == 0,
-                                           unit: ChartUnit(weekday: weekday, string: endDate.toString(format: type.dateFormat)),
-                                           rating: CalendarServices.shared.getRating(records: filteredRecords).map { $0 * 100 })
+            let chartData = ChartDataModel(
+                id: index,
+                isNow: index == 0,
+                unit: ChartUnit(weekday: weekday, string: endDate.toString(format: type.dateFormat)),
+                rating: CalendarServices.shared.getRating(records: filteredRecords).map { $0 * 100 }
+            )
             
             chartDatas.insert(chartData, at: 0)
         }

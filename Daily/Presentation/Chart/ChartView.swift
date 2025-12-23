@@ -16,7 +16,7 @@ struct ChartView: View {
     
     var body: some View {
         VStack(spacing: .zero) {
-            NavigationHeader(title: "통계")
+            NavigationHeader(title: "stats".localized)
             Spacer().frame(height: 16)
             
             DailySegment(
@@ -46,10 +46,10 @@ struct ChartView: View {
     private var summaryIndicator: some View {
         HStack(spacing: .zero) {
             VStack(spacing: 4) {
-                Text("전체")
+                Text("total_goals".localized)
                     .font(Fonts.bodyMdRegular)
                     .foregroundStyle(Colors.Text.secondary)
-                Text("\(chartViewModel.totalCount)개")
+                Text("count_unit".localized(chartViewModel.totalCount))
                     .font(Fonts.headingMdBold)
                     .foregroundStyle(Colors.Text.point)
             }
@@ -58,10 +58,10 @@ struct ChartView: View {
             Rectangle().fill(Colors.Border.primary).frame(width: 1, height: 44)
             
             VStack(spacing: 4) {
-                Text("완료")
+                Text("completed".localized)
                     .font(Fonts.bodyMdRegular)
                     .foregroundStyle(Colors.Text.secondary)
-                Text("\(chartViewModel.successCount)개")
+                Text("count_unit".localized(chartViewModel.successCount))
                     .font(Fonts.headingMdBold)
                     .foregroundStyle(Colors.Text.point)
             }
@@ -125,7 +125,7 @@ struct ChartView: View {
         HStack(alignment: .top, spacing: .zero) {
             ForEach(chartViewModel.chartDatas) { data in
                 VStack(spacing: 3) {
-                    let todayWeekday = DayOfWeek.text(for: Date().weekday - 1) ?? ""
+                    let todayWeekday = DayOfWeek.txt(for: Date().weekday - 1) ?? ""
                     let todayString = Date().toString(format: chartViewModel.type.dateFormat)
                     
                     if chartViewModel.type == .day {
@@ -152,6 +152,7 @@ struct ChartView: View {
                         Text(chartViewModel.type.chartUnit)
                             .font(Fonts.bodyMdSemiBold)
                             .foregroundStyle(Colors.Text.inverse)
+                            .multilineTextAlignment(.center)
                             .padding(.vertical, 4)
                             .frame(width: 45)
                             .background {

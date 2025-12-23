@@ -5,9 +5,10 @@
 //  Created by seungyooooong on 12/30/24.
 //
 
-import Foundation
+import SwiftUI
 
 protocol DailyAlert {
+    var icon: ImageResource? { get }
     var titleText: String { get }
     var messageText: String { get }
 }
@@ -16,17 +17,14 @@ protocol DailyAlert {
 enum CountAlert: DailyAlert {
     case tooSmallCount
     
-    var titleText: String {
-        switch self {
-        case .tooSmallCount:
-            return ""
-        }
-    }
+    var icon: ImageResource? { return .notice }
+    
+    var titleText: String { return "" }
     
     var messageText: String {
         switch self {
         case .tooSmallCount:
-            return "타이머는 최소 1초 이상 설정해주세요"
+            return "timer_must_be_at_least_1_second".localized
         }
     }
 }
@@ -35,17 +33,14 @@ enum CountAlert: DailyAlert {
 enum ContentAlert: DailyAlert {
     case tooShoertLength
     
-    var titleText: String {
-        switch self {
-        case .tooShoertLength:
-            return ""
-        }
-    }
+    var icon: ImageResource? { return .notice }
+    
+    var titleText: String { return "" }
     
     var messageText: String {
         switch self {
         case .tooShoertLength:
-            return "목표는 최소 2글자 이상 입력해주세요"
+            return "enter_at_least_2_characters".localized
         }
     }
 }
@@ -57,29 +52,20 @@ enum DateAlert: DailyAlert {
     case emptySelectedWeekday
     case emptyRepeatDates
     
-    var titleText: String {
-        switch self {
-        case .wrongDateRange:
-            return ""
-        case .overDateRange:
-            return ""
-        case .emptySelectedWeekday:
-            return ""
-        case .emptyRepeatDates:
-            return ""
-        }
-    }
+    var icon: ImageResource? { return .notice }
+    
+    var titleText: String { return "" }
     
     var messageText: String {
         switch self {
         case .wrongDateRange:
-            return "종료일은 시작일 이후로 설정해주세요"
+            return "end_date_must_be_after_start_date".localized
         case .overDateRange:
-            return "기간은 최대 1년까지만 설정할 수 있어요"
+            return "maximum_period_is_1_year".localized
         case .emptySelectedWeekday:
-            return "반복 요일을 하나 이상 선택해주세요"
+            return "select_at_least_one_repeat_day".localized
         case .emptyRepeatDates:
-            return "선택한 기간 내 반복 요일이 포함되지 않아요"
+            return "repeat_day_not_within_selected_period".localized
         }
     }
 }
@@ -90,13 +76,27 @@ enum NoticeAlert: DailyAlert {
     case deniedAtSetTime
     case dateChanged
     case setTimeChanged
+    case setNoticeTime(noticeTime: String)
+    case removeNoticeTime
+    case removeNoticeTimeWithGoal
+    
+    var icon: ImageResource? {
+        switch self {
+        case .dateChanged, .setTimeChanged:
+            return .notice
+        case .setNoticeTime, .removeNoticeTime, .removeNoticeTimeWithGoal:
+            return .complete
+        default:
+            return nil
+        }
+    }
     
     var titleText: String {
         switch self {
         case .deniedAtAppOpen:
-            return "알림이 꺼져 있어 기능 일부가 제한돼요"
+            return "notifications_are_off_so_some_features_are_limited".localized
         case .deniedAtSetTime:
-            return "알림 권한이 꺼져 있어요"
+            return "notifications_are_turned_off".localized
         default:
             return ""
         }
@@ -105,20 +105,26 @@ enum NoticeAlert: DailyAlert {
     var messageText: String {
         switch self {
         case .deniedAtAppOpen:
-            return "더 체계적인 관리를 위해 알림을 받아보세요!"
+            return "stay_on_track_with_reminders".localized
         case .deniedAtSetTime:
-            return "설정에서 알림을 허용해주세요!"
+            return "please_allow_notifications_in_settings".localized
         case .dateChanged:
-            return "목표 날짜가 변경되어 알림이 삭제되었어요"
+            return "notification_removed_due_to_date_change".localized
         case .setTimeChanged:
-            return "목표 시간이 변경되어 알림이 삭제되었어요"
+            return "notification_removed_due_to_time_change".localized
+        case .setNoticeTime(let noticeTime):
+            return "you_will_be_notified_before".localized(noticeTime)
+        case .removeNoticeTime:
+            return "noticifation_removed".localized
+        case .removeNoticeTimeWithGoal:
+            return "notification_deleted_with_the_goal".localized
         }
     }
     
     var primaryButtonText: String {
         switch self {
         case .deniedAtAppOpen, .deniedAtSetTime:
-            return "설정으로 이동"
+            return "go_to_settings".localized
         default:
             return ""
         }
@@ -127,9 +133,9 @@ enum NoticeAlert: DailyAlert {
     var secondaryButtonText: String {
         switch self {
         case .deniedAtAppOpen:
-            return "나중에 하기"
+            return "remind_me_later".localized
         case .deniedAtSetTime:
-            return "닫기"
+            return "close".localized
         default:
             return ""
         }

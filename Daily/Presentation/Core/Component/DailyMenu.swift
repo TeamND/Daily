@@ -40,27 +40,29 @@ struct DailyMenu: View {
                                 calendarViewModel.addNotice(
                                     goal: goal, record: record, noticeTime: noticeTime,
                                     completeAction: {
-                                        alertEnvironment.showToast(message: "설정한 시간 \(noticeTime.text) 전에 알려드릴게요")
+                                        alertEnvironment.showToast(
+                                            alertType: NoticeAlert.setNoticeTime(noticeTime: noticeTime.text)
+                                        )
                                     }
                                 )
                             } label: {
-                                Text("\(noticeTime.text) 전")
+                                Text("before".localized(noticeTime.text))
                             }
                             .disabled(Date() > CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: noticeTime.rawValue) ?? Date())
                         }
                     } label: {
-                        Label("알림 켜기", systemImage: "clock.badge")
+                        Label("turn_on_notification".localized, systemImage: "clock.badge")
                     }
                 } else {
                     Button {
                         calendarViewModel.removeNotice(
                             record: record,
                             completeAction: {
-                                alertEnvironment.showToast(message: "알림이 삭제되었어요")
+                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTime)
                             }
                         )
                     } label: {
-                        Label("알림 끄기", systemImage: "clock.badge.fill")
+                        Label("turn_off_notification".localized, systemImage: "clock.badge.fill")
                     }
                 }
             }
@@ -76,7 +78,7 @@ struct DailyMenu: View {
                     let navigationObject = NavigationObject(viewType: .modify, data: data)
                     navigationEnvironment.navigate(navigationObject)
                 } label: {
-                    Label("목표 수정", systemImage: "pencil.line")
+                    Label("edit_goal".localized, systemImage: "pencil.line")
                 }
             } else {
                 Menu {
@@ -86,17 +88,17 @@ struct DailyMenu: View {
                         navigationEnvironment.navigate(navigationObject)
                         calendarViewModel.resetData()   // TODO: 삭제가 이루어지기 때문에 calendarViewModel data reset, 추후 수정
                     } label: {
-                        Text("단일 수정")
+                        Text("edit_this_only".localized)
                     }
                     Button {
                         let data = GoalDataEntity(record: record, modifyType: .all)
                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                         navigationEnvironment.navigate(navigationObject)
                     } label: {
-                        Text("일괄 수정")
+                        Text("edit_all".localized)
                     }
                 } label: {
-                    Label("목표 수정", systemImage: "pencil.line")
+                    Label("edit_goal".localized, systemImage: "pencil.line")
                 }
             }
         }
@@ -110,11 +112,11 @@ struct DailyMenu: View {
                     calendarViewModel.deleteGoal(
                         goal: goal,
                         completeAction: {
-                            alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                            alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                         }
                     )
                 } label: {
-                    Label("목표 삭제", systemImage: "trash")
+                    Label("delete_goal".localized, systemImage: "trash")
                 }
             } else {
                 Menu {
@@ -122,38 +124,38 @@ struct DailyMenu: View {
                         calendarViewModel.deleteRecord(
                             record: record,
                             completeAction: {
-                                alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                             }
                         )
                     } label: {
-                        Text("단일 삭제")
+                        Text("delete_this_only".localized)
                     }
                     Menu {
                         Button {
                             calendarViewModel.deleteRecords(
                                 goal: goal,
                                 completeAction: {
-                                    alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                                 }
                             )
                         } label: {
-                            Text("오늘 이후의 목표만 삭제")
+                            Text("delete_future_goals_only".localized)
                         }
                         Button {
                             calendarViewModel.deleteGoal(
                                 goal: goal,
                                 completeAction: {
-                                    alertEnvironment.showToast(message: "알림이 함께 삭제되었어요")
+                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
                                 }
                             )
                         } label: {
-                            Text("과거의 기록도 함께 삭제")
+                            Text("delete_with_past_records".localized)
                         }
                     } label: {
-                        Text("일괄 삭제")
+                        Text("delete_all".localized)
                     }
                 } label: {
-                    Label("목표 삭제", systemImage: "trash")
+                    Label("delete_goal".localized, systemImage: "trash")
                 }
             }
         }

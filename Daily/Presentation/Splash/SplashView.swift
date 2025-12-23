@@ -29,13 +29,16 @@ struct SplashView: View {
             Spacer()
             dailyImage
             Spacer().frame(height: 24)
-            dailyCatchPhrase
             if splashViewModel.isNeedUpdate {
+                updateTitle
                 Spacer().frame(height: 20)
-                updateNotice
+                updateDescritpion
                 Spacer()
                 updateButton
-            } else { Spacer() }
+            } else {
+                dailyCatchPhrase
+                Spacer()
+            }
         }
         .frame(maxWidth:. infinity, maxHeight: .infinity)
         .background(Colors.Background.primary)
@@ -50,14 +53,21 @@ struct SplashView: View {
     }
     
     private var dailyCatchPhrase: some View {
-        Text(splashViewModel.catchPhrase)
+        Text("catch_phrase".localized)
             .foregroundStyle(Colors.Text.point)
             .font(Fonts.headingLgBold)
             .multilineTextAlignment(.center)
     }
     
-    private var updateNotice: some View {
-        Text(splashViewModel.updateNotice)
+    private var updateTitle: some View {
+        Text("update_title".localized)
+            .foregroundStyle(Colors.Text.point)
+            .font(Fonts.headingLgBold)
+            .multilineTextAlignment(.center)
+    }
+    
+    private var updateDescritpion: some View {
+        Text("update_description".localized)
             .foregroundStyle(Colors.Text.secondary)
             .font(Fonts.bodyLgRegular)
             .multilineTextAlignment(.center)
@@ -67,7 +77,7 @@ struct SplashView: View {
         Button {
             System().openAppStore()
         } label: {
-            Text("업데이트 하러가기")
+            Text("update_now".localized)
                 .foregroundStyle(Colors.Text.inverse)
                 .font(Fonts.bodyLgSemiBold)
                 .frame(maxWidth: .infinity, maxHeight: 50)

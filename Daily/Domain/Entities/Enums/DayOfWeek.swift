@@ -2,12 +2,12 @@
 //  DayOfWeek.swift
 //  Daily
 //
-//  Created by seungyooooong on 10/23/24.
+//  Created by seungyooooong on 12/17/25.
 //
 
 import Foundation
 
-public enum DayOfWeek: String, DailyTypes, CaseIterable {
+enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
     case sun
     case mon
     case tue
@@ -16,26 +16,18 @@ public enum DayOfWeek: String, DailyTypes, CaseIterable {
     case fri
     case sat
     
-    public var text: String {
+    var text: String {
         switch self {
         case .sun:
-            return "일"
+            return "sunday".localized
         case .mon:
-            return "월"
-        case .tue:
-            return "화"
-        case .wed:
-            return "수"
-        case .thu:
-            return "목"
-        case .fri:
-            return "금"
-        case .sat:
-            return "토"
+            return "monday".localized
+        default:
+            return ""
         }
     }
     
-    public var index: Int {
+    var index: Int {
         switch self {
         case .sun:
             return 0
@@ -54,25 +46,33 @@ public enum DayOfWeek: String, DailyTypes, CaseIterable {
         }
     }
     
-    public var fullText: String {
+    var txt: String {
         switch self {
         case .sun:
-            return "일요일"
+            return "sun".localized
         case .mon:
-            return "월요일"
-        default:
-            return ""
+            return "mon".localized
+        case .tue:
+            return "tue".localized
+        case .wed:
+            return "wed".localized
+        case .thu:
+            return "thu".localized
+        case .fri:
+            return "fri".localized
+        case .sat:
+            return "sat".localized
         }
     }
 }
 
 extension DayOfWeek {
-    public static func text(for index: Int) -> String? {
+    static func txt(for index: Int) -> String? {
         guard let dayOfWeek = self.from(index: index) else { return nil }
-        return dayOfWeek.text
+        return dayOfWeek.txt
     }
     
-    public static func from(index: Int) -> DayOfWeek? {
+    static func from(index: Int) -> DayOfWeek? {
         return self.allCases.first { $0.index == index }
     }
 }
