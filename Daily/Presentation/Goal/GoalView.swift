@@ -42,8 +42,9 @@ struct GoalView: View {
         }
     }
     
-    private func successAction(newDate: Date?) {
+    private func successAction(isAddGoal: Bool, newDate: Date?) {
         dismiss()
+        if isAddGoal { alertEnvironment.showToast(alertType: SuccessAlert.addGoal) }
         if let newDate { calendarViewModel.setDate(date: newDate) }
     }
     

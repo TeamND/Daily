@@ -141,3 +141,20 @@ enum NoticeAlert: DailyAlert {
         }
     }
 }
+
+// MARK - SuccessAlert
+enum SuccessAlert: DailyAlert {
+    case addGoal
+    
+    var icon: ImageResource? { return .complete }
+    
+    var titleText: String { return "" }
+    
+    var messageText: String {
+        switch self {
+        case .addGoal:
+            return "목표가 추가되었어요" // FIXME: 추후 영어 문구 받아서 Localization 적용
+        }
+    }
+    
+}
