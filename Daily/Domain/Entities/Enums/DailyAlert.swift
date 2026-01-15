@@ -141,3 +141,20 @@ enum NoticeAlert: DailyAlert {
         }
     }
 }
+
+// MARK - SuccessAlert
+enum SuccessAlert: DailyAlert {
+    case addGoal
+    
+    var icon: ImageResource? { return .complete }
+    
+    var titleText: String { return "" }
+    
+    var messageText: String {
+        switch self {
+        case .addGoal:
+            return "goal_added".localized
+        }
+    }
+    
+}

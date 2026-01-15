@@ -105,7 +105,7 @@ extension GoalViewModel {
 
 // MARK: - button func
 extension GoalViewModel {
-    func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func add(successAction: @escaping (Bool, Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate() { validateAction(validate); return }
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
@@ -115,11 +115,11 @@ extension GoalViewModel {
             goal.records = records
             await goalUseCase.addGoal(goal: goal)
             
-            successAction(startDate)
+            successAction(true, startDate)
         }
     }
     
-    func modify(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func modify(successAction: @escaping (Bool, Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         guard let modifyType else { return }
         if let validate = validate() { validateAction(validate); return }
         
@@ -193,7 +193,7 @@ extension GoalViewModel {
                 
                 await goalUseCase.updateData()
             }
-            successAction(record.date)
+            successAction(false, record.date)
         }
     }
     
