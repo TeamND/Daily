@@ -224,11 +224,12 @@ struct DailyWidgetEntryView: View {
 
 // MARK: - systemSmall View
 struct SmallWidgetView: View {
+    @Environment(\.widgetRenderingMode) private var renderingMode
     @State var rating: Double
     
     var body: some View {
         ZStack {
-            RatingIndicator(rating: rating, lineWidth: 5).padding(1)
+            RatingIndicator(rating: rating, lineWidth: 5, isTransparent: renderingMode == .accented).padding(1)
             Text("\((rating * 100).percentFormat())")
                 .font(Fonts.headingMdBold)
                 .foregroundStyle(Colors.Text.primary)
@@ -240,6 +241,7 @@ struct SmallWidgetView: View {
 // FIXME: 회의 후 수정
 // MARK: - systemMedium View
 struct MediumWidgetView: View {
+    @Environment(\.widgetRenderingMode) private var renderingMode
     @State var records: [SimpleRecordModel]
 
     var body: some View {
@@ -268,7 +270,7 @@ struct MediumWidgetView: View {
                         .frame(maxHeight: .infinity)
                         .background {
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Colors.Background.secondary)
+                                .fill(Colors.Background.secondary.opacity(renderingMode == .accented ? 0.1 : 1))
                         }
                     }
                     .frame(height: 26)
@@ -280,6 +282,7 @@ struct MediumWidgetView: View {
 
 // MARK: - systemLarge View
 struct LargeWidgetView: View {
+    @Environment(\.widgetRenderingMode) private var renderingMode
     @State var ratings: [Double?]
     
     var body: some View {
@@ -296,7 +299,12 @@ struct LargeWidgetView: View {
                     
                     let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
                     if 0 < day && day <= lengthOfMonth {
-                        DayIndicator(day: day, rating: ratings[day - 1], isToday: day == Date().day)
+                        DayIndicator(
+                            day: day,
+                            rating: ratings[day - 1],
+                            isToday: day == Date().day,
+                            isTransparent: renderingMode == .accented
+                        )
                     } else {
                         DayIndicator(day: 0, rating: nil, isToday: false).opacity(0)
                     }
