@@ -36,7 +36,7 @@
 
 // MARK: - Calendar
 "back" = "이전";
-"year_text" = "%@";
+"year_text" = "%@년";
 "month_text" = "%@";
 "month_day_text" = "%1$@ %2$@일";
 "decade" = "%@년대";
