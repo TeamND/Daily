@@ -14,6 +14,8 @@ class GeneralServices {
     
     // MARK: - Calendar
     static let week: Int = 7
+    static let maxLineCount: Int = 6
+    static let symbolColumn: Int = 2
     
     // MARK: - Record
     static func noRecordText(isEmpty: Bool) -> String {

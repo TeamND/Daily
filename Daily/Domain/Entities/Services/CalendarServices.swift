@@ -5,13 +5,53 @@
 //  Created by seungyooooong on 10/23/24.
 //
 
-import Foundation
+import SwiftUI
 
 class CalendarServices {
     static let shared = CalendarServices()
     private var calendar: Calendar = Calendar.current
     private init() {
         calendar.timeZone = .current
+    }
+    
+    func calculateSymbolNum() -> Int {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let window = scene?.keyWindow ?? scene?.windows.first
+        let safeAreaInsets = window?.safeAreaInsets ?? .zero
+        
+        let height = UIScreen.main.bounds.height - (safeAreaInsets.top + safeAreaInsets.bottom)
+        print("top is \(safeAreaInsets.top)")
+        print("bottom is \(safeAreaInsets.bottom)")
+        
+        let header = 86
+        let headerFilterSpacing = 12
+        let filter = 28
+        let filterCalendarSpacing = 12
+        let weekIndicator = 16
+        let bottomSpacing = 8
+        let fixedHeight: CGFloat = CGFloat(header + headerFilterSpacing + filter + filterCalendarSpacing + weekIndicator + bottomSpacing)
+        
+        let lineHeight = (height - fixedHeight) / CGFloat(GeneralServices.maxLineCount)
+        
+        let topSpacing = 4
+        let dayIndicator = 33
+        let daySymbolSpacing = 6
+        let bottomMinSpacing = 4
+        let exceptSymbolHeight: CGFloat = CGFloat(topSpacing + dayIndicator + daySymbolSpacing + bottomMinSpacing)
+        
+        let symbolHeight = (lineHeight - exceptSymbolHeight)
+        
+        let symbol: CGFloat = 14
+        let symbolSpacing: CGFloat = 1
+        let maxSymbolNum = Int((symbolHeight + symbolSpacing) / (symbol + symbolSpacing)) * GeneralServices.symbolColumn
+        
+        print("height \(height)")
+        print("fixedHeight \(fixedHeight)")
+        print("lineHeight \(lineHeight)")
+        print("symbolHeight \(symbolHeight)")
+        print("maxSymbolNum \(maxSymbolNum)")
+        
+        return maxSymbolNum
     }
     
     func formatDateString(date: Date = Date(format: .daily), joiner: DateJoiner = .hyphen, hasSpacing: Bool = false, hasLastJoiner: Bool = false) -> String {
