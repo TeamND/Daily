@@ -14,14 +14,14 @@ class CalendarServices {
         calendar.timeZone = .current
     }
     
+    // MARK: 월 달력에서 하루에 심볼이 몇 개 들어갈지 계산하는 함수, calendarMonth UI 수치가 변경되면 같이 수정해줘야 함
+    // FIXME: 추후에 symbolColumn도 같이 계산하는 방식으로 수정 필요
     func calculateSymbolNum() -> Int {
         let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         let window = scene?.keyWindow ?? scene?.windows.first
         let safeAreaInsets = window?.safeAreaInsets ?? .zero
         
         let height = UIScreen.main.bounds.height - (safeAreaInsets.top + safeAreaInsets.bottom)
-        print("top is \(safeAreaInsets.top)")
-        print("bottom is \(safeAreaInsets.bottom)")
         
         let header = 86
         let headerFilterSpacing = 12
@@ -44,12 +44,6 @@ class CalendarServices {
         let symbol: CGFloat = 14
         let symbolSpacing: CGFloat = 1
         let maxSymbolNum = Int((symbolHeight + symbolSpacing) / (symbol + symbolSpacing)) * GeneralServices.symbolColumn
-        
-        print("height \(height)")
-        print("fixedHeight \(fixedHeight)")
-        print("lineHeight \(lineHeight)")
-        print("symbolHeight \(symbolHeight)")
-        print("maxSymbolNum \(maxSymbolNum)")
         
         return maxSymbolNum
     }
