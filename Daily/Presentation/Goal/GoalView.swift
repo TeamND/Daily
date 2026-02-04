@@ -268,12 +268,65 @@ struct TimeSection: View {
                     }
                     .getFrame { buttonFrame = $0 }
                 }
+                
+                Spacer().frame(height: 16)
+                
+                NoticeSection(goalViewModel: goalViewModel)
             }
         }
         .padding(.horizontal, 16)
         .onAppear {
             HH = Int(goalViewModel.goal.setTime.split(separator: ":")[0]) ?? 0
             mm = Int(goalViewModel.goal.setTime.split(separator: ":")[1]) ?? 0
+        }
+    }
+}
+
+// MARK: - NoticeSection
+struct NoticeSection: View {
+    @ObservedObject var goalViewModel: GoalViewModel
+    
+    @State private var buttonFrame: CGRect = .zero
+    
+    var body: some View {
+        HStack {
+            Text("알림")  // FIXME: 추후 localized
+                .font(Fonts.bodyLgSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+            
+            Spacer()
+            
+            Button {
+                let width: CGFloat = 128
+                let height: CGFloat = 266
+                
+                let offsetX = buttonFrame.width - width / 2
+                let offsetY = buttonFrame.height * 2
+                
+                let position = CGPoint(
+                    x: buttonFrame.minX + offsetX,
+                    y: buttonFrame.minY + offsetY + 60
+                )
+                
+                if goalViewModel.popoverContent != nil {
+                    goalViewModel.hidePopover()
+                } else {
+                    goalViewModel.showPopover(at: position) {
+                        // FIXME: Notice에 맞게 수정 필요
+                        DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
+                    }
+                }
+            } label: {
+                // FIXME: Notice에 맞게 수정 필요
+                Text(String(goalViewModel.record.notice ?? -1))
+                    .font(Fonts.bodyLgMedium)
+                    .foregroundStyle(Colors.Text.point)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 20)
+                    .background(Colors.Background.secondary)
+                    .cornerRadius(8)
+            }
+            .getFrame { buttonFrame = $0 }
         }
     }
 }
