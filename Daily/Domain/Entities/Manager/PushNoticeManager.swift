@@ -75,8 +75,10 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     // MARK: - Notice
-    func addNotice(id: String, content: String, date: Date, setTime: String, noticeTime: NoticeTimes = .five) {
-        guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
+    func addNotice(id: String, content: String, date: Date, setTime: String, notification: Notifications) {
+        guard let noticeTime = notification.noticeTime,
+              let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime)
+        else { return }
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
         let userInfo: [AnyHashable : Any] = [
@@ -88,7 +90,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             by: components,
             id: id,
             title: content,
-            body: "before_ready_to_begin".localized(noticeTime.text),
+            body: "before_ready_to_begin".localized(notification.text),
             userInfo: userInfo
         )
     }

@@ -109,7 +109,7 @@ extension GoalViewModel {
         if let validate = validate() { validateAction(validate); return }
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
-            let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!) }
+            let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
             for record in records { await goalUseCase.addRecord(record: record) }
             
             goal.records = records

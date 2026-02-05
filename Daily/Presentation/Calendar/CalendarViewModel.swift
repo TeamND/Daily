@@ -223,17 +223,17 @@ extension CalendarViewModel {
         }
     }
     
-    func addNotice(goal: DailyGoalModel, record: DailyRecordModel, noticeTime: NoticeTimes, completeAction: @escaping () -> Void) {
+    func addNotice(goal: DailyGoalModel, record: DailyRecordModel, notification: Notifications, completeAction: @escaping () -> Void) {
         PushNoticeManager.shared.addNotice(
             id: String(describing: record.id),
             content: goal.content,
             date: record.date,
             setTime: goal.setTime,
-            noticeTime: noticeTime
+            notification: notification
         )
         
         Task {
-            await calendarUseCase.setNotice(record: record, notice: noticeTime.rawValue)
+            await calendarUseCase.setNotice(record: record, notice: notification.noticeTime)
             completeAction()
         }
     }

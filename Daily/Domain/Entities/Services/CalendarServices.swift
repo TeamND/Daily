@@ -114,7 +114,7 @@ class CalendarServices {
         return Array(previousDates) + currentMonthDates + nextDates
     }
     
-    func noticeDate(date: Date, setTime: String, notice: Int = 5) -> Date? {
+    func noticeDate(date: Date, setTime: String, notice: Int) -> Date? {
         let timeComponents = setTime.split(separator: ":").compactMap { Int($0) }
         let hour = timeComponents[0]
         let minute = timeComponents[1]

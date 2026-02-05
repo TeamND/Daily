@@ -84,6 +84,9 @@
 "year_month_text" = "%2$@ %1$@";
 "selected_date" = "Selected Date";
 "set_time" = "Set Time";
+"notification" = "Notification";
+"no_notification" = "No Notification";
+"on_time" = "On Time";
 "goal" = "Goal";
 "enter_your_goal" = "Enter your goal (min. 2 characters)";
 "select_icon" = "Select Icon";
@@ -116,8 +119,6 @@
 "goal_added" = "Goal added";
 
 // MARK: - Menu
-"turn_on_notification" = "Turn On Notification";
-"turn_off_notification" = "Turn Off Notification";
 "before" = "%@ before";
 "edit_this_only" = "Edit This Only";
 "edit_all" = "Edit All";

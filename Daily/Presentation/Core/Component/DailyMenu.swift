@@ -23,49 +23,8 @@ struct DailyMenu: View {
 
     var body: some View {
         VStack {
-            notice
             modifyGoal
             deleteGoal
-        }
-    }
-    
-    // MARK: Notice
-    private var notice: some View {
-        Group {
-            if goal.isSetTime {
-                if record.notice == nil {
-                    Menu {
-                        ForEach(NoticeTimes.allCases, id: \.self) { noticeTime in
-                            Button {
-                                calendarViewModel.addNotice(
-                                    goal: goal, record: record, noticeTime: noticeTime,
-                                    completeAction: {
-                                        alertEnvironment.showToast(
-                                            alertType: NoticeAlert.setNoticeTime(noticeTime: noticeTime.text)
-                                        )
-                                    }
-                                )
-                            } label: {
-                                Text("before".localized(noticeTime.text))
-                            }
-                            .disabled(Date() > CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: noticeTime.rawValue) ?? Date())
-                        }
-                    } label: {
-                        Label("turn_on_notification".localized, systemImage: "clock.badge")
-                    }
-                } else {
-                    Button {
-                        calendarViewModel.removeNotice(
-                            record: record,
-                            completeAction: {
-                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTime)
-                            }
-                        )
-                    } label: {
-                        Label("turn_off_notification".localized, systemImage: "clock.badge.fill")
-                    }
-                }
-            }
         }
     }
     

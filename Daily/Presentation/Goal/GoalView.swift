@@ -290,7 +290,7 @@ struct NoticeSection: View {
     
     var body: some View {
         HStack {
-            Text("알림")  // FIXME: 추후 localized
+            Text("notification".localized)
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.primary)
             
@@ -301,24 +301,38 @@ struct NoticeSection: View {
                 let height: CGFloat = 266
                 
                 let offsetX = buttonFrame.width - width / 2
-                let offsetY = buttonFrame.height * 2
+                let offsetY = buttonFrame.height + height / 2
                 
                 let position = CGPoint(
                     x: buttonFrame.minX + offsetX,
-                    y: buttonFrame.minY + offsetY + 60
+                    y: buttonFrame.minY + offsetY + 8
                 )
                 
                 if goalViewModel.popoverContent != nil {
                     goalViewModel.hidePopover()
                 } else {
                     goalViewModel.showPopover(at: position) {
-                        // FIXME: Notice에 맞게 수정 필요
-                        DailyPicker(range: 1 ... 10, selection: $goalViewModel.goal.count, maxWidth: width)
+                        VStack(spacing: .zero) {
+                            ForEach(Notifications.allCases, id: \.self) { notification in
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        goalViewModel.hidePopover()
+                                    }
+                                    if notification == .custom { return }   // FIXME: 추후 수정
+                                    goalViewModel.record.notice = notification.noticeTime
+                                } label: {
+                                    Text(notification.text)
+                                        .font(Fonts.bodyLgMedium)
+                                        .foregroundStyle(Colors.Text.secondary)
+                                        .frame(width: 108)
+                                        .padding(10)
+                                }
+                            }
+                        }
                     }
                 }
             } label: {
-                // FIXME: Notice에 맞게 수정 필요
-                Text(String(goalViewModel.record.notice ?? -1))
+                Text(Notifications.from(noticeTime: goalViewModel.record.notice).text)
                     .font(Fonts.bodyLgMedium)
                     .foregroundStyle(Colors.Text.point)
                     .padding(.vertical, 10)
