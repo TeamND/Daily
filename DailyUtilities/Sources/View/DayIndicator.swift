@@ -36,7 +36,7 @@ public struct DayIndicator: View {
         ZStack {
             // MARK: UI 디테일을 위한 padding 포함
             if let rating { RatingIndicator(rating: rating, isTransparent: isTransparent).padding(1) }
-            if isToday { Circle().fill(Colors.Icon.interactivePressed.opacity(isTransparent ? 0.1 : 1)).padding(2) }
+            if isToday { Circle().fill(Colors.Icon.interactivePressed.opacity(isTransparent ? 0.8 : 1)).padding(2) }
             Text(String(day))
                 .font(Fonts.bodyMdSemiBold)
                 .foregroundStyle(
