@@ -149,6 +149,7 @@ struct SimpleEntry: TimelineEntry {
 // MARK: - EntryView
 struct DailyWidgetEntryView: View {
     @Environment(\.widgetFamily) private var family
+    @Environment(\.widgetRenderingMode) private var renderingMode
     var entry: Provider.Entry
 
     var body: some View {
@@ -196,7 +197,7 @@ struct DailyWidgetEntryView: View {
     
     private var dailyWidgetNoRecordText: some View {
         VStack(spacing: 4) {
-            Image(.recordYetNormal)
+            Image(renderingMode == .accented ? .recordYetTransparent : .recordYetNormal)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40)
@@ -249,7 +250,7 @@ struct MediumWidgetView: View {
             ForEach(Array(records.enumerated()), id: \.offset) { index, record in
                 if index < 3 {
                     HStack(spacing: 4) {
-                        Image(record.symbol.icon(isSuccess: record.isSuccess))
+                        Image(record.symbol.icon(isSuccess: record.isSuccess, isTransparent: renderingMode == .accented))
                             .resizable()
                             .scaledToFit()
                             .frame(width: 26)
