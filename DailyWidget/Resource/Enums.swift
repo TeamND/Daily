@@ -42,30 +42,41 @@ enum Symbols: String, CaseIterable, Codable {
     case couple = "커플"
     case people = "모임"
     
-    func icon(isSuccess: Bool) -> ImageResource {
+    func icon(isSuccess: Bool, isTransparent: Bool) -> ImageResource {
         switch self {
         case .check:
-            return isSuccess ? .check : .checkYet
+            if isTransparent { return isSuccess ? .checkTransparent : .checkYetTransparent }
+            else { return isSuccess ? .check : .checkYet }
         case .training:
-            return isSuccess ? .training : .trainingYet
+            if isTransparent { return isSuccess ? .trainingTransparent : .trainingYetTransparent }
+            else { return isSuccess ? .training : .trainingYet }
         case .running:
-            return isSuccess ? .running : .runningYet
+            if isTransparent { return isSuccess ? .runningTransparent : .runningYetTransparent }
+            else { return isSuccess ? .running : .runningYet }
         case .study:
-            return isSuccess ? .study : .studyYet
+            if isTransparent { return isSuccess ? .studyTransparent : .studyYetTransparent }
+            else { return isSuccess ? .study : .studyYet }
         case .keyboard:
-            return isSuccess ? .keyboard : .keyboardYet
+            if isTransparent { return isSuccess ? .keyboardTransparent : .keyboardYetTransparent }
+            else { return isSuccess ? .keyboard : .keyboardYet }
         case .money:
-            return isSuccess ? .money : .moneyYet
+            if isTransparent { return isSuccess ? .moneyTransparent : .moneyYetTransparent }
+            else { return isSuccess ? .money : .moneyYet }
         case .heart:
-            return isSuccess ? .heart : .heartYet
+            if isTransparent { return isSuccess ? .heartTransparent : .heartYetTransparent }
+            else { return isSuccess ? .heart : .heartYet }
         case .star:
-            return isSuccess ? .star : .starYet
+            if isTransparent { return isSuccess ? .starTransparent : .starYetTransparent }
+            else { return isSuccess ? .star : .starYet }
         case .couple:
-            return isSuccess ? .couple : .coupleYet
+            if isTransparent { return isSuccess ? .coupleTransparent : .coupleYetTransparent }
+            else { return isSuccess ? .couple : .coupleYet }
         case .people:
-            return isSuccess ? .group : .groupYet
+            if isTransparent { return isSuccess ? .groupTransparent : .groupYetTransparent }
+            else { return isSuccess ? .group : .groupYet }
         default:
-            return isSuccess ? .check : .checkYet
+            if isTransparent { return isSuccess ? .checkTransparent : .checkYetTransparent }
+            else { return isSuccess ? .check : .checkYet }
         }
     }
 }
