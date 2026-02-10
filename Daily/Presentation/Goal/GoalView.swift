@@ -197,6 +197,7 @@ struct TimeSection: View {
                 .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
                 .onChange(of: goalViewModel.goal.isSetTime) {
                     if $1 {
+                        // FIXME: 위치 이동 필요
                         PushNoticeManager.shared.requestNotiAuthorization(
                             showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
                         )

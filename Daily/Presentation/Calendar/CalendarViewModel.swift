@@ -223,6 +223,7 @@ extension CalendarViewModel {
         }
     }
     
+    // FIXME: addNotice & removeNotice 삭제 또는 이동
     func addNotice(goal: DailyGoalModel, record: DailyRecordModel, notification: Notifications, completeAction: @escaping () -> Void) {
         PushNoticeManager.shared.addNotice(
             id: String(describing: record.id),
