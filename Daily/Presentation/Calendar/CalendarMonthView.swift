@@ -98,7 +98,6 @@ struct DailyDayOnMonth: View {
     
     var body: some View {
         TimelineView(.everyDay) { context in
-            let maxSymbolNum = CalendarServices.shared.row * CalendarServices.shared.col
             let date = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
             let isHoliday = UserDefaultManager.holidays?[year]?[date] != nil || date.toDate()?.weekday == 1
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
@@ -136,21 +135,6 @@ struct DailySymbolsOnMonth: View {
                 }
             }
         }
-        // FIXME: 최적화 테스트 이후 삭제
-//        LazyVGrid(
-//            columns: Array(repeating: GridItem(.flexible(), spacing: 1), count: maxSymbolCol),
-//            spacing: 1
-//        ) {
-//            let maxSymbolNum = maxSymbolRow * maxSymbolCol
-//            ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
-//                if symbolIndex < dailySymbols.count {
-//                    DailySymbolOnMonth(
-//                        dailySymbol: dailySymbols[symbolIndex],
-//                        isMore: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
-//                    )
-//                } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isMore: false) }
-//            }
-//        }
     }
 }
 
