@@ -29,7 +29,6 @@ struct CalendarMonthView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
-//        .background(.green.opacity(0.2))
         .overlay {
             AddGoalButton()
         }
@@ -48,14 +47,14 @@ struct CalendarMonth: View {
     var body: some View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
+        
         VStack(spacing: .zero) {
             WeekIndicator(mode: .none)
             VStack(spacing: .zero) {
                 ForEach (0 ..< GeneralServices.maxLineCount, id: \.self) { rowIndex in
                     Spacer().frame(height: 4)
-                    HStack(spacing: .zero) {
+                    HStack(spacing: GeneralServices.daySpacing) {
                         ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
-                            if .zero < colIndex { Spacer() }
                             let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
                             if 1 <= day && day <= lengthOfMonth {
                                 Button {
@@ -75,7 +74,6 @@ struct CalendarMonth: View {
         }
         .vTop()
         .padding(.horizontal, 16)
-//        .background(.blue.opacity(0.2))
         .onAppear {
             calendarViewModel.fetchMonthData(selection: selection)
         }
@@ -100,19 +98,34 @@ struct DailyDayOnMonth: View {
     
     var body: some View {
         TimelineView(.everyDay) { context in
-            let maxSymbolNum = CalendarServices.shared.calculateSymbolNum()
+            let maxSymbolNum = CalendarServices.shared.row * CalendarServices.shared.col
             let date = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
             let isHoliday = UserDefaultManager.holidays?[year]?[date] != nil || date.toDate()?.weekday == 1
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
-            VStack(spacing: .zero) {
+            
+            VStack(alignment: .center, spacing: 6) {
                 DayIndicator(day: day, rating: rating, isToday: isToday, isHoliday: isHoliday)
-                
-                Spacer().frame(height: 6)
-                LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 1), count: GeneralServices.symbolColumn),
-                    spacing: 1
-                ) {
-                    ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
+                DailySymbolsOnMonth(dailySymbols: dailySymbols)
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+}
+
+// MARK: - DailySymbolsOnMonth
+struct DailySymbolsOnMonth: View {
+    let dailySymbols: [DailySymbol]
+    
+    var body: some View {
+        let maxSymbolRow = CalendarServices.shared.row
+        let maxSymbolCol = CalendarServices.shared.col
+        let maxSymbolNum = maxSymbolRow * maxSymbolCol
+        
+        VStack(spacing: 1) {
+            ForEach(.zero ..< maxSymbolRow, id: \.self) { row in
+                HStack(spacing: 1) {
+                    ForEach(.zero ..< maxSymbolCol, id: \.self) { col in
+                        let symbolIndex = row * maxSymbolCol + col
                         if symbolIndex < dailySymbols.count {
                             DailySymbolOnMonth(
                                 dailySymbol: dailySymbols[symbolIndex],
@@ -121,11 +134,23 @@ struct DailyDayOnMonth: View {
                         } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isMore: false) }
                     }
                 }
-                .padding(.horizontal, 2)    // FIXME: 아이콘 크기가 변경되면 이 부분도 지워져야 할 듯
             }
-            .frame(width: 33)   // FIXME: (아마 LazyVGrid의 특성 때문에) width의 사용이 강제되고 symbolGrid자체에도 horizontal padding이 강제됨, 추후 minWidth를 사용하고 자식뷰로부터 너비를 가져오도록 수정
-//            .background(.red.opacity(0.2))
         }
+        // FIXME: 최적화 테스트 이후 삭제
+//        LazyVGrid(
+//            columns: Array(repeating: GridItem(.flexible(), spacing: 1), count: maxSymbolCol),
+//            spacing: 1
+//        ) {
+//            let maxSymbolNum = maxSymbolRow * maxSymbolCol
+//            ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
+//                if symbolIndex < dailySymbols.count {
+//                    DailySymbolOnMonth(
+//                        dailySymbol: dailySymbols[symbolIndex],
+//                        isMore: dailySymbols.count > maxSymbolNum && symbolIndex == maxSymbolNum - 1
+//                    )
+//                } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isMore: false) }
+//            }
+//        }
     }
 }
 
