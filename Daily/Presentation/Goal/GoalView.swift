@@ -298,7 +298,7 @@ struct NoticeSection: View {
             Spacer()
             
             Button {
-                let width: CGFloat = 128
+                let width: CGFloat = UserDefaultManager.language == .korean ? 100 : 144 // FIXME: 추후 개선
                 let height: CGFloat = 266
                 
                 let offsetX = buttonFrame.width - width / 2
@@ -315,6 +315,7 @@ struct NoticeSection: View {
                     goalViewModel.showPopover(at: position) {
                         VStack(spacing: .zero) {
                             ForEach(Notifications.allCases, id: \.self) { notification in
+                                if notification == .custom { Divider().frame(height: 1) }
                                 Button {
                                     withAnimation(.easeInOut(duration: 0.3)) {
                                         goalViewModel.hidePopover()
@@ -323,10 +324,10 @@ struct NoticeSection: View {
                                     goalViewModel.record.notice = notification.noticeTime
                                 } label: {
                                     Text(notification.text)
-                                        .font(Fonts.bodyLgMedium)
+                                        .font(Fonts.bodyMdSemiBold)
                                         .foregroundStyle(Colors.Text.secondary)
-                                        .frame(width: 108)
                                         .padding(10)
+                                        .frame(width: width, alignment: .leading)
                                 }
                             }
                         }
