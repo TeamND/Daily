@@ -29,6 +29,7 @@ final class SplashViewModel: ObservableObject {
             isNeedUpdate = await appLaunchUseCase.checkUpdate()
             if isNeedUpdate { return }
             
+            CalendarServices.shared.calculateSymbolNum()
             await appLaunchUseCase.migrate()
             await appLaunchUseCase.fetch()
             await calendarUseCase.fetchHolidays(isReset: true)

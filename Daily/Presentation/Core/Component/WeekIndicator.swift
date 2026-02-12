@@ -20,9 +20,8 @@ struct WeekIndicator: View {
     }
     
     var body: some View {
-        HStack(spacing: .zero) {
+        HStack(spacing: GeneralServices.daySpacing) {
             ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
-                if .zero < index { Spacer() }
                 DayOfWeekView(dayOfWeek: DayOfWeek.allCases[(index/* + startDay*/) % GeneralServices.week]).frame(minWidth: 33)
             }
         }
@@ -63,6 +62,7 @@ struct WeekIndicator: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
         .onTapGesture {
             switch mode {
             case .change:
