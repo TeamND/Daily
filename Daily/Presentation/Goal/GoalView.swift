@@ -287,8 +287,12 @@ struct TimeSection: View {
 struct NoticeSection: View {
     @ObservedObject var goalViewModel: GoalViewModel
     
+    @State private var isShowCustomNoticeSheet: Bool = false
     @State private var buttonFrame: CGRect = .zero
+    @State private var HH: Int = 0
+    @State private var mm: Int = 0
     
+    // FIXME: 디자인 확인 후 다국어 처리 및 디테일 수정 필요
     var body: some View {
         HStack {
             Text("notification".localized)
@@ -320,8 +324,13 @@ struct NoticeSection: View {
                                     withAnimation(.easeInOut(duration: 0.3)) {
                                         goalViewModel.hidePopover()
                                     }
-                                    if notification == .custom { return }   // FIXME: 추후 수정
-                                    goalViewModel.record.notice = notification.noticeTime
+                                    if notification == .custom {
+                                        isShowCustomNoticeSheet = true
+                                    } else {
+                                        HH = (notification.noticeTime ?? 0) / 60
+                                        mm = (notification.noticeTime ?? 0) % 60
+                                        goalViewModel.record.notice = notification.noticeTime
+                                    }
                                 } label: {
                                     Text(notification.text)
                                         .font(Fonts.bodyMdSemiBold)
@@ -334,7 +343,9 @@ struct NoticeSection: View {
                     }
                 }
             } label: {
-                Text(Notifications.from(noticeTime: goalViewModel.record.notice).text)
+                Text(Notifications.from(noticeTime: goalViewModel.record.notice) == .custom ?
+                     HH == 0 ? "\(mm)분 전" : mm == 0 ? "\(HH)시간 전" : "\(HH)시간 \(mm)분 전" :
+                        Notifications.from(noticeTime: goalViewModel.record.notice).text)
                     .font(Fonts.bodyLgMedium)
                     .foregroundStyle(Colors.Text.point)
                     .padding(.vertical, 10)
@@ -343,7 +354,58 @@ struct NoticeSection: View {
                     .cornerRadius(8)
             }
             .getFrame { buttonFrame = $0 }
+            .sheet(isPresented: $isShowCustomNoticeSheet) {
+                customNoticeSheet
+                    .presentationDetents([.height(380)])
+                    .presentationDragIndicator(.visible)
+            }
         }
+    }
+    
+    var customNoticeSheet: some View {
+        VStack(spacing: .zero) {
+            Spacer().frame(height: 16)
+            Text("사용자화 알림")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(Fonts.headingMdBold)
+                .foregroundStyle(Colors.Text.primary)
+            Spacer().frame(height: 24)
+            HStack(spacing: .zero) {
+                DailyPicker(range: 0 ..< 24, selection: $HH)
+                Spacer().frame(width: 8)
+                Text("시간")
+                Spacer().frame(width: 12)
+                DailyPicker(range: 0 ..< 60, selection: $mm)
+                Spacer().frame(width: 8)
+                Text("분")
+            }
+            .font(Fonts.bodyLgSemiBold)
+            .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 20)
+            // FIXME: AttributedString 추가 필요
+            HStack(spacing: .zero) {
+                Text("목표 시간보다 ")
+                Text("\(HH)시간 \(mm)분 전")
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.point)
+                Text("에 알려드려요")
+            }
+            .font(Fonts.bodyLgRegular)
+            .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 28)
+            Button {
+                isShowCustomNoticeSheet = false
+                goalViewModel.record.notice = HH * 60 + mm
+            } label: {
+                Text("적용")
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.inverse)
+                    .frame(maxWidth: .infinity, maxHeight: 50)
+                    .background(Colors.Brand.primary)
+                    .cornerRadius(8)
+            }
+        }
+        .padding(.horizontal, 16)
     }
 }
 
