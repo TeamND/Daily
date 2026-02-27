@@ -87,6 +87,14 @@
 "notification" = "Notification";
 "no_notification" = "No Notification";
 "on_time" = "On Time";
+"custom_notification" = "Custom Notification";
+"capital_hours" = "Hours";
+"capital_minutes" = "Minutes";
+"before" = "%@ before";
+"summary_h" = "%@h";
+"summary_m" = "%@m";
+"notify_you_the_set_time" = "Notify you %@ the set time";
+"apply" = "Apply";
 "goal" = "Goal";
 "enter_your_goal" = "Enter your goal (min. 2 characters)";
 "select_icon" = "Select Icon";
@@ -119,7 +127,6 @@
 "goal_added" = "Goal added";
 
 // MARK: - Menu
-"before" = "%@ before";
 "edit_this_only" = "Edit This Only";
 "edit_all" = "Edit All";
 "delete_goal" = "Delete Goal";

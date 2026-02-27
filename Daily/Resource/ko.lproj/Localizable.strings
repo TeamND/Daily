@@ -87,6 +87,14 @@
 "notification" = "알림";
 "no_notification" = "알림 없음";
 "on_time" = "목표 시간";
+"custom_notification" = "사용자화 알림";
+"capital_hours" = "시간";
+"capital_minutes" = "분";
+"before" = "%@ 전";
+"summary_h" = "%@시간";
+"summary_m" = "%@분";
+"notify_you_the_set_time" = "목표 시간보다 %@ 에 알려드려요";
+"apply" = "적용";
 "goal" = "목표";
 "enter_your_goal" = "목표를 입력하세요 (최소 2자)";
 "select_icon" = "심볼 선택";
@@ -119,7 +127,6 @@
 "goal_added" = "목표가 추가되었어요";
 
 // MARK: - Menu
-"before" = "%@ 전";
 "edit_this_only" = "단일 수정";
 "edit_all" = "일괄 수정";
 "delete_goal" = "목표 삭제";

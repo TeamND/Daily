@@ -292,7 +292,6 @@ struct NoticeSection: View {
     @State private var HH: Int = 0
     @State private var mm: Int = 0
     
-    // FIXME: 디자인 확인 후 다국어 처리 및 디테일 수정 필요
     var body: some View {
         HStack {
             Text("notification".localized)
@@ -343,8 +342,11 @@ struct NoticeSection: View {
                     }
                 }
             } label: {
+                let hours = (goalViewModel.record.notice ?? 0) / 60
+                let minutes = (goalViewModel.record.notice ?? 0) % 60
+                // FIXME: 다국어 처리 필요
                 Text(Notifications.from(noticeTime: goalViewModel.record.notice) == .custom ?
-                     HH == 0 ? "\(mm)분 전" : mm == 0 ? "\(HH)시간 전" : "\(HH)시간 \(mm)분 전" :
+                     hours == 0 ? "\(minutes)분 전" : minutes == 0 ? "\(hours)시간 전" : "\(hours)시간 \(minutes)분 전" :
                         Notifications.from(noticeTime: goalViewModel.record.notice).text)
                     .font(Fonts.bodyLgMedium)
                     .foregroundStyle(Colors.Text.point)
@@ -354,7 +356,13 @@ struct NoticeSection: View {
                     .cornerRadius(8)
             }
             .getFrame { buttonFrame = $0 }
-            .sheet(isPresented: $isShowCustomNoticeSheet) {
+            .sheet(
+                isPresented: $isShowCustomNoticeSheet,
+                onDismiss: {
+                    HH = (goalViewModel.record.notice ?? 0) / 60
+                    mm = (goalViewModel.record.notice ?? 0) % 60
+                }
+            ) {
                 customNoticeSheet
                     .presentationDetents([.height(380)])
                     .presentationDragIndicator(.visible)
@@ -365,39 +373,34 @@ struct NoticeSection: View {
     var customNoticeSheet: some View {
         VStack(spacing: .zero) {
             Spacer().frame(height: 16)
-            Text("사용자화 알림")
+            Text("custom_notification".localized)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(Fonts.headingMdBold)
                 .foregroundStyle(Colors.Text.primary)
             Spacer().frame(height: 24)
             HStack(spacing: .zero) {
-                DailyPicker(range: 0 ..< 24, selection: $HH)
+                DailyPicker(range: 0 ..< 24, selection: $HH)    // FIXME: 최대 수치 확인 필요
                 Spacer().frame(width: 8)
-                Text("시간")
+                Text("capital_hours".localized)
                 Spacer().frame(width: 12)
                 DailyPicker(range: 0 ..< 60, selection: $mm)
                 Spacer().frame(width: 8)
-                Text("분")
+                Text("capital_minutes".localized)
             }
             .font(Fonts.bodyLgSemiBold)
             .foregroundStyle(Colors.Text.secondary)
             Spacer().frame(height: 20)
-            // FIXME: AttributedString 추가 필요
-            HStack(spacing: .zero) {
-                Text("목표 시간보다 ")
-                Text("\(HH)시간 \(mm)분 전")
-                    .font(Fonts.bodyLgSemiBold)
-                    .foregroundStyle(Colors.Text.point)
-                Text("에 알려드려요")
-            }
-            .font(Fonts.bodyLgRegular)
-            .foregroundStyle(Colors.Text.secondary)
+            let emphaticPhrase = "before".localized("\("summary_h".localized(String(format: "%02d", HH))) \("summary_m".localized(String(format: "%02d", mm)))")
+            let string = "notify_you_the_set_time".localized(emphaticPhrase)
+            Text(makeAttributedString(string: string, emphaticPhrase: emphaticPhrase))
+                .font(Fonts.bodyLgRegular)
+                .foregroundStyle(Colors.Text.secondary)
             Spacer().frame(height: 28)
             Button {
-                isShowCustomNoticeSheet = false
                 goalViewModel.record.notice = HH * 60 + mm
+                isShowCustomNoticeSheet = false
             } label: {
-                Text("적용")
+                Text("apply".localized)
                     .font(Fonts.bodyLgSemiBold)
                     .foregroundStyle(Colors.Text.inverse)
                     .frame(maxWidth: .infinity, maxHeight: 50)
@@ -406,6 +409,18 @@ struct NoticeSection: View {
             }
         }
         .padding(.horizontal, 16)
+    }
+    
+    // FIXME: 위치 이동 필요
+    private func makeAttributedString(string: String, emphaticPhrase: String) -> AttributedString {
+        var attributed = AttributedString(string)
+        
+        if let range = attributed.range(of: emphaticPhrase) {
+            attributed[range].foregroundColor = Colors.Text.point
+            attributed[range].font = Fonts.bodyLgSemiBold
+        }
+        
+        return attributed
     }
 }
 
