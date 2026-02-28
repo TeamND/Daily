@@ -57,11 +57,11 @@ extension Date {
 // MARK: - return Date
 extension Date {
     func monthLater(value: Int = 1) -> Date {
-        var calendar: Calendar = CalendarManager.shared.getDailyCalendar()
+        let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
         return calendar.date(byAdding: .month, value: value, to: self)!
     }
     func dayLater(value: Int = 1) -> Date {
-        var calendar: Calendar = CalendarManager.shared.getDailyCalendar()
+        let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
         return calendar.date(byAdding: .day, value: value, to: self)!
     }
 }

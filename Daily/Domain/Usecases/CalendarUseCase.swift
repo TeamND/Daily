@@ -105,7 +105,7 @@ extension CalendarUseCase {
     func toggleStartTime(record: DailyRecordModel) async {
         record.startTime = record.startTime == nil ? Date() : nil
         let timerNoticeId = "\(String(describing: record.id))-timer"
-        if let startTime = record.startTime, let goal = record.goal {
+        if let _ = record.startTime, let goal = record.goal {
             PushNoticeManager.shared.addTimerNotice(
                 id: timerNoticeId,
                 content: goal.content,
@@ -272,7 +272,7 @@ extension CalendarUseCase {
             guard let url = URL(string: urlString) else { return }
             
             do {
-                let (data, response) = try await URLSession.shared.data(from: url)
+                let (data, _) = try await URLSession.shared.data(from: url)
                 let holidays = try JSONDecoder().decode([HolidayModel].self, from: data)
                 
                 UserDefaultManager.holidays?[year] = holidays.reduce(into: [:]) { dict, holiday in
