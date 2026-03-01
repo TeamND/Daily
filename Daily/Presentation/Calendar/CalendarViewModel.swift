@@ -223,35 +223,10 @@ extension CalendarViewModel {
         }
     }
     
-    // FIXME: addNotice & removeNotice 삭제 또는 이동
-    func addNotice(goal: DailyGoalModel, record: DailyRecordModel, notification: Notifications, completeAction: @escaping () -> Void) {
-        PushNoticeManager.shared.addNotice(
-            id: String(describing: record.id),
-            content: goal.content,
-            date: record.date,
-            setTime: goal.setTime,
-            notification: notification
-        )
-        
-        Task {
-            await calendarUseCase.setNotice(record: record, notice: notification.noticeTime)
-            completeAction()
-        }
-    }
-    
-    func removeNotice(record: DailyRecordModel, completeAction: @escaping () -> Void) {
-        PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
-        
-        Task {
-            await calendarUseCase.setNotice(record: record, notice: nil)
-            completeAction()
-        }
-    }
-    
     func deleteRecord(record: DailyRecordModel, completeAction: @escaping () -> Void) {
         Task {
             await resetData()
-            await deleteRecordContainNotice(record: record, completeAction: completeAction)
+            await deleteRecords(records: [record], completeAction: completeAction)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
@@ -264,22 +239,32 @@ extension CalendarViewModel {
         Task {
             await resetData()
             await calendarUseCase.deleteGoal(goal: goal)
-            for record in records { await deleteRecordContainNotice(record: record, completeAction: completeAction) }
+            await deleteRecords(records: records, completeAction: completeAction)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
     }
     
-    func deleteRecords(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+    func deleteFutureRecords(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
         Task {
-            let deleteRecords = await calendarUseCase.getDeleteRecords(goal: goal)
+            let futureRecords = await calendarUseCase.getFutureRecords(goal: goal)
             
             await resetData()
-            for record in deleteRecords { await deleteRecordContainNotice(record: record, completeAction: completeAction) }
+            await deleteRecords(records: futureRecords, completeAction: completeAction)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
+        }
+    }
+    
+    private func deleteRecords(records: [DailyRecordModel], completeAction: @escaping () -> Void) async {
+        for record in records {
+            if record.notice != nil {   // FIXME: 해당 조건을 '유효한 알림이 있을 때'로 수정 필요
+                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+                completeAction()
+            }
+            await calendarUseCase.deleteRecord(record: record)
         }
     }
 }
@@ -319,10 +304,5 @@ extension CalendarViewModel {
     func resetData() {
         weekData = [:]
         dayData = [:]
-    }
-    
-    private func deleteRecordContainNotice(record: DailyRecordModel, completeAction: @escaping () -> Void) async {
-        if record.notice != nil { removeNotice(record: record, completeAction: completeAction) }
-        await calendarUseCase.deleteRecord(record: record)
     }
 }

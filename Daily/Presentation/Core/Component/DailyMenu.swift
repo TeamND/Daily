@@ -91,7 +91,7 @@ struct DailyMenu: View {
                     }
                     Menu {
                         Button {
-                            calendarViewModel.deleteRecords(
+                            calendarViewModel.deleteFutureRecords(
                                 goal: goal,
                                 completeAction: {
                                     alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)

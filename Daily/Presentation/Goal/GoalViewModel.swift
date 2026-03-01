@@ -12,10 +12,11 @@ class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
     private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
-    var modifyType: ModifyTypes?
+    private(set) var modifyType: ModifyTypes?
+    private(set) var alertEnvironment: AlertEnvironment?
     
-    var originalGoal: DailyGoalModel = DailyGoalModel()
-    var originalRecord: DailyRecordModel = DailyRecordModel()
+    private(set) var originalGoal: DailyGoalModel = DailyGoalModel()
+    private(set) var originalRecord: DailyRecordModel = DailyRecordModel()
     
     private var isBlockPopover: Bool = false
     @Published var popoverPosition: CGPoint = .zero
@@ -76,6 +77,11 @@ class GoalViewModel: ObservableObject {
         self.goal.update(goal: originalGoal)
         self.record.update(record: originalRecord)
     }
+    
+    // FIXME: 추후에 alertType을 반환하는 구조로 개선해서 viewModel에서 UI조작을 하지 않도록 개선
+    func setAlertEnvironment(_ alertEnvironment: AlertEnvironment) {
+        self.alertEnvironment = alertEnvironment
+    }
 }
 
 // MARK: - popover func
@@ -105,7 +111,7 @@ extension GoalViewModel {
 
 // MARK: - button func
 extension GoalViewModel {
-    func add(successAction: @escaping (Bool, Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func add(successAction: @escaping (Date) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         if let validate = validate() { validateAction(validate); return }
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
@@ -115,14 +121,24 @@ extension GoalViewModel {
             goal.records = records
             await goalUseCase.addGoal(goal: goal)
             
-            successAction(true, startDate)
+            successAction(startDate)
+            alertEnvironment?.showToast(alertType: SuccessAlert.addGoal)
+            // FIXME: 토스트 순차적으로 뜨게 수정 후 추가
+//            if goal.isSetTime, record.notice ?? 0 > 0 {
+//                alertEnvironment?.showToast(
+//                    alertType: NoticeAlert.setNoticeTime(
+//                        noticeTime: Notifications.from(noticeTime: record.notice).text
+//                    )
+//                )
+//            }
         }
     }
     
-    func modify(successAction: @escaping (Bool, Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func modify(successAction: @escaping (Date) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
         guard let modifyType else { return }
         if let validate = validate() { validateAction(validate); return }
         
+        // FIXME: 삭제 가능 (통합 할 예정)
         if record.notice != nil && (
             originalRecord.date != record.date ||
             originalGoal.setTime != goal.setTime ||
@@ -145,6 +161,7 @@ extension GoalViewModel {
             goalUseCase.updateTimerNotice(id: timerNoticeId, record: record, goal: goal)
         }
         
+        // FIXME: record notice 수정 조건 검토 후 추가 필요
         Task { @MainActor in
             if modifyType == .single {
                 if goal.isSetTime == originalGoal.isSetTime &&
@@ -193,10 +210,9 @@ extension GoalViewModel {
                 
                 await goalUseCase.updateData()
             }
-            successAction(false, record.date)
+            successAction(record.date)
         }
     }
-    
 }
     
 // MARK: - validate func

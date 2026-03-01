@@ -137,11 +137,6 @@ extension CalendarUseCase {
         }
     }
     
-    func setNotice(record: DailyRecordModel, notice: Int?) async {
-        record.notice = notice
-        await repository.updateData()
-    }
-    
     func deleteRecord(record: DailyRecordModel) async {
         await repository.deleteRecord(record: record)
     }
@@ -150,7 +145,7 @@ extension CalendarUseCase {
         await repository.deleteGoal(goal: goal)
     }
     
-    func getDeleteRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
+    func getFutureRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
         guard let futureRecords = await repository.getFutureRecords() else { return [] }
         return futureRecords.filter { $0.goal?.id == goal.id }
     }

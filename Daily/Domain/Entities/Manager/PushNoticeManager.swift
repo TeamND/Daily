@@ -76,6 +76,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Notice
     func addNotice(id: String, content: String, date: Date, setTime: String, notification: Notifications) {
+        // FIXME: 유효성 검사 추가 필요, 유효하지 않다면 토스트 출력이 필요, 추가로 record.notice 자체를 저장할지에 대해서도 고민
         guard let noticeTime = notification.noticeTime,
               let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime)
         else { return }

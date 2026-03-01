@@ -30,6 +30,7 @@ struct GoalView: View {
             }
         }
         .background(Colors.Background.primary)
+        .onAppear { goalViewModel.setAlertEnvironment(alertEnvironment) } // MARK: for toast
     }
     
     var headerView: some View {
@@ -42,10 +43,9 @@ struct GoalView: View {
         }
     }
     
-    private func successAction(isAddGoal: Bool, newDate: Date?) {
+    private func successAction(newDate: Date) {
         dismiss()
-        if isAddGoal { alertEnvironment.showToast(alertType: SuccessAlert.addGoal) }
-        if let newDate { calendarViewModel.setDate(date: newDate) }
+        calendarViewModel.setDate(date: newDate)
     }
     
     private func validateAction(alert: DailyAlert) {

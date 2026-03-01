@@ -24,6 +24,17 @@ final class GoalUseCase {
     
     func addRecord(record: DailyRecordModel) async {
         await repository.addRecord(record: record)
+        
+        if let goal = record.goal, goal.isSetTime,
+           let notice = record.notice, notice > 0 {
+            PushNoticeManager.shared.addNotice(
+                id: String(describing: record.id),
+                content: goal.content,
+                date: record.date,
+                setTime: goal.setTime,
+                notification: Notifications.from(noticeTime: notice)
+            )
+        }
     }
     
     func deleteRecord(record: DailyRecordModel) async {
