@@ -27,13 +27,11 @@ final class GoalUseCase {
         
         if let goal = record.goal, goal.isSetTime,
            let notice = record.notice, notice > 0 {
-            PushNoticeManager.shared.addNotice(
-                id: String(describing: record.id),
-                content: goal.content,
-                date: record.date,
-                setTime: goal.setTime,
-                notification: Notifications.from(noticeTime: notice)
-            )
+            guard let noticeDate = PushNoticeManager.shared.getValidNoticeDate(record: record) else {
+                // FIXME: 유효하지 않은 알림 토스트 추가 필요
+                return
+            }
+            PushNoticeManager.shared.addNotice(record: record)
         }
     }
     

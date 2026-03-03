@@ -164,6 +164,7 @@ extension GoalViewModel {
         // FIXME: record notice 수정 조건 검토 후 추가 필요
         Task { @MainActor in
             if modifyType == .single {
+                // MARK: 단일 수정 (기록만 수정)
                 if goal.isSetTime == originalGoal.isSetTime &&
                     goal.setTime == originalGoal.setTime &&
                     goal.content == originalGoal.content &&
@@ -177,7 +178,7 @@ extension GoalViewModel {
                     originalRecord.isSuccess = originalGoal.count <= record.count
                     
                     await goalUseCase.updateData()
-                } else {
+                } else {    // MARK: 단일 수정 (목표도 수정)
                     originalGoal.records?.removeAll() { $0.id == originalRecord.id }
                     await goalUseCase.deleteRecord(record: originalRecord)
                     
@@ -193,7 +194,7 @@ extension GoalViewModel {
                     goal.records = [record]
                     await goalUseCase.addGoal(goal: goal)
                 }
-            } else {
+            } else {    // MARK: 일괄 수정
                 originalGoal.isSetTime = goal.isSetTime
                 originalGoal.setTime = goal.setTime
                 originalGoal.content = goal.content
