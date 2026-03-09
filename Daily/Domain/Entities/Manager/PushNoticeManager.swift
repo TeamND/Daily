@@ -96,7 +96,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             by: components,
             id: String(describing: record.id),
             title: goal.content,
-            body: "before_ready_to_begin".localized(Notifications.from(noticeTime: record.notice).text),    // FIXME: 사용자화 부분 수정 필요
+            body: "ready_to_begin".localized(Notifications.noticeText(noticeTime: record.notice)),
             userInfo: userInfo
         )
     }

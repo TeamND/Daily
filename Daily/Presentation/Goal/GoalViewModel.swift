@@ -127,7 +127,7 @@ extension GoalViewModel {
 //            if goal.isSetTime, record.notice ?? 0 > 0 {
 //                alertEnvironment?.showToast(
 //                    alertType: NoticeAlert.setNoticeTime(
-//                        noticeTime: Notifications.from(noticeTime: record.notice).text
+//                        noticeTime: Notifications.noticeText(noticeTime: record.notice)
 //                    )
 //                )
 //            }

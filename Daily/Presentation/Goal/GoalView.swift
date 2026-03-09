@@ -342,12 +342,7 @@ struct NoticeSection: View {
                     }
                 }
             } label: {
-                let hours = (goalViewModel.record.notice ?? 0) / 60
-                let minutes = (goalViewModel.record.notice ?? 0) % 60
-                // FIXME: 다국어 처리 필요
-                Text(Notifications.from(noticeTime: goalViewModel.record.notice) == .custom ?
-                     hours == 0 ? "\(minutes)분 전" : minutes == 0 ? "\(hours)시간 전" : "\(hours)시간 \(minutes)분 전" :
-                        Notifications.from(noticeTime: goalViewModel.record.notice).text)
+                Text(Notifications.noticeText(noticeTime: goalViewModel.record.notice))
                     .font(Fonts.bodyLgMedium)
                     .foregroundStyle(Colors.Text.point)
                     .padding(.vertical, 10)
@@ -379,7 +374,7 @@ struct NoticeSection: View {
                 .foregroundStyle(Colors.Text.primary)
             Spacer().frame(height: 24)
             HStack(spacing: .zero) {
-                DailyPicker(range: 0 ..< 24, selection: $HH)    // FIXME: 최대 수치 확인 필요
+                DailyPicker(range: 0 ..< 24, selection: $HH)
                 Spacer().frame(width: 8)
                 Text("capital_hours".localized)
                 Spacer().frame(width: 12)
@@ -390,7 +385,7 @@ struct NoticeSection: View {
             .font(Fonts.bodyLgSemiBold)
             .foregroundStyle(Colors.Text.secondary)
             Spacer().frame(height: 20)
-            let emphaticPhrase = "before".localized("\("summary_h".localized(String(format: "%02d", HH))) \("summary_m".localized(String(format: "%02d", mm)))")
+            let emphaticPhrase = "before".localized("\("h".localized(HH)) \("m".localized(mm))")
             let string = "notify_you_the_set_time".localized(emphaticPhrase)
             Text(makeAttributedString(string: string, emphaticPhrase: emphaticPhrase))
                 .font(Fonts.bodyLgRegular)

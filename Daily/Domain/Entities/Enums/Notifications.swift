@@ -23,13 +23,13 @@ enum Notifications: CaseIterable {
         case .onTime:
             "on_time".localized
         case .five:
-            "before".localized("minutes".localized(5))
+            "before".localized("m".localized(5))
         case .ten:
-            "before".localized("minutes".localized(10))
+            "before".localized("m".localized(10))
         case .thirty:
-            "before".localized("minutes".localized(30))
+            "before".localized("m".localized(30))
         case .sixty:
-            "before".localized("hour".localized(1))
+            "before".localized("h".localized(1))
         case .custom:
             "custom".localized
         }
@@ -54,8 +54,15 @@ enum Notifications: CaseIterable {
 }
 
 extension Notifications {
-    static func from(noticeTime: Int?) -> Notifications {
-        guard let noticeTime else { return .noNotification }
-        return Self.allCases.first { $0.noticeTime == noticeTime } ?? .custom
+    static func noticeText(noticeTime: Int?) -> String {
+        guard let noticeTime else { return Notifications.noNotification.text }
+        if let notifications = Self.allCases.first(where: { $0.noticeTime == noticeTime }) {
+            return notifications.text
+        } else {    // MARK: .custom
+            let h = noticeTime / 60
+            let m = noticeTime % 60
+            let noticeText = h == 0 ? "m".localized(m) : m == 0 ? "h".localized(h) : "\("h".localized(h)) \("m".localized(m))"
+            return "before".localized(noticeText)
+        }
     }
 }

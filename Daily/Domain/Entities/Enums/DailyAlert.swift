@@ -63,7 +63,7 @@ enum DateAlert: DailyAlert {
         case .overDateRange:
             return "maximum_period_is_1_year".localized
         case .emptySelectedWeekday:
-            return "select_at_least_one_repeat_day".localized
+            return "select_at_least_one_day".localized
         case .emptyRepeatDates:
             return "repeat_day_not_within_selected_period".localized
         }
@@ -113,7 +113,7 @@ enum NoticeAlert: DailyAlert {
         case .setTimeChanged:
             return "notification_removed_due_to_time_change".localized
         case .setNoticeTime(let noticeTime):
-            return "you_will_be_notified_before".localized(noticeTime)
+            return "you_will_be_notified".localized(noticeTime)
         case .removeNoticeTime:
             return "noticifation_removed".localized
         case .removeNoticeTimeWithGoal:
