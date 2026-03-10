@@ -74,17 +74,12 @@ enum DateAlert: DailyAlert {
 enum NoticeAlert: DailyAlert {
     case deniedAtAppOpen
     case deniedAtSetTime
-    case dateChanged
-    case setTimeChanged
     case setNoticeTime(noticeTime: String)
-    case removeNoticeTime
     case removeNoticeTimeWithGoal
     
     var icon: ImageResource? {
         switch self {
-        case .dateChanged, .setTimeChanged:
-            return .notice
-        case .setNoticeTime, .removeNoticeTime, .removeNoticeTimeWithGoal:
+        case .setNoticeTime, .removeNoticeTimeWithGoal:
             return .complete
         default:
             return nil
@@ -108,14 +103,8 @@ enum NoticeAlert: DailyAlert {
             return "stay_on_track_with_reminders".localized
         case .deniedAtSetTime:
             return "please_allow_notifications_in_settings".localized
-        case .dateChanged:
-            return "notification_removed_due_to_date_change".localized
-        case .setTimeChanged:
-            return "notification_removed_due_to_time_change".localized
         case .setNoticeTime(let noticeTime):
             return "you_will_be_notified".localized(noticeTime)
-        case .removeNoticeTime:
-            return "noticifation_removed".localized
         case .removeNoticeTimeWithGoal:
             return "notification_deleted_with_the_goal".localized
         }

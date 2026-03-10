@@ -24,23 +24,19 @@ final class GoalUseCase {
     
     func addRecord(record: DailyRecordModel) async {
         await repository.addRecord(record: record)
-        
-        if let goal = record.goal, goal.isSetTime,
-           let notice = record.notice, notice > 0 {
-            guard let noticeDate = PushNoticeManager.shared.getValidNoticeDate(record: record) else {
-                // FIXME: 유효하지 않은 알림 토스트 추가 필요
-                return
-            }
-            PushNoticeManager.shared.addNotice(record: record)
-        }
+        addNotice(record: record)
     }
     
     func deleteRecord(record: DailyRecordModel) async {
         await repository.deleteRecord(record: record)
     }
     
+    func addNotice(record: DailyRecordModel) {
+        guard let noticeDate = PushNoticeManager.shared.getValidNoticeDate(record: record) else { return }
+        PushNoticeManager.shared.addNotice(noticeDate: noticeDate, record: record)
+    }
+    
     func removeNotice(record: DailyRecordModel) {
-        record.notice = nil
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
     }
     

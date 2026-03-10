@@ -89,21 +89,20 @@ extension GoalViewModel {
     func showPopover(at position: CGPoint, @ViewBuilder content: @escaping () -> some View) {
         if isBlockPopover && popoverPosition == position { return }
 
-        popoverPosition = position
-        withAnimation(.easeInOut(duration: 0.3)) {
+        Task { @MainActor in
+            popoverPosition = position
             popoverContent = AnyView(content())
         }
     }
     
     func hidePopover() {
         if popoverContent != nil {
-            isBlockPopover = true
-            withAnimation(.easeInOut(duration: 0.3)) {
+            Task { @MainActor in
+                isBlockPopover = true
                 popoverContent = nil
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.isBlockPopover = false
+                
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                isBlockPopover = false
             }
         }
     }
@@ -111,8 +110,8 @@ extension GoalViewModel {
 
 // MARK: - button func
 extension GoalViewModel {
-    func add(successAction: @escaping (Date) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
-        if let validate = validate() { validateAction(validate); return }
+    func add(successAction: @escaping (Date) -> Void) {
+        if let validate = validate() { alertEnvironment?.showToast(alertType: validate); return }
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
             let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
@@ -122,34 +121,22 @@ extension GoalViewModel {
             await goalUseCase.addGoal(goal: goal)
             
             successAction(startDate)
+            
             alertEnvironment?.showToast(alertType: SuccessAlert.addGoal)
+            guard let records = goal.records, let record = records.first,
+                  let noticeDate = PushNoticeManager.shared.getValidNoticeDate(record: record) else { return }
             // FIXME: 토스트 순차적으로 뜨게 수정 후 추가
-//            if goal.isSetTime, record.notice ?? 0 > 0 {
-//                alertEnvironment?.showToast(
-//                    alertType: NoticeAlert.setNoticeTime(
-//                        noticeTime: Notifications.noticeText(noticeTime: record.notice)
-//                    )
+//            alertEnvironment?.showToast(
+//                alertType: NoticeAlert.setNoticeTime(
+//                    noticeTime: Notifications.noticeText(noticeTime: record.notice)
 //                )
-//            }
+//            )
         }
     }
     
-    func modify(successAction: @escaping (Date) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func modify(successAction: @escaping (Date) -> Void) {
         guard let modifyType else { return }
-        if let validate = validate() { validateAction(validate); return }
-        
-        // FIXME: 삭제 가능 (통합 할 예정)
-        if record.notice != nil && (
-            originalRecord.date != record.date ||
-            originalGoal.setTime != goal.setTime ||
-            originalGoal.isSetTime != goal.isSetTime
-        ) {
-            goalUseCase.removeNotice(record: originalRecord)
-            if originalRecord.date != record.date { validateAction(NoticeAlert.dateChanged) }
-            if originalGoal.setTime != goal.setTime || originalGoal.isSetTime != goal.isSetTime {
-                validateAction(NoticeAlert.setTimeChanged)
-            }
-        }
+        if let validate = validate() { alertEnvironment?.showToast(alertType: validate); return }
         
         if record.startTime != nil && (
             originalRecord.date != record.date ||
@@ -164,12 +151,15 @@ extension GoalViewModel {
         // FIXME: record notice 수정 조건 검토 후 추가 필요
         Task { @MainActor in
             if modifyType == .single {
+                goalUseCase.removeNotice(record: originalRecord)
+                
                 // MARK: 단일 수정 (기록만 수정)
                 if goal.isSetTime == originalGoal.isSetTime &&
                     goal.setTime == originalGoal.setTime &&
                     goal.content == originalGoal.content &&
                     goal.symbol == originalGoal.symbol &&
-                    goal.count == originalGoal.count
+                    goal.count == originalGoal.count &&
+                    record.notice == originalRecord.notice
                 {
                     originalRecord.date = record.date
                     originalRecord.count = record.count
@@ -177,6 +167,7 @@ extension GoalViewModel {
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
                     originalRecord.isSuccess = originalGoal.count <= record.count
                     
+                    goalUseCase.addNotice(record: originalRecord)
                     await goalUseCase.updateData()
                 } else {    // MARK: 단일 수정 (목표도 수정)
                     originalGoal.records?.removeAll() { $0.id == originalRecord.id }
@@ -195,19 +186,28 @@ extension GoalViewModel {
                     await goalUseCase.addGoal(goal: goal)
                 }
             } else {    // MARK: 일괄 수정
+                originalGoal.records?.forEach { goalUseCase.removeNotice(record: $0) }
+                
                 originalGoal.isSetTime = goal.isSetTime
                 originalGoal.setTime = goal.setTime
                 originalGoal.content = goal.content
                 originalGoal.symbol = goal.symbol
                 originalGoal.count = goal.count
                 
-                if modifyType == .record {
+                if modifyType == .record {  // MARK: single goal
                     originalRecord.date = record.date
                     originalRecord.count = record.count
                     originalRecord.notice = record.notice
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
+                } else {
+                    originalGoal.records?.forEach {
+                        $0.notice = record.notice
+                    }
                 }
-                originalGoal.records?.forEach { $0.isSuccess = originalGoal.count <= $0.count }
+                originalGoal.records?.forEach {
+                    goalUseCase.addNotice(record: $0)
+                    $0.isSuccess = originalGoal.count <= $0.count
+                }
                 
                 await goalUseCase.updateData()
             }

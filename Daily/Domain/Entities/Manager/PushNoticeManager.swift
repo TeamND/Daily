@@ -55,7 +55,10 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: title, body: body, repeats: true)
     }
     
-    func requestNotiAuthorization(showAlert: @escaping (NoticeAlert) -> Void, alertType: NoticeAlert) {
+    func requestNotiAuthorization(
+        showAlert: @escaping (NoticeAlert) -> Void, alertType: NoticeAlert,
+        authorizedAction: (() -> Void)? = nil
+    ) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -65,10 +68,14 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             case .denied:
                 showAlert(alertType)
             default:
-                self.removeBadges()
-                self.removePastNotice()
-                UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-                    if !requests.contains(where: { $0.identifier == "default" }) { self.addDefaultNotice() }
+                if let authorizedAction {
+                    authorizedAction()
+                } else {
+                    self.removeBadges()
+                    self.removePastNotice()
+                    UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                        if !requests.contains(where: { $0.identifier == "default" }) { self.addDefaultNotice() }
+                    }
                 }
             }
         }
@@ -76,15 +83,14 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Notice
     func getValidNoticeDate(record: DailyRecordModel) -> Date? {
-        guard let goal = record.goal,
+        guard let goal = record.goal, goal.isSetTime,
               let notice = record.notice,
               let noticeDate = CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: notice)
         else { return nil }
         return Date() > noticeDate ? nil : noticeDate
     }
     
-    func addNotice(record: DailyRecordModel) {
-        guard let noticeDate = getValidNoticeDate(record: record), let goal = record.goal else { return }
+    func addNotice(noticeDate: Date, record: DailyRecordModel) {
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
         let userInfo: [AnyHashable : Any] = [
@@ -95,7 +101,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().addNotiRequest(
             by: components,
             id: String(describing: record.id),
-            title: goal.content,
+            title: record.goal?.content ?? "",
             body: "ready_to_begin".localized(Notifications.noticeText(noticeTime: record.notice)),
             userInfo: userInfo
         )

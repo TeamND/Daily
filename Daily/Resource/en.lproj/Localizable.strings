@@ -111,8 +111,6 @@
 "maximum_period_is_1_year" = "Maximum period is 1 year";
 "select_at_least_one_day" = "Select at least one day";
 "repeat_day_not_within_selected_period" = "Repeat day not within selected period";
-"notification_removed_due_to_date_change" = "Notification removed due to date change";
-"notification_removed_due_to_time_change" = "Notification removed due to time change";
 "notifications_are_off_so_some_features_are_limited" = "Notifications are off,\n so some features are limited";
 "notifications_are_turned_off" = "Notifications are turned off";
 "stay_on_track_with_reminders" = "Stay on track with reminders";
@@ -120,7 +118,6 @@
 "go_to_settings" = "Go to Settings";
 "remind_me_later" = "Remind Me Later";
 "you_will_be_notified" = "You`ll be notified %@";
-"noticifation_removed" = "Notification removed";
 "notification_deleted_with_the_goal" = "Notification deleted with the goal";
 "goal_added" = "Goal added";
 

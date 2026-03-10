@@ -260,7 +260,7 @@ extension CalendarViewModel {
     
     private func deleteRecords(records: [DailyRecordModel], completeAction: @escaping () -> Void) async {
         for record in records {
-            if record.notice != nil {   // FIXME: 해당 조건을 '유효한 알림이 있을 때'로 수정 필요
+            if let _ = PushNoticeManager.shared.getValidNoticeDate(record: record) {
                 PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
                 completeAction()
             }

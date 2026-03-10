@@ -36,9 +36,9 @@ struct GoalView: View {
     var headerView: some View {
         NavigationHeader(title: viewType.headerTitle, trailingText: viewType.trailingText) {
             if viewType == .goal {
-                goalViewModel.add(successAction: successAction, validateAction: validateAction)
+                goalViewModel.add(successAction: successAction)
             } else {
-                goalViewModel.modify(successAction: successAction, validateAction: validateAction)
+                goalViewModel.modify(successAction: successAction)
             }
         }
     }
@@ -46,10 +46,6 @@ struct GoalView: View {
     private func successAction(newDate: Date) {
         dismiss()
         calendarViewModel.setDate(date: newDate)
-    }
-    
-    private func validateAction(alert: DailyAlert) {
-        alertEnvironment.showToast(alertType: alert)
     }
     
     var goalView: some View {
@@ -98,6 +94,7 @@ struct GoalView: View {
                 DailyPopover(position: goalViewModel.popoverPosition) { content }
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: goalViewModel.popoverContent == nil)
     }
 }
 
@@ -195,19 +192,6 @@ struct TimeSection: View {
                 ))
                 .labelsHidden()
                 .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
-                .onChange(of: goalViewModel.goal.isSetTime) {
-                    if $1 {
-                        // FIXME: 위치 이동 필요
-                        PushNoticeManager.shared.requestNotiAuthorization(
-                            showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
-                        )
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            if alertEnvironment.isShowAlert {
-                                goalViewModel.goal.isSetTime = false
-                            }
-                        }
-                    }
-                }
             }
             
             if goalViewModel.goal.isSetTime {
@@ -285,6 +269,7 @@ struct TimeSection: View {
 
 // MARK: - NoticeSection
 struct NoticeSection: View {
+    @EnvironmentObject private var alertEnvironment: AlertEnvironment
     @ObservedObject var goalViewModel: GoalViewModel
     
     @State private var isShowCustomNoticeSheet: Bool = false
@@ -315,31 +300,36 @@ struct NoticeSection: View {
                 if goalViewModel.popoverContent != nil {
                     goalViewModel.hidePopover()
                 } else {
-                    goalViewModel.showPopover(at: position) {
-                        VStack(spacing: .zero) {
-                            ForEach(Notifications.allCases, id: \.self) { notification in
-                                if notification == .custom { Divider().frame(height: 1) }
-                                Button {
-                                    withAnimation(.easeInOut(duration: 0.3)) {
-                                        goalViewModel.hidePopover()
+                    PushNoticeManager.shared.requestNotiAuthorization(
+                        showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime,
+                        authorizedAction: {
+                            goalViewModel.showPopover(at: position) {
+                                VStack(spacing: .zero) {
+                                    ForEach(Notifications.allCases, id: \.self) { notification in
+                                        if notification == .custom { Divider().frame(height: 1) }
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                goalViewModel.hidePopover()
+                                            }
+                                            if notification == .custom {
+                                                isShowCustomNoticeSheet = true
+                                            } else {
+                                                HH = (notification.noticeTime ?? 0) / 60
+                                                mm = (notification.noticeTime ?? 0) % 60
+                                                goalViewModel.record.notice = notification.noticeTime
+                                            }
+                                        } label: {
+                                            Text(notification.text)
+                                                .font(Fonts.bodyMdSemiBold)
+                                                .foregroundStyle(Colors.Text.secondary)
+                                                .padding(10)
+                                                .frame(width: width, alignment: .leading)
+                                        }
                                     }
-                                    if notification == .custom {
-                                        isShowCustomNoticeSheet = true
-                                    } else {
-                                        HH = (notification.noticeTime ?? 0) / 60
-                                        mm = (notification.noticeTime ?? 0) % 60
-                                        goalViewModel.record.notice = notification.noticeTime
-                                    }
-                                } label: {
-                                    Text(notification.text)
-                                        .font(Fonts.bodyMdSemiBold)
-                                        .foregroundStyle(Colors.Text.secondary)
-                                        .padding(10)
-                                        .frame(width: width, alignment: .leading)
                                 }
                             }
                         }
-                    }
+                    )
                 }
             } label: {
                 Text(Notifications.noticeText(noticeTime: goalViewModel.record.notice))
@@ -351,6 +341,10 @@ struct NoticeSection: View {
                     .cornerRadius(8)
             }
             .getFrame { buttonFrame = $0 }
+            .onAppear {
+                HH = (goalViewModel.record.notice ?? 0) / 60
+                mm = (goalViewModel.record.notice ?? 0) % 60
+            }
             .sheet(
                 isPresented: $isShowCustomNoticeSheet,
                 onDismiss: {
