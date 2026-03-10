@@ -19,45 +19,44 @@ class AlertEnvironment: ObservableObject {
     @Published var secondaryButtonText: String = ""
     
     func showAlert(alertType: NoticeAlert) {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.alertTitle = alertType.titleText
             self.alertDescription = alertType.messageText
             self.primaryButtonText = alertType.primaryButtonText
             self.secondaryButtonText = alertType.secondaryButtonText
-            withAnimation {
-                self.isShowAlert = true
-            }
+            try? await Task.sleep(nanoseconds: 50_000_000)
+            
+            self.isShowAlert = true
         }
     }
     
     func hideAlert() {
-        DispatchQueue.main.async {
+        Task { @MainActor in
+            self.isShowAlert = false
+            
+            try? await Task.sleep(nanoseconds: 300_000_000)
             self.alertTitle = ""
             self.alertDescription = ""
             self.primaryButtonText = ""
             self.secondaryButtonText = ""
-            withAnimation {
-                self.isShowAlert = false
-            }
         }
     }
     
     func showToast(alertType: DailyAlert) {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.toastIcon = alertType.icon ?? .notice
-                self.toastMessage = alertType.messageText
-                self.isShowToast = true
-            }
+        Task { @MainActor in
+            self.toastIcon = alertType.icon ?? .notice
+            self.toastMessage = alertType.messageText
+            
+            self.isShowToast = true
         }
     }
     
     func hideToast() {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.toastMessage = ""
-                self.isShowToast = false
-            }
+        Task { @MainActor in
+            self.isShowToast = false
+            
+            self.toastIcon = .notice
+            self.toastMessage = ""
         }
     }
     
@@ -79,6 +78,7 @@ class AlertEnvironment: ObservableObject {
             .background(Colors.Background.toast)
             .cornerRadius(12)
             .opacity(isShowToast ? 1 : 0)
+            .animation(.easeInOut(duration: 0.3), value: isShowToast)
         }
         .onChange(of: isShowToast) { _, isShowToast in
             if isShowToast {
@@ -138,5 +138,6 @@ class AlertEnvironment: ObservableObject {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Colors.Background.dim)
         .opacity(isShowAlert ? 1 : 0)
+        .animation(.easeInOut(duration: 0.3), value: isShowAlert)
     }
 }
