@@ -71,7 +71,7 @@ struct DailyMenu: View {
                     calendarViewModel.deleteGoal(
                         goal: goal,
                         completeAction: {
-                            alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
+                            alertEnvironment.showToast(alerts: [NoticeAlert.removeNoticeTimeWithGoal])
                         }
                     )
                 } label: {
@@ -83,7 +83,7 @@ struct DailyMenu: View {
                         calendarViewModel.deleteRecord(
                             record: record,
                             completeAction: {
-                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
+                                alertEnvironment.showToast(alerts: [NoticeAlert.removeNoticeTimeWithGoal])
                             }
                         )
                     } label: {
@@ -94,7 +94,7 @@ struct DailyMenu: View {
                             calendarViewModel.deleteFutureRecords(
                                 goal: goal,
                                 completeAction: {
-                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
+                                    alertEnvironment.showToast(alerts: [NoticeAlert.removeNoticeTimeWithGoal])
                                 }
                             )
                         } label: {
@@ -104,7 +104,7 @@ struct DailyMenu: View {
                             calendarViewModel.deleteGoal(
                                 goal: goal,
                                 completeAction: {
-                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
+                                    alertEnvironment.showToast(alerts: [NoticeAlert.removeNoticeTimeWithGoal])
                                 }
                             )
                         } label: {

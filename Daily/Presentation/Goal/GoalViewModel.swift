@@ -111,7 +111,7 @@ extension GoalViewModel {
 // MARK: - button func
 extension GoalViewModel {
     func add(successAction: @escaping (Date) -> Void) {
-        if let validate = validate() { alertEnvironment?.showToast(alertType: validate); return }
+        if let validate = validate() { alertEnvironment?.showToast(alerts: [validate]); return }
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
             let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
@@ -122,7 +122,7 @@ extension GoalViewModel {
             
             successAction(startDate)
             
-            alertEnvironment?.showToast(alertType: SuccessAlert.addGoal)
+            alertEnvironment?.showToast(alerts: [SuccessAlert.addGoal])
             guard let records = goal.records, let record = records.first,
                   let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record) else { return }
             // FIXME: 토스트 순차적으로 뜨게 수정 후 추가
@@ -136,7 +136,7 @@ extension GoalViewModel {
     
     func modify(successAction: @escaping (Date) -> Void) {
         guard let modifyType else { return }
-        if let validate = validate() { alertEnvironment?.showToast(alertType: validate); return }
+        if let validate = validate() { alertEnvironment?.showToast(alerts: [validate]); return }
         
         if record.startTime != nil && (
             originalRecord.date != record.date ||
