@@ -82,14 +82,6 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     // MARK: - Notice
-    func getValidNoticeDate(record: DailyRecordModel) -> Date? {
-        guard let goal = record.goal, goal.isSetTime,
-              let notice = record.notice,
-              let noticeDate = CalendarServices.shared.noticeDate(date: record.date, setTime: goal.setTime, notice: notice)
-        else { return nil }
-        return Date() > noticeDate ? nil : noticeDate
-    }
-    
     func addNotice(noticeDate: Date, record: DailyRecordModel) {
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         

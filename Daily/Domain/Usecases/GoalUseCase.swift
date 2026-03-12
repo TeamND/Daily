@@ -32,7 +32,7 @@ final class GoalUseCase {
     }
     
     func addNotice(record: DailyRecordModel) {
-        guard let noticeDate = PushNoticeManager.shared.getValidNoticeDate(record: record) else { return }
+        guard let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() else { return }
         PushNoticeManager.shared.addNotice(noticeDate: noticeDate, record: record)
     }
     

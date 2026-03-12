@@ -260,7 +260,7 @@ extension CalendarViewModel {
     
     private func deleteRecords(records: [DailyRecordModel], completeAction: @escaping () -> Void) async {
         for record in records {
-            if let _ = PushNoticeManager.shared.getValidNoticeDate(record: record) {
+            if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() {
                 PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
                 completeAction()
             }
