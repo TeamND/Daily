@@ -212,7 +212,6 @@ extension GoalViewModel {
                 
                 await goalUseCase.updateData()
                 
-                // FIXME: 다중 목표 일괄 수정을 반복할 경우 alerts가 빈 배열로 내려오는 경우가 있음 확인 필요
                 let alerts: [DailyAlert] = goalUseCase.getAlerts(records: originalGoal.records)
                 alertEnvironment?.showToast(alerts: alerts)
             }

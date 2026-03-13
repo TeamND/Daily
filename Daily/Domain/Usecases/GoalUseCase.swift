@@ -51,6 +51,7 @@ final class GoalUseCase {
     }
     
     func getAlerts(records: [DailyRecordModel]?) -> [DailyAlert] {
+        let records = records?.sorted { $0.date < $1.date }
         guard let records, let firstRecord = records.first, let lastRecord = records.last else { return [] }
         
         var alerts: [DailyAlert] = []
