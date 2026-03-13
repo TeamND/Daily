@@ -223,10 +223,10 @@ extension CalendarViewModel {
         }
     }
     
-    func deleteRecord(record: DailyRecordModel, completeAction: @escaping () -> Void) {
+    func deleteRecord(record: DailyRecordModel) {
         Task {
             await resetData()
-            await deleteRecords(records: [record], completeAction: completeAction)
+            await deleteRecords(records: [record])
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
@@ -234,35 +234,34 @@ extension CalendarViewModel {
     }
     
     // TODO: 추후 최적화 필요
-    func deleteGoal(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+    func deleteGoal(goal: DailyGoalModel) {
         guard let records = goal.records else { return }
         Task {
             await resetData()
             await calendarUseCase.deleteGoal(goal: goal)
-            await deleteRecords(records: records, completeAction: completeAction)
+            await deleteRecords(records: records)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
     }
     
-    func deleteFutureRecords(goal: DailyGoalModel, completeAction: @escaping () -> Void) {
+    func deleteFutureRecords(goal: DailyGoalModel) {
         Task {
             let futureRecords = await calendarUseCase.getFutureRecords(goal: goal)
             
             await resetData()
-            await deleteRecords(records: futureRecords, completeAction: completeAction)
+            await deleteRecords(records: futureRecords)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
         }
     }
     
-    private func deleteRecords(records: [DailyRecordModel], completeAction: @escaping () -> Void) async {
+    private func deleteRecords(records: [DailyRecordModel]) async {
         for record in records {
             if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() {
                 PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
-                completeAction()
             }
             await calendarUseCase.deleteRecord(record: record)
         }
