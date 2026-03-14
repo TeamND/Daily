@@ -39,6 +39,7 @@
 		F65ACDE22CC91CEC00C67DD1 /* CalendarServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */; };
 		F662E0752E44CE2A00B04698 /* DailySegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F662E0742E44CE2A00B04698 /* DailySegment.swift */; };
 		F662E07A2E48D28A00B04698 /* SegmentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F662E0792E48D28A00B04698 /* SegmentTypes.swift */; };
+		F66ACF9D2F65297F00FFE2C8 /* NotificationIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66ACF9C2F65297F00FFE2C8 /* NotificationIndicator.swift */; };
 		F66EB6B62E00F1BE00CC04C4 /* RepeatTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */; };
 		F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70102E3F08F40091658F /* GoalDataEntity.swift */; };
 		F66F70132E3F0A4C0091658F /* ModifyTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70122E3F0A4C0091658F /* ModifyTypes.swift */; };
@@ -202,6 +203,7 @@
 		F65ACDE12CC91CEC00C67DD1 /* CalendarServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarServices.swift; sourceTree = "<group>"; };
 		F662E0742E44CE2A00B04698 /* DailySegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySegment.swift; sourceTree = "<group>"; };
 		F662E0792E48D28A00B04698 /* SegmentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentTypes.swift; sourceTree = "<group>"; };
+		F66ACF9C2F65297F00FFE2C8 /* NotificationIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationIndicator.swift; sourceTree = "<group>"; };
 		F66EB6B52E00F1BE00CC04C4 /* RepeatTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatTypes.swift; sourceTree = "<group>"; };
 		F66F70102E3F08F40091658F /* GoalDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataEntity.swift; sourceTree = "<group>"; };
 		F66F70122E3F0A4C0091658F /* ModifyTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyTypes.swift; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 			children = (
 				F6F31DF42CF96DC60090A3B9 /* RecordList.swift */,
 				F6F31DD42CF87DCF0090A3B9 /* RecordButton.swift */,
+				F66ACF9C2F65297F00FFE2C8 /* NotificationIndicator.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -954,6 +957,7 @@
 				F64A42732DC5DDE800B69D46 /* Settings.swift in Sources */,
 				F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */,
 				F6F31DF52CF96DC60090A3B9 /* RecordList.swift in Sources */,
+				F66ACF9D2F65297F00FFE2C8 /* NotificationIndicator.swift in Sources */,
 				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */,
 				F6016DF82CC6632600FB637F /* CalendarDayView.swift in Sources */,
