@@ -13,7 +13,6 @@ class GoalViewModel: ObservableObject {
     private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
     private(set) var modifyType: ModifyTypes?
-    private(set) var alertEnvironment: AlertEnvironment?
     
     private(set) var originalGoal: DailyGoalModel = DailyGoalModel()
     private(set) var originalRecord: DailyRecordModel = DailyRecordModel()
@@ -77,11 +76,6 @@ class GoalViewModel: ObservableObject {
         self.goal.update(goal: originalGoal)
         self.record.update(record: originalRecord)
     }
-    
-    // FIXME: 추후에 alertType을 반환하는 구조로 개선해서 viewModel에서 UI조작을 하지 않도록 개선
-    func setAlertEnvironment(_ alertEnvironment: AlertEnvironment) {
-        self.alertEnvironment = alertEnvironment
-    }
 }
 
 // MARK: - popover func
@@ -110,9 +104,9 @@ extension GoalViewModel {
 
 // MARK: - button func
 extension GoalViewModel {
-    func add(successAction: @escaping (Date) -> Void) {
+    func add(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
         let validates = validate()
-        if validates.count > 0 { alertEnvironment?.showToast(alerts: validates); return }
+        if validates.count > 0 { showToast(validates); return }
         
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
@@ -123,16 +117,14 @@ extension GoalViewModel {
             await goalUseCase.addGoal(goal: goal)
             
             successAction(startDate)
-            
-            let alerts: [DailyAlert] = [SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records)
-            alertEnvironment?.showToast(alerts: alerts)
+            showToast([SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records))
         }
     }
     
-    func modify(successAction: @escaping (Date) -> Void) {
+    func modify(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
         guard let modifyType else { return }
         let validates = validate()
-        if validates.count > 0 { alertEnvironment?.showToast(alerts: validates); return }
+        if validates.count > 0 { showToast(validates); return }
         
         if record.startTime != nil && (
             originalRecord.date != record.date ||
@@ -165,8 +157,7 @@ extension GoalViewModel {
                     goalUseCase.addNotice(record: originalRecord)
                     await goalUseCase.updateData()
                     
-                    let alerts: [DailyAlert] = goalUseCase.getAlerts(records: [originalRecord])
-                    alertEnvironment?.showToast(alerts: alerts)
+                    showToast(goalUseCase.getAlerts(records: [originalRecord]))
                 } else {    // MARK: 단일 수정 (목표도 수정)
                     originalGoal.records?.removeAll() { $0.id == originalRecord.id }
                     await goalUseCase.deleteRecord(record: originalRecord)
@@ -183,8 +174,7 @@ extension GoalViewModel {
                     goal.records = [record]
                     await goalUseCase.addGoal(goal: goal)
                     
-                    let alerts: [DailyAlert] = goalUseCase.getAlerts(records: [record])
-                    alertEnvironment?.showToast(alerts: alerts)
+                    showToast(goalUseCase.getAlerts(records: [record]))
                 }
             } else {    // MARK: 일괄 수정
                 originalGoal.records?.forEach { goalUseCase.removeNotice(record: $0) }
@@ -212,8 +202,7 @@ extension GoalViewModel {
                 
                 await goalUseCase.updateData()
                 
-                let alerts: [DailyAlert] = goalUseCase.getAlerts(records: originalGoal.records)
-                alertEnvironment?.showToast(alerts: alerts)
+                showToast(goalUseCase.getAlerts(records: originalGoal.records))
             }
             
             successAction(record.date)
