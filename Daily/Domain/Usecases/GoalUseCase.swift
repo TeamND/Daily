@@ -58,7 +58,7 @@ final class GoalUseCase {
         
         if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: lastRecord), noticeDate > Date() {
             alerts.append(NoticeAlert.setNoticeTime(
-                noticeTime: Notifications.noticeText(noticeTime: lastRecord.notice)
+                noticeText: Notifications.noticeText(noticeTime: lastRecord.notice, isToast: true)
             ))
         }
         
