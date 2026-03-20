@@ -24,14 +24,19 @@ final class GoalUseCase {
     
     func addRecord(record: DailyRecordModel) async {
         await repository.addRecord(record: record)
+        addNotice(record: record)
     }
     
     func deleteRecord(record: DailyRecordModel) async {
         await repository.deleteRecord(record: record)
     }
     
+    func addNotice(record: DailyRecordModel) {
+        guard let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() else { return }
+        PushNoticeManager.shared.addNotice(noticeDate: noticeDate, record: record)
+    }
+    
     func removeNotice(record: DailyRecordModel) {
-        record.notice = nil
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
     }
     

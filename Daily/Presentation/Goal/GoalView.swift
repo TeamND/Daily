@@ -30,26 +30,22 @@ struct GoalView: View {
             }
         }
         .background(Colors.Background.primary)
+        .onAppear { goalViewModel.setAlertEnvironment(alertEnvironment) } // MARK: for toast
     }
     
     var headerView: some View {
         NavigationHeader(title: viewType.headerTitle, trailingText: viewType.trailingText) {
             if viewType == .goal {
-                goalViewModel.add(successAction: successAction, validateAction: validateAction)
+                goalViewModel.add(successAction: successAction)
             } else {
-                goalViewModel.modify(successAction: successAction, validateAction: validateAction)
+                goalViewModel.modify(successAction: successAction)
             }
         }
     }
     
-    private func successAction(isAddGoal: Bool, newDate: Date?) {
+    private func successAction(newDate: Date) {
         dismiss()
-        if isAddGoal { alertEnvironment.showToast(alertType: SuccessAlert.addGoal) }
-        if let newDate { calendarViewModel.setDate(date: newDate) }
-    }
-    
-    private func validateAction(alert: DailyAlert) {
-        alertEnvironment.showToast(alertType: alert)
+        calendarViewModel.setDate(date: newDate)
     }
     
     var goalView: some View {
@@ -98,6 +94,7 @@ struct GoalView: View {
                 DailyPopover(position: goalViewModel.popoverPosition) { content }
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: goalViewModel.popoverContent == nil)
     }
 }
 
@@ -195,18 +192,6 @@ struct TimeSection: View {
                 ))
                 .labelsHidden()
                 .toggleStyle(SwitchToggleStyle(tint: Colors.Brand.primary))
-                .onChange(of: goalViewModel.goal.isSetTime) {
-                    if $1 {
-                        PushNoticeManager.shared.requestNotiAuthorization(
-                            showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime
-                        )
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            if alertEnvironment.isShowAlert {
-                                goalViewModel.goal.isSetTime = false
-                            }
-                        }
-                    }
-                }
             }
             
             if goalViewModel.goal.isSetTime {
@@ -268,6 +253,10 @@ struct TimeSection: View {
                     }
                     .getFrame { buttonFrame = $0 }
                 }
+                
+                Spacer().frame(height: 16)
+                
+                NoticeSection(goalViewModel: goalViewModel)
             }
         }
         .padding(.horizontal, 16)
@@ -275,6 +264,152 @@ struct TimeSection: View {
             HH = Int(goalViewModel.goal.setTime.split(separator: ":")[0]) ?? 0
             mm = Int(goalViewModel.goal.setTime.split(separator: ":")[1]) ?? 0
         }
+    }
+}
+
+// MARK: - NoticeSection
+struct NoticeSection: View {
+    @EnvironmentObject private var alertEnvironment: AlertEnvironment
+    @ObservedObject var goalViewModel: GoalViewModel
+    
+    @State private var isShowCustomNoticeSheet: Bool = false
+    @State private var buttonFrame: CGRect = .zero
+    @State private var HH: Int = 0
+    @State private var mm: Int = 0
+    
+    var body: some View {
+        HStack {
+            Text("notification".localized)
+                .font(Fonts.bodyLgSemiBold)
+                .foregroundStyle(Colors.Text.primary)
+            
+            Spacer()
+            
+            Button {
+                let width: CGFloat = UserDefaultManager.language == .korean ? 100 : 144 // FIXME: 추후 개선
+                let height: CGFloat = 266
+                
+                let offsetX = buttonFrame.width - width / 2
+                let offsetY = buttonFrame.height + height / 2
+                
+                let position = CGPoint(
+                    x: buttonFrame.minX + offsetX,
+                    y: buttonFrame.minY + offsetY + 8
+                )
+                
+                if goalViewModel.popoverContent != nil {
+                    goalViewModel.hidePopover()
+                } else {
+                    PushNoticeManager.shared.requestNotiAuthorization(
+                        showAlert: alertEnvironment.showAlert, alertType: .deniedAtSetTime,
+                        authorizedAction: {
+                            goalViewModel.showPopover(at: position) {
+                                VStack(spacing: .zero) {
+                                    ForEach(Notifications.allCases, id: \.self) { notification in
+                                        if notification == .custom { Divider().frame(height: 1) }
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                goalViewModel.hidePopover()
+                                            }
+                                            if notification == .custom {
+                                                isShowCustomNoticeSheet = true
+                                            } else {
+                                                HH = (notification.noticeTime ?? 0) / 60
+                                                mm = (notification.noticeTime ?? 0) % 60
+                                                goalViewModel.record.notice = notification.noticeTime
+                                            }
+                                        } label: {
+                                            Text(notification.text)
+                                                .font(Fonts.bodyMdSemiBold)
+                                                .foregroundStyle(Colors.Text.secondary)
+                                                .padding(10)
+                                                .frame(width: width, alignment: .leading)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    )
+                }
+            } label: {
+                Text(Notifications.noticeText(noticeTime: goalViewModel.record.notice))
+                    .font(Fonts.bodyLgMedium)
+                    .foregroundStyle(Colors.Text.point)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 20)
+                    .background(Colors.Background.secondary)
+                    .cornerRadius(8)
+            }
+            .getFrame { buttonFrame = $0 }
+            .onAppear {
+                HH = (goalViewModel.record.notice ?? 0) / 60
+                mm = (goalViewModel.record.notice ?? 0) % 60
+            }
+            .sheet(
+                isPresented: $isShowCustomNoticeSheet,
+                onDismiss: {
+                    HH = (goalViewModel.record.notice ?? 0) / 60
+                    mm = (goalViewModel.record.notice ?? 0) % 60
+                }
+            ) {
+                customNoticeSheet
+                    .presentationDetents([.height(380)])
+                    .presentationDragIndicator(.visible)
+            }
+        }
+    }
+    
+    var customNoticeSheet: some View {
+        VStack(spacing: .zero) {
+            Spacer().frame(height: 16)
+            Text("custom_notification".localized)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(Fonts.headingMdBold)
+                .foregroundStyle(Colors.Text.primary)
+            Spacer().frame(height: 24)
+            HStack(spacing: .zero) {
+                DailyPicker(range: 0 ..< 24, selection: $HH)
+                Spacer().frame(width: 8)
+                Text("capital_hours".localized)
+                Spacer().frame(width: 12)
+                DailyPicker(range: 0 ..< 60, selection: $mm)
+                Spacer().frame(width: 8)
+                Text("capital_minutes".localized)
+            }
+            .font(Fonts.bodyLgSemiBold)
+            .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 20)
+            let emphaticPhrase = "before".localized("\("h".localized(HH)) \("m".localized(mm))")
+            let string = "notify_you_the_set_time".localized(emphaticPhrase)
+            Text(makeAttributedString(string: string, emphaticPhrase: emphaticPhrase))
+                .font(Fonts.bodyLgRegular)
+                .foregroundStyle(Colors.Text.secondary)
+            Spacer().frame(height: 28)
+            Button {
+                goalViewModel.record.notice = HH * 60 + mm
+                isShowCustomNoticeSheet = false
+            } label: {
+                Text("apply".localized)
+                    .font(Fonts.bodyLgSemiBold)
+                    .foregroundStyle(Colors.Text.inverse)
+                    .frame(maxWidth: .infinity, maxHeight: 50)
+                    .background(Colors.Brand.primary)
+                    .cornerRadius(8)
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+    
+    // FIXME: 위치 이동 필요
+    private func makeAttributedString(string: String, emphaticPhrase: String) -> AttributedString {
+        var attributed = AttributedString(string)
+        
+        if let range = attributed.range(of: emphaticPhrase) {
+            attributed[range].foregroundColor = Colors.Text.point
+            attributed[range].font = Fonts.bodyLgSemiBold
+        }
+        
+        return attributed
     }
 }
 

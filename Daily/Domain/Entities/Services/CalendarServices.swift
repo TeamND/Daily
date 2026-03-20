@@ -114,16 +114,18 @@ class CalendarServices {
         return Array(previousDates) + currentMonthDates + nextDates
     }
     
-    func noticeDate(date: Date, setTime: String, notice: Int = 5) -> Date? {
-        let timeComponents = setTime.split(separator: ":").compactMap { Int($0) }
+    func getValidNoticeDate(record: DailyRecordModel) -> Date? {
+        guard let goal = record.goal, goal.isSetTime, let notice = record.notice else { return nil }
+        
+        let timeComponents = goal.setTime.split(separator: ":").compactMap { Int($0) }
         let hour = timeComponents[0]
         let minute = timeComponents[1]
         
         var components = DateComponents()
         components.calendar = Calendar.current
-        components.year = date.year
-        components.month = date.month
-        components.day = date.day
+        components.year = record.date.year
+        components.month = record.date.month
+        components.day = record.date.day
         components.hour = hour
         components.minute = minute
         

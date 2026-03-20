@@ -84,6 +84,17 @@
 "year_month_text" = "%1$@년 %2$@";
 "selected_date" = "선택된 날짜";
 "set_time" = "시간 지정";
+"notification" = "알림";
+"no_notification" = "알림 없음";
+"at_time" = "목표 시간";
+"custom_notification" = "사용자화 알림";
+"capital_hours" = "시간";
+"capital_minutes" = "분";
+"before" = "%@ 전";
+"h" = "%d시간";
+"m" = "%d분";
+"notify_you_the_set_time" = "목표 시간보다 %@ 에 알려드려요";
+"apply" = "적용";
 "goal" = "목표";
 "enter_your_goal" = "목표를 입력하세요 (최소 2자)";
 "select_icon" = "심볼 선택";
@@ -98,27 +109,20 @@
 "enter_at_least_2_characters" = "목표는 최소 2글자 이상 입력해주세요";
 "end_date_must_be_after_start_date" = "종료일은 시작일 이후로 설정해주세요";
 "maximum_period_is_1_year" = "기간은 최대 1년까지만 설정할 수 있어요";
-"select_at_least_one_repeat_day" = "반복 요일을 하나 이상 선택해주세요";
+"select_at_least_one_day" = "반복 요일을 하나 이상 선택해주세요";
 "repeat_day_not_within_selected_period" = "선택한 기간 내 반복 요일이 포함되지 않아요";
-"notification_removed_due_to_date_change" = "목표 날짜가 변경되어 알림이 삭제되었어요";
-"notification_removed_due_to_time_change" = "목표 시간이 변경되어 알림이 삭제되었어요";
 "notifications_are_off_so_some_features_are_limited" = "알림이 꺼져 있어 기능 일부가 제한돼요";
 "notifications_are_turned_off" = "알림 권한이 꺼져 있어요";
 "stay_on_track_with_reminders" = "더 체계적인 관리를 위해 알림을 받아보세요!";
 "please_allow_notifications_in_settings" = "설정에서 알림을 허용해주세요!";
 "go_to_settings" = "설정으로 이동";
 "remind_me_later" = "나중에 하기";
-"minutes" = "%d분";
-"hour" = "%d시간";
-"you_will_be_notified_before" = "설정한 시간 %@ 전에 알려드릴게요";
-"noticifation_removed" = "알림이 삭제되었어요";
+"you_will_be_notified" = "설정한 시간%@에 알려드릴게요";
+"at_the_set_time" = "";
 "notification_deleted_with_the_goal" = "알림이 함께 삭제되었어요";
 "goal_added" = "목표가 추가되었어요";
 
 // MARK: - Menu
-"turn_on_notification" = "알림 켜기";
-"turn_off_notification" = "알림 끄기";
-"before" = "%@ 전";
 "edit_this_only" = "단일 수정";
 "edit_all" = "일괄 수정";
 "delete_goal" = "목표 삭제";
@@ -130,5 +134,6 @@
 // MARK: - PushNotice
 "how_was_your_day" = "오늘 하루는 어땠나요 🤔";
 "write_down_your_day" = "하루를 기록해보세요";
-"before_ready_to_begin" = "%@ 전이에요. 준비되셨나요?";
+"ready_to_begin" = "%@이에요. 준비되셨나요?";
+"its_time" = "목표 시간";
 "you_did_it_goal_complete" = "목표한 시간이 끝났어요. 수고하셨어요!";

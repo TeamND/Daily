@@ -105,7 +105,7 @@ extension CalendarUseCase {
     func toggleStartTime(record: DailyRecordModel) async {
         record.startTime = record.startTime == nil ? Date() : nil
         let timerNoticeId = "\(String(describing: record.id))-timer"
-        if let startTime = record.startTime, let goal = record.goal {
+        if let _ = record.startTime, let goal = record.goal {
             PushNoticeManager.shared.addTimerNotice(
                 id: timerNoticeId,
                 content: goal.content,
@@ -137,11 +137,6 @@ extension CalendarUseCase {
         }
     }
     
-    func setNotice(record: DailyRecordModel, notice: Int?) async {
-        record.notice = notice
-        await repository.updateData()
-    }
-    
     func deleteRecord(record: DailyRecordModel) async {
         await repository.deleteRecord(record: record)
     }
@@ -150,7 +145,7 @@ extension CalendarUseCase {
         await repository.deleteGoal(goal: goal)
     }
     
-    func getDeleteRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
+    func getFutureRecords(goal: DailyGoalModel) async -> [DailyRecordModel] {
         guard let futureRecords = await repository.getFutureRecords() else { return [] }
         return futureRecords.filter { $0.goal?.id == goal.id }
     }
@@ -272,7 +267,7 @@ extension CalendarUseCase {
             guard let url = URL(string: urlString) else { return }
             
             do {
-                let (data, response) = try await URLSession.shared.data(from: url)
+                let (data, _) = try await URLSession.shared.data(from: url)
                 let holidays = try JSONDecoder().decode([HolidayModel].self, from: data)
                 
                 UserDefaultManager.holidays?[year] = holidays.reduce(into: [:]) { dict, holiday in
