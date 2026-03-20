@@ -9,7 +9,7 @@ import Foundation
 
 enum Notifications: CaseIterable {
     case noNotification
-    case onTime
+    case atTime
     case five
     case ten
     case thirty
@@ -20,8 +20,8 @@ enum Notifications: CaseIterable {
         switch self {
         case .noNotification:
             "no_notification".localized
-        case .onTime:
-            "on_time".localized
+        case .atTime:
+            "at_time".localized
         case .five:
             "before".localized("m".localized(5))
         case .ten:
@@ -37,7 +37,7 @@ enum Notifications: CaseIterable {
     
     var noticeTime: Int? {
         switch self {
-        case .onTime:
+        case .atTime:
             return 0
         case .five:
             return 5
@@ -54,10 +54,12 @@ enum Notifications: CaseIterable {
 }
 
 extension Notifications {
-    static func noticeText(noticeTime: Int?) -> String {
+    static func noticeText(noticeTime: Int?, isPushNotice: Bool = false, isToast: Bool = false) -> String {
         guard let noticeTime else { return Notifications.noNotification.text }
         if let notifications = Self.allCases.first(where: { $0.noticeTime == noticeTime }) {
-            return notifications.text
+            if isPushNotice && notifications == .atTime { return "its_time".localized }
+            if isToast && notifications == .atTime { return "at_the_set_time".localized }
+            return isToast ? " " + notifications.text : notifications.text
         } else {    // MARK: .custom
             let h = noticeTime / 60
             let m = noticeTime % 60

@@ -124,11 +124,11 @@ extension GoalViewModel {
             
             alertEnvironment?.showToast(alertType: SuccessAlert.addGoal)
             guard let records = goal.records, let record = records.first,
-                  let noticeDate = PushNoticeManager.shared.getValidNoticeDate(record: record) else { return }
+                  let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record) else { return }
             // FIXME: 토스트 순차적으로 뜨게 수정 후 추가
 //            alertEnvironment?.showToast(
 //                alertType: NoticeAlert.setNoticeTime(
-//                    noticeTime: Notifications.noticeText(noticeTime: record.notice)
+//                    noticeText: Notifications.noticeText(noticeTime: record.notice)
 //                )
 //            )
         }

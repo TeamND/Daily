@@ -86,7 +86,7 @@
 "set_time" = "Set Time";
 "notification" = "Notification";
 "no_notification" = "No Notification";
-"on_time" = "On Time";
+"at_time" = "At Time";
 "custom_notification" = "Custom Notification";
 "capital_hours" = "Hours";
 "capital_minutes" = "Minutes";
@@ -118,6 +118,7 @@
 "go_to_settings" = "Go to Settings";
 "remind_me_later" = "Remind Me Later";
 "you_will_be_notified" = "You`ll be notified %@";
+"at_the_set_time" = "at the set time";
 "notification_deleted_with_the_goal" = "Notification deleted with the goal";
 "goal_added" = "Goal added";
 
@@ -134,4 +135,5 @@
 "how_was_your_day" = "How was your day? 🤔";
 "write_down_your_day" = "Write down your day!";
 "ready_to_begin" = "%@. Ready to begin?";
+"its_time" = "It`s time";
 "you_did_it_goal_complete" = "You did it! Goal complete.";
