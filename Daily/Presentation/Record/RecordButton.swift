@@ -29,9 +29,7 @@ struct RecordButton: View {
                         .scaledToFit()
                 }
                 RatingIndicator(rating: Double(record.count) / Double(goal.count))
-                if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() {
-                    NotificationIndicator()
-                }
+                NotificationIndicator(record: record)
             }
             .frame(width: 40, height: 40)
         }
