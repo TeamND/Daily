@@ -94,7 +94,7 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             by: components,
             id: String(describing: record.id),
             title: record.goal?.content ?? "",
-            body: "ready_to_begin".localized(Notifications.noticeText(noticeTime: record.notice)),
+            body: "ready_to_begin".localized(Notifications.noticeText(noticeTime: record.notice, isPushNotice: true)),
             userInfo: userInfo
         )
     }

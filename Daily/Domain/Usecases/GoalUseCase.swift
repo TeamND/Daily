@@ -49,4 +49,23 @@ final class GoalUseCase {
             remainTime: goal.count - record.count
         )
     }
+    
+    func getAlerts(records: [DailyRecordModel]?) -> [DailyAlert] {
+        let records = records?.sorted { $0.date < $1.date }
+        guard let records, let firstRecord = records.first, let lastRecord = records.last else { return [] }
+        
+        var alerts: [DailyAlert] = []
+        
+        if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: lastRecord), noticeDate > Date() {
+            alerts.append(NoticeAlert.setNoticeTime(
+                noticeText: Notifications.noticeText(noticeTime: lastRecord.notice, isToast: true)
+            ))
+        }
+        
+        if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: firstRecord), noticeDate < Date() {
+            alerts.append(NoticeAlert.noNotificationsForPastEvents)
+        }
+        
+        return alerts
+    }
 }

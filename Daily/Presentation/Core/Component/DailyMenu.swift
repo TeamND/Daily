@@ -68,45 +68,25 @@ struct DailyMenu: View {
         Group {
             if goal.cycleType == .date {
                 Button {
-                    calendarViewModel.deleteGoal(
-                        goal: goal,
-                        completeAction: {
-                            alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
-                        }
-                    )
+                    calendarViewModel.deleteGoal(goal: goal)
                 } label: {
                     Label("delete_goal".localized, systemImage: "trash")
                 }
             } else {
                 Menu {
                     Button {
-                        calendarViewModel.deleteRecord(
-                            record: record,
-                            completeAction: {
-                                alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
-                            }
-                        )
+                        calendarViewModel.deleteRecord(record: record)
                     } label: {
                         Text("delete_this_only".localized)
                     }
                     Menu {
                         Button {
-                            calendarViewModel.deleteFutureRecords(
-                                goal: goal,
-                                completeAction: {
-                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
-                                }
-                            )
+                            calendarViewModel.deleteFutureRecords(goal: goal)
                         } label: {
                             Text("delete_future_goals_only".localized)
                         }
                         Button {
-                            calendarViewModel.deleteGoal(
-                                goal: goal,
-                                completeAction: {
-                                    alertEnvironment.showToast(alertType: NoticeAlert.removeNoticeTimeWithGoal)
-                                }
-                            )
+                            calendarViewModel.deleteGoal(goal: goal)
                         } label: {
                             Text("delete_with_past_records".localized)
                         }

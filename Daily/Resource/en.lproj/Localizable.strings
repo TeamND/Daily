@@ -119,7 +119,7 @@
 "remind_me_later" = "Remind Me Later";
 "you_will_be_notified" = "You`ll be notified %@";
 "at_the_set_time" = "at the set time";
-"notification_deleted_with_the_goal" = "Notification deleted with the goal";
+"no_notifications_for_past_events" = "No notifications for past events";
 "goal_added" = "Goal added";
 
 // MARK: - Menu

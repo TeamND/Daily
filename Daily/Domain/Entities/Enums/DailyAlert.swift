@@ -75,11 +75,11 @@ enum NoticeAlert: DailyAlert {
     case deniedAtAppOpen
     case deniedAtSetTime
     case setNoticeTime(noticeText: String)
-    case removeNoticeTimeWithGoal
+    case noNotificationsForPastEvents
     
     var icon: ImageResource? {
         switch self {
-        case .setNoticeTime, .removeNoticeTimeWithGoal:
+        case .setNoticeTime:
             return .complete
         default:
             return nil
@@ -105,8 +105,8 @@ enum NoticeAlert: DailyAlert {
             return "please_allow_notifications_in_settings".localized
         case .setNoticeTime(let noticeText):
             return "you_will_be_notified".localized(noticeText)
-        case .removeNoticeTimeWithGoal:
-            return "notification_deleted_with_the_goal".localized
+        case .noNotificationsForPastEvents:
+            return "no_notifications_for_past_events".localized
         }
     }
     

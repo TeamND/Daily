@@ -119,7 +119,7 @@
 "remind_me_later" = "나중에 하기";
 "you_will_be_notified" = "설정한 시간%@에 알려드릴게요";
 "at_the_set_time" = "";
-"notification_deleted_with_the_goal" = "알림이 함께 삭제되었어요";
+"no_notifications_for_past_events" = "지난 일정은 알림이 울리지 않습니다";
 "goal_added" = "목표가 추가되었어요";
 
 // MARK: - Menu

@@ -111,7 +111,9 @@ extension GoalViewModel {
 // MARK: - button func
 extension GoalViewModel {
     func add(successAction: @escaping (Date) -> Void) {
-        if let validate = validate() { alertEnvironment?.showToast(alertType: validate); return }
+        let validates = validate()
+        if validates.count > 0 { alertEnvironment?.showToast(alerts: validates); return }
+        
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
             let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
@@ -122,21 +124,15 @@ extension GoalViewModel {
             
             successAction(startDate)
             
-            alertEnvironment?.showToast(alertType: SuccessAlert.addGoal)
-            guard let records = goal.records, let record = records.first,
-                  let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record) else { return }
-            // FIXME: 토스트 순차적으로 뜨게 수정 후 추가
-//            alertEnvironment?.showToast(
-//                alertType: NoticeAlert.setNoticeTime(
-//                    noticeText: Notifications.noticeText(noticeTime: record.notice)
-//                )
-//            )
+            let alerts: [DailyAlert] = [SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records)
+            alertEnvironment?.showToast(alerts: alerts)
         }
     }
     
     func modify(successAction: @escaping (Date) -> Void) {
         guard let modifyType else { return }
-        if let validate = validate() { alertEnvironment?.showToast(alertType: validate); return }
+        let validates = validate()
+        if validates.count > 0 { alertEnvironment?.showToast(alerts: validates); return }
         
         if record.startTime != nil && (
             originalRecord.date != record.date ||
@@ -163,12 +159,14 @@ extension GoalViewModel {
                 {
                     originalRecord.date = record.date
                     originalRecord.count = record.count
-                    originalRecord.notice = record.notice
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
                     originalRecord.isSuccess = originalGoal.count <= record.count
                     
                     goalUseCase.addNotice(record: originalRecord)
                     await goalUseCase.updateData()
+                    
+                    let alerts: [DailyAlert] = goalUseCase.getAlerts(records: [originalRecord])
+                    alertEnvironment?.showToast(alerts: alerts)
                 } else {    // MARK: 단일 수정 (목표도 수정)
                     originalGoal.records?.removeAll() { $0.id == originalRecord.id }
                     await goalUseCase.deleteRecord(record: originalRecord)
@@ -184,6 +182,9 @@ extension GoalViewModel {
                     
                     goal.records = [record]
                     await goalUseCase.addGoal(goal: goal)
+                    
+                    let alerts: [DailyAlert] = goalUseCase.getAlerts(records: [record])
+                    alertEnvironment?.showToast(alerts: alerts)
                 }
             } else {    // MARK: 일괄 수정
                 originalGoal.records?.forEach { goalUseCase.removeNotice(record: $0) }
@@ -210,7 +211,11 @@ extension GoalViewModel {
                 }
                 
                 await goalUseCase.updateData()
+                
+                let alerts: [DailyAlert] = goalUseCase.getAlerts(records: originalGoal.records)
+                alertEnvironment?.showToast(alerts: alerts)
             }
+            
             successAction(record.date)
         }
     }
@@ -218,25 +223,31 @@ extension GoalViewModel {
     
 // MARK: - validate func
 extension GoalViewModel {
-    private func validate() -> DailyAlert? {
-        if validateContent() { return ContentAlert.tooShoertLength }
-        if validateCount() { return CountAlert.tooSmallCount }
+    private func validate() -> [DailyAlert] {
+        var alerts: [DailyAlert] = []
+        
+        if validateContent() { alerts.append(ContentAlert.tooShoertLength) }
+        if validateCount() { alerts.append(CountAlert.tooSmallCount) }
         if modifyType == nil && goal.cycleType == .rept {
             if repeatType == .weekly {
-                if startDate > endDate { return DateAlert.wrongDateRange }
-                if validateDateRange() { return DateAlert.overDateRange }
-                if selectedWeekday.allSatisfy({ $0 == false }) { return DateAlert.emptySelectedWeekday }
+                if startDate > endDate { alerts.append(DateAlert.wrongDateRange) }
+                if validateDateRange() { alerts.append(DateAlert.overDateRange) }
+                if selectedWeekday.allSatisfy({ $0 == false }) { alerts.append(DateAlert.emptySelectedWeekday) }
             }
-            if repeatDates.count == 0 { return DateAlert.emptyRepeatDates }
+            if repeatDates.count == 0 { alerts.append(DateAlert.emptyRepeatDates) }
         }
-        return nil
+        
+        return alerts
     }
+    
     private func validateContent() -> Bool {
         return goal.content.count < 2
     }
+    
     private func validateCount() -> Bool {
         return goal.count < 1
     }
+    
     private func validateDateRange() -> Bool {
         let gap = calendar.dateComponents([.year,.month,.day], from: startDate, to: endDate)
         return gap.year! > 0
