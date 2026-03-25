@@ -37,7 +37,9 @@ struct MainView: View {
     }
     
     private func goCalendar(to: CalendarTypes = .day, date: Date? = nil) {
-        let from = navigationEnvironment.navigationPath.last?.viewType.calendarType ?? .year
+        guard let from = navigationEnvironment.navigationPath.isEmpty
+                ? .year
+                : navigationEnvironment.navigationPath.last?.viewType.calendarType else { return }
         navigationEnvironment.navigateDirect(from: from, to: to)
         calendarViewModel.setDate(date: date ?? Date(format: .daily))
     }
