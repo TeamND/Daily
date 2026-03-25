@@ -55,7 +55,10 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().addNotiRequest(by: components, id: id, title: title, body: body, repeats: true)
     }
     
-    func requestNotiAuthorization(showAlert: @escaping (NoticeAlert) -> Void, alertType: NoticeAlert) {
+    func requestNotiAuthorization(
+        showAlert: @escaping (NoticeAlert) -> Void, alertType: NoticeAlert,
+        authorizedAction: (() -> Void)? = nil
+    ) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -65,30 +68,33 @@ class PushNoticeManager: NSObject, UNUserNotificationCenterDelegate {
             case .denied:
                 showAlert(alertType)
             default:
-                self.removeBadges()
-                self.removePastNotice()
-                UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-                    if !requests.contains(where: { $0.identifier == "default" }) { self.addDefaultNotice() }
+                if let authorizedAction {
+                    authorizedAction()
+                } else {
+                    self.removeBadges()
+                    self.removePastNotice()
+                    UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                        if !requests.contains(where: { $0.identifier == "default" }) { self.addDefaultNotice() }
+                    }
                 }
             }
         }
     }
     
     // MARK: - Notice
-    func addNotice(id: String, content: String, date: Date, setTime: String, noticeTime: NoticeTimes = .five) {
-        guard let noticeDate = CalendarServices.shared.noticeDate(date: date, setTime: setTime, notice: noticeTime.rawValue) else { return }
+    func addNotice(noticeDate: Date, record: DailyRecordModel) {
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: noticeDate)
         
         let userInfo: [AnyHashable : Any] = [
             "type": "normal",
-            "date": date.timeIntervalSince1970
+            "date": record.date.timeIntervalSince1970
         ]
         
         UNUserNotificationCenter.current().addNotiRequest(
             by: components,
-            id: id,
-            title: content,
-            body: "before_ready_to_begin".localized(noticeTime.text),
+            id: String(describing: record.id),
+            title: record.goal?.content ?? "",
+            body: "ready_to_begin".localized(Notifications.noticeText(noticeTime: record.notice, isPushNotice: true)),
             userInfo: userInfo
         )
     }

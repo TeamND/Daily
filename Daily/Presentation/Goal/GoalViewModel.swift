@@ -12,10 +12,11 @@ class GoalViewModel: ObservableObject {
     private let goalUseCase: GoalUseCase
     private let calendar: Calendar = CalendarManager.shared.getDailyCalendar()
     
-    var modifyType: ModifyTypes?
+    private(set) var modifyType: ModifyTypes?
+    private(set) var alertEnvironment: AlertEnvironment?
     
-    var originalGoal: DailyGoalModel = DailyGoalModel()
-    var originalRecord: DailyRecordModel = DailyRecordModel()
+    private(set) var originalGoal: DailyGoalModel = DailyGoalModel()
+    private(set) var originalRecord: DailyRecordModel = DailyRecordModel()
     
     private var isBlockPopover: Bool = false
     @Published var popoverPosition: CGPoint = .zero
@@ -76,6 +77,11 @@ class GoalViewModel: ObservableObject {
         self.goal.update(goal: originalGoal)
         self.record.update(record: originalRecord)
     }
+    
+    // FIXME: 추후에 alertType을 반환하는 구조로 개선해서 viewModel에서 UI조작을 하지 않도록 개선
+    func setAlertEnvironment(_ alertEnvironment: AlertEnvironment) {
+        self.alertEnvironment = alertEnvironment
+    }
 }
 
 // MARK: - popover func
@@ -83,21 +89,20 @@ extension GoalViewModel {
     func showPopover(at position: CGPoint, @ViewBuilder content: @escaping () -> some View) {
         if isBlockPopover && popoverPosition == position { return }
 
-        popoverPosition = position
-        withAnimation(.easeInOut(duration: 0.3)) {
+        Task { @MainActor in
+            popoverPosition = position
             popoverContent = AnyView(content())
         }
     }
     
     func hidePopover() {
         if popoverContent != nil {
-            isBlockPopover = true
-            withAnimation(.easeInOut(duration: 0.3)) {
+            Task { @MainActor in
+                isBlockPopover = true
                 popoverContent = nil
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.isBlockPopover = false
+                
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                isBlockPopover = false
             }
         }
     }
@@ -105,35 +110,29 @@ extension GoalViewModel {
 
 // MARK: - button func
 extension GoalViewModel {
-    func add(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
-        if let validate = validate() { validateAction(validate); return }
+    func add(successAction: @escaping (Date) -> Void) {
+        let validates = validate()
+        if validates.count > 0 { alertEnvironment?.showToast(alerts: validates); return }
+        
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
-            let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!) }
+            let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
             for record in records { await goalUseCase.addRecord(record: record) }
             
             goal.records = records
             await goalUseCase.addGoal(goal: goal)
             
             successAction(startDate)
+            
+            let alerts: [DailyAlert] = [SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records)
+            alertEnvironment?.showToast(alerts: alerts)
         }
     }
     
-    func modify(successAction: @escaping (Date?) -> Void, validateAction: @escaping (DailyAlert) -> Void) {
+    func modify(successAction: @escaping (Date) -> Void) {
         guard let modifyType else { return }
-        if let validate = validate() { validateAction(validate); return }
-        
-        if record.notice != nil && (
-            originalRecord.date != record.date ||
-            originalGoal.setTime != goal.setTime ||
-            originalGoal.isSetTime != goal.isSetTime
-        ) {
-            goalUseCase.removeNotice(record: originalRecord)
-            if originalRecord.date != record.date { validateAction(NoticeAlert.dateChanged) }
-            if originalGoal.setTime != goal.setTime || originalGoal.isSetTime != goal.isSetTime {
-                validateAction(NoticeAlert.setTimeChanged)
-            }
-        }
+        let validates = validate()
+        if validates.count > 0 { alertEnvironment?.showToast(alerts: validates); return }
         
         if record.startTime != nil && (
             originalRecord.date != record.date ||
@@ -145,22 +144,30 @@ extension GoalViewModel {
             goalUseCase.updateTimerNotice(id: timerNoticeId, record: record, goal: goal)
         }
         
+        // FIXME: record notice 수정 조건 검토 후 추가 필요
         Task { @MainActor in
             if modifyType == .single {
+                goalUseCase.removeNotice(record: originalRecord)
+                
+                // MARK: 단일 수정 (기록만 수정)
                 if goal.isSetTime == originalGoal.isSetTime &&
                     goal.setTime == originalGoal.setTime &&
                     goal.content == originalGoal.content &&
                     goal.symbol == originalGoal.symbol &&
-                    goal.count == originalGoal.count
+                    goal.count == originalGoal.count &&
+                    record.notice == originalRecord.notice
                 {
                     originalRecord.date = record.date
                     originalRecord.count = record.count
-                    originalRecord.notice = record.notice
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
                     originalRecord.isSuccess = originalGoal.count <= record.count
                     
+                    goalUseCase.addNotice(record: originalRecord)
                     await goalUseCase.updateData()
-                } else {
+                    
+                    let alerts: [DailyAlert] = goalUseCase.getAlerts(records: [originalRecord])
+                    alertEnvironment?.showToast(alerts: alerts)
+                } else {    // MARK: 단일 수정 (목표도 수정)
                     originalGoal.records?.removeAll() { $0.id == originalRecord.id }
                     await goalUseCase.deleteRecord(record: originalRecord)
                     
@@ -175,51 +182,72 @@ extension GoalViewModel {
                     
                     goal.records = [record]
                     await goalUseCase.addGoal(goal: goal)
+                    
+                    let alerts: [DailyAlert] = goalUseCase.getAlerts(records: [record])
+                    alertEnvironment?.showToast(alerts: alerts)
                 }
-            } else {
+            } else {    // MARK: 일괄 수정
+                originalGoal.records?.forEach { goalUseCase.removeNotice(record: $0) }
+                
                 originalGoal.isSetTime = goal.isSetTime
                 originalGoal.setTime = goal.setTime
                 originalGoal.content = goal.content
                 originalGoal.symbol = goal.symbol
                 originalGoal.count = goal.count
                 
-                if modifyType == .record {
+                if modifyType == .record {  // MARK: single goal
                     originalRecord.date = record.date
                     originalRecord.count = record.count
                     originalRecord.notice = record.notice
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
+                } else {
+                    originalGoal.records?.forEach {
+                        $0.notice = record.notice
+                    }
                 }
-                originalGoal.records?.forEach { $0.isSuccess = originalGoal.count <= $0.count }
+                originalGoal.records?.forEach {
+                    goalUseCase.addNotice(record: $0)
+                    $0.isSuccess = originalGoal.count <= $0.count
+                }
                 
                 await goalUseCase.updateData()
+                
+                let alerts: [DailyAlert] = goalUseCase.getAlerts(records: originalGoal.records)
+                alertEnvironment?.showToast(alerts: alerts)
             }
+            
             successAction(record.date)
         }
     }
-    
 }
     
 // MARK: - validate func
 extension GoalViewModel {
-    private func validate() -> DailyAlert? {
-        if validateContent() { return ContentAlert.tooShoertLength }
-        if validateCount() { return CountAlert.tooSmallCount }
+    private func validate() -> [DailyAlert] {
+        var alerts: [DailyAlert] = []
+        
+        if validateContent() { alerts.append(ContentAlert.tooShoertLength) }
+        if validateCount() { alerts.append(CountAlert.tooSmallCount) }
         if modifyType == nil && goal.cycleType == .rept {
             if repeatType == .weekly {
-                if startDate > endDate { return DateAlert.wrongDateRange }
-                if validateDateRange() { return DateAlert.overDateRange }
-                if selectedWeekday.allSatisfy({ $0 == false }) { return DateAlert.emptySelectedWeekday }
+                if startDate > endDate { alerts.append(DateAlert.wrongDateRange) }
+                if validateDateRange() { alerts.append(DateAlert.overDateRange) }
+                if selectedWeekday.allSatisfy({ $0 == false }) { alerts.append(DateAlert.emptySelectedWeekday) }
             }
-            if repeatDates.count == 0 { return DateAlert.emptyRepeatDates }
+            if repeatDates.count == 0 { alerts.append(DateAlert.emptyRepeatDates) }
         }
-        return nil
+        
+        return alerts
     }
+    
     private func validateContent() -> Bool {
         return goal.content.count < 2
     }
+    
     private func validateCount() -> Bool {
         return goal.count < 1
     }
+    
     private func validateDateRange() -> Bool {
         let gap = calendar.dateComponents([.year,.month,.day], from: startDate, to: endDate)
         return gap.year! > 0

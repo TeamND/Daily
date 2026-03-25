@@ -14,20 +14,29 @@ public struct DayIndicator: View {
     public let isToday: Bool
     public let isHoliday: Bool
     public let isNow: Bool
+    public let isTransparent: Bool
     
-    public init(day: Int, rating: Double?, isToday: Bool, isHoliday: Bool = false, isNow: Bool = false) {
+    public init(
+        day: Int,
+        rating: Double?,
+        isToday: Bool,
+        isHoliday: Bool = false,
+        isNow: Bool = false,
+        isTransparent: Bool = false
+    ) {
         self.day = day
         self.rating = rating
         self.isToday = isToday
         self.isHoliday = isHoliday
         self.isNow = isNow
+        self.isTransparent = isTransparent
     }
     
     public var body: some View {
         ZStack {
             // MARK: UI 디테일을 위한 padding 포함
-            if let rating { RatingIndicator(rating: rating).padding(1) }
-            if isToday { Circle().fill(Colors.Icon.interactivePressed).padding(2) }
+            if let rating { RatingIndicator(rating: rating, isTransparent: isTransparent).padding(1) }
+            if isToday { Circle().fill(Colors.Icon.interactivePressed.opacity(isTransparent ? 0.8 : 1)).padding(2) }
             Text(String(day))
                 .font(Fonts.bodyMdSemiBold)
                 .foregroundStyle(

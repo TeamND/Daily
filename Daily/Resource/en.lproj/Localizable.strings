@@ -84,6 +84,17 @@
 "year_month_text" = "%2$@ %1$@";
 "selected_date" = "Selected Date";
 "set_time" = "Set Time";
+"notification" = "Notification";
+"no_notification" = "No Notification";
+"at_time" = "At Time";
+"custom_notification" = "Custom Notification";
+"capital_hours" = "Hours";
+"capital_minutes" = "Minutes";
+"before" = "%@ before";
+"h" = "%dh";
+"m" = "%dm";
+"notify_you_the_set_time" = "Notify you %@ the set time";
+"apply" = "Apply";
 "goal" = "Goal";
 "enter_your_goal" = "Enter your goal (min. 2 characters)";
 "select_icon" = "Select Icon";
@@ -98,26 +109,20 @@
 "enter_at_least_2_characters" = "Enter at least 2 characters";
 "end_date_must_be_after_start_date" = "End date must be after start date";
 "maximum_period_is_1_year" = "Maximum period is 1 year";
-"select_at_least_one_repeat_day" = "Select at least one repeat day";
+"select_at_least_one_day" = "Select at least one day";
 "repeat_day_not_within_selected_period" = "Repeat day not within selected period";
-"notification_removed_due_to_date_change" = "Notification removed due to date change";
-"notification_removed_due_to_time_change" = "Notification removed due to time change";
 "notifications_are_off_so_some_features_are_limited" = "Notifications are off,\n so some features are limited";
 "notifications_are_turned_off" = "Notifications are turned off";
 "stay_on_track_with_reminders" = "Stay on track with reminders";
 "please_allow_notifications_in_settings" = "Please allow notifications in Settings.";
 "go_to_settings" = "Go to Settings";
 "remind_me_later" = "Remind Me Later";
-"minutes" = "%d minutes";
-"hour" = "%d hour";
-"you_will_be_notified_before" = "You`ll be notified %@ before";
-"noticifation_removed" = "Notification removed";
-"notification_deleted_with_the_goal" = "Notification deleted with the goal";
+"you_will_be_notified" = "You`ll be notified %@";
+"at_the_set_time" = "at the set time";
+"no_notifications_for_past_events" = "No notifications for past events";
+"goal_added" = "Goal added";
 
 // MARK: - Menu
-"turn_on_notification" = "Turn On Notification";
-"turn_off_notification" = "Turn Off Notification";
-"before" = "%@ before";
 "edit_this_only" = "Edit This Only";
 "edit_all" = "Edit All";
 "delete_goal" = "Delete Goal";
@@ -129,5 +134,6 @@
 // MARK: - PushNotice
 "how_was_your_day" = "How was your day? 🤔";
 "write_down_your_day" = "Write down your day!";
-"before_ready_to_begin" = "%@ before. Ready to begin?";
+"ready_to_begin" = "%@. Ready to begin?";
+"its_time" = "It`s time";
 "you_did_it_goal_complete" = "You did it! Goal complete.";

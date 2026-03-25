@@ -47,13 +47,14 @@ struct CalendarMonth: View {
     var body: some View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
-        VStack(spacing: 6) {
+        
+        VStack(spacing: .zero) {
             WeekIndicator(mode: .none)
-            VStack(spacing: 4) {
-                ForEach (0 ... dividerCount, id: \.self) { rowIndex in
-                    HStack(spacing: .zero) {
+            VStack(spacing: .zero) {
+                ForEach (0 ..< GeneralServices.maxLineCount, id: \.self) { rowIndex in
+                    Spacer().frame(height: 4)
+                    HStack(spacing: GeneralServices.daySpacing) {
                         ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
-                            if .zero < colIndex { Spacer() }
                             let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
                             if 1 <= day && day <= lengthOfMonth {
                                 Button {
@@ -66,6 +67,7 @@ struct CalendarMonth: View {
                         }
                     }
                     .padding(.horizontal, 2)
+                    Spacer().frame(minHeight: 4)
                     if rowIndex < dividerCount { DailyDivider(color: Colors.Border.secondary, height: 1) }
                 }
             }
@@ -96,16 +98,33 @@ struct DailyDayOnMonth: View {
     
     var body: some View {
         TimelineView(.everyDay) { context in
-            // TODO: 좀 더 확실한 분기처리 방식을 찾아 적용
-            let maxSymbolNum = UIScreen.main.bounds.height > 820 ? 6 : 4
             let date = CalendarServices.shared.formatDateString(year: year, month: month, day: day)
             let isHoliday = UserDefaultManager.holidays?[year]?[date] != nil || date.toDate()?.weekday == 1
             let isToday = year == context.date.year && month == context.date.month && day == context.date.day
-            VStack(spacing: .zero) {
+            
+            VStack(alignment: .center, spacing: 6) {
                 DayIndicator(day: day, rating: rating, isToday: isToday, isHoliday: isHoliday)
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 1), count: 2), spacing: 1) {
-                    ForEach(0 ..< maxSymbolNum, id: \.self) { symbolIndex in
+                DailySymbolsOnMonth(dailySymbols: dailySymbols)
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+}
+
+// MARK: - DailySymbolsOnMonth
+struct DailySymbolsOnMonth: View {
+    let dailySymbols: [DailySymbol]
+    
+    var body: some View {
+        let maxSymbolRow = CalendarServices.shared.row
+        let maxSymbolCol = CalendarServices.shared.col
+        let maxSymbolNum = maxSymbolRow * maxSymbolCol
+        
+        VStack(spacing: 1) {
+            ForEach(.zero ..< maxSymbolRow, id: \.self) { row in
+                HStack(spacing: 1) {
+                    ForEach(.zero ..< maxSymbolCol, id: \.self) { col in
+                        let symbolIndex = row * maxSymbolCol + col
                         if symbolIndex < dailySymbols.count {
                             DailySymbolOnMonth(
                                 dailySymbol: dailySymbols[symbolIndex],
@@ -114,10 +133,7 @@ struct DailyDayOnMonth: View {
                         } else { DailySymbolOnMonth(dailySymbol: DailySymbol(), isMore: false) }
                     }
                 }
-                .padding(.horizontal, 2)
-                .padding(.vertical, 6)
             }
-            .frame(width: 33)   // FIXME: (아마 LazyVGrid의 특성 때문에) width의 사용이 강제되고 symbolGrid자체에도 horizontal padding이 강제됨, 추후 minWidth를 사용하고 자식뷰로부터 너비를 가져오도록 수정
         }
     }
 }
@@ -141,6 +157,7 @@ struct DailySymbolOnMonth: View {
                 Spacer()
             }
         }
+        // FIXME: 화면 너비에 따라 16px 크기 확장(?)
         .frame(width: 14, height: 14)
     }
 }

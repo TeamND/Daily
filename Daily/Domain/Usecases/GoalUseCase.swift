@@ -24,14 +24,19 @@ final class GoalUseCase {
     
     func addRecord(record: DailyRecordModel) async {
         await repository.addRecord(record: record)
+        addNotice(record: record)
     }
     
     func deleteRecord(record: DailyRecordModel) async {
         await repository.deleteRecord(record: record)
     }
     
+    func addNotice(record: DailyRecordModel) {
+        guard let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() else { return }
+        PushNoticeManager.shared.addNotice(noticeDate: noticeDate, record: record)
+    }
+    
     func removeNotice(record: DailyRecordModel) {
-        record.notice = nil
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
     }
     
@@ -43,5 +48,24 @@ final class GoalUseCase {
             date: record.date,
             remainTime: goal.count - record.count
         )
+    }
+    
+    func getAlerts(records: [DailyRecordModel]?) -> [DailyAlert] {
+        let records = records?.sorted { $0.date < $1.date }
+        guard let records, let firstRecord = records.first, let lastRecord = records.last else { return [] }
+        
+        var alerts: [DailyAlert] = []
+        
+        if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: lastRecord), noticeDate > Date() {
+            alerts.append(NoticeAlert.setNoticeTime(
+                noticeText: Notifications.noticeText(noticeTime: lastRecord.notice, isToast: true)
+            ))
+        }
+        
+        if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: firstRecord), noticeDate < Date() {
+            alerts.append(NoticeAlert.noNotificationsForPastEvents)
+        }
+        
+        return alerts
     }
 }

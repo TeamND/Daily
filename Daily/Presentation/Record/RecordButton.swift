@@ -29,6 +29,7 @@ struct RecordButton: View {
                         .scaledToFit()
                 }
                 RatingIndicator(rating: Double(record.count) / Double(goal.count))
+                NotificationIndicator(record: record)
             }
             .frame(width: 40, height: 40)
         }

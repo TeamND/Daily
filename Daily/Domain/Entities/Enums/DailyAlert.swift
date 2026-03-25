@@ -63,7 +63,7 @@ enum DateAlert: DailyAlert {
         case .overDateRange:
             return "maximum_period_is_1_year".localized
         case .emptySelectedWeekday:
-            return "select_at_least_one_repeat_day".localized
+            return "select_at_least_one_day".localized
         case .emptyRepeatDates:
             return "repeat_day_not_within_selected_period".localized
         }
@@ -74,17 +74,12 @@ enum DateAlert: DailyAlert {
 enum NoticeAlert: DailyAlert {
     case deniedAtAppOpen
     case deniedAtSetTime
-    case dateChanged
-    case setTimeChanged
-    case setNoticeTime(noticeTime: String)
-    case removeNoticeTime
-    case removeNoticeTimeWithGoal
+    case setNoticeTime(noticeText: String)
+    case noNotificationsForPastEvents
     
     var icon: ImageResource? {
         switch self {
-        case .dateChanged, .setTimeChanged:
-            return .notice
-        case .setNoticeTime, .removeNoticeTime, .removeNoticeTimeWithGoal:
+        case .setNoticeTime:
             return .complete
         default:
             return nil
@@ -108,16 +103,10 @@ enum NoticeAlert: DailyAlert {
             return "stay_on_track_with_reminders".localized
         case .deniedAtSetTime:
             return "please_allow_notifications_in_settings".localized
-        case .dateChanged:
-            return "notification_removed_due_to_date_change".localized
-        case .setTimeChanged:
-            return "notification_removed_due_to_time_change".localized
-        case .setNoticeTime(let noticeTime):
-            return "you_will_be_notified_before".localized(noticeTime)
-        case .removeNoticeTime:
-            return "noticifation_removed".localized
-        case .removeNoticeTimeWithGoal:
-            return "notification_deleted_with_the_goal".localized
+        case .setNoticeTime(let noticeText):
+            return "you_will_be_notified".localized(noticeText)
+        case .noNotificationsForPastEvents:
+            return "no_notifications_for_past_events".localized
         }
     }
     
@@ -140,4 +129,21 @@ enum NoticeAlert: DailyAlert {
             return ""
         }
     }
+}
+
+// MARK - SuccessAlert
+enum SuccessAlert: DailyAlert {
+    case addGoal
+    
+    var icon: ImageResource? { return .complete }
+    
+    var titleText: String { return "" }
+    
+    var messageText: String {
+        switch self {
+        case .addGoal:
+            return "goal_added".localized
+        }
+    }
+    
 }

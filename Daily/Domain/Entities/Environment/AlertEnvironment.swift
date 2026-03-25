@@ -18,46 +18,60 @@ class AlertEnvironment: ObservableObject {
     @Published var primaryButtonText: String = ""
     @Published var secondaryButtonText: String = ""
     
+    private var toastQueue: [DailyAlert] = []
+    private var toastTask: Task<Void, Never>?
+    
     func showAlert(alertType: NoticeAlert) {
-        DispatchQueue.main.async {
-            self.alertTitle = alertType.titleText
-            self.alertDescription = alertType.messageText
-            self.primaryButtonText = alertType.primaryButtonText
-            self.secondaryButtonText = alertType.secondaryButtonText
-            withAnimation {
-                self.isShowAlert = true
-            }
+        Task { @MainActor in
+            alertTitle = alertType.titleText
+            alertDescription = alertType.messageText
+            primaryButtonText = alertType.primaryButtonText
+            secondaryButtonText = alertType.secondaryButtonText
+            try? await Task.sleep(nanoseconds: 50_000_000)
+            
+            isShowAlert = true
         }
     }
     
     func hideAlert() {
-        DispatchQueue.main.async {
-            self.alertTitle = ""
-            self.alertDescription = ""
-            self.primaryButtonText = ""
-            self.secondaryButtonText = ""
-            withAnimation {
-                self.isShowAlert = false
-            }
+        Task { @MainActor in
+            isShowAlert = false
+            
+            try? await Task.sleep(nanoseconds: 300_000_000)
+            alertTitle = ""
+            alertDescription = ""
+            primaryButtonText = ""
+            secondaryButtonText = ""
         }
     }
     
-    func showToast(alertType: DailyAlert) {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.toastIcon = alertType.icon ?? .notice
-                self.toastMessage = alertType.messageText
-                self.isShowToast = true
+    func showToast(alerts: [DailyAlert]) {
+        Task { @MainActor in
+            guard let alert = alerts.first else { hideToast(); return }
+            toastQueue = Array(alerts.dropFirst())
+            
+            toastIcon = alert.icon ?? .notice
+            toastMessage = alert.messageText
+            
+            isShowToast = true
+            
+            toastTask?.cancel()
+
+            toastTask = Task {
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+
+                if Task.isCancelled { return }
+                showToast(alerts: toastQueue)
             }
         }
     }
     
     func hideToast() {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.toastMessage = ""
-                self.isShowToast = false
-            }
+        Task { @MainActor in
+            isShowToast = false
+            
+            toastIcon = .notice
+            toastMessage = ""
         }
     }
     
@@ -79,13 +93,9 @@ class AlertEnvironment: ObservableObject {
             .background(Colors.Background.toast)
             .cornerRadius(12)
             .opacity(isShowToast ? 1 : 0)
-        }
-        .onChange(of: isShowToast) { _, isShowToast in
-            if isShowToast {
-                Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
-                    self.hideToast()
-                }
-            }
+            .animation(.easeInOut(duration: 0.3), value: isShowToast)
+            .animation(.easeInOut(duration: 0.3), value: toastIcon)
+            .animation(.easeInOut(duration: 0.3), value: toastMessage)
         }
     }
     
@@ -138,5 +148,6 @@ class AlertEnvironment: ObservableObject {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Colors.Background.dim)
         .opacity(isShowAlert ? 1 : 0)
+        .animation(.easeInOut(duration: 0.3), value: isShowAlert)
     }
 }
