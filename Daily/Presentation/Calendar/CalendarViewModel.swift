@@ -261,6 +261,7 @@ extension CalendarViewModel {
     private func deleteRecords(records: [DailyRecordModel]) async {
         for record in records {
             if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() {
+                // FIXME: 다중 목표 삭제 시 푸시 알림이 제대로 삭제되지 않는 버그 확인 필요
                 PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
             }
             await calendarUseCase.deleteRecord(record: record)
