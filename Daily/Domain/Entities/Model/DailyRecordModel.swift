@@ -43,7 +43,7 @@ class DailyRecordModel: Navigatable {
     }
 }
 extension DailyRecordModel {
-    func copy(goal: DailyGoalModel) -> DailyRecordModel {
+    func copy(goal: DailyGoalModel?) -> DailyRecordModel {
         return DailyRecordModel(
             goal: goal,
             date: self.date,
