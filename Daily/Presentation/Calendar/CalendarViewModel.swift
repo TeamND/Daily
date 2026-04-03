@@ -238,8 +238,8 @@ extension CalendarViewModel {
         guard let records = goal.records else { return }
         Task {
             await resetData()
-            await calendarUseCase.deleteGoal(goal: goal)
             await deleteRecords(records: records)
+            await calendarUseCase.deleteGoal(goal: goal)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
