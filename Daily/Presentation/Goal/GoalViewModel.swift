@@ -105,8 +105,7 @@ extension GoalViewModel {
 // MARK: - button func
 extension GoalViewModel {
     func add(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
-        let validates = validate()
-        if validates.count > 0 { showToast(validates); return }
+        if let alerts = getAlerts() { showToast(alerts); return }
         
         Task { @MainActor in
             let goal = DailyGoalModel(from: goal)
@@ -123,8 +122,7 @@ extension GoalViewModel {
     
     func modify(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
         guard let modifyType else { return }
-        let validates = validate()
-        if validates.count > 0 { showToast(validates); return }
+        if let alerts = getAlerts() { showToast(alerts); return }
         
         if record.startTime != nil && (
             originalRecord.date != record.date ||
@@ -212,7 +210,7 @@ extension GoalViewModel {
     
 // MARK: - validate func
 extension GoalViewModel {
-    private func validate() -> [DailyAlert] {
+    private func getAlerts() -> [DailyAlert]? {
         var alerts: [DailyAlert] = []
         
         if validateContent() { alerts.append(ContentAlert.tooShoertLength) }
@@ -226,7 +224,7 @@ extension GoalViewModel {
             if repeatDates.count == 0 { alerts.append(DateAlert.emptyRepeatDates) }
         }
         
-        return alerts
+        return alerts.count == 0 ? nil : alerts
     }
     
     private func validateContent() -> Bool {
