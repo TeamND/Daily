@@ -124,12 +124,7 @@ extension GoalViewModel {
         guard let modifyType else { return }
         if let alerts = getAlerts() { showToast(alerts); return }
         
-        if record.startTime != nil && (
-            originalRecord.date != record.date ||
-            originalRecord.count != record.count ||
-            originalGoal.content != goal.content ||
-            originalGoal.count != goal.count
-        ) {
+        if isNeedUpdateTimerNotice() {
             let timerNoticeId = "\(String(describing: originalRecord.id))-timer"
             goalUseCase.updateTimerNotice(id: timerNoticeId, record: record, goal: goal)
         }
@@ -137,8 +132,6 @@ extension GoalViewModel {
         // FIXME: record notice 수정 조건 검토 후 추가 필요
         Task { @MainActor in
             if modifyType == .single {
-                goalUseCase.removeNotice(record: originalRecord)
-                
                 // MARK: 단일 수정 (기록만 수정)
                 if goal.isSetTime == originalGoal.isSetTime &&
                     goal.setTime == originalGoal.setTime &&
@@ -152,7 +145,6 @@ extension GoalViewModel {
                     originalRecord.startTime = record.startTime == nil ? nil : Date()
                     originalRecord.isSuccess = originalGoal.count <= record.count
                     
-                    goalUseCase.addNotice(record: originalRecord)
                     await goalUseCase.updateData()
                     
                     showToast(goalUseCase.getAlerts(records: [originalRecord]))
@@ -238,5 +230,14 @@ extension GoalViewModel {
     private func validateDateRange() -> Bool {
         let gap = calendar.dateComponents([.year,.month,.day], from: startDate, to: endDate)
         return gap.year! > 0
+    }
+    
+    private func isNeedUpdateTimerNotice() -> Bool {
+        return record.startTime != nil && (
+            originalRecord.date != record.date ||
+            originalRecord.count != record.count ||
+            originalGoal.content != goal.content ||
+            originalGoal.count != goal.count
+        )
     }
 }

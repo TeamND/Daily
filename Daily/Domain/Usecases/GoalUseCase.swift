@@ -28,6 +28,7 @@ final class GoalUseCase {
     }
     
     func deleteRecord(record: DailyRecordModel) async {
+        removeNotice(record: record)
         await repository.deleteRecord(record: record)
     }
     
