@@ -107,17 +107,12 @@ extension GoalViewModel {
     func add(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
         if let alerts = getAlerts() { showToast(alerts); return }
         
-        Task { @MainActor in
-            let goal = DailyGoalModel(from: goal)
-            let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
-            for record in records { await goalUseCase.addRecord(record: record) }
+        let goal = DailyGoalModel(from: goal)
+        let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
+        Task { @MainActor in await addGoalWithRecords(goal: goal, records: records) }
             
-            goal.records = records
-            await goalUseCase.addGoal(goal: goal)
-            
-            successAction(startDate)
-            showToast([SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records))
-        }
+        successAction(startDate)
+        showToast([SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records))
     }
     
     func modify(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
@@ -142,10 +137,7 @@ extension GoalViewModel {
                     
                     let goal = DailyGoalModel(from: goal, cycleType: .date, records: [])
                     let record = DailyRecordModel(from: record, goal: goal, isSuccess: goal.count <= record.count)
-                    await goalUseCase.addRecord(record: record)
-                    
-                    goal.records = [record]
-                    await goalUseCase.addGoal(goal: goal)
+                    await addGoalWithRecords(goal: goal, records: [record])
                     
                     showToast(goalUseCase.getAlerts(records: [record]))
                 }
@@ -233,5 +225,12 @@ extension GoalViewModel {
         originalGoal.content = goal.content
         originalGoal.symbol = goal.symbol
         originalGoal.count = goal.count
+    }
+    
+    private func addGoalWithRecords(goal: DailyGoalModel, records: [DailyRecordModel]) async {
+        for record in records { await goalUseCase.addRecord(record: record) }
+        
+        goal.records = records
+        await goalUseCase.addGoal(goal: goal)
     }
 }
