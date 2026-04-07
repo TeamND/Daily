@@ -129,36 +129,19 @@ extension GoalViewModel {
             goalUseCase.updateTimerNotice(id: timerNoticeId, record: record, goal: goal)
         }
         
-        // FIXME: record notice 수정 조건 검토 후 추가 필요
         Task { @MainActor in
             if modifyType == .single {
                 // MARK: 단일 수정 (기록만 수정)
-                if goal.isSetTime == originalGoal.isSetTime &&
-                    goal.setTime == originalGoal.setTime &&
-                    goal.content == originalGoal.content &&
-                    goal.symbol == originalGoal.symbol &&
-                    goal.count == originalGoal.count &&
-                    record.notice == originalRecord.notice
-                {
-                    originalRecord.date = record.date
-                    originalRecord.count = record.count
-                    originalRecord.startTime = record.startTime == nil ? nil : Date()
-                    originalRecord.isSuccess = originalGoal.count <= record.count
-                    
+                if isModifyOnlyRecord() {
+                    setRecord()
                     await goalUseCase.updateData()
-                    
                     showToast(goalUseCase.getAlerts(records: [originalRecord]))
                 } else {    // MARK: 단일 수정 (목표도 수정)
                     originalGoal.records?.removeAll() { $0.id == originalRecord.id }
                     await goalUseCase.deleteRecord(record: originalRecord)
                     
-                    goal.cycleType = .date
-                    goal.records = []
-                    let goal = DailyGoalModel(from: goal)
-                    
-                    record.goal = goal
-                    record.isSuccess = goal.count <= record.count
-                    let record = DailyRecordModel(from: record)
+                    let goal = DailyGoalModel(from: goal, cycleType: .date, records: [])
+                    let record = DailyRecordModel(from: record, goal: goal, isSuccess: goal.count <= record.count)
                     await goalUseCase.addRecord(record: record)
                     
                     goal.records = [record]
@@ -167,31 +150,17 @@ extension GoalViewModel {
                     showToast(goalUseCase.getAlerts(records: [record]))
                 }
             } else {    // MARK: 일괄 수정
-                originalGoal.records?.forEach { goalUseCase.removeNotice(record: $0) }
-                
-                originalGoal.isSetTime = goal.isSetTime
-                originalGoal.setTime = goal.setTime
-                originalGoal.content = goal.content
-                originalGoal.symbol = goal.symbol
-                originalGoal.count = goal.count
-                
-                if modifyType == .record {  // MARK: single goal
-                    originalRecord.date = record.date
-                    originalRecord.count = record.count
-                    originalRecord.notice = record.notice
-                    originalRecord.startTime = record.startTime == nil ? nil : Date()
-                } else {
-                    originalGoal.records?.forEach {
-                        $0.notice = record.notice
-                    }
+                setGoal()
+                if modifyType == .record {  // MARK: 단일 목표
+                    setRecord()
                 }
                 originalGoal.records?.forEach {
-                    goalUseCase.addNotice(record: $0)
+                    $0.notice = record.notice
                     $0.isSuccess = originalGoal.count <= $0.count
+                    goalUseCase.updateNotice(record: $0)
                 }
                 
                 await goalUseCase.updateData()
-                
                 showToast(goalUseCase.getAlerts(records: originalGoal.records))
             }
             
@@ -239,5 +208,30 @@ extension GoalViewModel {
             originalGoal.content != goal.content ||
             originalGoal.count != goal.count
         )
+    }
+    
+    private func isModifyOnlyRecord() -> Bool {
+        return goal.isSetTime == originalGoal.isSetTime &&
+            goal.setTime == originalGoal.setTime &&
+            goal.content == originalGoal.content &&
+            goal.symbol == originalGoal.symbol &&
+            goal.count == originalGoal.count &&
+            record.notice == originalRecord.notice
+    }
+    
+    private func setRecord() {
+        originalRecord.date = record.date
+        originalRecord.count = record.count
+        originalRecord.notice = record.notice
+        originalRecord.startTime = record.startTime == nil ? nil : Date()
+        originalRecord.isSuccess = originalGoal.count <= record.count
+    }
+    
+    private func setGoal() {
+        originalGoal.isSetTime = goal.isSetTime
+        originalGoal.setTime = goal.setTime
+        originalGoal.content = goal.content
+        originalGoal.symbol = goal.symbol
+        originalGoal.count = goal.count
     }
 }
