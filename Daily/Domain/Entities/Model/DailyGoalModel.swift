@@ -40,15 +40,15 @@ class DailyGoalModel: Navigatable {
         self.records = records
     }
     
-    init(from temp: TempGoalModel) {
+    init(from temp: TempGoalModel, cycleType: CycleTypes? = nil, records: [DailyRecordModel]? = nil) {
         self.type = temp.type
-        self.cycleType = temp.cycleType
+        self.cycleType = cycleType ?? temp.cycleType
         self.content = temp.content
         self.symbol = temp.symbol
         self.count = temp.count
         self.isSetTime = temp.isSetTime
         self.setTime = temp.setTime
-        self.records = temp.records
+        self.records = records ?? temp.records
     }
 }
 

@@ -30,15 +30,14 @@ struct GoalView: View {
             }
         }
         .background(Colors.Background.primary)
-        .onAppear { goalViewModel.setAlertEnvironment(alertEnvironment) } // MARK: for toast
     }
     
     var headerView: some View {
         NavigationHeader(title: viewType.headerTitle, trailingText: viewType.trailingText) {
             if viewType == .goal {
-                goalViewModel.add(successAction: successAction)
+                goalViewModel.add(successAction: successAction, showToast: alertEnvironment.showToast)
             } else {
-                goalViewModel.modify(successAction: successAction)
+                goalViewModel.modify(successAction: successAction, showToast: alertEnvironment.showToast)
             }
         }
     }

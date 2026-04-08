@@ -33,10 +33,10 @@ class DailyRecordModel: Navigatable {
         self.startTime = startTime
     }
     
-    init(from temp: TempRecordModel) {
-        self.goal = temp.goal
+    init(from temp: TempRecordModel, goal: DailyGoalModel? = nil, isSuccess: Bool? = nil) {
+        self.goal = goal ?? temp.goal
         self.date = temp.date
-        self.isSuccess = temp.isSuccess
+        self.isSuccess = isSuccess ?? temp.isSuccess
         self.count = temp.count
         self.notice = temp.notice
         self.startTime = temp.startTime
