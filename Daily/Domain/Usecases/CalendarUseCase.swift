@@ -138,6 +138,7 @@ extension CalendarUseCase {
     }
     
     func deleteRecord(record: DailyRecordModel) async {
+        PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
         await repository.deleteRecord(record: record)
     }
     

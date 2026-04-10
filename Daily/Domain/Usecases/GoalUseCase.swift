@@ -28,6 +28,7 @@ final class GoalUseCase {
     }
     
     func deleteRecord(record: DailyRecordModel) async {
+        removeNotice(record: record)
         await repository.deleteRecord(record: record)
     }
     
@@ -38,6 +39,11 @@ final class GoalUseCase {
     
     func removeNotice(record: DailyRecordModel) {
         PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
+    }
+    
+    func updateNotice(record: DailyRecordModel) {
+        removeNotice(record: record)
+        addNotice(record: record)
     }
     
     func updateTimerNotice(id: String, record: TempRecordModel, goal: TempGoalModel) {

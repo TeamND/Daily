@@ -226,7 +226,7 @@ extension CalendarViewModel {
     func deleteRecord(record: DailyRecordModel) {
         Task {
             await resetData()
-            await deleteRecords(records: [record])
+            await calendarUseCase.deleteRecord(record: record)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
@@ -238,8 +238,8 @@ extension CalendarViewModel {
         guard let records = goal.records else { return }
         Task {
             await resetData()
+            for record in records { await calendarUseCase.deleteRecord(record: record) }
             await calendarUseCase.deleteGoal(goal: goal)
-            await deleteRecords(records: records)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
@@ -251,19 +251,10 @@ extension CalendarViewModel {
             let futureRecords = await calendarUseCase.getFutureRecords(goal: goal)
             
             await resetData()
-            await deleteRecords(records: futureRecords)
+            for record in futureRecords { await calendarUseCase.deleteRecord(record: record) }
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
-        }
-    }
-    
-    private func deleteRecords(records: [DailyRecordModel]) async {
-        for record in records {
-            if let noticeDate = CalendarServices.shared.getValidNoticeDate(record: record), noticeDate > Date() {
-                PushNoticeManager.shared.removeNotice(id: String(describing: record.id))
-            }
-            await calendarUseCase.deleteRecord(record: record)
         }
     }
 }
