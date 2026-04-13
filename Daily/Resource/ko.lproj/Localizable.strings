@@ -40,7 +40,7 @@
 "month_text" = "%@";
 "month_day_text" = "%1$@ %2$@일";
 "decade" = "%@년대";
-"month_week_text" = "%1$@월 %2$d주차";
+"month_week_text" = "%1$@ %2$d주차";
 "all" = "전체";
 "sun" = "일";
 "mon" = "월";
