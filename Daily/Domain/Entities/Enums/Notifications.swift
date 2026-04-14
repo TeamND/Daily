@@ -64,7 +64,7 @@ extension Notifications {
             let h = noticeTime / 60
             let m = noticeTime % 60
             let noticeText = h == 0 ? "m".localized(m) : m == 0 ? "h".localized(h) : "\("h".localized(h)) \("m".localized(m))"
-            return "before".localized(noticeText)
+            return isToast ? " " + "before".localized(noticeText) : "before".localized(noticeText)
         }
     }
 }
