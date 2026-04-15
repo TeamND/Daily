@@ -68,10 +68,8 @@ struct ChartView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 12)
-        .background {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Colors.Background.secondary)
-        }
+        .background(Colors.Background.secondary)
+        .cornerRadius(8)
     }
     
     private var chartView: some View {
@@ -155,10 +153,8 @@ struct ChartView: View {
                             .multilineTextAlignment(.center)
                             .padding(.vertical, 4)
                             .frame(width: 45)
-                            .background {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Colors.Icon.interactivePressed)
-                            }
+                            .background(Colors.Icon.interactivePressed)
+                            .cornerRadius(8)
                     }
                 }
                 .frame(maxWidth: .infinity)

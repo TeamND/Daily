@@ -64,9 +64,8 @@ struct DailyRecord: View {
         }
         .frame(height: 72)
         .padding(.horizontal, 16)
-        .background {
-            RoundedRectangle(cornerRadius: 8).fill(Colors.Background.secondary)
-        }
+        .background(Colors.Background.secondary)
+        .cornerRadius(8)
     }
 }
 
