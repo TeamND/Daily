@@ -11,7 +11,7 @@ import SwiftUI
 struct RecordList: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
-    let recordsInList: [DailyRecordInList]  // FIXME: 해당 부분 @State or @Binding 으로 수정 필요
+    let recordsInList: [DailyRecordInList]
     
     var body: some View {
         VStack(spacing: 8) {
