@@ -225,7 +225,7 @@ extension CalendarViewModel {
     
     func deleteRecord(record: DailyRecordModel) {
         Task {
-            await resetData()
+            dayData[record.date.getSelection()]?.recordsInList.removeAll { $0.record.id == record.id }
             await calendarUseCase.deleteRecord(record: record)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
@@ -237,8 +237,10 @@ extension CalendarViewModel {
     func deleteGoal(goal: DailyGoalModel) {
         guard let records = goal.records else { return }
         Task {
-            await resetData()
-            for record in records { await calendarUseCase.deleteRecord(record: record) }
+            for record in records {
+                dayData[record.date.getSelection()]?.recordsInList.removeAll { $0.record.id == record.id }
+                await calendarUseCase.deleteRecord(record: record)
+            }
             await calendarUseCase.deleteGoal(goal: goal)
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
@@ -250,8 +252,10 @@ extension CalendarViewModel {
         Task {
             let futureRecords = await calendarUseCase.getFutureRecords(goal: goal)
             
-            await resetData()
-            for record in futureRecords { await calendarUseCase.deleteRecord(record: record) }
+            for record in futureRecords {
+                dayData[record.date.getSelection()]?.recordsInList.removeAll { $0.record.id == record.id }
+                await calendarUseCase.deleteRecord(record: record)
+            }
             
             fetchDayData(selection: currentDate.getSelection(type: .day))
             fetchWeekData(selection: currentDate.getSelection(type: .week))
@@ -288,11 +292,5 @@ extension CalendarViewModel {
         case .day:
             return dayData[currentDate.getSelection(type: type)]
         }
-    }
-    
-    @MainActor
-    func resetData() {
-        weekData = [:]
-        dayData = [:]
     }
 }

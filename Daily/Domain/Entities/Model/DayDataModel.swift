@@ -9,7 +9,7 @@ import Foundation
 
 struct DayDataModel: DailyDataModel {
     let isEmpty: Bool
-    let recordsInList: [DailyRecordInList]
+    var recordsInList: [DailyRecordInList]  // MARK: 디비에서 데이터를 삭제하기 전에 리스트에서 먼저 지워줘야 함
     let filterData: [Symbols: Int]
     
     init(isEmpty: Bool = true, recordsInList: [DailyRecordInList] = [], filterData: [Symbols: Int] = [:]) {
