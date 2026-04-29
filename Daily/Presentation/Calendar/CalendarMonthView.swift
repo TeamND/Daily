@@ -63,7 +63,7 @@ struct CalendarMonth: View {
         
         VStack(spacing: .zero) {
             WeekIndicator(mode: .none)
-            VStack(spacing: .zero) {
+            VStack(spacing: .zero) {    // FIXME: 해당 부분 LazyStack으로 수정
                 ForEach (0 ..< GeneralServices.maxLineCount, id: \.self) { rowIndex in
                     Spacer().frame(height: 4)
                     HStack(spacing: GeneralServices.daySpacing) {
