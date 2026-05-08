@@ -61,9 +61,9 @@ struct CalendarMonth: View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
         
-        VStack(spacing: .zero) {
+        LazyVStack(spacing: .zero) {
             WeekIndicator(mode: .none)
-            VStack(spacing: .zero) {    // FIXME: 해당 부분 LazyStack으로 수정
+            VStack(spacing: .zero) {
                 ForEach (0 ..< GeneralServices.maxLineCount, id: \.self) { rowIndex in
                     Spacer().frame(height: 4)
                     HStack(spacing: GeneralServices.daySpacing) {
