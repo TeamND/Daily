@@ -166,8 +166,9 @@ extension CalendarViewModel {
     }
     
     func fetchMonthData(selection: String) {
-        Task {
+        Task {  // MARK: 백그라운드에서 추가를 넣어주더라도 TaskQueueManager 안에서 순차적으로 확인을 하게 만들어서 중복을 방지
             await TaskQueueManager.shared.add { [weak self] in
+                // FIXME: monthDictionary를 확인하는 로직 추가 (수정 또는 삭제된 값에 대해서도 확인)
                 guard let self else { return }
                 let records = await self.calendarUseCase.getMonthRecords(selection: selection)
                 self.monthDictionary[selection] = records
@@ -175,6 +176,7 @@ extension CalendarViewModel {
                 let monthDatas = getMonthDatas(records: records)
                 await MainActor.run { self.monthData[selection] = monthDatas }
             }
+            // FIXME: 앞뒤로 (month 기준이다보니 연도까지 건드려야 할 수 있음) 계산해서 monthDictionary를 채워주는 로직 추가
         }
     }
     
