@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import FirebaseAnalytics
+
 struct GoalView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var alertEnvironment: AlertEnvironment
@@ -30,6 +32,10 @@ struct GoalView: View {
             }
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            // FIXME: for test
+            Analytics.logEvent("open_goal_create", parameters: nil)
+        }
     }
     
     var headerView: some View {

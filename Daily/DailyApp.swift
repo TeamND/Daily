@@ -8,8 +8,25 @@
 import SwiftUI
 import SwiftData
 
+import FirebaseCore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+
+        FirebaseApp.configure()
+
+        return true
+    }
+}
+
 @main
 struct DailyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
+    
     @StateObject private var navigationEnvironment = NavigationEnvironment()
     @StateObject private var alertEnvironment = AlertEnvironment()
     @StateObject private var settingViewModel = SettingViewModel()

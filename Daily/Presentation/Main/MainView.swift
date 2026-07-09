@@ -8,6 +8,8 @@
 import SwiftUI
 import WidgetKit
 
+import FirebaseAnalytics
+
 struct MainView: View {
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
@@ -22,6 +24,9 @@ struct MainView: View {
                 .id(settingViewModel.language)
         }
         .onAppear {
+            // FIXME: for test
+            Analytics.logEvent("app_open", parameters: nil)
+
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
             PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }
         }
