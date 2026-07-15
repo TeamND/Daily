@@ -33,8 +33,7 @@ struct GoalView: View {
         }
         .background(Colors.Background.primary)
         .onAppear {
-            // FIXME: for test
-            Analytics.logEvent("open_goal_create", parameters: nil)
+            AnalyticsManager.shared.log(.openGoalCreate)
         }
     }
     

@@ -24,8 +24,7 @@ struct MainView: View {
                 .id(settingViewModel.language)
         }
         .onAppear {
-            // FIXME: for test
-            Analytics.logEvent("app_open", parameters: nil)
+            AnalyticsManager.shared.log(.appOpen)
 
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
             PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }

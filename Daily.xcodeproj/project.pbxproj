@@ -33,6 +33,8 @@
 		F64A42732DC5DDE800B69D46 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A42722DC5DDE800B69D46 /* Settings.swift */; };
 		F64A42762DC5F8E500B69D46 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A42752DC5F8E500B69D46 /* ChartView.swift */; };
 		F64A42782DC7A5C600B69D46 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A42772DC7A5C600B69D46 /* ChartViewModel.swift */; };
+		F65733203006B43C00C641F8 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F657331F3006B43C00C641F8 /* AnalyticsManager.swift */; };
+		F65733223006B45300C641F8 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65733213006B45300C641F8 /* AnalyticsEvent.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
 		F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */; };
@@ -199,6 +201,8 @@
 		F64A42722DC5DDE800B69D46 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F64A42752DC5F8E500B69D46 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		F64A42772DC7A5C600B69D46 /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
+		F657331F3006B43C00C641F8 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
+		F65733213006B45300C641F8 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTypes.swift; sourceTree = "<group>"; };
 		F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
 		F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInterface.swift; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 				F6A326A02DE6EF4600243B23 /* Pretendard */,
 				F6016DA62CC4CADB00FB637F /* Colors.swift */,
 				F6B151732EDD7B7A00813BAF /* Localizable.strings */,
+				F610C1DF2FF5E72700A9EACE /* GoogleService-Info.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -551,6 +556,23 @@
 			path = Chart;
 			sourceTree = "<group>";
 		};
+		F657331D3006B16000C641F8 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F657331E3006B17300C641F8 /* Analytics */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F657331E3006B17300C641F8 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				F657331F3006B43C00C641F8 /* AnalyticsManager.swift */,
+				F65733213006B45300C641F8 /* AnalyticsEvent.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		F65ACDE02CC91CE200C67DD1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -667,11 +689,11 @@
 				F6BEC93B290F5895005EAF28 /* Preview Content */,
 				F6016DA52CC4CACC00FB637F /* Resource */,
 				F6CC15992BA192A900689A02 /* Extension */,
+				F657331D3006B16000C641F8 /* Core */,
 				F6016DAB2CC4DE1D00FB637F /* Presentation */,
 				F6016DAC2CC4DE2A00FB637F /* Data */,
 				F6016DAD2CC4DE3100FB637F /* Domain */,
 				F6A3267F2DE5472900243B23 /* Utilities */,
-				F610C1DF2FF5E72700A9EACE /* GoogleService-Info.plist */,
 			);
 			path = Daily;
 			sourceTree = "<group>";
@@ -905,6 +927,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F65733203006B43C00C641F8 /* AnalyticsManager.swift in Sources */,
 				F6C6CD952D6C01CB00772E59 /* SwiftDataManager.swift in Sources */,
 				F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */,
 				F66EB6B62E00F1BE00CC04C4 /* RepeatTypes.swift in Sources */,
@@ -953,6 +976,7 @@
 				F69A84662D252B9400AEBD76 /* MonthDataModel.swift in Sources */,
 				F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */,
 				F64A42762DC5F8E500B69D46 /* ChartView.swift in Sources */,
+				F65733223006B45300C641F8 /* AnalyticsEvent.swift in Sources */,
 				F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */,
 				F6016DE52CC6118800FB637F /* NavigationEnvironment.swift in Sources */,
 				F6EF42412EB73F0A00C16926 /* TempGoalModel.swift in Sources */,
