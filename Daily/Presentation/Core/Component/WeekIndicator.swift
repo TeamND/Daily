@@ -29,8 +29,8 @@ struct WeekIndicator: View {
         .onAppear {
             calendarViewModel.fetchWeekData(selection: selection)
         }
-        .onChange(of: selection) { _, newValue in
-            calendarViewModel.fetchWeekData(selection: newValue)
+        .onChange(of: selection) { _, selection in
+            calendarViewModel.fetchWeekData(selection: selection)
         }
     }
     

@@ -151,6 +151,7 @@ extension CalendarViewModel {
 // MARK: - fetch func
 extension CalendarViewModel {
     // TODO: self.dictionary[selection] == reocrds 로 record 내부 데이터 변경을 감지하지 못하는 경우가 있음, 추후 캐싱 및 최적화 로직을 개선
+    // TODO: year & month & day 앞 뒤로 n개씩 background 에서 추가로 fetch 해두는 로직 추가 (완전히 동일하다면 수정 x)
     
     func fetchYearData(selection: String) {
         Task {
