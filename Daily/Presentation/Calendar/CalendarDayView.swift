@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
@@ -36,6 +37,18 @@ struct CalendarDayView: View {
             AddGoalButton()
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            if UserDefaultManager.calendarType == .day {
+//                calendarViewModel.fetchDayData(selection: calendarViewModel.currentDate.getSelection(type: .day))
+                AnalyticsManager.shared.log(.viewWeeklyCalendar)
+            }
+        }
+        .onChange(of: calendarViewModel.currentDate.getSelection(type: .day) ) { _, selection in
+            if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
+//                calendarViewModel.fetchDayData(selection: selection)
+                // FIXME: 이동에 대한 로그를 찍을지? 버튼으로 인한 이동과 스와이프 이동을 어떻게 구분할지?
+            }
+        }
     }
 }
 

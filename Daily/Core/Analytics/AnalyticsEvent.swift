@@ -12,15 +12,15 @@ enum AnalyticsEvent {
     case appOpen
     case openFromWidget
     case openFromNotification
-    case appClose
+    case appClose   // FIXME: background 진입 이벤트로 수정
     
     // MARK: - 캘린더
-    case viewDailyCalendar
+    case viewDailyCalendar  // FIXME: 삭제 예정
     case viewWeeklyCalendar
     case viewMonthlyCalendar
     case viewYearlyCalendar
-    case navigateCalendarByButton
-    case navigateCalendarBySwipe
+    case navigateCalendarByButton   // FIXME: 방향과 달력의 타입을 파라미터로 추가
+    case navigateCalendarBySwipe    // FIXME: 방향과 달력의 타입을 파라미터로 추가
     
     // MARK: - 목표 생성 플로우
     case openGoalCreate

@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
@@ -33,6 +34,18 @@ struct CalendarMonthView: View {
             AddGoalButton()
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            if UserDefaultManager.calendarType == .month {
+//                calendarViewModel.fetchMonthData(selection: calendarViewModel.currentDate.getSelection(type: .month))
+                AnalyticsManager.shared.log(.viewMonthlyCalendar)
+            }
+        }
+        .onChange(of: calendarViewModel.currentDate.getSelection(type: .month) ) { _, selection in
+            if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
+//                calendarViewModel.fetchMonthData(selection: selection)
+                // FIXME: 이동에 대한 로그를 찍을지? 버튼으로 인한 이동과 스와이프 이동을 어떻게 구분할지?
+            }
+        }
     }
 }
 

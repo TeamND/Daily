@@ -27,7 +27,10 @@ struct MainView: View {
             AnalyticsManager.shared.log(.appOpen)
 
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
-            PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }
+            PushNoticeManager.shared.setNoticeTouchAction {
+                AnalyticsManager.shared.log(.openFromNotification)
+                goCalendar(date: $0)
+            }
         }
         .onOpenURL { openUrl in
             guard let url = openUrl.absoluteString.removingPercentEncoding,
@@ -36,7 +39,10 @@ struct MainView: View {
                   let familyRaw = Int(familyString),
                   let family = WidgetFamily(rawValue: familyRaw) else { return }
             
-            if url.contains("widget") { goCalendar(to: family == .systemLarge ? .month : .day) }
+            if url.contains("widget") {
+                AnalyticsManager.shared.log(.openFromWidget)
+                goCalendar(to: family == .systemLarge ? .month : .day)
+            }
         }
     }
     
