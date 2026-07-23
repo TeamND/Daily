@@ -151,33 +151,38 @@ extension CalendarViewModel {
 // MARK: - fetch func
 extension CalendarViewModel {
     // TODO: self.dictionary[selection] == reocrds 로 record 내부 데이터 변경을 감지하지 못하는 경우가 있음, 추후 캐싱 및 최적화 로직을 개선
-    // TODO: year & month & day 앞 뒤로 n개씩 background 에서 추가로 fetch 해두는 로직 추가 (완전히 동일하다면 수정 x)
     
-    func fetchYearData(selection: String) {
-        Task {
-            await TaskQueueManager.shared.add { [weak self] in
-                guard let self else { return }
-                let records = await self.calendarUseCase.getYearRecords(selection: selection)
-                self.yearDictionary[selection] = records
-
-                let yearDatas = getYearDatas(records: records)
-                await MainActor.run { self.yearData[selection] = yearDatas }
+    func fetchYearData(selection: String, bumper: Int = 1) {
+        for i in -bumper ... bumper {
+            guard let selection = calendarUseCase.calculateSelection(selection: selection, type: .year, value: i) else { return }
+            Task {
+                await TaskQueueManager.shared.add { [weak self] in
+                    guard let self else { return }
+                    let records = await self.calendarUseCase.getYearRecords(selection: selection)
+//                    if self.yearDictionary[selection] == records { return }
+                    self.yearDictionary[selection] = records
+                    
+                    let yearDatas = getYearDatas(records: records)
+                    await MainActor.run { self.yearData[selection] = yearDatas }
+                }
             }
         }
     }
     
-    func fetchMonthData(selection: String) {
-        Task {  // MARK: 백그라운드에서 추가를 넣어주더라도 TaskQueueManager 안에서 순차적으로 확인을 하게 만들어서 중복을 방지
-            await TaskQueueManager.shared.add { [weak self] in
-                // FIXME: monthDictionary를 확인하는 로직 추가 (수정 또는 삭제된 값에 대해서도 확인)
-                guard let self else { return }
-                let records = await self.calendarUseCase.getMonthRecords(selection: selection)
-                self.monthDictionary[selection] = records
-                
-                let monthDatas = getMonthDatas(records: records)
-                await MainActor.run { self.monthData[selection] = monthDatas }
+    func fetchMonthData(selection: String, bumper: Int = 1) {
+        for i in -bumper ... bumper {
+            guard let selection = calendarUseCase.calculateSelection(selection: selection, type: .month, value: i) else { return }
+            Task {  // MARK: 백그라운드에서 추가를 넣어주더라도 TaskQueueManager 안에서 순차적으로 확인을 하게 만들어서 중복을 방지
+                await TaskQueueManager.shared.add { [weak self] in
+                    // FIXME: monthDictionary를 확인하는 로직 추가 (수정 또는 삭제된 값에 대해서도 확인)
+                    guard let self else { return }
+                    let records = await self.calendarUseCase.getMonthRecords(selection: selection)
+                    self.monthDictionary[selection] = records
+                    
+                    let monthDatas = getMonthDatas(records: records)
+                    await MainActor.run { self.monthData[selection] = monthDatas }
+                }
             }
-            // FIXME: 앞뒤로 (month 기준이다보니 연도까지 건드려야 할 수 있음) 계산해서 monthDictionary를 채워주는 로직 추가
         }
     }
     
@@ -194,15 +199,18 @@ extension CalendarViewModel {
         }
     }
     
-    func fetchDayData(selection: String) {
-        Task {
-            await TaskQueueManager.shared.add { [weak self] in
-                guard let self else { return }
-                let records = await self.calendarUseCase.getDayRecords(selection: selection)
-                self.dayDictionary[selection] = records
-                
-                let dayDatas = getDayDatas(records: records)
-                await MainActor.run { self.dayData[selection] = dayDatas }
+    func fetchDayData(selection: String, bumper: Int = 1) {
+        for i in -bumper ... bumper {
+            guard let selection = calendarUseCase.calculateSelection(selection: selection, type: .day, value: i) else { return }
+            Task {
+                await TaskQueueManager.shared.add { [weak self] in
+                    guard let self else { return }
+                    let records = await self.calendarUseCase.getDayRecords(selection: selection)
+                    self.dayDictionary[selection] = records
+                    
+                    let dayDatas = getDayDatas(records: records)
+                    await MainActor.run { self.dayData[selection] = dayDatas }
+                }
             }
         }
     }
