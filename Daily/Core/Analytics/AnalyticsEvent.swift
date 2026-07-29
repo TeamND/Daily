@@ -9,10 +9,10 @@ import FirebaseAnalytics
 
 enum AnalyticsEvent {
     // MARK: - 앱 진입 / 종료
-    case appOpen
+    case openApp
     case openFromWidget
     case openFromNotification
-    case appClose   // FIXME: background 진입 이벤트로 수정
+    case enterAppBackground
     
     // MARK: - 캘린더
     case viewDailyCalendar  // FIXME: 삭제 예정
@@ -64,14 +64,14 @@ extension AnalyticsEvent {
     var name: String {
         switch self {
             // MARK: - 앱 진입 / 종료
-        case .appOpen:
-            return "app_open"
+        case .openApp:
+            return "open_app"
         case .openFromWidget:
             return "open_from_widget"
         case .openFromNotification:
             return "open_from_notification"
-        case .appClose:
-            return "app_close"
+        case .enterAppBackground:
+            return "enter_app_background"
             
             // MARK: - 캘린더
         case .viewDailyCalendar:

@@ -14,6 +14,7 @@ struct MainView: View {
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     @EnvironmentObject private var settingViewModel: SettingViewModel
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
@@ -24,7 +25,7 @@ struct MainView: View {
                 .id(settingViewModel.language)
         }
         .onAppear {
-            AnalyticsManager.shared.log(.appOpen)
+            AnalyticsManager.shared.log(.openApp)
 
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
             PushNoticeManager.shared.setNoticeTouchAction {
@@ -42,6 +43,11 @@ struct MainView: View {
             if url.contains("widget") {
                 AnalyticsManager.shared.log(.openFromWidget)
                 goCalendar(to: family == .systemLarge ? .month : .day)
+            }
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .background {
+                AnalyticsManager.shared.log(.enterAppBackground)
             }
         }
     }
