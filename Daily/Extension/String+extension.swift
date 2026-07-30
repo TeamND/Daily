@@ -20,6 +20,21 @@ extension String {
 
 // MARK: - Date
 extension String {
+    func formatingDaily() -> String {
+        let components = self.split(separator: "-")
+
+        switch components.count {
+        case 1:
+            return "\(components[0])-01-01"
+
+        case 2:
+            return "\(components[0])-\(components[1])-01"
+
+        default:
+            return self
+        }
+    }
+    
     func toDate(format: DateFormats = .daily, timeZone: TimeZone = .current) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format.rawValue

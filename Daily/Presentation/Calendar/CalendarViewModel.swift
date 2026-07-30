@@ -152,28 +152,36 @@ extension CalendarViewModel {
 extension CalendarViewModel {
     // TODO: self.dictionary[selection] == reocrds 로 record 내부 데이터 변경을 감지하지 못하는 경우가 있음, 추후 캐싱 및 최적화 로직을 개선
     
-    func fetchYearData(selection: String) {
-        Task {
-            await TaskQueueManager.shared.add { [weak self] in
-                guard let self else { return }
-                let records = await self.calendarUseCase.getYearRecords(selection: selection)
-                self.yearDictionary[selection] = records
-
-                let yearDatas = getYearDatas(records: records)
-                await MainActor.run { self.yearData[selection] = yearDatas }
+    func fetchYearData(selection: String, bumper: Int = 1) {
+        for i in -bumper ... bumper {
+            guard let selection = calendarUseCase.calculateSelection(selection: selection, type: .year, value: i) else { return }
+            Task {
+                await TaskQueueManager.shared.add { [weak self] in
+                    guard let self else { return }
+                    let records = await self.calendarUseCase.getYearRecords(selection: selection)
+//                    if self.yearDictionary[selection] == records { return }
+                    self.yearDictionary[selection] = records
+                    
+                    let yearDatas = getYearDatas(records: records)
+                    await MainActor.run { self.yearData[selection] = yearDatas }
+                }
             }
         }
     }
     
-    func fetchMonthData(selection: String) {
-        Task {
-            await TaskQueueManager.shared.add { [weak self] in
-                guard let self else { return }
-                let records = await self.calendarUseCase.getMonthRecords(selection: selection)
-                self.monthDictionary[selection] = records
-                
-                let monthDatas = getMonthDatas(records: records)
-                await MainActor.run { self.monthData[selection] = monthDatas }
+    func fetchMonthData(selection: String, bumper: Int = 1) {
+        for i in -bumper ... bumper {
+            guard let selection = calendarUseCase.calculateSelection(selection: selection, type: .month, value: i) else { return }
+            Task {  // MARK: 백그라운드에서 추가를 넣어주더라도 TaskQueueManager 안에서 순차적으로 확인을 하게 만들어서 중복을 방지
+                await TaskQueueManager.shared.add { [weak self] in
+                    // FIXME: monthDictionary를 확인하는 로직 추가 (수정 또는 삭제된 값에 대해서도 확인)
+                    guard let self else { return }
+                    let records = await self.calendarUseCase.getMonthRecords(selection: selection)
+                    self.monthDictionary[selection] = records
+                    
+                    let monthDatas = getMonthDatas(records: records)
+                    await MainActor.run { self.monthData[selection] = monthDatas }
+                }
             }
         }
     }
@@ -191,15 +199,18 @@ extension CalendarViewModel {
         }
     }
     
-    func fetchDayData(selection: String) {
-        Task {
-            await TaskQueueManager.shared.add { [weak self] in
-                guard let self else { return }
-                let records = await self.calendarUseCase.getDayRecords(selection: selection)
-                self.dayDictionary[selection] = records
-                
-                let dayDatas = getDayDatas(records: records)
-                await MainActor.run { self.dayData[selection] = dayDatas }
+    func fetchDayData(selection: String, bumper: Int = 1) {
+        for i in -bumper ... bumper {
+            guard let selection = calendarUseCase.calculateSelection(selection: selection, type: .day, value: i) else { return }
+            Task {
+                await TaskQueueManager.shared.add { [weak self] in
+                    guard let self else { return }
+                    let records = await self.calendarUseCase.getDayRecords(selection: selection)
+                    self.dayDictionary[selection] = records
+                    
+                    let dayDatas = getDayDatas(records: records)
+                    await MainActor.run { self.dayData[selection] = dayDatas }
+                }
             }
         }
     }

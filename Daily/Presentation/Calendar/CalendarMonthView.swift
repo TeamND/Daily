@@ -35,14 +35,14 @@ struct CalendarMonthView: View {
         }
         .background(Colors.Background.primary)
         .onAppear {
+            calendarViewModel.fetchMonthData(selection: calendarViewModel.currentDate.getSelection(type: .month))
             if UserDefaultManager.calendarType == .month {
-//                calendarViewModel.fetchMonthData(selection: calendarViewModel.currentDate.getSelection(type: .month))
                 AnalyticsManager.shared.log(.viewMonthlyCalendar)
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .month) ) { _, selection in
             if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
-//                calendarViewModel.fetchMonthData(selection: selection)
+                calendarViewModel.fetchMonthData(selection: selection)
                 // FIXME: 이동에 대한 로그를 찍을지? 버튼으로 인한 이동과 스와이프 이동을 어떻게 구분할지?
             }
         }
@@ -61,7 +61,7 @@ struct CalendarMonth: View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
         
-        VStack(spacing: .zero) {
+        LazyVStack(spacing: .zero) {
             WeekIndicator(mode: .none)
             VStack(spacing: .zero) {
                 ForEach (0 ..< GeneralServices.maxLineCount, id: \.self) { rowIndex in
@@ -87,9 +87,6 @@ struct CalendarMonth: View {
         }
         .vTop()
         .padding(.horizontal, 16)
-        .onAppear {
-            calendarViewModel.fetchMonthData(selection: selection)
-        }
     }
 }
 

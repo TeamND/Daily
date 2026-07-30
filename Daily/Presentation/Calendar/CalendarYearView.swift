@@ -36,14 +36,14 @@ struct CalendarYearView: View {
         }
         .background(Colors.Background.primary)
         .onAppear {
+            calendarViewModel.fetchYearData(selection: calendarViewModel.currentDate.getSelection(type: .year))
             if UserDefaultManager.calendarType == .year {
-//                calendarViewModel.fetchYearData(selection: calendarViewModel.currentDate.getSelection(type: .year))
                 AnalyticsManager.shared.log(.viewYearlyCalendar)
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .year) ) { _, selection in
             if navigationEnvironment.navigationPath.isEmpty {
-//                calendarViewModel.fetchYearData(selection: selection)
+                calendarViewModel.fetchYearData(selection: selection)
                 // FIXME: 이동에 대한 로그를 찍을지? 버튼으로 인한 이동과 스와이프 이동을 어떻게 구분할지?
             }
         }
@@ -78,9 +78,6 @@ struct CalendarYear: View {
             }
         }
         .padding(.horizontal, 16)
-        .onAppear {
-            calendarViewModel.fetchYearData(selection: selection)
-        }
     }
 }
 
