@@ -39,6 +39,6 @@ extension String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format.rawValue
         dateFormatter.timeZone = timeZone
-        return dateFormatter.date(from: self.formatingDaily())
+        return dateFormatter.date(from: self)
     }
 }
