@@ -35,6 +35,7 @@
 		F64A42782DC7A5C600B69D46 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A42772DC7A5C600B69D46 /* ChartViewModel.swift */; };
 		F65733203006B43C00C641F8 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F657331F3006B43C00C641F8 /* AnalyticsManager.swift */; };
 		F65733223006B45300C641F8 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65733213006B45300C641F8 /* AnalyticsEvent.swift */; };
+		F6573324301C85F900C641F8 /* AnalyticsParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6573323301C85F900C641F8 /* AnalyticsParameters.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
 		F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */; };
@@ -203,6 +204,7 @@
 		F64A42772DC7A5C600B69D46 /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
 		F657331F3006B43C00C641F8 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F65733213006B45300C641F8 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
+		F6573323301C85F900C641F8 /* AnalyticsParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsParameters.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTypes.swift; sourceTree = "<group>"; };
 		F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
 		F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInterface.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 			children = (
 				F657331F3006B43C00C641F8 /* AnalyticsManager.swift */,
 				F65733213006B45300C641F8 /* AnalyticsEvent.swift */,
+				F6573323301C85F900C641F8 /* AnalyticsParameters.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -979,6 +982,7 @@
 				F65733223006B45300C641F8 /* AnalyticsEvent.swift in Sources */,
 				F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */,
 				F6016DE52CC6118800FB637F /* NavigationEnvironment.swift in Sources */,
+				F6573324301C85F900C641F8 /* AnalyticsParameters.swift in Sources */,
 				F6EF42412EB73F0A00C16926 /* TempGoalModel.swift in Sources */,
 				F69A84602D21072800AEBD76 /* Array+extension.swift in Sources */,
 				F67DD0F62E02E9340001203D /* RepeatTypeSection.swift in Sources */,

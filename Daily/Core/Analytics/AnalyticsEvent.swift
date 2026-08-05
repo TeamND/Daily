@@ -15,12 +15,11 @@ enum AnalyticsEvent {
     case enterAppBackground
     
     // MARK: - 캘린더
-    case viewDailyCalendar  // FIXME: 삭제 예정
-    case viewWeeklyCalendar
-    case viewMonthlyCalendar
-    case viewYearlyCalendar
-    case navigateCalendarByButton   // FIXME: 방향과 달력의 타입을 파라미터로 추가
-    case navigateCalendarBySwipe    // FIXME: 방향과 달력의 타입을 파라미터로 추가
+    case openDailyCalendar
+    case openMonthlyCalendar
+    case openYearlyCalendar
+    case navigateCalendarByButton
+    case navigateCalendarBySwipe    // FIXME: Swipe 액션을 구분할 수 있는지 확인 후 추가
     
     // MARK: - 목표 생성 플로우
     case openGoalCreate
@@ -74,14 +73,12 @@ extension AnalyticsEvent {
             return "enter_app_background"
             
             // MARK: - 캘린더
-        case .viewDailyCalendar:
-            return "view_daily_calendar"
-        case .viewWeeklyCalendar:
-            return "view_weekly_calendar"
-        case .viewMonthlyCalendar:
-            return "view_monthly_calendar"
-        case .viewYearlyCalendar:
-            return "view_yearly_calendar"
+        case .openDailyCalendar:
+            return "open_daily_calendar"
+        case .openMonthlyCalendar:
+            return "open_monthly_calendar"
+        case .openYearlyCalendar:
+            return "open_yearly_calendar"
         case .navigateCalendarByButton:
             return "navigate_calendar_by_button"
         case .navigateCalendarBySwipe:
@@ -150,13 +147,6 @@ extension AnalyticsEvent {
             return "open_settings"
         case .changeLanguage:
             return "change_language"
-        }
-    }
-
-    var parameters: [String: Any]? {
-        switch self {
-        default:
-            return nil
         }
     }
 }

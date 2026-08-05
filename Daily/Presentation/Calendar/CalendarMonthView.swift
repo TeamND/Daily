@@ -37,7 +37,7 @@ struct CalendarMonthView: View {
         .onAppear {
             calendarViewModel.fetchMonthData(selection: calendarViewModel.currentDate.getSelection(type: .month))
             if UserDefaultManager.calendarType == .month {
-                AnalyticsManager.shared.log(.viewMonthlyCalendar)
+                AnalyticsManager.shared.log(.openMonthlyCalendar)   // FIXME: open_method parameter 추가 필요
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .month) ) { _, selection in

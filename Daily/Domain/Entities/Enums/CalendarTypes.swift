@@ -84,6 +84,17 @@ enum CalendarTypes: String, DailyTypes, Codable {
             return .day
         }
     }
+    
+    var parameterValue: String {
+        switch self {
+        case .year:
+            return "yearly"
+        case .month:
+            return "monthly"
+        case .week, .day:
+            return "weekly"
+        }
+    }
 }
 
 extension CalendarTypes {
