@@ -43,10 +43,12 @@ struct CalendarDayView: View {
                 AnalyticsManager.shared.log(.openDailyCalendar) // FIXME: open_method parameter 추가 필요
             }
         }
-        .onChange(of: calendarViewModel.currentDate.getSelection(type: .day) ) { _, selection in
+        .onChange(of: calendarViewModel.currentDate.getSelection(type: .day) ) { beforeSelection, selection in
             if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
                 calendarViewModel.fetchDayData(selection: selection)
-                // FIXME: 이동에 대한 로그를 찍을지? 버튼으로 인한 이동과 스와이프 이동을 어떻게 구분할지?
+                
+                let direction: Direction = beforeSelection > selection ? .left : .right
+                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.day))
             }
         }
     }

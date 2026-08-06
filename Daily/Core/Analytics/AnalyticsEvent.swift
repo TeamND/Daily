@@ -18,8 +18,8 @@ enum AnalyticsEvent {
     case openDailyCalendar
     case openMonthlyCalendar
     case openYearlyCalendar
+    case navigateCalendar
     case navigateCalendarByButton
-    case navigateCalendarBySwipe    // FIXME: Swipe 액션을 구분할 수 있는지 확인 후 추가
     
     // MARK: - 목표 생성 플로우
     case openGoalCreate
@@ -79,10 +79,10 @@ extension AnalyticsEvent {
             return "open_monthly_calendar"
         case .openYearlyCalendar:
             return "open_yearly_calendar"
+        case .navigateCalendar:
+            return "navigate_calendar"
         case .navigateCalendarByButton:
             return "navigate_calendar_by_button"
-        case .navigateCalendarBySwipe:
-            return "navigate_calendar_by_swipe"
             
             // MARK: - 목표 생성 플로우
         case .openGoalCreate:
