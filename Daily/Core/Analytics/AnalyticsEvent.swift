@@ -23,17 +23,15 @@ enum AnalyticsEvent {
     
     // MARK: - 목표 생성 플로우
     case openGoalCreate
-    case changeGoalType_single
-    case changeGoalType_repeat
+    case changeGoalTypeSingle   // FIXME: Single & Multiple event 통일 후 파라미터로 구분
+    case changeGoalTypeMultiple
     case changeGoalTitle
     case changeGoalDate
-    case changeGoalRepeat
-    case changeGoalTimer
-    case enableGoalNotification
-    case disableGoalNotification
+    case changeGoalProgressType
+    case changeGoalNotification
     case saveGoalAttempt
     case saveGoalError
-    case createGoalComplete
+    case saveGoalSuccess
     case cancelGoalCreate
     
     // MARK: - 목표 관리
@@ -87,28 +85,24 @@ extension AnalyticsEvent {
             // MARK: - 목표 생성 플로우
         case .openGoalCreate:
             return "open_goal_create"
-        case .changeGoalType_single:
+        case .changeGoalTypeSingle:
             return "change_goal_type_single"
-        case .changeGoalType_repeat:
-            return "change_goal_type_repeat"
+        case .changeGoalTypeMultiple:
+            return "change_goal_type_multiple"
         case .changeGoalTitle:
             return "change_goal_title"
         case .changeGoalDate:
             return "change_goal_date"
-        case .changeGoalRepeat:
-            return "change_goal_repeat"
-        case .changeGoalTimer:
-            return "change_goal_timer"
-        case .enableGoalNotification:
-            return "enable_goal_notification"
-        case .disableGoalNotification:
-            return "disable_goal_notification"
+        case .changeGoalProgressType:
+            return "change_goal_progress_type"
+        case .changeGoalNotification:
+            return "change_goal_notification"
         case .saveGoalAttempt:
             return "save_goal_attempt"
         case .saveGoalError:
             return "save_goal_error"
-        case .createGoalComplete:
-            return "create_goal_complete"
+        case .saveGoalSuccess:
+            return "save_goal_success"
         case .cancelGoalCreate:
             return "cancel_goal_create"
             

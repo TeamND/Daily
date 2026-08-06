@@ -29,4 +29,13 @@ enum GoalTypes: String, DailyTypes, Codable {
             return 0
         }
     }
+    
+    var parameterValue: String {
+        switch self {
+        case .check, .count:
+            return "count"
+        case .timer:
+            return "timer"
+        }
+    }
 }

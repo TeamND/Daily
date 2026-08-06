@@ -11,6 +11,9 @@ enum AnalyticsParameters {
     case direction(Direction)
     case calendar_type(CalendarTypes)
     case open_method(OpenMethod)
+    
+    case progress_type(GoalTypes)
+    case notification_enabled(Bool)
 }
 
 extension AnalyticsParameters {
@@ -22,6 +25,11 @@ extension AnalyticsParameters {
             return "calendar_type"
         case .open_method:
             return "open_method"
+            
+        case .progress_type:
+            return "progress_type"
+        case .notification_enabled:
+            return "notification_enabled"
         }
     }
     
@@ -33,6 +41,11 @@ extension AnalyticsParameters {
             return value.parameterValue
         case .open_method(let value):
             return value.parameterValue
+            
+        case .progress_type(let value):
+            return value.parameterValue
+        case .notification_enabled(let value):
+            return String(value)
         }
     }
 }
