@@ -19,4 +19,13 @@ enum CycleTypes: String, DailyTypes, Codable {
             return "multi_goal".localized
         }
     }
+    
+    var parameterValue: String {
+        switch self {
+        case .date:
+            return "single"
+        case .rept:
+            return "multiple"
+        }
+    }
 }

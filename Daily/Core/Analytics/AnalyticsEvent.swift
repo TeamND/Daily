@@ -22,11 +22,9 @@ enum AnalyticsEvent {
     case navigateCalendarByButton
     
     // MARK: - 목표 생성 플로우
-    case openGoalCreate
-    case changeGoalTypeSingle   // FIXME: Single & Multiple event 통일 후 파라미터로 구분
-    case changeGoalTypeMultiple
-    case changeGoalTitle
-    case changeGoalDate
+    case openGoalView
+    case changeGoalType
+    case changeGoalProgressDate
     case changeGoalProgressType
     case changeGoalNotification
     case saveGoalAttempt
@@ -83,16 +81,12 @@ extension AnalyticsEvent {
             return "navigate_calendar_by_button"
             
             // MARK: - 목표 생성 플로우
-        case .openGoalCreate:
-            return "open_goal_create"
-        case .changeGoalTypeSingle:
-            return "change_goal_type_single"
-        case .changeGoalTypeMultiple:
-            return "change_goal_type_multiple"
-        case .changeGoalTitle:
-            return "change_goal_title"
-        case .changeGoalDate:
-            return "change_goal_date"
+        case .openGoalView:
+            return "open_goal_view"
+        case .changeGoalType:
+            return "change_goal_type"
+        case .changeGoalProgressDate:
+            return "change_goal_progress_date"
         case .changeGoalProgressType:
             return "change_goal_progress_type"
         case .changeGoalNotification:

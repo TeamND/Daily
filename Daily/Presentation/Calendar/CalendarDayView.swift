@@ -40,7 +40,7 @@ struct CalendarDayView: View {
         .onAppear {
             calendarViewModel.fetchDayData(selection: calendarViewModel.currentDate.getSelection(type: .day))
             if UserDefaultManager.calendarType == .day {
-                AnalyticsManager.shared.log(.openDailyCalendar) // FIXME: open_method parameter 추가 필요
+                AnalyticsManager.shared.log(.openDailyCalendar)
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .day) ) { beforeSelection, selection in

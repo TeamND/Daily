@@ -38,7 +38,7 @@ struct CalendarYearView: View {
         .onAppear {
             calendarViewModel.fetchYearData(selection: calendarViewModel.currentDate.getSelection(type: .year))
             if UserDefaultManager.calendarType == .year {
-                AnalyticsManager.shared.log(.openYearlyCalendar)    // FIXME: open_method parameter 추가 필요
+                AnalyticsManager.shared.log(.openYearlyCalendar)
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .year) ) { beforeSelection, selection in
