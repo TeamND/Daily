@@ -20,6 +20,8 @@ enum AnalyticsParameters {
     case delete_scope(DeleteScope)
     
     case statistics_type(StatisticsTypes)
+    
+    case language(Languages)
 }
 
 extension AnalyticsParameters {
@@ -45,6 +47,9 @@ extension AnalyticsParameters {
             
         case .statistics_type:
             return "statistics_type"
+            
+        case .language:
+            return "language"
         }
     }
     
@@ -69,6 +74,9 @@ extension AnalyticsParameters {
             return value.parameterValue
             
         case .statistics_type(let value):
+            return value.parameterValue
+            
+        case .language(let value):
             return value.parameterValue
         }
     }

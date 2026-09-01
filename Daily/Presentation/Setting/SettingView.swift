@@ -20,6 +20,9 @@ struct SettingView: View {
                 }
             }
         }
+        .onAppear {
+            AnalyticsManager.shared.log(.openSettings)
+        }
     }
     
     private var settingView: some View {

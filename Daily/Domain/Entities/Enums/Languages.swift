@@ -28,6 +28,15 @@ enum Languages: String, DailyTypes, Codable {
             "en"
         }
     }
+    
+    var parameterValue: String {
+        switch self {
+        case .korean:
+            return "ko"
+        case .english:
+            return "en"
+        }
+    }
 }
 
 extension Languages {
