@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct NavigationHeader: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @Environment(\.dismiss) var dismiss
+    
     let title: String
     let trailingText: String?
     let trailingAction: (() -> Void)?
@@ -23,6 +25,11 @@ struct NavigationHeader: View {
         HStack {
             Button {
                 dismiss()
+                
+                let viewType = navigationEnvironment.navigationPath.last?.viewType
+                if viewType == .goal || viewType == .modify {   // TODO: 조건 및 파라미터 확인 필요
+                    AnalyticsManager.shared.log(.cancelGoalCreate)
+                }
             } label: {
                 Label("back".localized, systemImage: "chevron.left")
                     .font(Fonts.bodyLgMedium)

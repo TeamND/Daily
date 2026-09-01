@@ -333,6 +333,9 @@ struct NoticeSection: View {
                                                 HH = (notification.noticeTime ?? 0) / 60
                                                 mm = (notification.noticeTime ?? 0) % 60
                                                 goalViewModel.record.notice = notification.noticeTime
+                                                
+                                                let notification_enabled = notification != .noNotification
+                                                AnalyticsManager.shared.log(.changeGoalNotification, .notification_enabled(notification_enabled))
                                             }
                                         } label: {
                                             Text(notification.text)
@@ -404,6 +407,9 @@ struct NoticeSection: View {
             Button {
                 goalViewModel.record.notice = HH * 60 + mm
                 isShowCustomNoticeSheet = false
+                
+                let notification_enabled = !(HH == 0 && mm == 0)
+                AnalyticsManager.shared.log(.changeGoalNotification, .notification_enabled(notification_enabled))
             } label: {
                 Text("apply".localized)
                     .font(Fonts.bodyLgSemiBold)
