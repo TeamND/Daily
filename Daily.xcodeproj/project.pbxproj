@@ -37,6 +37,7 @@
 		F65733223006B45300C641F8 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65733213006B45300C641F8 /* AnalyticsEvent.swift */; };
 		F6573324301C85F900C641F8 /* AnalyticsParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6573323301C85F900C641F8 /* AnalyticsParameters.swift */; };
 		F6573326304669EE00C641F8 /* DeleteScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6573325304669EE00C641F8 /* DeleteScope.swift */; };
+		F65733283046774E00C641F8 /* StatisticsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65733273046774E00C641F8 /* StatisticsTypes.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
 		F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */; };
@@ -207,6 +208,7 @@
 		F65733213006B45300C641F8 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		F6573323301C85F900C641F8 /* AnalyticsParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsParameters.swift; sourceTree = "<group>"; };
 		F6573325304669EE00C641F8 /* DeleteScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteScope.swift; sourceTree = "<group>"; };
+		F65733273046774E00C641F8 /* StatisticsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTypes.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTypes.swift; sourceTree = "<group>"; };
 		F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
 		F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInterface.swift; sourceTree = "<group>"; };
@@ -768,6 +770,7 @@
 				F63A53F02EF29B8100D1A7B2 /* DayOfWeek.swift */,
 				F6DB67A42F34670C0088893B /* Notifications.swift */,
 				F6573325304669EE00C641F8 /* DeleteScope.swift */,
+				F65733273046774E00C641F8 /* StatisticsTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -997,6 +1000,7 @@
 				F64A42732DC5DDE800B69D46 /* Settings.swift in Sources */,
 				F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */,
 				F6F31DF52CF96DC60090A3B9 /* RecordList.swift in Sources */,
+				F65733283046774E00C641F8 /* StatisticsTypes.swift in Sources */,
 				F66ACF9D2F65297F00FFE2C8 /* NotificationIndicator.swift in Sources */,
 				F6EC3D1F2BE2409B00FAB502 /* SystemManager.swift in Sources */,
 				F634D2E42CC485E80014EDB6 /* UNUserNotificationCenter+extension.swift in Sources */,

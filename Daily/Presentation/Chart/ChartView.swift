@@ -25,6 +25,8 @@ struct ChartView: View {
                 types: CalendarTypes.allCases.reversed()
             ) {
                 chartViewModel.setType(type: $0)
+                
+                AnalyticsManager.shared.log(.changeStatisticsType, .statistics_type($0.statisticsType))
             }.padding(.horizontal, 16)
             Spacer().frame(height: 24)
             
@@ -40,6 +42,8 @@ struct ChartView: View {
         .background(Colors.Background.primary)
         .onAppear {
             chartViewModel.onAppear(navigationPath: navigationEnvironment.navigationPath, filter: calendarViewModel.filter)
+            
+            AnalyticsManager.shared.log(.openStatistics)
         }
     }
     

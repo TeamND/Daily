@@ -37,17 +37,9 @@ enum AnalyticsEvent {
     case completeTimerGoal
     case deleteGoalAttempt
     
-    // MARK: - 알림
-    case enableNotification
-    case disableNotification
-    case notificationClick
-    
     // MARK: - 통계
-    case viewStatistics
-    case viewDailyStatistics
-    case viewWeeklyStatistics
-    case viewMonthlyStatistics
-    case viewYearlyStatistics
+    case openStatistics
+    case changeStatisticsType
     
     // MARK: - 설정
     case openSettings
@@ -107,25 +99,11 @@ extension AnalyticsEvent {
         case .deleteGoalAttempt:
             return "delete_goal_attempt"
             
-            // MARK: - 알림
-        case .enableNotification:
-            return "enable_notification"
-        case .disableNotification:
-            return "disable_notification"
-        case .notificationClick:
-            return "notification_click"
-            
             // MARK: - 통계
-        case .viewStatistics:
-            return "view_statistics"
-        case .viewDailyStatistics:
-            return "view_daily_statistics"
-        case .viewWeeklyStatistics:
-            return "view_weekly_statistics"
-        case .viewMonthlyStatistics:
-            return "view_monthly_statistics"
-        case .viewYearlyStatistics:
-            return "view_yearly_statistics"
+        case .openStatistics:
+            return "open_statistics"
+        case .changeStatisticsType:
+            return "change_statistics_type"
             
             // MARK: - 설정
         case .openSettings:
