@@ -35,8 +35,7 @@ enum AnalyticsEvent {
     // MARK: - 목표 관리
     case completeGoal
     case completeTimerGoal
-    case editGoal
-    case deleteGoal
+    case deleteGoalAttempt
     
     // MARK: - 알림
     case enableNotification
@@ -105,10 +104,8 @@ extension AnalyticsEvent {
             return "complete_goal"
         case .completeTimerGoal:
             return "complete_timer_goal"
-        case .editGoal:
-            return "edit_goal"
-        case .deleteGoal:
-            return "delete_goal"
+        case .deleteGoalAttempt:
+            return "delete_goal_attempt"
             
             // MARK: - 알림
         case .enableNotification:

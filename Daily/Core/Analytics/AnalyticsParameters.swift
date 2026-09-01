@@ -16,6 +16,8 @@ enum AnalyticsParameters {
     
     case goal_action(ViewTypes)
     case goal_type(CycleTypes)
+    
+    case delete_scope(DeleteScope)
 }
 
 extension AnalyticsParameters {
@@ -35,6 +37,9 @@ extension AnalyticsParameters {
             return "goal_action"
         case .goal_type:
             return "goal_type"
+            
+        case .delete_scope:
+            return "delete_scope"
         }
     }
     
@@ -53,6 +58,9 @@ extension AnalyticsParameters {
         case .goal_action(let value):
             return value.parameterValue
         case .goal_type(let value):
+            return value.parameterValue
+            
+        case .delete_scope(let value):
             return value.parameterValue
         }
     }

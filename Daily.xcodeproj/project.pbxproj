@@ -36,6 +36,7 @@
 		F65733203006B43C00C641F8 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F657331F3006B43C00C641F8 /* AnalyticsManager.swift */; };
 		F65733223006B45300C641F8 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65733213006B45300C641F8 /* AnalyticsEvent.swift */; };
 		F6573324301C85F900C641F8 /* AnalyticsParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6573323301C85F900C641F8 /* AnalyticsParameters.swift */; };
+		F6573326304669EE00C641F8 /* DeleteScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6573325304669EE00C641F8 /* DeleteScope.swift */; };
 		F65ACDD72CC8ECEB00C67DD1 /* CalendarTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */; };
 		F65ACDD92CC8FB4400C67DD1 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */; };
 		F65ACDDB2CC8FB5900C67DD1 /* CalendarInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */; };
@@ -205,6 +206,7 @@
 		F657331F3006B43C00C641F8 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F65733213006B45300C641F8 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		F6573323301C85F900C641F8 /* AnalyticsParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsParameters.swift; sourceTree = "<group>"; };
+		F6573325304669EE00C641F8 /* DeleteScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteScope.swift; sourceTree = "<group>"; };
 		F65ACDD62CC8ECEB00C67DD1 /* CalendarTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTypes.swift; sourceTree = "<group>"; };
 		F65ACDD82CC8FB4400C67DD1 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
 		F65ACDDA2CC8FB5900C67DD1 /* CalendarInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInterface.swift; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 				F6AD28142EC71667004F9F93 /* HolidayImages.swift */,
 				F63A53F02EF29B8100D1A7B2 /* DayOfWeek.swift */,
 				F6DB67A42F34670C0088893B /* Notifications.swift */,
+				F6573325304669EE00C641F8 /* DeleteScope.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6573326304669EE00C641F8 /* DeleteScope.swift in Sources */,
 				F65733203006B43C00C641F8 /* AnalyticsManager.swift in Sources */,
 				F6C6CD952D6C01CB00772E59 /* SwiftDataManager.swift in Sources */,
 				F6016DA72CC4CADB00FB637F /* Colors.swift in Sources */,
