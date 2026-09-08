@@ -69,7 +69,7 @@ struct DailyMenu: View {
                 Button {
                     calendarViewModel.deleteGoal(goal: goal)
                     
-                    AnalyticsManager.shared.log(.deleteGoalAttempt, .delete_scope(.single)) // TODO: single or all 확인 필요
+                    AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.date))
                 } label: {
                     Label("delete_goal".localized, systemImage: "trash")
                 }
@@ -78,7 +78,7 @@ struct DailyMenu: View {
                     Button {
                         calendarViewModel.deleteRecord(record: record)
                         
-                        AnalyticsManager.shared.log(.deleteGoalAttempt, .delete_scope(.single))
+                        AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.rept), .delete_scope(.single))
                     } label: {
                         Text("delete_this_only".localized)
                     }
@@ -86,14 +86,14 @@ struct DailyMenu: View {
                         Button {
                             calendarViewModel.deleteFutureRecords(goal: goal)
                             
-                            AnalyticsManager.shared.log(.deleteGoalAttempt, .delete_scope(.future))
+                            AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.rept), .delete_scope(.future))
                         } label: {
                             Text("delete_future_goals_only".localized)
                         }
                         Button {
                             calendarViewModel.deleteGoal(goal: goal)
                             
-                            AnalyticsManager.shared.log(.deleteGoalAttempt, .delete_scope(.all))
+                            AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.rept), .delete_scope(.all))
                         } label: {
                             Text("delete_with_past_records".localized)
                         }

@@ -30,7 +30,6 @@ enum AnalyticsEvent {
     case saveGoalAttempt
     case saveGoalError
     case saveGoalSuccess
-    case cancelGoalCreate
     
     // MARK: - 목표 관리
     case completeGoal
@@ -88,8 +87,6 @@ extension AnalyticsEvent {
             return "save_goal_error"
         case .saveGoalSuccess:
             return "save_goal_success"
-        case .cancelGoalCreate:
-            return "cancel_goal_create"
             
             // MARK: - 목표 관리
         case .completeGoal:

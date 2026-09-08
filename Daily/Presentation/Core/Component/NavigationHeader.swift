@@ -25,11 +25,6 @@ struct NavigationHeader: View {
         HStack {
             Button {
                 dismiss()
-                
-                let viewType = navigationEnvironment.navigationPath.last?.viewType
-                if viewType == .goal || viewType == .modify {   // TODO: 조건 및 파라미터 확인 필요
-                    AnalyticsManager.shared.log(.cancelGoalCreate)
-                }
             } label: {
                 Label("back".localized, systemImage: "chevron.left")
                     .font(Fonts.bodyLgMedium)
