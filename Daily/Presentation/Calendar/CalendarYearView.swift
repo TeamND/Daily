@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarYearView
 struct CalendarYearView: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
@@ -34,6 +35,20 @@ struct CalendarYearView: View {
             AddGoalButton()
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            calendarViewModel.fetchYearData(selection: calendarViewModel.currentDate.getSelection(type: .year))
+            if UserDefaultManager.calendarType == .year {
+                AnalyticsManager.shared.log(.openYearlyCalendar)
+            }
+        }
+        .onChange(of: calendarViewModel.currentDate.getSelection(type: .year) ) { beforeSelection, selection in
+            if navigationEnvironment.navigationPath.isEmpty {
+                calendarViewModel.fetchYearData(selection: selection)
+                
+                let direction: Direction = beforeSelection > selection ? .left : .right
+                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.year))
+            }
+        }
     }
 }
 
@@ -65,9 +80,6 @@ struct CalendarYear: View {
             }
         }
         .padding(.horizontal, 16)
-        .onAppear {
-            calendarViewModel.fetchYearData(selection: selection)
-        }
     }
 }
 

@@ -73,6 +73,12 @@ extension CalendarUseCase {
         let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
         return (weekday + 1, lengthOfMonth, dividerCount)
     }
+    
+    func calculateSelection(selection: String, type: CalendarTypes, value: Int) -> String? {
+        guard let date = selection.formatingDaily().toDate(),
+              let date = calendar.date(byAdding: type.byAdding, value: value, to: date) else { return nil }
+        return date.getSelection(type: type)
+    }
 }
 
 // MARK: - get records func

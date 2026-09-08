@@ -40,7 +40,11 @@ struct AppInfoContent: View {
                         segmentType: .component,
                         currentType: $settingViewModel.language,
                         types: Languages.allCases
-                    ).padding(-9)
+                    ) { language in
+                        settingViewModel.language = language
+                        
+                        AnalyticsManager.shared.log(.changeLanguage, .language(language))
+                    }.padding(-9)
                     
                 case .startWeekday:
                     DailySegment(

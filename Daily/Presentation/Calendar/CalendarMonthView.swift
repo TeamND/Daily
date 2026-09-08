@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarMonthView
 struct CalendarMonthView: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
@@ -33,6 +34,20 @@ struct CalendarMonthView: View {
             AddGoalButton()
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            calendarViewModel.fetchMonthData(selection: calendarViewModel.currentDate.getSelection(type: .month))
+            if UserDefaultManager.calendarType == .month {
+                AnalyticsManager.shared.log(.openMonthlyCalendar)
+            }
+        }
+        .onChange(of: calendarViewModel.currentDate.getSelection(type: .month) ) { beforeSelection, selection in
+            if navigationEnvironment.navigationPath.last?.viewType == .calendarMonth {
+                calendarViewModel.fetchMonthData(selection: selection)
+                
+                let direction: Direction = beforeSelection > selection ? .left : .right
+                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.month))
+            }
+        }
     }
 }
 
@@ -48,7 +63,7 @@ struct CalendarMonth: View {
         let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
         let monthData = calendarViewModel.monthData[selection] ?? MonthDataModel()
         
-        VStack(spacing: .zero) {
+        LazyVStack(spacing: .zero) {
             WeekIndicator(mode: .none)
             VStack(spacing: .zero) {
                 ForEach (0 ..< GeneralServices.maxLineCount, id: \.self) { rowIndex in
@@ -74,9 +89,6 @@ struct CalendarMonth: View {
         }
         .vTop()
         .padding(.horizontal, 16)
-        .onAppear {
-            calendarViewModel.fetchMonthData(selection: selection)
-        }
     }
 }
 

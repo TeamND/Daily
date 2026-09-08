@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct NavigationHeader: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @Environment(\.dismiss) var dismiss
+    
     let title: String
     let trailingText: String?
     let trailingAction: (() -> Void)?

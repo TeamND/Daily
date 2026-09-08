@@ -75,6 +75,8 @@ struct CalendarHeader: View {
             
             HStack(spacing: 12) {
                 Button {
+                    AnalyticsManager.shared.log(.navigateCalendarByButton, .direction(.left), .calendar_type(type))
+                    
                     calendarViewModel.setDate(byAdding: type.byAdding, value: Direction.prev.value)
                 } label: {
                     Image(.circleChevronLeft)
@@ -119,6 +121,8 @@ struct CalendarHeader: View {
                 .foregroundStyle(Colors.Text.primary)
                 
                 Button {
+                    AnalyticsManager.shared.log(.navigateCalendarByButton, .direction(.right), .calendar_type(type))
+                    
                     calendarViewModel.setDate(byAdding: type.byAdding, value: Direction.next.value)
                 } label: {
                     Image(.circleChevronRight)

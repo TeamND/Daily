@@ -49,4 +49,15 @@ enum ViewTypes {
             return ""
         }
     }
+    
+    var parameterValue: String {
+        switch self {
+        case .goal:
+            return "create"
+        case .modify:
+            return "modify"
+        default:
+            return ""
+        }
+    }
 }
