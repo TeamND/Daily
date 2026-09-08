@@ -45,7 +45,6 @@ struct DailyMenu: View {
                         let data = GoalDataEntity(record: record, modifyType: .single)
                         let navigationObject = NavigationObject(viewType: .modify, data: data)
                         navigationEnvironment.navigate(navigationObject)
-                        calendarViewModel.resetData()   // TODO: 삭제가 이루어지기 때문에 calendarViewModel data reset, 추후 수정
                     } label: {
                         Text("edit_this_only".localized)
                     }
@@ -69,6 +68,8 @@ struct DailyMenu: View {
             if goal.cycleType == .date {
                 Button {
                     calendarViewModel.deleteGoal(goal: goal)
+                    
+                    AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.date))
                 } label: {
                     Label("delete_goal".localized, systemImage: "trash")
                 }
@@ -76,17 +77,23 @@ struct DailyMenu: View {
                 Menu {
                     Button {
                         calendarViewModel.deleteRecord(record: record)
+                        
+                        AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.rept), .delete_scope(.single))
                     } label: {
                         Text("delete_this_only".localized)
                     }
                     Menu {
                         Button {
                             calendarViewModel.deleteFutureRecords(goal: goal)
+                            
+                            AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.rept), .delete_scope(.future))
                         } label: {
                             Text("delete_future_goals_only".localized)
                         }
                         Button {
                             calendarViewModel.deleteGoal(goal: goal)
+                            
+                            AnalyticsManager.shared.log(.deleteGoalAttempt, .goal_type(.rept), .delete_scope(.all))
                         } label: {
                             Text("delete_with_past_records".localized)
                         }

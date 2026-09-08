@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - CalendarDayView
 struct CalendarDayView: View {
+    @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
@@ -36,6 +37,20 @@ struct CalendarDayView: View {
             AddGoalButton()
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            calendarViewModel.fetchDayData(selection: calendarViewModel.currentDate.getSelection(type: .day))
+            if UserDefaultManager.calendarType == .day {
+                AnalyticsManager.shared.log(.openDailyCalendar)
+            }
+        }
+        .onChange(of: calendarViewModel.currentDate.getSelection(type: .day) ) { beforeSelection, selection in
+            if navigationEnvironment.navigationPath.last?.viewType == .calendarDay {
+                calendarViewModel.fetchDayData(selection: selection)
+                
+                let direction: Direction = beforeSelection > selection ? .left : .right
+                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.day))
+            }
+        }
     }
 }
 
@@ -63,9 +78,6 @@ struct CalendarDay: View {
             }
         }
         .padding(.horizontal, 16)
-        .onAppear {
-            calendarViewModel.fetchDayData(selection: selection)
-        }
     }
 }
 

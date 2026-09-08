@@ -13,8 +13,7 @@
 "update_now" = "업데이트 하러가기";
 
 // MARK: - Notice
-"do_not_show_for_a_week" = "일주일 동안 보지 않기";
-"close" = "닫기";
+"do_not_show_again_for_7_days" = "일주일 동안 보지 않기";
 
 // MARK: - Setting
 "setting" = "설정";
@@ -40,7 +39,7 @@
 "month_text" = "%@";
 "month_day_text" = "%1$@ %2$@일";
 "decade" = "%@년대";
-"month_week_text" = "%1$@월 %2$d주차";
+"month_week_text" = "%1$@ %2$d주차";
 "all" = "전체";
 "sun" = "일";
 "mon" = "월";
@@ -116,6 +115,7 @@
 "stay_on_track_with_reminders" = "더 체계적인 관리를 위해 알림을 받아보세요!";
 "please_allow_notifications_in_settings" = "설정에서 알림을 허용해주세요!";
 "go_to_settings" = "설정으로 이동";
+"close" = "닫기";
 "remind_me_later" = "나중에 하기";
 "you_will_be_notified" = "설정한 시간%@에 알려드릴게요";
 "at_the_set_time" = "";

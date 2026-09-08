@@ -269,10 +269,8 @@ struct MediumWidgetView: View {
                         }
                         .padding(.horizontal, 10)
                         .frame(maxHeight: .infinity)
-                        .background {
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(Colors.Background.secondary.opacity(renderingMode == .accented ? 0.1 : 1))
-                        }
+                        .background(Colors.Background.secondary.opacity(renderingMode == .accented ? 0.1 : 1))
+                        .cornerRadius(6)
                     }
                     .frame(height: 26)
                 }

@@ -50,10 +50,9 @@ struct DailyMultiDatePicker: View {
                                 )
                                 .frame(width: 33, height: 33)
                                 .if(isSelected) { view in
-                                    view.background {
-                                        RoundedRectangle(cornerRadius: 33)
-                                            .fill(Colors.Icon.interactivePressed)
-                                    }
+                                    view
+                                        .background(Colors.Icon.interactivePressed)
+                                        .cornerRadius(33)
                                 }
                                 .onTapGesture {
                                     if let index = selectedDates.firstIndex(of: date) {

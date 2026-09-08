@@ -15,13 +15,16 @@ enum Direction: String {
     case minus = "-"
     case plus = "+"
     
+    case left = "left"
+    case right = "right"
+    
     var value: Int {
         switch self {
-        case .prev, .minus:
+        case .prev, .minus, .left:
             return -1
         case .current:
             return 0
-        case .next, .plus:
+        case .next, .plus, .right:
             return 1
         }
     }
@@ -47,6 +50,17 @@ enum Direction: String {
             return "minus.circle"
         case .plus:
             return "plus.circle"
+        default:
+            return ""
+        }
+    }
+    
+    var parameterValue: String {
+        switch self {
+        case .left:
+            return "left"
+        case .right:
+            return "right"
         default:
             return ""
         }

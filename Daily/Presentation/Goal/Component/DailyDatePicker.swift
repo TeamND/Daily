@@ -50,12 +50,14 @@ struct DailyDatePicker: View {
                                 )
                                 .frame(width: 33, height: 33)
                                 .if(isSelected) { view in
-                                    view.background {
-                                        RoundedRectangle(cornerRadius: 33)
-                                            .fill(Colors.Icon.interactivePressed)
-                                    }
+                                    view
+                                        .background(Colors.Icon.interactivePressed)
+                                        .cornerRadius(33)
                                 }
                                 .onTapGesture {
+                                    if selectedDate == date { return }
+                                    AnalyticsManager.shared.log(.changeGoalProgressDate)    // FIXME: 추후에 GoalView 단으로 이동
+                                    
                                     selectedDate = date
                                 }
                         } else {

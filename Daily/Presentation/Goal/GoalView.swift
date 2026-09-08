@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import FirebaseAnalytics
+
 struct GoalView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var alertEnvironment: AlertEnvironment
@@ -30,10 +32,14 @@ struct GoalView: View {
             }
         }
         .background(Colors.Background.primary)
+        .onAppear {
+            AnalyticsManager.shared.log(.openGoalView, .goal_action(viewType))
+        }
     }
     
     var headerView: some View {
         NavigationHeader(title: viewType.headerTitle, trailingText: viewType.trailingText) {
+            AnalyticsManager.shared.log(.saveGoalAttempt)
             if viewType == .goal {
                 goalViewModel.add(successAction: successAction, showToast: alertEnvironment.showToast)
             } else {
@@ -52,15 +58,7 @@ struct GoalView: View {
             Spacer().frame(height: 16)
 
             if viewType == .goal {
-                DailySegment(
-                    segmentType: .header,
-                    currentType: $goalViewModel.goal.cycleType,    // FIXME: 추후 수정
-                    types: CycleTypes.allCases
-                ) { cycleType in
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        goalViewModel.goal.cycleType = cycleType
-                    }
-                }.padding(.horizontal, 16)
+                GoalTypeSection(goalViewModel: goalViewModel)
                 Spacer().frame(height: 24)
             }
             
@@ -94,6 +92,25 @@ struct GoalView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: goalViewModel.popoverContent == nil)
+    }
+}
+
+// MARK: - GoalTypeSection
+struct GoalTypeSection: View {
+    @ObservedObject var goalViewModel: GoalViewModel
+    
+    var body: some View {
+        DailySegment(
+            segmentType: .header,
+            currentType: $goalViewModel.goal.cycleType,    // FIXME: 추후 수정
+            types: CycleTypes.allCases
+        ) { cycleType in
+            AnalyticsManager.shared.log(.changeGoalType, .goal_type(cycleType))
+            
+            withAnimation(.easeInOut(duration: 0.3)) {
+                goalViewModel.goal.cycleType = cycleType
+            }
+        }.padding(.horizontal, 16)
     }
 }
 
@@ -316,6 +333,9 @@ struct NoticeSection: View {
                                                 HH = (notification.noticeTime ?? 0) / 60
                                                 mm = (notification.noticeTime ?? 0) % 60
                                                 goalViewModel.record.notice = notification.noticeTime
+                                                
+                                                let notification_enabled = notification != .noNotification
+                                                AnalyticsManager.shared.log(.changeGoalNotification, .notification_enabled(notification_enabled))
                                             }
                                         } label: {
                                             Text(notification.text)
@@ -387,6 +407,9 @@ struct NoticeSection: View {
             Button {
                 goalViewModel.record.notice = HH * 60 + mm
                 isShowCustomNoticeSheet = false
+                
+                let notification_enabled = !(HH == 0 && mm == 0)
+                AnalyticsManager.shared.log(.changeGoalNotification, .notification_enabled(notification_enabled))
             } label: {
                 Text("apply".localized)
                     .font(Fonts.bodyLgSemiBold)
@@ -534,6 +557,7 @@ struct GoalCountSection: View {
                             goalmm = 0
                             goalss = 0
                         }
+                        AnalyticsManager.shared.log(.changeGoalProgressType, .progress_type($0))
                     }
                 }
             }

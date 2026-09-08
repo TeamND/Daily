@@ -8,10 +8,13 @@
 import SwiftUI
 import WidgetKit
 
+import FirebaseAnalytics
+
 struct MainView: View {
     @EnvironmentObject private var navigationEnvironment: NavigationEnvironment
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     @EnvironmentObject private var settingViewModel: SettingViewModel
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         NavigationStack(path: $navigationEnvironment.navigationPath) {
@@ -22,8 +25,13 @@ struct MainView: View {
                 .id(settingViewModel.language)
         }
         .onAppear {
+            AnalyticsManager.shared.log(.openApp)
+
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
-            PushNoticeManager.shared.setNoticeTouchAction { goCalendar(date: $0) }
+            PushNoticeManager.shared.setNoticeTouchAction {
+                AnalyticsManager.shared.log(.openFromNotification)
+                goCalendar(date: $0)
+            }
         }
         .onOpenURL { openUrl in
             guard let url = openUrl.absoluteString.removingPercentEncoding,
@@ -32,7 +40,15 @@ struct MainView: View {
                   let familyRaw = Int(familyString),
                   let family = WidgetFamily(rawValue: familyRaw) else { return }
             
-            if url.contains("widget") { goCalendar(to: family == .systemLarge ? .month : .day) }
+            if url.contains("widget") {
+                AnalyticsManager.shared.log(.openFromWidget)
+                goCalendar(to: family == .systemLarge ? .month : .day)
+            }
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .background {
+                AnalyticsManager.shared.log(.enterAppBackground)
+            }
         }
     }
     

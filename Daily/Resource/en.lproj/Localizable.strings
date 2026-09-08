@@ -13,8 +13,7 @@
 "update_now" = "Update Now";
 
 // MARK: - Notice
-"do_not_show_for_a_week" = "Don`t show for a week";
-"close" = "Close";
+"do_not_show_again_for_7_days" = "Don`t show again for 7 days";
 
 // MARK: - Setting
 "setting" = "Setting";
@@ -116,6 +115,7 @@
 "stay_on_track_with_reminders" = "Stay on track with reminders";
 "please_allow_notifications_in_settings" = "Please allow notifications in Settings.";
 "go_to_settings" = "Go to Settings";
+"close" = "Close";
 "remind_me_later" = "Remind Me Later";
 "you_will_be_notified" = "You`ll be notified %@";
 "at_the_set_time" = "at the set time";
