@@ -19,7 +19,7 @@ extension AppLaunchUseCase {
     func getNotices() async -> [NoticeModel] {
         if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return [] }
         
-        let imageName = UserDefaultManager.language == .korean ? "daily_2.0_update" : "daily_2.0_update_en"
+        let imageName = UserDefaultManager.language == .korean ? "daily_2.2_update" : "daily_2.2_update_en"
         let notices = [
             NoticeModel(id: 0, type: .image, image: imageName)
         ]
