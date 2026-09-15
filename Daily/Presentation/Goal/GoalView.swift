@@ -165,7 +165,7 @@ struct DateSection: View {
                         }
                         
                     case .custom:
-                        DailyMultiDatePicker(dates: $goalViewModel.selectedDates)
+                        DailyDatePicker(dates: $goalViewModel.selectedDates)
                     }
                 }
             } else {
