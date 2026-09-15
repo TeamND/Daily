@@ -26,7 +26,7 @@ final class SplashViewModel: ObservableObject {
 
     func onAppear() {
         Task { @MainActor in
-            isNeedUpdate = await appLaunchUseCase.checkUpdate()
+            isNeedUpdate = await appLaunchUseCase.checkUpdate(.major, .minor)
             if isNeedUpdate { return }
             
             CalendarServices.shared.calculateSymbolNum()

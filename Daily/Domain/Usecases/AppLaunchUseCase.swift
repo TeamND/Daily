@@ -17,12 +17,16 @@ final class AppLaunchUseCase {
 
 extension AppLaunchUseCase {
     func getNotices() async -> [NoticeModel] {
-        if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return [] }
+        var notices: Array<NoticeModel> = []
         
-        let imageName = UserDefaultManager.language == .korean ? "daily_2.2_update" : "daily_2.2_update_en"
-        let notices = [
-            NoticeModel(id: 0, type: .image, image: imageName)
-        ]
+        if let ignoreNoticeDate = UserDefaultManager.ignoreNoticeDate, ignoreNoticeDate >= Date(format: .daily) { return notices }
+        
+        if await checkUpdate(.patch) {
+            let imageName = UserDefaultManager.language == .korean ? "daily_2.2_update" : "daily_2.2_update_en"
+            
+            notices.append(NoticeModel(id: 0, type: .image, image: imageName))
+            
+        }
         
         // MARK: sheet animation을 고려해 0.5초 추가 딜레이
         try? await Task.sleep(nanoseconds: 500_000_000)
@@ -30,12 +34,20 @@ extension AppLaunchUseCase {
         return notices
     }
     
-    func checkUpdate() async -> Bool {
+    func checkUpdate(_ targetVersion: VersionTypes...) async -> Bool {
         do {
             let storeVersion = try await System.getStoreVersion().split(separator: ".").map {$0}
             let appVersion = System.appVersion!.split(separator: ".").map {$0}
             
-            return ((storeVersion[0] > appVersion[0]) || (storeVersion[1] > appVersion[1]))
+            let major = VersionTypes.major.rawValue
+            let minor = VersionTypes.minor.rawValue
+            let patch = VersionTypes.patch.rawValue
+            
+            return (
+                (targetVersion.contains(.major) && (storeVersion[major] > appVersion[major])) ||
+                (targetVersion.contains(.minor) && (storeVersion[minor] > appVersion[minor])) ||
+                (targetVersion.contains(.patch) && (storeVersion[patch] > appVersion[patch]))
+            )
         } catch {
             return false
         }
