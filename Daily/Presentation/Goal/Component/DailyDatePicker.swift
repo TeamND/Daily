@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DailyDatePicker: View {
-    private let selectType: SelectTypes
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     @Binding private var selectedDate: Date?
     @Binding private var selectedDates: [Date]
     @State private var currentDate: Date
     
-    let calendar = Calendar.current
+    private let selectType: SelectTypes
     
     init(date: Binding<Date>) {
         self.selectType = .single
@@ -34,29 +34,81 @@ struct DailyDatePicker: View {
     }
     
     var body: some View {
-        DailyDatePickerHeader(currentDate: $currentDate)
+        let selection = Binding(
+            get: { self.currentDate.getSelection(type: .month) },
+            set: { self.currentDate = $0.formatingDaily().toDate() ?? Date() }
+        )
         
-        Spacer().frame(height: 20)
-        
+        VStack(spacing: 20) {
+            DailyDatePickerHeader(currentDate: $currentDate)
+            
+            TabView(selection: selection) {
+                ForEach(-1 ... 12, id: \.self) { index in
+                    let (date, direction, selection) = calendarViewModel.calendarInfo(date: currentDate, type: .month, index: index)
+                    Group {
+                        if direction == .current {
+                            DateView(
+                                selectType: selectType,
+                                date: date,
+                                selectedDate: $selectedDate,
+                                selectedDates: $selectedDates
+                            )
+                        } else { CalendarLoadView(date: currentDate, type: .month, direction: direction) }
+                    }
+                    .tag(selection)
+                    .vTop() // MARK: height를 동적으로 조절할 때 결과에 의해 필요 없을 수 있음
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            // FIXME: 16(week indicator height), 33(line hgith), 8(spacing) 등 변수화
+            // FIXME: selection을 통해 line count를 계산하고 6 부분에 동적으로 height가 바뀌도록 수정
+            .frame(height: 16 + (33 + 8) * 6)
+            
+            if selectType == .multiple {
+                VStack(spacing: 8) {
+                    Text("selected_date".localized)
+                        .font(Fonts.bodyMdRegular)
+                        .foregroundStyle(Colors.Text.tertiary)
+                        .hLeading()
+                    ViewThatFits(in: .horizontal) {
+                        SelectedDatesView(selectedDates: $selectedDates)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            SelectedDatesView(selectedDates: $selectedDates)
+                        }
+                    }
+                    .horizontalGradient()
+                    .padding(.horizontal, -16)
+                }
+            }
+        }
+    }
+}
+
+struct DateView: View {
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+    
+    let selectType: SelectTypes
+    let date: Date
+    
+    @Binding var selectedDate: Date?
+    @Binding var selectedDates: [Date]
+    
+    var body: some View {
         VStack(spacing: 8) {
             WeekIndicator(mode: .none)
             
-            let startOfMonth = calendar.date(from: DateComponents(year: currentDate.year, month: currentDate.month, day: 1))!
-            let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-            let rowCount = Int((lengthOfMonth + startOfMonth.weekday - 1 - 1) / 7)
-            
-            ForEach(0 ... rowCount, id: \.self) { row in
+            let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
+            ForEach (0 ... dividerCount, id: \.self) { rowIndex in
                 HStack {
-                    ForEach(0 ..< 7) { col in
-                        if col > 0 { Spacer() }
+                    ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
+                        if colIndex > 0 { Spacer() }
+
+                        let day: Int = rowIndex * GeneralServices.week + colIndex - (startOfMonthWeekday - 1) + 1
+                        let date = CalendarServices.shared.getDate(year: date.year, month: date.month, day: day) ?? Date()
+                        let isSelected: Bool = selectType == .single ? selectedDate == date : selectedDates.contains(date)
+                        let isHoliday = UserDefaultManager.holidays?[date.year]?[date.getSelection()] != nil || date.weekday == 1
                         
-                        let day = row * 7 + col - (startOfMonth.weekday - 1) + 1
-                        let date = calendar.date(from: DateComponents(year: currentDate.year, month: currentDate.month, day: day))!
-                        
-                        if 0 < day && day <= lengthOfMonth {
-                            let isSelected: Bool = selectType == .single ? selectedDate == date : selectedDates.contains(date)
-                            
-                            let isHoliday = UserDefaultManager.holidays?[date.year]?[date.getSelection()] != nil || date.weekday == 1
+                        if 1 <= day && day <= lengthOfMonth {
                             Text("\(day)")
                                 .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
                                 .foregroundStyle(
@@ -96,25 +148,6 @@ struct DailyDatePicker: View {
             }
         }
         .padding(.horizontal, 2)
-        
-        if selectType == .multiple {
-            Spacer().frame(height: 20)
-            
-            VStack(spacing: 8) {
-                Text("selected_date".localized)
-                    .font(Fonts.bodyMdRegular)
-                    .foregroundStyle(Colors.Text.tertiary)
-                    .hLeading()
-                ViewThatFits(in: .horizontal) {
-                    SelectedDatesView(selectedDates: $selectedDates)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        SelectedDatesView(selectedDates: $selectedDates)
-                    }
-                }
-                .horizontalGradient()
-                .padding(.horizontal, -16)
-            }
-        }
     }
 }
 
