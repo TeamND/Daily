@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct RepeatWeekdayPicker: View {
-//    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
-    
     @Binding var selectedWeekday: [Bool]
+    
+    let startDay = UserDefaultManager.startDay?.index ?? 0
     
     var body: some View {
         HStack(spacing: .zero) {
@@ -20,7 +20,7 @@ struct RepeatWeekdayPicker: View {
                 Button {
                     selectedWeekday[index].toggle()
                 } label: {
-                    Text(DayOfWeek.allCases[(index/* + startDay*/) % GeneralServices.week].txt)
+                    Text(DayOfWeek.allCases[(index + startDay) % GeneralServices.week].txt)
                         .font(selectedWeekday[index] ? Fonts.bodyLgSemiBold : Fonts.bodyLgMedium)
                         .foregroundStyle(selectedWeekday[index] ? Colors.Text.point : Colors.Text.tertiary)
                         .frame(width: 40, height: 40)

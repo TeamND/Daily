@@ -9,8 +9,8 @@ import SwiftUI
 
 struct WeekIndicator: View {
     @EnvironmentObject var calendarViewModel: CalendarViewModel
-//    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
     
+    let startDay = UserDefaultManager.startDay?.index ?? 0
     let mode: WeekIndicatorModes
     let selection: String
     
@@ -22,7 +22,7 @@ struct WeekIndicator: View {
     var body: some View {
         HStack(spacing: GeneralServices.daySpacing) {
             ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
-                DayOfWeekView(dayOfWeek: DayOfWeek.allCases[(index/* + startDay*/) % GeneralServices.week]).frame(minWidth: 33)
+                DayOfWeekView(dayOfWeek: DayOfWeek.allCases[(index + startDay) % GeneralServices.week]).frame(minWidth: 33)
             }
         }
         .padding(.horizontal, 2)
