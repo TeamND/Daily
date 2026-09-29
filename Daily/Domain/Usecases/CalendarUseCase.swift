@@ -106,7 +106,7 @@ extension CalendarUseCase {
         record.count += 1
         if record.count >= goal.count {
             record.isSuccess = true
-            AnalyticsManager.shared.log(.completeGoal, .ga_type(.result))
+            AnalyticsManager.shared.log(.completeGoal, .log_type(.result))
         }
         await repository.updateData()
     }
@@ -139,7 +139,7 @@ extension CalendarUseCase {
                 record.count = record.goal?.count ?? 0
                 record.isSuccess = true
                 record.startTime = nil
-                AnalyticsManager.shared.log(.completeTimerGoal, .ga_type(.result))
+                AnalyticsManager.shared.log(.completeTimerGoal, .log_type(.result))
                 completeAction()
             }
             

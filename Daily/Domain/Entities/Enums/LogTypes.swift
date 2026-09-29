@@ -1,5 +1,5 @@
 //
-//  GATypes.swift
+//  LogTypes.swift
 //  Daily
 //
 //  Created by seungyooooong on 9/29/26.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GATypes {
+enum LogTypes {
     case view
     case event
     case result

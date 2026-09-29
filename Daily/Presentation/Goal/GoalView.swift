@@ -33,13 +33,13 @@ struct GoalView: View {
         }
         .background(Colors.Background.primary)
         .onAppear {
-            AnalyticsManager.shared.log(.openGoalView, .ga_type(.view), .goal_action(viewType))
+            AnalyticsManager.shared.log(.openGoalView, .log_type(.view), .goal_action(viewType))
         }
     }
     
     var headerView: some View {
         NavigationHeader(title: viewType.headerTitle, trailingText: viewType.trailingText) {
-            AnalyticsManager.shared.log(.saveGoalAttempt, .ga_type(.event))
+            AnalyticsManager.shared.log(.saveGoalAttempt, .log_type(.event))
             if viewType == .goal {
                 goalViewModel.add(successAction: successAction, showToast: alertEnvironment.showToast)
             } else {
@@ -105,7 +105,7 @@ struct GoalTypeSection: View {
             currentType: $goalViewModel.goal.cycleType,    // FIXME: 추후 수정
             types: CycleTypes.allCases
         ) { cycleType in
-            AnalyticsManager.shared.log(.changeGoalType, .ga_type(.event), .goal_type(cycleType))
+            AnalyticsManager.shared.log(.changeGoalType, .log_type(.event), .goal_type(cycleType))
             
             withAnimation(.easeInOut(duration: 0.3)) {
                 goalViewModel.goal.cycleType = cycleType
@@ -335,7 +335,7 @@ struct NoticeSection: View {
                                                 goalViewModel.record.notice = notification.noticeTime
                                                 
                                                 let notification_enabled = notification != .noNotification
-                                                AnalyticsManager.shared.log(.changeGoalNotification, .ga_type(.event), .notification_enabled(notification_enabled))
+                                                AnalyticsManager.shared.log(.changeGoalNotification, .log_type(.event), .notification_enabled(notification_enabled))
                                             }
                                         } label: {
                                             Text(notification.text)
@@ -409,7 +409,7 @@ struct NoticeSection: View {
                 isShowCustomNoticeSheet = false
                 
                 let notification_enabled = !(HH == 0 && mm == 0)
-                AnalyticsManager.shared.log(.changeGoalNotification, .ga_type(.event), .notification_enabled(notification_enabled))
+                AnalyticsManager.shared.log(.changeGoalNotification, .log_type(.event), .notification_enabled(notification_enabled))
             } label: {
                 Text("apply".localized)
                     .font(Fonts.bodyLgSemiBold)
@@ -557,7 +557,7 @@ struct GoalCountSection: View {
                             goalmm = 0
                             goalss = 0
                         }
-                        AnalyticsManager.shared.log(.changeGoalProgressType, .ga_type(.event), .progress_type($0))
+                        AnalyticsManager.shared.log(.changeGoalProgressType, .log_type(.event), .progress_type($0))
                     }
                 }
             }

@@ -107,7 +107,7 @@ extension GoalViewModel {
     func add(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
         if let alerts = getAlerts() {
             showToast(alerts)
-            AnalyticsManager.shared.log(.saveGoalError, .ga_type(.result))
+            AnalyticsManager.shared.log(.saveGoalError, .log_type(.result))
             return
         }
         
@@ -117,7 +117,7 @@ extension GoalViewModel {
             
         successAction(startDate)
         showToast([SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records))
-        AnalyticsManager.shared.log(.saveGoalSuccess, .ga_type(.result))
+        AnalyticsManager.shared.log(.saveGoalSuccess, .log_type(.result))
     }
     
     func modify(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {

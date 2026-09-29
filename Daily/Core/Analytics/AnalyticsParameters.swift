@@ -8,7 +8,7 @@
 import Foundation
 
 enum AnalyticsParameters {
-    case ga_type(GATypes)
+    case log_type(LogTypes)
     
     case direction(Direction)
     case calendar_type(CalendarTypes)
@@ -29,8 +29,8 @@ enum AnalyticsParameters {
 extension AnalyticsParameters {
     var key: String {
         switch self {
-        case .ga_type:
-            return "ga_type"
+        case .log_type:
+            return "log_type"
             
         case .direction:
             return "direction"
@@ -60,7 +60,7 @@ extension AnalyticsParameters {
     
     var value: Any {
         switch self {
-        case .ga_type(let value):
+        case .log_type(let value):
             return value.parameterValue
             
         case .direction(let value):
