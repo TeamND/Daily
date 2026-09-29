@@ -38,7 +38,7 @@ struct CalendarYearView: View {
         .onAppear {
             calendarViewModel.fetchYearData(selection: calendarViewModel.currentDate.getSelection(type: .year))
             if UserDefaultManager.calendarType == .year {
-                AnalyticsManager.shared.log(.openYearlyCalendar)
+                AnalyticsManager.shared.log(.openYearlyCalendar, .ga_type(.view))
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .year) ) { beforeSelection, selection in
@@ -46,7 +46,7 @@ struct CalendarYearView: View {
                 calendarViewModel.fetchYearData(selection: selection)
                 
                 let direction: Direction = beforeSelection > selection ? .left : .right
-                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.year))
+                AnalyticsManager.shared.log(.navigateCalendar, .ga_type(.event), .direction(direction), .calendar_type(.year))
             }
         }
     }

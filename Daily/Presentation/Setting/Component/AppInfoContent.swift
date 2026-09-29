@@ -43,7 +43,7 @@ struct AppInfoContent: View {
                     ) { language in
                         settingViewModel.language = language
                         
-                        AnalyticsManager.shared.log(.changeLanguage, .language(language))
+                        AnalyticsManager.shared.log(.changeLanguage, .ga_type(.event), .language(language))
                     }.padding(-9)
                     
                 case .startWeekday:

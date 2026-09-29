@@ -21,7 +21,7 @@ struct SettingView: View {
             }
         }
         .onAppear {
-            AnalyticsManager.shared.log(.openSettings)
+            AnalyticsManager.shared.log(.openSettings, .ga_type(.view))
         }
     }
     

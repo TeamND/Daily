@@ -105,7 +105,11 @@ extension GoalViewModel {
 // MARK: - button func
 extension GoalViewModel {
     func add(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {
-        if let alerts = getAlerts() { showToast(alerts); return }
+        if let alerts = getAlerts() {
+            showToast(alerts)
+            AnalyticsManager.shared.log(.saveGoalError, .ga_type(.result))
+            return
+        }
         
         let goal = DailyGoalModel(from: goal)
         let records = repeatDates.map { DailyRecordModel(goal: goal, date: $0.toDate()!, notice: record.notice) }
@@ -113,6 +117,7 @@ extension GoalViewModel {
             
         successAction(startDate)
         showToast([SuccessAlert.addGoal] + goalUseCase.getAlerts(records: records))
+        AnalyticsManager.shared.log(.saveGoalSuccess, .ga_type(.result))
     }
     
     func modify(successAction: @escaping (Date) -> Void, showToast: @escaping ([DailyAlert]) -> Void) {

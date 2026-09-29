@@ -104,7 +104,10 @@ extension CalendarUseCase {
 extension CalendarUseCase {
     func addCount(goal: DailyGoalModel, record: DailyRecordModel) async {
         record.count += 1
-        record.isSuccess = record.count >= goal.count
+        if record.count >= goal.count {
+            record.isSuccess = true
+            AnalyticsManager.shared.log(.completeGoal, .ga_type(.result))
+        }
         await repository.updateData()
     }
     
@@ -136,6 +139,7 @@ extension CalendarUseCase {
                 record.count = record.goal?.count ?? 0
                 record.isSuccess = true
                 record.startTime = nil
+                AnalyticsManager.shared.log(.completeTimerGoal, .ga_type(.result))
                 completeAction()
             }
             

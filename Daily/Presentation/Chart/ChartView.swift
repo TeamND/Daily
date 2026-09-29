@@ -26,7 +26,7 @@ struct ChartView: View {
             ) {
                 chartViewModel.setType(type: $0)
                 
-                AnalyticsManager.shared.log(.changeStatisticsType, .statistics_type($0.statisticsType))
+                AnalyticsManager.shared.log(.changeStatisticsType, .ga_type(.event), .statistics_type($0.statisticsType))
             }.padding(.horizontal, 16)
             Spacer().frame(height: 24)
             
@@ -43,7 +43,7 @@ struct ChartView: View {
         .onAppear {
             chartViewModel.onAppear(navigationPath: navigationEnvironment.navigationPath, filter: calendarViewModel.filter)
             
-            AnalyticsManager.shared.log(.openStatistics)
+            AnalyticsManager.shared.log(.openStatistics, .ga_type(.view))
         }
     }
     
