@@ -60,6 +60,7 @@
 		F67DD7A82E0E48240001203D /* DailyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD7A72E0E48240001203D /* DailyPicker.swift */; };
 		F67DD7B82E137D860001203D /* AppLaunchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD7B72E137D860001203D /* AppLaunchRepository.swift */; };
 		F67DD7BA2E137DA60001203D /* AppLaunchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD7B92E137DA60001203D /* AppLaunchInterface.swift */; };
+		F6881065306B94D60054F338 /* LogTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6881064306B94D60054F338 /* LogTypes.swift */; };
 		F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */; };
 		F68E5FFB2FF5E7BB000701E8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F68E5FFA2FF5E7BB000701E8 /* FirebaseAnalytics */; };
 		F69A845E2D1FC64F00AEBD76 /* CalendarLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */; };
@@ -232,6 +233,7 @@
 		F67DD7A72E0E48240001203D /* DailyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPicker.swift; sourceTree = "<group>"; };
 		F67DD7B72E137D860001203D /* AppLaunchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchRepository.swift; sourceTree = "<group>"; };
 		F67DD7B92E137DA60001203D /* AppLaunchInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchInterface.swift; sourceTree = "<group>"; };
+		F6881064306B94D60054F338 /* LogTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTypes.swift; sourceTree = "<group>"; };
 		F68B39E12CE72ED500C458B7 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		F69A845D2D1FC64F00AEBD76 /* CalendarLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLoadView.swift; sourceTree = "<group>"; };
 		F69A845F2D21072800AEBD76 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
@@ -774,6 +776,7 @@
 				F6573325304669EE00C641F8 /* DeleteScope.swift */,
 				F65733273046774E00C641F8 /* StatisticsTypes.swift */,
 				F6B591F7305234CA00F3EBBA /* VersionTypes.swift */,
+				F6881064306B94D60054F338 /* LogTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1042,6 +1045,7 @@
 				F6016DD62CC60A5200FB637F /* SplashView.swift in Sources */,
 				F67DD7BA2E137DA60001203D /* AppLaunchInterface.swift in Sources */,
 				F6AD28152EC71667004F9F93 /* HolidayImages.swift in Sources */,
+				F6881065306B94D60054F338 /* LogTypes.swift in Sources */,
 				F6DB67A52F34670C0088893B /* Notifications.swift in Sources */,
 				F6E1CCB32DACF830009E25DA /* SymbolFilter.swift in Sources */,
 				F6D4D14C2EA9C1DE00525878 /* NoticeTypes.swift in Sources */,

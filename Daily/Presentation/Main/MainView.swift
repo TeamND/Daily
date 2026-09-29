@@ -25,11 +25,11 @@ struct MainView: View {
                 .id(settingViewModel.language)
         }
         .onAppear {
-            AnalyticsManager.shared.log(.openApp)
+            AnalyticsManager.shared.log(.openApp, .log_type(.view))
 
             navigationEnvironment.navigateDirect(from: .year, to: settingViewModel.calendarType)
             PushNoticeManager.shared.setNoticeTouchAction {
-                AnalyticsManager.shared.log(.openFromNotification)
+                AnalyticsManager.shared.log(.openFromNotification, .log_type(.view))
                 goCalendar(date: $0)
             }
         }
@@ -41,13 +41,13 @@ struct MainView: View {
                   let family = WidgetFamily(rawValue: familyRaw) else { return }
             
             if url.contains("widget") {
-                AnalyticsManager.shared.log(.openFromWidget)
+                AnalyticsManager.shared.log(.openFromWidget, .log_type(.view))
                 goCalendar(to: family == .systemLarge ? .month : .day)
             }
         }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .background {
-                AnalyticsManager.shared.log(.enterAppBackground)
+                AnalyticsManager.shared.log(.enterAppBackground, .log_type(.event))
             }
         }
     }

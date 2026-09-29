@@ -37,7 +37,7 @@ struct CalendarMonthView: View {
         .onAppear {
             calendarViewModel.fetchMonthData(selection: calendarViewModel.currentDate.getSelection(type: .month))
             if UserDefaultManager.calendarType == .month {
-                AnalyticsManager.shared.log(.openMonthlyCalendar)
+                AnalyticsManager.shared.log(.openMonthlyCalendar, .log_type(.view))
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .month) ) { beforeSelection, selection in
@@ -45,7 +45,7 @@ struct CalendarMonthView: View {
                 calendarViewModel.fetchMonthData(selection: selection)
                 
                 let direction: Direction = beforeSelection > selection ? .left : .right
-                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.month))
+                AnalyticsManager.shared.log(.navigateCalendar, .log_type(.event), .direction(direction), .calendar_type(.month))
             }
         }
     }

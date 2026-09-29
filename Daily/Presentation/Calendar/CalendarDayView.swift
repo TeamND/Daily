@@ -40,7 +40,7 @@ struct CalendarDayView: View {
         .onAppear {
             calendarViewModel.fetchDayData(selection: calendarViewModel.currentDate.getSelection(type: .day))
             if UserDefaultManager.calendarType == .day {
-                AnalyticsManager.shared.log(.openDailyCalendar)
+                AnalyticsManager.shared.log(.openDailyCalendar, .log_type(.view))
             }
         }
         .onChange(of: calendarViewModel.currentDate.getSelection(type: .day) ) { beforeSelection, selection in
@@ -48,7 +48,7 @@ struct CalendarDayView: View {
                 calendarViewModel.fetchDayData(selection: selection)
                 
                 let direction: Direction = beforeSelection > selection ? .left : .right
-                AnalyticsManager.shared.log(.navigateCalendar, .direction(direction), .calendar_type(.day))
+                AnalyticsManager.shared.log(.navigateCalendar, .log_type(.event), .direction(direction), .calendar_type(.day))
             }
         }
     }
