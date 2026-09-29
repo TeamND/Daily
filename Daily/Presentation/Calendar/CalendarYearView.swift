@@ -85,8 +85,7 @@ struct CalendarYear: View {
 
 // MARK: - DailyMonthOnYear
 struct DailyMonthOnYear: View {
-//    @AppStorage(UserDefaultKey.startDay.rawValue) var startDay: Int = 0
-    
+    let startDay = UserDefaultManager.startDay?.index ?? 0
     let year: Int
     let month: Int
     let ratingsOfMonth: [Double?]
@@ -103,7 +102,7 @@ struct DailyMonthOnYear: View {
                 .foregroundStyle(Colors.Text.primary)
             
             VStack(spacing: spacing * (ratio - 1)) {
-                let startWeekday = date.dailyWeekday(startDay: 0/*startDay*/)
+                let startWeekday = date.dailyWeekday(startDay: startDay)
                 let lengthOfMonth = Calendar.current.range(of: .day, in: .month, for: date)?.count ?? 0
                 
                 ForEach(0 ..< 6) { row in

@@ -69,7 +69,7 @@ extension CalendarUseCase {
     func getMonthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
         let startOfMonth = calendar.date(from: DateComponents(year: date.year, month: date.month, day: 1))!
         let lengthOfMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
-        let weekday = startOfMonth.dailyWeekday(startDay: /*UserDefaultManager.startDay ?? */0)
+        let weekday = startOfMonth.dailyWeekday(startDay: UserDefaultManager.startDay?.index ?? 0)
         let dividerCount = (lengthOfMonth + weekday - 1) / GeneralServices.week
         return (weekday + 1, lengthOfMonth, dividerCount)
     }
