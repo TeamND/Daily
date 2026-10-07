@@ -99,7 +99,7 @@ struct DateView: View {
             
             let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
-                HStack {
+                HStack {    // FIXME: 기본 spacing weekindicator와 안맞음
                     ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
                         if colIndex > 0 { Spacer() }
 
@@ -108,41 +108,45 @@ struct DateView: View {
                         let isSelected: Bool = selectType == .single ? selectedDate == date : selectedDates.contains(date)
                         let isHoliday = UserDefaultManager.holidays?[date.year]?[date.getSelection()] != nil || date.weekday == 1
                         
-                        if 1 <= day && day <= lengthOfMonth {
-                            Text("\(day)")
-                                .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
-                                .foregroundStyle(
-                                    isSelected ? Colors.Text.inverse :
-                                        isHoliday ? Colors.Brand.holiday :
-                                        Colors.Text.secondary
-                                )
-                                .frame(width: 33, height: 33)
-                                .if(isSelected) { view in
-                                    view
-                                        .background(Colors.Icon.interactivePressed)
-                                        .cornerRadius(33)
-                                }
-                                .onTapGesture {
-                                    switch selectType {
-                                    case .single:
-                                        if selectedDate == date { return }
-                                        AnalyticsManager.shared.log(.changeGoalProgressDate, .log_type(.event)) // FIXME: 추후에 GoalView 단으로 이동
-                                        
-                                        selectedDate = date
-                                        
-                                    case .multiple:
-                                        if let index = selectedDates.firstIndex(of: date) {
-                                            selectedDates.remove(at: index)
-                                        } else {
-                                            selectedDates.append(date)
+                        Group {
+                            if 1 <= day && day <= lengthOfMonth {
+                                Text("\(day)")
+                                    .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
+                                    .foregroundStyle(
+                                        isSelected ? Colors.Text.inverse :
+                                            isHoliday ? Colors.Brand.holiday :
+                                            Colors.Text.secondary
+                                    )
+                                    .frame(width: 33, height: 33)
+                                    .if(isSelected) { view in
+                                        view
+                                            .background(Colors.Icon.interactivePressed)
+                                            .cornerRadius(33)
+                                    }
+                                    .onTapGesture {
+                                        switch selectType {
+                                        case .single:
+                                            if selectedDate == date { return }
+                                            AnalyticsManager.shared.log(.changeGoalProgressDate, .log_type(.event)) // FIXME: 추후에 GoalView 단으로 이동
+                                            
+                                            selectedDate = date
+                                            
+                                        case .multiple:
+                                            if let index = selectedDates.firstIndex(of: date) {
+                                                selectedDates.remove(at: index)
+                                            } else {
+                                                selectedDates.append(date)
+                                            }
                                         }
                                     }
-                                }
-                        } else {
-                            Text("-")
-                                .frame(width: 33, height: 33)
-                                .opacity(0)
+                            } else {
+                                Text("-")
+                                    .frame(width: 33, height: 33)
+                                    .opacity(0)
+                            }
                         }
+                        .frame(maxWidth: .infinity)
+                        // FIXME: maxWidth infinity의 경우 weekindicator와 맞추려고 추가됐지만, datepicker에서는 너비 고정에 사이 공간을 동적으로 가져가도록 수정돼야함
                     }
                 }
             }

@@ -14,6 +14,7 @@ struct WeekIndicator: View {
     
     var body: some View {
         let selection = calendarViewModel.currentDate.getSelection(type: .week)
+        // FIXME: datePicker 에서 사용할 때 (mode로 구분 불가능) daySpacing이 아니라 너비 33 고정에 사이 공간을 동적으로 가져가야함
         HStack(spacing: GeneralServices.daySpacing) {
             ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
                 DayOfWeekView(selection: selection, index: index).frame(minWidth: 33)
