@@ -95,11 +95,18 @@ struct DateView: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            WeekIndicator(mode: .none)
+            // FIXME: 동적 UI 방식이 달라 WeekIndicator 임의로 생성, 추후 수정
+//            WeekIndicator(mode: .none)
+            HStack {
+                ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
+                    if index > 0 { Spacer() }
+                    DayOfWeekView(index: index).frame(width: 33)
+                }
+            }
             
             let (startOfMonthWeekday, lengthOfMonth, dividerCount) = calendarViewModel.monthInfo(date: date)
             ForEach (0 ... dividerCount, id: \.self) { rowIndex in
-                HStack {    // FIXME: 기본 spacing weekindicator와 안맞음
+                HStack {
                     ForEach (.zero ..< GeneralServices.week, id: \.self) { colIndex in
                         if colIndex > 0 { Spacer() }
 
@@ -108,50 +115,56 @@ struct DateView: View {
                         let isSelected: Bool = selectType == .single ? selectedDate == date : selectedDates.contains(date)
                         let isHoliday = UserDefaultManager.holidays?[date.year]?[date.getSelection()] != nil || date.weekday == 1
                         
-                        Group {
-                            if 1 <= day && day <= lengthOfMonth {
-                                Text("\(day)")
-                                    .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
-                                    .foregroundStyle(
-                                        isSelected ? Colors.Text.inverse :
-                                            isHoliday ? Colors.Brand.holiday :
-                                            Colors.Text.secondary
-                                    )
-                                    .frame(width: 33, height: 33)
-                                    .if(isSelected) { view in
-                                        view
-                                            .background(Colors.Icon.interactivePressed)
-                                            .cornerRadius(33)
-                                    }
-                                    .onTapGesture {
-                                        switch selectType {
-                                        case .single:
-                                            if selectedDate == date { return }
-                                            AnalyticsManager.shared.log(.changeGoalProgressDate, .log_type(.event)) // FIXME: 추후에 GoalView 단으로 이동
-                                            
-                                            selectedDate = date
-                                            
-                                        case .multiple:
-                                            if let index = selectedDates.firstIndex(of: date) {
-                                                selectedDates.remove(at: index)
-                                            } else {
-                                                selectedDates.append(date)
-                                            }
+                        if 1 <= day && day <= lengthOfMonth {
+                            Text("\(day)")
+                                .font(isSelected ? Fonts.bodyMdSemiBold : Fonts.bodySmRegular)
+                                .foregroundStyle(
+                                    isSelected ? Colors.Text.inverse :
+                                        isHoliday ? Colors.Brand.holiday :
+                                        Colors.Text.secondary
+                                )
+                                .frame(width: 33, height: 33)
+                                .if(isSelected) { view in
+                                    view
+                                        .background(Colors.Icon.interactivePressed)
+                                        .cornerRadius(33)
+                                }
+                                .onTapGesture {
+                                    switch selectType {
+                                    case .single:
+                                        if selectedDate == date { return }
+                                        AnalyticsManager.shared.log(.changeGoalProgressDate, .log_type(.event)) // FIXME: 추후에 GoalView 단으로 이동
+                                        
+                                        selectedDate = date
+                                        
+                                    case .multiple:
+                                        if let index = selectedDates.firstIndex(of: date) {
+                                            selectedDates.remove(at: index)
+                                        } else {
+                                            selectedDates.append(date)
                                         }
                                     }
-                            } else {
-                                Text("-")
-                                    .frame(width: 33, height: 33)
-                                    .opacity(0)
-                            }
+                                }
+                        } else {
+                            Text("-")
+                                .frame(width: 33, height: 33)
+                                .opacity(0)
                         }
-                        .frame(maxWidth: .infinity)
-                        // FIXME: maxWidth infinity의 경우 weekindicator와 맞추려고 추가됐지만, datepicker에서는 너비 고정에 사이 공간을 동적으로 가져가도록 수정돼야함
                     }
                 }
             }
         }
         .padding(.horizontal, 2)
+    }
+    
+    private func DayOfWeekView(index: Int) -> some View {
+        let startDay = UserDefaultManager.startDay?.index ?? 0
+        let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
+        
+        return Text(dayOfWeek.txt)
+            .font(Fonts.bodySmRegular)
+            .foregroundStyle(dayOfWeek.index == 0 ? Colors.Brand.holiday : Colors.Text.primary)
+            .frame(width: 33)
     }
 }
 
