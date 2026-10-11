@@ -100,7 +100,14 @@ struct DateView: View {
             HStack {
                 ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
                     if index > 0 { Spacer() }
-                    DayOfWeekView(index: index).frame(width: 33)
+                    
+                    let startDay = UserDefaultManager.startDay?.index ?? 0
+                    let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
+                    
+                    Text(dayOfWeek.txt)
+                        .font(Fonts.bodySmRegular)
+                        .foregroundStyle(dayOfWeek.index == 0 ? Colors.Brand.holiday : Colors.Text.primary)
+                        .frame(width: 33)
                 }
             }
             
@@ -155,16 +162,6 @@ struct DateView: View {
             }
         }
         .padding(.horizontal, 2)
-    }
-    
-    private func DayOfWeekView(index: Int) -> some View {
-        let startDay = UserDefaultManager.startDay?.index ?? 0
-        let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
-        
-        return Text(dayOfWeek.txt)
-            .font(Fonts.bodySmRegular)
-            .foregroundStyle(dayOfWeek.index == 0 ? Colors.Brand.holiday : Colors.Text.primary)
-            .frame(width: 33)
     }
 }
 
