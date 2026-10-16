@@ -10,19 +10,13 @@ import SwiftUI
 struct WeekIndicator: View {
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    let startDay = UserDefaultManager.startDay?.index ?? 0
     let mode: WeekIndicatorModes
-    let selection: String
-    
-    init(mode: WeekIndicatorModes, selection: String = "") {
-        self.mode = mode
-        self.selection = selection
-    }
     
     var body: some View {
+        let selection = calendarViewModel.currentDate.getSelection(type: .week)
         HStack(spacing: GeneralServices.daySpacing) {
             ForEach(.zero ..< GeneralServices.week, id: \.self) { index in
-                DayOfWeekView(dayOfWeek: DayOfWeek.allCases[(index + startDay) % GeneralServices.week]).frame(minWidth: 33)
+                DayOfWeekView(selection: selection, index: index).frame(minWidth: 33)
             }
         }
         .padding(.horizontal, 2)
@@ -34,10 +28,13 @@ struct WeekIndicator: View {
         }
     }
     
-    private func DayOfWeekView(dayOfWeek: DayOfWeek) -> some View {
+    private func DayOfWeekView(selection: String, index: Int) -> some View {
+        let startDay = UserDefaultManager.startDay?.index ?? 0
+        let dayOfWeek = DayOfWeek.allCases[(index + startDay) % GeneralServices.week]
+        
         let isSunday = dayOfWeek.index == 0
         let isNow = calendarViewModel.currentDate.weekday == dayOfWeek.index + 1
-        let date = selection.toDate()?.dayLater(value: dayOfWeek.index) ?? Date(format: .daily)
+        let date = selection.toDate()?.dayLater(value: index) ?? Date(format: .daily)
         
         return VStack(spacing: 6) {
             Text(dayOfWeek.txt)

@@ -13,7 +13,9 @@ struct DailyDatePickerHeader: View {
     let calendar = Calendar.current
     
     var body: some View {
-        HStack {
+        HStack(spacing: 12) {
+            Spacer()
+            
             Button {
                 currentDate = calendar.date(byAdding: .month, value: -1, to: currentDate) ?? currentDate
             } label: {
@@ -23,13 +25,9 @@ struct DailyDatePickerHeader: View {
                     .frame(width: 24)
             }
             
-            Spacer()
-            
             Text("year_month_text".localized(currentDate.toString(format: .year), currentDate.toString(format: .monthDetail)))
                 .font(Fonts.bodyLgSemiBold)
                 .foregroundStyle(Colors.Text.secondary)
-            
-            Spacer()
             
             Button {
                 currentDate = calendar.date(byAdding: .month, value: +1, to: currentDate) ?? currentDate
@@ -39,6 +37,8 @@ struct DailyDatePickerHeader: View {
                     .scaledToFit()
                     .frame(width: 24)
             }
+            
+            Spacer()
         }
     }
 }

@@ -13,11 +13,10 @@ struct CalendarDayView: View {
     @EnvironmentObject private var calendarViewModel: CalendarViewModel
     
     var body: some View {
-        let weekSelection = calendarViewModel.currentDate.getSelection(type: .week)
         VStack(spacing: .zero) {
             CalendarHeader(type: .day)
             Spacer().frame(height: 12)
-            WeekIndicator(mode: .change, selection: weekSelection).padding(.horizontal, 16)
+            WeekIndicator(mode: .change).padding(.horizontal, 16)
             Spacer().frame(height: 20)
             SymbolFilter(type: .day)
             Spacer().frame(height: 12)
