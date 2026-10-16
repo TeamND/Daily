@@ -24,6 +24,7 @@ enum AnalyticsParameters {
     case statistics_type(StatisticsTypes)
     
     case language(Languages)
+    case startDay(DayOfWeek)
 }
 
 extension AnalyticsParameters {
@@ -55,6 +56,8 @@ extension AnalyticsParameters {
             
         case .language:
             return "language"
+        case .startDay:
+            return "start_day"
         }
     }
     
@@ -86,6 +89,8 @@ extension AnalyticsParameters {
             
         case .language(let value):
             return value.parameterValue
+        case .startDay(let value):
+            return value.parameterValue as Any
         }
     }
 }

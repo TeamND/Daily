@@ -51,7 +51,11 @@ struct AppInfoContent: View {
                         segmentType: .component,
                         currentType: $settingViewModel.startDay,
                         types: [DayOfWeek.sun, DayOfWeek.mon]
-                    ).padding(-9)
+                    ) { startDay in
+                        settingViewModel.startDay = startDay
+                        
+                        AnalyticsManager.shared.log(.changeStartDay, .log_type(.event), .startDay(startDay))
+                    }.padding(-9)
                     
                 case .filterAlignment:
                     Image(systemName: "chevron.right")

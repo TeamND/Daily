@@ -64,6 +64,17 @@ enum DayOfWeek: String, DailyTypes, Codable, CaseIterable {
             return "sat".localized
         }
     }
+    
+    var parameterValue: String? {
+        switch self {
+        case .sun:
+            return "sunday"
+        case .mon:
+            return "monday"
+        default:
+            return nil
+        }
+    }
 }
 
 extension DayOfWeek {

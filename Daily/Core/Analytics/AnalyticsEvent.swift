@@ -43,6 +43,7 @@ enum AnalyticsEvent {
     // MARK: - 설정
     case openSettings
     case changeLanguage
+    case changeStartDay
 }
 
 extension AnalyticsEvent {
@@ -107,6 +108,8 @@ extension AnalyticsEvent {
             return "open_settings"
         case .changeLanguage:
             return "change_language"
+        case .changeStartDay:
+            return "change_start_day"
         }
     }
 }
