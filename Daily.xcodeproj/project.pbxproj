@@ -51,7 +51,6 @@
 		F66F70132E3F0A4C0091658F /* ModifyTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66F70122E3F0A4C0091658F /* ModifyTypes.swift */; };
 		F679B9A52C4ACA960027608D /* NoticeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F679B9A42C4ACA960027608D /* NoticeSheet.swift */; };
 		F67B21AB2DD1B9FB002EB824 /* ChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67B21AA2DD1B9FB002EB824 /* ChartUseCase.swift */; };
-		F67DD0EF2E029AEA0001203D /* DailyMultiDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0EE2E029AEA0001203D /* DailyMultiDatePicker.swift */; };
 		F67DD0F12E02DE090001203D /* DailyDatePickerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F02E02DE090001203D /* DailyDatePickerHeader.swift */; };
 		F67DD0F62E02E9340001203D /* RepeatTypeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F52E02E9330001203D /* RepeatTypeSection.swift */; };
 		F67DD0F82E02E98C0001203D /* SingleDateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DD0F72E02E98C0001203D /* SingleDateSection.swift */; };
@@ -101,6 +100,7 @@
 		F6B151702EDD2A1C00813BAF /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1516F2EDD2A1C00813BAF /* SettingViewModel.swift */; };
 		F6B151752EDD7B7A00813BAF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F6B151732EDD7B7A00813BAF /* Localizable.strings */; };
 		F6B151782EDD7FB100813BAF /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B151772EDD7FB100813BAF /* LanguageManager.swift */; };
+		F6B4B7DD3058E47D00B98893 /* SelectTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4B7DC3058E47D00B98893 /* SelectTypes.swift */; };
 		F6B591F8305234CA00F3EBBA /* VersionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B591F7305234CA00F3EBBA /* VersionTypes.swift */; };
 		F6BEC935290F5894005EAF28 /* DailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BEC934290F5894005EAF28 /* DailyApp.swift */; };
 		F6BEC939290F5895005EAF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6BEC938290F5895005EAF28 /* Assets.xcassets */; };
@@ -224,7 +224,6 @@
 		F66F70122E3F0A4C0091658F /* ModifyTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyTypes.swift; sourceTree = "<group>"; };
 		F679B9A42C4ACA960027608D /* NoticeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeSheet.swift; sourceTree = "<group>"; };
 		F67B21AA2DD1B9FB002EB824 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
-		F67DD0EE2E029AEA0001203D /* DailyMultiDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMultiDatePicker.swift; sourceTree = "<group>"; };
 		F67DD0F02E02DE090001203D /* DailyDatePickerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDatePickerHeader.swift; sourceTree = "<group>"; };
 		F67DD0F52E02E9330001203D /* RepeatTypeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatTypeSection.swift; sourceTree = "<group>"; };
 		F67DD0F72E02E98C0001203D /* SingleDateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDateSection.swift; sourceTree = "<group>"; };
@@ -276,6 +275,7 @@
 		F6B151742EDD7B7A00813BAF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F6B151762EDD7BA400813BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F6B151772EDD7FB100813BAF /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
+		F6B4B7DC3058E47D00B98893 /* SelectTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypes.swift; sourceTree = "<group>"; };
 		F6B591F7305234CA00F3EBBA /* VersionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTypes.swift; sourceTree = "<group>"; };
 		F6BEC931290F5894005EAF28 /* Daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6BEC934290F5894005EAF28 /* DailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyApp.swift; sourceTree = "<group>"; };
@@ -598,7 +598,6 @@
 			children = (
 				F67DD0F02E02DE090001203D /* DailyDatePickerHeader.swift */,
 				F6C758E42CCF340400F9CF91 /* DailyDatePicker.swift */,
-				F67DD0EE2E029AEA0001203D /* DailyMultiDatePicker.swift */,
 				F67DD0F52E02E9330001203D /* RepeatTypeSection.swift */,
 				F67DD0F72E02E98C0001203D /* SingleDateSection.swift */,
 				F67DD0F92E039A2B0001203D /* RepeatWeekdayPicker.swift */,
@@ -776,6 +775,7 @@
 				F6573325304669EE00C641F8 /* DeleteScope.swift */,
 				F65733273046774E00C641F8 /* StatisticsTypes.swift */,
 				F6B591F7305234CA00F3EBBA /* VersionTypes.swift */,
+				F6B4B7DC3058E47D00B98893 /* SelectTypes.swift */,
 				F6881064306B94D60054F338 /* LogTypes.swift */,
 			);
 			path = Enums;
@@ -989,6 +989,7 @@
 				F64A42782DC7A5C600B69D46 /* ChartViewModel.swift in Sources */,
 				F67DD0F82E02E98C0001203D /* SingleDateSection.swift in Sources */,
 				F66F70112E3F08F40091658F /* GoalDataEntity.swift in Sources */,
+				F6B4B7DD3058E47D00B98893 /* SelectTypes.swift in Sources */,
 				F69A84662D252B9400AEBD76 /* MonthDataModel.swift in Sources */,
 				F6F31DC52CEAFDFD0090A3B9 /* Direction.swift in Sources */,
 				F64A42762DC5F8E500B69D46 /* ChartView.swift in Sources */,
@@ -1002,7 +1003,6 @@
 				F6CE8A2D2CD0B1940050A25A /* SettingView.swift in Sources */,
 				F6F31DD52CF87DCF0090A3B9 /* RecordButton.swift in Sources */,
 				F6F31DD32CF83BA50090A3B9 /* DailyTimeLine.swift in Sources */,
-				F67DD0EF2E029AEA0001203D /* DailyMultiDatePicker.swift in Sources */,
 				F64A42732DC5DDE800B69D46 /* Settings.swift in Sources */,
 				F68B39E22CE72ED500C458B7 /* UserDefaultManager.swift in Sources */,
 				F6F31DF52CF96DC60090A3B9 /* RecordList.swift in Sources */,

@@ -131,16 +131,16 @@ extension CalendarViewModel {
 
 // MARK: - info
 extension CalendarViewModel {
-    func loadText(type: CalendarTypes, direction: Direction) -> String {
-        calendarUseCase.getLoadText(currentDate: currentDate, type: type, direction: direction)
+    func loadText(date: Date? = nil, type: CalendarTypes, direction: Direction) -> String {
+        calendarUseCase.getLoadText(currentDate: date ?? currentDate, type: type, direction: direction)
     }
     
     func headerText(type: CalendarTypes, textPosition: TextPositionInHeader = .title) -> String {
         calendarUseCase.getHeaderText(currentDate: currentDate, type: type, textPosition: textPosition)
     }
     
-    func calendarInfo(type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
-        calendarUseCase.getCalendarInfo(currentDate: currentDate, type: type, index: index)
+    func calendarInfo(date: Date? = nil, type: CalendarTypes, index: Int) -> (date: Date, direction: Direction, selection: String) {
+        calendarUseCase.getCalendarInfo(currentDate: date ?? currentDate, type: type, index: index)
     }
     
     func monthInfo(date: Date) -> (startOfMonthWeekday: Int, lengthOfMonth: Int, dividerCount: Int) {
